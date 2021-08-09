@@ -1,0 +1,61 @@
+<?php
+
+/**
+  * WP CORE - Latest posts
+	* @source https://github.com/WordPress/gutenberg/blob/97caf7bff302fc115569493786a20d948468d241/packages/block-library/src/latest-posts/index.php
+	*/
+if ( ! function_exists( 'hds_wp_render_block_core_latest_posts' ) ) {
+	function hds_wp_render_block_core_latest_posts( $attributes ) {
+		return '<p>Latest posts</p>';
+	}
+}
+
+/**
+  * HDS - Media List
+	*/
+if ( ! function_exists( 'hds_wp_render_block_media_list' ) ) {
+	function hds_wp_render_block_media_list( $attributes ) {
+		$category = $attributes['termID'] ?? 0;
+		if ( ! $category ) {
+			return;
+		}
+
+		$query = new WP_Query(array(
+			'post_type' => 'attachment',
+			'post_status' => 'inherit',
+			'posts_per_page' => 500,
+			'order' => $attributes['order'] ?? '',
+			'orderby' => $attributes['orderBy'] ?? '',
+			'no_found_rows' => true,
+			'cat' => $category,
+		));
+		if ( ! $query->posts ) {
+			return;
+		}
+
+		$items = array();
+		foreach ($query->posts as $post) {
+			$items[] = sprintf(
+				'<li id="%s" class="media-list__item"><a href="%s">%s (%s)</a></li>',
+				esc_attr( $post->post_name ),
+				esc_url( wp_get_attachment_url( $post->ID ) ),
+				esc_html( $post->post_title ),
+				esc_html( basename($post->post_mime_type) )
+			);
+		}
+
+		$listProperties = 'class="media-list"';
+		if ( ! empty( $attributes['anchor'] ) ) {
+			$listProperties = 'id="' . esc_attr($attributes['anchor']) . '" ' . $listProperties;
+		}
+
+		return sprintf(
+			'<ul %s>%s</ul>',
+			$listProperties,
+			implode(
+				'',
+				$items
+			)
+		);
+	}
+}

@@ -1,0 +1,184 @@
+.wp-block-hds-wp-image-text {
+	background-color: transparent !important;
+	position: relative;
+	padding: 0 !important;
+	margin-bottom: $paragraph-margin-bottom;
+
+	.image {
+		background-color: $white;
+		position: relative;
+		padding-top: 56.25%;
+		overflow: hidden;
+		width: calc(100% - 2rem);
+
+		img {
+			display: block;
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			left: 0;
+			width: 100%;
+			height: auto;
+		}
+
+		.placeholder {
+			background-color: $light-gray;
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			left: 0;
+			width: 100%;
+			height: 100%;
+		}
+	}
+
+	.content {
+		background-color: var(--primary-color);
+		display: flex;
+		align-items: flex-start;
+		justify-content: center;
+		flex-direction: column;
+		padding: 2rem;
+		position: relative;
+		margin-top: -2rem;
+		width: calc(100% - 2rem);
+
+		* {
+			margin: 0 0 1rem;
+		}
+
+		:last-child {
+			margin-bottom: 0;
+		}
+
+		.content__heading {
+			font-size: rem-calc(24);
+
+			@include breakpoint('m') {
+				font-size: rem-calc(32);
+			}
+		}
+
+		.content__text {
+			font-size: rem-calc(18);
+
+			@include breakpoint('m') {
+				font-size: rem-calc(20);
+			}
+		}
+
+		.content__link {
+			background-color: transparent;
+			border-color: $black;
+			color: $black;
+
+			svg {
+				path {
+					fill: $black;
+				}
+			}
+
+			&:focus,
+			&:hover {
+				background-color: $black;
+				color: $white;
+
+				svg {
+					path {
+						fill: $white;
+					}
+				}
+			}
+		}
+	}
+
+	$hasColors: (
+		"primary": var(--primary-color),
+		"light": var(--primary-color-light),
+		"black": $black,
+		"white": $white,
+		"light-gray": $light-gray,
+	);
+
+	@each $name, $color in $hasColors {
+		&.has-#{"" + $name}-background-color {
+			.content {
+				background-color: $color;
+			}
+		}
+
+		&.has-#{"" + $name}-color {
+			.content {
+				color: $color;
+
+				* {
+					color: inherit;
+				}
+			}
+		}
+	}
+
+	&.align-left {
+		.image {
+			margin-left: auto;
+		}
+
+		.content {
+			margin-right: auto;
+		}
+	}
+
+	&.align-right {
+		.image {
+			margin-right: auto;
+		}
+
+		.content {
+			margin-left: auto;
+		}
+	}
+
+	@include breakpoint('m') {
+		.image {
+			width: 83%;
+		}
+
+		.content {
+			width: 83%;
+		}
+	}
+
+	@include breakpoint('l') {
+		.image {
+			width: 70%;
+		}
+
+		.content {
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			height: 70%;
+			width: 48%;
+			margin: 0;
+		}
+
+		&.align-left {
+			.content {
+				left: 0;
+				right: right;
+			}
+		}
+
+		&.align-right {
+			.content {
+				left: auto;
+				right: 0;
+			}
+		}
+	}
+
+	@include breakpoint('xl') {
+		.content {}
+	}
+
+}

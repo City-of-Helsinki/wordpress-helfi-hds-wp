@@ -1,0 +1,114 @@
+.wp-block-hds-wp-accordion {
+	border-top: $default-border;
+	border-bottom: $default-border;
+	margin-bottom: $paragraph-margin-bottom;
+
+	.accordion__section {
+		margin: 0;
+		padding: 0;
+
+		+ .accordion__section {
+			border-top: $default-border;
+		}
+
+	}
+
+	.accordion__title {
+		font-size: rem-calc(20);
+		margin: 0;
+
+		@include breakpoint('m') {
+			font-size: rem-calc(24);
+		}
+
+		@include breakpoint('l') {
+			font-size: rem-calc(36);
+		}
+	}
+
+	.accordion__toggle {
+		background-color: transparent;
+		border: none;
+		display: flex;
+		padding: spacing('s') 0;
+		line-height: 24px;
+		margin: 0;
+		width: 100%;
+
+		.accordion__icon {
+			margin-left: auto;
+			.icon {
+				transform: rotate(180deg);
+			}
+		}
+
+		&[aria-expanded="true"] {
+			.accordion__icon {
+				.icon {
+					transform: rotate(0deg);
+				}
+			}
+		}
+
+		@include breakpoint('m') {
+			line-height: 42px;
+			padding-top: spacing('m');
+			padding-bottom: spacing('m');
+
+			.icon {
+				width: 42px;
+			}
+		}
+
+		@include breakpoint('l') {
+			line-height: 50px;
+			padding-top: spacing('l');
+			padding-bottom: spacing('l');
+
+			.icon {
+				width: 50px;
+			}
+		}
+	}
+
+	.accordion__panel {
+		padding: spacing('m') 0 spacing('2-xs');
+
+		@include breakpoint('l') {
+			padding-bottom: spacing('s');
+		}
+	}
+
+	.accordion__content {
+		font-size: rem-calc(18);
+		max-width: 780px;
+	}
+
+	.accordion__close {
+		background-color: transparent;
+		border: none;
+		display: flex;
+		align-items: center;
+		font-size: rem-calc(16);
+		padding: 0;
+		margin: spacing('m') 0 0 auto;
+
+		> span {
+			line-height: 22px;
+		}
+
+		.icon {
+			margin-top: -4px;
+		}
+
+		@include breakpoint('l') {
+			margin-top: spacing('l');
+		}
+	}
+
+	.icon {
+		width: 24px;
+		transition: $default-transition;
+	}
+
+}

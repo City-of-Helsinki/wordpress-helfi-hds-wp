@@ -1,0 +1,20 @@
+.content {
+
+	.icon {
+		background-color: transparent;
+		display: block;
+		transition: $default-transition;
+		width: 24px;
+	}
+
+	.content__link {
+		display: flex;
+		text-decoration: none;
+
+		.icon {
+			margin-left: .5rem;
+			margin-top: -4px;
+		}
+	}
+
+}

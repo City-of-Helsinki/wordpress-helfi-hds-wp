@@ -1,0 +1,71 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Helsinki Design System for WordPress\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-05-05 14:10+0000\n"
+"PO-Revision-Date: 2021-05-05 14:10+0000\n"
+"Last-Translator: \n"
+"Language-Team: Suomi\n"
+"Language: fi\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.5.2; wp-5.7.1\n"
+"X-Domain: hds-wp"
+
+#. Author of the plugin
+msgid "ArtCloud"
+msgstr ""
+
+#: config/settings/tabs.php:7
+msgid "Blocks"
+msgstr ""
+
+#: config/settings/tabs.php:10
+msgid "Content Types"
+msgstr ""
+
+#: class/traits/HasView.php:19
+#, php-format
+msgctxt "file path"
+msgid "View file %s could not be found."
+msgstr ""
+
+#: config/settings/tabs.php:4
+msgid "General"
+msgstr ""
+
+#: class/settings.php:21 class/settings.php:22
+msgid "Helsinki Design System"
+msgstr ""
+
+#. Name of the plugin
+#: views/settings/page.php:10
+msgid "Helsinki Design System for WordPress"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://www.artcloud.fi"
+msgstr ""
+
+#: config/settings/tabs.php:13
+msgid "Integrations"
+msgstr ""
+
+#. Description of the plugin
+msgid ""
+"Provides HDS compliant styles, assets and blocks, and itegrations to "
+"Helsinki APIs and various plugins."
+msgstr ""
+
+#: views/settings/page.php:50
+#, php-format
+msgctxt "settings type"
+msgid "Save %s settings"
+msgstr ""
+
+#: config/settings/tabs.php:16
+msgid "Widgets"
+msgstr ""
