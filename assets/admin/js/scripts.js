@@ -1003,7 +1003,7 @@ function hdsIcons(name) {
           termName: getTermName(value, options)
         });
       },
-      value: props.termID
+      value: props.attributes.termID
     });
   });
 
@@ -1041,7 +1041,7 @@ function hdsIcons(name) {
   function settingsSummaryList(props) {
     var _props$attributes$ter, _props$attributes$ord, _props$attributes$ord2;
 
-    return createElement('div', useBlockProps(), createElement('h2', {}, __('HDS - Media List')), createElement('ul', {}, listItem(__("Term: ".concat((_props$attributes$ter = props.attributes.termName) !== null && _props$attributes$ter !== void 0 ? _props$attributes$ter : ''))), listItem(__("Order: ".concat((_props$attributes$ord = props.attributes.order) !== null && _props$attributes$ord !== void 0 ? _props$attributes$ord : ''))), listItem(__("Order by: ".concat((_props$attributes$ord2 = props.attributes.orderBy) !== null && _props$attributes$ord2 !== void 0 ? _props$attributes$ord2 : '')))));
+    return createElement('div', useBlockProps(), createElement('h2', {}, __('Media List')), createElement('ul', {}, listItem(__("Term: ".concat((_props$attributes$ter = props.attributes.termName) !== null && _props$attributes$ter !== void 0 ? _props$attributes$ter : ''))), listItem(__("Order: ".concat((_props$attributes$ord = props.attributes.order) !== null && _props$attributes$ord !== void 0 ? _props$attributes$ord : ''))), listItem(__("Order by: ".concat((_props$attributes$ord2 = props.attributes.orderBy) !== null && _props$attributes$ord2 !== void 0 ? _props$attributes$ord2 : '')))));
   }
 
   function listItem(text) {
@@ -1050,9 +1050,9 @@ function hdsIcons(name) {
 
   registerBlockType('hds-wp/media-list', {
     apiVersion: 2,
-    title: __('Media List'),
+    title: __('HDS - Media List'),
     description: __('List media files from the selected category'),
-    category: 'widgets',
+    category: 'hds-wp',
     icon: 'list-view',
     keywords: [__('media'), __('list')],
     supports: {

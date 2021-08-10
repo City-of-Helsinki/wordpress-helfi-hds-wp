@@ -41,7 +41,7 @@
 						termName: getTermName(value, options),
 					});
 				},
-				value: props.termID,
+				value: props.attributes.termID,
 			});
 		}
 	);
@@ -86,7 +86,7 @@
 
 	function settingsSummaryList(props) {
 		return createElement( 'div', useBlockProps(),
-			createElement('h2', {}, __( 'HDS - Media List' ) ),
+			createElement('h2', {}, __( 'Media List' ) ),
 			createElement('ul', {},
 				listItem( __( `Term: ${props.attributes.termName ?? ''}` ) ),
 				listItem( __( `Order: ${props.attributes.order ?? ''}` ) ),
@@ -101,9 +101,9 @@
 
 	registerBlockType('hds-wp/media-list', {
 		apiVersion: 2,
-		title: __( 'Media List' ),
+		title: __( 'HDS - Media List' ),
 		description: __( 'List media files from the selected category' ),
-		category: 'widgets',
+		category: 'hds-wp',
 		icon: 'list-view',
 		keywords: [ __( 'media' ), __('list') ],
 		supports: {

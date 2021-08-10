@@ -20,17 +20,32 @@ if ( ! function_exists( 'hds_wp_render_block_media_list' ) ) {
 			return;
 		}
 
+		$sortOrder = $attributes['order'] ?? 'ASC';
+		$sortOrderBy = $attributes['orderBy'] ?? 'title';
+
 		$query = new WP_Query(array(
 			'post_type' => 'attachment',
 			'post_status' => 'inherit',
 			'posts_per_page' => 500,
-			'order' => $attributes['order'] ?? '',
-			'orderby' => $attributes['orderBy'] ?? '',
+			'order' => $sortOrder,
+			'orderby' => $sortOrderBy,
 			'no_found_rows' => true,
 			'cat' => $category,
 		));
 		if ( ! $query->posts ) {
 			return;
+		}
+
+		if ( 'title' === $sortOrderBy ) {
+			if ( 'ASC' === $sortOrder ) {
+				usort($query->posts, function($a,$b) {
+					return strnatcmp($a->post_title, $b->post_title);
+				});
+			} else {
+				usort($query->posts, function($a,$b) {
+					return strnatcmp($b->post_title, $a->post_title);
+				});
+			}
 		}
 
 		$items = array();
