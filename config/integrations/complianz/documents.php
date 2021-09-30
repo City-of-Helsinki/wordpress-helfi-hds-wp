@@ -35,6 +35,8 @@ return array(
     <p>Nödvändiga kakor behövs för att webbplatsen ska fungera. Dessutom kan webbplatsen använda kakor som inte är nödvändiga för webbplatsens funktion. Dessa kakor används exempelvis till analys, uppföljning och marknadsföring. Sådana kakor kan endast användas med användarens tillåtelse.</p>
     <p>Kakor kan sparas permanent på användarens enhet. Då kommer webbplatsen ihåg användaren alltid när hen besöker webbplatsen. Kakor kan också vara sessionsspecifika, vilket innebär att de raderas efter att webbläsaren stängs.</p>
     <p>Kakorna kan komma från första eller tredje part. Kakor från första part läggs in av den webbplats som användaren besöker. Kakor från tredje part läggs in av utomstående parter. Sådana är till exempel sociala medietjänsters kakor som är inbäddade i webbplatsen.</p>
+    {{used_cookies}}
+    {{manage_consent}}
     <h2>Registerbeskrivning och den registrerades rättigheter</h2>
     <p>Mer information om behandlingen av dina personuppgifter finns i <a href="https://www.hel.fi/helsinki/fi/kaupunki-ja-hallinto/hallinto/organisaatio/rekisteriselosteet">registerbeskrivningen för sektorns kommunikation</a>.</p>
     <p>Som registrerad har du rättigheter vad gäller dina egna personuppgifter och hanteringen av dem. Rättigheterna kan tillämpas på olika sätt beroende på vilken behandlingsgrund man har för personuppgifterna.</p>
