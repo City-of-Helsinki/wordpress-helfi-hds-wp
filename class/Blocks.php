@@ -47,7 +47,7 @@ class Blocks extends Module {
       array(
         array(
           'slug' => 'hds-wp',
-          'title' => __( 'Helsinki Design System', 'hds-wp' ),
+          'title' => __( 'Helsinki', 'hds-wp' ),
           'icon'  => 'generic',
         ),
       )

@@ -11,7 +11,7 @@ if ( ! function_exists( 'hds_wp_render_block_core_latest_posts' ) ) {
 }
 
 /**
-  * HDS - Media List
+  * Helsinki - Media List
 	*/
 if ( ! function_exists( 'hds_wp_render_block_media_list' ) ) {
 	function hds_wp_render_block_media_list( $attributes ) {

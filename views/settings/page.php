@@ -7,7 +7,7 @@ $admin_url = admin_url( 'admin.php' );
 <section id="hds-wp-settings" class="settings">
 	<header class="settings__header">
 		<h1 class="settings__title">
-			<?php esc_html_e( 'Helsinki Design System for WordPress', 'hds-wp' ); ?>
+			<?php esc_html_e( 'WordPress Helsinki', 'hds-wp' ); ?>
 		</h1>
 	</header>
 
