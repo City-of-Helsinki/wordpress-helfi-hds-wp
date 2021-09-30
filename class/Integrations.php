@@ -15,10 +15,29 @@ class Integrations extends Module {
 			foreach ($integrations as $integration => $config) {
 				$file = $this->config->value('path') . $type . DIRECTORY_SEPARATOR . $integration . '.php';
 				if ( file_exists( $file ) ) {
+					if ( isset($config['data']) ) {
+						add_filter(
+							"hds_wp_{$integration}_data", 
+							function () use ($integration, $config) {
+								return $this->includeTypeConfig($integration, $config['data']);
+							}
+						);
+					}
 					require_once $file;
 				}
 			}
 		}
+	}
+	
+	protected function includeTypeConfig( string $type, array $config ) {
+		$out = array();
+		foreach ($config as $key) {
+			$file = $this->config->value('config') . 'integrations' . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . $key . '.php';
+			if ( $file ) {
+				$out[$key] = include_once $file;
+			}
+		}
+		return $out;
 	}
 
 	public function settingsTab( $tabs ) {
@@ -27,7 +46,7 @@ class Integrations extends Module {
 			array(
 				'integrations' => array(
 					'title' => __('Integrations', 'hds-wp'),
-					'description' => __('Integrate plugins with HDS and enable Helsinki APIs.', 'hds-wp'),
+					'description' => __('Use Helsinki settings with plugins and enable available Helsinki APIs.', 'hds-wp'),
 				),
 			)
 		);
