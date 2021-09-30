@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Helsinki Design System for WordPress\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-05 14:10+0000\n"
-"PO-Revision-Date: 2021-05-05 14:10+0000\n"
+"PO-Revision-Date: 2021-09-30 11:35+0000\n"
 "Last-Translator: \n"
 "Language-Team: Swedish\n"
 "Language: sv_SE\n"
@@ -12,60 +12,170 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/\n"
-"X-Loco-Version: 2.5.2; wp-5.7.1\n"
+"X-Loco-Version: 2.5.3; wp-5.8.1\n"
 "X-Domain: hds-wp"
+
+#: config/settings/links.php:4
+msgid "About HDS"
+msgstr "https://www.artcloud.fi"
+
+#: config/integrations/types.php:7
+msgid "Add Helsinki styling to contact forms."
+msgstr ""
+
+#: config/integrations/types.php:11
+msgid "Add Helsinki styling to cookie notice."
+msgstr ""
+
+#: class/Assets.php:43
+msgid "Adds HDS styles, scripts and fonts to the site."
+msgstr ""
 
 #. Author of the plugin
 msgid "ArtCloud"
+msgstr "ArtCloud"
+
+#: class/Assets.php:42
+msgid "Assets"
 msgstr ""
 
-#: config/settings/tabs.php:7
+#: class/Blocks.php:62
 msgid "Blocks"
 msgstr ""
 
-#: config/settings/tabs.php:10
-msgid "Content Types"
+#: config/integrations/types.php:10
+msgid "Complianz GDPR"
 msgstr ""
 
-#: class/traits/HasView.php:19
-#, php-format
-msgctxt "file path"
-msgid "View file %s could not be found."
+#: integrations/plugins/complianz.php:25
+msgctxt "Complianz manage cookie consent title"
+msgid "Manage your preferences"
+msgstr "Hantera dina preferenser"
+
+#: integrations/plugins/complianz.php:21
+msgctxt "Complianz used cookies title"
+msgid "Used cookies"
+msgstr "Använda kakor"
+
+#: config/integrations/types.php:6
+msgid "Contact Form 7"
+msgstr "Contact Form 7"
+
+#: config/integrations/types.php:18
+msgid "Default configuration for WP-Matomo plugin."
+msgstr ""
+
+#: config/cpt/post-types.php:7
+msgid "FAQ"
+msgstr ""
+
+#: config/cpt/post-types.php:6
+msgid "FAQs"
+msgstr ""
+
+#: class/Topbar.php:42
+msgid "Feedback"
+msgstr ""
+
+#: config/cpt/post-types.php:4
+msgid "Frequently Asked Questions"
 msgstr ""
 
 #: config/settings/tabs.php:4
 msgid "General"
 msgstr ""
 
-#: class/settings.php:21 class/settings.php:22
-msgid "Helsinki Design System"
+#: class/Blocks.php:50
+msgid "Helsinki"
 msgstr ""
 
-#. Name of the plugin
-#: views/settings/page.php:10
-msgid "Helsinki Design System for WordPress"
+#: config/blocks/blocks.php:4
+msgid "Helsinki - Accordion"
+msgstr ""
+
+#: config/blocks/blocks.php:16
+msgid "Helsinki - Accordion Panel"
+msgstr ""
+
+#: config/blocks/blocks.php:28
+msgid "Helsinki - Banner"
+msgstr ""
+
+#: config/blocks/blocks.php:64
+msgid "Helsinki - Image & Text"
+msgstr ""
+
+#: config/blocks/blocks.php:52
+msgid "Helsinki - Image Banner"
+msgstr ""
+
+#: config/blocks/blocks.php:76
+msgid "Helsinki - Media List"
+msgstr ""
+
+#: config/settings/links.php:9
+msgid "Helsinki WordPress portal"
+msgstr ""
+
+#: class/Settings.php:18 class/Settings.php:19
+msgid "Helsinki WP"
 msgstr ""
 
 #. Author URI of the plugin
 msgid "https://www.artcloud.fi"
+msgstr "https://www.artcloud.fi"
+
+#: class/Integrations.php:48
+msgid "Integrations"
 msgstr ""
 
-#: config/settings/tabs.php:13
-msgid "Integrations"
+#: class/Cpt.php:29
+msgid "Post Types"
 msgstr ""
 
 #. Description of the plugin
 msgid ""
-"Provides HDS compliant styles, assets and blocks, and itegrations to "
+"Provides common Helsinki styles, assets and blocks, and itegrations to "
 "Helsinki APIs and various plugins."
 msgstr ""
 
-#: views/settings/page.php:50
-#, php-format
-msgctxt "settings type"
-msgid "Save %s settings"
+#: views/settings/form.php:6
+msgid "Save settings"
 msgstr ""
 
-#: config/settings/tabs.php:16
+#: class/Settings.php:128
+msgid "Settings"
+msgstr ""
+
+#: class/Settings.php:77
+#, php-format
+msgid ""
+"The \"%s\" feature is automatically enabled as the current theme declares "
+"compatibility with it."
+msgstr ""
+
+#: class/Integrations.php:49
+msgid "Use Helsinki settings with plugins and enable available Helsinki APIs."
+msgstr ""
+
+#: widgets/button.php:13
+msgctxt "widget title"
+msgid "HDS Button"
+msgstr ""
+
+#: class/Widgets.php:26
 msgid "Widgets"
+msgstr ""
+
+#. Name of the plugin
+#: views/settings/page.php:10
+msgid "WordPress Helsinki"
+msgstr ""
+
+#: config/settings/links.php:14
+msgid "WordPress User Guides"
+msgstr ""
+
+#: config/integrations/types.php:17
+msgid "WP-Matomo Integration"
 msgstr ""
