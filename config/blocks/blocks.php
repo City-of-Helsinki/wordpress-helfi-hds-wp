@@ -1,7 +1,7 @@
 <?php
 return array(
 	'accordion' => array(
-		'title' => __( 'HDS - Accordion', 'hds-wp' ),
+		'title' => __( 'Helsinki - Accordion', 'hds-wp' ),
 		'category' => 'hds-wp',
 		'dependencies' => array(
 			'wp-blocks',
@@ -13,7 +13,7 @@ return array(
 		),
 	),
 	'accordion-panel' => array(
-		'title' => __( 'HDS - Accordion Panel', 'hds-wp' ),
+		'title' => __( 'Helsinki - Accordion Panel', 'hds-wp' ),
 		'category' => 'hds-wp',
 		'dependencies' => array(
 			'wp-blocks',
@@ -25,7 +25,7 @@ return array(
 		),
 	),
 	'banner' => array(
-		'title' => __( 'HDS - Banner', 'hds-wp' ),
+		'title' => __( 'Helsinki - Banner', 'hds-wp' ),
 		'category' => 'hds-wp',
 		'dependencies' => array(
 			'wp-blocks',
@@ -37,7 +37,7 @@ return array(
 		),
 	),
 	// 'koros' => array(
-	// 	'title' => __( 'HDS - Koros', 'hds-wp' ),
+	// 	'title' => __( 'Helsinki - Koros', 'hds-wp' ),
 	// 	'category' => 'hds-wp',
 	// 	'dependencies' => array(
 	// 		'wp-blocks',
@@ -49,7 +49,7 @@ return array(
 	// 	),
 	// ),
 	'image-banner' => array(
-		'title' => __( 'HDS - Image Banner', 'hds-wp' ),
+		'title' => __( 'Helsinki - Image Banner', 'hds-wp' ),
 		'category' => 'hds-wp',
 		'dependencies' => array(
 			'wp-blocks',
@@ -61,7 +61,7 @@ return array(
 		),
 	),
 	'image-text' => array(
-		'title' => __( 'HDS - Image & Text', 'hds-wp' ),
+		'title' => __( 'Helsinki - Image & Text', 'hds-wp' ),
 		'category' => 'hds-wp',
 		'dependencies' => array(
 			'wp-blocks',
@@ -73,7 +73,7 @@ return array(
 		),
 	),
 	'media-list' => array(
-		'title' => __( 'HDS - Media List', 'hds-wp' ),
+		'title' => __( 'Helsinki - Media List', 'hds-wp' ),
 		'category' => 'hds-wp',
 		'dependencies' => array(
 			'wp-blocks',

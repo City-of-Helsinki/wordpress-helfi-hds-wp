@@ -2,9 +2,9 @@
 namespace ArtCloud\Helsinki\Plugin\HDS;
 
 /**
-  * Plugin Name: Helsinki Design System for WordPress
-  * Description: Provides HDS compliant styles, assets and blocks, and itegrations to Helsinki APIs and various plugins.
-  * Version: 1.2.0
+  * Plugin Name: WordPress Helsinki
+  * Description: Provides common Helsinki styles, assets and blocks, and itegrations to Helsinki APIs and various plugins.
+  * Version: 1.3.0
 	* License: MIT
 	* Requires at least: 5.7
   * Requires PHP:      7.1
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
   exit;
 }
 
-define( __NAMESPACE__ . '\\PLUGIN_VERSION', '1.2.0' );
+define( __NAMESPACE__ . '\\PLUGIN_VERSION', '1.3.0' );
 define( __NAMESPACE__ . '\\PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( __NAMESPACE__ . '\\PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( __NAMESPACE__ . '\\PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -87,6 +87,7 @@ function init() {
 		new BaseConfig(array_merge(
 			array(
 				'path' => plugin_path() . 'integrations' . DIRECTORY_SEPARATOR,
+				'config' => plugin_path() . 'config' . DIRECTORY_SEPARATOR,
 			),
 			$configLoader->load(
 				'integrations',
@@ -241,7 +242,7 @@ function textdomain() {
 	load_plugin_textdomain(
 		'hds-wp',
 		false,
-		PLUGIN_BASENAME . '/languages'
+		dirname( plugin_basename( __FILE__ ) ) . '/languages'
 	);
 }
 

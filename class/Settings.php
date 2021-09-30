@@ -15,8 +15,8 @@ class Settings extends Module {
 
 	public function page() {
 		add_menu_page(
-			__('Helsinki Design System', 'hds-wp'),
-			__('Helsinki Design System', 'hds-wp'),
+			__('Helsinki WP', 'hds-wp'),
+			__('Helsinki WP', 'hds-wp'),
 			apply_filters(
 				'hds_wp_settings_page_capability_requirement',
 				'manage_options'
