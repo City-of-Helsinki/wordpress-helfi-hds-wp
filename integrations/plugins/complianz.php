@@ -10,7 +10,7 @@ function helsinki_wp_complianz_document_html( $html, $type, $post_id ) {
   $lang = helsinki_wp_complianz_document_language();
   
   return helsinki_wp_complianz_document_replace_placeholders(
-    $data['documents'][$lang] ?? $data['documents']['fi'],
+    $data['documents'][$lang] ?? $data['documents']['fi'] ?? '',
     helsinki_wp_complianz_document_placeholder_pairs()
   );
 }
