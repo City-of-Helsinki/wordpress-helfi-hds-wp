@@ -43,6 +43,7 @@ class Compatibility extends Module {
 				'scripts' => true,
 				'styles' => true,
 				'fonts' => true,
+				'favicon' => true,
 			),
 			'blocks' => true,
 			'cpt' => array(
@@ -83,6 +84,10 @@ class Compatibility extends Module {
 
 	public function fonts() {
 		return $this->supports('assets', 'fonts');
+	}
+
+	public function favicon() {
+		return $this->supports('assets', 'favicon');
 	}
 
 	public function widgets() {
