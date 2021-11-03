@@ -2,10 +2,10 @@
 namespace ArtCloud\Helsinki\Plugin\HDS;
 
 class Assets extends Module {
-	public $prefix;
+	public $minified;
 
 	public function init() {
-		$this->prefix = $this->config->value('debug') ? '' : 'min';
+		$this->minified = $this->config->value('debug') ? '' : 'min';
 
 		add_filter( 'hds_wp_settings_tabs', array( $this, 'settingsTab' ) );
 
@@ -13,8 +13,6 @@ class Assets extends Module {
 			add_action( 'admin_enqueue_scripts', array( $this, 'adminScripts' ), 1 );
 			add_action( 'admin_enqueue_scripts', array( $this, 'adminStyles' ), 1 );
 		}
-		
-		add_action( 'do_faviconico', array( $this, 'favicon' ), 1 );
 
 		if ( ! $this->config->value('enabled') ) {
 			return;
@@ -30,6 +28,10 @@ class Assets extends Module {
 
 		if ( $this->config->value('styles') ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'publicStyles' ), 2 );
+		}
+
+		if ( $this->config->value('favicon') ) {
+			add_filter( 'get_site_icon_url', array( $this, 'favicon' ), 10, 3 );
 		}
 
 	}
@@ -61,26 +63,26 @@ class Assets extends Module {
 		return $this->implodeParts($parts, '.');
 	}
 
-	public function assetPath( string $directory, string $name, string $extension ) {
+	public function assetPath( string $directory, string $name, string $minified, string $extension ) {
 		return $this->dir(
 			$this->config->value('path'),
 			DIRECTORY_SEPARATOR,
 			array($directory, $extension)
 			) . $this->assetFile(array(
 				$name,
-				$this->prefix,
+				$minified,
 				$extension
 			));
 	}
 
-	public function assetUrl( string $directory, string $name, string $extension ) {
+	public function assetUrl( string $directory, string $name, string $minified, string $extension ) {
 		return $this->dir(
 			$this->config->value('url'),
 			'/',
 			array($directory, $extension)
 			) . $this->assetFile(array(
 				$name,
-				$this->prefix,
+				$minified,
 				$extension
 			));
 	}
@@ -92,9 +94,9 @@ class Assets extends Module {
 	public function adminScripts( string $hook ) {
 		wp_enqueue_script(
 			'hds-wp-admin-scripts',
-			$this->assetUrl('admin', 'scripts', 'js'),
+			$this->assetUrl('admin', 'scripts', $this->minified, 'js'),
 			apply_filters( 'hds_wp_admin_scripts_dependencies', array() ),
-			$this->assetVersion( $this->assetPath('admin', 'scripts', 'js') ),
+			$this->assetVersion( $this->assetPath('admin', 'scripts', $this->minified, 'js') ),
 			true
 		);
 	}
@@ -102,9 +104,9 @@ class Assets extends Module {
 	public function adminStyles( string $hook ) {
 		wp_enqueue_style(
 			'hds-wp-admin-styles',
-			$this->assetUrl('admin', 'styles', 'css'),
+			$this->assetUrl('admin', 'styles', $this->minified, 'css'),
 			apply_filters( 'hds_wp_admin_styles_dependencies', array() ),
-			$this->assetVersion( $this->assetPath('admin', 'styles', 'css') ),
+			$this->assetVersion( $this->assetPath('admin', 'styles', $this->minified, 'css') ),
 			'all'
 		);
 	}
@@ -112,9 +114,9 @@ class Assets extends Module {
 	public function publicScripts() {
 		wp_enqueue_script(
 			'hds-wp-scripts',
-			$this->assetUrl('public', 'scripts', 'js'),
+			$this->assetUrl('public', 'scripts', $this->minified, 'js'),
 			apply_filters( 'hds_wp_scripts_dependencies', array() ),
-			$this->assetVersion( $this->assetPath('public', 'scripts', 'js') ),
+			$this->assetVersion( $this->assetPath('public', 'scripts', $this->minified, 'js') ),
 			true
 		);
 	}
@@ -122,9 +124,9 @@ class Assets extends Module {
 	public function publicStyles() {
 		wp_enqueue_style(
 			'hds-wp-styles',
-			$this->assetUrl('public', 'styles', 'css'),
+			$this->assetUrl('public', 'styles', $this->minified, 'css'),
 			apply_filters( 'hds_wp_styles_dependencies', array() ),
-			$this->assetVersion( $this->assetPath('public', 'styles', 'css') ),
+			$this->assetVersion( $this->assetPath('public', 'styles', $this->minified, 'css') ),
 			'all'
 		);
 	}
@@ -132,21 +134,15 @@ class Assets extends Module {
 	public function fonts() {
 		wp_enqueue_style(
 			'hds-wp-fonts',
-			$this->assetUrl('fonts', 'styles', 'css'),
+			$this->assetUrl('fonts', 'styles', $this->minified, 'css'),
 			apply_filters( 'hds_wp_fonts_dependencies', array() ),
-			$this->assetVersion( $this->assetPath('fonts', 'styles', 'css') ),
+			$this->assetVersion( $this->assetPath('fonts', 'styles', $this->minified, 'css') ),
 			'all'
 		);
 	}
 
-	public function favicon() {
-		wp_redirect(
-			get_site_icon_url(
-				32,
-				$this->config->value('url') . '/img/favicon.ico'
-			)
-		);
-		exit;
+	public function favicon($url, $size, $blog_id) {
+		return $url ?: $this->assetUrl('img', 'favicon.ico', '', '');
 	}
 
 }

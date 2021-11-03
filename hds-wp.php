@@ -134,6 +134,7 @@ function init() {
 			'scripts' => $compatibility->scripts(),
 			'fonts' => $compatibility->fonts(),
 			'styles' => $compatibility->styles(),
+			'favicon' => $compatibility->favicon(),
 		))
 	);
 	$assets->init();
