@@ -1,16 +1,6 @@
 <?php
 
 /**
-  * WP CORE - Latest posts
-	* @source https://github.com/WordPress/gutenberg/blob/97caf7bff302fc115569493786a20d948468d241/packages/block-library/src/latest-posts/index.php
-	*/
-if ( ! function_exists( 'hds_wp_render_block_core_latest_posts' ) ) {
-	function hds_wp_render_block_core_latest_posts( $attributes ) {
-		return '<p>Latest posts</p>';
-	}
-}
-
-/**
   * Helsinki - Media List
 	*/
 if ( ! function_exists( 'hds_wp_render_block_media_list' ) ) {
