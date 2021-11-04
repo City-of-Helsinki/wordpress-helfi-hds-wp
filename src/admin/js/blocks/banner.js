@@ -81,7 +81,7 @@
 
 	registerBlockType('hds-wp/banner', {
 		apiVersion: 2,
-		title: __( 'HDS - Banner' ),
+		title: __( 'Helsinki - Banner' ),
 		category: 'hds-wp',
 		icon: 'format-gallery',
 		supports: {

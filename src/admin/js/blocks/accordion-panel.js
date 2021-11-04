@@ -173,7 +173,7 @@
 
 	registerBlockType('hds-wp/accordion-panel', {
 		apiVersion: 2,
-		title: __( 'HDS - Accordion Panel' ),
+		title: __( 'Helsinki - Accordion Panel' ),
 		category: 'hds-wp',
 		icon: 'format-gallery',
 		supports: {

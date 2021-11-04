@@ -450,7 +450,7 @@ function hdsIcons(name) {
 
   registerBlockType('hds-wp/accordion-panel', {
     apiVersion: 2,
-    title: __('HDS - Accordion Panel'),
+    title: __('Helsinki - Accordion Panel'),
     category: 'hds-wp',
     icon: 'format-gallery',
     supports: {
@@ -509,7 +509,7 @@ function hdsIcons(name) {
 
   registerBlockType('hds-wp/accordion', {
     apiVersion: 2,
-    title: __('HDS - Accordion'),
+    title: __('Helsinki - Accordion'),
     category: 'hds-wp',
     icon: 'format-gallery',
     supports: {
@@ -574,7 +574,7 @@ function hdsIcons(name) {
 
   registerBlockType('hds-wp/banner', {
     apiVersion: 2,
-    title: __('HDS - Banner'),
+    title: __('Helsinki - Banner'),
     category: 'hds-wp',
     icon: 'format-gallery',
     supports: {
@@ -699,7 +699,7 @@ function hdsIcons(name) {
 
   registerBlockType('hds-wp/image-banner', {
     apiVersion: 2,
-    title: __('HDS - Image Banner'),
+    title: __('Helsinki - Image Banner'),
     category: 'hds-wp',
     icon: 'format-gallery',
     supports: {
@@ -844,7 +844,7 @@ function hdsIcons(name) {
 
   registerBlockType('hds-wp/image-text', {
     apiVersion: 2,
-    title: __('HDS - Image & Text'),
+    title: __('Helsinki - Image & Text'),
     category: 'hds-wp',
     icon: 'format-gallery',
     supports: {
@@ -933,7 +933,7 @@ function hdsIcons(name) {
     };
   } // registerBlockType('hds-wp/koros', {
   // 	apiVersion: 2,
-  // 	title: __( 'HDS - Koros' ),
+  // 	title: __( 'Helsinki - Koros' ),
   // 	category: 'hds-wp',
   // 	icon: 'format-gallery',
   // 	supports: {
@@ -1050,7 +1050,7 @@ function hdsIcons(name) {
 
   registerBlockType('hds-wp/media-list', {
     apiVersion: 2,
-    title: __('HDS - Media List'),
+    title: __('Helsinki - Media List'),
     description: __('List media files from the selected category'),
     category: 'hds-wp',
     icon: 'list-view',

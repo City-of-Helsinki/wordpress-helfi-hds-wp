@@ -101,7 +101,7 @@
 
 	registerBlockType('hds-wp/media-list', {
 		apiVersion: 2,
-		title: __( 'HDS - Media List' ),
+		title: __( 'Helsinki - Media List' ),
 		description: __( 'List media files from the selected category' ),
 		category: 'hds-wp',
 		icon: 'list-view',

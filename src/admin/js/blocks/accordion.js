@@ -47,7 +47,7 @@
 
 	registerBlockType('hds-wp/accordion', {
 		apiVersion: 2,
-		title: __( 'HDS - Accordion' ),
+		title: __( 'Helsinki - Accordion' ),
 		category: 'hds-wp',
 		icon: 'format-gallery',
 		supports: {

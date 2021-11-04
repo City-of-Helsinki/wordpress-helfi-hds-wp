@@ -33,7 +33,7 @@
 
 	// registerBlockType('hds-wp/koros', {
 	// 	apiVersion: 2,
-	// 	title: __( 'HDS - Koros' ),
+	// 	title: __( 'Helsinki - Koros' ),
 	// 	category: 'hds-wp',
 	// 	icon: 'format-gallery',
 	// 	supports: {

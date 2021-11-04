@@ -125,7 +125,7 @@
 
 	registerBlockType('hds-wp/image-text', {
 		apiVersion: 2,
-		title: __( 'HDS - Image & Text' ),
+		title: __( 'Helsinki - Image & Text' ),
 		category: 'hds-wp',
 		icon: 'format-gallery',
 		supports: {
