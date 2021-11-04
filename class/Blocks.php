@@ -39,19 +39,19 @@ class Blocks extends Module {
 
 	public function category( $block_categories, $block_editor_context ) {
 		if ( ! ( $block_editor_context instanceof WP_Block_Editor_Context ) ) {
-      return $block_categories;
-    }
+			return $block_categories;
+    	}
 
 		return array_merge(
-      $block_categories,
-      array(
-        array(
-          'slug' => 'hds-wp',
-          'title' => __( 'Helsinki', 'hds-wp' ),
-          'icon'  => 'generic',
-        ),
-      )
-    );
+			$block_categories,
+			array(
+				array(
+					'slug' => 'hds-wp',
+					'title' => __( 'Helsinki', 'hds-wp' ),
+					'icon'  => 'generic',
+				),
+			)
+		);
 	}
 
 	public function settingsTab( $tabs ) {
