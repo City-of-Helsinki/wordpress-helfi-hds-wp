@@ -17,5 +17,9 @@ return array(
 			'title' => __( 'WP-Matomo Integration', 'hds-wp' ),
 			'description' => __( 'Default configuration for WP-Matomo plugin.', 'hds-wp' ),
 		),
+		'yoast-seo' => array(
+			'title' => __( 'Yoast SEO', 'hds-wp' ),
+			'description' => __( 'Default configuration meta titles and descriptions, andd custom meta variables.', 'hds-wp' ),
+		),
 	),
 );

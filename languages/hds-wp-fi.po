@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Helsinki Design System for WordPress\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-05 14:10+0000\n"
-"PO-Revision-Date: 2021-09-30 11:34+0000\n"
+"PO-Revision-Date: 2021-11-11 10:41+0000\n"
 "Last-Translator: \n"
 "Language-Team: Suomi\n"
 "Language: fi\n"
@@ -27,7 +27,7 @@ msgstr ""
 msgid "Add Helsinki styling to cookie notice."
 msgstr ""
 
-#: class/Assets.php:43
+#: class/Assets.php:45
 msgid "Adds HDS styles, scripts and fonts to the site."
 msgstr ""
 
@@ -35,13 +35,17 @@ msgstr ""
 msgid "ArtCloud"
 msgstr "ArtCloud"
 
-#: class/Assets.php:42
+#: class/Assets.php:44
 msgid "Assets"
 msgstr ""
 
 #: class/Blocks.php:62
 msgid "Blocks"
 msgstr ""
+
+#: integrations/plugins/yoast-seo.php:50
+msgid "City of Helsinki"
+msgstr "Helsingin kaupunki"
 
 #: config/integrations/types.php:10
 msgid "Complianz GDPR"
@@ -63,6 +67,12 @@ msgstr "Contact Form 7"
 
 #: config/integrations/types.php:18
 msgid "Default configuration for WP-Matomo plugin."
+msgstr ""
+
+#: config/integrations/types.php:22
+msgid ""
+"Default configuration meta titles and descriptions, andd custom meta "
+"variables."
 msgstr ""
 
 #: config/cpt/post-types.php:7
@@ -119,7 +129,7 @@ msgstr ""
 
 #: class/Settings.php:18 class/Settings.php:19
 msgid "Helsinki WP"
-msgstr ""
+msgstr "Helsinki WP"
 
 #. Author URI of the plugin
 msgid "https://www.artcloud.fi"
@@ -178,4 +188,8 @@ msgstr ""
 
 #: config/integrations/types.php:17
 msgid "WP-Matomo Integration"
+msgstr ""
+
+#: config/integrations/types.php:21
+msgid "Yoast SEO"
 msgstr ""

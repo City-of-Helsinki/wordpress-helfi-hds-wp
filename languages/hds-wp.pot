@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Helsinki Design System for WordPress\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-30 11:33+0000\n"
+"POT-Creation-Date: 2021-11-11 10:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -28,7 +28,7 @@ msgstr ""
 msgid "Add Helsinki styling to cookie notice."
 msgstr ""
 
-#: class/Assets.php:43
+#: class/Assets.php:45
 msgid "Adds HDS styles, scripts and fonts to the site."
 msgstr ""
 
@@ -36,12 +36,16 @@ msgstr ""
 msgid "ArtCloud"
 msgstr ""
 
-#: class/Assets.php:42
+#: class/Assets.php:44
 msgid "Assets"
 msgstr ""
 
 #: class/Blocks.php:62
 msgid "Blocks"
+msgstr ""
+
+#: integrations/plugins/yoast-seo.php:50
+msgid "City of Helsinki"
 msgstr ""
 
 #: config/integrations/types.php:10
@@ -64,6 +68,12 @@ msgstr ""
 
 #: config/integrations/types.php:18
 msgid "Default configuration for WP-Matomo plugin."
+msgstr ""
+
+#: config/integrations/types.php:22
+msgid ""
+"Default configuration meta titles and descriptions, andd custom meta "
+"variables."
 msgstr ""
 
 #: config/cpt/post-types.php:7
@@ -179,4 +189,8 @@ msgstr ""
 
 #: config/integrations/types.php:17
 msgid "WP-Matomo Integration"
+msgstr ""
+
+#: config/integrations/types.php:21
+msgid "Yoast SEO"
 msgstr ""
