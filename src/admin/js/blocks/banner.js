@@ -111,7 +111,7 @@
 			},
 			isExternalUrl: {
 				type: 'boolean',
-				default: false,
+				default: true,
 			},
 		},
 		edit: editBanner(),
