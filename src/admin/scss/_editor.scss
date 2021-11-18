@@ -6,4 +6,17 @@ body.wp-admin {
 		margin-right: auto;
 	}
 
+  .button.hds-button {
+    min-height: 56px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .content__link {
+    > .icon--arrow-right {
+      transform: rotate(180deg);
+      margin: 5px 0 0 5px;
+    }
+  }
+
 }
