@@ -15,7 +15,7 @@
 				target: '_blank',
 				rel: 'noopener',
 			},
-			hdsExternalLinkIcon()
+			props.attributes.isExternalUrl ? hdsExternalLinkIcon() : hdsArrowIcon(),
 		);
 	}
 
@@ -32,6 +32,7 @@
 					hdsContentTextControl(props),
 					hdsButtonTextControl(props),
 					hdsButtonUrlControl(props),
+          hdsExternalUrlControl(props),
 					hdsIconControl(props)
 				),
 				createElement('div', useBlockProps(),
@@ -107,6 +108,10 @@
 			buttonUrl: {
 				type: 'string',
 				default: '',
+			},
+			isExternalUrl: {
+				type: 'boolean',
+				default: false,
 			},
 		},
 		edit: editBanner(),

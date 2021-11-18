@@ -161,6 +161,14 @@ function hdsButtonUrlControl(props) {
 	}, props);
 }
 
+function hdsExternalUrlControl(props) {
+	return hdsCheckboxControl({
+		label: wp.i18n.__('Is external URL'),
+		value: props.attributes.isExternalUrl,
+		attribute: 'isExternalUrl',
+	}, props);
+}
+
 function hdsContentButton(props, config, icon) {
 	return props.attributes.buttonText && props.attributes.buttonUrl ? wp.element.createElement(
 		'a',
@@ -202,6 +210,24 @@ function hdsRadioControl(config, props) {
 				label: config.label,
 				selected: config.selected,
 				options: config.options,
+				onChange: function(value) {
+					var newAttributes = {};
+					newAttributes[config.attribute] = value;
+					props.setAttributes(newAttributes);
+				}
+			}
+		)
+	);
+}
+
+function hdsCheckboxControl(config, props) {
+	return wp.element.createElement(
+		wp.components.PanelRow, {},
+		wp.element.createElement(
+			wp.components.CheckboxControl,
+			{
+				label: config.label,
+				checked: config.checked,
 				onChange: function(value) {
 					var newAttributes = {};
 					newAttributes[config.attribute] = value;

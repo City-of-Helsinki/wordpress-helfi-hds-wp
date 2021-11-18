@@ -154,6 +154,14 @@ function hdsButtonUrlControl(props) {
   }, props);
 }
 
+function hdsExternalUrlControl(props) {
+  return hdsCheckboxControl({
+    label: wp.i18n.__('Is external URL'),
+    value: props.attributes.isExternalUrl,
+    attribute: 'isExternalUrl'
+  }, props);
+}
+
 function hdsContentButton(props, config, icon) {
   return props.attributes.buttonText && props.attributes.buttonUrl ? wp.element.createElement('a', config, wp.element.createElement(wp.element.Fragment, {}, props.attributes.buttonText, icon ? icon : null)) : '';
 }
@@ -177,6 +185,18 @@ function hdsRadioControl(config, props) {
     label: config.label,
     selected: config.selected,
     options: config.options,
+    onChange: function onChange(value) {
+      var newAttributes = {};
+      newAttributes[config.attribute] = value;
+      props.setAttributes(newAttributes);
+    }
+  }));
+}
+
+function hdsCheckboxControl(config, props) {
+  return wp.element.createElement(wp.components.PanelRow, {}, wp.element.createElement(wp.components.CheckboxControl, {
+    label: config.label,
+    checked: config.checked,
     onChange: function onChange(value) {
       var newAttributes = {};
       newAttributes[config.attribute] = value;
@@ -542,7 +562,7 @@ function hdsIcons(name) {
       href: props.attributes.buttonUrl,
       target: '_blank',
       rel: 'noopener'
-    }, hdsExternalLinkIcon());
+    }, props.attributes.isExternalUrl ? hdsExternalLinkIcon() : hdsArrowIcon());
   }
 
   function editBanner() {
@@ -550,7 +570,7 @@ function hdsIcons(name) {
       return createElement(Fragment, {}, hdsInspectorControls({
         title: wp.i18n.__('Content'),
         initialOpen: false
-      }, hdsContentTitleControl(props), hdsContentTextControl(props), hdsButtonTextControl(props), hdsButtonUrlControl(props), hdsIconControl(props)), createElement('div', useBlockProps(), hdsContent(props, createElement('div', {
+      }, hdsContentTitleControl(props), hdsContentTextControl(props), hdsButtonTextControl(props), hdsButtonUrlControl(props), hdsExternalUrlControl(props), hdsIconControl(props)), createElement('div', useBlockProps(), hdsContent(props, createElement('div', {
         className: 'content__inner content__inner--icon'
       }, hdsContentIcon(props)), createElement('div', {
         className: 'content__inner content__inner--text'
@@ -600,6 +620,10 @@ function hdsIcons(name) {
       buttonUrl: {
         type: 'string',
         default: ''
+      },
+      isExternalUrl: {
+        type: 'boolean',
+        default: false
       }
     },
     edit: editBanner(),
@@ -671,7 +695,7 @@ function hdsIcons(name) {
     return hdsContentButton(props, {
       className: 'content__link',
       href: props.attributes.buttonUrl
-    }, hdsArrowIcon());
+    }, props.attributes.isExternalUrl ? hdsExternalLinkIcon() : hdsArrowIcon());
   }
 
   function editBanner() {
@@ -679,7 +703,7 @@ function hdsIcons(name) {
       return createElement(Fragment, {}, toolbar(props), hdsInspectorControls({
         title: wp.i18n.__('Content'),
         initialOpen: false
-      }, hdsContentTitleControl(props), hdsContentTextControl(props), hdsButtonTextControl(props), hdsButtonUrlControl(props)), createElement('div', useBlockProps({
+      }, hdsContentTitleControl(props), hdsContentTextControl(props), hdsButtonTextControl(props), hdsButtonUrlControl(props), hdsExternalUrlControl(props)), createElement('div', useBlockProps({
         className: classNamesString(props)
       }), hdsSingleImage(imageConfig(props)), hdsContent(props, createElement('div', {
         className: 'content__inner'
@@ -749,6 +773,10 @@ function hdsIcons(name) {
       buttonUrl: {
         type: 'string',
         default: ''
+      },
+      isExternalUrl: {
+        type: 'boolean',
+        default: false
       }
     },
     edit: editBanner(),
@@ -820,7 +848,7 @@ function hdsIcons(name) {
     return hdsContentButton(props, {
       className: 'content__link hds-button button',
       href: props.attributes.buttonUrl
-    }, hdsArrowIcon());
+    }, props.attributes.isExternalUrl ? hdsExternalLinkIcon() : hdsArrowIcon());
   }
 
   function editBanner() {
@@ -828,7 +856,7 @@ function hdsIcons(name) {
       return createElement(Fragment, {}, toolbar(props), hdsInspectorControls({
         title: wp.i18n.__('Content'),
         initialOpen: false
-      }, hdsContentTitleControl(props), hdsContentTextControl(props), hdsButtonTextControl(props), hdsButtonUrlControl(props)), createElement('div', useBlockProps({
+      }, hdsContentTitleControl(props), hdsContentTextControl(props), hdsButtonTextControl(props), hdsButtonUrlControl(props), hdsExternalUrlControl(props)), createElement('div', useBlockProps({
         className: classNamesString(props)
       }), hdsSingleImage(imageConfig(props)), hdsContent(props, hdsContentTitle(props), hdsContentText(props), contentButton(props))));
     };
@@ -895,6 +923,10 @@ function hdsIcons(name) {
       buttonUrl: {
         type: 'string',
         default: ''
+      },
+      isExternalUrl: {
+        type: 'boolean',
+        default: false
       }
     },
     edit: editBanner(),

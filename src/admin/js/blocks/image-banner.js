@@ -69,7 +69,7 @@
 				className: 'content__link',
 				href: props.attributes.buttonUrl,
 			},
-			hdsArrowIcon()
+			props.attributes.isExternalUrl ? hdsExternalLinkIcon() : hdsArrowIcon(),
 		);
 	}
 
@@ -87,6 +87,7 @@
 					hdsContentTextControl(props),
 					hdsButtonTextControl(props),
 					hdsButtonUrlControl(props),
+          hdsExternalUrlControl(props)
 				),
 				createElement('div', useBlockProps({
 						className: classNamesString(props),
@@ -181,6 +182,10 @@
 			buttonUrl: {
 				type: 'string',
 				default: '',
+			},
+			isExternalUrl: {
+				type: 'boolean',
+				default: false,
 			},
 		},
 		edit: editBanner(),
