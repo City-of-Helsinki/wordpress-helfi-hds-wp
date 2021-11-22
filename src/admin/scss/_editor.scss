@@ -6,6 +6,12 @@ body.wp-admin {
 		margin-right: auto;
 	}
 
+  .wp-block-button__link,
+  .wp-block-file__button {
+    background-color: $black;
+    border-radius: 0;
+  }
+
   .button.hds-button {
     min-height: 56px;
     padding-left: 2rem;
