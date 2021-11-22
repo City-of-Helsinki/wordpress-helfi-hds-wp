@@ -7,7 +7,7 @@
   * Utilities
   */
 @import 'node_modules/hds-core/lib/utils/animations';
-@import 'node_modules/hds-core/lib/utils/helpers';
+// @import 'node_modules/hds-core/lib/utils/helpers'; // included in base
 
 /**
   * Icons
@@ -161,7 +161,7 @@
   * Components
   */
 // @import 'node_modules/hds-core/lib/components/all';
-@import 'node_modules/hds-core/lib/components/button/button';
+// @import 'node_modules/hds-core/lib/components/button/button';
 @import 'node_modules/hds-core/lib/components/card/card';
 @import 'node_modules/hds-core/lib/components/checkbox/checkbox';
 @import 'node_modules/hds-core/lib/components/container/container';

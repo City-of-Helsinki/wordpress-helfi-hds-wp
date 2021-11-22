@@ -1,4 +1,122 @@
-.hds-button,
-.button.hds-button {
+button,
+.button,
+.hds-button {
+  align-items: center;
+  background-color: $black;
+  border: 2px solid $black;
+  border-radius: 0;
+  box-sizing: border-box;
+  color: $white;
+  cursor: pointer;
+  display: inline-flex;
+  font-weight: $global-font-weight-medium;
+  justify-content: center;
 	min-height: 56px;
+  padding: 1rem 2rem;
+  position: relative;
+  text-decoration: none;
+  transition: $default-transition;
+
+  svg {
+		fill: $white;
+	}
+
+  &:hover {
+    background-color: $white;
+    color: $black;
+  }
+
+  &:focus {
+    border-color: $white;
+    outline: 2px solid $black;
+  }
+
+  &:disabled,
+  &[disabled],
+  .disabled {
+    background-color: $medium-gray;
+    border-color: $medium-gray;
+    color: $white;
+    cursor: default;
+
+    svg {
+  		fill: $medium-gray;
+  	}
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &--secondary {
+    background-color: $white;
+    color: $black;
+
+    &:hover {
+      background-color: $black;
+      color: $white;
+    }
+
+    &:focus {
+      border-color: $black;
+      outline: 2px solid $black;
+    }
+
+    &:disabled,
+    &[disabled],
+    .disabled {
+      background-color: $white;
+      border-color: $medium-gray;
+      color: $medium-gray;
+
+      &:hover,
+      &:focus {
+        background-color: $white;
+        border-color: $medium-gray;
+        color: $medium-gray;
+      }
+    }
+  } // --secondary
+
+  &--supplementary {
+    background-color: $white;
+    border-color: $white;
+    color: $black;
+
+    &:hover {
+      background-color: $white;
+      color: $black;
+      text-decoration: underline;
+    }
+
+    &:focus {
+      outline: 2px solid $black;
+    }
+
+    &:disabled,
+    &[disabled],
+    .disabled {
+      background-color: $white;
+      border-color: $white;
+      color: $medium-gray;
+      text-decoration: none;
+
+      &:hover,
+      &:focus {
+        background-color: $white;
+        border-color: $white;
+        color: $medium-gray;
+      }
+    }
+  } // --supplementary
+
+  &--small {
+	  min-height: 44px;
+    padding: .5rem 1.5rem;
+
+    &:focus {
+      outline: 2px solid $dark-gray;
+    }
+  } // --small
+
 }
