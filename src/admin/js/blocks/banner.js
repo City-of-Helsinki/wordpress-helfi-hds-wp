@@ -10,7 +10,7 @@
 		return hdsContentButton(
 			props,
 			{
-				className: 'content__link hds-button button',
+				className: 'content__link hds-button',
 				href: props.attributes.buttonUrl,
 				target: '_blank',
 				rel: 'noopener',
