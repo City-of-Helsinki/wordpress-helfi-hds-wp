@@ -67,29 +67,7 @@
 			}
 		}
 
-		.content__link {
-			background-color: transparent;
-			border-color: $black;
-			color: $black;
-
-			svg {
-				path {
-					fill: $black;
-				}
-			}
-
-			&:focus,
-			&:hover {
-				background-color: $black;
-				color: $white;
-
-				svg {
-					path {
-						fill: $white;
-					}
-				}
-			}
-		}
+		.content__link {}
 	}
 
 	$hasColors: (

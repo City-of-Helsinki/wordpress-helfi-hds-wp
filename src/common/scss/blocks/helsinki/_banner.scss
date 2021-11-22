@@ -36,24 +36,7 @@
 			margin: 0 0 spacing('m');
 		}
 
-		&__link {
-			background-color: $white;
-			color: $black;
-
-			svg {
-				fill: $black;
-			}
-
-			&:focus,
-			&:hover {
-				background-color: $black;
-				color: $white;
-
-				svg {
-					fill: $white;
-				}
-			}
-		}
+		&__link {}
 
 		@include breakpoint('m') {
       padding: spacing('l');
