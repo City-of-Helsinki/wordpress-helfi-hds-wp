@@ -8,6 +8,9 @@
 	}
 
 	.content__link {
+    display: inline-flex;
+    text-decoration: none;
+
 		.icon {
 			margin-left: .5rem;
 			margin-top: -4px;
