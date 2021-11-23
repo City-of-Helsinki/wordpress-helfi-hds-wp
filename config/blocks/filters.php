@@ -12,12 +12,25 @@ function hds_wp_add_srcset_to_attachment_js_response( $response, $attachment ) {
 
 add_filter( 'render_block', 'hds_button_class', 10, 2 );
 function hds_button_class( $block_content = '', $block = [] ) {
-  if ( isset( $block['blockName'] ) && 'core/button' === $block['blockName'] ) {
-    $block_content = str_replace(
-      'wp-block-button__link',
-      'hds-button button',
-      $block_content
-    );
+	if ( empty( $block['blockName'] ) || 'core/button' !== $block['blockName'] ) {
+		return $block_content;
 	}
-  return $block_content;
+
+	$classes = ['hds-button'];
+
+	if ( ! empty( $block['attrs']['className'] ) ) {
+		if ( false !== strpos( $block['attrs']['className'], 'secondary' ) ) {
+			$classes[] = 'hds-button--secondary';
+		}
+
+		if ( false !== strpos( $block['attrs']['className'], 'supplementary' ) ) {
+			$classes[] = 'hds-button--supplementary';
+		}
+	}
+
+	return str_replace(
+		'wp-block-button__link',
+		implode( ' ', $classes ),
+		$block_content
+	);
 }
