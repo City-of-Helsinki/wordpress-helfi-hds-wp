@@ -24,6 +24,7 @@ class Assets extends Module {
 
 		if ( $this->config->value('fonts') ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'fonts' ), 1 );
+			add_action( 'enqueue_block_editor_assets', array( $this, 'fonts' ), 1 );
 		}
 
 		if ( $this->config->value('styles') ) {
