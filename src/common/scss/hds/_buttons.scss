@@ -23,7 +23,7 @@
 	}
 
   &:hover {
-    background-color: $white;
+    background-color: transparent;
     color: $black;
 
     svg {
@@ -54,7 +54,7 @@
   }
 
   &--secondary {
-    background-color: $white;
+    background-color: transparent;
     color: $black;
 
     svg {
@@ -78,7 +78,7 @@
     &:disabled,
     &[disabled],
     .disabled {
-      background-color: $white;
+      background-color: transparent;
       border-color: $medium-gray;
       color: $medium-gray;
 
@@ -88,7 +88,7 @@
 
       &:hover,
       &:focus {
-        background-color: $white;
+        background-color: transparent;
         border-color: $medium-gray;
         color: $medium-gray;
       }
@@ -96,8 +96,8 @@
   } // --secondary
 
   &--supplementary {
-    background-color: $white;
-    border-color: $white;
+    background-color: transparent;
+    border-color: transparent;
     color: $black;
 
     svg {
@@ -105,7 +105,7 @@
     }
 
     &:hover {
-      background-color: $white;
+      background-color: transparent;
       color: $black;
       text-decoration: underline;
     }
@@ -117,8 +117,8 @@
     &:disabled,
     &[disabled],
     .disabled {
-      background-color: $white;
-      border-color: $white;
+      background-color: transparent;
+      border-color: transparent;
       color: $medium-gray;
       text-decoration: none;
 
@@ -128,7 +128,7 @@
 
       &:hover,
       &:focus {
-        background-color: $white;
+        background-color: transparent;
         border-color: $white;
         color: $medium-gray;
       }
