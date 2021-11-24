@@ -1,0 +1,51 @@
+.blocks-gallery-grid,
+.wp-block-gallery {
+
+	.blocks-gallery-image,
+	.blocks-gallery-item {
+
+    figure {
+      display: block;
+
+      a {
+        display: block;
+      }
+
+      img {
+        display: block;
+        height: auto;
+      }
+    }
+
+		figcaption {
+      background: none;
+      color: $black;
+      font-size: $global-font-size;
+      font-style: normal;
+      text-align: left;
+      padding: .5rem 0 0;
+      position: static;
+		}
+
+	}
+
+  &.is-cropped {
+
+    .blocks-gallery-image,
+  	.blocks-gallery-item {
+
+      a {
+        display: block;
+        height: auto;
+      }
+
+      img {
+        display: block;
+        height: auto;
+      }
+
+    }
+
+  }
+
+}
