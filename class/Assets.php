@@ -126,7 +126,7 @@ class Assets extends Module {
 		wp_enqueue_style(
 			'hds-wp-styles',
 			$this->assetUrl('public', 'styles', $this->minified, 'css'),
-			apply_filters( 'hds_wp_styles_dependencies', array() ),
+			apply_filters( 'hds_wp_styles_dependencies', array( 'wp-block-library' ) ),
 			$this->assetVersion( $this->assetPath('public', 'styles', $this->minified, 'css') ),
 			'all'
 		);
