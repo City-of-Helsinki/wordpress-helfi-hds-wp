@@ -1,4 +1,4 @@
 <?php
 return array(
-	'button' => 'HDS_WP_Button',
+	'button' => 'Helsinki_WP_Button',
 );

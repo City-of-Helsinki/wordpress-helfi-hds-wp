@@ -24,7 +24,7 @@
 					function( mediaUpload ) {
 						return createElement(Button,{
 							icon: 'format-image',
-							label: __('Select image'),
+							label: __( 'Select image', 'hds-wp' ),
 							onClick: mediaUpload.open
 						});
 					}
@@ -80,7 +80,7 @@
 				toolbar( props ),
 				hdsInspectorControls(
 					{
-						title: wp.i18n.__('Content'),
+						title: __( 'Content', 'hds-wp' ),
 						initialOpen: false,
 					},
 					hdsContentTitleControl(props),
@@ -126,7 +126,7 @@
 
 	registerBlockType('hds-wp/image-text', {
 		apiVersion: 2,
-		title: __( 'Helsinki - Image & Text' ),
+		title: __( 'Helsinki - Image & Text', 'hds-wp' ),
 		category: 'hds-wp',
 		icon: 'format-gallery',
 		supports: {

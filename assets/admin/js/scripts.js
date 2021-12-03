@@ -28,7 +28,7 @@ function hdsMediaRemoveButton(callback) {
   return wp.element.createElement(wp.blockEditor.MediaUploadCheck, {}, wp.element.createElement(wp.components.Button, {
     icon: 'no-alt',
     isDestructive: true,
-    label: wp.i18n.__('Remove image'),
+    label: wp.i18n.__('Remove image', 'hds-wp'),
     onClick: callback
   }));
 }
@@ -36,7 +36,7 @@ function hdsMediaRemoveButton(callback) {
 function hdsAlignLeftButton(callback) {
   return wp.element.createElement(wp.components.ToolbarButton, {
     icon: 'align-pull-left',
-    label: wp.i18n.__('Align Left'),
+    label: wp.i18n.__('Align Left', 'hds-wp'),
     onClick: callback
   });
 }
@@ -44,7 +44,7 @@ function hdsAlignLeftButton(callback) {
 function hdsAlignRightButton(callback) {
   return wp.element.createElement(wp.components.ToolbarButton, {
     icon: 'align-pull-right',
-    label: wp.i18n.__('Align Right'),
+    label: wp.i18n.__('Align Right', 'hds-wp'),
     onClick: callback
   });
 }
@@ -111,7 +111,7 @@ function hdsPanelRow(config) {
 
 function hdsContentTitleControl(props) {
   return hdsTextControl({
-    label: wp.i18n.__('Title'),
+    label: wp.i18n.__('Title', 'hds-wp'),
     value: props.attributes.contentTitle,
     attribute: 'contentTitle'
   }, props);
@@ -125,7 +125,7 @@ function hdsContentTitle(props) {
 
 function hdsContentTextControl(props) {
   return hdsTextControl({
-    label: wp.i18n.__('Excerpt'),
+    label: wp.i18n.__('Excerpt', 'hds-wp'),
     value: props.attributes.contentText,
     attribute: 'contentText'
   }, props);
@@ -139,7 +139,7 @@ function hdsContentText(props) {
 
 function hdsButtonTextControl(props) {
   return hdsTextControl({
-    label: wp.i18n.__('Button Text'),
+    label: wp.i18n.__('Button Text', 'hds-wp'),
     value: props.attributes.buttonText,
     attribute: 'buttonText'
   }, props);
@@ -147,7 +147,7 @@ function hdsButtonTextControl(props) {
 
 function hdsButtonUrlControl(props) {
   return hdsTextControl({
-    label: wp.i18n.__('Button URL'),
+    label: wp.i18n.__('Button URL', 'hds-wp'),
     type: 'url',
     value: props.attributes.buttonUrl,
     attribute: 'buttonUrl'
@@ -156,7 +156,7 @@ function hdsButtonUrlControl(props) {
 
 function hdsExternalUrlControl(props) {
   return hdsCheckboxControl({
-    label: wp.i18n.__('Is external URL'),
+    label: wp.i18n.__('Is external URL', 'hds-wp'),
     value: props.attributes.isExternalUrl,
     attribute: 'isExternalUrl'
   }, props);
@@ -217,7 +217,7 @@ function hdsIconControl(props) {
   }
 
   return hdsSelectControl({
-    label: wp.i18n.__('Icon'),
+    label: wp.i18n.__('Icon', 'hds-wp'),
     value: props.attributes.contentIcon,
     attribute: 'contentIcon',
     options: options
@@ -382,10 +382,10 @@ function hdsIcons(name) {
 
   function panelControls(props) {
     return hdsInspectorControls({
-      title: wp.i18n.__('Settings'),
+      title: __('Settings', 'hds-wp'),
       initialOpen: false
     }, hdsTextControl({
-      label: wp.i18n.__('Panel Title'),
+      label: __('Panel Title', 'hds-wp'),
       value: props.attributes.panelTitle,
       attribute: 'panelTitle'
     }, props));
@@ -443,7 +443,7 @@ function hdsIcons(name) {
         event.preventDefault();
         closeCurrent(event.currentTarget);
       }
-    }, createElement('span', {}, __('Close')), hdsAngleIcon());
+    }, createElement('span', {}, __('Close', 'hds-wp')), hdsAngleIcon());
   }
 
   function editBanner() {
@@ -470,7 +470,7 @@ function hdsIcons(name) {
 
   registerBlockType('hds-wp/accordion-panel', {
     apiVersion: 2,
-    title: __('Helsinki - Accordion Panel'),
+    title: __('Helsinki - Accordion Panel', 'hds-wp'),
     category: 'hds-wp',
     icon: 'format-gallery',
     supports: {
@@ -480,7 +480,7 @@ function hdsIcons(name) {
     attributes: {
       panelTitle: {
         type: 'string',
-        default: __('Panel')
+        default: __('Panel', 'hds-wp')
       },
       blockId: {
         type: 'string'
@@ -529,7 +529,7 @@ function hdsIcons(name) {
 
   registerBlockType('hds-wp/accordion', {
     apiVersion: 2,
-    title: __('Helsinki - Accordion'),
+    title: __('Helsinki - Accordion', 'hds-wp'),
     category: 'hds-wp',
     icon: 'format-gallery',
     supports: {
@@ -568,7 +568,7 @@ function hdsIcons(name) {
   function editBanner() {
     return function (props) {
       return createElement(Fragment, {}, hdsInspectorControls({
-        title: wp.i18n.__('Content'),
+        title: __('Content', 'hds-wp'),
         initialOpen: false
       }, hdsContentTitleControl(props), hdsContentTextControl(props), hdsButtonTextControl(props), hdsButtonUrlControl(props), hdsExternalUrlControl(props), hdsIconControl(props)), createElement('div', useBlockProps(), hdsContent(props, createElement('div', {
         className: 'content__inner content__inner--icon'
@@ -594,7 +594,7 @@ function hdsIcons(name) {
 
   registerBlockType('hds-wp/banner', {
     apiVersion: 2,
-    title: __('Helsinki - Banner'),
+    title: __('Helsinki - Banner', 'hds-wp'),
     category: 'hds-wp',
     icon: 'format-gallery',
     supports: {
@@ -661,7 +661,7 @@ function hdsIcons(name) {
     }, function (mediaUpload) {
       return createElement(Button, {
         icon: 'format-image',
-        label: __('Select image'),
+        label: __('Select image', 'hds-wp'),
         onClick: mediaUpload.open
       });
     }), hdsAlignLeftButton(function (value) {
@@ -701,7 +701,7 @@ function hdsIcons(name) {
   function editBanner() {
     return function (props) {
       return createElement(Fragment, {}, toolbar(props), hdsInspectorControls({
-        title: wp.i18n.__('Content'),
+        title: wp.i18n.__('Content', 'hds-wp'),
         initialOpen: false
       }, hdsContentTitleControl(props), hdsContentTextControl(props), hdsButtonTextControl(props), hdsButtonUrlControl(props), hdsExternalUrlControl(props)), createElement('div', useBlockProps({
         className: classNamesString(props)
@@ -723,7 +723,7 @@ function hdsIcons(name) {
 
   registerBlockType('hds-wp/image-banner', {
     apiVersion: 2,
-    title: __('Helsinki - Image Banner'),
+    title: __('Helsinki - Image Banner', 'hds-wp'),
     category: 'hds-wp',
     icon: 'format-gallery',
     supports: {
@@ -814,7 +814,7 @@ function hdsIcons(name) {
     }, function (mediaUpload) {
       return createElement(Button, {
         icon: 'format-image',
-        label: __('Select image'),
+        label: __('Select image', 'hds-wp'),
         onClick: mediaUpload.open
       });
     }), hdsAlignLeftButton(function (value) {
@@ -854,7 +854,7 @@ function hdsIcons(name) {
   function editBanner() {
     return function (props) {
       return createElement(Fragment, {}, toolbar(props), hdsInspectorControls({
-        title: wp.i18n.__('Content'),
+        title: __('Content', 'hds-wp'),
         initialOpen: false
       }, hdsContentTitleControl(props), hdsContentTextControl(props), hdsButtonTextControl(props), hdsButtonUrlControl(props), hdsExternalUrlControl(props)), createElement('div', useBlockProps({
         className: classNamesString(props)
@@ -872,7 +872,7 @@ function hdsIcons(name) {
 
   registerBlockType('hds-wp/image-text', {
     apiVersion: 2,
-    title: __('Helsinki - Image & Text'),
+    title: __('Helsinki - Image & Text', 'hds-wp'),
     category: 'hds-wp',
     icon: 'format-gallery',
     supports: {
@@ -1027,7 +1027,7 @@ function hdsIcons(name) {
     };
 
     return createElement(SelectControl, {
-      label: __('Select a category'),
+      label: __('Select a category', 'hds-wp'),
       options: options,
       onChange: function onChange(value) {
         props.setAttributes({
@@ -1042,7 +1042,7 @@ function hdsIcons(name) {
   function editBlock() {
     return function (props) {
       return createElement(Fragment, {}, hdsInspectorControls({
-        title: wp.i18n.__('Settings'),
+        title: __('Settings', 'hds-wp'),
         initialOpen: true
       }, hdsPanelRow({}, createElement(TermsDropdownControl, _objectSpread({}, props))), hdsRadioControl({
         label: __('Order'),
@@ -1050,21 +1050,21 @@ function hdsIcons(name) {
         selected: props.attributes.order ? props.attributes.order : 'ASC',
         options: [{
           value: 'ASC',
-          label: __('Ascending')
+          label: __('Ascending', 'hds-wp')
         }, {
           value: 'DESC',
-          label: __('Descending')
+          label: __('Descending', 'hds-wp')
         }]
       }, props), hdsRadioControl({
-        label: __('Order by'),
+        label: __('Order by', 'hds-wp'),
         attribute: 'orderBy',
         selected: props.attributes.orderBy ? props.attributes.orderBy : 'title',
         options: [{
           value: 'title',
-          label: __('Title')
+          label: __('Title', 'hds-wp')
         }, {
           value: 'date',
-          label: __('Date')
+          label: __('Date', 'hds-wp')
         }]
       }, props)), settingsSummaryList(props));
     };
@@ -1073,7 +1073,7 @@ function hdsIcons(name) {
   function settingsSummaryList(props) {
     var _props$attributes$ter, _props$attributes$ord, _props$attributes$ord2;
 
-    return createElement('div', useBlockProps(), createElement('h2', {}, __('Media List')), createElement('ul', {}, listItem(__("Term: ".concat((_props$attributes$ter = props.attributes.termName) !== null && _props$attributes$ter !== void 0 ? _props$attributes$ter : ''))), listItem(__("Order: ".concat((_props$attributes$ord = props.attributes.order) !== null && _props$attributes$ord !== void 0 ? _props$attributes$ord : ''))), listItem(__("Order by: ".concat((_props$attributes$ord2 = props.attributes.orderBy) !== null && _props$attributes$ord2 !== void 0 ? _props$attributes$ord2 : '')))));
+    return createElement('div', useBlockProps(), createElement('h2', {}, __('Media List', 'hds-wp')), createElement('ul', {}, listItem(__("Term: ".concat((_props$attributes$ter = props.attributes.termName) !== null && _props$attributes$ter !== void 0 ? _props$attributes$ter : ''))), listItem(__("Order: ".concat((_props$attributes$ord = props.attributes.order) !== null && _props$attributes$ord !== void 0 ? _props$attributes$ord : ''))), listItem(__("Order by: ".concat((_props$attributes$ord2 = props.attributes.orderBy) !== null && _props$attributes$ord2 !== void 0 ? _props$attributes$ord2 : '')))));
   }
 
   function listItem(text) {
@@ -1082,11 +1082,11 @@ function hdsIcons(name) {
 
   registerBlockType('hds-wp/media-list', {
     apiVersion: 2,
-    title: __('Helsinki - Media List'),
-    description: __('List media files from the selected category'),
+    title: __('Helsinki - Media List', 'hds-wp'),
+    description: __('List media files from the selected category', 'hds-wp'),
     category: 'hds-wp',
     icon: 'list-view',
-    keywords: [__('media'), __('list')],
+    keywords: [__('media', 'hds-wp'), __('list', 'hds-wp')],
     supports: {
       html: false,
       anchor: true
@@ -1122,9 +1122,9 @@ wp.domReady(function () {
   wp.blocks.unregisterBlockStyle('core/button', 'fill');
   wp.blocks.registerBlockStyle('core/button', [{
     name: 'secondary',
-    title: 'Secondary'
+    title: wp.i18n.__('Secondary', 'hds-wp')
   }, {
     name: 'supplementary',
-    title: 'Supplementary'
+    title: wp.i18n.__('Supplementary', 'hds-wp')
   }]);
 });

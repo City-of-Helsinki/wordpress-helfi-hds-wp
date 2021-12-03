@@ -25,7 +25,7 @@
 				Fragment, {},
 				hdsInspectorControls(
 					{
-						title: wp.i18n.__('Content'),
+						title: __( 'Content', 'hds-wp' ),
 						initialOpen: false,
 					},
 					hdsContentTitleControl(props),
@@ -82,7 +82,7 @@
 
 	registerBlockType('hds-wp/banner', {
 		apiVersion: 2,
-		title: __( 'Helsinki - Banner' ),
+		title: __( 'Helsinki - Banner', 'hds-wp' ),
 		category: 'hds-wp',
 		icon: 'format-gallery',
 		supports: {

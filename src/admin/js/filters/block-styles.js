@@ -9,11 +9,11 @@ wp.domReady( function () {
   wp.blocks.registerBlockStyle( 'core/button', [
     {
       name: 'secondary',
-      title: 'Secondary',
+      title: wp.i18n.__( 'Secondary', 'hds-wp' ),
     },
     {
       name: 'supplementary',
-      title: 'Supplementary',
+      title: wp.i18n.__( 'Supplementary', 'hds-wp' ),
     }
   ]);
 

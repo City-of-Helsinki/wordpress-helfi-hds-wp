@@ -25,7 +25,7 @@ function hdsMediaRemoveButton(callback) {
 		wp.element.createElement( wp.components.Button, {
 			icon: 'no-alt',
 			isDestructive: true,
-			label: wp.i18n.__('Remove image'),
+			label: wp.i18n.__( 'Remove image', 'hds-wp' ),
 			onClick: callback,
 		})
 	);
@@ -34,7 +34,7 @@ function hdsMediaRemoveButton(callback) {
 function hdsAlignLeftButton(callback) {
 	return wp.element.createElement( wp.components.ToolbarButton, {
 		icon: 'align-pull-left',
-		label: wp.i18n.__('Align Left'),
+		label: wp.i18n.__( 'Align Left', 'hds-wp'),
 		onClick: callback,
 	});
 }
@@ -42,7 +42,7 @@ function hdsAlignLeftButton(callback) {
 function hdsAlignRightButton(callback) {
 	return wp.element.createElement( wp.components.ToolbarButton, {
 		icon: 'align-pull-right',
-		label: wp.i18n.__('Align Right'),
+		label: wp.i18n.__( 'Align Right', 'hds-wp' ),
 		onClick: callback,
 	});
 }
@@ -114,7 +114,7 @@ function hdsPanelRow(config, ...children) {
 
 function hdsContentTitleControl(props) {
 	return hdsTextControl({
-		label: wp.i18n.__('Title'),
+		label: wp.i18n.__( 'Title', 'hds-wp' ),
 		value: props.attributes.contentTitle,
 		attribute: 'contentTitle',
 	}, props);
@@ -130,7 +130,7 @@ function hdsContentTitle(props) {
 
 function hdsContentTextControl(props) {
 	return hdsTextControl({
-		label: wp.i18n.__('Excerpt'),
+		label: wp.i18n.__( 'Excerpt', 'hds-wp' ),
 		value: props.attributes.contentText,
 		attribute: 'contentText',
 	}, props);
@@ -146,7 +146,7 @@ function hdsContentText(props) {
 
 function hdsButtonTextControl(props) {
 	return hdsTextControl({
-		label: wp.i18n.__('Button Text'),
+		label: wp.i18n.__( 'Button Text', 'hds-wp' ),
 		value: props.attributes.buttonText,
 		attribute: 'buttonText',
 	}, props);
@@ -154,7 +154,7 @@ function hdsButtonTextControl(props) {
 
 function hdsButtonUrlControl(props) {
 	return hdsTextControl({
-		label: wp.i18n.__('Button URL'),
+		label: wp.i18n.__( 'Button URL', 'hds-wp' ),
 		type: 'url',
 		value: props.attributes.buttonUrl,
 		attribute: 'buttonUrl',
@@ -163,7 +163,7 @@ function hdsButtonUrlControl(props) {
 
 function hdsExternalUrlControl(props) {
 	return hdsCheckboxControl({
-		label: wp.i18n.__('Is external URL'),
+		label: wp.i18n.__( 'Is external URL', 'hds-wp' ),
 		value: props.attributes.isExternalUrl,
 		attribute: 'isExternalUrl',
 	}, props);
@@ -250,7 +250,7 @@ function hdsIconControl(props) {
 	}
 
 	return hdsSelectControl({
-		label: wp.i18n.__('Icon'),
+		label: wp.i18n.__( 'Icon', 'hds-wp' ),
 		value: props.attributes.contentIcon,
 		attribute: 'contentIcon',
 		options: options

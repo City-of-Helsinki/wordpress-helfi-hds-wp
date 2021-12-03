@@ -19,7 +19,7 @@ return array(
 		),
 		'yoast-seo' => array(
 			'title' => __( 'Yoast SEO', 'hds-wp' ),
-			'description' => __( 'Default configuration meta titles and descriptions, andd custom meta variables.', 'hds-wp' ),
+			'description' => __( 'Default configuration meta titles and descriptions, and custom meta variables.', 'hds-wp' ),
 		),
 	),
 );

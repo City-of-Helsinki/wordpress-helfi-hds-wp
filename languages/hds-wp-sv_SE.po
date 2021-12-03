@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Helsinki Design System for WordPress\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-05 14:10+0000\n"
-"PO-Revision-Date: 2021-11-11 10:40+0000\n"
+"PO-Revision-Date: 2021-12-03 08:58+0000\n"
 "Last-Translator: \n"
 "Language-Team: Swedish\n"
 "Language: sv_SE\n"
@@ -15,10 +15,6 @@ msgstr ""
 "X-Loco-Version: 2.5.3; wp-5.8.1\n"
 "X-Domain: hds-wp"
 
-#: config/settings/links.php:4
-msgid "About HDS"
-msgstr "https://www.artcloud.fi"
-
 #: config/integrations/types.php:7
 msgid "Add Helsinki styling to contact forms."
 msgstr ""
@@ -27,15 +23,27 @@ msgstr ""
 msgid "Add Helsinki styling to cookie notice."
 msgstr ""
 
-#: class/Assets.php:45
-msgid "Adds HDS styles, scripts and fonts to the site."
+#: class/Assets.php:46
+msgid "Adds Helsinki styles, scripts and fonts to the site."
+msgstr ""
+
+#: assets/admin/js/scripts.js:39 src/admin/js/admin.js:37
+msgid "Align Left"
+msgstr ""
+
+#: assets/admin/js/scripts.js:47 src/admin/js/admin.js:45
+msgid "Align Right"
 msgstr ""
 
 #. Author of the plugin
 msgid "ArtCloud"
 msgstr "ArtCloud"
 
-#: class/Assets.php:44
+#: assets/admin/js/scripts.js:1053 src/admin/js/blocks/media-list.js:68
+msgid "Ascending"
+msgstr ""
+
+#: class/Assets.php:45
 msgid "Assets"
 msgstr ""
 
@@ -43,9 +51,21 @@ msgstr ""
 msgid "Blocks"
 msgstr ""
 
-#: integrations/plugins/yoast-seo.php:50
+#: assets/admin/js/scripts.js:142 src/admin/js/admin.js:149
+msgid "Button Text"
+msgstr ""
+
+#: assets/admin/js/scripts.js:150 src/admin/js/admin.js:157
+msgid "Button URL"
+msgstr ""
+
+#: integrations/plugins/yoast-seo.php:57
 msgid "City of Helsinki"
 msgstr "Helsingfors stad"
+
+#: assets/admin/js/scripts.js:446 src/admin/js/blocks/accordion-panel.js:131
+msgid "Close"
+msgstr ""
 
 #: config/integrations/types.php:10
 msgid "Complianz GDPR"
@@ -65,14 +85,32 @@ msgstr "Använda kakor"
 msgid "Contact Form 7"
 msgstr "Contact Form 7"
 
+#: assets/admin/js/scripts.js:571 assets/admin/js/scripts.js:704
+#: assets/admin/js/scripts.js:857 src/admin/js/blocks/banner.js:28
+#: src/admin/js/blocks/image-banner.js:83 src/admin/js/blocks/image-text.js:83
+msgid "Content"
+msgstr ""
+
+#: assets/admin/js/scripts.js:1067 src/admin/js/blocks/media-list.js:78
+msgid "Date"
+msgstr ""
+
 #: config/integrations/types.php:18
 msgid "Default configuration for WP-Matomo plugin."
 msgstr ""
 
 #: config/integrations/types.php:22
 msgid ""
-"Default configuration meta titles and descriptions, andd custom meta "
+"Default configuration meta titles and descriptions, and custom meta "
 "variables."
+msgstr ""
+
+#: assets/admin/js/scripts.js:1056 src/admin/js/blocks/media-list.js:69
+msgid "Descending"
+msgstr ""
+
+#: assets/admin/js/scripts.js:128 src/admin/js/admin.js:133
+msgid "Excerpt"
 msgstr ""
 
 #: config/cpt/post-types.php:7
@@ -99,31 +137,37 @@ msgstr ""
 msgid "Helsinki"
 msgstr "Helsingfors"
 
-#: config/blocks/blocks.php:4
+#: config/blocks/blocks.php:4 assets/admin/js/scripts.js:532
+#: src/admin/js/blocks/accordion.js:50
 msgid "Helsinki - Accordion"
 msgstr ""
 
-#: config/blocks/blocks.php:16
+#: config/blocks/blocks.php:16 assets/admin/js/scripts.js:473
+#: src/admin/js/blocks/accordion-panel.js:176
 msgid "Helsinki - Accordion Panel"
 msgstr ""
 
-#: config/blocks/blocks.php:28
+#: config/blocks/blocks.php:28 assets/admin/js/scripts.js:597
+#: src/admin/js/blocks/banner.js:85
 msgid "Helsinki - Banner"
 msgstr ""
 
-#: config/blocks/blocks.php:64
+#: config/blocks/blocks.php:64 assets/admin/js/scripts.js:875
+#: src/admin/js/blocks/image-text.js:129
 msgid "Helsinki - Image & Text"
 msgstr ""
 
-#: config/blocks/blocks.php:52
+#: config/blocks/blocks.php:52 assets/admin/js/scripts.js:726
+#: src/admin/js/blocks/image-banner.js:135
 msgid "Helsinki - Image Banner"
 msgstr ""
 
-#: config/blocks/blocks.php:76
+#: config/blocks/blocks.php:76 assets/admin/js/scripts.js:1085
+#: src/admin/js/blocks/media-list.js:104
 msgid "Helsinki - Media List"
 msgstr ""
 
-#: config/settings/links.php:9
+#: config/settings/links.php:4
 msgid "Helsinki WordPress portal"
 msgstr ""
 
@@ -135,8 +179,44 @@ msgstr "Helsingfors WP"
 msgid "https://www.artcloud.fi"
 msgstr "https://www.artcloud.fi"
 
+#: assets/admin/js/scripts.js:220 src/admin/js/admin.js:253
+msgid "Icon"
+msgstr ""
+
 #: class/Integrations.php:48
 msgid "Integrations"
+msgstr ""
+
+#: assets/admin/js/scripts.js:159 src/admin/js/admin.js:166
+msgid "Is external URL"
+msgstr ""
+
+#: assets/admin/js/scripts.js:1089 src/admin/js/blocks/media-list.js:108
+msgid "list"
+msgstr ""
+
+#: assets/admin/js/scripts.js:1086 src/admin/js/blocks/media-list.js:105
+msgid "List media files from the selected category"
+msgstr ""
+
+#: assets/admin/js/scripts.js:1089 src/admin/js/blocks/media-list.js:108
+msgid "media"
+msgstr ""
+
+#: assets/admin/js/scripts.js:1076 src/admin/js/blocks/media-list.js:89
+msgid "Media List"
+msgstr ""
+
+#: assets/admin/js/scripts.js:1059 src/admin/js/blocks/media-list.js:73
+msgid "Order by"
+msgstr ""
+
+#: assets/admin/js/scripts.js:483 src/admin/js/blocks/accordion-panel.js:186
+msgid "Panel"
+msgstr ""
+
+#: assets/admin/js/scripts.js:388 src/admin/js/blocks/accordion-panel.js:50
+msgid "Panel Title"
 msgstr ""
 
 #: class/Cpt.php:29
@@ -145,16 +225,39 @@ msgstr ""
 
 #. Description of the plugin
 msgid ""
-"Provides common Helsinki styles, assets and blocks, and itegrations to "
+"Provides common Helsinki styles, assets and blocks, and integrations to "
 "Helsinki APIs and various plugins."
+msgstr ""
+
+#: assets/admin/js/scripts.js:31 src/admin/js/admin.js:28
+msgid "Remove image"
 msgstr ""
 
 #: views/settings/form.php:6
 msgid "Save settings"
 msgstr ""
 
-#: class/Settings.php:128
+#: assets/admin/js/scripts.js:1125 src/admin/js/filters/block-styles.js:12
+msgid "Secondary"
+msgstr ""
+
+#: assets/admin/js/scripts.js:1030 src/admin/js/blocks/media-list.js:36
+msgid "Select a category"
+msgstr ""
+
+#: assets/admin/js/scripts.js:664 assets/admin/js/scripts.js:817
+#: src/admin/js/blocks/image-banner.js:27 src/admin/js/blocks/image-text.js:27
+msgid "Select image"
+msgstr ""
+
+#: class/Settings.php:128 assets/admin/js/scripts.js:385
+#: assets/admin/js/scripts.js:1045 src/admin/js/blocks/accordion-panel.js:46
+#: src/admin/js/blocks/media-list.js:55
 msgid "Settings"
+msgstr ""
+
+#: assets/admin/js/scripts.js:1128 src/admin/js/filters/block-styles.js:16
+msgid "Supplementary"
 msgstr ""
 
 #: class/Settings.php:77
@@ -164,13 +267,18 @@ msgid ""
 "compatibility with it."
 msgstr ""
 
+#: assets/admin/js/scripts.js:114 assets/admin/js/scripts.js:1064
+#: src/admin/js/admin.js:117 src/admin/js/blocks/media-list.js:77
+msgid "Title"
+msgstr ""
+
 #: class/Integrations.php:49
 msgid "Use Helsinki settings with plugins and enable available Helsinki APIs."
 msgstr ""
 
 #: widgets/button.php:13
 msgctxt "widget title"
-msgid "HDS Button"
+msgid "Helsinki Button"
 msgstr ""
 
 #: class/Widgets.php:26
@@ -182,7 +290,7 @@ msgstr ""
 msgid "WordPress Helsinki"
 msgstr "WordPress Helsingfors"
 
-#: config/settings/links.php:14
+#: config/settings/links.php:9
 msgid "WordPress User Guides"
 msgstr ""
 

@@ -43,7 +43,7 @@ class Assets extends Module {
 			array(
 				'assets' => array(
 					'title' => __('Assets', 'hds-wp'),
-					'description' => __('Adds HDS styles, scripts and fonts to the site.', 'hds-wp'),
+					'description' => __('Adds Helsinki styles, scripts and fonts to the site.', 'hds-wp'),
 				),
 			)
 		);
@@ -94,7 +94,7 @@ class Assets extends Module {
 
 	public function adminScripts( string $hook ) {
 		wp_enqueue_script(
-			'hds-wp-admin-scripts',
+			'helsinki-wp-admin-scripts',
 			$this->assetUrl('admin', 'scripts', $this->minified, 'js'),
 			apply_filters( 'hds_wp_admin_scripts_dependencies', array() ),
 			$this->assetVersion( $this->assetPath('admin', 'scripts', $this->minified, 'js') ),
@@ -104,7 +104,7 @@ class Assets extends Module {
 
 	public function adminStyles( string $hook ) {
 		wp_enqueue_style(
-			'hds-wp-admin-styles',
+			'helsinki-wp-admin-styles',
 			$this->assetUrl('admin', 'styles', $this->minified, 'css'),
 			apply_filters( 'hds_wp_admin_styles_dependencies', array() ),
 			$this->assetVersion( $this->assetPath('admin', 'styles', $this->minified, 'css') ),
@@ -114,7 +114,7 @@ class Assets extends Module {
 
 	public function publicScripts() {
 		wp_enqueue_script(
-			'hds-wp-scripts',
+			'helsinki-wp-scripts',
 			$this->assetUrl('public', 'scripts', $this->minified, 'js'),
 			apply_filters( 'hds_wp_scripts_dependencies', array() ),
 			$this->assetVersion( $this->assetPath('public', 'scripts', $this->minified, 'js') ),
@@ -124,7 +124,7 @@ class Assets extends Module {
 
 	public function publicStyles() {
 		wp_enqueue_style(
-			'hds-wp-styles',
+			'helsinki-wp-styles',
 			$this->assetUrl('public', 'styles', $this->minified, 'css'),
 			apply_filters( 'hds_wp_styles_dependencies', array( 'wp-block-library' ) ),
 			$this->assetVersion( $this->assetPath('public', 'styles', $this->minified, 'css') ),
@@ -134,7 +134,7 @@ class Assets extends Module {
 
 	public function fonts() {
 		wp_enqueue_style(
-			'hds-wp-fonts',
+			'helsinki-wp-fonts',
 			$this->assetUrl('fonts', 'styles', $this->minified, 'css'),
 			apply_filters( 'hds_wp_fonts_dependencies', array() ),
 			$this->assetVersion( $this->assetPath('fonts', 'styles', $this->minified, 'css') ),
