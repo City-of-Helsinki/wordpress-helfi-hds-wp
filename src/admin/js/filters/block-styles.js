@@ -17,4 +17,15 @@ wp.domReady( function () {
     }
   ]);
 
+  /**
+    * Text
+    */
+  const withBackgroundStyle = [ 'core/group', 'core/paragraph' ];
+  for ( let i = 0; i < withBackgroundStyle.length; i++ ) {
+    wp.blocks.registerBlockStyle( withBackgroundStyle[i], [{
+      name: 'light-gray-background',
+      title: wp.i18n.__( 'Light Gray Background', 'hds-wp' ),
+    }]);
+  }
+
 } );

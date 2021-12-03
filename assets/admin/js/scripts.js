@@ -1127,4 +1127,16 @@ wp.domReady(function () {
     name: 'supplementary',
     title: wp.i18n.__('Supplementary', 'hds-wp')
   }]);
+  /**
+    * Text
+    */
+
+  var withBackgroundStyle = ['core/group', 'core/paragraph'];
+
+  for (var i = 0; i < withBackgroundStyle.length; i++) {
+    wp.blocks.registerBlockStyle(withBackgroundStyle[i], [{
+      name: 'light-gray-background',
+      title: wp.i18n.__('Light Gray Background', 'hds-wp')
+    }]);
+  }
 });
