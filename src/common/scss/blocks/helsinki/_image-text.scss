@@ -7,18 +7,17 @@
 	.image {
 		background-color: $white;
 		position: relative;
-		padding-top: 56.25%;
+		padding-top: 64%;
 		overflow: hidden;
+    transition: $default-transition;
 		width: calc(100% - 2rem);
 
 		img {
+      @include absoluteCenter();
 			display: block;
-			position: absolute;
-			top: 50%;
-			transform: translateY(-50%);
-			left: 0;
-			width: 100%;
-			height: auto;
+			width: auto;
+      max-width: unset;
+			height: 100%;
 		}
 
 		.placeholder {
@@ -30,6 +29,22 @@
 			width: 100%;
 			height: 100%;
 		}
+
+    @include breakpoint('m') {
+      padding-top: 424px;
+      max-width: 640px;
+    }
+
+    @include breakpoint('l') {
+      padding-top: 461px;
+      max-width: 713px;
+    }
+
+    @include breakpoint('xl') {
+      padding-top: 578px;
+      max-width: 893px;
+    }
+
 	}
 
 	.content {
@@ -38,14 +53,11 @@
 		align-items: flex-start;
 		justify-content: center;
 		flex-direction: column;
-		padding: 2rem;
+		padding: spacing('l') spacing('m');
 		position: relative;
 		margin-top: -2rem;
+    transition: $default-transition;
 		width: calc(100% - 2rem);
-
-		* {
-			margin: 0 0 1rem;
-		}
 
 		:last-child {
 			margin-bottom: 0;
@@ -53,6 +65,7 @@
 
 		.content__heading {
 			font-size: rem-calc(24);
+      margin: 0;
 
 			@include breakpoint('m') {
 				font-size: rem-calc(32);
@@ -61,39 +74,35 @@
 
 		.content__text {
 			font-size: rem-calc(18);
+      margin: spacing('s') 0 0;
 
 			@include breakpoint('m') {
 				font-size: rem-calc(20);
 			}
 		}
 
-		.content__link {}
-	}
+		.content__link {
+      margin: spacing('m') 0 0;
+    }
 
-	$hasColors: (
-		"primary": var(--primary-color),
-		"light": var(--primary-color-light),
-		"black": $black,
-		"white": $white,
-		"light-gray": $light-gray,
-	);
+    @include breakpoint('m') {
+      padding: rem-calc(42) rem-calc(32);
+      max-width: 645px;
+    }
 
-	@each $name, $color in $hasColors {
-		&.has-#{"" + $name}-background-color {
-			.content {
-				background-color: $color;
-			}
-		}
+    @include breakpoint('l') {
+      position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			margin: 0;
+      padding: rem-calc(48) rem-calc(32);
+      max-width: 460px;
+    }
 
-		&.has-#{"" + $name}-color {
-			.content {
-				color: $color;
-
-				* {
-					color: inherit;
-				}
-			}
-		}
+    @include breakpoint('xl') {
+      padding: rem-calc(86) rem-calc(32);
+      max-width: 464px;
+    }
 	}
 
 	&.align-left {
@@ -116,29 +125,7 @@
 		}
 	}
 
-	@include breakpoint('m') {
-		.image {
-			width: 83%;
-		}
-
-		.content {
-			width: 83%;
-		}
-	}
-
 	@include breakpoint('l') {
-		.image {
-			width: 70%;
-		}
-
-		.content {
-			position: absolute;
-			top: 50%;
-			transform: translateY(-50%);
-			height: 70%;
-			width: 48%;
-			margin: 0;
-		}
 
 		&.align-left {
 			.content {
@@ -153,10 +140,6 @@
 				right: 0;
 			}
 		}
-	}
-
-	@include breakpoint('xl') {
-		.content {}
 	}
 
 }
