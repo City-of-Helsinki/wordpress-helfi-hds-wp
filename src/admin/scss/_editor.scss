@@ -1,9 +1,4 @@
 body.wp-admin {
-  font-family: $body-font-family;
-
-  h1, h2, h3, h4, h5, h6 {
-    font-weight: $heading-font-weight;
-  }
 
 	.wp-block-hds-wp-image-banner {
 		max-width: 100%;
@@ -33,11 +28,6 @@ body.wp-admin {
 }
 
 .editor-styles-wrapper {
-  font-family: $body-font-family;
-
-  h1, h2, h3, h4, h5, h6 {
-    font-weight: $heading-font-weight;
-  }
 
   .wp-block {
     margin-left: auto;

@@ -3,7 +3,7 @@
 /* ========== COLORS ========== */
 
 /* ===== BASE ===== */
-$black: var(--color-black) !default;
+$black: #1a1a1a !default;
 $white: var(--color-white) !default;
 
 $light-gray: var(--color-silver-light) !default;
@@ -77,8 +77,8 @@ $button-font-weight: $global-font-weight-bold !default;
 
 /* ===== HEADINGS ===== */
 $heading-font-sizes: (
-	h1: 52px,
-	h2: 36px,
+	h1: 40px,
+	h2: 32px,
 	h3: 24px,
 	h4: 20px,
 	h5: 18px,
@@ -87,12 +87,12 @@ $heading-font-sizes: (
 
 $heading-responsive-font-sizes: (
 	l: (
-		h1: 72px,
-		h2: 52px,
-		h3: 36px,
+		h1: 64px,
+		h2: 48px,
+		h3: 32px,
 		h4: 24px,
 		h5: 20px,
-		h6: 16px,
+		h6: 18px,
 	),
 ) !default;
 
