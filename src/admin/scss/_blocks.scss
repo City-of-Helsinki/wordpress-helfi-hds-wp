@@ -1,0 +1,45 @@
+.wp-block-hds-wp-accordion {
+
+  .accordion__title {
+    font-size: rem-calc(20);
+    margin: 0;
+
+    @include breakpoint('m') {
+      font-size: rem-calc(24);
+    }
+
+    @include breakpoint('l') {
+      font-size: rem-calc(36);
+    }
+  }
+
+}
+
+.wp-block-hds-wp-media-list {
+  background-color: $light-gray;
+  padding: $global-padding;
+  margin-bottom: $global-margin;
+
+  h2 {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  ul {
+    margin: 0;
+  }
+}
+
+.wpra-gutenberg-block {
+
+  .grid {
+    display: flex;
+    justify-content: space-between;
+
+    .grid__column {
+      width: 48%;
+    }
+  }
+
+}

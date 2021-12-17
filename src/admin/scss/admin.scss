@@ -8,5 +8,13 @@
 @import '../../common/scss/hds/index';
 @import '../../common/scss/blocks/index';
 
-@import 'editor';
-@import 'headings';
+body.wp-admin .editor-styles-wrapper {
+  font-family: $body-font-family;
+
+  @import 'editor';
+  @import 'entry';
+  @import 'headings';
+  @import 'content';
+
+  @import 'blocks';
+}
