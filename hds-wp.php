@@ -164,9 +164,8 @@ function init() {
 	/**
 	  * SVG
 	  */
-	Container::add(
-		'svg',
-		ModuleFactory::module(
+	Svg::instance(
+		ModuleFactory::moduleConfig(
 			'Svg',
 			array(),
 			array(

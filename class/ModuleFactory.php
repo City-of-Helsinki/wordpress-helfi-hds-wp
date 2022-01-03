@@ -26,7 +26,7 @@ class ModuleFactory extends Singleton
 		);
 	}
 
-	protected static function moduleConfig( string $name, array $args = array(), array $types = array() )
+	public static function moduleConfig( string $name, array $args = array(), array $types = array() )
 	{
 		if ( $types ) {
 			return new BaseConfig( array_merge(

@@ -1,10 +1,16 @@
 <?php
 namespace ArtCloud\Helsinki\Plugin\HDS;
 
-class Svg extends Module {
+class Svg extends Singleton {
 
-	public function logo( string $name = 'default' ) {
-		$path = $this->config->value( 'logos', $name );
+	static $config;
+
+	protected function __construct( $config ) {
+		static::$config = $config;
+	}
+
+	public static function logo( string $name = 'default' ) {
+		$path = static::$config->value( 'logos', $name );
 
 		$viewboxes = array(
 			'default' => '0 0 78 36',
@@ -21,8 +27,8 @@ class Svg extends Module {
 		) : '';
 	}
 
-	public function koros( string $name, string $id, array $size = array() ) {
-		$path = $this->config->value( 'koros', $name );
+	public static function koros( string $name, string $id, array $size = array() ) {
+		$path = static::$config->value( 'koros', $name );
 		$size = wp_parse_args(
 			$size,
 			array(
@@ -50,8 +56,8 @@ class Svg extends Module {
 		) : '';
 	}
 
-	public function icon( string $type, string $name ) {
-		$path = $this->config->value( $type, $name );
+	public static function icon( string $type, string $name ) {
+		$path = static::$config->value( $type, $name );
 		return $path ? sprintf(
 			'<svg class="icon icon--%s icon--%s" viewBox="%s" aria-hidden="true" tabindex="-1">
 				<path d="%s"></path>
@@ -63,8 +69,8 @@ class Svg extends Module {
 		) : '';
 	}
 
-	public function placeholder( string $name ) {
-		$path = $this->config->value( 'placeholder', $name );
+	public static function placeholder( string $name ) {
+		$path = static::$config->value( 'placeholder', $name );
 		return $path ? sprintf(
 			'<svg class="icon icon--%s" viewBox="%s" aria-hidden="true" tabindex="-1">
 				<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
