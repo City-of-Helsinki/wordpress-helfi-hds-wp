@@ -59,7 +59,7 @@ class Svg extends Singleton {
 	public static function icon( string $type, string $name ) {
 		$path = static::$config->value( $type, $name );
 		return $path ? sprintf(
-			'<svg class="icon icon--%s icon--%s" viewBox="%s" aria-hidden="true" tabindex="-1">
+			'<svg class="icon icon--%s icon--%s" viewBox="%s" aria-hidden="true">
 				<path d="%s"></path>
 			</svg>',
 			esc_attr( $type ),
@@ -72,7 +72,7 @@ class Svg extends Singleton {
 	public static function placeholder( string $name ) {
 		$path = static::$config->value( 'placeholder', $name );
 		return $path ? sprintf(
-			'<svg class="icon icon--%s" viewBox="%s" aria-hidden="true" tabindex="-1">
+			'<svg class="icon icon--%s" viewBox="%s" aria-hidden="true">
 				<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
 					<path d="%s" fill-rule="nonzero"></path>
 				</g>

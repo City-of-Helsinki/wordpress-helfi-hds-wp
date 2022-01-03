@@ -132,8 +132,12 @@ return array(
 			'wp-data',
 			'wp-server-side-render',
 		),
-		'render_callback' => 'hds_wp_render_block_links',
+		'render_callback' => 'hds_wp_render_block_links_list',
 		'attributes' => array(
+			'columns' => array(
+	            'type'    => 'integer',
+	            'default' => 3,
+	        ),
 	        'hasBackground' => array(
 	            'type'    => 'boolean',
 	            'default' => false,

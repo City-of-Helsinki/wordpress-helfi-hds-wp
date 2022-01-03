@@ -13,7 +13,7 @@ function hds_wp_render_block_content_cards( $attributes ) {
 		return;
 	}
 
-	$posts = hds_wp_content_cards_posts( $attributes['cards'] );
+	$posts = hds_wp_query_block_post_ids( $attributes['cards'] );
 	if ( ! $posts ) {
 		return;
 	}
@@ -104,7 +104,7 @@ function hds_wp_content_card_html( WP_Post $post ) {
 	);
 }
 
-function hds_wp_content_cards_posts( array $posts ) {
+function hds_wp_query_block_post_ids( array $posts ) {
 	$query = new WP_Query( array(
 		'post_status' => 'publish',
 		'post_type' => array( 'post', 'page' ),
@@ -113,6 +113,207 @@ function hds_wp_content_cards_posts( array $posts ) {
 		'update_post_term_cache' => false,
 	) );
 	return $query->posts;
+}
+
+/**
+  * Helsinki - Links
+  */
+function hds_wp_render_block_links_list( $attributes ) {
+	if (
+		empty( $attributes['links'] ) ||
+		! is_array( $attributes['links'] )
+	) {
+		return;
+	}
+
+	$linkType = $attributes['linkType'] ?? '';
+	switch ( $linkType ) {
+		case 'title-excerpt':
+			$links = array_map(
+				'hds_wp_render_link_with_title_excerpt',
+				$attributes['links']
+			);
+			break;
+
+		case 'image-title':
+			$links = hds_wp_links_list_link_posts( $attributes['links'] );
+			break;
+
+		default:
+			$links = array_map(
+				'hds_wp_render_link_with_title',
+				$attributes['links']
+			);
+			break;
+	}
+
+	$links = array_filter( $links );
+	if ( ! $links ) {
+		return;
+	}
+
+	$wrapClasses = array( 'links-list' );
+	$decoration = '';
+	if ( ! empty( $attributes['hasBackground'] ) ) {
+		$wrapClasses[] = 'has-background';
+		$decoration = sprintf(
+			'<div class="links-list__decoration">%s</div>',
+			Svg::placeholder(apply_filters(
+				'hds_wp_links_list_decoration',
+				'abstract-7'
+			))
+		);
+	}
+
+	$title = '';
+	if ( ! empty( $attributes['title'] ) ) {
+		$title = sprintf(
+			'<h2 class="links-list__title">%s</h2>',
+			esc_html( $attributes['title'] )
+		);
+	}
+
+	$gridClasses = array(
+		'links-list__links',
+		'links-list__links--' . $linkType,
+		'links-list__links--' . $attributes['columns'],
+	);
+
+	return sprintf(
+		'<div class="%s">
+			<div class="hds-container">
+				%s%s
+				<ul class="%s">%s</ul>
+			</div>
+		</div>',
+		implode( ' ', $wrapClasses ),
+		$decoration,
+		$title,
+		implode( ' ', $gridClasses ),
+		implode( '', $links )
+	);
+}
+
+function hds_wp_links_list_link_posts( array $links ) {
+	$post_links = array();
+	$post_ids = array();
+
+	foreach ( $links as $link ) {
+		if ( empty( $link['postId'] ) ) {
+			continue;
+		}
+		$link['linkUrl'] = '';
+		$post_links[$link['postId']] = $link;
+		$post_ids[] = $link['postId'];
+	}
+
+	$posts = hds_wp_query_block_post_ids( $post_ids );
+	if ( $posts ) {
+		foreach ( $posts as $post ) {
+			$post_links[$post->ID]['linkTitle'] = $post->post_title;
+			$post_links[$post->ID]['linkUrl'] = get_permalink( $post );
+			$post_links[$post->ID]['thumbnail'] = get_the_post_thumbnail( $post, 'medium' );
+		}
+
+		return array_map(
+			'hds_wp_render_link_with_image_title',
+			$post_links
+		);
+	}
+
+	return array();
+}
+
+function hds_wp_render_links_list_item( string $link ) {
+	return '<li class="links-list__item">' . $link . '</li>';
+}
+
+function hds_wp_render_link_icon( bool $external ) {
+	if ( $external ) {
+		return Svg::icon( 'forms-data', 'link-external' );
+	} else {
+		return Svg::icon( 'arrows-operators', 'arrow-right' );
+	}
+}
+
+function hds_wp_render_link_with_title( array $link ) {
+	if ( empty( $link['linkTitle'] ) || empty( $link['linkUrl'] ) ) {
+		return;
+	}
+
+	return hds_wp_render_links_list_item(
+		sprintf(
+			'<a %s>
+				<h3 class="link___title"><span>%s</span>%s</h3>
+			</a>',
+			hds_links_list_link_attributes( $link ),
+			esc_html( $link['linkTitle'] ),
+			hds_wp_render_link_icon( ! empty( $link['targetBlank'] ) )
+		)
+	);
+}
+
+function hds_wp_render_link_with_title_excerpt( array $link ) {
+	if ( empty( $link['linkTitle'] ) || empty( $link['linkUrl'] ) ) {
+		return;
+	}
+
+	$excerpt = ! empty( $link['linkExcerpt'] ) ? sprintf(
+		'<p class="link__excerpt">%s</p>',
+		esc_html( $link['linkExcerpt'] )
+	) : '';
+
+	return hds_wp_render_links_list_item(
+		sprintf(
+			'<a %s>
+				<h3 class="link___title"><span>%s</span>%s</h3>
+				%s
+			</a>',
+			hds_links_list_link_attributes( $link ),
+			esc_html( $link['linkTitle'] ),
+			hds_wp_render_link_icon( ! empty( $link['targetBlank'] ) ),
+			$excerpt
+		)
+	);
+}
+
+function hds_wp_render_link_with_image_title( array $link ) {
+	if ( empty( $link['linkTitle'] ) || empty( $link['linkUrl'] ) ) {
+		return;
+	}
+
+	$has_placeholder = empty( $link['thumbnail'] );
+	return hds_wp_render_links_list_item(
+		sprintf(
+			'<a %s>
+				<div class="link__thumbnail%s">%s</div>
+				<h3 class="link___title"><span>%s</span>%s</h3>
+			</a>',
+			hds_links_list_link_attributes( $link ),
+			$has_placeholder ? ' has-placeholder' : '',
+			$link['thumbnail'] ? $link['thumbnail'] : Svg::placeholder(
+				apply_filters(
+					'hds_wp_links_list_item_placeholder_icon',
+					'abstract-3'
+				)
+			),
+			esc_html( $link['linkTitle'] ),
+			hds_wp_render_link_icon( false )
+		)
+	);
+}
+
+function hds_links_list_link_attributes( array $link ) {
+	$attributes = array(
+		'class="link"',
+		'href="' . esc_url( $link['linkUrl'] ) . '"'
+	);
+
+	if ( ! empty( $link['targetBlank'] ) ) {
+		$attributes[] = 'target="_blank"';
+	}
+
+	return implode( ' ', $attributes );
 }
 
 /**

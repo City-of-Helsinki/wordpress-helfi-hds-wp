@@ -16,6 +16,14 @@
     ];
   }
 
+  function columnCountOptions() {
+    return [
+      {label: 2 + ' ' + __( 'Columns', 'hds-wp' ), value: 2},
+      {label: 3 + ' ' + __( 'Columns', 'hds-wp' ), value: 3},
+      {label: 4 + ' ' + __( 'Columns', 'hds-wp' ), value: 4},
+    ];
+  }
+
   function inspectorControls(props) {
     return hdsInspectorControls(
       {
@@ -32,6 +40,12 @@
         value: props.attributes.linkType,
         attribute: 'linkType',
         options: linkTypeOptions()
+      }, props),
+      hdsSelectControl({
+        label: __( 'Column count', 'hds-wp' ),
+        value: props.attributes.columns,
+        attribute: 'columns',
+        options: columnCountOptions()
       }, props),
       hdsCheckboxControl({
         label: __( 'Has background', 'hds-wp' ),
@@ -88,7 +102,7 @@
         blockAttributes.links = select('core/block-editor')
           .getBlocks( props.clientId )
           .map(function(block){
-            return block.attributes.postId;
+            return block.attributes;
           });
 
         content = createElement( wp.serverSideRender, {
@@ -121,6 +135,10 @@
 			anchor: true,
 		},
 		attributes: {
+      columns: {
+        type: 'number',
+				default: 3,
+      },
       hasBackground: {
 				type: 'boolean',
 				default: false,

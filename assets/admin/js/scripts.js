@@ -162,6 +162,14 @@ function hdsExternalUrlControl(props) {
   }, props);
 }
 
+function hdsTargetBlankControl(props) {
+  return hdsCheckboxControl({
+    label: wp.i18n.__('Open in new window', 'hds-wp'),
+    value: props.attributes.targetBlank,
+    attribute: 'targetBlank'
+  }, props);
+}
+
 function hdsContentButton(props, config, icon) {
   return props.attributes.buttonText && props.attributes.buttonUrl ? wp.element.createElement('a', config, wp.element.createElement(wp.element.Fragment, {}, props.attributes.buttonText, icon ? icon : null)) : '';
 }
@@ -334,9 +342,6 @@ function hdsWithSearchPosts(control) {
 }
 
 function hdsSearchPostsTextControl() {
-  var isSearching = false,
-      isRateLimited = false;
-
   function populateFoundPosts(posts, props) {
     var foundPostsList = document.getElementById('found-posts');
     clearFoundPosts(foundPostsList);
@@ -385,19 +390,11 @@ function hdsSearchPostsTextControl() {
           search: text
         });
 
-        if (isSearching || isRateLimited || text.length < 3) {
-          return;
+        if (text.length >= 3) {
+          props.searchPosts(text).then(function (posts) {
+            populateFoundPosts(posts, props);
+          });
         }
-
-        isSearching = true;
-        isRateLimited = true;
-        props.searchPosts(text).then(function (posts) {
-          isSearching = false;
-          populateFoundPosts(posts, props);
-          setTimeout(function () {
-            isRateLimited = false;
-          }, 2000);
-        });
       }
     }), FoundPosts));
   });
@@ -453,33 +450,6 @@ function hdsIcons(name) {
   };
   return name ? icons[name] : icons;
 }
-
-wp.domReady(function () {
-  /**
-    * Buttons
-    */
-  wp.blocks.unregisterBlockStyle('core/button', 'outline');
-  wp.blocks.unregisterBlockStyle('core/button', 'fill');
-  wp.blocks.registerBlockStyle('core/button', [{
-    name: 'secondary',
-    title: wp.i18n.__('Secondary', 'hds-wp')
-  }, {
-    name: 'supplementary',
-    title: wp.i18n.__('Supplementary', 'hds-wp')
-  }]);
-  /**
-    * Text
-    */
-
-  var withBackgroundStyle = ['core/group', 'core/paragraph'];
-
-  for (var i = 0; i < withBackgroundStyle.length; i++) {
-    wp.blocks.registerBlockStyle(withBackgroundStyle[i], [{
-      name: 'light-gray-background',
-      title: wp.i18n.__('Light Gray Background', 'hds-wp')
-    }]);
-  }
-});
 
 (function (wp) {
   var __ = wp.i18n.__;
@@ -1298,130 +1268,78 @@ wp.domReady(function () {
       Button = _wp$components8.Button,
       TextControl = _wp$components8.TextControl,
       SelectControl = _wp$components8.SelectControl;
-  var FoundPosts = createElement('div', {
-    id: 'found-posts-wrap'
-  }, createElement('ul', {
-    id: 'found-posts'
-  }));
-  var PostTypeSelect = compose(withSelect(function (select, props) {
-    return {
-      postTypes: select('core').getPostTypes()
-    };
-  }))(function (props) {
-    var options = [];
 
-    if (props.postTypes) {
-      options = props.postTypes.filter(function (postType) {
-        return postType.slug === 'page' || postType.slug === 'post';
-      }).map(function (postType) {
-        return {
-          label: postType.labels.singular_name,
-          value: postType.slug
-        };
-      });
-    } else {
-      options = [{
-        label: '--',
-        value: ''
-      }];
+  function titleText(props) {
+    return hdsTextControl({
+      label: wp.i18n.__('Title', 'hds-wp'),
+      value: props.attributes.linkTitle,
+      attribute: 'linkTitle'
+    }, props);
+  }
+
+  function excerptText(props) {
+    return hdsTextControl({
+      label: wp.i18n.__('Excerpt', 'hds-wp'),
+      value: props.attributes.linkExcerpt,
+      attribute: 'linkExcerpt'
+    }, props);
+  }
+
+  function urlText(props) {
+    return hdsTextControl({
+      label: wp.i18n.__('URL', 'hds-wp'),
+      value: props.attributes.linkUrl,
+      attribute: 'linkUrl'
+    }, props);
+  }
+
+  function panelControls(linkType, props) {
+    var controls = [];
+
+    switch (linkType) {
+      case 'title':
+        controls.push(titleText);
+        controls.push(urlText);
+        controls.push(hdsExternalUrlControl);
+        controls.push(hdsTargetBlankControl);
+        break;
+
+      case 'title-excerpt':
+        controls.push(titleText);
+        controls.push(excerptText);
+        controls.push(urlText);
+        controls.push(hdsExternalUrlControl);
+        controls.push(hdsTargetBlankControl);
+        break;
+
+      case 'image-title':
+        controls.push(titleText);
+        controls.push(hdsWithPostTypeSelectControl());
+        controls.push(hdsSearchPostsTextControl());
+        controls.push(hdsTargetBlankControl);
+        break;
     }
 
-    return createElement(SelectControl, {
-      label: __('Post type', 'hds-wp'),
-      value: props.attributes.postType,
-      options: options,
-      onChange: function onChange(selected) {
-        props.setAttributes({
-          postType: selected
-        });
-      }
-    });
-  });
-  var isSearching = false,
-      isRateLimited = false;
-
-  function searchPosts(postType, searchInput) {
-    var url = '/wp/v2/' + postType + 's?',
-        params = ['status=publish', 'per_page=100', 'search=' + searchInput];
-    return apiFetch({
-      path: url + params.join('&')
-    });
-  }
-
-  var PostSearch = function PostSearch(props) {
-    return createElement(TextControl, {
-      label: __('Search post by title', 'hds-wp'),
-      value: props.attributes.search,
-      attribute: 'linkTitle',
-      onChange: function onChange(text) {
-        props.setAttributes({
-          search: text
-        });
-
-        if (isSearching || isRateLimited || text.length < 3) {
-          return;
-        }
-
-        isSearching = true;
-        isRateLimited = true;
-        searchPosts(props.attributes.postType, text).then(function (posts) {
-          isSearching = false;
-          populateFoundPosts(posts, props);
-          setTimeout(function () {
-            isRateLimited = false;
-          }, 2000);
-        });
-      }
-    });
-  };
-
-  function populateFoundPosts(posts, props) {
-    var foundPostsList = document.getElementById('found-posts');
-    clearFoundPosts(foundPostsList);
-
-    var eventCallback = function eventCallback(post) {
-      props.setAttributes({
-        postId: post.id,
-        linkTitle: post.title.rendered
-      });
-    };
-
-    for (var i = 0; i < posts.length; i++) {
-      foundPostsList.appendChild(foundPostListItem(posts[i], eventCallback));
-    }
-  }
-
-  function clearFoundPosts(element) {
-    while (element.firstChild) {
-      element.removeChild(element.firstChild);
-    }
-  }
-
-  function foundPostListItem(post, onClick) {
-    var li = document.createElement('li'),
-        button = document.createElement('button'),
-        span = document.createElement('span');
-    button.type = 'button';
-    button.innerHTML = 'Select';
-    button.addEventListener('click', function (event) {
-      event.preventDefault();
-      onClick(post);
-    });
-    span.innerHTML = post.title.rendered;
-    li.appendChild(span);
-    li.appendChild(button);
-    return li;
-  }
-
-  function panelControls(props) {
     return hdsInspectorControls({
       title: __('Settings', 'hds-wp'),
       initialOpen: false
-    }, hdsPanelRow({}, createElement(PostTypeSelect, props)), hdsPanelRow({}, createElement(PostSearch, props)), hdsPanelRow({}, FoundPosts));
+    }, controls.map(function (control) {
+      return hdsPanelRow({}, createElement(control, props));
+    }));
   }
 
-  function placeholder(props) {
-    return createElement('div', useBlockProps(), createElement('h3', {}, props.attributes.linkTitle ? props.attributes.linkTitle : __('Helsinki - Link', 'hds-wp')));
+  function placeholder(linkType, props) {
+    var title = props.attributes.linkTitle ? props.attributes.linkTitle : __('Helsinki - Link', 'hds-wp');
+
+    if (props.attributes.postTitle) {
+      title = props.attributes.postTitle;
+    }
+
+    if ('image-title' === linkType && !props.attributes.postId) {
+      title = __('Please select a post or page', 'hds-wp');
+    }
+
+    return createElement('div', useBlockProps(), createElement('h3', {}, title));
   }
 
   function getParentBlock(clientId) {
@@ -1431,9 +1349,8 @@ wp.domReady(function () {
 
   function edit() {
     return function (props) {
-      var parent = getParentBlock(props.clientId); // parent.attributes.linkType -> conditional inspectorControls
-
-      return createElement(Fragment, {}, panelControls(props), placeholder(props));
+      var parent = getParentBlock(props.clientId);
+      return createElement(Fragment, {}, panelControls(parent.attributes.linkType, props), placeholder(parent.attributes.linkType, props));
     };
   }
 
@@ -1449,11 +1366,11 @@ wp.domReady(function () {
         type: 'number',
         default: 0
       },
-      mediaId: {
-        type: 'number',
-        default: 0
-      },
       linkTitle: {
+        type: 'string',
+        default: ''
+      },
+      postTitle: {
         type: 'string',
         default: ''
       },
@@ -1465,11 +1382,11 @@ wp.domReady(function () {
         type: 'string',
         default: ''
       },
-      openBlank: {
+      targetBlank: {
         type: 'boolean',
         default: false
       },
-      isExternal: {
+      isExternalUrl: {
         type: 'boolean',
         default: false
       },
@@ -1522,6 +1439,19 @@ wp.domReady(function () {
     }];
   }
 
+  function columnCountOptions() {
+    return [{
+      label: 2 + ' ' + __('Columns', 'hds-wp'),
+      value: 2
+    }, {
+      label: 3 + ' ' + __('Columns', 'hds-wp'),
+      value: 3
+    }, {
+      label: 4 + ' ' + __('Columns', 'hds-wp'),
+      value: 4
+    }];
+  }
+
   function inspectorControls(props) {
     return hdsInspectorControls({
       title: __('Settings', 'hds-wp'),
@@ -1535,6 +1465,11 @@ wp.domReady(function () {
       value: props.attributes.linkType,
       attribute: 'linkType',
       options: linkTypeOptions()
+    }, props), hdsSelectControl({
+      label: __('Column count', 'hds-wp'),
+      value: props.attributes.columns,
+      attribute: 'columns',
+      options: columnCountOptions()
     }, props), hdsCheckboxControl({
       label: __('Has background', 'hds-wp'),
       value: props.attributes.hasBackground,
@@ -1572,7 +1507,7 @@ wp.domReady(function () {
       } else {
         var blockAttributes = props.attributes;
         blockAttributes.links = select('core/block-editor').getBlocks(props.clientId).map(function (block) {
-          return block.attributes.postId;
+          return block.attributes;
         });
         content = createElement(wp.serverSideRender, {
           block: 'hds-wp/links',
@@ -1600,6 +1535,10 @@ wp.domReady(function () {
       anchor: true
     },
     attributes: {
+      columns: {
+        type: 'number',
+        default: 3
+      },
       hasBackground: {
         type: 'boolean',
         default: false
@@ -1757,3 +1696,30 @@ wp.domReady(function () {
     edit: edit()
   });
 })(window.wp);
+
+wp.domReady(function () {
+  /**
+    * Buttons
+    */
+  wp.blocks.unregisterBlockStyle('core/button', 'outline');
+  wp.blocks.unregisterBlockStyle('core/button', 'fill');
+  wp.blocks.registerBlockStyle('core/button', [{
+    name: 'secondary',
+    title: wp.i18n.__('Secondary', 'hds-wp')
+  }, {
+    name: 'supplementary',
+    title: wp.i18n.__('Supplementary', 'hds-wp')
+  }]);
+  /**
+    * Text
+    */
+
+  var withBackgroundStyle = ['core/group', 'core/paragraph'];
+
+  for (var i = 0; i < withBackgroundStyle.length; i++) {
+    wp.blocks.registerBlockStyle(withBackgroundStyle[i], [{
+      name: 'light-gray-background',
+      title: wp.i18n.__('Light Gray Background', 'hds-wp')
+    }]);
+  }
+});

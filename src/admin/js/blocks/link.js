@@ -10,145 +10,77 @@
 	const apiFetch = wp.apiFetch;
 	const { Button, TextControl, SelectControl } = wp.components;
 
-  const FoundPosts = createElement(
-    'div', {id: 'found-posts-wrap'},
-    createElement( 'ul', {id: 'found-posts'} )
-  );
-
-  const PostTypeSelect = compose(withSelect( function(select, props){
-    return {
-      postTypes: select('core').getPostTypes()
-    }
-  }))(function(props){
-    var options = [];
-    if ( props.postTypes ) {
-      options = props.postTypes
-        .filter(function(postType){
-          return postType.slug === 'page' || postType.slug === 'post';
-        })
-        .map(function(postType){
-          return {label: postType.labels.singular_name, value: postType.slug};
-        });
-    } else {
-      options = [{label: '--', value: ''}]
-    }
-
-    return createElement( SelectControl, {
-      label: __( 'Post type', 'hds-wp' ),
-			value: props.attributes.postType,
-      options: options,
-			onChange: function(selected) {
-				props.setAttributes({postType: selected});
-			}
-    });
-  });
-
-  var isSearching = false,
-      isRateLimited = false;
-
-  function searchPosts( postType, searchInput ) {
-    let url = '/wp/v2/' + postType + 's?',
-        params = [
-          'status=publish',
-          'per_page=100',
-          'search=' + searchInput,
-        ];
-
-    return apiFetch({
-      path: url + params.join('&')
-    });
+  function titleText(props) {
+    return hdsTextControl({
+  		label: wp.i18n.__( 'Title', 'hds-wp' ),
+  		value: props.attributes.linkTitle,
+  		attribute: 'linkTitle',
+  	}, props);
   }
 
-  const PostSearch = function(props) {
-    return createElement( TextControl, {
-      label: __( 'Search post by title', 'hds-wp' ),
-      value: props.attributes.search,
-      attribute: 'linkTitle',
-      onChange: function(text) {
-        props.setAttributes({search: text});
+  function excerptText(props) {
+    return hdsTextControl({
+  		label: wp.i18n.__( 'Excerpt', 'hds-wp' ),
+  		value: props.attributes.linkExcerpt,
+  		attribute: 'linkExcerpt',
+  	}, props);
+  }
 
-        if ( isSearching || isRateLimited || text.length < 3 ) {
-          return;
-        }
+  function urlText(props) {
+    return hdsTextControl({
+  		label: wp.i18n.__( 'URL', 'hds-wp' ),
+  		value: props.attributes.linkUrl,
+  		attribute: 'linkUrl',
+  	}, props);
+  }
 
-        isSearching = true;
-        isRateLimited = true;
+	function panelControls(linkType, props) {
+    var controls = [];
+    switch (linkType) {
+      case 'title':
+        controls.push(titleText);
+        controls.push(urlText);
+        controls.push(hdsExternalUrlControl);
+        controls.push(hdsTargetBlankControl);
+        break;
 
-        searchPosts(props.attributes.postType, text).then(function(posts){
-          isSearching = false;
-          populateFoundPosts(posts, props);
-          setTimeout(function() {
-            isRateLimited = false;
-          }, 2000);
-        });
-      }
-    });
-  };
+      case 'title-excerpt':
+        controls.push(titleText);
+        controls.push(excerptText);
+        controls.push(urlText);
+        controls.push(hdsExternalUrlControl);
+        controls.push(hdsTargetBlankControl);
+        break;
 
-  function populateFoundPosts(posts, props) {
-    const foundPostsList = document.getElementById('found-posts');
-
-    clearFoundPosts(foundPostsList);
-
-    var eventCallback = function(post) {
-      props.setAttributes({
-        postId: post.id,
-        linkTitle: post.title.rendered
-      });
-    };
-
-    for (var i = 0; i < posts.length; i++) {
-      foundPostsList.appendChild(
-        foundPostListItem(posts[i], eventCallback)
-      );
+      case 'image-title':
+        controls.push(titleText);
+        controls.push(hdsWithPostTypeSelectControl());
+        controls.push(hdsSearchPostsTextControl());
+        controls.push(hdsTargetBlankControl);
+        break;
     }
-  }
 
-  function clearFoundPosts(element) {
-    while( element.firstChild ) {
-      element.removeChild(
-        element.firstChild
-      );
-    }
-  }
-
-  function foundPostListItem(post, onClick) {
-    var li = document.createElement('li'),
-        button = document.createElement('button'),
-        span = document.createElement('span');
-
-    button.type = 'button';
-    button.innerHTML = 'Select';
-
-    button.addEventListener('click', function(event){
-      event.preventDefault();
-      onClick(post);
-    });
-
-    span.innerHTML = post.title.rendered;
-
-    li.appendChild(span);
-    li.appendChild(button);
-
-    return li;
-  }
-
-	function panelControls(props) {
-		return hdsInspectorControls(
-			{ title: __( 'Settings', 'hds-wp' ), initialOpen: false },
-      hdsPanelRow( {}, createElement( PostTypeSelect, props ) ),
-      hdsPanelRow( {}, createElement( PostSearch, props ) ),
-      hdsPanelRow( {}, FoundPosts )
-		);
+    return hdsInspectorControls(
+      { title: __( 'Settings', 'hds-wp' ), initialOpen: false },
+      controls.map(function(control){
+        return hdsPanelRow({}, createElement(control, props));
+      })
+    );
 	}
 
-  function placeholder(props) {
+  function placeholder(linkType, props) {
+    var title = props.attributes.linkTitle ? props.attributes.linkTitle : __( 'Helsinki - Link', 'hds-wp' );
+    if ( props.attributes.postTitle ) {
+      title = props.attributes.postTitle;
+    }
+
+    if ( 'image-title' === linkType && ! props.attributes.postId ) {
+      title = __( 'Please select a post or page', 'hds-wp' );
+    }
+
     return createElement(
       'div', useBlockProps(),
-      createElement(
-        'h3', {},
-        props.attributes.linkTitle ? props.attributes.linkTitle : __( 'Helsinki - Link', 'hds-wp' )
-      )
+      createElement( 'h3', {}, title )
     );
   }
 
@@ -162,12 +94,10 @@
 	function edit() {
 		return function(props) {
       var parent = getParentBlock(props.clientId);
-      // parent.attributes.linkType -> conditional inspectorControls
-
 			return createElement(
 				Fragment, {},
-				panelControls(props),
-        placeholder(props)
+				panelControls(parent.attributes.linkType, props),
+        placeholder(parent.attributes.linkType, props)
 			);
 		}
 	}
@@ -184,11 +114,11 @@
 				type: 'number',
 				default: 0
 			},
-      mediaId: {
-				type: 'number',
-				default: 0
-			},
 			linkTitle: {
+				type: 'string',
+				default: ''
+			},
+			postTitle: {
 				type: 'string',
 				default: ''
 			},
@@ -200,11 +130,11 @@
 				type: 'string',
 				default: ''
 			},
-			openBlank: {
+			targetBlank: {
 				type: 'boolean',
 				default: false
 			},
-			isExternal: {
+			isExternalUrl: {
 				type: 'boolean',
 				default: false
 			},

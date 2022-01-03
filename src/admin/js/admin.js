@@ -169,6 +169,14 @@ function hdsExternalUrlControl(props) {
 	}, props);
 }
 
+function hdsTargetBlankControl(props) {
+	return hdsCheckboxControl({
+		label: wp.i18n.__( 'Open in new window', 'hds-wp' ),
+		value: props.attributes.targetBlank,
+		attribute: 'targetBlank',
+	}, props);
+}
+
 function hdsContentButton(props, config, icon) {
 	return props.attributes.buttonText && props.attributes.buttonUrl ? wp.element.createElement(
 		'a',
@@ -391,8 +399,6 @@ function hdsWithSearchPosts(control) {
 }
 
 function hdsSearchPostsTextControl() {
-  var isSearching = false,
-      isRateLimited = false
 
   function populateFoundPosts(posts, props) {
     const foundPostsList = document.getElementById('found-posts');
@@ -451,20 +457,11 @@ function hdsSearchPostsTextControl() {
           onChange: function(text) {
             props.setAttributes({search: text});
 
-            if ( isSearching || isRateLimited || text.length < 3 ) {
-              return;
+            if ( text.length >= 3 ) {
+              props.searchPosts(text).then(function(posts){
+                populateFoundPosts(posts, props);
+              });
             }
-
-            isSearching = true;
-            isRateLimited = true;
-
-            props.searchPosts(text).then(function(posts){
-              isSearching = false;
-              populateFoundPosts(posts, props);
-              setTimeout(function() {
-                isRateLimited = false;
-              }, 2000);
-            });
           }
         }),
         FoundPosts
