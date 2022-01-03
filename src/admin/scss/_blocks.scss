@@ -15,6 +15,30 @@
 
 }
 
+.wp-block-hds-wp-content-cards {
+
+  .content-cards__title {
+    margin-top: 0;
+  }
+
+  .content-cards__cards {
+
+    .content-cards__card {
+      border: none;
+      margin-top: 0;
+      padding: 0;
+
+      .card__more {
+        .icon {
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+  }
+
+}
+
 .wp-block-hds-wp-media-list {
   background-color: $light-gray;
   padding: $global-padding;

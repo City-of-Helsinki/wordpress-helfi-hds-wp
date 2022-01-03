@@ -1,5 +1,7 @@
 <?php
 
+use ArtCloud\Helsinki\Plugin\HDS\Svg;
+
 /**
   * Helsinki - Content cards
   */
@@ -17,14 +19,21 @@ function hds_wp_render_block_content_cards( $attributes ) {
 	}
 
 	$wrapClasses = array( 'content-cards' );
+	$koros = '';
 	if ( ! empty( $attributes['hasBackground'] ) ) {
 		$wrapClasses[] = 'has-background';
+		$koros = sprintf(
+			'<div class="content-cards__koros">%s</div>',
+			Svg::koros(
+				apply_filters( 'hds_wp_content_cards_koros', 'basic' ),
+				md5( time() . implode( '', $attributes['cards'] ) )
+			)
+		);
 	}
 
 	$gridClasses = array(
 		'content-cards__cards',
-		'grid',
-		'l-up-' . $attributes['columns'],
+		'content-cards__cards--' . $attributes['columns'],
 	);
 
 	$title = '';
@@ -36,13 +45,14 @@ function hds_wp_render_block_content_cards( $attributes ) {
 	}
 
 	return sprintf(
-		'<div class="%s">%s%s<div class="%s">%s</div></div>',
+		'<div class="%s">%s
+			<div class="hds-container">
+				%s
+				<div class="%s">%s</div>
+			</div>
+		</div>',
 		implode( ' ', $wrapClasses ),
-		apply_filters(
-			'hds_wp_content_cards_decoration',
-			'',
-			$attributes
-		),
+		$koros,
 		$title,
 		implode( ' ', $gridClasses ),
 		implode( '', array_map( 'hds_wp_content_card_html', $posts ) )
@@ -50,24 +60,47 @@ function hds_wp_render_block_content_cards( $attributes ) {
 }
 
 function hds_wp_content_card_html( WP_Post $post ) {
-	return sprintf(
-		'<div class="grid__column">
-			<article class="content-cards__card card">
-				<a class="card__link" href="%s">
-					<div class="card__image">%s</div>
-					<h3 class="card__title">%s</h3>
-					<div class="card__more">%s</div>
-				</a>
-			</article>
-		</div>',
-		esc_url( get_permalink( $post ) ),
-		apply_filters(
-			'hds_wp_content_card_image',
-			get_the_post_thumbnail( $post, 'medium' ),
+	$image = get_the_post_thumbnail( $post, 'medium' );
+	$has_placeholder = false;
+	if ( ! $image ) {
+		$has_placeholder = true;
+		$image = apply_filters(
+			'hds_wp_content_card_placeholder',
+			Svg::placeholder(
+				apply_filters(
+					'hds_wp_content_card_placeholder_icon',
+					'abstract-3'
+				)
+			),
 			$post
-		), // TODO: use svg module, make singleton
-		esc_html( $post->post_title ),
-		apply_filters( 'hds_wp_content_card_icon', '', $post ) // TODO: use svg module, make singleton
+		);
+	}
+
+	$date = 'post' === $post->post_type ? sprintf(
+			'<p class="card__date">%s</p>',
+			get_the_date( '', $post )
+		) : '';
+
+	$parts = array(
+		'image' => sprintf(
+			'<div class="card__image%s">%s</div>',
+			$has_placeholder ? ' has-placeholder' : '',
+			$image
+		),
+		'content_open' => '<div class="card__content">',
+		'title' => '<h3 class="card__title">' . esc_html( $post->post_title ) . '</h3>',
+		'date' => $date,
+		'more' => '<div class="card__more">' . Svg::icon( 'arrows-operators', 'arrow-right' ) . '</div>',
+		'content_close' => '</div>',
+	);
+
+	return sprintf(
+		'<article class="content-cards__card card">
+			<a class="card__link" href="%s" aria-label="%s">%s</a>
+		</article>',
+		esc_url( get_permalink( $post ) ),
+		esc_attr( $post->post_title ),
+		implode( '', $parts )
 	);
 }
 

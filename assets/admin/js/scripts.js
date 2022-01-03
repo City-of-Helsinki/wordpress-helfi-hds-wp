@@ -867,11 +867,6 @@ function hdsIcons(name) {
     }, props));
   }
 
-  function classNamesString(props) {
-    var classNames = ['content-cards', props.attributes.hasBackground ? 'has-background' : ''];
-    return classNames.join(' ');
-  }
-
   function title(props) {
     if (!props.attributes.title) {
       return;
