@@ -335,3 +335,140 @@ function hdsArrowIcon() {
 		})
 	);
 }
+
+function hdsWithPostTypeSelectControl() {
+  return wp.compose.compose(
+    wp.data.withSelect(function(select, props){
+      return {
+        postTypes: select('core').getPostTypes()
+      }
+    })
+  )(function(props){
+    var options = [];
+    if ( props.postTypes ) {
+      options = props.postTypes
+        .filter(function(postType){
+          return postType.slug === 'page' || postType.slug === 'post';
+        })
+        .map(function(postType){
+          return {label: postType.labels.singular_name, value: postType.slug};
+        });
+    } else {
+      options = [{label: '--', value: ''}]
+    }
+
+    return wp.element.createElement( wp.components.SelectControl, {
+      label: wp.i18n.__( 'Post type', 'hds-wp' ),
+			value: props.attributes.postType,
+      options: options,
+			onChange: function(selected) {
+				props.setAttributes({postType: selected});
+			}
+    });
+  });
+}
+
+function hdsWithSearchPosts(control) {
+  return wp.compose.compose(
+    wp.data.withSelect(function(select, props){
+      return {
+        searchPosts: function(searchInput) {
+          let postType = props.attributes.postType ? props.attributes.postType : 'post',
+              url = '/wp/v2/' + postType + 's?',
+              params = [
+                'status=publish',
+                'per_page=100',
+                'search=' + searchInput,
+              ];
+
+          return wp.apiFetch({
+            path: url + params.join('&')
+          });
+        },
+      }
+    })
+  )(control);
+}
+
+function hdsSearchPostsTextControl() {
+  var isSearching = false,
+      isRateLimited = false
+
+  function populateFoundPosts(posts, props) {
+    const foundPostsList = document.getElementById('found-posts');
+
+    clearFoundPosts(foundPostsList);
+
+    for (var i = 0; i < posts.length; i++) {
+      foundPostsList.appendChild(
+        foundPostListItem(posts[i], function(post) {
+          props.setAttributes({
+            postId: post.id,
+            postTitle: post.title.rendered
+          });
+        })
+      );
+    }
+  }
+
+  function clearFoundPosts(element) {
+    while( element.firstChild ) {
+      element.removeChild(
+        element.firstChild
+      );
+    }
+  }
+
+  function foundPostListItem(post, onClick) {
+    var li = document.createElement('li'),
+        link = document.createElement('a');
+
+    link.addEventListener('click', function(event){
+      event.preventDefault();
+      onClick(post);
+    });
+
+    link.innerHTML = post.title.rendered;
+    li.appendChild(link);
+
+    return li;
+  }
+
+  // TODO: how to make this more React style?
+  const FoundPosts = wp.element.createElement(
+    'ul', {id: 'found-posts'}
+  );
+
+  return hdsWithSearchPosts(function(props) {
+    return wp.element.createElement(
+      wp.element.Fragment, {},
+      wp.element.createElement(
+        'div', {className: 'helsinki-post-search'},
+        wp.element.createElement( wp.components.TextControl, {
+          label: wp.i18n.__( 'Search posts', 'hds-wp' ),
+          value: props.attributes.search,
+          attribute: 'postTitle',
+          onChange: function(text) {
+            props.setAttributes({search: text});
+
+            if ( isSearching || isRateLimited || text.length < 3 ) {
+              return;
+            }
+
+            isSearching = true;
+            isRateLimited = true;
+
+            props.searchPosts(text).then(function(posts){
+              isSearching = false;
+              populateFoundPosts(posts, props);
+              setTimeout(function() {
+                isRateLimited = false;
+              }, 2000);
+            });
+          }
+        }),
+        FoundPosts
+      )
+    );
+  });
+}

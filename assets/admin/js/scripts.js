@@ -281,6 +281,128 @@ function hdsArrowIcon() {
   }));
 }
 
+function hdsWithPostTypeSelectControl() {
+  return wp.compose.compose(wp.data.withSelect(function (select, props) {
+    return {
+      postTypes: select('core').getPostTypes()
+    };
+  }))(function (props) {
+    var options = [];
+
+    if (props.postTypes) {
+      options = props.postTypes.filter(function (postType) {
+        return postType.slug === 'page' || postType.slug === 'post';
+      }).map(function (postType) {
+        return {
+          label: postType.labels.singular_name,
+          value: postType.slug
+        };
+      });
+    } else {
+      options = [{
+        label: '--',
+        value: ''
+      }];
+    }
+
+    return wp.element.createElement(wp.components.SelectControl, {
+      label: wp.i18n.__('Post type', 'hds-wp'),
+      value: props.attributes.postType,
+      options: options,
+      onChange: function onChange(selected) {
+        props.setAttributes({
+          postType: selected
+        });
+      }
+    });
+  });
+}
+
+function hdsWithSearchPosts(control) {
+  return wp.compose.compose(wp.data.withSelect(function (select, props) {
+    return {
+      searchPosts: function searchPosts(searchInput) {
+        var postType = props.attributes.postType ? props.attributes.postType : 'post',
+            url = '/wp/v2/' + postType + 's?',
+            params = ['status=publish', 'per_page=100', 'search=' + searchInput];
+        return wp.apiFetch({
+          path: url + params.join('&')
+        });
+      }
+    };
+  }))(control);
+}
+
+function hdsSearchPostsTextControl() {
+  var isSearching = false,
+      isRateLimited = false;
+
+  function populateFoundPosts(posts, props) {
+    var foundPostsList = document.getElementById('found-posts');
+    clearFoundPosts(foundPostsList);
+
+    for (var i = 0; i < posts.length; i++) {
+      foundPostsList.appendChild(foundPostListItem(posts[i], function (post) {
+        props.setAttributes({
+          postId: post.id,
+          postTitle: post.title.rendered
+        });
+      }));
+    }
+  }
+
+  function clearFoundPosts(element) {
+    while (element.firstChild) {
+      element.removeChild(element.firstChild);
+    }
+  }
+
+  function foundPostListItem(post, onClick) {
+    var li = document.createElement('li'),
+        link = document.createElement('a');
+    link.addEventListener('click', function (event) {
+      event.preventDefault();
+      onClick(post);
+    });
+    link.innerHTML = post.title.rendered;
+    li.appendChild(link);
+    return li;
+  } // TODO: how to make this more React style?
+
+
+  var FoundPosts = wp.element.createElement('ul', {
+    id: 'found-posts'
+  });
+  return hdsWithSearchPosts(function (props) {
+    return wp.element.createElement(wp.element.Fragment, {}, wp.element.createElement('div', {
+      className: 'helsinki-post-search'
+    }, wp.element.createElement(wp.components.TextControl, {
+      label: wp.i18n.__('Search posts', 'hds-wp'),
+      value: props.attributes.search,
+      attribute: 'postTitle',
+      onChange: function onChange(text) {
+        props.setAttributes({
+          search: text
+        });
+
+        if (isSearching || isRateLimited || text.length < 3) {
+          return;
+        }
+
+        isSearching = true;
+        isRateLimited = true;
+        props.searchPosts(text).then(function (posts) {
+          isSearching = false;
+          populateFoundPosts(posts, props);
+          setTimeout(function () {
+            isRateLimited = false;
+          }, 2000);
+        });
+      }
+    }), FoundPosts));
+  });
+}
+
 function hdsIcons(name) {
   var icons = {
     "alert-circle": "M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2zm0 2a8 8 0 100 16 8 8 0 000-16zm1 12v2h-2v-2h2zm0-10v8h-2V6h2z",
@@ -331,6 +453,33 @@ function hdsIcons(name) {
   };
   return name ? icons[name] : icons;
 }
+
+wp.domReady(function () {
+  /**
+    * Buttons
+    */
+  wp.blocks.unregisterBlockStyle('core/button', 'outline');
+  wp.blocks.unregisterBlockStyle('core/button', 'fill');
+  wp.blocks.registerBlockStyle('core/button', [{
+    name: 'secondary',
+    title: wp.i18n.__('Secondary', 'hds-wp')
+  }, {
+    name: 'supplementary',
+    title: wp.i18n.__('Supplementary', 'hds-wp')
+  }]);
+  /**
+    * Text
+    */
+
+  var withBackgroundStyle = ['core/group', 'core/paragraph'];
+
+  for (var i = 0; i < withBackgroundStyle.length; i++) {
+    wp.blocks.registerBlockStyle(withBackgroundStyle[i], [{
+      name: 'light-gray-background',
+      title: wp.i18n.__('Light Gray Background', 'hds-wp')
+    }]);
+  }
+});
 
 (function (wp) {
   var __ = wp.i18n.__;
@@ -642,138 +791,24 @@ function hdsIcons(name) {
       BlockControls = _wp$blockEditor4.BlockControls,
       InnerBlocks = _wp$blockEditor4.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var withSelect = wp.data.withSelect;
-  var compose = wp.compose.compose;
-  var apiFetch = wp.apiFetch;
   var _wp$components4 = wp.components,
       Button = _wp$components4.Button,
       TextControl = _wp$components4.TextControl,
       SelectControl = _wp$components4.SelectControl;
-  var FoundPosts = createElement('div', {
-    id: 'found-posts-wrap'
-  }, createElement('ul', {
-    id: 'found-posts'
-  }));
-  var PostTypeSelect = compose(withSelect(function (select, props) {
-    return {
-      postTypes: select('core').getPostTypes()
-    };
-  }))(function (props) {
-    var options = [];
-
-    if (props.postTypes) {
-      options = props.postTypes.filter(function (postType) {
-        return postType.slug === 'page' || postType.slug === 'post';
-      }).map(function (postType) {
-        return {
-          label: postType.labels.singular_name,
-          value: postType.slug
-        };
-      });
-    } else {
-      options = [{
-        label: '--',
-        value: ''
-      }];
-    }
-
-    return createElement(SelectControl, {
-      label: __('Post type', 'hds-wp'),
-      value: props.attributes.postType,
-      options: options,
-      onChange: function onChange(selected) {
-        props.setAttributes({
-          postType: selected
-        });
-      }
-    });
-  });
-  var isSearching = false,
-      isRateLimited = false;
-  var PostSearch = compose(withSelect(function (select, props) {
-    return {
-      searchPosts: function searchPosts(searchInput) {
-        var url = '/wp/v2/' + props.attributes.postType + 's?',
-            params = ['status=publish', 'per_page=100', 'search=' + searchInput];
-        return apiFetch({
-          path: url + params.join('&')
-        });
-      }
-    };
-  }))(function (props) {
-    return createElement(TextControl, {
-      label: __('Search post by title', 'hds-wp'),
-      value: props.attributes.search,
-      attribute: 'postTitle',
-      onChange: function onChange(text) {
-        props.setAttributes({
-          search: text
-        });
-
-        if (isSearching || isRateLimited || text.length < 3) {
-          return;
-        }
-
-        isSearching = true;
-        isRateLimited = true;
-        props.searchPosts(text).then(function (posts) {
-          isSearching = false;
-          populateFoundPosts(posts, props);
-          setTimeout(function () {
-            isRateLimited = false;
-          }, 2000);
-        });
-      }
-    });
-  });
-
-  function populateFoundPosts(posts, props) {
-    var foundPostsList = document.getElementById('found-posts');
-    clearFoundPosts(foundPostsList);
-
-    var eventCallback = function eventCallback(post) {
-      props.setAttributes({
-        postId: post.id,
-        postTitle: post.title.rendered
-      });
-    };
-
-    for (var i = 0; i < posts.length; i++) {
-      foundPostsList.appendChild(foundPostListItem(posts[i], eventCallback));
-    }
-  }
-
-  function clearFoundPosts(element) {
-    while (element.firstChild) {
-      element.removeChild(element.firstChild);
-    }
-  }
-
-  function foundPostListItem(post, onClick) {
-    var li = document.createElement('li'),
-        button = document.createElement('button'),
-        span = document.createElement('span');
-    button.type = 'button';
-    button.innerHTML = 'Select';
-    button.addEventListener('click', function (event) {
-      event.preventDefault();
-      onClick(post);
-    });
-    span.innerHTML = post.title.rendered;
-    li.appendChild(span);
-    li.appendChild(button);
-    return li;
-  }
+  var PostTypeSelect = hdsWithPostTypeSelectControl();
+  var PostSearch = hdsSearchPostsTextControl();
 
   function panelControls(props) {
     return hdsInspectorControls({
       title: __('Settings', 'hds-wp'),
       initialOpen: false
-    }, hdsPanelRow({}, createElement(PostTypeSelect, props)), hdsPanelRow({}, createElement(PostSearch, props)), hdsPanelRow({}, FoundPosts));
+    }, hdsPanelRow({}, createElement(PostTypeSelect, props)), hdsPanelRow({}, createElement(PostSearch, props)));
   }
 
   function placeholder(props) {
-    return createElement('div', useBlockProps(), createElement('h3', {}, props.attributes.postTitle ? props.attributes.postTitle : __('Helsinki - Content Card', 'hds-wp')));
+    return createElement('div', useBlockProps(), createElement('div', {
+      className: 'card'
+    }, props.attributes.postTitle ? props.attributes.postTitle : __('Helsinki - Content Card', 'hds-wp')));
   }
 
   function edit() {
@@ -1722,30 +1757,3 @@ function hdsIcons(name) {
     edit: edit()
   });
 })(window.wp);
-
-wp.domReady(function () {
-  /**
-    * Buttons
-    */
-  wp.blocks.unregisterBlockStyle('core/button', 'outline');
-  wp.blocks.unregisterBlockStyle('core/button', 'fill');
-  wp.blocks.registerBlockStyle('core/button', [{
-    name: 'secondary',
-    title: wp.i18n.__('Secondary', 'hds-wp')
-  }, {
-    name: 'supplementary',
-    title: wp.i18n.__('Supplementary', 'hds-wp')
-  }]);
-  /**
-    * Text
-    */
-
-  var withBackgroundStyle = ['core/group', 'core/paragraph'];
-
-  for (var i = 0; i < withBackgroundStyle.length; i++) {
-    wp.blocks.registerBlockStyle(withBackgroundStyle[i], [{
-      name: 'light-gray-background',
-      title: wp.i18n.__('Light Gray Background', 'hds-wp')
-    }]);
-  }
-});
