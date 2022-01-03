@@ -46,7 +46,7 @@
 		}
 	);
 
-	function editBlock() {
+	function edit() {
 		return function(props) {
 			return createElement(
 				Fragment, {},
@@ -129,7 +129,7 @@
 				default: 'title',
 			},
 		},
-		edit: editBlock(),
+		edit: edit(),
 	});
 
 })(window.wp);

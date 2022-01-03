@@ -7,7 +7,7 @@
 	const { InspectorControls } = wp.editor;
 	const { ToolbarGroup, ToolbarButton, Button, ToggleControl } = wp.components;
 
-	function editBanner() {
+	function edit() {
 		return function(props) {
 			return createElement(
 				Fragment, {},
@@ -31,7 +31,7 @@
 		}
 	}
 
-	function saveBanner() {
+	function save() {
 		return function( props ) {
 			return createElement(
 				Fragment, {},
@@ -54,8 +54,8 @@
 			anchor: true,
 		},
 		attributes: {},
-		edit: editBanner(),
-		save: saveBanner(),
+		edit: edit(),
+		save: save(),
 	});
 
 })(window.wp);

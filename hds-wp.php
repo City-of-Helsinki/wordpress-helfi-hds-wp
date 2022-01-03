@@ -171,7 +171,7 @@ function init() {
 			array(),
 			array(
 				'actions-settings',
-				'arros-operators',
+				'arrows-operators',
 				'forms-data',
 				'koros',
 				'logos',

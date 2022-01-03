@@ -1,8 +1,90 @@
 <?php
 
 /**
+  * Helsinki - Content cards
+  */
+function hds_wp_render_block_content_cards( $attributes ) {
+	if (
+		empty( $attributes['cards'] ) ||
+		! is_array( $attributes['cards'] )
+	) {
+		return;
+	}
+
+	$posts = hds_wp_content_cards_posts( $attributes['cards'] );
+	if ( ! $posts ) {
+		return;
+	}
+
+	$wrapClasses = array( 'content-cards' );
+	if ( ! empty( $attributes['hasBackground'] ) ) {
+		$wrapClasses[] = 'has-background';
+	}
+
+	$gridClasses = array(
+		'content-cards__cards',
+		'grid',
+		'l-up-' . $attributes['columns'],
+	);
+
+	$title = '';
+	if ( ! empty( $attributes['title'] ) ) {
+		$title = sprintf(
+			'<h2 class="content-cards__title">%s</h2>',
+			esc_html( $attributes['title'] )
+		);
+	}
+
+	return sprintf(
+		'<div class="%s">%s%s<div class="%s">%s</div></div>',
+		implode( ' ', $wrapClasses ),
+		apply_filters(
+			'hds_wp_content_cards_decoration',
+			'',
+			$attributes
+		),
+		$title,
+		implode( ' ', $gridClasses ),
+		implode( '', array_map( 'hds_wp_content_card_html', $posts ) )
+	);
+}
+
+function hds_wp_content_card_html( WP_Post $post ) {
+	return sprintf(
+		'<div class="grid__column">
+			<article class="content-cards__card card">
+				<a class="card__link" href="%s">
+					<div class="card__image">%s</div>
+					<h3 class="card__title">%s</h3>
+					<div class="card__more">%s</div>
+				</a>
+			</article>
+		</div>',
+		esc_url( get_permalink( $post ) ),
+		apply_filters(
+			'hds_wp_content_card_image',
+			get_the_post_thumbnail( $post, 'medium' ),
+			$post
+		), // TODO: use svg module, make singleton
+		esc_html( $post->post_title ),
+		apply_filters( 'hds_wp_content_card_icon', '', $post ) // TODO: use svg module, make singleton
+	);
+}
+
+function hds_wp_content_cards_posts( array $posts ) {
+	$query = new WP_Query( array(
+		'post_status' => 'publish',
+		'post_type' => array( 'post', 'page' ),
+		'post__in' => $posts,
+		'no_found_rows' => true,
+		'update_post_term_cache' => false,
+	) );
+	return $query->posts;
+}
+
+/**
   * Helsinki - Media List
-	*/
+  */
 if ( ! function_exists( 'hds_wp_render_block_media_list' ) ) {
 	function hds_wp_render_block_media_list( $attributes ) {
 		$category = $attributes['termID'] ?? 0;

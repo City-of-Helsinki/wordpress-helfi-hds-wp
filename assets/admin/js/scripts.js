@@ -446,7 +446,7 @@ function hdsIcons(name) {
     }, createElement('span', {}, __('Close', 'hds-wp')), hdsAngleIcon());
   }
 
-  function editBanner() {
+  function edit() {
     return function (props) {
       if (!props.attributes.blockId) {
         props.setAttributes({
@@ -460,7 +460,7 @@ function hdsIcons(name) {
     };
   }
 
-  function saveBanner() {
+  function save() {
     return function (props) {
       return createElement(Fragment, {}, createElement('div', useBlockProps.save({
         className: 'accordion__section'
@@ -486,8 +486,8 @@ function hdsIcons(name) {
         type: 'string'
       }
     },
-    edit: editBanner(),
-    save: saveBanner()
+    edit: edit(),
+    save: save()
   });
 })(window.wp);
 
@@ -508,7 +508,7 @@ function hdsIcons(name) {
       Button = _wp$components2.Button,
       ToggleControl = _wp$components2.ToggleControl;
 
-  function editBanner() {
+  function edit() {
     return function (props) {
       return createElement(Fragment, {}, createElement('div', useBlockProps({
         className: 'accordion'
@@ -519,7 +519,7 @@ function hdsIcons(name) {
     };
   }
 
-  function saveBanner() {
+  function save() {
     return function (props) {
       return createElement(Fragment, {}, createElement('div', useBlockProps.save({
         className: 'accordion'
@@ -536,8 +536,8 @@ function hdsIcons(name) {
       anchor: true
     },
     attributes: {},
-    edit: editBanner(),
-    save: saveBanner()
+    edit: edit(),
+    save: save()
   });
 })(window.wp);
 
@@ -565,7 +565,7 @@ function hdsIcons(name) {
     }, props.attributes.isExternalUrl ? hdsExternalLinkIcon() : hdsArrowIcon());
   }
 
-  function editBanner() {
+  function edit() {
     return function (props) {
       return createElement(Fragment, {}, hdsInspectorControls({
         title: __('Content', 'hds-wp'),
@@ -580,7 +580,7 @@ function hdsIcons(name) {
     };
   }
 
-  function saveBanner() {
+  function save() {
     return function (props) {
       return createElement('div', useBlockProps.save(), hdsContent(props, createElement('div', {
         className: 'content__inner content__inner--icon'
@@ -626,8 +626,8 @@ function hdsIcons(name) {
         default: true
       }
     },
-    edit: editBanner(),
-    save: saveBanner()
+    edit: edit(),
+    save: save()
   });
 })(window.wp);
 
@@ -641,10 +641,326 @@ function hdsIcons(name) {
       useBlockProps = _wp$blockEditor4.useBlockProps,
       BlockControls = _wp$blockEditor4.BlockControls,
       InnerBlocks = _wp$blockEditor4.InnerBlocks;
+  var InspectorControls = wp.editor.InspectorControls;
+  var withSelect = wp.data.withSelect;
+  var compose = wp.compose.compose;
+  var apiFetch = wp.apiFetch;
   var _wp$components4 = wp.components,
-      ToolbarGroup = _wp$components4.ToolbarGroup,
-      ToolbarButton = _wp$components4.ToolbarButton,
-      Button = _wp$components4.Button;
+      Button = _wp$components4.Button,
+      TextControl = _wp$components4.TextControl,
+      SelectControl = _wp$components4.SelectControl;
+  var FoundPosts = createElement('div', {
+    id: 'found-posts-wrap'
+  }, createElement('ul', {
+    id: 'found-posts'
+  }));
+  var PostTypeSelect = compose(withSelect(function (select, props) {
+    return {
+      postTypes: select('core').getPostTypes()
+    };
+  }))(function (props) {
+    var options = [];
+
+    if (props.postTypes) {
+      options = props.postTypes.filter(function (postType) {
+        return postType.slug === 'page' || postType.slug === 'post';
+      }).map(function (postType) {
+        return {
+          label: postType.labels.singular_name,
+          value: postType.slug
+        };
+      });
+    } else {
+      options = [{
+        label: '--',
+        value: ''
+      }];
+    }
+
+    return createElement(SelectControl, {
+      label: __('Post type', 'hds-wp'),
+      value: props.attributes.postType,
+      options: options,
+      onChange: function onChange(selected) {
+        props.setAttributes({
+          postType: selected
+        });
+      }
+    });
+  });
+  var isSearching = false,
+      isRateLimited = false;
+  var PostSearch = compose(withSelect(function (select, props) {
+    return {
+      searchPosts: function searchPosts(searchInput) {
+        var url = '/wp/v2/' + props.attributes.postType + 's?',
+            params = ['status=publish', 'per_page=100', 'search=' + searchInput];
+        return apiFetch({
+          path: url + params.join('&')
+        });
+      }
+    };
+  }))(function (props) {
+    return createElement(TextControl, {
+      label: __('Search post by title', 'hds-wp'),
+      value: props.attributes.search,
+      attribute: 'postTitle',
+      onChange: function onChange(text) {
+        props.setAttributes({
+          search: text
+        });
+
+        if (isSearching || isRateLimited || text.length < 3) {
+          return;
+        }
+
+        isSearching = true;
+        isRateLimited = true;
+        props.searchPosts(text).then(function (posts) {
+          isSearching = false;
+          populateFoundPosts(posts, props);
+          setTimeout(function () {
+            isRateLimited = false;
+          }, 2000);
+        });
+      }
+    });
+  });
+
+  function populateFoundPosts(posts, props) {
+    var foundPostsList = document.getElementById('found-posts');
+    clearFoundPosts(foundPostsList);
+
+    var eventCallback = function eventCallback(post) {
+      props.setAttributes({
+        postId: post.id,
+        postTitle: post.title.rendered
+      });
+    };
+
+    for (var i = 0; i < posts.length; i++) {
+      foundPostsList.appendChild(foundPostListItem(posts[i], eventCallback));
+    }
+  }
+
+  function clearFoundPosts(element) {
+    while (element.firstChild) {
+      element.removeChild(element.firstChild);
+    }
+  }
+
+  function foundPostListItem(post, onClick) {
+    var li = document.createElement('li'),
+        button = document.createElement('button'),
+        span = document.createElement('span');
+    button.type = 'button';
+    button.innerHTML = 'Select';
+    button.addEventListener('click', function (event) {
+      event.preventDefault();
+      onClick(post);
+    });
+    span.innerHTML = post.title.rendered;
+    li.appendChild(span);
+    li.appendChild(button);
+    return li;
+  }
+
+  function panelControls(props) {
+    return hdsInspectorControls({
+      title: __('Settings', 'hds-wp'),
+      initialOpen: false
+    }, hdsPanelRow({}, createElement(PostTypeSelect, props)), hdsPanelRow({}, createElement(PostSearch, props)), hdsPanelRow({}, FoundPosts));
+  }
+
+  function placeholder(props) {
+    return createElement('div', useBlockProps(), createElement('h3', {}, props.attributes.postTitle ? props.attributes.postTitle : __('Helsinki - Content Card', 'hds-wp')));
+  }
+
+  function edit() {
+    return function (props) {
+      return createElement(Fragment, {}, panelControls(props), placeholder(props));
+    };
+  }
+
+  registerBlockType('hds-wp/content-card', {
+    apiVersion: 2,
+    title: __('Helsinki - Content Card', 'hds-wp'),
+    category: 'hds-wp',
+    icon: 'cover-image',
+    supports: {},
+    parent: ['hds-wp/content-cards'],
+    attributes: {
+      postId: {
+        type: 'number',
+        default: 0
+      },
+      postTitle: {
+        type: 'string',
+        default: ''
+      },
+      postType: {
+        type: 'string',
+        default: 'post'
+      },
+      search: {
+        type: 'string',
+        default: ''
+      }
+    },
+    edit: edit()
+  });
+})(window.wp);
+
+(function (wp) {
+  var __ = wp.i18n.__;
+  var _wp$blocks = wp.blocks,
+      registerBlockType = _wp$blocks.registerBlockType,
+      getBlockContent = _wp$blocks.getBlockContent;
+  var _wp$element5 = wp.element,
+      Fragment = _wp$element5.Fragment,
+      createElement = _wp$element5.createElement,
+      useState = _wp$element5.useState;
+  var _wp$blockEditor5 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor5.useBlockProps,
+      BlockControls = _wp$blockEditor5.BlockControls,
+      InnerBlocks = _wp$blockEditor5.InnerBlocks;
+  var InspectorControls = wp.editor.InspectorControls;
+  var _wp$data = wp.data,
+      select = _wp$data.select,
+      useSelect = _wp$data.useSelect;
+  var _wp$components5 = wp.components,
+      ToolbarGroup = _wp$components5.ToolbarGroup,
+      ToolbarButton = _wp$components5.ToolbarButton,
+      Button = _wp$components5.Button,
+      ToggleControl = _wp$components5.ToggleControl;
+
+  function columnCountOptions() {
+    return [{
+      label: 2 + ' ' + __('Columns', 'hds-wp'),
+      value: 2
+    }, {
+      label: 3 + ' ' + __('Columns', 'hds-wp'),
+      value: 3
+    }, {
+      label: 4 + ' ' + __('Columns', 'hds-wp'),
+      value: 4
+    }];
+  }
+
+  function inspectorControls(props) {
+    return hdsInspectorControls({
+      title: __('Settings', 'hds-wp'),
+      initialOpen: false
+    }, hdsTextControl({
+      label: __('Title', 'hds-wp'),
+      value: props.attributes.title,
+      attribute: 'title'
+    }, props), hdsSelectControl({
+      label: __('Column count', 'hds-wp'),
+      value: props.attributes.columns,
+      attribute: 'columns',
+      options: columnCountOptions()
+    }, props), hdsCheckboxControl({
+      label: __('Has background', 'hds-wp'),
+      value: props.attributes.hasBackground,
+      attribute: 'hasBackground'
+    }, props));
+  }
+
+  function classNamesString(props) {
+    var classNames = ['content-cards', props.attributes.hasBackground ? 'has-background' : ''];
+    return classNames.join(' ');
+  }
+
+  function title(props) {
+    if (!props.attributes.title) {
+      return;
+    }
+
+    return createElement('h2', {
+      className: 'content-cards__title'
+    }, props.attributes.title);
+  }
+
+  function edit() {
+    return function (props) {
+      var content = null;
+      var isParentOfSelectedBlock = useSelect(function (selectFrom) {
+        return select('core/block-editor').hasSelectedInnerBlock(props.clientId, true);
+      });
+
+      if (props.isSelected || isParentOfSelectedBlock) {
+        content = createElement(Fragment, {}, title(props), createElement(InnerBlocks, {
+          allowedBlocks: ['hds-wp/content-card'],
+          template: [['hds-wp/content-card', {}], ['hds-wp/content-card', {}], ['hds-wp/content-card', {}]]
+        }));
+      } else {
+        var blockAttributes = props.attributes;
+        blockAttributes.cards = select('core/block-editor').getBlocks(props.clientId).map(function (block) {
+          return block.attributes.postId;
+        });
+        content = createElement(wp.serverSideRender, {
+          block: 'hds-wp/content-cards',
+          attributes: blockAttributes,
+          httpMethod: 'POST'
+        });
+      }
+
+      return createElement(Fragment, {}, inspectorControls(props), createElement('div', useBlockProps(), content));
+    };
+  }
+
+  function save() {
+    return function (props) {
+      return createElement(Fragment, {}, createElement(InnerBlocks.Content));
+    };
+  }
+
+  registerBlockType('hds-wp/content-cards', {
+    apiVersion: 2,
+    title: __('Helsinki - Content Cards', 'hds-wp'),
+    category: 'hds-wp',
+    icon: 'images-alt',
+    supports: {
+      anchor: true
+    },
+    attributes: {
+      columns: {
+        type: 'number',
+        default: 3
+      },
+      hasBackground: {
+        type: 'boolean',
+        default: false
+      },
+      title: {
+        type: 'string',
+        default: ''
+      },
+      cards: {
+        type: 'array',
+        default: []
+      }
+    },
+    edit: edit(),
+    save: save()
+  });
+})(window.wp);
+
+(function (wp) {
+  var __ = wp.i18n.__;
+  var registerBlockType = wp.blocks.registerBlockType;
+  var _wp$element6 = wp.element,
+      Fragment = _wp$element6.Fragment,
+      createElement = _wp$element6.createElement;
+  var _wp$blockEditor6 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor6.useBlockProps,
+      BlockControls = _wp$blockEditor6.BlockControls,
+      InnerBlocks = _wp$blockEditor6.InnerBlocks;
+  var _wp$components6 = wp.components,
+      ToolbarGroup = _wp$components6.ToolbarGroup,
+      ToolbarButton = _wp$components6.ToolbarButton,
+      Button = _wp$components6.Button;
 
   function toolbar(props) {
     return createElement(BlockControls, {
@@ -698,7 +1014,7 @@ function hdsIcons(name) {
     }, props.attributes.isExternalUrl ? hdsExternalLinkIcon() : hdsArrowIcon());
   }
 
-  function editBanner() {
+  function edit() {
     return function (props) {
       return createElement(Fragment, {}, toolbar(props), hdsInspectorControls({
         title: wp.i18n.__('Content', 'hds-wp'),
@@ -711,7 +1027,7 @@ function hdsIcons(name) {
     };
   }
 
-  function saveBanner() {
+  function save() {
     return function (props) {
       return createElement('div', useBlockProps.save({
         className: classNamesString(props)
@@ -779,25 +1095,25 @@ function hdsIcons(name) {
         default: false
       }
     },
-    edit: editBanner(),
-    save: saveBanner()
+    edit: edit(),
+    save: save()
   });
 })(window.wp);
 
 (function (wp) {
   var __ = wp.i18n.__;
   var registerBlockType = wp.blocks.registerBlockType;
-  var _wp$element5 = wp.element,
-      Fragment = _wp$element5.Fragment,
-      createElement = _wp$element5.createElement;
-  var _wp$blockEditor5 = wp.blockEditor,
-      useBlockProps = _wp$blockEditor5.useBlockProps,
-      BlockControls = _wp$blockEditor5.BlockControls,
-      InnerBlocks = _wp$blockEditor5.InnerBlocks;
-  var _wp$components5 = wp.components,
-      ToolbarGroup = _wp$components5.ToolbarGroup,
-      ToolbarButton = _wp$components5.ToolbarButton,
-      Button = _wp$components5.Button;
+  var _wp$element7 = wp.element,
+      Fragment = _wp$element7.Fragment,
+      createElement = _wp$element7.createElement;
+  var _wp$blockEditor7 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor7.useBlockProps,
+      BlockControls = _wp$blockEditor7.BlockControls,
+      InnerBlocks = _wp$blockEditor7.InnerBlocks;
+  var _wp$components7 = wp.components,
+      ToolbarGroup = _wp$components7.ToolbarGroup,
+      ToolbarButton = _wp$components7.ToolbarButton,
+      Button = _wp$components7.Button;
 
   function toolbar(props) {
     return createElement(BlockControls, {
@@ -851,7 +1167,7 @@ function hdsIcons(name) {
     }, props.attributes.isExternalUrl ? hdsExternalLinkIcon() : hdsArrowIcon());
   }
 
-  function editBanner() {
+  function edit() {
     return function (props) {
       return createElement(Fragment, {}, toolbar(props), hdsInspectorControls({
         title: __('Content', 'hds-wp'),
@@ -862,7 +1178,7 @@ function hdsIcons(name) {
     };
   }
 
-  function saveBanner() {
+  function save() {
     return function (props) {
       return createElement('div', useBlockProps.save({
         className: classNamesString(props)
@@ -929,66 +1245,364 @@ function hdsIcons(name) {
         default: false
       }
     },
-    edit: editBanner(),
-    save: saveBanner()
+    edit: edit(),
+    save: save()
   });
 })(window.wp);
 
 (function (wp) {
   var __ = wp.i18n.__;
   var registerBlockType = wp.blocks.registerBlockType;
-  var _wp$element6 = wp.element,
-      Fragment = _wp$element6.Fragment,
-      createElement = _wp$element6.createElement;
-  var _wp$blockEditor6 = wp.blockEditor,
-      useBlockProps = _wp$blockEditor6.useBlockProps,
-      BlockControls = _wp$blockEditor6.BlockControls,
-      MediaUpload = _wp$blockEditor6.MediaUpload,
-      MediaUploadCheck = _wp$blockEditor6.MediaUploadCheck,
-      InnerBlocks = _wp$blockEditor6.InnerBlocks;
+  var _wp$element8 = wp.element,
+      Fragment = _wp$element8.Fragment,
+      createElement = _wp$element8.createElement;
+  var _wp$blockEditor8 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor8.useBlockProps,
+      BlockControls = _wp$blockEditor8.BlockControls,
+      InnerBlocks = _wp$blockEditor8.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$components6 = wp.components,
-      ToolbarGroup = _wp$components6.ToolbarGroup,
-      ToolbarButton = _wp$components6.ToolbarButton,
-      Button = _wp$components6.Button,
-      ToggleControl = _wp$components6.ToggleControl;
+  var withSelect = wp.data.withSelect;
+  var compose = wp.compose.compose;
+  var apiFetch = wp.apiFetch;
+  var _wp$components8 = wp.components,
+      Button = _wp$components8.Button,
+      TextControl = _wp$components8.TextControl,
+      SelectControl = _wp$components8.SelectControl;
+  var FoundPosts = createElement('div', {
+    id: 'found-posts-wrap'
+  }, createElement('ul', {
+    id: 'found-posts'
+  }));
+  var PostTypeSelect = compose(withSelect(function (select, props) {
+    return {
+      postTypes: select('core').getPostTypes()
+    };
+  }))(function (props) {
+    var options = [];
 
-  function editBanner() {
+    if (props.postTypes) {
+      options = props.postTypes.filter(function (postType) {
+        return postType.slug === 'page' || postType.slug === 'post';
+      }).map(function (postType) {
+        return {
+          label: postType.labels.singular_name,
+          value: postType.slug
+        };
+      });
+    } else {
+      options = [{
+        label: '--',
+        value: ''
+      }];
+    }
+
+    return createElement(SelectControl, {
+      label: __('Post type', 'hds-wp'),
+      value: props.attributes.postType,
+      options: options,
+      onChange: function onChange(selected) {
+        props.setAttributes({
+          postType: selected
+        });
+      }
+    });
+  });
+  var isSearching = false,
+      isRateLimited = false;
+
+  function searchPosts(postType, searchInput) {
+    var url = '/wp/v2/' + postType + 's?',
+        params = ['status=publish', 'per_page=100', 'search=' + searchInput];
+    return apiFetch({
+      path: url + params.join('&')
+    });
+  }
+
+  var PostSearch = function PostSearch(props) {
+    return createElement(TextControl, {
+      label: __('Search post by title', 'hds-wp'),
+      value: props.attributes.search,
+      attribute: 'linkTitle',
+      onChange: function onChange(text) {
+        props.setAttributes({
+          search: text
+        });
+
+        if (isSearching || isRateLimited || text.length < 3) {
+          return;
+        }
+
+        isSearching = true;
+        isRateLimited = true;
+        searchPosts(props.attributes.postType, text).then(function (posts) {
+          isSearching = false;
+          populateFoundPosts(posts, props);
+          setTimeout(function () {
+            isRateLimited = false;
+          }, 2000);
+        });
+      }
+    });
+  };
+
+  function populateFoundPosts(posts, props) {
+    var foundPostsList = document.getElementById('found-posts');
+    clearFoundPosts(foundPostsList);
+
+    var eventCallback = function eventCallback(post) {
+      props.setAttributes({
+        postId: post.id,
+        linkTitle: post.title.rendered
+      });
+    };
+
+    for (var i = 0; i < posts.length; i++) {
+      foundPostsList.appendChild(foundPostListItem(posts[i], eventCallback));
+    }
+  }
+
+  function clearFoundPosts(element) {
+    while (element.firstChild) {
+      element.removeChild(element.firstChild);
+    }
+  }
+
+  function foundPostListItem(post, onClick) {
+    var li = document.createElement('li'),
+        button = document.createElement('button'),
+        span = document.createElement('span');
+    button.type = 'button';
+    button.innerHTML = 'Select';
+    button.addEventListener('click', function (event) {
+      event.preventDefault();
+      onClick(post);
+    });
+    span.innerHTML = post.title.rendered;
+    li.appendChild(span);
+    li.appendChild(button);
+    return li;
+  }
+
+  function panelControls(props) {
+    return hdsInspectorControls({
+      title: __('Settings', 'hds-wp'),
+      initialOpen: false
+    }, hdsPanelRow({}, createElement(PostTypeSelect, props)), hdsPanelRow({}, createElement(PostSearch, props)), hdsPanelRow({}, FoundPosts));
+  }
+
+  function placeholder(props) {
+    return createElement('div', useBlockProps(), createElement('h3', {}, props.attributes.linkTitle ? props.attributes.linkTitle : __('Helsinki - Link', 'hds-wp')));
+  }
+
+  function getParentBlock(clientId) {
+    var parent = wp.data.select('core/block-editor').getBlocksByClientId(wp.data.select('core/editor').getBlockHierarchyRootClientId(clientId));
+    return parent[0];
+  }
+
+  function edit() {
     return function (props) {
-      return createElement(Fragment, {}, createElement('div', {}, 'Hello editor'));
+      var parent = getParentBlock(props.clientId); // parent.attributes.linkType -> conditional inspectorControls
+
+      return createElement(Fragment, {}, panelControls(props), placeholder(props));
     };
   }
 
-  function saveBanner() {
-    return function (props) {
-      return createElement(Fragment, {}, createElement('div', {}, 'Hello public'));
-    };
-  } // registerBlockType('hds-wp/koros', {
-  // 	apiVersion: 2,
-  // 	title: __( 'Helsinki - Koros' ),
-  // 	category: 'hds-wp',
-  // 	icon: 'format-gallery',
-  // 	supports: {
-  // 	anchor: true,
-  // },
-  // 	attributes: {},
-  // 	edit: editBanner(),
-  // 	save: saveBanner(),
-  // });
+  registerBlockType('hds-wp/link', {
+    apiVersion: 2,
+    title: __('Helsinki - Link', 'hds-wp'),
+    category: 'hds-wp',
+    icon: 'links',
+    supports: {},
+    parent: ['hds-wp/links'],
+    attributes: {
+      postId: {
+        type: 'number',
+        default: 0
+      },
+      mediaId: {
+        type: 'number',
+        default: 0
+      },
+      linkTitle: {
+        type: 'string',
+        default: ''
+      },
+      linkExcerpt: {
+        type: 'string',
+        default: ''
+      },
+      linkUrl: {
+        type: 'string',
+        default: ''
+      },
+      openBlank: {
+        type: 'boolean',
+        default: false
+      },
+      isExternal: {
+        type: 'boolean',
+        default: false
+      },
+      postType: {
+        type: 'string',
+        default: 'post'
+      },
+      search: {
+        type: 'string',
+        default: ''
+      }
+    },
+    edit: edit()
+  });
+})(window.wp);
 
+(function (wp) {
+  var __ = wp.i18n.__;
+  var _wp$blocks2 = wp.blocks,
+      registerBlockType = _wp$blocks2.registerBlockType,
+      getBlockContent = _wp$blocks2.getBlockContent;
+  var _wp$element9 = wp.element,
+      Fragment = _wp$element9.Fragment,
+      createElement = _wp$element9.createElement,
+      useState = _wp$element9.useState;
+  var _wp$blockEditor9 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor9.useBlockProps,
+      BlockControls = _wp$blockEditor9.BlockControls,
+      InnerBlocks = _wp$blockEditor9.InnerBlocks;
+  var InspectorControls = wp.editor.InspectorControls;
+  var _wp$data2 = wp.data,
+      select = _wp$data2.select,
+      useSelect = _wp$data2.useSelect;
+  var _wp$components9 = wp.components,
+      ToolbarGroup = _wp$components9.ToolbarGroup,
+      ToolbarButton = _wp$components9.ToolbarButton,
+      Button = _wp$components9.Button,
+      ToggleControl = _wp$components9.ToggleControl;
+
+  function linkTypeOptions() {
+    return [{
+      label: __('Only title', 'hds-wp'),
+      value: 'title'
+    }, {
+      label: __('Title & Excerpt', 'hds-wp'),
+      value: 'title-excerpt'
+    }, {
+      label: __('Image & Title', 'hds-wp'),
+      value: 'image-title'
+    }];
+  }
+
+  function inspectorControls(props) {
+    return hdsInspectorControls({
+      title: __('Settings', 'hds-wp'),
+      initialOpen: false
+    }, hdsTextControl({
+      label: __('Title', 'hds-wp'),
+      value: props.attributes.title,
+      attribute: 'title'
+    }, props), hdsSelectControl({
+      label: __('Link type', 'hds-wp'),
+      value: props.attributes.linkType,
+      attribute: 'linkType',
+      options: linkTypeOptions()
+    }, props), hdsCheckboxControl({
+      label: __('Has background', 'hds-wp'),
+      value: props.attributes.hasBackground,
+      attribute: 'hasBackground'
+    }, props));
+  }
+
+  function classNamesString(props) {
+    var classNames = ['links', 'type-' + props.attributes.linkType, props.attributes.hasBackground ? 'has-background' : ''];
+    return classNames.join(' ');
+  }
+
+  function title(props) {
+    if (!props.attributes.title) {
+      return;
+    }
+
+    return createElement('h2', {
+      className: 'links__title'
+    }, props.attributes.title);
+  }
+
+  function edit() {
+    return function (props) {
+      var content = null;
+      var isParentOfSelectedBlock = useSelect(function (selectFrom) {
+        return select('core/block-editor').hasSelectedInnerBlock(props.clientId, true);
+      });
+
+      if (props.isSelected || isParentOfSelectedBlock) {
+        content = createElement(Fragment, {}, title(props), createElement(InnerBlocks, {
+          allowedBlocks: ['hds-wp/link'],
+          template: [['hds-wp/link', {}], ['hds-wp/link', {}], ['hds-wp/link', {}]]
+        }));
+      } else {
+        var blockAttributes = props.attributes;
+        blockAttributes.links = select('core/block-editor').getBlocks(props.clientId).map(function (block) {
+          return block.attributes.postId;
+        });
+        content = createElement(wp.serverSideRender, {
+          block: 'hds-wp/links',
+          attributes: blockAttributes,
+          httpMethod: 'POST'
+        });
+      }
+
+      return createElement(Fragment, {}, inspectorControls(props), createElement('div', useBlockProps(), content));
+    };
+  }
+
+  function save() {
+    return function (props) {
+      return createElement(Fragment, {}, createElement(InnerBlocks.Content));
+    };
+  }
+
+  registerBlockType('hds-wp/links', {
+    apiVersion: 2,
+    title: __('Helsinki - Links', 'hds-wp'),
+    category: 'hds-wp',
+    icon: 'screenoptions',
+    supports: {
+      anchor: true
+    },
+    attributes: {
+      hasBackground: {
+        type: 'boolean',
+        default: false
+      },
+      linkType: {
+        type: 'string',
+        default: 'title'
+      },
+      title: {
+        type: 'string',
+        default: ''
+      },
+      links: {
+        type: 'array',
+        default: []
+      }
+    },
+    edit: edit(),
+    save: save()
+  });
 })(window.wp);
 
 (function (wp) {
   var __ = wp.i18n.__;
   var registerBlockType = wp.blocks.registerBlockType;
   var useBlockProps = wp.blockEditor.useBlockProps;
-  var _wp$element7 = wp.element,
-      Fragment = _wp$element7.Fragment,
-      createElement = _wp$element7.createElement;
+  var _wp$element10 = wp.element,
+      Fragment = _wp$element10.Fragment,
+      createElement = _wp$element10.createElement;
   var SelectControl = wp.components.SelectControl;
-  var _wp$data = wp.data,
-      withSelect = _wp$data.withSelect,
-      withDispatch = _wp$data.withDispatch;
+  var _wp$data3 = wp.data,
+      withSelect = _wp$data3.withSelect,
+      withDispatch = _wp$data3.withDispatch;
   var InspectorControls = wp.editor.InspectorControls;
   var compose = wp.compose.compose;
   var TermsDropdownControl = compose(withSelect(function (select, props) {
@@ -1039,7 +1653,7 @@ function hdsIcons(name) {
     });
   });
 
-  function editBlock() {
+  function edit() {
     return function (props) {
       return createElement(Fragment, {}, hdsInspectorControls({
         title: __('Settings', 'hds-wp'),
@@ -1110,7 +1724,7 @@ function hdsIcons(name) {
         default: 'title'
       }
     },
-    edit: editBlock()
+    edit: edit()
   });
 })(window.wp);
 

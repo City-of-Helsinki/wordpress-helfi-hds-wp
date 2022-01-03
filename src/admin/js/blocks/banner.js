@@ -19,7 +19,7 @@
 		);
 	}
 
-	function editBanner() {
+	function edit() {
 		return function(props) {
 			return createElement(
 				Fragment, {},
@@ -57,7 +57,7 @@
 		}
 	}
 
-	function saveBanner() {
+	function save() {
 		return function(props) {
 			return createElement('div', useBlockProps.save(),
 				hdsContent(
@@ -114,8 +114,8 @@
 				default: true,
 			},
 		},
-		edit: editBanner(),
-		save: saveBanner()
+		edit: edit(),
+		save: save()
 	});
 
 })(window.wp);

@@ -133,7 +133,7 @@
 		);
 	}
 
-	function editBanner() {
+	function edit() {
 		return function(props) {
 
 			if ( ! props.attributes.blockId ) {
@@ -156,7 +156,7 @@
 		}
 	}
 
-	function saveBanner() {
+	function save() {
 		return function( props ) {
 			return createElement(
 				Fragment, {},
@@ -189,8 +189,8 @@
 				type: 'string',
 			}
 		},
-		edit: editBanner(),
-		save: saveBanner(),
+		edit: edit(),
+		save: save(),
 	});
 
 })(window.wp);
