@@ -28,7 +28,7 @@
   }
 
   .links-list__title {
-    margin: 0 0 spacing('layout-s');
+    margin-bottom: spacing('layout-s');
     position: relative;
 
     span {
@@ -228,13 +228,13 @@
     @include breakpoint('l') {
       &--3 {
         .links-list__item {
-          flex: 0 0 calc(33% - 14px);
+          flex: 0 0 calc(33% - 16px);
         }
       }
 
       &--4 {
         .links-list__item {
-          flex: 0 0 calc(25% - 12px);
+          flex: 0 0 calc(25% - 18px);
         }
       }
     }
