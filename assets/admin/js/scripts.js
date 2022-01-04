@@ -157,7 +157,7 @@ function hdsButtonUrlControl(props) {
 function hdsExternalUrlControl(props) {
   return hdsCheckboxControl({
     label: wp.i18n.__('Is external URL', 'hds-wp'),
-    value: props.attributes.isExternalUrl,
+    checked: props.attributes.isExternalUrl,
     attribute: 'isExternalUrl'
   }, props);
 }
@@ -165,7 +165,7 @@ function hdsExternalUrlControl(props) {
 function hdsTargetBlankControl(props) {
   return hdsCheckboxControl({
     label: wp.i18n.__('Open in new window', 'hds-wp'),
-    value: props.attributes.targetBlank,
+    checked: props.attributes.targetBlank,
     attribute: 'targetBlank'
   }, props);
 }
@@ -450,33 +450,6 @@ function hdsIcons(name) {
   };
   return name ? icons[name] : icons;
 }
-
-wp.domReady(function () {
-  /**
-    * Buttons
-    */
-  wp.blocks.unregisterBlockStyle('core/button', 'outline');
-  wp.blocks.unregisterBlockStyle('core/button', 'fill');
-  wp.blocks.registerBlockStyle('core/button', [{
-    name: 'secondary',
-    title: wp.i18n.__('Secondary', 'hds-wp')
-  }, {
-    name: 'supplementary',
-    title: wp.i18n.__('Supplementary', 'hds-wp')
-  }]);
-  /**
-    * Text
-    */
-
-  var withBackgroundStyle = ['core/group', 'core/paragraph'];
-
-  for (var i = 0; i < withBackgroundStyle.length; i++) {
-    wp.blocks.registerBlockStyle(withBackgroundStyle[i], [{
-      name: 'light-gray-background',
-      title: wp.i18n.__('Light Gray Background', 'hds-wp')
-    }]);
-  }
-});
 
 (function (wp) {
   var __ = wp.i18n.__;
@@ -894,7 +867,7 @@ wp.domReady(function () {
       options: columnCountOptions()
     }, props), hdsCheckboxControl({
       label: __('Has background', 'hds-wp'),
-      value: props.attributes.hasBackground,
+      checked: props.attributes.hasBackground,
       attribute: 'hasBackground'
     }, props));
   }
@@ -1366,7 +1339,19 @@ wp.domReady(function () {
       title = __('Please select a post or page', 'hds-wp');
     }
 
-    return createElement('div', useBlockProps(), createElement('h3', {}, title));
+    var parts = [createElement('h3', {
+      className: 'link___title'
+    }, title)];
+
+    if (linkType === 'title-excerpt' && props.attributes.linkExcerpt) {
+      parts.push(createElement('p', {
+        className: 'link___excerpt'
+      }, props.attributes.linkExcerpt));
+    }
+
+    return createElement('div', useBlockProps({
+      className: 'link'
+    }), parts);
   }
 
   function getParentBlock(clientId) {
@@ -1499,7 +1484,7 @@ wp.domReady(function () {
       options: columnCountOptions()
     }, props), hdsCheckboxControl({
       label: __('Has background', 'hds-wp'),
-      value: props.attributes.hasBackground,
+      checked: props.attributes.hasBackground,
       attribute: 'hasBackground'
     }, props));
   }
@@ -1723,3 +1708,30 @@ wp.domReady(function () {
     edit: edit()
   });
 })(window.wp);
+
+wp.domReady(function () {
+  /**
+    * Buttons
+    */
+  wp.blocks.unregisterBlockStyle('core/button', 'outline');
+  wp.blocks.unregisterBlockStyle('core/button', 'fill');
+  wp.blocks.registerBlockStyle('core/button', [{
+    name: 'secondary',
+    title: wp.i18n.__('Secondary', 'hds-wp')
+  }, {
+    name: 'supplementary',
+    title: wp.i18n.__('Supplementary', 'hds-wp')
+  }]);
+  /**
+    * Text
+    */
+
+  var withBackgroundStyle = ['core/group', 'core/paragraph'];
+
+  for (var i = 0; i < withBackgroundStyle.length; i++) {
+    wp.blocks.registerBlockStyle(withBackgroundStyle[i], [{
+      name: 'light-gray-background',
+      title: wp.i18n.__('Light Gray Background', 'hds-wp')
+    }]);
+  }
+});

@@ -78,10 +78,15 @@
       title = __( 'Please select a post or page', 'hds-wp' );
     }
 
-    return createElement(
-      'div', useBlockProps(),
-      createElement( 'h3', {}, title )
-    );
+    let parts = [
+      createElement( 'h3', {className: 'link___title'}, title )
+    ];
+
+    if ( linkType === 'title-excerpt' && props.attributes.linkExcerpt ) {
+      parts.push(createElement( 'p', {className: 'link___excerpt'}, props.attributes.linkExcerpt ));
+    }
+
+    return createElement( 'div', useBlockProps({className: 'link'}), parts);
   }
 
   function getParentBlock( clientId ) {

@@ -49,7 +49,7 @@
       }, props),
       hdsCheckboxControl({
         label: __( 'Has background', 'hds-wp' ),
-        value: props.attributes.hasBackground,
+        checked: props.attributes.hasBackground,
         attribute: 'hasBackground',
       }, props)
     );

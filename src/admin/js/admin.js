@@ -164,7 +164,7 @@ function hdsButtonUrlControl(props) {
 function hdsExternalUrlControl(props) {
 	return hdsCheckboxControl({
 		label: wp.i18n.__( 'Is external URL', 'hds-wp' ),
-		value: props.attributes.isExternalUrl,
+		checked: props.attributes.isExternalUrl,
 		attribute: 'isExternalUrl',
 	}, props);
 }
@@ -172,7 +172,7 @@ function hdsExternalUrlControl(props) {
 function hdsTargetBlankControl(props) {
 	return hdsCheckboxControl({
 		label: wp.i18n.__( 'Open in new window', 'hds-wp' ),
-		value: props.attributes.targetBlank,
+		checked: props.attributes.targetBlank,
 		attribute: 'targetBlank',
 	}, props);
 }
