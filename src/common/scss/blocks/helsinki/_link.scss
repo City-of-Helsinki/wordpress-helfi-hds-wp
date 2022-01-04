@@ -108,6 +108,7 @@
       font-size: rem-calc(16);
       color: $dark-gray;
       margin-top: spacing('2-xs');
+      margin-bottom: 0;
 
       @include breakpoint('m') {
         font-size: rem-calc(18);
