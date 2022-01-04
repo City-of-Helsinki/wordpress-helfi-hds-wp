@@ -126,7 +126,7 @@ function hds_wp_render_block_links_list( $attributes ) {
 		return;
 	}
 
-	$linkType = $attributes['linkType'] ?? '';
+	$linkType = ! empty( $attributes['linkType'] ) ? $attributes['linkType'] : 'title';
 	switch ( $linkType ) {
 		case 'title-excerpt':
 			$links = array_map(
@@ -168,7 +168,8 @@ function hds_wp_render_block_links_list( $attributes ) {
 	$title = '';
 	if ( ! empty( $attributes['title'] ) ) {
 		$title = sprintf(
-			'<h2 class="links-list__title">%s</h2>',
+			'<h2 class="links-list__title">%s<span>%s</span></h2>',
+			$decoration,
 			esc_html( $attributes['title'] )
 		);
 	}
@@ -182,12 +183,11 @@ function hds_wp_render_block_links_list( $attributes ) {
 	return sprintf(
 		'<div class="%s">
 			<div class="hds-container">
-				%s%s
+				%s
 				<ul class="%s">%s</ul>
 			</div>
 		</div>',
 		implode( ' ', $wrapClasses ),
-		$decoration,
 		$title,
 		implode( ' ', $gridClasses ),
 		implode( '', $links )
