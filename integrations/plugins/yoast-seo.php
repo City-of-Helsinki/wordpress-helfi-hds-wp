@@ -1,6 +1,53 @@
 <?php
 
 /**
+  * Update options
+  */
+add_action( 'init', 'helsinki_wpseo_maybe_update_options' );
+function helsinki_wpseo_maybe_update_options() {
+	if ( helsinki_wpseo_options_updated() ) {
+		return;
+	}
+	helsinki_wpseo_update_title_options();
+	helsinki_wpseo_set_options_updated();
+}
+
+function helsinki_wpseo_options_updated() {
+	return get_option( 'helsinki_wpseo_options_updated', false );
+}
+
+function helsinki_wpseo_set_options_updated() {
+	return update_option(
+		'helsinki_wpseo_options_updated',
+		\ArtCloud\Helsinki\Plugin\HDS\PLUGIN_VERSION,
+		true
+	);
+}
+
+function helsinki_wpseo_update_title_options() {
+	$options = WPSEO_Options::get_option('wpseo_titles');
+	if ( ! $options ) {
+		return;
+	}
+
+	foreach ( $options as $key => $value) {
+		if ( ! is_string( $value ) || ! helsinki_wpseo_is_title_meta( $key ) ) {
+			continue;
+		}
+
+		if ( false !== strpos( $value, '%%helsinki%%' ) ) {
+			continue;
+		}
+
+		WPSEO_Options::save_option(
+			'wpseo_titles',
+			$key,
+			helsinki_wpseo_append_helsinki_variable( $value )
+		);
+	}
+}
+
+/**
   * Defaults
   */
 add_filter( 'wpseo_defaults', 'helsinki_wpseo_default_titles', 10, 2 );
