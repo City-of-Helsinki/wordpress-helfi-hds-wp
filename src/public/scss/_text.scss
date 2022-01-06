@@ -1,0 +1,18 @@
+p {
+  font-size: rem-calc(18);
+  line-height: $global-line-height;
+}
+
+p.has-lead-font-size {
+  font-size: rem-calc(20);
+}
+
+p.has-small-font-size {
+  font-size: rem-calc(16);
+}
+
+@include breakpoint('l') {
+  p.has-lead-font-size {
+    font-size: rem-calc(22);
+  }
+}

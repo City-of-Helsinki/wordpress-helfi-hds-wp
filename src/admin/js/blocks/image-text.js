@@ -24,7 +24,7 @@
 					function( mediaUpload ) {
 						return createElement(Button,{
 							icon: 'format-image',
-							label: __('Select image'),
+							label: __( 'Select image', 'hds-wp' ),
 							onClick: mediaUpload.open
 						});
 					}
@@ -66,27 +66,28 @@
 		return hdsContentButton(
 			props,
 			{
-				className: 'content__link hds-button button',
+				className: 'content__link hds-button hds-button--secondary',
 				href: props.attributes.buttonUrl,
 			},
-			hdsArrowIcon()
+			props.attributes.isExternalUrl ? hdsExternalLinkIcon() : hdsArrowIcon(),
 		);
 	}
 
-	function editBanner() {
+	function edit() {
 		return function(props) {
 			return createElement(
 				Fragment, {},
 				toolbar( props ),
 				hdsInspectorControls(
 					{
-						title: wp.i18n.__('Content'),
+						title: __( 'Content', 'hds-wp' ),
 						initialOpen: false,
 					},
 					hdsContentTitleControl(props),
 					hdsContentTextControl(props),
 					hdsButtonTextControl(props),
 					hdsButtonUrlControl(props),
+          hdsExternalUrlControl(props)
 				),
 				createElement('div', useBlockProps({
 						className: classNamesString(props),
@@ -105,7 +106,7 @@
 		}
 	}
 
-	function saveBanner() {
+	function save() {
 		return function(props) {
 			return createElement('div', useBlockProps.save({
 					className: classNamesString(props),
@@ -125,7 +126,7 @@
 
 	registerBlockType('hds-wp/image-text', {
 		apiVersion: 2,
-		title: __( 'HDS - Image & Text' ),
+		title: __( 'Helsinki - Image & Text', 'hds-wp' ),
 		category: 'hds-wp',
 		icon: 'format-gallery',
 		supports: {
@@ -177,9 +178,13 @@
 				type: 'string',
 				default: '',
 			},
+			isExternalUrl: {
+				type: 'boolean',
+				default: false,
+			},
 		},
-		edit: editBanner(),
-		save: saveBanner()
+		edit: edit(),
+		save: save()
 	});
 
 })(window.wp);

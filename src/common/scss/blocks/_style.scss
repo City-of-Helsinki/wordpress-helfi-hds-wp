@@ -1,0 +1,16 @@
+$hasColors: (
+	"light-gray": $light-gray,
+);
+
+@each $name, $color in $hasColors {
+  .is-style-#{"" + $name}-background {
+    background-color: $color;
+    padding: spacing('layout-m') spacing('layout-s');
+
+    .wp-block-group {
+      >:first-child {
+        margin-top: 0;
+      }
+    }
+  }
+}

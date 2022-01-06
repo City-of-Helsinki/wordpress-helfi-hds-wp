@@ -10,28 +10,29 @@
 		return hdsContentButton(
 			props,
 			{
-				className: 'content__link hds-button button',
+				className: 'content__link hds-button',
 				href: props.attributes.buttonUrl,
 				target: '_blank',
 				rel: 'noopener',
 			},
-			hdsExternalLinkIcon()
+			props.attributes.isExternalUrl ? hdsExternalLinkIcon() : hdsArrowIcon(),
 		);
 	}
 
-	function editBanner() {
+	function edit() {
 		return function(props) {
 			return createElement(
 				Fragment, {},
 				hdsInspectorControls(
 					{
-						title: wp.i18n.__('Content'),
+						title: __( 'Content', 'hds-wp' ),
 						initialOpen: false,
 					},
 					hdsContentTitleControl(props),
 					hdsContentTextControl(props),
 					hdsButtonTextControl(props),
 					hdsButtonUrlControl(props),
+          hdsExternalUrlControl(props),
 					hdsIconControl(props)
 				),
 				createElement('div', useBlockProps(),
@@ -56,7 +57,7 @@
 		}
 	}
 
-	function saveBanner() {
+	function save() {
 		return function(props) {
 			return createElement('div', useBlockProps.save(),
 				hdsContent(
@@ -81,7 +82,7 @@
 
 	registerBlockType('hds-wp/banner', {
 		apiVersion: 2,
-		title: __( 'HDS - Banner' ),
+		title: __( 'Helsinki - Banner', 'hds-wp' ),
 		category: 'hds-wp',
 		icon: 'format-gallery',
 		supports: {
@@ -108,9 +109,13 @@
 				type: 'string',
 				default: '',
 			},
+			isExternalUrl: {
+				type: 'boolean',
+				default: true,
+			},
 		},
-		edit: editBanner(),
-		save: saveBanner()
+		edit: edit(),
+		save: save()
 	});
 
 })(window.wp);

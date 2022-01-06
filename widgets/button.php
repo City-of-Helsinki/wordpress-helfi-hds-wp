@@ -1,6 +1,6 @@
 <?php
 
-class HDS_WP_Button extends WP_Widget {
+class Helsinki_WP_Button extends WP_Widget {
 	/**
 	 * Constructs the new widget.
 	 *
@@ -10,7 +10,7 @@ class HDS_WP_Button extends WP_Widget {
 		// Instantiate the parent object.
 		parent::__construct(
 			__CLASS__,
-			_x( 'HDS Button', 'widget title', 'hds-wp' )
+			_x( 'Helsinki Button', 'widget title', 'hds-wp' )
 		);
 	}
 

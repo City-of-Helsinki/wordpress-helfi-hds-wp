@@ -43,11 +43,11 @@
 	function panelControls(props) {
 		return hdsInspectorControls(
 			{
-				title: wp.i18n.__('Settings'),
+				title: __( 'Settings', 'hds-wp' ),
 				initialOpen: false,
 			},
 			hdsTextControl({
-				label: wp.i18n.__('Panel Title'),
+				label: __( 'Panel Title', 'hds-wp' ),
 				value: props.attributes.panelTitle,
 				attribute: 'panelTitle',
 			}, props)
@@ -128,12 +128,12 @@
 					closeCurrent(event.currentTarget);
 				}
 			},
-			createElement( 'span', {}, __('Close') ),
+			createElement( 'span', {}, __( 'Close', 'hds-wp' ) ),
 			hdsAngleIcon()
 		);
 	}
 
-	function editBanner() {
+	function edit() {
 		return function(props) {
 
 			if ( ! props.attributes.blockId ) {
@@ -156,7 +156,7 @@
 		}
 	}
 
-	function saveBanner() {
+	function save() {
 		return function( props ) {
 			return createElement(
 				Fragment, {},
@@ -173,7 +173,7 @@
 
 	registerBlockType('hds-wp/accordion-panel', {
 		apiVersion: 2,
-		title: __( 'HDS - Accordion Panel' ),
+		title: __( 'Helsinki - Accordion Panel', 'hds-wp' ),
 		category: 'hds-wp',
 		icon: 'format-gallery',
 		supports: {
@@ -183,14 +183,14 @@
 		attributes: {
 			panelTitle: {
 				type: 'string',
-				default: __('Panel'),
+				default: __( 'Panel', 'hds-wp' ),
 			},
 			blockId: {
 				type: 'string',
 			}
 		},
-		edit: editBanner(),
-		save: saveBanner(),
+		edit: edit(),
+		save: save(),
 	});
 
 })(window.wp);

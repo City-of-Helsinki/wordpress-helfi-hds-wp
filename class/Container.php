@@ -1,21 +1,10 @@
 <?php
 namespace ArtCloud\Helsinki\Plugin\HDS;
 
-class Container {
-
-	private static $instance = null;
+class Container extends Singleton
+{
 
 	private static $modules = array();
-
-	private function __construct() {}
-
-	public static function instance() {
-		if ( self::$instance === null ) {
-			self::$instance = new Container();
-		}
-
-		return self::$instance;
-	}
 
 	public static function add( string $key, Module $module ) {
 		self::$modules[$key] = $module;

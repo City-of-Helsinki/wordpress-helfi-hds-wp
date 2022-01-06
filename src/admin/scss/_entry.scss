@@ -1,0 +1,39 @@
+.entry {
+	position: relative;
+
+  .entry__title {
+    margin-top: 0;
+  }
+
+  &.entry--feed {
+		border-left: 4px $default-border-style var(--primary-color);
+		padding-left: spacing('s');
+		margin-bottom: spacing('m');
+
+		@include breakpoint(l) {
+			border-top: $default-border;
+			border-left: none;
+			padding-top: spacing('m');
+			padding-bottom: spacing('m');
+			padding-left: 0;
+			margin-bottom: 0;
+		}
+
+		.entry__title {
+			font-size: $body-font-size;
+			margin-bottom: spacing('2-xs');
+
+			.icon {
+				display: inline-block;
+				margin-left: spacing('2-xs');
+				width: 16px;
+			}
+		}
+
+		.meta {
+			font-size: rem-calc(14);
+		}
+
+	} // -feed
+
+}

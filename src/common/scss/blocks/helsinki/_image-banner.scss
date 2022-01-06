@@ -2,9 +2,7 @@
 	position: relative;
 	margin-bottom: $paragraph-margin-bottom;
 
-	&.has-image {
-
-	}
+	&.has-image {}
 
 	&.has-placeholder {
 		background-color: $light-gray;
@@ -41,6 +39,7 @@
 		&__inner {
 			background-color: $white;
 			display: flex;
+  		align-items: flex-start;
 			flex-direction: column;
 			justify-content: center;
 			position: relative;
@@ -65,8 +64,8 @@
 		}
 
 		&__link {
-			font-weight: $global-font-weight-medium;
-		}
+      padding: 0;
+    }
 
 		.wp-block-button {
 			margin-top: .5rem;

@@ -3,7 +3,7 @@ namespace ArtCloud\Helsinki\Plugin\HDS;
 
 class Settings extends Module {
 
-	const PAGE_SLUG = 'hds-wp-settings';
+	const PAGE_SLUG = 'helsinki-wp-settings';
 
 	protected $tabs = array();
 
@@ -82,7 +82,7 @@ class Settings extends Module {
 
 	function settingsConfig( string $tab ) {
 		return array(
-			'page' => 'hds-wp-settings-' . $tab,
+			'page' => 'helsinki-wp-settings-' . $tab,
 			'section' => 'hds_wp_settings_' . $tab,
 		);
 	}

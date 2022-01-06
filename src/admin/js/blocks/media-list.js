@@ -33,7 +33,7 @@
 			};
 
 			return createElement(SelectControl, {
-				label: __( 'Select a category' ),
+				label: __( 'Select a category', 'hds-wp' ),
 				options : options,
 				onChange: function( value ) {
 					props.setAttributes({
@@ -46,13 +46,13 @@
 		}
 	);
 
-	function editBlock() {
+	function edit() {
 		return function(props) {
 			return createElement(
 				Fragment, {},
 				hdsInspectorControls(
 					{
-						title: wp.i18n.__('Settings'),
+						title: __( 'Settings', 'hds-wp' ),
 						initialOpen: true,
 					},
 					hdsPanelRow({},
@@ -65,17 +65,17 @@
 						attribute: 'order',
 						selected: props.attributes.order ? props.attributes.order : 'ASC',
 						options: [
-							{value: 'ASC', label: __('Ascending')},
-							{value: 'DESC', label: __('Descending')},
+							{value: 'ASC', label: __( 'Ascending', 'hds-wp' )},
+							{value: 'DESC', label: __( 'Descending', 'hds-wp' )},
 						],
 					}, props),
 					hdsRadioControl({
-						label: __('Order by'),
+						label: __( 'Order by', 'hds-wp' ),
 						attribute: 'orderBy',
 						selected: props.attributes.orderBy ? props.attributes.orderBy : 'title',
 						options: [
-							{value: 'title', label: __('Title')},
-							{value: 'date', label: __('Date')},
+							{value: 'title', label: __( 'Title', 'hds-wp' )},
+							{value: 'date', label: __( 'Date', 'hds-wp' )},
 						],
 					}, props)
 				),
@@ -86,7 +86,7 @@
 
 	function settingsSummaryList(props) {
 		return createElement( 'div', useBlockProps(),
-			createElement('h2', {}, __( 'Media List' ) ),
+			createElement('h2', {}, __( 'Media List', 'hds-wp' ) ),
 			createElement('ul', {},
 				listItem( __( `Term: ${props.attributes.termName ?? ''}` ) ),
 				listItem( __( `Order: ${props.attributes.order ?? ''}` ) ),
@@ -101,11 +101,11 @@
 
 	registerBlockType('hds-wp/media-list', {
 		apiVersion: 2,
-		title: __( 'HDS - Media List' ),
-		description: __( 'List media files from the selected category' ),
+		title: __( 'Helsinki - Media List', 'hds-wp' ),
+		description: __( 'List media files from the selected category', 'hds-wp' ),
 		category: 'hds-wp',
 		icon: 'list-view',
-		keywords: [ __( 'media' ), __('list') ],
+		keywords: [ __( 'media', 'hds-wp' ), __( 'list', 'hds-wp' ) ],
 		supports: {
 			html: false,
 			anchor: true,
@@ -129,7 +129,7 @@
 				default: 'title',
 			},
 		},
-		edit: editBlock(),
+		edit: edit(),
 	});
 
 })(window.wp);
