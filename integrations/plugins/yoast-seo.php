@@ -5,6 +5,9 @@
   */
 add_action( 'init', 'helsinki_wpseo_maybe_update_options' );
 function helsinki_wpseo_maybe_update_options() {
+	if ( ! class_exists('WPSEO_Options') ) {
+		return;
+	}
 	if ( helsinki_wpseo_options_updated() ) {
 		return;
 	}
