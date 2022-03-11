@@ -1,8 +1,13 @@
 .wp-block-hds-wp-image-banner {
 	position: relative;
-	margin-bottom: $paragraph-margin-bottom;
+	margin-bottom: $paragraph-margin-bottom-small;
 
-	&.has-image {}
+	@include breakpoint('m') {
+		margin-bottom: $paragraph-margin-bottom-big;
+	}
+
+	&.has-image {
+	}
 
 	&.has-placeholder {
 		background-color: $light-gray;
@@ -17,7 +22,6 @@
 		img {
 			display: block;
 			@include absoluteCenter();
-
 			width: 100%;
 			height: auto;
 		}
@@ -39,7 +43,7 @@
 		&__inner {
 			background-color: $white;
 			display: flex;
-  		align-items: flex-start;
+			align-items: flex-start;
 			flex-direction: column;
 			justify-content: center;
 			position: relative;
@@ -64,8 +68,8 @@
 		}
 
 		&__link {
-      padding: 0;
-    }
+			padding: 0;
+		}
 
 		.wp-block-button {
 			margin-top: .5rem;
@@ -73,7 +77,6 @@
 			.wp-block-button__link {
 				border-radius: 0;
 			}
-
 		}
 	}
 
@@ -117,7 +120,8 @@
 		}
 
 		&.align-left {
-			.content__inner {}
+			.content__inner {
+			}
 		}
 
 		&.align-right {
