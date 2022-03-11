@@ -46,6 +46,21 @@
 				title: __( 'Settings', 'hds-wp' ),
 				initialOpen: false,
 			},
+			hdsSelectControl({
+				label: __( 'Heading Level', 'hds-wp' ),
+				value: props.attributes.headingLevel,
+				attribute: 'headingLevel',
+				options: [
+					{
+						label: 'h2',
+						value: 'h2',
+					},
+					{
+						label: 'h3',
+						value: 'h3',
+					}
+				]
+			}, props),
 			hdsTextControl({
 				label: __( 'Panel Title', 'hds-wp' ),
 				value: props.attributes.panelTitle,
@@ -56,7 +71,7 @@
 
 	function panelTitle(props) {
 		return createElement(
-			'h2',
+			props.attributes.headingLevel,
 			{className: 'accordion__title'},
 			panelToggle(props)
 		);
@@ -181,6 +196,10 @@
 		},
 		parent: [ 'hds-wp/accordion' ],
 		attributes: {
+			headingLevel: {
+				type: 'string',
+				default: 'h2',
+			},
 			panelTitle: {
 				type: 'string',
 				default: __( 'Panel', 'hds-wp' ),
