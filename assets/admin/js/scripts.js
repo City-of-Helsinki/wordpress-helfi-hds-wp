@@ -233,7 +233,9 @@ function hdsIconControl(props) {
 }
 
 function hdsSelectControl(config, props) {
-  return wp.element.createElement(wp.components.PanelRow, {}, wp.element.createElement(wp.components.SelectControl, {
+  return wp.element.createElement(wp.components.PanelRow, {
+    className: config.attribute
+  }, wp.element.createElement(wp.components.SelectControl, {
     label: config.label,
     value: config.value,
     onChange: function onChange(value) {
@@ -503,7 +505,18 @@ function hdsIcons(name) {
     return hdsInspectorControls({
       title: __('Settings', 'hds-wp'),
       initialOpen: false
-    }, hdsTextControl({
+    }, hdsSelectControl({
+      label: __('Heading Level', 'hds-wp'),
+      value: props.attributes.headingLevel,
+      attribute: 'headingLevel',
+      options: [{
+        label: 'h2',
+        value: 'h2'
+      }, {
+        label: 'h3',
+        value: 'h3'
+      }]
+    }, props), hdsTextControl({
       label: __('Panel Title', 'hds-wp'),
       value: props.attributes.panelTitle,
       attribute: 'panelTitle'
@@ -511,7 +524,7 @@ function hdsIcons(name) {
   }
 
   function panelTitle(props) {
-    return createElement('h2', {
+    return createElement(props.attributes.headingLevel, {
       className: 'accordion__title'
     }, panelToggle(props));
   }
@@ -597,6 +610,10 @@ function hdsIcons(name) {
     },
     parent: ['hds-wp/accordion'],
     attributes: {
+      headingLevel: {
+        type: 'string',
+        default: 'h2'
+      },
       panelTitle: {
         type: 'string',
         default: __('Panel', 'hds-wp')
@@ -944,6 +961,19 @@ function hdsIcons(name) {
     },
     edit: edit(),
     save: save()
+  });
+})(window.wp);
+
+(function (wp) {
+  var __ = wp.i18n.__;
+  var unregisterBlockType = wp.blocks.unregisterBlockType;
+  wp.domReady(function () {
+    unregisterBlockType('core/pullquote');
+    unregisterBlockType('core/verse');
+    unregisterBlockType('core/code');
+    unregisterBlockType('core/cover');
+    unregisterBlockType('core/preformatted');
+    unregisterBlockType('core/embed');
   });
 })(window.wp);
 
