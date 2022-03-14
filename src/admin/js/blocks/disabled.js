@@ -1,15 +1,27 @@
 (function(wp){
 
     const __ = wp.i18n.__;
-    const { unregisterBlockType } = wp.blocks;
+    const { unregisterBlockType, getBlockType } = wp.blocks;
 
     wp.domReady( function() {
-        unregisterBlockType( 'core/pullquote' );
-        unregisterBlockType( 'core/verse' );
-        unregisterBlockType( 'core/code' );
-        unregisterBlockType( 'core/cover' );
-        unregisterBlockType( 'core/preformatted' );
-        unregisterBlockType( 'core/embed' );
+        if (getBlockType('core/pullquote')) {
+            unregisterBlockType( 'core/pullquote' );
+        }
+        if (getBlockType('core/verse')) {
+            unregisterBlockType( 'core/verse' );
+        }
+        if (getBlockType('core/code')) {
+            unregisterBlockType( 'core/code' );
+        }
+        if (getBlockType('core/cover')) {
+            unregisterBlockType( 'core/cover' );
+        }
+        if (getBlockType('core/preformatted')) {
+            unregisterBlockType( 'core/preformatted' );
+        }
+        if (getBlockType('core/embed')) {
+            unregisterBlockType( 'core/embed' );
+        }
 
     });
 

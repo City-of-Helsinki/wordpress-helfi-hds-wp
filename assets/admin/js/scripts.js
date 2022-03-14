@@ -966,14 +966,33 @@ function hdsIcons(name) {
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var unregisterBlockType = wp.blocks.unregisterBlockType;
+  var _wp$blocks2 = wp.blocks,
+      unregisterBlockType = _wp$blocks2.unregisterBlockType,
+      getBlockType = _wp$blocks2.getBlockType;
   wp.domReady(function () {
-    unregisterBlockType('core/pullquote');
-    unregisterBlockType('core/verse');
-    unregisterBlockType('core/code');
-    unregisterBlockType('core/cover');
-    unregisterBlockType('core/preformatted');
-    unregisterBlockType('core/embed');
+    if (getBlockType('core/pullquote')) {
+      unregisterBlockType('core/pullquote');
+    }
+
+    if (getBlockType('core/verse')) {
+      unregisterBlockType('core/verse');
+    }
+
+    if (getBlockType('core/code')) {
+      unregisterBlockType('core/code');
+    }
+
+    if (getBlockType('core/cover')) {
+      unregisterBlockType('core/cover');
+    }
+
+    if (getBlockType('core/preformatted')) {
+      unregisterBlockType('core/preformatted');
+    }
+
+    if (getBlockType('core/embed')) {
+      unregisterBlockType('core/embed');
+    }
   });
 })(window.wp);
 
@@ -1447,9 +1466,9 @@ function hdsIcons(name) {
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks2 = wp.blocks,
-      registerBlockType = _wp$blocks2.registerBlockType,
-      getBlockContent = _wp$blocks2.getBlockContent;
+  var _wp$blocks3 = wp.blocks,
+      registerBlockType = _wp$blocks3.registerBlockType,
+      getBlockContent = _wp$blocks3.getBlockContent;
   var _wp$element9 = wp.element,
       Fragment = _wp$element9.Fragment,
       createElement = _wp$element9.createElement,
