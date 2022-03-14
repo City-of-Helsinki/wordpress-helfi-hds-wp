@@ -18,3 +18,7 @@ body.wp-admin .editor-styles-wrapper {
 
   @import 'blocks';
 }
+
+body.wp-admin .interface-interface-skeleton__body {
+    @import 'interface';
+}

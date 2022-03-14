@@ -267,7 +267,9 @@ function hdsIconControl(props) {
 
 function hdsSelectControl(config, props) {
 	return wp.element.createElement(
-		wp.components.PanelRow, {},
+		wp.components.PanelRow, {
+			className: config.attribute,
+		},
 		wp.element.createElement(
 			wp.components.SelectControl,
 			{
