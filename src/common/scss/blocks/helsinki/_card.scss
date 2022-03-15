@@ -1,6 +1,6 @@
 .content-cards {
 
-    padding-bottom: $paragraph-margin-bottom-extra-small;
+    padding-bottom: 1px;
 
     @include breakpoint('m') {
         padding-bottom: $paragraph-margin-bottom-small;
