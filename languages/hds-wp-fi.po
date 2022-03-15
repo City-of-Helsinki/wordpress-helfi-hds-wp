@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Helsinki Design System for WordPress\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-05 14:10+0000\n"
-"PO-Revision-Date: 2021-12-03 08:57+0000\n"
+"PO-Revision-Date: 2022-03-10 11:08+0000\n"
 "Last-Translator: \n"
 "Language-Team: Suomi\n"
 "Language: fi\n"
@@ -15,11 +15,11 @@ msgstr ""
 "X-Loco-Version: 2.5.2; wp-5.7.1\n"
 "X-Domain: hds-wp"
 
-#: config/integrations/types.php:7
+#: config/integrations/types.php:14
 msgid "Add Helsinki styling to contact forms."
 msgstr "Lisää Helsinki-tyylit yhteydenottolomakkeisiin."
 
-#: config/integrations/types.php:11
+#: config/integrations/types.php:7
 msgid "Add Helsinki styling to cookie notice."
 msgstr "Lisää Helsinki-tyylit evästeilmoitukseen."
 
@@ -39,7 +39,7 @@ msgstr "Tasaus oikealla"
 msgid "ArtCloud"
 msgstr "ArtCloud"
 
-#: assets/admin/js/scripts.js:1053 src/admin/js/blocks/media-list.js:68
+#: assets/admin/js/scripts.js:1676 src/admin/js/blocks/media-list.js:68
 msgid "Ascending"
 msgstr "Nouseva"
 
@@ -59,15 +59,30 @@ msgstr "Painikkeen teksti"
 msgid "Button URL"
 msgstr "Painikkeen url"
 
-#: integrations/plugins/yoast-seo.php:57
+#: integrations/plugins/yoast-seo.php:107
 msgid "City of Helsinki"
 msgstr "Helsingin kaupunki"
 
-#: assets/admin/js/scripts.js:446 src/admin/js/blocks/accordion-panel.js:131
+#: assets/admin/js/scripts.js:576 src/admin/js/blocks/accordion-panel.js:146
 msgid "Close"
 msgstr "Sulje"
 
-#: config/integrations/types.php:10
+#: assets/admin/js/scripts.js:879 assets/admin/js/scripts.js:1509
+#: src/admin/js/blocks/content-cards.js:31 src/admin/js/blocks/links.js:45
+msgid "Column count"
+msgstr ""
+
+#: assets/admin/js/scripts.js:859 assets/admin/js/scripts.js:862
+#: assets/admin/js/scripts.js:865 assets/admin/js/scripts.js:1484
+#: assets/admin/js/scripts.js:1487 assets/admin/js/scripts.js:1490
+#: src/admin/js/blocks/content-cards.js:13
+#: src/admin/js/blocks/content-cards.js:14
+#: src/admin/js/blocks/content-cards.js:15 src/admin/js/blocks/links.js:21
+#: src/admin/js/blocks/links.js:22 src/admin/js/blocks/links.js:23
+msgid "Columns"
+msgstr ""
+
+#: config/integrations/types.php:6
 msgid "Complianz GDPR"
 msgstr "Complianz GDPR"
 
@@ -81,17 +96,17 @@ msgctxt "Complianz used cookies title"
 msgid "Used cookies"
 msgstr "Käytössä olevat evästeet"
 
-#: config/integrations/types.php:6
+#: config/integrations/types.php:13
 msgid "Contact Form 7"
 msgstr "Contact Form 7"
 
-#: assets/admin/js/scripts.js:571 assets/admin/js/scripts.js:704
-#: assets/admin/js/scripts.js:857 src/admin/js/blocks/banner.js:28
+#: assets/admin/js/scripts.js:705 assets/admin/js/scripts.js:1048
+#: assets/admin/js/scripts.js:1201 src/admin/js/blocks/banner.js:28
 #: src/admin/js/blocks/image-banner.js:83 src/admin/js/blocks/image-text.js:83
 msgid "Content"
 msgstr "Sisältö"
 
-#: assets/admin/js/scripts.js:1067 src/admin/js/blocks/media-list.js:78
+#: assets/admin/js/scripts.js:1690 src/admin/js/blocks/media-list.js:78
 msgid "Date"
 msgstr "Päivämäärä"
 
@@ -99,7 +114,7 @@ msgstr "Päivämäärä"
 msgid "Default configuration for WP-Matomo plugin."
 msgstr "Oletusasetukset WP-Matomo-lisäosalle."
 
-#: config/integrations/types.php:22
+#: config/integrations/types.php:26
 #| msgid ""
 #| "Default configuration meta titles and descriptions, andd custom meta "
 #| "variables."
@@ -109,11 +124,16 @@ msgid ""
 msgstr ""
 "Oletusasetukset meta-otsikoille ja -kuvauksille, sekä lisämetamuuttujat."
 
-#: assets/admin/js/scripts.js:1056 src/admin/js/blocks/media-list.js:69
+#: assets/admin/js/scripts.js:1679 src/admin/js/blocks/media-list.js:69
 msgid "Descending"
 msgstr "Laskeva"
 
-#: assets/admin/js/scripts.js:128 src/admin/js/admin.js:133
+#: config/integrations/types.php:22
+msgid "Enable custom default template for Helsinki theme."
+msgstr ""
+
+#: assets/admin/js/scripts.js:128 assets/admin/js/scripts.js:1310
+#: src/admin/js/admin.js:133 src/admin/js/blocks/link.js:23
 msgid "Excerpt"
 msgstr "Oteteksti"
 
@@ -137,36 +157,67 @@ msgstr "Usein kysytyt kysymykset"
 msgid "General"
 msgstr "Yleinen"
 
+#: assets/admin/js/scripts.js:884 assets/admin/js/scripts.js:1514
+#: src/admin/js/blocks/content-cards.js:37 src/admin/js/blocks/links.js:51
+msgid "Has background"
+msgstr ""
+
+#: assets/admin/js/scripts.js:507 src/admin/js/blocks/accordion-panel.js:50
+msgid "Heading Level"
+msgstr "Otsikkotaso"
+
 #: class/Blocks.php:50
 msgid "Helsinki"
 msgstr "Helsinki"
 
-#: config/blocks/blocks.php:4 assets/admin/js/scripts.js:532
+#: config/blocks/blocks.php:4 assets/admin/js/scripts.js:666
 #: src/admin/js/blocks/accordion.js:50
 msgid "Helsinki - Accordion"
 msgstr "Helsinki - Haitari"
 
-#: config/blocks/blocks.php:16 assets/admin/js/scripts.js:473
-#: src/admin/js/blocks/accordion-panel.js:176
+#: config/blocks/blocks.php:16 assets/admin/js/scripts.js:603
+#: src/admin/js/blocks/accordion-panel.js:191
 msgid "Helsinki - Accordion Panel"
 msgstr "Helsinki - Haitaripaneeli"
 
-#: config/blocks/blocks.php:28 assets/admin/js/scripts.js:597
+#: config/blocks/blocks.php:28 assets/admin/js/scripts.js:731
 #: src/admin/js/blocks/banner.js:85
 msgid "Helsinki - Banner"
 msgstr "Helsinki - Banneri"
 
-#: config/blocks/blocks.php:64 assets/admin/js/scripts.js:875
+#: config/blocks/blocks.php:110 assets/admin/js/scripts.js:796
+#: assets/admin/js/scripts.js:807 src/admin/js/blocks/content-card.js:26
+#: src/admin/js/blocks/content-card.js:43
+msgid "Helsinki - Content Card"
+msgstr ""
+
+#: config/blocks/blocks.php:78 assets/admin/js/scripts.js:936
+#: src/admin/js/blocks/content-cards.js:108
+msgid "Helsinki - Content Cards"
+msgstr ""
+
+#: config/blocks/blocks.php:52 assets/admin/js/scripts.js:1219
 #: src/admin/js/blocks/image-text.js:129
 msgid "Helsinki - Image & Text"
 msgstr "Helsinki - Kuva & teksti"
 
-#: config/blocks/blocks.php:52 assets/admin/js/scripts.js:726
+#: config/blocks/blocks.php:40 assets/admin/js/scripts.js:1070
 #: src/admin/js/blocks/image-banner.js:135
 msgid "Helsinki - Image Banner"
 msgstr "Helsinki - Kuvabanneri"
 
-#: config/blocks/blocks.php:76 assets/admin/js/scripts.js:1085
+#: config/blocks/blocks.php:160 assets/admin/js/scripts.js:1360
+#: assets/admin/js/scripts.js:1399 src/admin/js/blocks/link.js:72
+#: src/admin/js/blocks/link.js:112
+msgid "Helsinki - Link"
+msgstr ""
+
+#: config/blocks/blocks.php:124 assets/admin/js/scripts.js:1571
+#: src/admin/js/blocks/links.js:131
+msgid "Helsinki - Links"
+msgstr ""
+
+#: config/blocks/blocks.php:64 assets/admin/js/scripts.js:1708
 #: src/admin/js/blocks/media-list.js:104
 msgid "Helsinki - Media List"
 msgstr "Helsinki - Medialista"
@@ -183,9 +234,13 @@ msgstr "Helsinki WP"
 msgid "https://www.artcloud.fi"
 msgstr "https://www.artcloud.fi"
 
-#: assets/admin/js/scripts.js:220 src/admin/js/admin.js:253
+#: assets/admin/js/scripts.js:228 src/admin/js/admin.js:261
 msgid "Icon"
 msgstr "Ikoni"
+
+#: assets/admin/js/scripts.js:1477 src/admin/js/blocks/links.js:15
+msgid "Image & Title"
+msgstr ""
 
 #: class/Integrations.php:48
 msgid "Integrations"
@@ -195,33 +250,57 @@ msgstr "Integraatiot"
 msgid "Is external URL"
 msgstr "Ulkoinen linkki"
 
-#: assets/admin/js/scripts.js:1089 src/admin/js/blocks/media-list.js:108
+#: assets/admin/js/scripts.js:1762 src/admin/js/filters/block-styles.js:27
+msgid "Light Gray Background"
+msgstr ""
+
+#: assets/admin/js/scripts.js:1504 src/admin/js/blocks/links.js:39
+msgid "Link type"
+msgstr ""
+
+#: assets/admin/js/scripts.js:1712 src/admin/js/blocks/media-list.js:108
 msgid "list"
 msgstr "lista"
 
-#: assets/admin/js/scripts.js:1086 src/admin/js/blocks/media-list.js:105
+#: assets/admin/js/scripts.js:1709 src/admin/js/blocks/media-list.js:105
 msgid "List media files from the selected category"
 msgstr "Listaa mediatiedostot valitusta kategoriasta"
 
-#: assets/admin/js/scripts.js:1089 src/admin/js/blocks/media-list.js:108
+#: assets/admin/js/scripts.js:1712 src/admin/js/blocks/media-list.js:108
 msgid "media"
 msgstr "media"
 
-#: assets/admin/js/scripts.js:1076 src/admin/js/blocks/media-list.js:89
+#: assets/admin/js/scripts.js:1699 src/admin/js/blocks/media-list.js:89
 msgid "Media List"
 msgstr "Medialista"
 
-#: assets/admin/js/scripts.js:1059 src/admin/js/blocks/media-list.js:73
+#: assets/admin/js/scripts.js:1471 src/admin/js/blocks/links.js:13
+msgid "Only title"
+msgstr ""
+
+#: assets/admin/js/scripts.js:167 src/admin/js/admin.js:174
+msgid "Open in new window"
+msgstr ""
+
+#: assets/admin/js/scripts.js:1682 src/admin/js/blocks/media-list.js:73
 msgid "Order by"
 msgstr "Järjestys"
 
-#: assets/admin/js/scripts.js:483 src/admin/js/blocks/accordion-panel.js:186
+#: assets/admin/js/scripts.js:617 src/admin/js/blocks/accordion-panel.js:205
 msgid "Panel"
 msgstr "Paneeli"
 
-#: assets/admin/js/scripts.js:388 src/admin/js/blocks/accordion-panel.js:50
+#: assets/admin/js/scripts.js:518 src/admin/js/blocks/accordion-panel.js:65
 msgid "Panel Title"
 msgstr "Paneeliotsikko"
+
+#: assets/admin/js/scripts.js:1367 src/admin/js/blocks/link.js:78
+msgid "Please select a post or page"
+msgstr ""
+
+#: assets/admin/js/scripts.js:317 src/admin/js/admin.js:369
+msgid "Post type"
+msgstr ""
 
 #: class/Cpt.php:29
 msgid "Post Types"
@@ -246,26 +325,34 @@ msgstr "Poista kuva"
 msgid "Save settings"
 msgstr "Tallenna asetukset"
 
-#: assets/admin/js/scripts.js:1125 src/admin/js/filters/block-styles.js:12
+#: assets/admin/js/scripts.js:385 src/admin/js/admin.js:454
+msgid "Search posts"
+msgstr ""
+
+#: assets/admin/js/scripts.js:1748 src/admin/js/filters/block-styles.js:12
 msgid "Secondary"
 msgstr "Toissijainen"
 
-#: assets/admin/js/scripts.js:1030 src/admin/js/blocks/media-list.js:36
+#: assets/admin/js/scripts.js:1653 src/admin/js/blocks/media-list.js:36
 msgid "Select a category"
 msgstr "Valitse kategoria"
 
-#: assets/admin/js/scripts.js:664 assets/admin/js/scripts.js:817
+#: assets/admin/js/scripts.js:1008 assets/admin/js/scripts.js:1161
 #: src/admin/js/blocks/image-banner.js:27 src/admin/js/blocks/image-text.js:27
 msgid "Select image"
 msgstr "Valitse kuva"
 
-#: class/Settings.php:128 assets/admin/js/scripts.js:385
-#: assets/admin/js/scripts.js:1045 src/admin/js/blocks/accordion-panel.js:46
-#: src/admin/js/blocks/media-list.js:55
+#: class/Settings.php:128 assets/admin/js/scripts.js:504
+#: assets/admin/js/scripts.js:788 assets/admin/js/scripts.js:872
+#: assets/admin/js/scripts.js:1352 assets/admin/js/scripts.js:1497
+#: assets/admin/js/scripts.js:1668 src/admin/js/blocks/accordion-panel.js:46
+#: src/admin/js/blocks/content-card.js:15
+#: src/admin/js/blocks/content-cards.js:22 src/admin/js/blocks/link.js:64
+#: src/admin/js/blocks/links.js:30 src/admin/js/blocks/media-list.js:55
 msgid "Settings"
 msgstr "Asetukset"
 
-#: assets/admin/js/scripts.js:1128 src/admin/js/filters/block-styles.js:16
+#: assets/admin/js/scripts.js:1751 src/admin/js/filters/block-styles.js:16
 msgid "Supplementary"
 msgstr "Täydentävä"
 
@@ -278,10 +365,21 @@ msgstr ""
 "\"%s\" ominaisuus on kytketty automaattisesti käyttöön, koska sen tuki on "
 "ilmoitettu teeman tiedoissa."
 
-#: assets/admin/js/scripts.js:114 assets/admin/js/scripts.js:1064
-#: src/admin/js/admin.js:117 src/admin/js/blocks/media-list.js:77
+#: assets/admin/js/scripts.js:114 assets/admin/js/scripts.js:875
+#: assets/admin/js/scripts.js:1302 assets/admin/js/scripts.js:1500
+#: assets/admin/js/scripts.js:1687 src/admin/js/admin.js:117
+#: src/admin/js/blocks/content-cards.js:26 src/admin/js/blocks/link.js:15
+#: src/admin/js/blocks/links.js:34 src/admin/js/blocks/media-list.js:77
 msgid "Title"
 msgstr "Otsikko"
+
+#: assets/admin/js/scripts.js:1474 src/admin/js/blocks/links.js:14
+msgid "Title & Excerpt"
+msgstr ""
+
+#: assets/admin/js/scripts.js:1318 src/admin/js/blocks/link.js:31
+msgid "URL"
+msgstr ""
 
 #: class/Integrations.php:49
 msgid "Use Helsinki settings with plugins and enable available Helsinki APIs."
@@ -306,10 +404,14 @@ msgstr "WordPress Helsinki"
 msgid "WordPress User Guides"
 msgstr "WordPress-käyttöohjeet"
 
+#: config/integrations/types.php:21
+msgid "WP RSS Aggregator"
+msgstr ""
+
 #: config/integrations/types.php:17
 msgid "WP-Matomo Integration"
 msgstr "WP-Matomo integraatio"
 
-#: config/integrations/types.php:21
+#: config/integrations/types.php:25
 msgid "Yoast SEO"
 msgstr "Yoast SEO"

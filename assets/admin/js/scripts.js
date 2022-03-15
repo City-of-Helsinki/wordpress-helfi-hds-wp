@@ -233,7 +233,9 @@ function hdsIconControl(props) {
 }
 
 function hdsSelectControl(config, props) {
-  return wp.element.createElement(wp.components.PanelRow, {}, wp.element.createElement(wp.components.SelectControl, {
+  return wp.element.createElement(wp.components.PanelRow, {
+    className: config.attribute
+  }, wp.element.createElement(wp.components.SelectControl, {
     label: config.label,
     value: config.value,
     onChange: function onChange(value) {
@@ -503,7 +505,18 @@ function hdsIcons(name) {
     return hdsInspectorControls({
       title: __('Settings', 'hds-wp'),
       initialOpen: false
-    }, hdsTextControl({
+    }, hdsSelectControl({
+      label: __('Heading Level', 'hds-wp'),
+      value: props.attributes.headingLevel,
+      attribute: 'headingLevel',
+      options: [{
+        label: 'h2',
+        value: 'h2'
+      }, {
+        label: 'h3',
+        value: 'h3'
+      }]
+    }, props), hdsTextControl({
       label: __('Panel Title', 'hds-wp'),
       value: props.attributes.panelTitle,
       attribute: 'panelTitle'
@@ -511,7 +524,7 @@ function hdsIcons(name) {
   }
 
   function panelTitle(props) {
-    return createElement('h2', {
+    return createElement(props.attributes.headingLevel, {
       className: 'accordion__title'
     }, panelToggle(props));
   }
@@ -597,6 +610,10 @@ function hdsIcons(name) {
     },
     parent: ['hds-wp/accordion'],
     attributes: {
+      headingLevel: {
+        type: 'string',
+        default: 'h2'
+      },
       panelTitle: {
         type: 'string',
         default: __('Panel', 'hds-wp')
@@ -944,6 +961,38 @@ function hdsIcons(name) {
     },
     edit: edit(),
     save: save()
+  });
+})(window.wp);
+
+(function (wp) {
+  var __ = wp.i18n.__;
+  var _wp$blocks2 = wp.blocks,
+      unregisterBlockType = _wp$blocks2.unregisterBlockType,
+      getBlockType = _wp$blocks2.getBlockType;
+  wp.domReady(function () {
+    if (getBlockType('core/pullquote')) {
+      unregisterBlockType('core/pullquote');
+    }
+
+    if (getBlockType('core/verse')) {
+      unregisterBlockType('core/verse');
+    }
+
+    if (getBlockType('core/code')) {
+      unregisterBlockType('core/code');
+    }
+
+    if (getBlockType('core/cover')) {
+      unregisterBlockType('core/cover');
+    }
+
+    if (getBlockType('core/preformatted')) {
+      unregisterBlockType('core/preformatted');
+    }
+
+    if (getBlockType('core/embed')) {
+      unregisterBlockType('core/embed');
+    }
   });
 })(window.wp);
 
@@ -1417,9 +1466,9 @@ function hdsIcons(name) {
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks2 = wp.blocks,
-      registerBlockType = _wp$blocks2.registerBlockType,
-      getBlockContent = _wp$blocks2.getBlockContent;
+  var _wp$blocks3 = wp.blocks,
+      registerBlockType = _wp$blocks3.registerBlockType,
+      getBlockContent = _wp$blocks3.getBlockContent;
   var _wp$element9 = wp.element,
       Fragment = _wp$element9.Fragment,
       createElement = _wp$element9.createElement,

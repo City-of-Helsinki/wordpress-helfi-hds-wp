@@ -1,10 +1,10 @@
 .wp-block-hds-wp-banner {
 	background-color: var(--primary-color);
-	color: $white;
-	margin-bottom: $paragraph-margin-bottom;
+	color: var(--primary-content-color);
+	margin-bottom: $paragraph-margin-bottom-small;
 
-	* {
-		color: inherit;
+	@include breakpoint('m') {
+		margin-bottom: $paragraph-margin-bottom-big;
 	}
 
 	.content {
@@ -14,37 +14,57 @@
 
 			&--icon {
 				svg {
-					fill: $white;
+					fill: var(--primary-content-color);
 					margin-bottom: spacing('s');
 					width: 64px;
 				}
 			}
 
-			&--text {}
+			&--text {
+			}
 
-			&--button {}
-
+			&--button {
+			}
 		}
 
 		&__heading {
 			font-size: rem-calc(24);
 			margin: 0 0 spacing('s');
+			color: var(--primary-content-color);
 		}
 
 		&__text {
 			font-size: rem-calc(18);
 			margin: 0 0 spacing('m');
+			color: var(--primary-content-color);
 		}
 
-		&__link {}
+		&__link {
+			background-color: var(--primary-content-color);
+			border-color: var(--primary-content-color);
+			color: var(--primary-content-secondary-color);
+		}
+
+		&__link:hover {
+			color: var(--primary-content-color);
+			background-color: transparent;
+		}
+
+		&__link svg {
+			fill: var(--primary-content-secondary-color);
+		}
+
+		&__link:hover svg {
+			fill: var(--primary-content-color);
+		}
 
 		@include breakpoint('m') {
-      padding: spacing('l');
+			padding: spacing('l');
 
 			&__inner {
 
 				&--icon {
-          float: left;
+					float: left;
 
 					svg {
 						width: 72px;
@@ -53,66 +73,60 @@
 
 				&--text {
 					margin-left: rem-calc(104);
-          max-width: 72%;
+					max-width: 72%;
 				}
 
 				&--button {
 					margin-left: rem-calc(104);
 				}
-
 			}
 		}
 
 		@include breakpoint('l') {
-      padding: spacing('layout-m') spacing('s') spacing('3-xl');
+			padding: spacing('layout-m') spacing('s') spacing('3-xl');
 
 			&__heading {
 				font-size: rem-calc(36);
-  			margin-bottom: spacing('l');
+				margin-bottom: spacing('l');
 			}
 
 			&__inner {
 
-        &--icon {
+				&--icon {
 					svg {
 						width: 100px;
 					}
 				}
 
 				&--text {
-				 margin-left: rem-calc(124);
-         max-width: 65%;
+					margin-left: rem-calc(124);
+					max-width: 65%;
 				}
 
 				&--button {
 					margin-left: rem-calc(124);
 				}
-
 			}
-
 		}
 
 		@include breakpoint('xl') {
-      padding: spacing('xl') spacing('m') spacing('layout-m');
+			padding: spacing('xl') spacing('m') spacing('layout-m');
 
-      &__heading {
-  			margin-bottom: spacing('s');
+			&__heading {
+				margin-bottom: spacing('s');
 			}
 
 			&__inner {
 
 				&--text {
 					margin-left: rem-calc(148);
-          max-width: 67%;
+					max-width: 67%;
 				}
 
 				&--button {
 					margin-left: rem-calc(148);
 				}
-
 			}
 		}
-
 	}
-
 }

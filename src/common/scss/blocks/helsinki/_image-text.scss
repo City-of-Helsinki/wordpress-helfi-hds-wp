@@ -2,22 +2,29 @@
 	background-color: transparent !important;
 	position: relative;
 	padding: 0 !important;
-	margin-bottom: $paragraph-margin-bottom;
+	margin-bottom: $paragraph-margin-bottom-small;
+
+	@include breakpoint('m') {
+		margin-bottom: $paragraph-margin-bottom-big;
+	}
+
 
 	.image {
 		background-color: $white;
 		position: relative;
 		padding-top: 64%;
 		overflow: hidden;
-    transition: $default-transition;
+		transition: $default-transition;
 		width: calc(100% - 2rem);
 
 		img {
-      @include absoluteCenter();
+			@include absoluteCenter();
 			display: block;
 			width: auto;
-      max-width: unset;
+			max-width: unset;
 			height: 100%;
+			width: 100%;
+			object-fit: cover;
 		}
 
 		.placeholder {
@@ -30,21 +37,20 @@
 			height: 100%;
 		}
 
-    @include breakpoint('m') {
-      padding-top: 424px;
-      max-width: 640px;
-    }
+		@include breakpoint('m') {
+			padding-top: 424px;
+			max-width: 640px;
+		}
 
-    @include breakpoint('l') {
-      padding-top: 461px;
-      max-width: 713px;
-    }
+		@include breakpoint('l') {
+			padding-top: 461px;
+			max-width: 713px;
+		}
 
-    @include breakpoint('xl') {
-      padding-top: 578px;
-      max-width: 893px;
-    }
-
+		@include breakpoint('xl') {
+			padding-top: 578px;
+			max-width: 893px;
+		}
 	}
 
 	.content {
@@ -56,7 +62,7 @@
 		padding: spacing('l') spacing('m');
 		position: relative;
 		margin-top: -2rem;
-    transition: $default-transition;
+		transition: $default-transition;
 		width: calc(100% - 2rem);
 
 		:last-child {
@@ -65,7 +71,7 @@
 
 		.content__heading {
 			font-size: rem-calc(24);
-      margin: 0;
+			margin: 0;
 
 			@include breakpoint('m') {
 				font-size: rem-calc(32);
@@ -74,7 +80,7 @@
 
 		.content__text {
 			font-size: rem-calc(18);
-      margin: spacing('s') 0 0;
+			margin: spacing('s') 0 0;
 
 			@include breakpoint('m') {
 				font-size: rem-calc(20);
@@ -82,27 +88,27 @@
 		}
 
 		.content__link {
-      margin: spacing('m') 0 0;
-    }
+			margin: spacing('m') 0 0;
+		}
 
-    @include breakpoint('m') {
-      padding: rem-calc(42) rem-calc(32);
-      max-width: 645px;
-    }
+		@include breakpoint('m') {
+			padding: rem-calc(42) rem-calc(32);
+			max-width: 645px;
+		}
 
-    @include breakpoint('l') {
-      position: absolute;
+		@include breakpoint('l') {
+			position: absolute;
 			top: 50%;
 			transform: translateY(-50%);
 			margin: 0;
-      padding: rem-calc(48) rem-calc(32);
-      max-width: 460px;
-    }
+			padding: rem-calc(48) rem-calc(32);
+			max-width: 460px;
+		}
 
-    @include breakpoint('xl') {
-      padding: rem-calc(86) rem-calc(32);
-      max-width: 464px;
-    }
+		@include breakpoint('xl') {
+			padding: rem-calc(86) rem-calc(32);
+			max-width: 464px;
+		}
 	}
 
 	&.align-left {
@@ -141,5 +147,4 @@
 			}
 		}
 	}
-
 }
