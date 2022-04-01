@@ -53,6 +53,7 @@ function hdsAccordion() {
 						_toggle = _section.querySelector('.accordion__toggle'),
 						_panel = _toggle.parentElement.nextElementSibling;
 				_close(_toggle, _panel);
+				_toggle.focus();
 			});
 		}
 	}
