@@ -96,10 +96,9 @@ function hds_wp_content_card_html( WP_Post $post ) {
 
 	return sprintf(
 		'<article class="content-cards__card card">
-			<a class="card__link" href="%s" aria-label="%s">%s</a>
+			<a class="card__link" href="%s">%s</a>
 		</article>',
 		esc_url( get_permalink( $post ) ),
-		esc_attr( $post->post_title ),
 		implode( '', $parts )
 	);
 }
