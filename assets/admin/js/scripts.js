@@ -968,7 +968,10 @@ function hdsIcons(name) {
   var __ = wp.i18n.__;
   var _wp$blocks2 = wp.blocks,
       unregisterBlockType = _wp$blocks2.unregisterBlockType,
-      getBlockType = _wp$blocks2.getBlockType;
+      unregisterBlockVariation = _wp$blocks2.unregisterBlockVariation,
+      getBlockType = _wp$blocks2.getBlockType,
+      getBlockVariations = _wp$blocks2.getBlockVariations;
+  var allowedEmbedBlocks = ['youtube'];
   wp.domReady(function () {
     if (getBlockType('core/pullquote')) {
       unregisterBlockType('core/pullquote');
@@ -991,7 +994,11 @@ function hdsIcons(name) {
     }
 
     if (getBlockType('core/embed')) {
-      unregisterBlockType('core/embed');
+      wp.blocks.getBlockVariations('core/embed').forEach(function (blockVariation) {
+        if (-1 === allowedEmbedBlocks.indexOf(blockVariation.name)) {
+          wp.blocks.unregisterBlockVariation('core/embed', blockVariation.name);
+        }
+      });
     }
   });
 })(window.wp);
