@@ -1,7 +1,10 @@
 (function(wp){
 
     const __ = wp.i18n.__;
-    const { unregisterBlockType, getBlockType } = wp.blocks;
+    const { unregisterBlockType, unregisterBlockVariation, getBlockType, getBlockVariations } = wp.blocks;
+    const allowedEmbedBlocks = [
+        'youtube',
+      ];
 
     wp.domReady( function() {
         if (getBlockType('core/pullquote')) {
@@ -20,7 +23,11 @@
             unregisterBlockType( 'core/preformatted' );
         }
         if (getBlockType('core/embed')) {
-            unregisterBlockType( 'core/embed' );
+            wp.blocks.getBlockVariations('core/embed').forEach(function (blockVariation) {
+                if (-1 === allowedEmbedBlocks.indexOf(blockVariation.name)) {
+                  wp.blocks.unregisterBlockVariation('core/embed', blockVariation.name);
+                }
+            });       
         }
 
     });
