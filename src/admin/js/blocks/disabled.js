@@ -29,6 +29,9 @@
                 }
             });       
         }
+        if(getBlockType('core/latest-posts')) {
+            unregisterBlockType( 'core/latest-posts' );
+        }
 
     });
 

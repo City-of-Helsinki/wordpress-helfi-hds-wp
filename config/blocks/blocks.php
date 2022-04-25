@@ -170,4 +170,38 @@ return array(
 			'wp-compose',
 		),
 	),
+	'recent-posts' => array(
+		'title' => __( 'Helsinki - Recent Posts', 'hds-wp' ),
+		'category' => 'hds-wp',
+		'dependencies' => array(
+			'wp-blocks',
+			'wp-i18n',
+			'wp-element',
+			'wp-components',
+			'wp-editor',
+			'wp-data',
+			'wp-server-side-render',
+		),
+		'render_callback' => 'hds_wp_render_recent_posts',
+		'attributes' => array(
+	        'articles' => array(
+	            'type'    => 'integer',
+	            'default' => 3,
+	        ),
+	        'title' => array(
+	            'type'    => 'string',
+	            'default' => '',
+	        ),
+			'category' => array(
+	            'type'    => 'integer',
+	            'default' => 0,
+	        ),
+			'anchor' => array(
+	            'type'    => 'string',
+	            'default' => '',
+			)
+
+	    ),
+	),
+
 );
