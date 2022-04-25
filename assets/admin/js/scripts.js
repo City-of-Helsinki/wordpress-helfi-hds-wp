@@ -328,6 +328,45 @@ function hdsWithPostTypeSelectControl() {
   });
 }
 
+function hdsWithPostCategorySelectControl() {
+  return wp.compose.compose(wp.data.withSelect(function (select, props) {
+    return {
+      categories: select('core').getEntityRecords('taxonomy', 'category')
+    };
+  }))(function (props) {
+    var options = [];
+
+    if (props.categories) {
+      options = props.categories.map(function (category) {
+        return {
+          label: category.name,
+          value: category.id
+        };
+      });
+      options.unshift({
+        label: wp.i18n.__('All categories', 'hds-wp'),
+        value: 0
+      });
+    } else {
+      options = [{
+        label: '--',
+        value: ''
+      }];
+    }
+
+    return wp.element.createElement(wp.components.SelectControl, {
+      label: wp.i18n.__('Category', 'hds-wp'),
+      value: props.attributes.category,
+      options: options,
+      onChange: function onChange(selected) {
+        props.setAttributes({
+          category: selected
+        });
+      }
+    });
+  });
+}
+
 function hdsWithSearchPosts(control) {
   return wp.compose.compose(wp.data.withSelect(function (select, props) {
     return {
@@ -999,6 +1038,10 @@ function hdsIcons(name) {
           wp.blocks.unregisterBlockVariation('core/embed', blockVariation.name);
         }
       });
+    }
+
+    if (getBlockType('core/latest-posts')) {
+      unregisterBlockType('core/latest-posts');
     }
   });
 })(window.wp);
@@ -1759,6 +1802,114 @@ function hdsIcons(name) {
       orderBy: {
         type: 'string',
         default: 'title'
+      }
+    },
+    edit: edit()
+  });
+})(window.wp);
+
+(function (wp) {
+  var __ = wp.i18n.__;
+  var _wp$blocks4 = wp.blocks,
+      registerBlockType = _wp$blocks4.registerBlockType,
+      getBlockContent = _wp$blocks4.getBlockContent;
+  var _wp$element11 = wp.element,
+      Fragment = _wp$element11.Fragment,
+      createElement = _wp$element11.createElement,
+      useState = _wp$element11.useState;
+  var _wp$blockEditor10 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor10.useBlockProps,
+      BlockControls = _wp$blockEditor10.BlockControls,
+      InnerBlocks = _wp$blockEditor10.InnerBlocks;
+  var InspectorControls = wp.editor.InspectorControls;
+  var _wp$data4 = wp.data,
+      select = _wp$data4.select,
+      useSelect = _wp$data4.useSelect;
+  var _wp$components10 = wp.components,
+      ToolbarGroup = _wp$components10.ToolbarGroup,
+      ToolbarButton = _wp$components10.ToolbarButton,
+      Button = _wp$components10.Button,
+      ToggleControl = _wp$components10.ToggleControl;
+  var PostCategorySelect = hdsWithPostCategorySelectControl();
+
+  function articleCountOptions() {
+    return [{
+      label: 3,
+      value: 3
+    }, {
+      label: 6,
+      value: 6
+    }];
+  }
+
+  function inspectorControls(props) {
+    console.log(props);
+    return hdsInspectorControls({
+      title: __('Settings', 'hds-wp'),
+      initialOpen: true
+    }, hdsTextControl({
+      label: __('Title', 'hds-wp'),
+      value: props.attributes.title,
+      attribute: 'title'
+    }, props), hdsSelectControl({
+      label: __('Article count', 'hds-wp'),
+      value: props.attributes.articles,
+      attribute: 'articles',
+      options: articleCountOptions()
+    }, props), hdsPanelRow({}, createElement(PostCategorySelect, props)));
+  }
+
+  function title(props) {
+    if (!props.attributes.title) {
+      return;
+    }
+
+    return createElement('h2', {
+      className: 'content-cards__title'
+    }, props.attributes.title);
+  }
+
+  function edit() {
+    return function (props) {
+      var content = null;
+      props.attributes.articles = parseInt(props.attributes.articles);
+      props.attributes.category = parseInt(props.attributes.category);
+      var blockAttributes = props.attributes;
+      content = createElement(wp.serverSideRender, {
+        block: 'hds-wp/recent-posts',
+        attributes: blockAttributes,
+        httpMethod: 'POST'
+      });
+      return createElement(Fragment, {}, inspectorControls(props), createElement('div', useBlockProps(), content));
+    };
+  }
+
+  function save() {
+    return function (props) {
+      return createElement(Fragment, {}, createElement(InnerBlocks.Content));
+    };
+  }
+
+  registerBlockType('hds-wp/recent-posts', {
+    apiVersion: 2,
+    title: __('Helsinki - Recent Posts', 'hds-wp'),
+    category: 'hds-wp',
+    icon: 'images-alt',
+    supports: {
+      anchor: true
+    },
+    attributes: {
+      articles: {
+        type: 'number',
+        default: 3
+      },
+      title: {
+        type: 'string',
+        default: ''
+      },
+      category: {
+        type: 'number',
+        default: 0
       }
     },
     edit: edit()

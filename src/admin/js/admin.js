@@ -378,6 +378,38 @@ function hdsWithPostTypeSelectControl() {
   });
 }
 
+function hdsWithPostCategorySelectControl() {
+	return wp.compose.compose(
+		wp.data.withSelect(function(select, props){
+		  return {
+			categories: select('core').getEntityRecords('taxonomy', 'category')
+		  }
+		})
+	  )(function(props){
+		var options = [];
+		if ( props.categories ) {
+		  options = props.categories
+			.map(function(category){
+			  return {label: category.name, value: category.id};
+			});
+		  options.unshift({label: wp.i18n.__( 'All categories', 'hds-wp' ), value: 0});
+		} else {
+		  options = [{label: '--', value: ''}]
+		}
+	
+		return wp.element.createElement( wp.components.SelectControl, {
+		  label: wp.i18n.__( 'Category', 'hds-wp' ),
+				value: props.attributes.category,
+		  options: options,
+				onChange: function(selected) {
+					props.setAttributes({category: selected});
+				}
+		});
+	
+	  });
+	
+}
+
 function hdsWithSearchPosts(control) {
   return wp.compose.compose(
     wp.data.withSelect(function(select, props){

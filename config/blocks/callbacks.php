@@ -380,3 +380,17 @@ if ( ! function_exists( 'hds_wp_render_block_media_list' ) ) {
 		);
 	}
 }
+
+function hds_wp_render_recent_posts( $attributes ) {
+	if ( function_exists( 'helsinki_front_page_section' ) ) {
+		ob_start();
+		add_action('helsinki_front_page_recent_posts', 'helsinki_front_page_recent_posts_title', 10);
+		add_action('helsinki_front_page_recent_posts', 'helsinki_front_page_recent_posts_grid', 20);
+		add_action('helsinki_front_page_recent_posts', 'helsinki_front_page_recent_posts_more', 30);
+		helsinki_front_page_section('recent-posts', 0, $attributes);
+		$content = ob_get_clean();
+		return $content;
+	}
+	return;
+}
+
