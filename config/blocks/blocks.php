@@ -196,6 +196,10 @@ return array(
 	            'type'    => 'integer',
 	            'default' => 0,
 	        ),
+			'anchor' => array(
+	            'type'    => 'string',
+	            'default' => '',
+			)
 
 	    ),
 	),

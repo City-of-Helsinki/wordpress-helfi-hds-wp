@@ -19,7 +19,6 @@
   }
 
   function inspectorControls(props) {
-      console.log(props);
     return hdsInspectorControls(
       {
         title: __( 'Settings', 'hds-wp' ),
@@ -99,6 +98,10 @@
             category: {
                 type: 'number',
                 default: 0,
+            },
+            anchor: {
+              type: 'string',
+              default: '',
             }
     },
 		edit: edit(),
