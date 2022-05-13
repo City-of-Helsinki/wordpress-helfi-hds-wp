@@ -155,6 +155,10 @@
 				type: 'array',
 				default: [],
 			},
+      anchor: {
+        type: 'string',
+        default: '',
+      },
     },
 		edit: edit(),
 		save: save(),

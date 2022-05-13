@@ -104,6 +104,10 @@ return array(
 	            'type'    => 'array',
 	            'default' => array(),
 	        ),
+			'anchor' => array(
+	            'type'    => 'string',
+	            'default' => '',
+			)
 	    ),
 	),
 	'content-card' => array(
@@ -154,6 +158,10 @@ return array(
 	            'type'    => 'array',
 	            'default' => array(),
 	        ),
+			'anchor' => array(
+	            'type'    => 'string',
+	            'default' => '',
+			)
 	    ),
 	),
 	'link' => array(
