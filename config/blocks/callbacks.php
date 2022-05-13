@@ -30,6 +30,15 @@ function hds_wp_render_block_content_cards( $attributes ) {
 			)
 		);
 	}
+	
+	if (!empty($attributes['className'])) {
+		$wrapClasses[] = esc_attr($attributes['className']);
+	}
+
+	$id = '';
+	if (!empty($attributes['anchor'])) {
+		$id = 'id="'.esc_attr($attributes['anchor']).'"';
+	}
 
 	$gridClasses = array(
 		'content-cards__cards',
@@ -45,12 +54,13 @@ function hds_wp_render_block_content_cards( $attributes ) {
 	}
 
 	return sprintf(
-		'<div class="%s">%s
+		'<div %s class="%s">%s
 			<div class="hds-container">
 				%s
 				<div class="%s">%s</div>
 			</div>
 		</div>',
+		$id,
 		implode( ' ', $wrapClasses ),
 		$koros,
 		$title,
@@ -152,6 +162,11 @@ function hds_wp_render_block_links_list( $attributes ) {
 		return;
 	}
 
+	$id = '';
+	if (!empty($attributes['anchor'])) {
+		$id = 'id="'.esc_attr($attributes['anchor']).'"';
+	}
+
 	$wrapClasses = array( 'links-list' );
 	$decoration = '';
 	if ( ! empty( $attributes['hasBackground'] ) ) {
@@ -163,6 +178,9 @@ function hds_wp_render_block_links_list( $attributes ) {
 				'abstract-7'
 			))
 		);
+	}
+	if (!empty($attributes['className'])) {
+		$wrapClasses[] = esc_attr($attributes['className']);
 	}
 
 	$title = '';
@@ -181,12 +199,13 @@ function hds_wp_render_block_links_list( $attributes ) {
 	);
 
 	return sprintf(
-		'<div class="%s">
+		'<div %s class="%s">
 			<div class="hds-container">
 				%s
 				<ul class="%s">%s</ul>
 			</div>
 		</div>',
+		$id,
 		implode( ' ', $wrapClasses ),
 		$title,
 		implode( ' ', $gridClasses ),

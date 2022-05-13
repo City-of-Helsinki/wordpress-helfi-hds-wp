@@ -996,6 +996,10 @@ function hdsIcons(name) {
       cards: {
         type: 'array',
         default: []
+      },
+      anchor: {
+        type: 'string',
+        default: ''
       }
     },
     edit: edit(),
@@ -1665,6 +1669,10 @@ function hdsIcons(name) {
       links: {
         type: 'array',
         default: []
+      },
+      anchor: {
+        type: 'string',
+        default: ''
       }
     },
     edit: edit(),
