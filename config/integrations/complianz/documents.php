@@ -1,7 +1,7 @@
 <?php
 
 return array(
-  
+
   'fi' => '<h2>Evästeet hel.fi-sivulla</h2>
   <p>Käytämme sivustollamme evästeitä. Evästeiden tarkoituksena on parantaa sivuston sisältöjä ja suorituskykyä. Evästeistä saatavan palautteen avulla pystymme kehittämään sivustoa ja tarjoamaan paremmin kaupunkilaisten tarpeisiin vastaavaa tietoa.</p>
   <p>Evästeasetuksista voit lukea lisätietoja käytetyistä evästeistä, hyväksyä tai estää niiden käytön. Voit myös muuttaa evästeasetuksia aina halutessasi.</p>
@@ -21,10 +21,10 @@ return array(
   <p>Noudatamme lakia digitaalisten palveluiden tarjoamisesta. Lisätietoa saavutettavuudesta löydät <a href="https://www.hel.fi/helsinki/fi/kaupunki-ja-hallinto/tietoa-helsingista/saavutettavuus/saavutettavuus-helfi-sivustolla/">hel.fi-saavutettavuusselosteesta.</a></p>
   <p>Tämän sivun sisällöstä vastaa:</p>
   <ul>
-    <li>Jukka Jänönen, viestintäpäällikkö, <a href="https://www.hel.fi/kanslia/fi/tama-on-kanslia/viestinta">Helsingin kaupunginkanslian viestinnän sisällöntuotannon yksikkö.</a></li>
+    <li>Liisa Kivelä, viestintäjohtaja, <a href="https://www.hel.fi/kanslia/fi/tama-on-kanslia/viestinta">ks. Helsingin kaupunginkanslian viestinnän sisällöntuotanto.</a></li>
   </ul>
   <p><em>(Hel.fi-sivuston tekstisisällöt on lisensoitu <a href="https://creativecommons.org/licenses/by/4.0/deed.fi">Creative Commons BY 4.0 lisenssillä</a>. Sivuston kuvia ei saa käyttää muualla ilman lupaa.)</em></p>',
-  
+
   'sv' => '<h2>Kakor på webbplatsen hel.fi</h2>
     <p>Vi använder kakor på vår webbplats. Syftet med kakorna är att förbättra webbplatsens innehåll och prestanda. Med hjälp av responsen kan vi utveckla webbplatsen och erbjuda information som bättre möter stadsbornas behov.</p>
     <p>I kakinställningarna kan du läsa mer om vilka kakor som används samt godkänna eller hindra användningen av dem. Du kan även ändra kakinställningarna när du vill.</p>
@@ -44,10 +44,10 @@ return array(
     <p>Vi följer lagen om tillhandahållande av digitala tjänster. Mer information om tillgänglighet finns i <a href="https://www.hel.fi/helsinki/fi/kaupunki-ja-hallinto/tietoa-helsingista/saavutettavuus/saavutettavuus-helfi-sivustolla/">tillgänglighetsutlåtandet för webbplatsen hel.fi</a>.</p>
     <p>Ansvarig för innehållet på den här webbsidan:</p>
     <ul>
-      <li>Jukka Jänönen, kommunikationschef, <a href="https://www.hel.fi/kanslia/fi/tama-on-kanslia/viestinta">enheten för innehållsproduktion vid Helsingfors stadskanslis kommunikationsavdelning</a>.</li>
+      <li>Kommunikationsdirektör Liisa Kivelä, se <a href="https://www.hel.fi/kanslia/sv/tama-on-kanslia/kommunikation">enheten för innehållsproduktion vid Helsingfors stadskanslis kommunikationsavdelning.</a></li>
     </ul>
     <p><em>(Textinnehållet på webbplatsen hel.fi är licensierat med <a href="https://creativecommons.org/licenses/by/4.0/deed.sv">Creative Commons BY 4.0-licensen</a>. Bilderna på webbplatsen får inte användas annanstans utan tillstånd.)</em></p>',
-  
+
   'en' => '<h2>Cookies at hel.fi</h2>
     <p>We use cookies on our website. The purpose of cookies is to improve the content and performance of the website. With the feedback gained from cookies, we are able to develop the website and offer information that meets the needs of the city\'s residents better.</p>
     <p>In the cookie settings, you can find more information on the cookies used and accept or reject their use. You can also change the cookie settings whenever you wish.</p>
@@ -67,8 +67,8 @@ return array(
     <p>We comply with the Act on the Provision of Digital Services. For more information on accessibility, please see <a href="https://www.hel.fi/helsinki/fi/kaupunki-ja-hallinto/tietoa-helsingista/saavutettavuus/saavutettavuus-helfi-sivustolla/">the accessibility statement for hel.fi</a>.</p>
     <p>Person responsible for the content of this page:</p>
       <ul>
-        <li>Jukka Jänönen, Communications Manager, <a href="https://www.hel.fi/kanslia/fi/tama-on-kanslia/viestinta">Communications Content Production Unit of the Helsinki City Executive Office.</a></li>
+        <li>Chief communications officer Liisa Kivelä, see <a href="https://www.hel.fi/kanslia/fi/tama-on-kanslia/viestinta">Communications Content Production Unit of the Helsinki City Executive Office.</a></li>
       </ul>
     <p><em>(The text content of the hel.fi website is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/deed.en">Creative Commons BY 4.0 licence</a>. The images on the website may not be used elsewhere without permission.)</em></p>',
-  
+
 );
