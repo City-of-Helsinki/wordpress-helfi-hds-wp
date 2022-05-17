@@ -27,7 +27,6 @@
 .gallery-item,
 .wp-caption {
     display: block !important;
-    width: unset !important;
 
     a {
         display: block;
@@ -53,6 +52,10 @@
     &.alignnone {
         margin: 0 0 var(--spacing-l) !important;
     }
+}
+
+.wp-caption {
+    width: unset !important;
 }
 
 .gallery-item {
