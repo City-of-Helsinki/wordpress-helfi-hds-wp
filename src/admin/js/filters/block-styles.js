@@ -28,4 +28,8 @@ wp.domReady( function () {
     }]);
   }
 
+  /**
+   * Image
+   */
+   wp.blocks.unregisterBlockStyle( 'core/image', 'rounded');
 } );
