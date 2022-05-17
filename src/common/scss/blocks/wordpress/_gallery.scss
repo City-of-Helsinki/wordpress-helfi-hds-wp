@@ -27,6 +27,7 @@
 .gallery-item,
 .wp-caption {
     display: block !important;
+    width: unset !important;
 
     a {
         display: block;
