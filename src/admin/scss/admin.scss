@@ -6,17 +6,17 @@
 @import '../../hds-core';
 
 @import '../../common/scss/hds/index';
-@import '../../common/scss/blocks/index';
 
 body.wp-admin .editor-styles-wrapper {
-  font-family: $body-font-family;
+    font-family: $body-font-family;
 
-  @import 'editor';
-  @import 'entry';
-  @import 'headings';
-  @import 'content';
+    @import 'editor';
+    @import 'entry';
+    @import 'headings';
+    @import 'content';
+    @import '../../common/scss/blocks/index';
 
-  @import 'blocks';
+    @import 'blocks';
 }
 
 body.wp-admin .interface-interface-skeleton__body {

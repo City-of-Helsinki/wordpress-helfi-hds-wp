@@ -1952,4 +1952,10 @@ wp.domReady(function () {
       title: wp.i18n.__('Light Gray Background', 'hds-wp')
     }]);
   }
+  /**
+   * Image
+   */
+
+
+  wp.blocks.unregisterBlockStyle('core/image', 'rounded');
 });
