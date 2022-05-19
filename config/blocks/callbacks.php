@@ -267,7 +267,7 @@ function hds_wp_render_link_with_title( array $link ) {
 			</a>',
 			hds_links_list_link_attributes( $link ),
 			esc_html( $link['linkTitle'] ),
-			hds_wp_render_link_icon( ! empty( $link['targetBlank'] ) )
+			hds_wp_render_link_icon( ( $link['isExternalUrl'] ) )
 		)
 	);
 }
