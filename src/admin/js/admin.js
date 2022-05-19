@@ -326,7 +326,7 @@ function hdsExternalLinkIcon() {
 			tabindex: '-1',
 		},
 		wp.element.createElement('path', {
-			d: 'M10 3v2H5v14h14v-5h2v7H3V3h7zm11 0v8h-2V6.413l-7 7.001L10.586 12l6.999-7H13V3h8z',
+			d: 'M18 6v12h-2V9.418l-8.586 8.587L6 16.591 14.589 8H6V6z',
 		})
 	);
 }
