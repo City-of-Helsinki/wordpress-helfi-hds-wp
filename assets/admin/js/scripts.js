@@ -1,11 +1,5 @@
 "use strict";
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function hdsSingleImage(attributes) {
   var imageOrPlaceholder = attributes.src ? wp.element.createElement('img', attributes) : wp.element.createElement('div', {
     className: 'placeholder'
@@ -276,7 +270,7 @@ function hdsExternalLinkIcon() {
     'aria-hidden': 'true',
     tabindex: '-1'
   }, wp.element.createElement('path', {
-    d: 'M10 3v2H5v14h14v-5h2v7H3V3h7zm11 0v8h-2V6.413l-7 7.001L10.586 12l6.999-7H13V3h8z'
+    d: 'M18 6v12h-2V9.418l-8.586 8.587L6 16.591 14.589 8H6V6z'
   }));
 }
 
@@ -473,7 +467,7 @@ function hdsIcons(name) {
     "group": "M14.5 16a3.5 3.5 0 013.498 3.38l.002.12V22h-2v-2.5a1.5 1.5 0 00-1.412-1.497L14.5 18h-5a1.5 1.5 0 00-1.497 1.412L8 19.5V22H6v-2.5a3.5 3.5 0 013.38-3.498L9.5 16h5zm2.4-6.001l3.6.001.12.002a3.5 3.5 0 013.375 3.31L24 13.5V16h-2v-2.5l-.003-.088a1.5 1.5 0 00-1.358-1.406L20.5 12l-3.6.001a5.023 5.023 0 000-2.002zm-9.8 0A5.023 5.023 0 007.1 12L3.5 12a1.5 1.5 0 00-1.497 1.412L2 13.5V16H0v-2.5a3.5 3.5 0 013.38-3.498L3.5 10l3.6-.001zM12 7a4 4 0 110 8 4 4 0 010-8zm0 2a2 2 0 100 4 2 2 0 000-4zM5.5 2a3.5 3.5 0 110 7 3.5 3.5 0 010-7zm13 0a3.5 3.5 0 110 7 3.5 3.5 0 010-7zm-13 2a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm13 0a1.5 1.5 0 100 3 1.5 1.5 0 000-3z",
     "layers": "M19,14.5 L21,15.5 L12,20 L3,15.5 L5,14.5 L12.0005205,18 L19,14.5 Z M19,11 L21,12 L12,16.5 L3,12 L5,11 L12.0005205,14.5 L19,11 Z M12,4 L21,8.5 L12,13 L3,8.5 L12,4 Z M12.0005205,6 L7,8.50052056 L12.0005205,11 L17,8.50052056 L12.0005205,6 Z",
     "link": "M11.489 6.42l2.074-2.055A4.575 4.575 0 0116.698 3a4.142 4.142 0 013.072 1.21 4.157 4.157 0 011.229 3.071 4.565 4.565 0 01-1.255 3.023l-.109.112-3.432 3.432a4.575 4.575 0 01-3.135 1.364 4.142 4.142 0 01-3.071-1.21l.2-.195c.353-.348.997-.993 1.235-1.24.84.86 2.36.848 3.3-.002l.087-.082 3.394-3.45c.95-.95.988-2.483.084-3.387-.84-.86-2.36-.848-3.3.002l-.087.082-2.055 2.055-1.366-1.365zm-7.201 7.202L7.6 10.327c1.685-1.704 4.422-1.72 6.106-.035l-.567.576c-.343.343-.71.708-.818.81-.88-.88-2.324-.899-3.247-.062l-.085.08-3.314 3.314c-.917.917-.926 2.425-.019 3.332.88.88 2.324.898 3.248.062l.085-.08 1.984-2.004 1.37 1.389-1.985 1.984a4.38 4.38 0 01-3.06 1.283 4.282 4.282 0 01-3.046-1.248c-1.652-1.634-1.669-4.298-.062-6.007l.097-.1z",
-    "link-external": "M10 3v2H5v14h14v-5h2v7H3V3h7zm11 0v8h-2V6.413l-7 7.001L10.586 12l6.999-7H13V3h8z",
+    "link-external": "M18 6v12h-2V9.418l-8.586 8.587L6 16.591 14.589 8H6V6z",
     "locate": "M13 2l.001 2.062A8.004 8.004 0 0119.938 11H22v2l-2.062.001a8.004 8.004 0 01-6.937 6.937L13 22h-2v-2.062a8.004 8.004 0 01-6.938-6.937L2 13v-2h2.062A8.004 8.004 0 0111 4.062V2h2zm-1 4a6 6 0 100 12 6 6 0 000-12zm0 2.5a3.5 3.5 0 110 7 3.5 3.5 0 010-7zm0 2a1.5 1.5 0 100 3 1.5 1.5 0 000-3z",
     "location": "M11.967 1.5c2.06 0 4.12.778 5.69 2.334 3.143 3.111 2.93 7.96 0 11.268l-.622.709c-2.612 2.991-4.066 4.96-5.068 6.937-1.073-2.13-2.682-4.249-5.689-7.646-2.93-3.308-3.143-8.157 0-11.268A8.06 8.06 0 0111.967 1.5zm.032 2a6.072 6.072 0 00-4.3 1.762A5.606 5.606 0 006.002 9.41c.02 1.573.648 3.134 1.766 4.398l.66.752c1.59 1.823 2.717 3.239 3.573 4.503.975-1.437 2.292-3.063 4.233-5.255 1.118-1.264 1.746-2.825 1.766-4.398a5.616 5.616 0 00-1.698-4.15A6.077 6.077 0 0011.999 3.5zM12 6a3.5 3.5 0 110 6.999A3.5 3.5 0 0112 6zm0 2c-.827 0-1.5.673-1.5 1.5S11.173 11 12 11s1.5-.673 1.5-1.5S12.827 8 12 8z",
     "map": "M22 4.113V17.72l-7 2.333-6-2-7 2.333V6.78l7-2.333 6 2 7-2.333zM8 6.887L4 8.22v9.392l4-1.333V6.887zm2 0v9.392l4 1.333V8.22l-4-1.334zm10 0l-4 1.334v9.39l4-1.332V6.887z",
@@ -996,6 +990,10 @@ function hdsIcons(name) {
       cards: {
         type: 'array',
         default: []
+      },
+      anchor: {
+        type: 'string',
+        default: ''
       }
     },
     edit: edit(),
@@ -1665,6 +1663,10 @@ function hdsIcons(name) {
       links: {
         type: 'array',
         default: []
+      },
+      anchor: {
+        type: 'string',
+        default: ''
       }
     },
     edit: edit(),
@@ -1674,157 +1676,21 @@ function hdsIcons(name) {
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var registerBlockType = wp.blocks.registerBlockType;
-  var useBlockProps = wp.blockEditor.useBlockProps;
-  var _wp$element10 = wp.element,
-      Fragment = _wp$element10.Fragment,
-      createElement = _wp$element10.createElement;
-  var SelectControl = wp.components.SelectControl;
-  var _wp$data3 = wp.data,
-      withSelect = _wp$data3.withSelect,
-      withDispatch = _wp$data3.withDispatch;
-  var InspectorControls = wp.editor.InspectorControls;
-  var compose = wp.compose.compose;
-  var TermsDropdownControl = compose(withSelect(function (select, props) {
-    return {
-      terms: select('core').getEntityRecords('taxonomy', 'category')
-    };
-  }))(function (props) {
-    var options = [];
-
-    if (props.terms) {
-      options.push({
-        value: 0,
-        label: '--'
-      });
-      props.terms.forEach(function (term) {
-        options.push({
-          value: term.id,
-          label: term.name
-        });
-      });
-    } else {
-      options.push({
-        value: 0,
-        label: '...'
-      });
-    }
-
-    var getTermName = function search(termID, termOptions) {
-      termID = parseInt(termID, 10);
-
-      for (var i = 0; i < termOptions.length; i++) {
-        if (termOptions[i].value === termID) {
-          return termOptions[i].label;
-        }
-      }
-    };
-
-    return createElement(SelectControl, {
-      label: __('Select a category', 'hds-wp'),
-      options: options,
-      onChange: function onChange(value) {
-        props.setAttributes({
-          termID: value,
-          termName: getTermName(value, options)
-        });
-      },
-      value: props.attributes.termID
-    });
-  });
-
-  function edit() {
-    return function (props) {
-      return createElement(Fragment, {}, hdsInspectorControls({
-        title: __('Settings', 'hds-wp'),
-        initialOpen: true
-      }, hdsPanelRow({}, createElement(TermsDropdownControl, _objectSpread({}, props))), hdsRadioControl({
-        label: __('Order'),
-        attribute: 'order',
-        selected: props.attributes.order ? props.attributes.order : 'ASC',
-        options: [{
-          value: 'ASC',
-          label: __('Ascending', 'hds-wp')
-        }, {
-          value: 'DESC',
-          label: __('Descending', 'hds-wp')
-        }]
-      }, props), hdsRadioControl({
-        label: __('Order by', 'hds-wp'),
-        attribute: 'orderBy',
-        selected: props.attributes.orderBy ? props.attributes.orderBy : 'title',
-        options: [{
-          value: 'title',
-          label: __('Title', 'hds-wp')
-        }, {
-          value: 'date',
-          label: __('Date', 'hds-wp')
-        }]
-      }, props)), settingsSummaryList(props));
-    };
-  }
-
-  function settingsSummaryList(props) {
-    var _props$attributes$ter, _props$attributes$ord, _props$attributes$ord2;
-
-    return createElement('div', useBlockProps(), createElement('h2', {}, __('Media List', 'hds-wp')), createElement('ul', {}, listItem(__("Term: ".concat((_props$attributes$ter = props.attributes.termName) !== null && _props$attributes$ter !== void 0 ? _props$attributes$ter : ''))), listItem(__("Order: ".concat((_props$attributes$ord = props.attributes.order) !== null && _props$attributes$ord !== void 0 ? _props$attributes$ord : ''))), listItem(__("Order by: ".concat((_props$attributes$ord2 = props.attributes.orderBy) !== null && _props$attributes$ord2 !== void 0 ? _props$attributes$ord2 : '')))));
-  }
-
-  function listItem(text) {
-    return createElement('li', {}, text);
-  }
-
-  registerBlockType('hds-wp/media-list', {
-    apiVersion: 2,
-    title: __('Helsinki - Media List', 'hds-wp'),
-    description: __('List media files from the selected category', 'hds-wp'),
-    category: 'hds-wp',
-    icon: 'list-view',
-    keywords: [__('media', 'hds-wp'), __('list', 'hds-wp')],
-    supports: {
-      html: false,
-      anchor: true
-    },
-    attributes: {
-      anchor: {
-        type: 'string'
-      },
-      termID: {
-        type: 'int'
-      },
-      termName: {
-        type: 'string'
-      },
-      order: {
-        type: 'string',
-        default: 'ASC'
-      },
-      orderBy: {
-        type: 'string',
-        default: 'title'
-      }
-    },
-    edit: edit()
-  });
-})(window.wp);
-
-(function (wp) {
-  var __ = wp.i18n.__;
   var _wp$blocks4 = wp.blocks,
       registerBlockType = _wp$blocks4.registerBlockType,
       getBlockContent = _wp$blocks4.getBlockContent;
-  var _wp$element11 = wp.element,
-      Fragment = _wp$element11.Fragment,
-      createElement = _wp$element11.createElement,
-      useState = _wp$element11.useState;
+  var _wp$element10 = wp.element,
+      Fragment = _wp$element10.Fragment,
+      createElement = _wp$element10.createElement,
+      useState = _wp$element10.useState;
   var _wp$blockEditor10 = wp.blockEditor,
       useBlockProps = _wp$blockEditor10.useBlockProps,
       BlockControls = _wp$blockEditor10.BlockControls,
       InnerBlocks = _wp$blockEditor10.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data4 = wp.data,
-      select = _wp$data4.select,
-      useSelect = _wp$data4.useSelect;
+  var _wp$data3 = wp.data,
+      select = _wp$data3.select,
+      useSelect = _wp$data3.useSelect;
   var _wp$components10 = wp.components,
       ToolbarGroup = _wp$components10.ToolbarGroup,
       ToolbarButton = _wp$components10.ToolbarButton,
@@ -1944,4 +1810,10 @@ wp.domReady(function () {
       title: wp.i18n.__('Light Gray Background', 'hds-wp')
     }]);
   }
+  /**
+   * Image
+   */
+
+
+  wp.blocks.unregisterBlockStyle('core/image', 'rounded');
 });

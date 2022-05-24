@@ -1,51 +1,76 @@
 .blocks-gallery-grid,
-.wp-block-gallery {
+.wp-block-gallery, .gallery {
 
-	.blocks-gallery-image,
-	.blocks-gallery-item {
+    &.is-cropped {
 
-    figure {
-      display: block;
+        .blocks-gallery-image,
+        .blocks-gallery-item,
+        .wp-block-image,
+        .gallery-item {
 
-      a {
+            a {
+                display: block;
+                height: auto;
+            }
+
+            img {
+                display: block;
+                height: auto;
+            }
+        }
+    }
+}
+
+.blocks-gallery-image,
+.blocks-gallery-item,
+.wp-block-image,
+.gallery-item,
+.wp-caption {
+    display: block !important;
+
+    a {
         display: block;
-      }
-
-      img {
-        display: block;
-        height: auto;
-      }
+        height: unset !important;
     }
 
-		figcaption {
-      background: none;
-      color: $black;
-      font-size: $global-font-size;
-      font-style: normal;
-      text-align: left;
-      padding: .5rem 0 0;
-      position: static;
-		}
-
-	}
-
-  &.is-cropped {
-
-    .blocks-gallery-image,
-  	.blocks-gallery-item {
-
-      a {
+    img {
         display: block;
-        height: auto;
-      }
-
-      img {
-        display: block;
-        height: auto;
-      }
-
+        height: auto !important;
     }
 
-  }
+    figcaption, .wp-caption-text {
+        background: none !important;
+        color: $black !important;
+        font-size: $global-font-size !important;
+        font-style: normal !important;
+        text-align: left !important;
+        padding: .5rem 0 0 !important;
+        position: static !important;
+        flex-grow: 0;
+        flex-basis: unset;
+    }
 
+    &.alignnone {
+        margin: 0 0 var(--spacing-l) !important;
+    }
+}
+
+.wp-caption {
+    width: unset !important;
+}
+
+.gallery-item {
+    margin-right: var(--gallery-block--gutter-size,16px);
+    margin-bottom: var(--gallery-block--gutter-size,16px);
+    flex-grow: 1;
+
+    &:last-of-type {
+        margin-right: 0;
+    }
+
+    img {
+        display: block;
+        height: auto;
+        width: 100%;
+    }
 }

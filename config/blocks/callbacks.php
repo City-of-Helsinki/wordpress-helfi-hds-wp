@@ -30,6 +30,15 @@ function hds_wp_render_block_content_cards( $attributes ) {
 			)
 		);
 	}
+	
+	if (!empty($attributes['className'])) {
+		$wrapClasses[] = esc_attr($attributes['className']);
+	}
+
+	$id = '';
+	if (!empty($attributes['anchor'])) {
+		$id = 'id="'.esc_attr($attributes['anchor']).'"';
+	}
 
 	$gridClasses = array(
 		'content-cards__cards',
@@ -45,12 +54,13 @@ function hds_wp_render_block_content_cards( $attributes ) {
 	}
 
 	return sprintf(
-		'<div class="%s">%s
+		'<div %s class="%s">%s
 			<div class="hds-container">
 				%s
 				<div class="%s">%s</div>
 			</div>
 		</div>',
+		$id,
 		implode( ' ', $wrapClasses ),
 		$koros,
 		$title,
@@ -152,6 +162,11 @@ function hds_wp_render_block_links_list( $attributes ) {
 		return;
 	}
 
+	$id = '';
+	if (!empty($attributes['anchor'])) {
+		$id = 'id="'.esc_attr($attributes['anchor']).'"';
+	}
+
 	$wrapClasses = array( 'links-list' );
 	$decoration = '';
 	if ( ! empty( $attributes['hasBackground'] ) ) {
@@ -163,6 +178,9 @@ function hds_wp_render_block_links_list( $attributes ) {
 				'abstract-7'
 			))
 		);
+	}
+	if (!empty($attributes['className'])) {
+		$wrapClasses[] = esc_attr($attributes['className']);
 	}
 
 	$title = '';
@@ -181,12 +199,13 @@ function hds_wp_render_block_links_list( $attributes ) {
 	);
 
 	return sprintf(
-		'<div class="%s">
+		'<div %s class="%s">
 			<div class="hds-container">
 				%s
 				<ul class="%s">%s</ul>
 			</div>
 		</div>',
+		$id,
 		implode( ' ', $wrapClasses ),
 		$title,
 		implode( ' ', $gridClasses ),
@@ -248,7 +267,7 @@ function hds_wp_render_link_with_title( array $link ) {
 			</a>',
 			hds_links_list_link_attributes( $link ),
 			esc_html( $link['linkTitle'] ),
-			hds_wp_render_link_icon( ! empty( $link['targetBlank'] ) )
+			hds_wp_render_link_icon( $link['isExternalUrl'] )
 		)
 	);
 }
@@ -271,7 +290,7 @@ function hds_wp_render_link_with_title_excerpt( array $link ) {
 			</a>',
 			hds_links_list_link_attributes( $link ),
 			esc_html( $link['linkTitle'] ),
-			hds_wp_render_link_icon( ! empty( $link['targetBlank'] ) ),
+			hds_wp_render_link_icon( $link['isExternalUrl'] ),
 			$excerpt
 		)
 	);
@@ -314,71 +333,6 @@ function hds_links_list_link_attributes( array $link ) {
 	}
 
 	return implode( ' ', $attributes );
-}
-
-/**
-  * Helsinki - Media List
-  */
-if ( ! function_exists( 'hds_wp_render_block_media_list' ) ) {
-	function hds_wp_render_block_media_list( $attributes ) {
-		$category = $attributes['termID'] ?? 0;
-		if ( ! $category ) {
-			return;
-		}
-
-		$sortOrder = $attributes['order'] ?? 'ASC';
-		$sortOrderBy = $attributes['orderBy'] ?? 'title';
-
-		$query = new WP_Query(array(
-			'post_type' => 'attachment',
-			'post_status' => 'inherit',
-			'posts_per_page' => 500,
-			'order' => $sortOrder,
-			'orderby' => $sortOrderBy,
-			'no_found_rows' => true,
-			'cat' => $category,
-		));
-		if ( ! $query->posts ) {
-			return;
-		}
-
-		if ( 'title' === $sortOrderBy ) {
-			if ( 'ASC' === $sortOrder ) {
-				usort($query->posts, function($a,$b) {
-					return strnatcmp($a->post_title, $b->post_title);
-				});
-			} else {
-				usort($query->posts, function($a,$b) {
-					return strnatcmp($b->post_title, $a->post_title);
-				});
-			}
-		}
-
-		$items = array();
-		foreach ($query->posts as $post) {
-			$items[] = sprintf(
-				'<li id="%s" class="media-list__item"><a href="%s">%s (%s)</a></li>',
-				esc_attr( $post->post_name ),
-				esc_url( wp_get_attachment_url( $post->ID ) ),
-				esc_html( $post->post_title ),
-				esc_html( basename($post->post_mime_type) )
-			);
-		}
-
-		$listProperties = 'class="media-list"';
-		if ( ! empty( $attributes['anchor'] ) ) {
-			$listProperties = 'id="' . esc_attr($attributes['anchor']) . '" ' . $listProperties;
-		}
-
-		return sprintf(
-			'<ul %s>%s</ul>',
-			$listProperties,
-			implode(
-				'',
-				$items
-			)
-		);
-	}
 }
 
 function hds_wp_render_recent_posts( $attributes ) {

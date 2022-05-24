@@ -60,20 +60,6 @@ return array(
 			'wp-data',
 		),
 	),
-	'media-list' => array(
-		'title' => __( 'Helsinki - Media List', 'hds-wp' ),
-		'category' => 'hds-wp',
-		'dependencies' => array(
-			'wp-blocks',
-			'wp-i18n',
-			'wp-element',
-			'wp-components',
-			'wp-editor',
-			'wp-data',
-			'wp-compose',
-		),
-		'render_callback' => 'hds_wp_render_block_media_list',
-	),
 	'content-cards' => array(
 		'title' => __( 'Helsinki - Content Cards', 'hds-wp' ),
 		'category' => 'hds-wp',
@@ -104,6 +90,10 @@ return array(
 	            'type'    => 'array',
 	            'default' => array(),
 	        ),
+			'anchor' => array(
+	            'type'    => 'string',
+	            'default' => '',
+			)
 	    ),
 	),
 	'content-card' => array(
@@ -154,6 +144,10 @@ return array(
 	            'type'    => 'array',
 	            'default' => array(),
 	        ),
+			'anchor' => array(
+	            'type'    => 'string',
+	            'default' => '',
+			)
 	    ),
 	),
 	'link' => array(
