@@ -799,8 +799,7 @@ function hdsIcons(name) {
         default: ''
       }
     },
-    edit: edit(),
-    save: save()
+    edit: edit()
   });
 })(window.wp);
 

@@ -119,7 +119,6 @@
 			},
 		},
 		edit: edit(),
-		save: save()
 	});
 
 })(window.wp);
