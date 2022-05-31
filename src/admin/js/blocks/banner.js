@@ -113,9 +113,12 @@
 				type: 'boolean',
 				default: true,
 			},
+			anchor: {
+				type: 'string',
+				default: '',
+			},
 		},
 		edit: edit(),
-		save: save()
 	});
 
 })(window.wp);

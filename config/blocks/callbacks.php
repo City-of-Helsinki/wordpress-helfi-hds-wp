@@ -335,6 +335,78 @@ function hds_links_list_link_attributes( array $link ) {
 	return implode( ' ', $attributes );
 }
 
+/**
+ * Banner
+ */
+
+function hds_wp_render_banner($attributes) {
+	$icon = '';
+	$icon = sprintf(
+		'<div class="content__inner content__inner--icon">%s</div>',
+		Svg::icon(
+			'blocks',
+			$attributes['contentIcon']
+		)
+	);
+
+	$text = '';
+	$text = sprintf(
+		'<div class="content__inner content__inner--text">
+			<h2 class="content__heading">%s</h2>
+			<p class=""content__text>%s</p>
+		</div>',
+		$attributes['contentTitle'],
+		$attributes['contentText']
+	);
+
+	$button = '';
+	if ( ! empty( $attributes['buttonUrl'] ) && ! empty( $attributes['buttonText'] ) ) {
+		$button = sprintf(
+			'<div class="content__inner content__inner--button">
+				<a class="content__link hds-button" href="%s" target="_blank" rel="noopener">
+					%s
+					%s
+				</a>
+			</div>',
+			$attributes['buttonUrl'],
+			$attributes['buttonText'],
+			hds_wp_render_link_icon($attributes['isExternalUrl'])
+		);
+	}
+
+
+	$wrapClasses = array( 'wp-block-hds-wp-banner' );
+	
+	if (!empty($attributes['className'])) {
+		$wrapClasses[] = esc_attr($attributes['className']);
+	}
+
+	$id = '';
+	if (!empty($attributes['anchor'])) {
+		$id = 'id="'.esc_attr($attributes['anchor']).'"';
+	}
+
+	return sprintf(
+		'<div %s class="%s">
+			<div class="content">
+				%s
+				%s
+				%s
+			</div>
+		</div>',
+		$id,
+		implode( ' ', $wrapClasses ),
+		$icon,
+		$text,
+		$button
+	);
+
+}
+
+/**
+ * Recent Posts
+ */
+
 function hds_wp_render_recent_posts( $attributes ) {
 	if ( function_exists( 'helsinki_front_page_section' ) ) {
 		ob_start();

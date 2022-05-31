@@ -35,6 +35,38 @@ return array(
 			'wp-editor',
 			'wp-data',
 		),
+		'render_callback' => 'hds_wp_render_banner',
+		'attributes' => array(
+	        'contentTitle' => array(
+	            'type'    => 'string',
+	            'default' => '',
+	        ),
+			'contentText' => array(
+	            'type'    => 'string',
+	            'default' => '',
+	        ),
+	        'contentIcon' => array(
+	            'type'    => 'string',
+	            'default' => '',
+	        ),
+	        'buttonText' => array(
+	            'type'    => 'string',
+	            'default' => '',
+	        ),
+	        'buttonUrl' => array(
+	            'type'    => 'string',
+	            'default' => '',
+	        ),
+	        'isExternalUrl' => array(
+	            'type'    => 'boolean',
+	            'default' => true,
+	        ),
+			'anchor' => array(
+	            'type'    => 'string',
+	            'default' => '',
+			)
+	    ),
+
 	),
 	'image-banner' => array(
 		'title' => __( 'Helsinki - Image Banner', 'hds-wp' ),

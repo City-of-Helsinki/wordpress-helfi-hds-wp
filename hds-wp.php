@@ -171,6 +171,7 @@ function init() {
 			array(
 				'actions-settings',
 				'arrows-operators',
+				'blocks',
 				'forms-data',
 				'koros',
 				'logos',
