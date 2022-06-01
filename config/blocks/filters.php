@@ -1,5 +1,7 @@
 <?php
 
+use ArtCloud\Helsinki\Plugin\HDS\Svg;
+
 add_filter( 'wp_prepare_attachment_for_js', 'hds_wp_add_srcset_to_attachment_js_response', 10, 2 );
 function hds_wp_add_srcset_to_attachment_js_response( $response, $attachment ) {
 	if ( isset( $response['sizes'] ) && is_array( $response['sizes'] ) ) {
@@ -33,4 +35,21 @@ function hds_button_class( $block_content = '', $block = [] ) {
 		implode( ' ', $classes ),
 		$block_content
 	);
+}
+
+add_filter( 'render_block', 'hds_file_render', 10, 2 );
+function hds_file_render( $block_content = '', $block = [] ) {
+	if ( empty( $block['blockName'] ) || 'core/file' !== $block['blockName'] ) {
+		return $block_content;
+	}
+
+	$block_content = substr($block_content, 0, -11);
+	$block_content .= Svg::icon( 'actions-settings', 'download' ) . '</a></div>';
+
+	return str_replace(
+		'wp-block-file__button',
+		'hds-button',
+		$block_content
+	);
+
 }
