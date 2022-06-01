@@ -43,8 +43,10 @@ function hds_file_render( $block_content = '', $block = [] ) {
 		return $block_content;
 	}
 
-	$block_content = substr($block_content, 0, -11);
-	$block_content .= Svg::icon( 'actions-settings', 'download' ) . '</a></div>';
+	if (str_contains($block_content, 'download')) {
+		$block_content = substr($block_content, 0, -11);
+		$block_content .= Svg::icon( 'actions-settings', 'download' ) . '</a></div>';
+	}
 
 	return str_replace(
 		'wp-block-file__button',
