@@ -121,6 +121,7 @@ function hds_wp_query_block_post_ids( array $posts ) {
 		'no_found_rows' => true,
 		'update_post_term_cache' => false,
 		'ignore_sticky_posts' => 1,
+		'orderby' => 'post__in'
 	) );
 	return $query->posts;
 }
