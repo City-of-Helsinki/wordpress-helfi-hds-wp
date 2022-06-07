@@ -1,5 +1,4 @@
 .links-list {
-
     padding-bottom: $paragraph-margin-bottom-extra-small;
 
     @include breakpoint('m') {
@@ -155,6 +154,13 @@
                 .link___title {
                     align-items: center;
                     display: inline-flex;
+
+                    span {
+                        @include breakpoint('m') {
+                            align-self: start;
+                            padding-top: 12px;
+                        }
+                    }
 
                     .icon {
                         margin-left: spacing('s');
