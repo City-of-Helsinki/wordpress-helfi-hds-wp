@@ -1,7 +1,9 @@
 .wp-block-file {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
 
-  a.hds-button {
-    margin-left: 0.75em;
-  }
-
+    a.hds-button {
+    }
 }
