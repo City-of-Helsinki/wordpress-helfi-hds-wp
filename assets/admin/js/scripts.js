@@ -1086,6 +1086,10 @@ function hdsIcons(name) {
         unregisterBlockType('hds-wp/recent-posts');
       }
 
+      if (getBlockType('hds-wp/rss-feed')) {
+        unregisterBlockType('hds-wp/rss-feed');
+      }
+
       if (getBlockType('core/columns')) {
         unregisterBlockType('core/columns');
       }
@@ -1840,6 +1844,92 @@ function hdsIcons(name) {
       category: {
         type: 'number',
         default: 0
+      },
+      anchor: {
+        type: 'string',
+        default: ''
+      }
+    },
+    edit: edit()
+  });
+})(window.wp);
+
+(function (wp) {
+  var __ = wp.i18n.__;
+  var _wp$blocks5 = wp.blocks,
+      registerBlockType = _wp$blocks5.registerBlockType,
+      getBlockContent = _wp$blocks5.getBlockContent;
+  var _wp$element11 = wp.element,
+      Fragment = _wp$element11.Fragment,
+      createElement = _wp$element11.createElement,
+      useState = _wp$element11.useState;
+  var _wp$blockEditor11 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor11.useBlockProps,
+      BlockControls = _wp$blockEditor11.BlockControls,
+      InnerBlocks = _wp$blockEditor11.InnerBlocks;
+  var InspectorControls = wp.editor.InspectorControls;
+  var _wp$data4 = wp.data,
+      select = _wp$data4.select,
+      useSelect = _wp$data4.useSelect;
+  var _wp$components11 = wp.components,
+      ToolbarGroup = _wp$components11.ToolbarGroup,
+      ToolbarButton = _wp$components11.ToolbarButton,
+      Button = _wp$components11.Button,
+      ToggleControl = _wp$components11.ToggleControl;
+
+  function inspectorControls(props) {
+    return hdsInspectorControls({
+      title: __('Settings', 'hds-wp'),
+      initialOpen: true
+    }, hdsTextControl({
+      label: __('Title', 'hds-wp'),
+      value: props.attributes.title,
+      attribute: 'title'
+    }, props), hdsTextControl({
+      label: __('URL', 'hds-wp'),
+      value: props.attributes.url,
+      attribute: 'url'
+    }, props), hdsTextControl({
+      label: __('Lifetime (h)', 'hds-wp'),
+      value: props.attributes.lifespan,
+      attribute: 'lifespan'
+    }, props));
+  }
+
+  function edit() {
+    return function (props) {
+      var content = null;
+      props.attributes.lifespan = parseInt(props.attributes.lifespan);
+      var blockAttributes = props.attributes;
+      content = createElement(wp.serverSideRender, {
+        block: 'hds-wp/rss-feed',
+        attributes: blockAttributes,
+        httpMethod: 'POST'
+      });
+      return createElement(Fragment, {}, inspectorControls(props), createElement('div', useBlockProps(), content));
+    };
+  }
+
+  registerBlockType('hds-wp/rss-feed', {
+    apiVersion: 2,
+    title: __('Helsinki - RSS', 'hds-wp'),
+    category: 'hds-wp',
+    icon: 'images-alt',
+    supports: {
+      anchor: true
+    },
+    attributes: {
+      title: {
+        type: 'string',
+        default: ''
+      },
+      url: {
+        type: 'string',
+        default: ''
+      },
+      lifespan: {
+        type: 'number',
+        default: 12
       },
       anchor: {
         type: 'string',
