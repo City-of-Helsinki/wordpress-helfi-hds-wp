@@ -421,3 +421,27 @@ function hds_wp_render_recent_posts( $attributes ) {
 	return;
 }
 
+/**
+ * RSS Feed
+ */
+
+function hds_wp_render_rss_feed( $attributes ) {
+	if ( function_exists( 'helsinki_front_page_section' ) ) {
+		add_filter( 'wp_feed_cache_transient_lifetime', function( $lifetime, $url ) use ( $attributes ) {
+			return hds_wp_rss_feed_lifetime($lifetime, $url, $attributes);
+		}, 10, 2 );
+		ob_start();
+		add_action('helsinki_front_page_feed-posts', 'helsinki_front_page_feed_posts_title', 10);
+		add_action('helsinki_front_page_feed-posts', 'helsinki_front_page_feed_posts_source_text', 20);
+		add_action('helsinki_front_page_feed-posts', 'helsinki_front_page_feed_posts', 30);
+		helsinki_front_page_section('feed-posts', 0, $attributes);
+		$content = ob_get_clean();
+		remove_filter( 'wp_feed_cache_transient_lifetime', function(){}, 10);
+		return $content;
+	}
+	return;
+}
+
+function hds_wp_rss_feed_lifetime($lifetime, $url, $attributes) {
+	return $attributes['lifespan'] > 0 ? HOUR_IN_SECONDS * $attributes['lifespan'] : HOUR_IN_SECONDS * 12;
+}

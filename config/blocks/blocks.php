@@ -229,5 +229,38 @@ return array(
 
 	    ),
 	),
+	'rss-feed' => array(
+		'title' => __( 'Helsinki - RSS', 'hds-wp' ),
+		'category' => 'hds-wp',
+		'dependencies' => array(
+			'wp-blocks',
+			'wp-i18n',
+			'wp-element',
+			'wp-components',
+			'wp-editor',
+			'wp-data',
+			'wp-server-side-render',
+		),
+		'render_callback' => 'hds_wp_render_rss_feed',
+		'attributes' => array(
+	        'title' => array(
+	            'type'    => 'string',
+	            'default' => '',
+	        ),
+			'url' => array(
+	            'type'    => 'string',
+	            'default' => '',
+	        ),
+			'lifespan' => array(
+	            'type'    => 'integer',
+	            'default' => 12,
+	        ),
+			'anchor' => array(
+	            'type'    => 'string',
+	            'default' => '',
+			)
+
+	    ),
+	),
 
 );

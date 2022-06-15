@@ -65,6 +65,9 @@
             if (getBlockType('hds-wp/recent-posts')) {
                 unregisterBlockType( 'hds-wp/recent-posts' );
             }
+            if (getBlockType('hds-wp/rss-feed')) {
+                unregisterBlockType( 'hds-wp/rss-feed' );
+            }
             if (getBlockType('core/columns')) {
                 unregisterBlockType( 'core/columns' );
             }    
