@@ -35,6 +35,38 @@ return array(
 			'wp-editor',
 			'wp-data',
 		),
+		'render_callback' => 'hds_wp_render_banner',
+		'attributes' => array(
+	        'contentTitle' => array(
+	            'type'    => 'string',
+	            'default' => '',
+	        ),
+			'contentText' => array(
+	            'type'    => 'string',
+	            'default' => '',
+	        ),
+	        'contentIcon' => array(
+	            'type'    => 'string',
+	            'default' => '',
+	        ),
+	        'buttonText' => array(
+	            'type'    => 'string',
+	            'default' => '',
+	        ),
+	        'buttonUrl' => array(
+	            'type'    => 'string',
+	            'default' => '',
+	        ),
+	        'isExternalUrl' => array(
+	            'type'    => 'boolean',
+	            'default' => true,
+	        ),
+			'anchor' => array(
+	            'type'    => 'string',
+	            'default' => '',
+			)
+	    ),
+
 	),
 	'image-banner' => array(
 		'title' => __( 'Helsinki - Image Banner', 'hds-wp' ),
@@ -189,6 +221,39 @@ return array(
 			'category' => array(
 	            'type'    => 'integer',
 	            'default' => 0,
+	        ),
+			'anchor' => array(
+	            'type'    => 'string',
+	            'default' => '',
+			)
+
+	    ),
+	),
+	'rss-feed' => array(
+		'title' => __( 'Helsinki - RSS', 'hds-wp' ),
+		'category' => 'hds-wp',
+		'dependencies' => array(
+			'wp-blocks',
+			'wp-i18n',
+			'wp-element',
+			'wp-components',
+			'wp-editor',
+			'wp-data',
+			'wp-server-side-render',
+		),
+		'render_callback' => 'hds_wp_render_rss_feed',
+		'attributes' => array(
+	        'title' => array(
+	            'type'    => 'string',
+	            'default' => '',
+	        ),
+			'url' => array(
+	            'type'    => 'string',
+	            'default' => '',
+	        ),
+			'lifespan' => array(
+	            'type'    => 'integer',
+	            'default' => 12,
 	        ),
 			'anchor' => array(
 	            'type'    => 'string',

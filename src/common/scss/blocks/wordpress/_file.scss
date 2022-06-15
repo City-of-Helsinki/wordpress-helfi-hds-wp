@@ -1,8 +1,9 @@
 .wp-block-file {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
 
-  a.wp-block-file__button {
-    background-color: $black;
-    border-radius: 0;
-  }
-
+    a.hds-button {
+    }
 }

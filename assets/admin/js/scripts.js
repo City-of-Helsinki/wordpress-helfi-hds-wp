@@ -486,39 +486,6 @@ function hdsIcons(name) {
   return name ? icons[name] : icons;
 }
 
-wp.domReady(function () {
-  /**
-    * Buttons
-    */
-  wp.blocks.unregisterBlockStyle('core/button', 'outline');
-  wp.blocks.unregisterBlockStyle('core/button', 'fill');
-  wp.blocks.registerBlockStyle('core/button', [{
-    name: 'secondary',
-    title: wp.i18n.__('Secondary', 'hds-wp')
-  }, {
-    name: 'supplementary',
-    title: wp.i18n.__('Supplementary', 'hds-wp')
-  }]);
-  /**
-    * Text
-    */
-
-  var withBackgroundStyle = ['core/group', 'core/paragraph'];
-
-  for (var i = 0; i < withBackgroundStyle.length; i++) {
-    wp.blocks.registerBlockStyle(withBackgroundStyle[i], [{
-      name: 'light-gray-background',
-      title: wp.i18n.__('Light Gray Background', 'hds-wp')
-    }]);
-  }
-  /**
-   * Image
-   */
-
-
-  wp.blocks.unregisterBlockStyle('core/image', 'rounded');
-});
-
 (function (wp) {
   var __ = wp.i18n.__;
   var registerBlockType = wp.blocks.registerBlockType;
@@ -826,10 +793,13 @@ wp.domReady(function () {
       isExternalUrl: {
         type: 'boolean',
         default: true
+      },
+      anchor: {
+        type: 'string',
+        default: ''
       }
     },
-    edit: edit(),
-    save: save()
+    edit: edit()
   });
 })(window.wp);
 
@@ -1073,6 +1043,72 @@ wp.domReady(function () {
 
     if (getBlockType('core/latest-posts')) {
       unregisterBlockType('core/latest-posts');
+    }
+
+    if (document.querySelector('body').classList.contains('post-type-post')) {
+      if (getBlockType('hds-wp/accordion')) {
+        unregisterBlockType('hds-wp/accordion');
+      }
+
+      if (getBlockType('hds-wp/accordion-panel')) {
+        unregisterBlockType('hds-wp/accordion-panel');
+      }
+
+      if (getBlockType('hds-wp/banner')) {
+        unregisterBlockType('hds-wp/banner');
+      }
+
+      if (getBlockType('hds-wp/content-card')) {
+        unregisterBlockType('hds-wp/content-card');
+      }
+
+      if (getBlockType('hds-wp/content-cards')) {
+        unregisterBlockType('hds-wp/content-cards');
+      }
+
+      if (getBlockType('hds-wp/image-banner')) {
+        unregisterBlockType('hds-wp/image-banner');
+      }
+
+      if (getBlockType('hds-wp/image-text')) {
+        unregisterBlockType('hds-wp/image-text');
+      }
+
+      if (getBlockType('hds-wp/link')) {
+        unregisterBlockType('hds-wp/link');
+      }
+
+      if (getBlockType('hds-wp/links')) {
+        unregisterBlockType('hds-wp/links');
+      }
+
+      if (getBlockType('hds-wp/recent-posts')) {
+        unregisterBlockType('hds-wp/recent-posts');
+      }
+
+      if (getBlockType('hds-wp/rss-feed')) {
+        unregisterBlockType('hds-wp/rss-feed');
+      }
+
+      if (getBlockType('core/columns')) {
+        unregisterBlockType('core/columns');
+      }
+
+      if (getBlockType('core/nextpage')) {
+        unregisterBlockType('core/nextpage');
+      }
+
+      if (getBlockType('core/separator')) {
+        unregisterBlockType('core/separator');
+      }
+
+      if (getBlockType('core/spacer')) {
+        unregisterBlockType('core/spacer');
+      }
+
+      if (getBlockType('core/group')) {
+        unregisterBlockType('core/group');
+      }
     }
   });
 })(window.wp);
@@ -1817,3 +1853,122 @@ wp.domReady(function () {
     edit: edit()
   });
 })(window.wp);
+
+(function (wp) {
+  var __ = wp.i18n.__;
+  var _wp$blocks5 = wp.blocks,
+      registerBlockType = _wp$blocks5.registerBlockType,
+      getBlockContent = _wp$blocks5.getBlockContent;
+  var _wp$element11 = wp.element,
+      Fragment = _wp$element11.Fragment,
+      createElement = _wp$element11.createElement,
+      useState = _wp$element11.useState;
+  var _wp$blockEditor11 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor11.useBlockProps,
+      BlockControls = _wp$blockEditor11.BlockControls,
+      InnerBlocks = _wp$blockEditor11.InnerBlocks;
+  var InspectorControls = wp.editor.InspectorControls;
+  var _wp$data4 = wp.data,
+      select = _wp$data4.select,
+      useSelect = _wp$data4.useSelect;
+  var _wp$components11 = wp.components,
+      ToolbarGroup = _wp$components11.ToolbarGroup,
+      ToolbarButton = _wp$components11.ToolbarButton,
+      Button = _wp$components11.Button,
+      ToggleControl = _wp$components11.ToggleControl;
+
+  function inspectorControls(props) {
+    return hdsInspectorControls({
+      title: __('Settings', 'hds-wp'),
+      initialOpen: true
+    }, hdsTextControl({
+      label: __('Title', 'hds-wp'),
+      value: props.attributes.title,
+      attribute: 'title'
+    }, props), hdsTextControl({
+      label: __('URL', 'hds-wp'),
+      value: props.attributes.url,
+      attribute: 'url'
+    }, props), hdsTextControl({
+      label: __('Lifetime (h)', 'hds-wp'),
+      value: props.attributes.lifespan,
+      attribute: 'lifespan'
+    }, props));
+  }
+
+  function edit() {
+    return function (props) {
+      var content = null;
+      props.attributes.lifespan = parseInt(props.attributes.lifespan);
+      var blockAttributes = props.attributes;
+      content = createElement(wp.serverSideRender, {
+        block: 'hds-wp/rss-feed',
+        attributes: blockAttributes,
+        httpMethod: 'POST'
+      });
+      return createElement(Fragment, {}, inspectorControls(props), createElement('div', useBlockProps(), content));
+    };
+  }
+
+  registerBlockType('hds-wp/rss-feed', {
+    apiVersion: 2,
+    title: __('Helsinki - RSS', 'hds-wp'),
+    category: 'hds-wp',
+    icon: 'images-alt',
+    supports: {
+      anchor: true
+    },
+    attributes: {
+      title: {
+        type: 'string',
+        default: ''
+      },
+      url: {
+        type: 'string',
+        default: ''
+      },
+      lifespan: {
+        type: 'number',
+        default: 12
+      },
+      anchor: {
+        type: 'string',
+        default: ''
+      }
+    },
+    edit: edit()
+  });
+})(window.wp);
+
+wp.domReady(function () {
+  /**
+    * Buttons
+    */
+  wp.blocks.unregisterBlockStyle('core/button', 'outline');
+  wp.blocks.unregisterBlockStyle('core/button', 'fill');
+  wp.blocks.registerBlockStyle('core/button', [{
+    name: 'secondary',
+    title: wp.i18n.__('Secondary', 'hds-wp')
+  }, {
+    name: 'supplementary',
+    title: wp.i18n.__('Supplementary', 'hds-wp')
+  }]);
+  /**
+    * Text
+    */
+
+  var withBackgroundStyle = ['core/group', 'core/paragraph'];
+
+  for (var i = 0; i < withBackgroundStyle.length; i++) {
+    wp.blocks.registerBlockStyle(withBackgroundStyle[i], [{
+      name: 'light-gray-background',
+      title: wp.i18n.__('Light Gray Background', 'hds-wp')
+    }]);
+  }
+  /**
+   * Image
+   */
+
+
+  wp.blocks.unregisterBlockStyle('core/image', 'rounded');
+});

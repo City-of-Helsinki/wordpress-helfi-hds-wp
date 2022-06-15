@@ -1,5 +1,4 @@
 .links-list {
-
     padding-bottom: $paragraph-margin-bottom-extra-small;
 
     @include breakpoint('m') {
@@ -86,8 +85,9 @@
             }
 
             .icon {
-                height: 32px;
-                width: 32px;
+                height: 24px;
+                width: 24px;
+                min-width: 24px;
 
                 &--link-external {
                     width: 24px;
@@ -103,6 +103,7 @@
                 .icon {
                     height: 48px;
                     width: 48px;
+                    min-width: 48px;
 
                     &--link-external {
                         width: 24px;
@@ -153,6 +154,13 @@
                 .link___title {
                     align-items: center;
                     display: inline-flex;
+
+                    span {
+                        @include breakpoint('m') {
+                            align-self: start;
+                            padding-top: 12px;
+                        }
+                    }
 
                     .icon {
                         margin-left: spacing('s');
