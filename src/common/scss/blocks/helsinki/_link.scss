@@ -54,10 +54,11 @@
 
             img {
                 @include absoluteCenter();
+                object-fit: cover;
                 display: block;
                 min-height: 100%;
                 min-width: 100%;
-                max-width: none;
+                max-width: 100%;
             }
 
             &.has-placeholder {
