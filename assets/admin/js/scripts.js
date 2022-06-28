@@ -182,6 +182,20 @@ function hdsTextControl(config, props) {
   }));
 }
 
+function hdsTextAreaControl(config, props) {
+  var attributeKey = config['attribute'];
+  return wp.element.createElement(wp.components.PanelRow, {}, wp.element.createElement(wp.components.TextareaControl, {
+    label: config.label,
+    type: config.type ? config.type : 'text',
+    value: config.value,
+    onChange: function onChange(text) {
+      var newAttributes = {};
+      newAttributes[config.attribute] = text;
+      props.setAttributes(newAttributes);
+    }
+  }));
+}
+
 function hdsRadioControl(config, props) {
   return wp.element.createElement(wp.components.PanelRow, {}, wp.element.createElement(wp.components.RadioControl, {
     label: config.label,
@@ -1437,7 +1451,9 @@ function hdsIcons(name) {
   var _wp$components8 = wp.components,
       Button = _wp$components8.Button,
       TextControl = _wp$components8.TextControl,
-      SelectControl = _wp$components8.SelectControl;
+      SelectControl = _wp$components8.SelectControl,
+      ToolbarGroup = _wp$components8.ToolbarGroup,
+      ToolbarButton = _wp$components8.ToolbarButton;
 
   function titleText(props) {
     return hdsTextControl({
@@ -1448,7 +1464,7 @@ function hdsIcons(name) {
   }
 
   function excerptText(props) {
-    return hdsTextControl({
+    return hdsTextAreaControl({
       label: wp.i18n.__('Excerpt', 'hds-wp'),
       value: props.attributes.linkExcerpt,
       attribute: 'linkExcerpt'
@@ -1484,8 +1500,8 @@ function hdsIcons(name) {
 
       case 'image-title':
         controls.push(titleText);
-        controls.push(hdsWithPostTypeSelectControl());
-        controls.push(hdsSearchPostsTextControl());
+        controls.push(urlText);
+        controls.push(hdsExternalUrlControl);
         controls.push(hdsTargetBlankControl);
         break;
     }
@@ -1504,10 +1520,10 @@ function hdsIcons(name) {
     if (props.attributes.postTitle) {
       title = props.attributes.postTitle;
     }
+    /* if ( 'image-title' === linkType && ! props.attributes.postId ) {
+      title = __( 'Please select a post or page', 'hds-wp' );
+    } */
 
-    if ('image-title' === linkType && !props.attributes.postId) {
-      title = __('Please select a post or page', 'hds-wp');
-    }
 
     var parts = [createElement('h3', {
       className: 'link___title'
@@ -1529,10 +1545,42 @@ function hdsIcons(name) {
     return parent[0];
   }
 
+  function toolbar(props) {
+    return createElement(BlockControls, {
+      key: 'controls'
+    }, createElement(ToolbarGroup, {}, hdsMediaUpload(props.attributes.mediaId, function (media) {
+      props.setAttributes({
+        mediaId: media.id,
+        mediaUrl: media.sizes.full.url,
+        mediaWidth: media.sizes.full.width,
+        mediaHeight: media.sizes.full.height,
+        mediaAlt: media.alt,
+        mediaSrcset: media.sizes.full.srcset
+      });
+    }, function (mediaUpload) {
+      return createElement(Button, {
+        icon: 'format-image',
+        label: __('Select image', 'hds-wp'),
+        onClick: mediaUpload.open
+      });
+    })));
+  }
+
+  function imageConfig(props) {
+    return {
+      id: props.attributes.mediaId,
+      alt: props.attributes.mediaAlt,
+      src: props.attributes.mediaUrl,
+      srcset: props.attributes.mediaSrcset,
+      width: props.attributes.mediaWidth,
+      height: props.attributes.mediaHeight
+    };
+  }
+
   function edit() {
     return function (props) {
       var parent = getParentBlock(props.clientId);
-      return createElement(Fragment, {}, panelControls(parent.attributes.linkType, props), placeholder(parent.attributes.linkType, props));
+      return createElement(Fragment, {}, toolbar(props), panelControls(parent.attributes.linkType, props), placeholder(parent.attributes.linkType, props));
     };
   }
 
@@ -1572,9 +1620,29 @@ function hdsIcons(name) {
         type: 'boolean',
         default: false
       },
-      postType: {
+      mediaId: {
+        type: 'number',
+        default: 0
+      },
+      mediaUrl: {
         type: 'string',
-        default: 'post'
+        default: ''
+      },
+      mediaWidth: {
+        type: 'number',
+        default: 0
+      },
+      mediaHeight: {
+        type: 'number',
+        default: 0
+      },
+      mediaAlt: {
+        type: 'string',
+        default: ''
+      },
+      mediaSrcset: {
+        type: 'string',
+        default: ''
       },
       search: {
         type: 'string',
