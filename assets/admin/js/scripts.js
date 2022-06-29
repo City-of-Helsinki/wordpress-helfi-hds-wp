@@ -1516,15 +1516,6 @@ function hdsIcons(name) {
 
   function placeholder(linkType, props) {
     var title = props.attributes.linkTitle ? props.attributes.linkTitle : __('Helsinki - Link', 'hds-wp');
-
-    if (props.attributes.postTitle) {
-      title = props.attributes.postTitle;
-    }
-    /* if ( 'image-title' === linkType && ! props.attributes.postId ) {
-      title = __( 'Please select a post or page', 'hds-wp' );
-    } */
-
-
     var parts = [createElement('h3', {
       className: 'link___title'
     }, title)];
