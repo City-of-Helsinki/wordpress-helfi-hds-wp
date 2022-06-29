@@ -1545,25 +1545,29 @@ function hdsIcons(name) {
     return parent[0];
   }
 
-  function toolbar(props) {
-    return createElement(BlockControls, {
-      key: 'controls'
-    }, createElement(ToolbarGroup, {}, hdsMediaUpload(props.attributes.mediaId, function (media) {
-      props.setAttributes({
-        mediaId: media.id,
-        mediaUrl: media.sizes.full.url,
-        mediaWidth: media.sizes.full.width,
-        mediaHeight: media.sizes.full.height,
-        mediaAlt: media.alt,
-        mediaSrcset: media.sizes.full.srcset
-      });
-    }, function (mediaUpload) {
-      return createElement(Button, {
-        icon: 'format-image',
-        label: __('Select image', 'hds-wp'),
-        onClick: mediaUpload.open
-      });
-    })));
+  function toolbar(props, linkType) {
+    if (linkType === 'image-title') {
+      return createElement(BlockControls, {
+        key: 'controls'
+      }, createElement(ToolbarGroup, {}, hdsMediaUpload(props.attributes.mediaId, function (media) {
+        props.setAttributes({
+          mediaId: media.id,
+          mediaUrl: media.sizes.full.url,
+          mediaWidth: media.sizes.full.width,
+          mediaHeight: media.sizes.full.height,
+          mediaAlt: media.alt,
+          mediaSrcset: media.sizes.full.srcset
+        });
+      }, function (mediaUpload) {
+        return createElement(Button, {
+          icon: 'format-image',
+          label: __('Select image', 'hds-wp'),
+          onClick: mediaUpload.open
+        });
+      })));
+    }
+
+    return null;
   }
 
   function imageConfig(props) {
@@ -1580,7 +1584,7 @@ function hdsIcons(name) {
   function edit() {
     return function (props) {
       var parent = getParentBlock(props.clientId);
-      return createElement(Fragment, {}, toolbar(props), panelControls(parent.attributes.linkType, props), placeholder(parent.attributes.linkType, props));
+      return createElement(Fragment, {}, toolbar(props, parent.attributes.linkType), panelControls(parent.attributes.linkType, props), placeholder(parent.attributes.linkType, props));
     };
   }
 
