@@ -55,3 +55,20 @@ function hds_file_render( $block_content = '', $block = [] ) {
 	);
 
 }
+
+add_filter( 'render_block', 'hds_helsinki_channel_render', 10, 2 );
+function hds_helsinki_channel_render( $block_content = '', $block = [] ) {
+	if ( empty( $block['blockName'] ) || 'core/embed' !== $block['blockName'] ) {
+		return $block_content;
+	}
+	
+	if (!str_contains($block['attrs']['url'], 'helsinkikanava')) {
+		return $block_content;
+	}
+	return preg_replace(
+		'/wp-block-embed/',
+		'wp-block-embed wp-embed-aspect-16-9 wp-has-aspect-ratio',
+		$block_content,
+		1
+	);
+}
