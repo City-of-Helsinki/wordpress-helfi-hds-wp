@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Helsinki Design System for WordPress\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-01 05:37+0000\n"
+"POT-Creation-Date: 2022-08-01 09:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -28,7 +28,7 @@ msgstr ""
 msgid "Adds Helsinki styles, scripts and fonts to the site."
 msgstr ""
 
-#: src/admin/js/filters/table.js:39
+#: assets/admin/js/scripts.js:2086 src/admin/js/filters/table.js:36
 msgid "Advanced table settings"
 msgstr ""
 
@@ -346,10 +346,10 @@ msgstr ""
 #: assets/admin/js/scripts.js:108 assets/admin/js/scripts.js:927
 #: assets/admin/js/scripts.js:1460 assets/admin/js/scripts.js:1705
 #: assets/admin/js/scripts.js:1852 assets/admin/js/scripts.js:1952
-#: assets/admin/js/scripts.js:2091 src/admin/js/admin.js:117
+#: assets/admin/js/scripts.js:2088 src/admin/js/admin.js:117
 #: src/admin/js/blocks/content-cards.js:26 src/admin/js/blocks/link.js:15
 #: src/admin/js/blocks/links.js:34 src/admin/js/blocks/recent-posts.js:28
-#: src/admin/js/blocks/rss-feed.js:18 src/admin/js/filters/table.js:41
+#: src/admin/js/blocks/rss-feed.js:18 src/admin/js/filters/table.js:38
 msgid "Title"
 msgstr ""
 
@@ -366,7 +366,7 @@ msgstr ""
 msgid "Use Helsinki settings with plugins and enable available Helsinki APIs."
 msgstr ""
 
-#: assets/admin/js/scripts.js:2099 src/admin/js/filters/table.js:46
+#: assets/admin/js/scripts.js:2096 src/admin/js/filters/table.js:43
 msgid "Vertical header"
 msgstr ""
 

@@ -25,7 +25,7 @@
         return (props) => {
             const __ = wp.i18n.__;
             const { Fragment, createElement } = wp.element;
-            const { ToggleControl, PanelBody, TextControl } = wp.components;
+            const { ToggleControl, Panel, PanelBody, TextControl } = wp.components;
             const { InspectorControls,  BlockControls, useBlockProps } = wp.blockEditor;
             const { attributes, setAttributes, isSelected } = props;
             return (

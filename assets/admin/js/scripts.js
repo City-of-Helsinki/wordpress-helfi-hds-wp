@@ -2072,6 +2072,7 @@ wp.domReady(function () {
           createElement = _wp$element12.createElement;
       var _wp$components12 = wp.components,
           ToggleControl = _wp$components12.ToggleControl,
+          Panel = _wp$components12.Panel,
           PanelBody = _wp$components12.PanelBody,
           TextControl = _wp$components12.TextControl;
       var _wp$blockEditor12 = wp.blockEditor,

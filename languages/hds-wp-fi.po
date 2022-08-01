@@ -3,16 +3,16 @@ msgstr ""
 "Project-Id-Version: Helsinki Design System for WordPress\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-05 14:10+0000\n"
-"PO-Revision-Date: 2022-08-01 05:38+0000\n"
+"PO-Revision-Date: 2022-08-01 09:50+0000\n"
 "Last-Translator: \n"
-"Language-Team: Finnish\n"
+"Language-Team: Suomi\n"
 "Language: fi\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/\n"
-"X-Loco-Version: 2.5.2; wp-5.7.1\n"
+"X-Loco-Version: 2.6.0; wp-6.0.1\n"
 "X-Domain: hds-wp"
 
 #: config/integrations/types.php:14
@@ -27,7 +27,7 @@ msgstr "Lisää Helsinki-tyylit evästeilmoitukseen."
 msgid "Adds Helsinki styles, scripts and fonts to the site."
 msgstr "Lisää Helsinki-tyylit, komentosarjat ja fontit sivustolle."
 
-#: src/admin/js/filters/table.js:39
+#: assets/admin/js/scripts.js:2086 src/admin/js/filters/table.js:36
 msgid "Advanced table settings"
 msgstr "Taulukon lisäasetukset"
 
@@ -356,10 +356,10 @@ msgstr ""
 #: assets/admin/js/scripts.js:108 assets/admin/js/scripts.js:927
 #: assets/admin/js/scripts.js:1460 assets/admin/js/scripts.js:1705
 #: assets/admin/js/scripts.js:1852 assets/admin/js/scripts.js:1952
-#: assets/admin/js/scripts.js:2091 src/admin/js/admin.js:117
+#: assets/admin/js/scripts.js:2088 src/admin/js/admin.js:117
 #: src/admin/js/blocks/content-cards.js:26 src/admin/js/blocks/link.js:15
 #: src/admin/js/blocks/links.js:34 src/admin/js/blocks/recent-posts.js:28
-#: src/admin/js/blocks/rss-feed.js:18 src/admin/js/filters/table.js:41
+#: src/admin/js/blocks/rss-feed.js:18 src/admin/js/filters/table.js:38
 msgid "Title"
 msgstr "Otsikko"
 
@@ -377,7 +377,7 @@ msgid "Use Helsinki settings with plugins and enable available Helsinki APIs."
 msgstr ""
 "Käytä Helsinki-asetuksia lisäosissa ja ota käyttöön Helsinki-rajapinnat."
 
-#: assets/admin/js/scripts.js:2099 src/admin/js/filters/table.js:46
+#: assets/admin/js/scripts.js:2096 src/admin/js/filters/table.js:43
 msgid "Vertical header"
 msgstr "Vertikaalinen otsikkorivi"
 
