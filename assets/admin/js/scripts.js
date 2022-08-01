@@ -2044,3 +2044,91 @@ wp.domReady(function () {
 
   wp.blocks.unregisterBlockStyle('core/quote', 'plain');
 });
+
+(function (wp) {
+  function addTableAttributes(settings, name) {
+    if (typeof settings.attributes !== 'undefined') {
+      if (name == 'core/table') {
+        settings.attributes = Object.assign(settings.attributes, {
+          verticalHeader: {
+            type: 'boolean'
+          },
+          title: {
+            type: 'string'
+          }
+        });
+      }
+    }
+
+    return settings;
+  }
+
+  wp.hooks.addFilter('blocks.registerBlockType', 'table/custom-attributes', addTableAttributes);
+  var tableAdvancedControls = wp.compose.createHigherOrderComponent(function (BlockEdit) {
+    return function (props) {
+      var __ = wp.i18n.__;
+      var _wp$element12 = wp.element,
+          Fragment = _wp$element12.Fragment,
+          createElement = _wp$element12.createElement;
+      var _wp$components12 = wp.components,
+          ToggleControl = _wp$components12.ToggleControl,
+          Panel = _wp$components12.Panel,
+          PanelBody = _wp$components12.PanelBody,
+          TextControl = _wp$components12.TextControl;
+      var _wp$blockEditor12 = wp.blockEditor,
+          InspectorControls = _wp$blockEditor12.InspectorControls,
+          BlockControls = _wp$blockEditor12.BlockControls,
+          useBlockProps = _wp$blockEditor12.useBlockProps;
+      var attributes = props.attributes,
+          setAttributes = props.setAttributes,
+          isSelected = props.isSelected;
+      return /*#__PURE__*/React.createElement(Fragment, null, /*#__PURE__*/React.createElement(BlockEdit, props), isSelected && props.name == 'core/table' && /*#__PURE__*/React.createElement(InspectorControls, null, /*#__PURE__*/React.createElement(PanelBody, {
+        title: __('Advanced table settings', 'hds-wp')
+      }, /*#__PURE__*/React.createElement(TextControl, {
+        label: __('Title', 'hds-wp'),
+        value: attributes.title,
+        onChange: function onChange(value) {
+          return setAttributes({
+            title: value
+          });
+        }
+      }), /*#__PURE__*/React.createElement(ToggleControl, {
+        label: __('Vertical header', 'hds-wp'),
+        checked: attributes.verticalHeader,
+        onChange: function onChange(value) {
+          return setAttributes({
+            verticalHeader: value
+          });
+        }
+      }))));
+    };
+  }, 'tableAdvancedControls');
+  wp.hooks.addFilter('editor.BlockEdit', 'table/custom-control', tableAdvancedControls);
+
+  function tableApplyExtraClass(extraProps, blockType, attributes) {
+    var verticalHeader = attributes.verticalHeader;
+
+    if (typeof verticalHeader !== 'undefined' && verticalHeader) {
+      extraProps.className = extraProps.className + ' has-vertical-header';
+    }
+
+    return extraProps;
+  }
+
+  wp.hooks.addFilter('blocks.getSaveContent.extraProps', 'table/custom-apply-class', tableApplyExtraClass);
+
+  function modifyGetSaveContentExtraProps(element, blockType, attributes) {
+    if (blockType.name !== 'core/table') {
+      return element;
+    }
+
+    var title = attributes.title;
+    return /*#__PURE__*/React.createElement("div", {
+      className: "hds-container"
+    }, typeof title !== 'undefined' && title && /*#__PURE__*/React.createElement("h2", {
+      class: "table_title"
+    }, /*#__PURE__*/React.createElement("span", null, attributes.title)), element);
+  }
+
+  wp.hooks.addFilter('blocks.getSaveElement', 'table/modify-get-save-content-extra-props', modifyGetSaveContentExtraProps);
+})(window.wp);
