@@ -129,7 +129,7 @@ function hdsContentTitle(props) {
 }
 
 function hdsContentTextControl(props) {
-	return hdsTextControl({
+	return hdsTextAreaControl({
 		label: wp.i18n.__( 'Excerpt', 'hds-wp' ),
 		value: props.attributes.contentText,
 		attribute: 'contentText',
