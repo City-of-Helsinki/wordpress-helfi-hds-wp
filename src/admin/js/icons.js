@@ -1,5 +1,7 @@
 function hdsIcons( name ) {
 	var icons = {
+		"(empty)": "",
+
 		"alert-circle": "M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2zm0 2a8 8 0 100 16 8 8 0 000-16zm1 12v2h-2v-2h2zm0-10v8h-2V6h2z",
 
 		"check": "M21 7 10 18 4.5 12.5 6 11 10 15 19.5 5.5",

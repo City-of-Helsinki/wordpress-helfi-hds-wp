@@ -118,7 +118,7 @@ function hdsContentTitle(props) {
 }
 
 function hdsContentTextControl(props) {
-  return hdsTextControl({
+  return hdsTextAreaControl({
     label: wp.i18n.__('Excerpt', 'hds-wp'),
     value: props.attributes.contentText,
     attribute: 'contentText'
@@ -451,6 +451,7 @@ function hdsSearchPostsTextControl() {
 
 function hdsIcons(name) {
   var icons = {
+    "(empty)": "",
     "alert-circle": "M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2zm0 2a8 8 0 100 16 8 8 0 000-16zm1 12v2h-2v-2h2zm0-10v8h-2V6h2z",
     "check": "M21 7 10 18 4.5 12.5 6 11 10 15 19.5 5.5",
     "check-circle": "M12,2 C17.5228475,2 22,6.4771525 22,12 C22,17.5228475 17.5228475,22 12,22 C6.4771525,22 2,17.5228475 2,12 C2,6.4771525 6.4771525,2 12,2 Z M12,4 C7.581722,4 4,7.581722 4,12 C4,16.418278 7.581722,20 12,20 C16.418278,20 20,16.418278 20,12 C20,7.581722 16.418278,4 12,4 Z M16.5,8 L18,9.5 L10.5,17 L6,12.5 L7.5,11 L10.5,14 L16.5,8 Z",
@@ -750,16 +751,15 @@ function hdsIcons(name) {
 
   function edit() {
     return function (props) {
+      var content = createElement(wp.serverSideRender, {
+        block: 'hds-wp/banner',
+        attributes: props.attributes,
+        httpMethod: 'POST'
+      });
       return createElement(Fragment, {}, hdsInspectorControls({
         title: __('Content', 'hds-wp'),
         initialOpen: false
-      }, hdsContentTitleControl(props), hdsContentTextControl(props), hdsButtonTextControl(props), hdsButtonUrlControl(props), hdsExternalUrlControl(props), hdsIconControl(props)), createElement('div', useBlockProps(), hdsContent(props, createElement('div', {
-        className: 'content__inner content__inner--icon'
-      }, hdsContentIcon(props)), createElement('div', {
-        className: 'content__inner content__inner--text'
-      }, hdsContentTitle(props), hdsContentText(props)), createElement('div', {
-        className: 'content__inner content__inner--button'
-      }, contentButton(props)))));
+      }, hdsContentTitleControl(props), hdsContentTextControl(props), hdsButtonTextControl(props), hdsButtonUrlControl(props), hdsExternalUrlControl(props), hdsIconControl(props)), createElement('div', useBlockProps(), content));
     };
   }
 

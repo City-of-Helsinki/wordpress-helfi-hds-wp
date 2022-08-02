@@ -21,6 +21,12 @@
 
 	function edit() {
 		return function(props) {
+			var content = createElement( wp.serverSideRender, {
+				block: 'hds-wp/banner',
+				attributes: props.attributes,
+				httpMethod: 'POST',
+			  });
+
 			return createElement(
 				Fragment, {},
 				hdsInspectorControls(
@@ -35,24 +41,7 @@
           hdsExternalUrlControl(props),
 					hdsIconControl(props)
 				),
-				createElement('div', useBlockProps(),
-					hdsContent(
-						props,
-						createElement(
-							'div', {className: 'content__inner content__inner--icon'},
-							hdsContentIcon(props),
-						),
-						createElement(
-							'div', {className: 'content__inner content__inner--text'},
-							hdsContentTitle(props),
-							hdsContentText(props),
-						),
-						createElement(
-							'div', {className: 'content__inner content__inner--button'},
-							contentButton(props),
-						),
-					)
-				)
+				createElement('div', useBlockProps(), content)
 			);
 		}
 	}
