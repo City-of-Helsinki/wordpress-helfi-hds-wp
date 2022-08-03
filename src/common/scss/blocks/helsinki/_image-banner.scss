@@ -68,7 +68,25 @@
 		}
 
 		&__link {
-			padding: 0;
+			//force correct button styling on outdated saved markup...
+			&.hds-button--supplementary {
+				background-color: $black;
+				border-color: $black;
+				color: $white;
+
+				&:hover {
+					background-color: transparent;
+					color: $black;
+
+					svg {
+						fill: $black;
+					}
+				}
+
+				svg {
+					fill: $white;
+				}
+			}
 		}
 
 		.wp-block-button {
