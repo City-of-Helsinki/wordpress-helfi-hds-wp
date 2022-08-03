@@ -66,7 +66,7 @@
 		return hdsContentButton(
 			props,
 			{
-				className: 'content__link hds-button hds-button--supplementary',
+				className: 'content__link hds-button',
 				href: props.attributes.buttonUrl,
 			},
 			props.attributes.isExternalUrl ? hdsExternalLinkIcon() : hdsArrowIcon(),
