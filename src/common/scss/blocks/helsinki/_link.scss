@@ -268,11 +268,11 @@
         padding-top: spacing('layout-m');
         padding-bottom: 0;
         width: 100vw;
-        margin-bottom: spacing('s');
+        margin-bottom: spacing('l');
 
         @include breakpoint('l') {
             padding-top: spacing('layout-xl');
-            margin-bottom: spacing('l');
+            margin-bottom: spacing('4-xl');
         }
     }
 
@@ -282,5 +282,24 @@
             padding: 0;
         }
 
+    }
+}
+
+.has-invert-color {
+
+    .links-list {
+
+        .link {
+
+            .link__thumbnail {
+
+                .icon {
+
+                    path {
+                        fill: $white;
+                    }
+                }
+            }
+        }
     }
 }
