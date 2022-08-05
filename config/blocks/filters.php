@@ -72,3 +72,15 @@ function hds_helsinki_channel_render( $block_content = '', $block = [] ) {
 		1
 	);
 }
+
+add_filter( 'render_block', 'hds_audio_render', 10, 2 );
+function hds_audio_render( $block_content = '', $block = [] ) {
+	if ( empty( $block['blockName'] ) || 'core/audio' !== $block['blockName'] ) {
+		return $block_content;
+	}
+	
+	preg_match_all('/(<audio[^\>]*>)(.*)(<\/audio>)(<figcaption[^\>]*>.*<\/figcaption>)/sU', $block_content, $matches);
+
+	$block_content = '<figure class="wp-block-audio">' . $matches[1][0] . __('Your browser does not support the <code>audio</code> element.', 'hds-wp') . $matches[3][0] . $matches[4][0] . '</figure>';
+	return $block_content;
+}
