@@ -517,6 +517,7 @@ function hdsIcons(name) {
       ToolbarButton = _wp$components.ToolbarButton,
       Button = _wp$components.Button,
       ToggleControl = _wp$components.ToggleControl;
+  var select = wp.data.select;
 
   function closePanel(toggle, panel) {
     toggle.setAttribute('aria-expanded', 'false');
@@ -553,18 +554,7 @@ function hdsIcons(name) {
     return hdsInspectorControls({
       title: __('Settings', 'hds-wp'),
       initialOpen: false
-    }, hdsSelectControl({
-      label: __('Heading Level', 'hds-wp'),
-      value: props.attributes.headingLevel,
-      attribute: 'headingLevel',
-      options: [{
-        label: 'h2',
-        value: 'h2'
-      }, {
-        label: 'h3',
-        value: 'h3'
-      }]
-    }, props), hdsTextControl({
+    }, hdsTextControl({
       label: __('Panel Title', 'hds-wp'),
       value: props.attributes.panelTitle,
       attribute: 'panelTitle'
@@ -612,7 +602,9 @@ function hdsIcons(name) {
       hidden: 'hidden'
     }, createElement('div', {
       className: 'accordion__content'
-    }, createElement(innerBlocks)), panelClose(props));
+    }, createElement(innerBlocks, {
+      allowedBlocks: ['core/heading', 'core/paragraph', 'core/list', 'core/table', 'core/freeform', 'core/quote', 'core/buttons', 'core/button', 'core/image', 'core/embed']
+    })), panelClose(props));
   }
 
   function panelClose(props) {
@@ -642,6 +634,8 @@ function hdsIcons(name) {
 
   function save() {
     return function (props) {
+      var parentClientId = select('core/block-editor').getBlockHierarchyRootClientId(props.attributes.blockId);
+      var parentAttributes = select('core/block-editor').getBlockAttributes(parentClientId);
       return createElement(Fragment, {}, createElement('div', useBlockProps.save({
         className: 'accordion__section'
       }), panelTitle(props), panelContent(props, InnerBlocks.Content)));
@@ -658,16 +652,16 @@ function hdsIcons(name) {
     },
     parent: ['hds-wp/accordion'],
     attributes: {
-      headingLevel: {
-        type: 'string',
-        default: 'h2'
-      },
       panelTitle: {
         type: 'string',
         default: __('Panel', 'hds-wp')
       },
       blockId: {
         type: 'string'
+      },
+      headingLevel: {
+        type: 'string',
+        default: 'h2'
       }
     },
     edit: edit(),
@@ -691,23 +685,78 @@ function hdsIcons(name) {
       ToolbarButton = _wp$components2.ToolbarButton,
       Button = _wp$components2.Button,
       ToggleControl = _wp$components2.ToggleControl;
+  var _wp$data = wp.data,
+      select = _wp$data.select,
+      dispatch = _wp$data.dispatch;
+
+  function accordionTitle(props) {
+    if (props.attributes.title != null && props.attributes.title != '') {
+      return createElement('h2', {
+        className: 'accordion__heading'
+      }, createElement(Fragment, {}, props.attributes.title ? props.attributes.title : ''));
+    }
+
+    return '';
+  }
+
+  function accordionDescription(props) {
+    if (props.attributes.description != null && props.attributes.description != '') {
+      return createElement('figcaption', {
+        className: 'wp-caption-text'
+      }, createElement(Fragment, {}, props.attributes.description ? props.attributes.description : ''));
+    }
+
+    return '';
+  }
+
+  function accordionControls(props) {
+    return hdsInspectorControls({
+      title: __('Settings', 'hds-wp'),
+      initialOpen: false
+    }, hdsTextControl({
+      label: __('Title', 'hds-wp'),
+      value: props.attributes.title,
+      attribute: 'title'
+    }, props), hdsTextAreaControl({
+      label: __('Description', 'hds-wp'),
+      value: props.attributes.description,
+      attribute: 'description'
+    }, props));
+  }
 
   function edit() {
     return function (props) {
-      return createElement(Fragment, {}, createElement('div', useBlockProps({
+      var clientId = props.clientId;
+      var children = select('core/block-editor').getBlocksByClientId(clientId)[0].innerBlocks;
+      children.forEach(function (child) {
+        if (props.attributes.title != null && props.attributes.title != '') {
+          dispatch('core/block-editor').updateBlockAttributes(child.clientId, {
+            headingLevel: 'h3'
+          });
+        } else {
+          dispatch('core/block-editor').updateBlockAttributes(child.clientId, {
+            headingLevel: 'h2'
+          });
+        }
+      });
+      return createElement(Fragment, {}, accordionControls(props), createElement('div', useBlockProps({
+        className: 'accordion-wrapper'
+      }), accordionTitle(props), createElement('div', {
         className: 'accordion'
-      }), createElement(InnerBlocks, {
+      }, createElement(InnerBlocks, {
         allowedBlocks: ['hds-wp/accordion-panel'],
         template: [['hds-wp/accordion-panel', {}], ['hds-wp/accordion-panel', {}], ['hds-wp/accordion-panel', {}]]
-      })));
+      })), accordionDescription(props)));
     };
   }
 
   function save() {
     return function (props) {
       return createElement(Fragment, {}, createElement('div', useBlockProps.save({
+        className: 'accordion-wrapper'
+      }), accordionTitle(props), createElement('div', {
         className: 'accordion'
-      }), createElement(InnerBlocks.Content)));
+      }, createElement(InnerBlocks.Content)), accordionDescription(props)));
     };
   }
 
@@ -719,7 +768,14 @@ function hdsIcons(name) {
     supports: {
       anchor: true
     },
-    attributes: {},
+    attributes: {
+      title: {
+        type: 'string'
+      },
+      description: {
+        type: 'string'
+      }
+    },
     edit: edit(),
     save: save()
   });
@@ -897,9 +953,9 @@ function hdsIcons(name) {
       BlockControls = _wp$blockEditor5.BlockControls,
       InnerBlocks = _wp$blockEditor5.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data = wp.data,
-      select = _wp$data.select,
-      useSelect = _wp$data.useSelect;
+  var _wp$data2 = wp.data,
+      select = _wp$data2.select,
+      useSelect = _wp$data2.useSelect;
   var _wp$components5 = wp.components,
       ToolbarGroup = _wp$components5.ToolbarGroup,
       ToolbarButton = _wp$components5.ToolbarButton,
@@ -1662,9 +1718,9 @@ function hdsIcons(name) {
       BlockControls = _wp$blockEditor9.BlockControls,
       InnerBlocks = _wp$blockEditor9.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data2 = wp.data,
-      select = _wp$data2.select,
-      useSelect = _wp$data2.useSelect;
+  var _wp$data3 = wp.data,
+      select = _wp$data3.select,
+      useSelect = _wp$data3.useSelect;
   var _wp$components9 = wp.components,
       ToolbarGroup = _wp$components9.ToolbarGroup,
       ToolbarButton = _wp$components9.ToolbarButton,
@@ -1824,9 +1880,9 @@ function hdsIcons(name) {
       BlockControls = _wp$blockEditor10.BlockControls,
       InnerBlocks = _wp$blockEditor10.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data3 = wp.data,
-      select = _wp$data3.select,
-      useSelect = _wp$data3.useSelect;
+  var _wp$data4 = wp.data,
+      select = _wp$data4.select,
+      useSelect = _wp$data4.useSelect;
   var _wp$components10 = wp.components,
       ToolbarGroup = _wp$components10.ToolbarGroup,
       ToolbarButton = _wp$components10.ToolbarButton,
@@ -1935,9 +1991,9 @@ function hdsIcons(name) {
       BlockControls = _wp$blockEditor11.BlockControls,
       InnerBlocks = _wp$blockEditor11.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data4 = wp.data,
-      select = _wp$data4.select,
-      useSelect = _wp$data4.useSelect;
+  var _wp$data5 = wp.data,
+      select = _wp$data5.select,
+      useSelect = _wp$data5.useSelect;
   var _wp$components11 = wp.components,
       ToolbarGroup = _wp$components11.ToolbarGroup,
       ToolbarButton = _wp$components11.ToolbarButton,

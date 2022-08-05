@@ -6,6 +6,7 @@
 	const { useBlockProps, BlockControls, InnerBlocks } = wp.blockEditor;
 	const { InspectorControls } = wp.editor;
 	const { ToolbarGroup, ToolbarButton, Button, ToggleControl } = wp.components;
+	const { select } = wp.data;
 
 	function closePanel(toggle, panel) {
 		toggle.setAttribute('aria-expanded', 'false');
@@ -46,21 +47,6 @@
 				title: __( 'Settings', 'hds-wp' ),
 				initialOpen: false,
 			},
-			hdsSelectControl({
-				label: __( 'Heading Level', 'hds-wp' ),
-				value: props.attributes.headingLevel,
-				attribute: 'headingLevel',
-				options: [
-					{
-						label: 'h2',
-						value: 'h2',
-					},
-					{
-						label: 'h3',
-						value: 'h3',
-					}
-				]
-			}, props),
 			hdsTextControl({
 				label: __( 'Panel Title', 'hds-wp' ),
 				value: props.attributes.panelTitle,
@@ -126,7 +112,21 @@
 			createElement(
 				'div',
 				{className: 'accordion__content'},
-				createElement(innerBlocks)
+				createElement(innerBlocks, 
+					{
+						allowedBlocks: [
+							'core/heading',
+							'core/paragraph',
+							'core/list',
+							'core/table',
+							'core/freeform',
+							'core/quote',
+							'core/buttons',
+							'core/button',
+							'core/image',
+							'core/embed',
+						]
+					})
 			),
 			panelClose(props)
 		);
@@ -173,6 +173,11 @@
 
 	function save() {
 		return function( props ) {
+
+			const parentClientId = select( 'core/block-editor' ).getBlockHierarchyRootClientId( props.attributes.blockId );
+			const parentAttributes = select('core/block-editor').getBlockAttributes( parentClientId );
+
+
 			return createElement(
 				Fragment, {},
 				createElement(
@@ -196,16 +201,16 @@
 		},
 		parent: [ 'hds-wp/accordion' ],
 		attributes: {
-			headingLevel: {
-				type: 'string',
-				default: 'h2',
-			},
 			panelTitle: {
 				type: 'string',
 				default: __( 'Panel', 'hds-wp' ),
 			},
 			blockId: {
 				type: 'string',
+			},
+			headingLevel: {
+				type: 'string',
+				default: 'h2',
 			}
 		},
 		edit: edit(),
