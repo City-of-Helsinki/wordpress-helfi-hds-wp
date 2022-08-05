@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Helsinki Design System for WordPress\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-05 14:10+0000\n"
-"PO-Revision-Date: 2022-08-05 08:07+0000\n"
+"PO-Revision-Date: 2022-08-05 09:48+0000\n"
 "Last-Translator: \n"
 "Language-Team: Suomi\n"
 "Language: fi\n"
@@ -411,3 +411,7 @@ msgstr "WP-Matomo integraatio"
 #: config/integrations/types.php:25
 msgid "Yoast SEO"
 msgstr "Yoast SEO"
+
+#: config/blocks/filters.php:84
+msgid "Your browser does not support the <code>audio</code> element."
+msgstr "Selaimesi ei tue <code>audio</code> elementtiä."
