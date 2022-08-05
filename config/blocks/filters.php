@@ -79,8 +79,8 @@ function hds_audio_render( $block_content = '', $block = [] ) {
 		return $block_content;
 	}
 	
-	preg_match_all('/(<audio[^\>]*>)(.*)(<\/audio>)/sU', $block_content, $matches);
+	preg_match_all('/(<audio[^\>]*>)(.*)(<\/audio>)(<figcaption[^\>]*>.*<\/figcaption>)/sU', $block_content, $matches);
 
-	$block_content = $matches[1][0] . __('Your browser does not support the <code>audio</code> element.', 'hds-wp') . $matches[3][0];
+	$block_content = '<figure class="wp-block-audio">' . $matches[1][0] . __('Your browser does not support the <code>audio</code> element.', 'hds-wp') . $matches[3][0] . $matches[4][0] . '</figure>';
 	return $block_content;
 }
