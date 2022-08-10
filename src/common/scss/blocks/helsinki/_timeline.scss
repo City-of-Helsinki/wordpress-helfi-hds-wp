@@ -1,0 +1,192 @@
+.wp-block-hds-wp-timeline {
+    position: relative;
+
+    .timeline {
+        position: relative;
+
+        .timeline-line {
+            position: absolute;
+            width: 2px;
+            background: $black;
+            left: 40px;
+            top: 45px;
+            bottom: 0;
+            z-index: 1;
+        }
+    }
+
+    .wp-block-hds-wp-timeline-card {
+        background-color: var(--secondary-color);
+        color: var(--secondary-content-color);
+        margin-bottom: $paragraph-margin-bottom-small;
+
+        @include breakpoint('m') {
+            margin-bottom: $paragraph-margin-bottom-big;
+        }
+
+        .content {
+            display: flex;
+            flex-flow: column;
+            padding: spacing('xl') spacing('l') spacing('2-xl') spacing('2-xl');
+            position: relative;
+
+            &__inner {
+
+                &--step {
+                    width: 20px;
+                    height: 20px;
+                    left: 31px;
+                    background: white;
+                    border-radius: 999px;
+                    border: 2px solid $black;
+                    position: absolute;
+                    margin-top: 3px;
+                    top: 37px;
+                    box-sizing: border-box;
+                    z-index: 2;
+
+                    &.numbered {
+                        width: 40px;
+                        height: 40px;
+                        left: 21px;
+                        text-align: center;
+                        line-height: 40px;
+                        top: 26px;
+                        font-weight: $global-font-weight-bold;
+
+                        & + .content-wrapper {
+                            .content__inner--text {
+                            }
+                        }
+                    }
+                }
+
+                &--text {
+                    padding-left: spacing('l');
+                }
+
+                &--button {
+                }
+            }
+
+            &__heading {
+                font-size: rem-calc(24);
+                margin: 0 0 spacing('s');
+                color: var(--secondary-content-color);
+            }
+
+            p {
+                font-size: rem-calc(18);
+                margin: 0 0 spacing('m');
+                color: var(--secondary-content-color);
+                max-width: none;
+
+                &:last-child {
+                    margin: 0;
+                }
+            }
+
+            .wp-block-buttons {
+                margin: 0 0 spacing('m');
+
+                &:last-child {
+                    margin: 0;
+                }
+            }
+
+            &__link {
+                background-color: var(--secondary-content-color);
+                border-color: var(--secondary-content-color);
+                color: var(--primary-content-secondary-color);
+            }
+
+            &__link:hover {
+                color: var(--secondary-content-color);
+                background-color: transparent;
+            }
+
+            &__link svg {
+                fill: var(--primary-content-secondary-color);
+            }
+
+            &__link:hover svg {
+                fill: var(--secondary-content-color);
+            }
+
+            @include breakpoint('m') {
+                padding: spacing('l') spacing('l') spacing('l') spacing('2-xl');
+                flex-flow: row;
+
+                &__inner {
+
+                    &--step {
+                        top: 30px;
+
+                        &.numbered {
+                            top: 18px;
+                        }
+                    }
+
+                    &--text {
+                    }
+
+                    &--button {
+                    }
+                }
+            }
+
+            @include breakpoint('l') {
+                padding: spacing('layout-m') spacing('l') spacing('3-xl') spacing('2-xl');
+                flex-flow: row;
+
+                &__heading {
+                    font-size: rem-calc(36);
+                    margin-bottom: spacing('l');
+                }
+
+                &__inner {
+
+                    &--step {
+                        top: 48px;
+
+                        &.numbered {
+                            top: 37px;
+                        }
+                    }
+
+                    &--text {
+                    }
+
+                    &--button {
+                    }
+                }
+            }
+
+            @include breakpoint('xl') {
+                padding: spacing('xl') spacing('l') spacing('layout-m') spacing('2-xl');
+                flex-flow: row;
+
+                &__heading {
+                    margin-bottom: spacing('s');
+                }
+
+                &__inner {
+
+                    &--step {
+                        top: 41px;
+
+                        &.numbered {
+                            top: 29px;
+                        }
+                    }
+
+                    &--text {
+                    }
+
+                    &--button {
+                    }
+                }
+            }
+        }
+    }
+}
