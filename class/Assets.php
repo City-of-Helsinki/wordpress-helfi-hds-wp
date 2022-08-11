@@ -11,6 +11,7 @@ class Assets extends Module {
 
 		if ( $this->config->value('is_admin') ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'adminScripts' ), 1 );
+			add_action( 'admin_enqueue_scripts', array( $this, 'commonScripts' ), 1 );
 			add_action( 'admin_enqueue_scripts', array( $this, 'adminStyles' ), 1 );
 		}
 
@@ -20,6 +21,7 @@ class Assets extends Module {
 
 		if ( $this->config->value('scripts') ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'publicScripts' ), 1 );
+			add_action( 'wp_enqueue_scripts', array( $this, 'commonScripts' ), 1 );
 		}
 
 		if ( $this->config->value('fonts') ) {
@@ -129,6 +131,16 @@ class Assets extends Module {
 			apply_filters( 'hds_wp_styles_dependencies', array( 'wp-block-library' ) ),
 			$this->assetVersion( $this->assetPath('public', 'styles', $this->minified, 'css') ),
 			'all'
+		);
+	}
+
+	public function commonScripts() {
+		wp_enqueue_script(
+			'helsinki-wp-common-scripts',
+			$this->assetUrl('common', 'scripts', $this->minified, 'js'),
+			apply_filters( 'hds_wp_common_scripts_dependencies', array() ),
+			$this->assetVersion( $this->assetPath('common', 'scripts', $this->minified, 'js') ),
+			true
 		);
 	}
 

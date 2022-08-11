@@ -70,6 +70,12 @@
             if (getBlockType('hds-wp/rss-feed')) {
                 unregisterBlockType( 'hds-wp/rss-feed' );
             }
+            if (getBlockType('hds-wp/timeline-card')) {
+                unregisterBlockType( 'hds-wp/timeline-card' );
+            }
+            if (getBlockType('hds-wp/timeline')) {
+                unregisterBlockType( 'hds-wp/timeline' );
+            }
             if (getBlockType('core/columns')) {
                 unregisterBlockType( 'core/columns' );
             }    

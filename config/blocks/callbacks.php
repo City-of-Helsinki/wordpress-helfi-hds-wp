@@ -421,6 +421,58 @@ function hds_wp_render_banner($attributes) {
 }
 
 /**
+ * Timeline Card
+ */
+
+function hds_wp_render_timeline_card($attributes, $content) {
+	$step = '';
+
+	$step = sprintf(
+		'<div class="content__inner content__inner--step %s">%s</div>',
+		$attributes['style'] == 'numbered' ? 'numbered' : '',
+		$attributes['style'] == 'numbered' ? $attributes['order'] : ''
+	);
+
+	$text = '';
+	$text = sprintf(
+		'<div class="content__inner content__inner--text">
+			<h3 class="content__heading">%s</h3>
+			%s
+		</div>',
+		$attributes['contentTitle'],
+		$content ? $content : $attributes['innerContent']
+	);
+
+	$wrapClasses = array( 'wp-block-hds-wp-timeline-card' );
+	
+	if (!empty($attributes['className'])) {
+		$wrapClasses[] = esc_attr($attributes['className']);
+	}
+
+	$id = '';
+	if (!empty($attributes['anchor'])) {
+		$id = 'id="'.esc_attr($attributes['anchor']).'"';
+	}
+
+	return sprintf(
+		'<div %s class="%s">
+			<div class="content">
+				%s
+				<div class="content-wrapper">
+					%s
+				</div>
+			</div>
+		</div>',
+		$id,
+		implode( ' ', $wrapClasses ),
+		$step,
+		$text,
+	);
+
+}
+
+
+/**
  * Recent Posts
  */
 
