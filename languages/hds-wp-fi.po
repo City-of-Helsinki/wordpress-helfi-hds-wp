@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Helsinki Design System for WordPress\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-05 14:10+0000\n"
-"PO-Revision-Date: 2022-08-10 11:55+0000\n"
+"PO-Revision-Date: 2022-08-11 05:10+0000\n"
 "Last-Translator: \n"
 "Language-Team: Suomi\n"
 "Language: fi\n"
@@ -363,7 +363,7 @@ msgstr "Asetukset"
 
 #: assets/admin/js/scripts.js:2236 src/admin/js/blocks/timeline.js:64
 msgid "Style"
-msgstr ""
+msgstr "Tyyli"
 
 #: assets/admin/js/scripts.js:2316 src/admin/js/filters/block-styles.js:16
 msgid "Supplementary"
