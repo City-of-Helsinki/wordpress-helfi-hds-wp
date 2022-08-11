@@ -701,8 +701,8 @@ function hdsIcons(name) {
 
   function accordionDescription(props) {
     if (props.attributes.description != null && props.attributes.description != '') {
-      return createElement('figcaption', {
-        className: 'wp-caption-text'
+      return createElement('p', {
+        className: 'accordion-description'
       }, createElement(Fragment, {}, props.attributes.description ? props.attributes.description : ''));
     }
 
@@ -741,12 +741,12 @@ function hdsIcons(name) {
       });
       return createElement(Fragment, {}, accordionControls(props), createElement('div', useBlockProps({
         className: 'accordion-wrapper'
-      }), accordionTitle(props), createElement('div', {
+      }), accordionTitle(props), accordionDescription(props), createElement('div', {
         className: 'accordion'
       }, createElement(InnerBlocks, {
         allowedBlocks: ['hds-wp/accordion-panel'],
         template: [['hds-wp/accordion-panel', {}], ['hds-wp/accordion-panel', {}], ['hds-wp/accordion-panel', {}]]
-      })), accordionDescription(props)));
+      }))));
     };
   }
 
@@ -754,9 +754,9 @@ function hdsIcons(name) {
     return function (props) {
       return createElement(Fragment, {}, createElement('div', useBlockProps.save({
         className: 'accordion-wrapper'
-      }), accordionTitle(props), createElement('div', {
+      }), accordionTitle(props), accordionDescription(props), createElement('div', {
         className: 'accordion'
-      }, createElement(InnerBlocks.Content)), accordionDescription(props)));
+      }, createElement(InnerBlocks.Content))));
     };
   }
 

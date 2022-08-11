@@ -25,8 +25,8 @@
 	function accordionDescription(props) {
 		if (props.attributes.description != null && props.attributes.description != '') {
 			return createElement(
-				'figcaption',
-				{className: 'wp-caption-text'},
+				'p',
+				{className: 'accordion-description'},
 				createElement(
 					Fragment, {},
 					props.attributes.description ? props.attributes.description : ''
@@ -81,6 +81,7 @@
 						className: 'accordion-wrapper',
 					}),
 					accordionTitle(props),
+					accordionDescription(props),
 					createElement(
 						'div', {
 							className: 'accordion',
@@ -96,8 +97,7 @@
 								]
 							}
 						)
-					),
-					accordionDescription(props)	
+					)
 				)
 			);
 		}
@@ -112,13 +112,13 @@
 						className: 'accordion-wrapper',
 					}),
 					accordionTitle(props),
+					accordionDescription(props),
 					createElement(
 						'div', {
 							className: 'accordion',
 						},
 						createElement(InnerBlocks.Content)
-					),
-					accordionDescription(props)
+					)
 				)
 			);
 		}
