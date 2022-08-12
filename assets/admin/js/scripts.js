@@ -2411,19 +2411,4 @@ wp.domReady(function () {
   }
 
   wp.hooks.addFilter('blocks.getSaveContent.extraProps', 'table/custom-apply-class', tableApplyExtraClass);
-
-  function modifyGetSaveContentExtraProps(element, blockType, attributes) {
-    if (blockType.name !== 'core/table') {
-      return element;
-    }
-
-    var title = attributes.title;
-    return /*#__PURE__*/React.createElement("div", {
-      className: "hds-container"
-    }, typeof title !== 'undefined' && title && /*#__PURE__*/React.createElement("h2", {
-      class: "table_title"
-    }, /*#__PURE__*/React.createElement("span", null, attributes.title)), element);
-  }
-
-  wp.hooks.addFilter('blocks.getSaveElement', 'table/modify-get-save-content-extra-props', modifyGetSaveContentExtraProps);
 })(window.wp);
