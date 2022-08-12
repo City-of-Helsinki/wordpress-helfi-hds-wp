@@ -13,7 +13,6 @@
             const isParentOfSelectedBlock = useSelect(function(selectFrom){
                 return select('core/block-editor').hasSelectedInnerBlock(props.clientId, true);
             });
-            console.log(isParentOfSelectedBlock);
 
 			var content = null;
             if ( props.isSelected || isParentOfSelectedBlock ) {
@@ -44,7 +43,6 @@
                 const innerContent = getBlockContent( select('core/block-editor').getBlock(props.clientId));
                 const attributes = props.attributes;
                 attributes.innerContent = innerContent;
-                console.log(attributes);
                 content = createElement('div', useBlockProps(), 
                     createElement( wp.serverSideRender, {
                         block: 'hds-wp/timeline-card',
@@ -76,7 +74,7 @@
 
 	registerBlockType('hds-wp/timeline-card', {
 		apiVersion: 2,
-		title: __( 'Helsinki - Timeline Card', 'hds-wp' ),
+		title: __( 'Helsinki - Phasing Card', 'hds-wp' ),
 		category: 'hds-wp',
 		icon: 'format-gallery',
 		supports: {

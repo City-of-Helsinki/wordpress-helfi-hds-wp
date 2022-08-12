@@ -148,7 +148,7 @@
 
 	registerBlockType('hds-wp/timeline', {
 		apiVersion: 2,
-		title: __( 'Helsinki - Timeline', 'hds-wp' ),
+		title: __( 'Helsinki - Phasing', 'hds-wp' ),
 		category: 'hds-wp',
 		icon: 'format-gallery',
 		supports: {

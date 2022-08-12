@@ -263,7 +263,7 @@ return array(
 	    ),
 	),
 	'timeline' => array(
-		'title' => __( 'Helsinki - Timeline', 'hds-wp' ),
+		'title' => __( 'Helsinki - Phasing', 'hds-wp' ),
 		'category' => 'hds-wp',
 		'dependencies' => array(
 			'wp-blocks',
@@ -292,7 +292,7 @@ return array(
 	    ),
 	),
 	'timeline-card' => array(
-		'title' => __( 'Helsinki - Timeline Card', 'hds-wp' ),
+		'title' => __( 'Helsinki - Phasing Card', 'hds-wp' ),
 		'category' => 'hds-wp',
 		'dependencies' => array(
 			'wp-blocks',
