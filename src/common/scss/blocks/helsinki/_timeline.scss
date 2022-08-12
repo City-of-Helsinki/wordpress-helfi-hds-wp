@@ -18,11 +18,7 @@
     .wp-block-hds-wp-timeline-card {
         background-color: var(--secondary-color);
         color: var(--secondary-content-color);
-        margin-bottom: $paragraph-margin-bottom-small;
-
-        @include breakpoint('m') {
-            margin-bottom: $paragraph-margin-bottom-big;
-        }
+        margin-bottom: spacing('s');
 
         .content {
             display: flex;
@@ -33,26 +29,28 @@
             &__inner {
 
                 &--step {
-                    width: 20px;
-                    height: 20px;
-                    left: 31px;
+                    width: 16px;
+                    height: 16px;
+                    left: 33px;
                     background: white;
                     border-radius: 999px;
-                    border: 2px solid $black;
+                    border: 3px solid $black;
                     position: absolute;
                     margin-top: 3px;
-                    top: 37px;
+                    top: 40px;
                     box-sizing: border-box;
                     z-index: 2;
 
                     &.numbered {
-                        width: 40px;
-                        height: 40px;
-                        left: 21px;
+                        width: 48px;
+                        height: 48px;
+                        left: 17px;
                         text-align: center;
-                        line-height: 40px;
-                        top: 26px;
-                        font-weight: $global-font-weight-bold;
+                        line-height: 48px;
+                        top: 24px;
+                        font-weight: $global-font-weight-medium;
+                        font-size: 24px;
+                        border-width: 2px;
 
                         & + .content-wrapper {
                             .content__inner--text {
@@ -70,7 +68,8 @@
             }
 
             &__heading {
-                font-size: rem-calc(24);
+                font-size: 24px;
+                font-weight: $global-font-weight-medium;
                 margin: 0 0 spacing('s');
                 color: var(--secondary-content-color);
             }
@@ -120,10 +119,10 @@
                 &__inner {
 
                     &--step {
-                        top: 30px;
+                        top: 33px;
 
                         &.numbered {
-                            top: 18px;
+                            top: 16px;
                         }
                     }
 
@@ -140,7 +139,6 @@
                 flex-flow: row;
 
                 &__heading {
-                    font-size: rem-calc(36);
                     margin-bottom: spacing('l');
                 }
 
@@ -150,7 +148,7 @@
                         top: 48px;
 
                         &.numbered {
-                            top: 37px;
+                            top: 33px;
                         }
                     }
 
@@ -176,7 +174,7 @@
                         top: 41px;
 
                         &.numbered {
-                            top: 29px;
+                            top: 23px;
                         }
                     }
 

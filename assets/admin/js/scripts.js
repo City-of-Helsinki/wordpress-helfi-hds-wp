@@ -1881,21 +1881,250 @@ function hdsIcons(name) {
       getBlockContent = _wp$blocks4.getBlockContent;
   var _wp$element10 = wp.element,
       Fragment = _wp$element10.Fragment,
-      createElement = _wp$element10.createElement,
-      useState = _wp$element10.useState;
+      createElement = _wp$element10.createElement;
   var _wp$blockEditor10 = wp.blockEditor,
       useBlockProps = _wp$blockEditor10.useBlockProps,
       BlockControls = _wp$blockEditor10.BlockControls,
       InnerBlocks = _wp$blockEditor10.InnerBlocks;
-  var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data4 = wp.data,
-      select = _wp$data4.select,
-      useSelect = _wp$data4.useSelect;
   var _wp$components10 = wp.components,
       ToolbarGroup = _wp$components10.ToolbarGroup,
       ToolbarButton = _wp$components10.ToolbarButton,
-      Button = _wp$components10.Button,
-      ToggleControl = _wp$components10.ToggleControl;
+      Button = _wp$components10.Button;
+  var _wp$data4 = wp.data,
+      select = _wp$data4.select,
+      useSelect = _wp$data4.useSelect;
+
+  function edit() {
+    return function (props) {
+      var isParentOfSelectedBlock = useSelect(function (selectFrom) {
+        return select('core/block-editor').hasSelectedInnerBlock(props.clientId, true);
+      });
+      var content = null;
+
+      if (props.isSelected || isParentOfSelectedBlock) {
+        var stepClasses = 'content__inner content__inner--step' + (props.attributes.style == 'numbered' ? ' numbered' : '');
+        content = createElement('div', useBlockProps(), createElement('div', {
+          className: 'content'
+        }, createElement('div', {
+          className: stepClasses
+        }, props.attributes.style == 'numbered' ? props.attributes.order : ''), createElement('div', {
+          className: 'content__inner content__inner--text'
+        }, hdsContentTitle(props), createElement(InnerBlocks, {
+          allowedBlocks: ['core/paragraph', 'core/buttons']
+        }))));
+      } else {
+        var innerContent = getBlockContent(select('core/block-editor').getBlock(props.clientId));
+        var attributes = props.attributes;
+        attributes.innerContent = innerContent;
+        content = createElement('div', useBlockProps(), createElement(wp.serverSideRender, {
+          block: 'hds-wp/timeline-card',
+          attributes: attributes,
+          httpMethod: 'POST'
+        }));
+      }
+
+      return createElement(Fragment, {}, hdsInspectorControls({
+        title: __('Content', 'hds-wp'),
+        initialOpen: false
+      }, hdsContentTitleControl(props)), content);
+    };
+  }
+
+  function save() {
+    return function (props) {
+      return createElement(InnerBlocks.Content, useBlockProps.save());
+    };
+  }
+
+  registerBlockType('hds-wp/timeline-card', {
+    apiVersion: 2,
+    title: __('Helsinki - Phasing Card', 'hds-wp'),
+    category: 'hds-wp',
+    icon: 'format-gallery',
+    supports: {
+      anchor: true
+    },
+    parent: ['hds-wp/timeline'],
+    attributes: {
+      contentTitle: {
+        type: 'string',
+        default: ''
+      },
+      style: {
+        type: 'string',
+        default: 'numberless'
+      },
+      order: {
+        type: 'number'
+      },
+      innerContent: {
+        type: 'string',
+        default: ''
+      },
+      anchor: {
+        type: 'string',
+        default: ''
+      }
+    },
+    edit: edit(),
+    save: save()
+  });
+})(window.wp);
+
+(function (wp) {
+  var __ = wp.i18n.__;
+  var registerBlockType = wp.blocks.registerBlockType;
+  var _wp$element11 = wp.element,
+      Fragment = _wp$element11.Fragment,
+      createElement = _wp$element11.createElement;
+  var _wp$blockEditor11 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor11.useBlockProps,
+      BlockControls = _wp$blockEditor11.BlockControls,
+      InnerBlocks = _wp$blockEditor11.InnerBlocks;
+  var InspectorControls = wp.editor.InspectorControls;
+  var _wp$components11 = wp.components,
+      ToolbarGroup = _wp$components11.ToolbarGroup,
+      ToolbarButton = _wp$components11.ToolbarButton,
+      Button = _wp$components11.Button,
+      ToggleControl = _wp$components11.ToggleControl;
+  var _wp$data5 = wp.data,
+      select = _wp$data5.select,
+      dispatch = _wp$data5.dispatch;
+
+  function timelineTitle(props) {
+    if (props.attributes.title != null && props.attributes.title != '') {
+      return createElement('h2', {
+        className: 'timeline__heading'
+      }, createElement(Fragment, {}, props.attributes.title ? props.attributes.title : ''));
+    }
+
+    return '';
+  }
+
+  function timelineDescription(props) {
+    if (props.attributes.description != null && props.attributes.description != '') {
+      return createElement('p', {
+        className: 'excerpt'
+      }, createElement(Fragment, {}, props.attributes.description ? props.attributes.description : ''));
+    }
+
+    return '';
+  }
+
+  function styleOptions() {
+    return [{
+      label: __('Numberless', 'hds-wp'),
+      value: 'numberless'
+    }, {
+      label: __('Numbered', 'hds-wp'),
+      value: 'numbered'
+    }];
+  }
+
+  function timelineControls(props) {
+    return hdsInspectorControls({
+      title: __('Settings', 'hds-wp'),
+      initialOpen: false
+    }, hdsTextControl({
+      label: __('Title', 'hds-wp'),
+      value: props.attributes.title,
+      attribute: 'title'
+    }, props), hdsTextAreaControl({
+      label: __('Description', 'hds-wp'),
+      value: props.attributes.description,
+      attribute: 'description'
+    }, props), hdsSelectControl({
+      label: __('Style', 'hds-wp'),
+      value: props.attributes.style,
+      attribute: 'style',
+      options: styleOptions()
+    }, props));
+  }
+
+  function edit() {
+    return function (props) {
+      var clientId = props.clientId;
+      var children = select('core/block-editor').getBlocksByClientId(clientId)[0].innerBlocks;
+
+      for (var i = 0; i < children.length; i++) {
+        dispatch('core/block-editor').updateBlockAttributes(children[i].clientId, {
+          style: props.attributes.style,
+          order: i + 1
+        });
+      }
+
+      return createElement(Fragment, {}, timelineControls(props), createElement('div', useBlockProps({
+        className: 'timeline-wrapper'
+      }), timelineTitle(props), timelineDescription(props), createElement('div', {
+        className: 'timeline'
+      }, createElement('div', {
+        className: 'timeline-line'
+      }), createElement(InnerBlocks, {
+        allowedBlocks: ['hds-wp/timeline-card'],
+        template: [['hds-wp/timeline-card', {}], ['hds-wp/timeline-card', {}], ['hds-wp/timeline-card', {}]]
+      }))));
+    };
+  }
+
+  function save() {
+    return function (props) {
+      return createElement(Fragment, {}, createElement('div', useBlockProps.save({
+        className: 'timeline-wrapper'
+      }), timelineTitle(props), timelineDescription(props), createElement('div', {
+        className: 'timeline'
+      }, createElement('div', {
+        className: 'timeline-line'
+      }), createElement(InnerBlocks.Content))));
+    };
+  }
+
+  registerBlockType('hds-wp/timeline', {
+    apiVersion: 2,
+    title: __('Helsinki - Phasing', 'hds-wp'),
+    category: 'hds-wp',
+    icon: 'format-gallery',
+    supports: {
+      anchor: true
+    },
+    attributes: {
+      title: {
+        type: 'string'
+      },
+      description: {
+        type: 'string'
+      },
+      style: {
+        type: 'string',
+        default: 'numberless'
+      }
+    },
+    edit: edit(),
+    save: save()
+  });
+})(window.wp);
+
+(function (wp) {
+  var __ = wp.i18n.__;
+  var _wp$blocks5 = wp.blocks,
+      registerBlockType = _wp$blocks5.registerBlockType,
+      getBlockContent = _wp$blocks5.getBlockContent;
+  var _wp$element12 = wp.element,
+      Fragment = _wp$element12.Fragment,
+      createElement = _wp$element12.createElement,
+      useState = _wp$element12.useState;
+  var _wp$blockEditor12 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor12.useBlockProps,
+      BlockControls = _wp$blockEditor12.BlockControls,
+      InnerBlocks = _wp$blockEditor12.InnerBlocks;
+  var InspectorControls = wp.editor.InspectorControls;
+  var _wp$data6 = wp.data,
+      select = _wp$data6.select,
+      useSelect = _wp$data6.useSelect;
+  var _wp$components12 = wp.components,
+      ToolbarGroup = _wp$components12.ToolbarGroup,
+      ToolbarButton = _wp$components12.ToolbarButton,
+      Button = _wp$components12.Button,
+      ToggleControl = _wp$components12.ToggleControl;
   var PostCategorySelect = hdsWithPostCategorySelectControl();
 
   function articleCountOptions() {
@@ -1987,26 +2216,26 @@ function hdsIcons(name) {
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks5 = wp.blocks,
-      registerBlockType = _wp$blocks5.registerBlockType,
-      getBlockContent = _wp$blocks5.getBlockContent;
-  var _wp$element11 = wp.element,
-      Fragment = _wp$element11.Fragment,
-      createElement = _wp$element11.createElement,
-      useState = _wp$element11.useState;
-  var _wp$blockEditor11 = wp.blockEditor,
-      useBlockProps = _wp$blockEditor11.useBlockProps,
-      BlockControls = _wp$blockEditor11.BlockControls,
-      InnerBlocks = _wp$blockEditor11.InnerBlocks;
+  var _wp$blocks6 = wp.blocks,
+      registerBlockType = _wp$blocks6.registerBlockType,
+      getBlockContent = _wp$blocks6.getBlockContent;
+  var _wp$element13 = wp.element,
+      Fragment = _wp$element13.Fragment,
+      createElement = _wp$element13.createElement,
+      useState = _wp$element13.useState;
+  var _wp$blockEditor13 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor13.useBlockProps,
+      BlockControls = _wp$blockEditor13.BlockControls,
+      InnerBlocks = _wp$blockEditor13.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data5 = wp.data,
-      select = _wp$data5.select,
-      useSelect = _wp$data5.useSelect;
-  var _wp$components11 = wp.components,
-      ToolbarGroup = _wp$components11.ToolbarGroup,
-      ToolbarButton = _wp$components11.ToolbarButton,
-      Button = _wp$components11.Button,
-      ToggleControl = _wp$components11.ToggleControl;
+  var _wp$data7 = wp.data,
+      select = _wp$data7.select,
+      useSelect = _wp$data7.useSelect;
+  var _wp$components13 = wp.components,
+      ToolbarGroup = _wp$components13.ToolbarGroup,
+      ToolbarButton = _wp$components13.ToolbarButton,
+      Button = _wp$components13.Button,
+      ToggleControl = _wp$components13.ToggleControl;
 
   function inspectorControls(props) {
     return hdsInspectorControls({
@@ -2068,237 +2297,6 @@ function hdsIcons(name) {
       }
     },
     edit: edit()
-  });
-})(window.wp);
-
-(function (wp) {
-  var __ = wp.i18n.__;
-  var _wp$blocks6 = wp.blocks,
-      registerBlockType = _wp$blocks6.registerBlockType,
-      getBlockContent = _wp$blocks6.getBlockContent;
-  var _wp$element12 = wp.element,
-      Fragment = _wp$element12.Fragment,
-      createElement = _wp$element12.createElement;
-  var _wp$blockEditor12 = wp.blockEditor,
-      useBlockProps = _wp$blockEditor12.useBlockProps,
-      BlockControls = _wp$blockEditor12.BlockControls,
-      InnerBlocks = _wp$blockEditor12.InnerBlocks;
-  var _wp$components12 = wp.components,
-      ToolbarGroup = _wp$components12.ToolbarGroup,
-      ToolbarButton = _wp$components12.ToolbarButton,
-      Button = _wp$components12.Button;
-  var _wp$data6 = wp.data,
-      select = _wp$data6.select,
-      useSelect = _wp$data6.useSelect;
-
-  function edit() {
-    return function (props) {
-      var isParentOfSelectedBlock = useSelect(function (selectFrom) {
-        return select('core/block-editor').hasSelectedInnerBlock(props.clientId, true);
-      });
-      console.log(isParentOfSelectedBlock);
-      var content = null;
-
-      if (props.isSelected || isParentOfSelectedBlock) {
-        var stepClasses = 'content__inner content__inner--step' + (props.attributes.style == 'numbered' ? ' numbered' : '');
-        content = createElement('div', useBlockProps(), createElement('div', {
-          className: 'content'
-        }, createElement('div', {
-          className: stepClasses
-        }, props.attributes.style == 'numbered' ? props.attributes.order : ''), createElement('div', {
-          className: 'content__inner content__inner--text'
-        }, hdsContentTitle(props), createElement(InnerBlocks, {
-          allowedBlocks: ['core/paragraph', 'core/buttons']
-        }))));
-      } else {
-        var innerContent = getBlockContent(select('core/block-editor').getBlock(props.clientId));
-        var attributes = props.attributes;
-        attributes.innerContent = innerContent;
-        console.log(attributes);
-        content = createElement('div', useBlockProps(), createElement(wp.serverSideRender, {
-          block: 'hds-wp/timeline-card',
-          attributes: attributes,
-          httpMethod: 'POST'
-        }));
-      }
-
-      return createElement(Fragment, {}, hdsInspectorControls({
-        title: __('Content', 'hds-wp'),
-        initialOpen: false
-      }, hdsContentTitleControl(props)), content);
-    };
-  }
-
-  function save() {
-    return function (props) {
-      return createElement(InnerBlocks.Content, useBlockProps.save());
-    };
-  }
-
-  registerBlockType('hds-wp/timeline-card', {
-    apiVersion: 2,
-    title: __('Helsinki - Timeline Card', 'hds-wp'),
-    category: 'hds-wp',
-    icon: 'format-gallery',
-    supports: {
-      anchor: true
-    },
-    parent: ['hds-wp/timeline'],
-    attributes: {
-      contentTitle: {
-        type: 'string',
-        default: ''
-      },
-      style: {
-        type: 'string',
-        default: 'numberless'
-      },
-      order: {
-        type: 'number'
-      },
-      innerContent: {
-        type: 'string',
-        default: ''
-      },
-      anchor: {
-        type: 'string',
-        default: ''
-      }
-    },
-    edit: edit(),
-    save: save()
-  });
-})(window.wp);
-
-(function (wp) {
-  var __ = wp.i18n.__;
-  var registerBlockType = wp.blocks.registerBlockType;
-  var _wp$element13 = wp.element,
-      Fragment = _wp$element13.Fragment,
-      createElement = _wp$element13.createElement;
-  var _wp$blockEditor13 = wp.blockEditor,
-      useBlockProps = _wp$blockEditor13.useBlockProps,
-      BlockControls = _wp$blockEditor13.BlockControls,
-      InnerBlocks = _wp$blockEditor13.InnerBlocks;
-  var InspectorControls = wp.editor.InspectorControls;
-  var _wp$components13 = wp.components,
-      ToolbarGroup = _wp$components13.ToolbarGroup,
-      ToolbarButton = _wp$components13.ToolbarButton,
-      Button = _wp$components13.Button,
-      ToggleControl = _wp$components13.ToggleControl;
-  var _wp$data7 = wp.data,
-      select = _wp$data7.select,
-      dispatch = _wp$data7.dispatch;
-
-  function timelineTitle(props) {
-    if (props.attributes.title != null && props.attributes.title != '') {
-      return createElement('h2', {
-        className: 'timeline__heading'
-      }, createElement(Fragment, {}, props.attributes.title ? props.attributes.title : ''));
-    }
-
-    return '';
-  }
-
-  function timelineDescription(props) {
-    if (props.attributes.description != null && props.attributes.description != '') {
-      return createElement('p', {
-        className: 'excerpt'
-      }, createElement(Fragment, {}, props.attributes.description ? props.attributes.description : ''));
-    }
-
-    return '';
-  }
-
-  function styleOptions() {
-    return [{
-      label: __('Numberless', 'hds-wp'),
-      value: 'numberless'
-    }, {
-      label: __('Numbered', 'hds-wp'),
-      value: 'numbered'
-    }];
-  }
-
-  function timelineControls(props) {
-    return hdsInspectorControls({
-      title: __('Settings', 'hds-wp'),
-      initialOpen: false
-    }, hdsTextControl({
-      label: __('Title', 'hds-wp'),
-      value: props.attributes.title,
-      attribute: 'title'
-    }, props), hdsTextAreaControl({
-      label: __('Description', 'hds-wp'),
-      value: props.attributes.description,
-      attribute: 'description'
-    }, props), hdsSelectControl({
-      label: __('Style', 'hds-wp'),
-      value: props.attributes.style,
-      attribute: 'style',
-      options: styleOptions()
-    }, props));
-  }
-
-  function edit() {
-    return function (props) {
-      var clientId = props.clientId;
-      var children = select('core/block-editor').getBlocksByClientId(clientId)[0].innerBlocks;
-
-      for (var i = 0; i < children.length; i++) {
-        dispatch('core/block-editor').updateBlockAttributes(children[i].clientId, {
-          style: props.attributes.style,
-          order: i + 1
-        });
-      }
-
-      return createElement(Fragment, {}, timelineControls(props), createElement('div', useBlockProps({
-        className: 'timeline-wrapper'
-      }), timelineTitle(props), timelineDescription(props), createElement('div', {
-        className: 'timeline'
-      }, createElement('div', {
-        className: 'timeline-line'
-      }), createElement(InnerBlocks, {
-        allowedBlocks: ['hds-wp/timeline-card'],
-        template: [['hds-wp/timeline-card', {}], ['hds-wp/timeline-card', {}], ['hds-wp/timeline-card', {}]]
-      }))));
-    };
-  }
-
-  function save() {
-    return function (props) {
-      return createElement(Fragment, {}, createElement('div', useBlockProps.save({
-        className: 'timeline-wrapper'
-      }), timelineTitle(props), timelineDescription(props), createElement('div', {
-        className: 'timeline'
-      }, createElement('div', {
-        className: 'timeline-line'
-      }), createElement(InnerBlocks.Content))));
-    };
-  }
-
-  registerBlockType('hds-wp/timeline', {
-    apiVersion: 2,
-    title: __('Helsinki - Timeline', 'hds-wp'),
-    category: 'hds-wp',
-    icon: 'format-gallery',
-    supports: {
-      anchor: true
-    },
-    attributes: {
-      title: {
-        type: 'string'
-      },
-      description: {
-        type: 'string'
-      },
-      style: {
-        type: 'string',
-        default: 'numberless'
-      }
-    },
-    edit: edit(),
-    save: save()
   });
 })(window.wp);
 

@@ -436,10 +436,10 @@ function hds_wp_render_timeline_card($attributes, $content) {
 	$text = '';
 	$text = sprintf(
 		'<div class="content__inner content__inner--text">
-			<h3 class="content__heading">%s</h3>
+			%s
 			%s
 		</div>',
-		$attributes['contentTitle'],
+		$attributes['contentTitle'] ? '<h3 class="content__heading">' . $attributes['contentTitle'] . '</h3>' : '',
 		$content ? $content : $attributes['innerContent']
 	);
 
