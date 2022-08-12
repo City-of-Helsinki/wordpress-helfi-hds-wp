@@ -1,5 +1,10 @@
 .wp-block-hds-wp-timeline {
     position: relative;
+    margin-bottom: spacing('l');
+
+    @include breakpoint('m') {
+        margin-bottom: spacing('4-xl');
+    }
 
     .timeline {
         position: relative;
@@ -19,6 +24,10 @@
         background-color: var(--secondary-color);
         color: var(--secondary-content-color);
         margin-bottom: spacing('s');
+
+        &:last-child {
+            margin-bottom: 0;
+        }
 
         .content {
             display: flex;
