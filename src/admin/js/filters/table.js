@@ -73,26 +73,4 @@
         tableApplyExtraClass
     );
 
-    /*function modifyGetSaveContentExtraProps( element, blockType, attributes  ) {
-        if (blockType.name !== 'core/table') {
-            return element;
-        }
-        
-        const { title } = attributes;
-        return (
-            <div className='hds-container'>
-                {typeof title !== 'undefined' && title && 
-                    <h2 class="table_title"><span>{attributes.title}</span></h2>
-                }
-                {element}
-            </div>
-        );
-    }
-
-    wp.hooks.addFilter(
-        'blocks.getSaveElement',
-        'table/modify-get-save-content-extra-props',
-        modifyGetSaveContentExtraProps
-    );*/
-
 })(window.wp);
