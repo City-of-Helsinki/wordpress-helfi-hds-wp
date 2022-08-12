@@ -60,7 +60,7 @@
 
     function tableApplyExtraClass(extraProps, blockType, attributes) {
         const { verticalHeader } = attributes;
-     
+        
         if (typeof verticalHeader !== 'undefined' && verticalHeader) {
             extraProps.className = extraProps.className + ' has-vertical-header';
         }
@@ -73,7 +73,7 @@
         tableApplyExtraClass
     );
 
-    function modifyGetSaveContentExtraProps( element, blockType, attributes  ) {
+    /*function modifyGetSaveContentExtraProps( element, blockType, attributes  ) {
         if (blockType.name !== 'core/table') {
             return element;
         }
@@ -93,6 +93,6 @@
         'blocks.getSaveElement',
         'table/modify-get-save-content-extra-props',
         modifyGetSaveContentExtraProps
-    );
+    );*/
 
 })(window.wp);
