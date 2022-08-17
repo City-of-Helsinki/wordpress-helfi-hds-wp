@@ -1,0 +1,8 @@
+.wp-block-spacer {
+    height: 32px !important;
+
+    @include breakpoint('m') {
+        height: 64px !important;
+    }
+
+}

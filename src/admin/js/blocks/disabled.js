@@ -32,7 +32,9 @@
         if(getBlockType('core/latest-posts')) {
             unregisterBlockType( 'core/latest-posts' );
         }
-
+        if(getBlockType('core/nextpage')) {
+            unregisterBlockType( 'core/nextpage' );
+        }
 
         if (document.querySelector('body').classList.contains('post-type-post')) {
             if (getBlockType('hds-wp/accordion')) {
@@ -67,6 +69,12 @@
             }
             if (getBlockType('hds-wp/rss-feed')) {
                 unregisterBlockType( 'hds-wp/rss-feed' );
+            }
+            if (getBlockType('hds-wp/timeline-card')) {
+                unregisterBlockType( 'hds-wp/timeline-card' );
+            }
+            if (getBlockType('hds-wp/timeline')) {
+                unregisterBlockType( 'hds-wp/timeline' );
             }
             if (getBlockType('core/columns')) {
                 unregisterBlockType( 'core/columns' );

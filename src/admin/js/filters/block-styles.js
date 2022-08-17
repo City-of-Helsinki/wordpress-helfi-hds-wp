@@ -32,4 +32,11 @@ wp.domReady( function () {
    * Image
    */
    wp.blocks.unregisterBlockStyle( 'core/image', 'rounded');
+
+  /**
+   * Quote
+   */
+   wp.blocks.unregisterBlockStyle( 'core/quote', 'plain');
+
+
 } );

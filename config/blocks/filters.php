@@ -55,3 +55,51 @@ function hds_file_render( $block_content = '', $block = [] ) {
 	);
 
 }
+
+add_filter( 'render_block', 'hds_helsinki_channel_render', 10, 2 );
+function hds_helsinki_channel_render( $block_content = '', $block = [] ) {
+	if ( empty( $block['blockName'] ) || 'core/embed' !== $block['blockName'] ) {
+		return $block_content;
+	}
+	
+	if (!str_contains($block['attrs']['url'], 'helsinkikanava')) {
+		return $block_content;
+	}
+	return preg_replace(
+		'/wp-block-embed/',
+		'wp-block-embed wp-embed-aspect-16-9 wp-has-aspect-ratio',
+		$block_content,
+		1
+	);
+}
+
+add_filter( 'render_block', 'hds_audio_render', 10, 2 );
+function hds_audio_render( $block_content = '', $block = [] ) {
+	if ( empty( $block['blockName'] ) || 'core/audio' !== $block['blockName'] ) {
+		return $block_content;
+	}
+	
+	preg_match_all('/(?<audio1><audio[^\>]*>)(.*)(?<audio2><\/audio>)(?<figcaption><figcaption[^\>]*>.*<\/figcaption>)?(?!<figcaption[^\>]*>)/sU', $block_content, $matches);
+
+	$block_content = '<figure class="wp-block-audio">' . $matches['audio1'][0] . __('Your browser does not support the <code>audio</code> element.', 'hds-wp') . $matches['audio2'][0] . $matches['figcaption'][0] . '</figure>';
+	return $block_content;
+}
+
+add_filter( 'render_block', 'hds_table_render', 10, 2 );
+function hds_table_render( $block_content = '', $block = [] ) {
+	if ( empty( $block['blockName'] ) || 'core/table' !== $block['blockName'] ) {
+		return $block_content;
+	}
+
+	if ( !empty( $block['attrs']['title'] ) ) {
+		preg_match_all('/(?<table><table[^\>]*>)/sU', $block_content, $matches);
+		$block_content = preg_replace(
+			'/(?<table><table[^\>]*>)/sU',
+			$matches['table'][0] . '<caption>' . $block['attrs']['title'] . '</caption>',
+			$block_content,
+			1
+		);
+	}
+
+	return $block_content;
+}

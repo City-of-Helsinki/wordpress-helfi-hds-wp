@@ -262,5 +262,69 @@ return array(
 
 	    ),
 	),
+	'timeline' => array(
+		'title' => __( 'Helsinki - Phasing', 'hds-wp' ),
+		'category' => 'hds-wp',
+		'dependencies' => array(
+			'wp-blocks',
+			'wp-i18n',
+			'wp-element',
+			'wp-components',
+			'wp-editor',
+			'wp-data',
+			'wp-server-side-render',
+		),
+		'render_callback' => 'hds_wp_render_timeline',
+		'attributes' => array(
+	        'title' => array(
+	            'type'    => 'string',
+	            'default' => '',
+	        ),
+			'description' => array(
+	            'type'    => 'string',
+	            'default' => '',
+	        ),
+			'style' => array(
+	            'type'    => 'string',
+	            'default' => 'numberless',
+	        ),
+
+	    ),
+	),
+	'timeline-card' => array(
+		'title' => __( 'Helsinki - Phasing Card', 'hds-wp' ),
+		'category' => 'hds-wp',
+		'dependencies' => array(
+			'wp-blocks',
+			'wp-i18n',
+			'wp-element',
+			'wp-components',
+			'wp-editor',
+			'wp-data',
+			'wp-server-side-render',
+		),
+		'render_callback' => 'hds_wp_render_timeline_card',
+		'attributes' => array(
+	        'contentTitle' => array(
+	            'type'    => 'string',
+	            'default' => '',
+	        ),
+			'style' => array(
+	            'type'    => 'string',
+	            'default' => 'numberless',
+	        ),
+			'order' => array(
+	            'type'    => 'integer',
+	        ),
+			'innerContent' => array(
+				'type'		=> 'string',
+				'default'	=> '',
+			),
+			'anchor' => array(
+	            'type'    => 'string',
+	            'default' => '',
+			)
+	    ),
+	),
 
 );

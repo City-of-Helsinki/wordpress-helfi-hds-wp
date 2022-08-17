@@ -129,7 +129,7 @@ function hdsContentTitle(props) {
 }
 
 function hdsContentTextControl(props) {
-	return hdsTextControl({
+	return hdsTextAreaControl({
 		label: wp.i18n.__( 'Excerpt', 'hds-wp' ),
 		value: props.attributes.contentText,
 		attribute: 'contentText',
@@ -208,6 +208,27 @@ function hdsTextControl(config, props) {
 		)
 	);
 }
+
+function hdsTextAreaControl(config, props) {
+	var attributeKey = config['attribute'];
+	return wp.element.createElement(
+		wp.components.PanelRow, {},
+		wp.element.createElement(
+			wp.components.TextareaControl,
+			{
+				label: config.label,
+				type: config.type ? config.type : 'text',
+				value: config.value,
+				onChange: function(text) {
+					var newAttributes = {};
+					newAttributes[config.attribute] = text;
+					props.setAttributes(newAttributes);
+				}
+			}
+		)
+	);
+}
+
 
 function hdsRadioControl(config, props) {
 	return wp.element.createElement(

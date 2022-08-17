@@ -44,7 +44,7 @@ gulp.task('scripts', function () {
     return gulp.src(path.join(SOURCE, folder, '/js/**/*.js'))
       .pipe(concat(folder + '/js/scripts.js'))
 			.pipe(babel({
-	      presets: ["@babel/preset-env"]
+	      presets: ["@babel/preset-env", "@babel/preset-react"]
 	    }))
       .pipe(gulp.dest(ASSETS))
       .pipe(uglify())

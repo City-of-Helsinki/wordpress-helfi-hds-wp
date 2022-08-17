@@ -1,6 +1,4 @@
 .wp-block-hds-wp-accordion {
-	border-top: $default-border;
-	border-bottom: $default-border;
 	margin-bottom: $paragraph-margin-bottom-small;
 
 	@include breakpoint('m') {
@@ -10,8 +8,9 @@
 	.accordion__section {
 		margin: 0;
 		padding: 0;
+		border-bottom: $default-border;
 
-		+ .accordion__section {
+		&:first-child {
 			border-top: $default-border;
 		}
 	}
@@ -115,4 +114,5 @@
 		width: 24px;
 		transition: $default-transition;
 	}
+
 }

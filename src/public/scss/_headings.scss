@@ -52,6 +52,17 @@ h6 {
 	line-height: 1.5;
 }
 
+.content__body {
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		max-width: 860px;
+	}
+}
+
 @each $heading, $font-size in $heading-font-sizes {
   #{$heading} {
     font-size: $font-size;

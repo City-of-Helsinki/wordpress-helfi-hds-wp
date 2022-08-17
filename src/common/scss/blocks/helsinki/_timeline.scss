@@ -1,0 +1,199 @@
+.wp-block-hds-wp-timeline {
+    position: relative;
+    margin-bottom: spacing('l');
+
+    @include breakpoint('m') {
+        margin-bottom: spacing('4-xl');
+    }
+
+    .timeline {
+        position: relative;
+
+        .timeline-line {
+            position: absolute;
+            width: 2px;
+            background: $black;
+            left: 40px;
+            top: 45px;
+            bottom: 0;
+            z-index: 1;
+        }
+    }
+
+    .wp-block-hds-wp-timeline-card {
+        background-color: var(--secondary-color);
+        color: var(--secondary-content-color);
+        margin-bottom: spacing('s');
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        .content {
+            display: flex;
+            flex-flow: column;
+            padding: spacing('xl') spacing('l') spacing('2-xl') spacing('2-xl');
+            position: relative;
+
+            &__inner {
+
+                &--step {
+                    width: 16px;
+                    height: 16px;
+                    left: 33px;
+                    background: white;
+                    border-radius: 999px;
+                    border: 3px solid $black;
+                    position: absolute;
+                    margin-top: 3px;
+                    top: 40px;
+                    box-sizing: border-box;
+                    z-index: 2;
+
+                    &.numbered {
+                        width: 48px;
+                        height: 48px;
+                        left: 17px;
+                        text-align: center;
+                        line-height: 48px;
+                        top: 24px;
+                        font-weight: $global-font-weight-medium;
+                        font-size: 24px;
+                        border-width: 2px;
+
+                        & + .content-wrapper {
+                            .content__inner--text {
+                            }
+                        }
+                    }
+                }
+
+                &--text {
+                    padding-left: spacing('l');
+                }
+
+                &--button {
+                }
+            }
+
+            &__heading {
+                font-size: 24px;
+                font-weight: $global-font-weight-medium;
+                margin: 0 0 spacing('s');
+                color: var(--secondary-content-color);
+            }
+
+            p {
+                font-size: rem-calc(18);
+                margin: 0 0 spacing('m');
+                color: var(--secondary-content-color);
+                max-width: none;
+
+                &:last-child {
+                    margin: 0;
+                }
+            }
+
+            .wp-block-buttons {
+                margin: 0 0 spacing('m');
+
+                &:last-child {
+                    margin: 0;
+                }
+            }
+
+            &__link {
+                background-color: var(--secondary-content-color);
+                border-color: var(--secondary-content-color);
+                color: var(--primary-content-secondary-color);
+            }
+
+            &__link:hover {
+                color: var(--secondary-content-color);
+                background-color: transparent;
+            }
+
+            &__link svg {
+                fill: var(--primary-content-secondary-color);
+            }
+
+            &__link:hover svg {
+                fill: var(--secondary-content-color);
+            }
+
+            @include breakpoint('m') {
+                padding: spacing('l') spacing('l') spacing('l') spacing('2-xl');
+                flex-flow: row;
+
+                &__inner {
+
+                    &--step {
+                        top: 33px;
+
+                        &.numbered {
+                            top: 16px;
+                        }
+                    }
+
+                    &--text {
+                    }
+
+                    &--button {
+                    }
+                }
+            }
+
+            @include breakpoint('l') {
+                padding: spacing('layout-m') spacing('l') spacing('3-xl') spacing('2-xl');
+                flex-flow: row;
+
+                &__heading {
+                    margin-bottom: spacing('l');
+                }
+
+                &__inner {
+
+                    &--step {
+                        top: 48px;
+
+                        &.numbered {
+                            top: 33px;
+                        }
+                    }
+
+                    &--text {
+                    }
+
+                    &--button {
+                    }
+                }
+            }
+
+            @include breakpoint('xl') {
+                padding: spacing('xl') spacing('l') spacing('layout-m') spacing('2-xl');
+                flex-flow: row;
+
+                &__heading {
+                    margin-bottom: spacing('s');
+                }
+
+                &__inner {
+
+                    &--step {
+                        top: 41px;
+
+                        &.numbered {
+                            top: 23px;
+                        }
+                    }
+
+                    &--text {
+                    }
+
+                    &--button {
+                    }
+                }
+            }
+        }
+    }
+}

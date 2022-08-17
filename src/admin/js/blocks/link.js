@@ -8,7 +8,7 @@
 	const { withSelect } = wp.data;
 	const compose = wp.compose.compose;
 	const apiFetch = wp.apiFetch;
-	const { Button, TextControl, SelectControl } = wp.components;
+	const { Button, TextControl, SelectControl, ToolbarGroup, ToolbarButton } = wp.components;
 
   function titleText(props) {
     return hdsTextControl({
@@ -19,7 +19,7 @@
   }
 
   function excerptText(props) {
-    return hdsTextControl({
+    return hdsTextAreaControl({
   		label: wp.i18n.__( 'Excerpt', 'hds-wp' ),
   		value: props.attributes.linkExcerpt,
   		attribute: 'linkExcerpt',
@@ -54,8 +54,8 @@
 
       case 'image-title':
         controls.push(titleText);
-        controls.push(hdsWithPostTypeSelectControl());
-        controls.push(hdsSearchPostsTextControl());
+        controls.push(urlText);
+        controls.push(hdsExternalUrlControl);
         controls.push(hdsTargetBlankControl);
         break;
     }
@@ -70,13 +70,6 @@
 
   function placeholder(linkType, props) {
     var title = props.attributes.linkTitle ? props.attributes.linkTitle : __( 'Helsinki - Link', 'hds-wp' );
-    if ( props.attributes.postTitle ) {
-      title = props.attributes.postTitle;
-    }
-
-    if ( 'image-title' === linkType && ! props.attributes.postId ) {
-      title = __( 'Please select a post or page', 'hds-wp' );
-    }
 
     let parts = [
       createElement( 'h3', {className: 'link___title'}, title )
@@ -96,11 +89,54 @@
     return parent[0];
   }
 
+	function toolbar( props, linkType ) {
+		if (linkType === 'image-title') {
+			return createElement(BlockControls, {key: 'controls'},
+				createElement(ToolbarGroup, {},
+					hdsMediaUpload(
+						props.attributes.mediaId,
+						function( media ) {
+							props.setAttributes({
+								mediaId: media.id,
+								mediaUrl: media.sizes.full.url,
+								mediaWidth: media.sizes.full.width,
+								mediaHeight: media.sizes.full.height,
+								mediaAlt: media.alt,
+								mediaSrcset: media.sizes.full.srcset,
+							});
+						},
+						function( mediaUpload ) {
+							return createElement(Button,{
+								icon: 'format-image',
+								label: __( 'Select image', 'hds-wp' ),
+								onClick: mediaUpload.open
+							});
+						}
+					),
+				)
+			);
+		}
+		return null;
+	}
+
+	function imageConfig(props) {
+		return {
+			id: props.attributes.mediaId,
+			alt: props.attributes.mediaAlt,
+			src: props.attributes.mediaUrl,
+			srcset: props.attributes.mediaSrcset,
+			width: props.attributes.mediaWidth,
+			height: props.attributes.mediaHeight,
+		};
+	}
+
+
 	function edit() {
 		return function(props) {
       var parent = getParentBlock(props.clientId);
 			return createElement(
 				Fragment, {},
+				toolbar( props, parent.attributes.linkType ),
 				panelControls(parent.attributes.linkType, props),
         placeholder(parent.attributes.linkType, props)
 			);
@@ -143,9 +179,29 @@
 				type: 'boolean',
 				default: false
 			},
-			postType: {
+			mediaId: {
+				type: 'number',
+				default: 0
+			},
+			mediaUrl: {
 				type: 'string',
-				default: 'post'
+				default: '',
+			},
+			mediaWidth: {
+				type: 'number',
+				default: 0
+			},
+			mediaHeight: {
+				type: 'number',
+				default: 0
+			},
+			mediaAlt: {
+				type: 'string',
+				default: '',
+			},
+			mediaSrcset: {
+				type: 'string',
+				default: '',
 			},
       search: {
         type: 'string',

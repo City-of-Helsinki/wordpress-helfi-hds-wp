@@ -147,7 +147,10 @@ function hds_wp_render_block_links_list( $attributes ) {
 			break;
 
 		case 'image-title':
-			$links = hds_wp_links_list_link_posts( $attributes['links'] );
+			$links = array_map(
+				'hds_wp_render_link_with_image_title',
+				$attributes['links']
+			);
 			break;
 
 		default:
@@ -302,7 +305,7 @@ function hds_wp_render_link_with_image_title( array $link ) {
 		return;
 	}
 
-	$has_placeholder = empty( $link['thumbnail'] );
+	$has_placeholder = empty( $link['mediaId'] );
 	return hds_wp_render_links_list_item(
 		sprintf(
 			'<a %s>
@@ -311,14 +314,14 @@ function hds_wp_render_link_with_image_title( array $link ) {
 			</a>',
 			hds_links_list_link_attributes( $link ),
 			$has_placeholder ? ' has-placeholder' : '',
-			$link['thumbnail'] ? $link['thumbnail'] : Svg::placeholder(
+			$link['mediaId'] ? wp_get_attachment_image($link['mediaId'], 'medium_large') : Svg::placeholder(
 				apply_filters(
 					'hds_wp_links_list_item_placeholder_icon',
 					'abstract-3'
 				)
 			),
 			esc_html( $link['linkTitle'] ),
-			hds_wp_render_link_icon( false )
+			hds_wp_render_link_icon( $link['isExternalUrl'] )
 		)
 	);
 }
@@ -342,19 +345,22 @@ function hds_links_list_link_attributes( array $link ) {
 
 function hds_wp_render_banner($attributes) {
 	$icon = '';
-	$icon = sprintf(
-		'<div class="content__inner content__inner--icon">%s</div>',
-		Svg::icon(
-			'blocks',
-			$attributes['contentIcon']
-		)
-	);
+
+	if (! empty($attributes['contentIcon']) && $attributes['contentIcon'] !== '(empty)') {
+		$icon = sprintf(
+			'<div class="content__inner content__inner--icon">%s</div>',
+			Svg::icon(
+				'blocks',
+				$attributes['contentIcon']
+			)
+		);
+	}
 
 	$text = '';
 	$text = sprintf(
 		'<div class="content__inner content__inner--text">
 			<h2 class="content__heading">%s</h2>
-			<p class=""content__text>%s</p>
+			<p class="content__text">%s</p>
 		</div>',
 		$attributes['contentTitle'],
 		$attributes['contentText']
@@ -378,6 +384,14 @@ function hds_wp_render_banner($attributes) {
 
 	$wrapClasses = array( 'wp-block-hds-wp-banner' );
 	
+	if (empty($icon)) {
+		$wrapClasses[] = 'no-icon';
+	}
+
+	if (empty($button)) {
+		$wrapClasses[] = 'no-button';
+	}
+
 	if (!empty($attributes['className'])) {
 		$wrapClasses[] = esc_attr($attributes['className']);
 	}
@@ -391,8 +405,10 @@ function hds_wp_render_banner($attributes) {
 		'<div %s class="%s">
 			<div class="content">
 				%s
-				%s
-				%s
+				<div class="content-wrapper">
+					%s
+					%s
+				</div>
 			</div>
 		</div>',
 		$id,
@@ -403,6 +419,58 @@ function hds_wp_render_banner($attributes) {
 	);
 
 }
+
+/**
+ * Timeline Card
+ */
+
+function hds_wp_render_timeline_card($attributes, $content) {
+	$step = '';
+
+	$step = sprintf(
+		'<div class="content__inner content__inner--step %s">%s</div>',
+		$attributes['style'] == 'numbered' ? 'numbered' : '',
+		$attributes['style'] == 'numbered' ? $attributes['order'] : ''
+	);
+
+	$text = '';
+	$text = sprintf(
+		'<div class="content__inner content__inner--text">
+			%s
+			%s
+		</div>',
+		$attributes['contentTitle'] ? '<h3 class="content__heading">' . $attributes['contentTitle'] . '</h3>' : '',
+		$content ? $content : $attributes['innerContent']
+	);
+
+	$wrapClasses = array( 'wp-block-hds-wp-timeline-card' );
+	
+	if (!empty($attributes['className'])) {
+		$wrapClasses[] = esc_attr($attributes['className']);
+	}
+
+	$id = '';
+	if (!empty($attributes['anchor'])) {
+		$id = 'id="'.esc_attr($attributes['anchor']).'"';
+	}
+
+	return sprintf(
+		'<div %s class="%s">
+			<div class="content">
+				%s
+				<div class="content-wrapper">
+					%s
+				</div>
+			</div>
+		</div>',
+		$id,
+		implode( ' ', $wrapClasses ),
+		$step,
+		$text,
+	);
+
+}
+
 
 /**
  * Recent Posts
