@@ -1,16 +1,31 @@
 (function( $ ) {
     $(function () {
+
+        const debounce = (func, wait) => {
+            let timeout;
+          
+            return function executedFunction(...args) {
+              const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+              };
+          
+              clearTimeout(timeout);
+              timeout = setTimeout(later, wait);
+            };
+        };
+
         $( window ).load(function() {
             $('.wp-block-hds-wp-timeline').each(function() {
                 fnOnResize($(this));
             })
           });
 
-        $(window).on('resize', function () {
+        $(window).on('resize', debounce(function () {
             $('.wp-block-hds-wp-timeline').each(function() {
                 fnOnResize($(this));
             })
-        });
+        }, 100));
     
     
         
@@ -18,9 +33,6 @@
             var hdsTimelineLine = timeline.find('.timeline-line'),
             hdsTimelinePoint = timeline.find('.content__inner--step'),
             hdsTimelineItem = timeline.find('.wp-block-hds-wp-timeline-card');
-            console.log(hdsTimelineLine);
-            console.log(hdsTimelinePoint);
-            console.log(hdsTimelineItem);
 
             if (hdsTimelineLine.length > 0 && hdsTimelinePoint.length > 0 && hdsTimelineItem.length > 0)
                 fnUpdateWindow(hdsTimelineLine, hdsTimelinePoint, hdsTimelineItem);
@@ -34,6 +46,6 @@
             });
     
         }
-        
+
     });
 })(jQuery);
