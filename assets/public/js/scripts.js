@@ -77,4 +77,4 @@ function hdsAccordion() {
 }
 
 var hdsAccordions = hdsAccordion();
-hdsAccordions.init(document.querySelectorAll('.accordion'));
+hdsAccordions.init(document.querySelectorAll('.wp-block-hds-wp-accordion .accordion'));
