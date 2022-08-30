@@ -96,7 +96,7 @@
                 min-height: 100%;
                 min-width: 100%;
                 max-width: none;
-                width: auto;
+                object-fit: cover;
             }
 
             &.has-placeholder {
