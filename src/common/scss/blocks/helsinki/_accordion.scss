@@ -18,6 +18,7 @@
 	.accordion__title {
 		font-size: rem-calc(20);
 		margin: 0;
+		max-width: unset;
 
 		@include breakpoint('m') {
 			font-size: rem-calc(24);

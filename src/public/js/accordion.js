@@ -68,5 +68,5 @@ function hdsAccordion() {
 }
 const hdsAccordions = hdsAccordion();
 hdsAccordions.init(
-	document.querySelectorAll('.accordion')
+	document.querySelectorAll('.wp-block-hds-wp-accordion .accordion')
 );
