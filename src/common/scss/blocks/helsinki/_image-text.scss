@@ -83,11 +83,10 @@
 		}
 
 		.content__text {
-			font-size: rem-calc(18);
 			margin: spacing('s') 0 0;
 
 			@include breakpoint('m') {
-				font-size: rem-calc(20);
+				
 			}
 		}
 
