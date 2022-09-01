@@ -1,0 +1,7 @@
+hr {
+    &.wp-block-separator {
+        &.is-style-default {
+            border-top: 1px solid var(--color-black-20);
+        }
+    }
+}
