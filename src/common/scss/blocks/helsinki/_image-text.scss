@@ -8,6 +8,10 @@
 		margin-bottom: $paragraph-margin-bottom-big;
 	}
 
+	@include breakpoint('l') {
+		display: flex;
+		align-items: center;
+	}
 
 	.image {
 		background-color: $white;
@@ -97,9 +101,6 @@
 		}
 
 		@include breakpoint('l') {
-			position: absolute;
-			top: 50%;
-			transform: translateY(-50%);
 			margin: 0;
 			padding: rem-calc(48) rem-calc(32);
 			max-width: 460px;
@@ -134,16 +135,16 @@
 	@include breakpoint('l') {
 
 		&.align-left {
+			flex-direction: row-reverse;
+
 			.content {
-				left: 0;
-				right: right;
+				margin-right: -50%;
 			}
 		}
 
 		&.align-right {
 			.content {
-				left: auto;
-				right: 0;
+				margin-left: -50%;
 			}
 		}
 	}
