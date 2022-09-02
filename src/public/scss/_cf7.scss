@@ -13,6 +13,9 @@
 
         label {
             position: relative;
+            display: flex;
+            margin-bottom: spacing('2-xs');
+            height: 24px;
         }
     }
 
@@ -26,7 +29,6 @@
 
         input {
             @extend .hds-checkbox__input;
-            top: -1px;
         }
 
         .wpcf7-list-item-label {
