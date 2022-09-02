@@ -1,6 +1,6 @@
 <?php
 
-add_filter('wpcf7_form_elements', function($elements){
+/*add_filter('wpcf7_form_elements', function($elements){
 	return str_replace(
 		array(
 			'<p><label>',
@@ -14,7 +14,7 @@ add_filter('wpcf7_form_elements', function($elements){
 		),
 		$elements
 	);
-});
+});*/
 
 add_filter('wpcf7_form_tag', function($scanned_tag, $replace){
 
@@ -36,6 +36,7 @@ add_filter('wpcf7_form_tag', function($scanned_tag, $replace){
 		case 'radio':
 		case 'range':
 		case 'file':
+		case 'acceptance':
 			break;
 
 		default:

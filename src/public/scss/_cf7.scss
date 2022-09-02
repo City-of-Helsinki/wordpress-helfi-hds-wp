@@ -1,0 +1,59 @@
+.wpcf7-form {
+    p {
+        @extend .hds-text-input;
+        margin-bottom: spacing('m');
+    }
+
+    .hds-text-input__input-wrapper {
+        flex-wrap: wrap;
+    }
+
+    .wpcf7-list-item {
+        margin-left: 0;
+
+        label {
+            position: relative;
+        }
+    }
+
+    .wpcf7-not-valid-tip {
+        @extend .hds-text-input__error-text;
+    }
+
+    .wpcf7-checkbox, .wpcf7-acceptance {
+        flex-direction: column;
+        @extend .hds-checkbox;
+
+        input {
+            @extend .hds-checkbox__input;
+            top: -1px;
+        }
+
+        .wpcf7-list-item-label {
+            @extend .hds-checkbox__label;
+        }
+    }
+
+    .wpcf7-radio {
+        flex-direction: column;
+        @extend .hds-radio-button;
+
+        input {
+            @extend .hds-radio-button__input;
+        }
+
+        .wpcf7-list-item-label {
+            @extend .hds-radio-button__label;
+        }
+    }
+
+    .wpcf7-select {
+
+        &:after {
+
+        }
+
+        &:focus {
+        }
+    }
+}
