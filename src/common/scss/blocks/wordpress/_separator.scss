@@ -1,7 +1,20 @@
 hr {
     &.wp-block-separator {
+        border-top: 1px solid var(--color-black-20);
+        border-bottom: none;
+
         &.is-style-default {
             border-top: 1px solid var(--color-black-20);
+            border-bottom: none;
+        }
+
+        &.is-style-wide {
+            border-top: 1px solid $black;
+            border-bottom: 1px solid $black;
+        }
+
+        &.is-style-dots {
+            border: none;
         }
     }
 }
