@@ -21,7 +21,7 @@ return array(
   <p>Noudatamme lakia digitaalisten palveluiden tarjoamisesta. Lisätietoa saavutettavuudesta löydät <a href="https://www.hel.fi/helsinki/fi/kaupunki-ja-hallinto/tietoa-helsingista/saavutettavuus/saavutettavuus-helfi-sivustolla/">hel.fi-saavutettavuusselosteesta.</a></p>
   <p>Tämän sivun sisällöstä vastaa:</p>
   <ul>
-    <li>Liisa Kivelä, viestintäjohtaja, <a href="https://www.hel.fi/kanslia/fi/tama-on-kanslia/viestinta">ks. Helsingin kaupunginkanslian viestinnän sisällöntuotanto.</a></li>
+    <li>Viestintäpäällikkö Susanna Rautio, <a href="https://www.hel.fi/fi/paatoksenteko-ja-hallinto/ota-yhteytta/helsinki-info/medialle#yhteystiedot-toimialoittain">sisällöntuotantoyksikkö kaupunginkanslia.</a></li>
   </ul>
   <p><em>(Hel.fi-sivuston tekstisisällöt on lisensoitu <a href="https://creativecommons.org/licenses/by/4.0/deed.fi">Creative Commons BY 4.0 lisenssillä</a>. Sivuston kuvia ei saa käyttää muualla ilman lupaa.)</em></p>',
 
@@ -44,7 +44,7 @@ return array(
     <p>Vi följer lagen om tillhandahållande av digitala tjänster. Mer information om tillgänglighet finns i <a href="https://www.hel.fi/helsinki/fi/kaupunki-ja-hallinto/tietoa-helsingista/saavutettavuus/saavutettavuus-helfi-sivustolla/">tillgänglighetsutlåtandet för webbplatsen hel.fi</a>.</p>
     <p>Ansvarig för innehållet på den här webbsidan:</p>
     <ul>
-      <li>Kommunikationsdirektör Liisa Kivelä, se <a href="https://www.hel.fi/kanslia/sv/tama-on-kanslia/kommunikation">enheten för innehållsproduktion vid Helsingfors stadskanslis kommunikationsavdelning.</a></li>
+      <li>Kommunikationschef Susanna Rautio, <a href="https://www.hel.fi/sv/beslutsfattande-och-forvaltning/ta-kontakt/helsingfors-info/for-media#kontaktuppgifter-enligt-sektor">stadskanslis kommunikationsavdelning.</a></li>
     </ul>
     <p><em>(Textinnehållet på webbplatsen hel.fi är licensierat med <a href="https://creativecommons.org/licenses/by/4.0/deed.sv">Creative Commons BY 4.0-licensen</a>. Bilderna på webbplatsen får inte användas annanstans utan tillstånd.)</em></p>',
 
@@ -67,7 +67,7 @@ return array(
     <p>We comply with the Act on the Provision of Digital Services. For more information on accessibility, please see <a href="https://www.hel.fi/helsinki/fi/kaupunki-ja-hallinto/tietoa-helsingista/saavutettavuus/saavutettavuus-helfi-sivustolla/">the accessibility statement for hel.fi</a>.</p>
     <p>Person responsible for the content of this page:</p>
       <ul>
-        <li>Chief communications officer Liisa Kivelä, see <a href="https://www.hel.fi/kanslia/fi/tama-on-kanslia/viestinta">Communications Content Production Unit of the Helsinki City Executive Office.</a></li>
+        <li>Unit Head Susanna Rautio, Content Production, <a href="https://www.hel.fi/en/decision-making/contact-us/helsinki-info/media-contacts#contact-information-by-city-division">Communications of the Helsinki City Executive Office.</a></li>
       </ul>
     <p><em>(The text content of the hel.fi website is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/deed.en">Creative Commons BY 4.0 licence</a>. The images on the website may not be used elsewhere without permission.)</em></p>',
 
