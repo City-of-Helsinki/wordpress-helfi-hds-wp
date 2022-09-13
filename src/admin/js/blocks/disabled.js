@@ -13,9 +13,6 @@
         if (getBlockType('core/verse')) {
             unregisterBlockType( 'core/verse' );
         }
-        if (getBlockType('core/code')) {
-            unregisterBlockType( 'core/code' );
-        }
         if (getBlockType('core/cover')) {
             unregisterBlockType( 'core/cover' );
         }
@@ -35,6 +32,10 @@
         if(getBlockType('core/nextpage')) {
             unregisterBlockType( 'core/nextpage' );
         }
+        if(getBlockType('core/media-text')) {
+            unregisterBlockType( 'core/media-text' );
+        }
+
 
         if (document.querySelector('body').classList.contains('post-type-post')) {
             if (getBlockType('hds-wp/accordion')) {
