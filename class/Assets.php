@@ -118,7 +118,7 @@ class Assets extends Module {
 		wp_enqueue_script(
 			'helsinki-wp-scripts',
 			$this->assetUrl('public', 'scripts', $this->minified, 'js'),
-			apply_filters( 'hds_wp_scripts_dependencies', array() ),
+			apply_filters( 'hds_wp_scripts_dependencies', array('jquery') ),
 			$this->assetVersion( $this->assetPath('public', 'scripts', $this->minified, 'js') ),
 			true
 		);
@@ -138,7 +138,7 @@ class Assets extends Module {
 		wp_enqueue_script(
 			'helsinki-wp-common-scripts',
 			$this->assetUrl('common', 'scripts', $this->minified, 'js'),
-			apply_filters( 'hds_wp_common_scripts_dependencies', array() ),
+			apply_filters( 'hds_wp_common_scripts_dependencies', array('jquery') ),
 			$this->assetVersion( $this->assetPath('common', 'scripts', $this->minified, 'js') ),
 			true
 		);
