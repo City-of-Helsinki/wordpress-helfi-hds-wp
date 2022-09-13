@@ -32,6 +32,10 @@
         if(getBlockType('core/nextpage')) {
             unregisterBlockType( 'core/nextpage' );
         }
+        if(getBlockType('core/media-text')) {
+            unregisterBlockType( 'core/media-text' );
+        }
+
 
         if (document.querySelector('body').classList.contains('post-type-post')) {
             if (getBlockType('hds-wp/accordion')) {

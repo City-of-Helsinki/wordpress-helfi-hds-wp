@@ -3,14 +3,16 @@
 add_filter('wpcf7_form_elements', function($elements){
 	return str_replace(
 		array(
-			'<p><label>',
-			'</label></p>',
-			'class="wpcf7-form-control-wrap',
+			//'<p><label>',
+			//'</label></p>',
+			//'class="wpcf7-form-control-wrap',
+			'</select>'
 		),
 		array(
-			'<div class="hds-text-input"><label>',
-			'</label></div>',
-			'class="wpcf7-form-control-wrap hds-text-input__input-wrapper',
+			//'<div class="hds-text-input"><label>',
+			//'</label></div>',
+			//'class="wpcf7-form-control-wrap hds-text-input__input-wrapper',
+			'</select><span class="select-chevron">' . helsinki_get_svg_icon('angle-down') . '</span>'
 		),
 		$elements
 	);
@@ -36,6 +38,7 @@ add_filter('wpcf7_form_tag', function($scanned_tag, $replace){
 		case 'radio':
 		case 'range':
 		case 'file':
+		case 'acceptance':
 			break;
 
 		default:
