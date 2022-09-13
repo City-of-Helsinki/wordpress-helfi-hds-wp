@@ -1091,10 +1091,6 @@ function hdsIcons(name) {
       unregisterBlockType('core/verse');
     }
 
-    if (getBlockType('core/code')) {
-      unregisterBlockType('core/code');
-    }
-
     if (getBlockType('core/cover')) {
       unregisterBlockType('core/cover');
     }
