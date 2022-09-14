@@ -370,7 +370,7 @@ function hds_wp_render_banner($attributes) {
 	if ( ! empty( $attributes['buttonUrl'] ) && ! empty( $attributes['buttonText'] ) ) {
 		$button = sprintf(
 			'<div class="content__inner content__inner--button">
-				<a class="content__link hds-button" href="%s" target="_blank" rel="noopener">
+				<a class="content__link hds-button" href="%s" rel="noopener">
 					%s
 					%s
 				</a>

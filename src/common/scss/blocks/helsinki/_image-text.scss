@@ -8,6 +8,10 @@
 		margin-bottom: $paragraph-margin-bottom-big;
 	}
 
+	@include breakpoint('l') {
+		display: flex;
+		align-items: center;
+	}
 
 	.image {
 		background-color: $white;
@@ -79,11 +83,10 @@
 		}
 
 		.content__text {
-			font-size: rem-calc(18);
 			margin: spacing('s') 0 0;
 
 			@include breakpoint('m') {
-				font-size: rem-calc(20);
+				
 			}
 		}
 
@@ -97,9 +100,6 @@
 		}
 
 		@include breakpoint('l') {
-			position: absolute;
-			top: 50%;
-			transform: translateY(-50%);
 			margin: 0;
 			padding: rem-calc(48) rem-calc(32);
 			max-width: 460px;
@@ -134,16 +134,16 @@
 	@include breakpoint('l') {
 
 		&.align-left {
+			flex-direction: row-reverse;
+
 			.content {
-				left: 0;
-				right: right;
+				margin-right: -50%;
 			}
 		}
 
 		&.align-right {
 			.content {
-				left: auto;
-				right: 0;
+				margin-left: -50%;
 			}
 		}
 	}

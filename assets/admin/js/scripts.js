@@ -1091,10 +1091,6 @@ function hdsIcons(name) {
       unregisterBlockType('core/verse');
     }
 
-    if (getBlockType('core/code')) {
-      unregisterBlockType('core/code');
-    }
-
     if (getBlockType('core/cover')) {
       unregisterBlockType('core/cover');
     }
@@ -1117,6 +1113,10 @@ function hdsIcons(name) {
 
     if (getBlockType('core/nextpage')) {
       unregisterBlockType('core/nextpage');
+    }
+
+    if (getBlockType('core/media-text')) {
+      unregisterBlockType('core/media-text');
     }
 
     if (document.querySelector('body').classList.contains('post-type-post')) {
