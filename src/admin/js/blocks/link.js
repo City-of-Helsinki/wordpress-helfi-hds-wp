@@ -132,7 +132,7 @@
 		if (linkType === 'image-title') {
 			return createElement(BlockControls, {key: 'controls'},
 				createElement(ToolbarGroup, {},
-					hdsMediaUpload(
+					props.attributes.postId == 0 ? hdsMediaUpload(
 						props.attributes.mediaId,
 						function( media ) {
 							props.setAttributes({
@@ -151,7 +151,7 @@
 								onClick: mediaUpload.open
 							});
 						}
-					),
+					) : '',
 				)
 			);
 		}

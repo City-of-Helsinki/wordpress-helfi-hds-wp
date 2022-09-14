@@ -1663,7 +1663,7 @@ function hdsIcons(name) {
     if (linkType === 'image-title') {
       return createElement(BlockControls, {
         key: 'controls'
-      }, createElement(ToolbarGroup, {}, hdsMediaUpload(props.attributes.mediaId, function (media) {
+      }, createElement(ToolbarGroup, {}, props.attributes.postId == 0 ? hdsMediaUpload(props.attributes.mediaId, function (media) {
         props.setAttributes({
           mediaId: media.id,
           mediaUrl: media.sizes.full.url,
@@ -1678,7 +1678,7 @@ function hdsIcons(name) {
           label: __('Select image', 'hds-wp'),
           onClick: mediaUpload.open
         });
-      })));
+      }) : ''));
     }
 
     return null;
