@@ -465,7 +465,8 @@ function hdsSearchPostsTextControl() {
         foundPostListItem(posts[i], function(post) {
           props.setAttributes({
             postId: post.id,
-            postTitle: post.title.rendered
+            postTitle: post.title.rendered,
+			postExcerpt: post.excerpt.rendered
           });
         })
       );
@@ -523,4 +524,25 @@ function hdsSearchPostsTextControl() {
       )
     );
   });
+}
+
+function hdsRemovePostControl(config, props) {
+	return wp.element.createElement(
+		wp.components.PanelRow, {},
+		wp.element.createElement(
+			wp.components.Button,
+			{
+				text: config.text,
+				variant: 'primary',
+				isDestructive: true,
+				onClick: function() {
+					props.setAttributes({
+						postId: 0,
+						postTitle: ''
+					  });
+				}
+			}
+		)
+	);
+
 }

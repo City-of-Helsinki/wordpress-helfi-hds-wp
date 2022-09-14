@@ -399,7 +399,8 @@ function hdsSearchPostsTextControl() {
       foundPostsList.appendChild(foundPostListItem(posts[i], function (post) {
         props.setAttributes({
           postId: post.id,
-          postTitle: post.title.rendered
+          postTitle: post.title.rendered,
+          postExcerpt: post.excerpt.rendered
         });
       }));
     }
@@ -447,6 +448,20 @@ function hdsSearchPostsTextControl() {
       }
     }), FoundPosts));
   });
+}
+
+function hdsRemovePostControl(config, props) {
+  return wp.element.createElement(wp.components.PanelRow, {}, wp.element.createElement(wp.components.Button, {
+    text: config.text,
+    variant: 'primary',
+    isDestructive: true,
+    onClick: function onClick() {
+      props.setAttributes({
+        postId: 0,
+        postTitle: ''
+      });
+    }
+  }));
 }
 
 function hdsIcons(name) {
@@ -1518,6 +1533,14 @@ function hdsIcons(name) {
       SelectControl = _wp$components8.SelectControl,
       ToolbarGroup = _wp$components8.ToolbarGroup,
       ToolbarButton = _wp$components8.ToolbarButton;
+  var PostTypeSelect = hdsWithPostTypeSelectControl();
+  var PostSearch = hdsSearchPostsTextControl();
+
+  function removePostButton(props) {
+    return hdsRemovePostControl({
+      text: wp.i18n.__('Detach post', 'hds-wp')
+    }, props);
+  }
 
   function titleText(props) {
     return hdsTextControl({
@@ -1548,25 +1571,49 @@ function hdsIcons(name) {
 
     switch (linkType) {
       case 'title':
-        controls.push(titleText);
-        controls.push(urlText);
-        controls.push(hdsExternalUrlControl);
-        controls.push(hdsTargetBlankControl);
+        controls.push(PostTypeSelect);
+        controls.push(PostSearch);
+
+        if (props.attributes.postId != 0) {
+          controls.push(removePostButton);
+        } else {
+          controls.push(titleText);
+          controls.push(urlText);
+          controls.push(hdsExternalUrlControl);
+          controls.push(hdsTargetBlankControl);
+        }
+
         break;
 
       case 'title-excerpt':
-        controls.push(titleText);
-        controls.push(excerptText);
-        controls.push(urlText);
-        controls.push(hdsExternalUrlControl);
-        controls.push(hdsTargetBlankControl);
+        controls.push(PostTypeSelect);
+        controls.push(PostSearch);
+
+        if (props.attributes.postId != 0) {
+          controls.push(removePostButton);
+        } else {
+          controls.push(titleText);
+          controls.push(excerptText);
+          controls.push(urlText);
+          controls.push(hdsExternalUrlControl);
+          controls.push(hdsTargetBlankControl);
+        }
+
         break;
 
       case 'image-title':
-        controls.push(titleText);
-        controls.push(urlText);
-        controls.push(hdsExternalUrlControl);
-        controls.push(hdsTargetBlankControl);
+        controls.push(PostTypeSelect);
+        controls.push(PostSearch);
+
+        if (props.attributes.postId != 0) {
+          controls.push(removePostButton);
+        } else {
+          controls.push(titleText);
+          controls.push(urlText);
+          controls.push(hdsExternalUrlControl);
+          controls.push(hdsTargetBlankControl);
+        }
+
         break;
     }
 
@@ -1580,11 +1627,23 @@ function hdsIcons(name) {
 
   function placeholder(linkType, props) {
     var title = props.attributes.linkTitle ? props.attributes.linkTitle : __('Helsinki - Link', 'hds-wp');
+
+    if (props.attributes.postId != 0) {
+      title = props.attributes.postTitle ? props.attributes.postTitle : __('Helsinki - Link', 'hds-wp');
+    }
+
     var parts = [createElement('h3', {
       className: 'link___title'
     }, title)];
 
-    if (linkType === 'title-excerpt' && props.attributes.linkExcerpt) {
+    if (linkType === 'title-excerpt' && props.attributes.postId != 0 && props.attributes.postExcerpt) {
+      var excerptWrapper = document.createElement("div");
+      excerptWrapper.innerHTML = props.attributes.postExcerpt; //used to remove extra <p>-tags from excerpt source
+
+      parts.push(createElement('p', {
+        className: 'link___excerpt'
+      }, excerptWrapper.innerText));
+    } else if (linkType === 'title-excerpt' && props.attributes.postId == 0 && props.attributes.linkExcerpt) {
       parts.push(createElement('p', {
         className: 'link___excerpt'
       }, props.attributes.linkExcerpt));
@@ -1664,6 +1723,10 @@ function hdsIcons(name) {
         default: ''
       },
       linkExcerpt: {
+        type: 'string',
+        default: ''
+      },
+      postExcerpt: {
         type: 'string',
         default: ''
       },
