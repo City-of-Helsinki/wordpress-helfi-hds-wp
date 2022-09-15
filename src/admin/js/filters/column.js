@@ -22,6 +22,14 @@
                     }
                 });
             }
+            else if (name == 'core/columns') {
+                settings.transforms.from[0].isMatch = (attr, block) => {
+                    if (block[0].name.startsWith('hds-wp') || block[0].name.startsWith('helsinki')) {
+                        return false;
+                    }
+                    return true;
+                }
+            }
         }
         return settings;
     }
