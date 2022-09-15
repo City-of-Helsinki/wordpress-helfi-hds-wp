@@ -74,10 +74,26 @@ function hdsAccordion() {
       }
     }
   };
+} //saved block markup may differ so try to account for the different possibilities...
+
+
+function parseAccordionElements() {
+  var accordions = [];
+  var elements = document.querySelectorAll('.wp-block-hds-wp-accordion');
+
+  for (var i = 0; i < elements.length; i++) {
+    if (elements[i].querySelector('.accordion')) {
+      accordions.push(elements[i].querySelector('.accordion'));
+    } else {
+      accordions.push(elements[i]);
+    }
+  }
+
+  return accordions;
 }
 
 var hdsAccordions = hdsAccordion();
-hdsAccordions.init(document.querySelectorAll('.wp-block-hds-wp-accordion .accordion'));
+hdsAccordions.init(parseAccordionElements());
 
 (function ($) {
   $(function () {
