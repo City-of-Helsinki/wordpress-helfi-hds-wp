@@ -66,7 +66,23 @@ function hdsAccordion() {
 		}
 	};
 }
+
+//saved block markup may differ so try to account for the different possibilities...
+function parseAccordionElements() {
+	const accordions = [];
+	var elements = document.querySelectorAll('.wp-block-hds-wp-accordion');
+	for (var i = 0; i < elements.length; i++) {
+		if (elements[i].querySelector('.accordion')) {
+			accordions.push(elements[i].querySelector('.accordion'));
+		}
+		else {
+			accordions.push(elements[i]);
+		}
+	}
+	return accordions;
+}
+
 const hdsAccordions = hdsAccordion();
 hdsAccordions.init(
-	document.querySelectorAll('.wp-block-hds-wp-accordion .accordion')
+	parseAccordionElements()
 );
