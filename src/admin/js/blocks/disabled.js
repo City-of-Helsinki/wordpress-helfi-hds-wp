@@ -35,6 +35,9 @@
         if(getBlockType('core/media-text')) {
             unregisterBlockType( 'core/media-text' );
         }
+        if(getBlockType('core/rss')) {
+            unregisterBlockType( 'core/rss' );
+        }
 
 
         if (document.querySelector('body').classList.contains('post-type-post')) {
