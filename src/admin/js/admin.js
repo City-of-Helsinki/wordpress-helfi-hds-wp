@@ -448,7 +448,6 @@ function hdsWithSearchPosts(control) {
 			  return wp.apiFetch({
 				path: '/wp/v2/posts?' + params.join('&')
 			  }).then(function (posts) {
-				console.log("inininin");
 			  	return wp.apiFetch({
 					path: '/wp/v2/pages?' + params.join('&')
 				}).then(function (pages) {
@@ -532,7 +531,6 @@ function hdsSearchPostsTextControl() {
 
             if ( text.length >= 3 ) {
               props.searchPosts(text).then(function(posts){
-				  console.log(posts);
                 populateFoundPosts(posts, props);
               });
             }
