@@ -4,4 +4,19 @@
 
 #found-posts {
     cursor: pointer;
+
+    a {
+        &.selected {
+            font-weight: bold;
+        }
+    }
+}
+
+.detach-post-group {
+    flex-direction: column;
+    align-items: flex-start;
+
+    p {
+        font-weight: bold;
+    }
 }

@@ -174,6 +174,8 @@ function hdsTargetBlankControl(props) {
 		label: wp.i18n.__( 'Open in new window', 'hds-wp' ),
 		checked: props.attributes.targetBlank,
 		attribute: 'targetBlank',
+		help: wp.element.createElement('p', {}, wp.i18n.__( 'The link\'s description must clearly state it opens in a new tab, and it must fulfill accessibility requirements. ', 'hds-wp' ), wp.element.createElement('a', {href: 'https://www.w3.org/WAI/WCAG21/Techniques/general/G200.html', target: '_blank'}, wp.i18n.__( 'Check WCGA 3.2.5 accessibility requirements (the link opens in a new tab).', 'hds-wp' ))),
+		helpVisibility: 'toggled',
 	}, props);
 }
 
@@ -257,6 +259,7 @@ function hdsCheckboxControl(config, props) {
 			{
 				label: config.label,
 				checked: config.checked,
+				help: config.helpVisibility == 'always' || (config.helpVisibility == 'toggled' && config.checked) ? config.help : '',
 				onChange: function(value) {
 					var newAttributes = {};
 					newAttributes[config.attribute] = value;
@@ -436,17 +439,22 @@ function hdsWithSearchPosts(control) {
     wp.data.withSelect(function(select, props){
       return {
         searchPosts: function(searchInput) {
-          let postType = props.attributes.postType ? props.attributes.postType : 'post',
-              url = '/wp/v2/' + postType + 's?',
-              params = [
+          let params = [
                 'status=publish',
                 'per_page=100',
                 'search=' + searchInput,
               ];
 
-          return wp.apiFetch({
-            path: url + params.join('&')
-          });
+			  return wp.apiFetch({
+				path: '/wp/v2/posts?' + params.join('&')
+			  }).then(function (posts) {
+				console.log("inininin");
+			  	return wp.apiFetch({
+					path: '/wp/v2/pages?' + params.join('&')
+				}).then(function (pages) {
+					return posts.concat(pages);
+				});
+			  });
         },
       }
     })
@@ -463,6 +471,7 @@ function hdsSearchPostsTextControl() {
     for (var i = 0; i < posts.length; i++) {
       foundPostsList.appendChild(
         foundPostListItem(posts[i], function(post) {
+			highlightSelectedPost(event.target);
           props.setAttributes({
             postId: post.id,
             postTitle: post.title.rendered,
@@ -471,6 +480,14 @@ function hdsSearchPostsTextControl() {
         })
       );
     }
+  }
+
+  function highlightSelectedPost(target) {
+	var links = target.closest('#found-posts').querySelectorAll('a');
+	for(var i = 0; i < links.length; i++) {
+		links[i].classList.remove('selected');
+	}
+	target.classList.add('selected');
   }
 
   function clearFoundPosts(element) {
@@ -515,6 +532,7 @@ function hdsSearchPostsTextControl() {
 
             if ( text.length >= 3 ) {
               props.searchPosts(text).then(function(posts){
+				  console.log(posts);
                 populateFoundPosts(posts, props);
               });
             }
@@ -528,7 +546,8 @@ function hdsSearchPostsTextControl() {
 
 function hdsRemovePostControl(config, props) {
 	return wp.element.createElement(
-		wp.components.PanelRow, {},
+		wp.components.PanelRow, { className: 'detach-post-group'},
+		wp.element.createElement('p', {}, props.attributes.postTitle),
 		wp.element.createElement(
 			wp.components.Button,
 			{

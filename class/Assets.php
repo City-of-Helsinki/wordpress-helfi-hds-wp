@@ -102,6 +102,12 @@ class Assets extends Module {
 			$this->assetVersion( $this->assetPath('admin', 'scripts', $this->minified, 'js') ),
 			true
 		);
+		wp_set_script_translations(
+			'helsinki-wp-admin-scripts',
+			'hds-wp',
+			untrailingslashit( PLUGIN_PATH ) . DIRECTORY_SEPARATOR . 'languages'
+		);
+	
 	}
 
 	public function adminStyles( string $hook ) {

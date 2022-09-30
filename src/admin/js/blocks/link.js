@@ -43,48 +43,61 @@
   	}, props);
   }
 
+  function linkDirectionControl(props) {
+	return hdsRadioControl({
+		label: wp.i18n.__( 'Link type', 'hds-wp' ),
+		selected: props.attributes.linkDir,
+		attribute: 'linkDir',
+		options:  [
+			{label: __('Internal link', 'hds-wp'), value: 'internal'},
+			{label: __('External link', 'hds-wp'), value: 'external'},
+		]
+	}, props);
+  }
+
 	function panelControls(linkType, props) {
     var controls = [];
+	controls.push(linkDirectionControl);
     switch (linkType) {
       case 'title':
-		controls.push(PostTypeSelect);
-		controls.push(PostSearch);
-		if (props.attributes.postId != 0) {
-			controls.push(removePostButton);
+		if (props.attributes.linkDir == 'internal') {
+			controls.push(PostSearch);
+			if (props.attributes.postId != 0) {
+				controls.push(removePostButton);
+			}
 		}
 		else {
 			controls.push(titleText);
 			controls.push(urlText);
-			controls.push(hdsExternalUrlControl);
 			controls.push(hdsTargetBlankControl);
 		}
         break;
 
       case 'title-excerpt':
-		controls.push(PostTypeSelect);
-		controls.push(PostSearch);
-		if (props.attributes.postId != 0) {
-			controls.push(removePostButton);
+		if (props.attributes.linkDir == 'internal') {
+			controls.push(PostSearch);
+			if (props.attributes.postId != 0) {
+				controls.push(removePostButton);
+			}
 		}
 		else {
 			controls.push(titleText);
 			controls.push(excerptText);
 			controls.push(urlText);
-			controls.push(hdsExternalUrlControl);
 			controls.push(hdsTargetBlankControl);
 		}
         break;
 
       case 'image-title':
-		controls.push(PostTypeSelect);
-		controls.push(PostSearch);
-		if (props.attributes.postId != 0) {
-			controls.push(removePostButton);
+		if (props.attributes.linkDir == 'internal') {
+			controls.push(PostSearch);
+			if (props.attributes.postId != 0) {
+				controls.push(removePostButton);
+			}
 		}
 		else {
 			controls.push(titleText);
 			controls.push(urlText);
-			controls.push(hdsExternalUrlControl);
 			controls.push(hdsTargetBlankControl);
 		}
         break;
@@ -101,7 +114,7 @@
   function placeholder(linkType, props) {
     var title = props.attributes.linkTitle ? props.attributes.linkTitle : __( 'Helsinki - Link', 'hds-wp' );
 
-	if (props.attributes.postId != 0) {
+	if (props.attributes.linkDir == 'internal' && props.attributes.postId != 0) {
 		title = props.attributes.postTitle ? props.attributes.postTitle : __( 'Helsinki - Link', 'hds-wp' );
 	}
 
@@ -109,12 +122,12 @@
       createElement( 'h3', {className: 'link___title'}, title )
     ];
 
-    if ( linkType === 'title-excerpt' && props.attributes.postId != 0 && props.attributes.postExcerpt ) {
+    if ( linkType === 'title-excerpt' && props.attributes.linkDir == 'internal' && props.attributes.postId != 0 && props.attributes.postExcerpt ) {
 		var excerptWrapper = document.createElement("div");
 		excerptWrapper.innerHTML = props.attributes.postExcerpt; //used to remove extra <p>-tags from excerpt source
 		parts.push(createElement( 'p', {className: 'link___excerpt'}, excerptWrapper.innerText ));
     }
-    else if ( linkType === 'title-excerpt' && props.attributes.postId == 0 && props.attributes.linkExcerpt ) {
+    else if ( linkType === 'title-excerpt' && (props.attributes.linkDir != 'internal' || props.attributes.postId == 0) && props.attributes.linkExcerpt ) {
 		parts.push(createElement( 'p', {className: 'link___excerpt'}, props.attributes.linkExcerpt ));
     }
 
@@ -132,7 +145,7 @@
 		if (linkType === 'image-title') {
 			return createElement(BlockControls, {key: 'controls'},
 				createElement(ToolbarGroup, {},
-					props.attributes.postId == 0 ? hdsMediaUpload(
+					props.attributes.linkDir == 'external' ? hdsMediaUpload(
 						props.attributes.mediaId,
 						function( media ) {
 							props.setAttributes({
@@ -213,6 +226,10 @@
 			linkUrl: {
 				type: 'string',
 				default: ''
+			},
+			linkDir: {
+				type: 'string',
+				default: 'internal',
 			},
 			targetBlank: {
 				type: 'boolean',
