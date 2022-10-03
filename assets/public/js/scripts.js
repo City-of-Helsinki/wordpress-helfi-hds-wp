@@ -97,7 +97,6 @@ hdsAccordions.init(parseAccordionElements());
 
 (function ($) {
   $(function () {
-    var __ = wp.i18n.__;
     $('.wpcf7-form select').each(function () {
       var $this = $(this),
           numberOfOptions = $(this).children('option').length;
@@ -144,7 +143,7 @@ hdsAccordions.init(parseAccordionElements());
       function addFileListItem(file) {
         var item = document.createElement('li');
         var attachmentIcon = document.createElement('div');
-        attachmentIcon.innerHTML = hds_icons['paperclip'];
+        attachmentIcon.innerHTML = hds_wp['paperclip'];
         item.appendChild(attachmentIcon.firstChild);
         var title = document.createElement('div');
         title.classList.add('file-item-title');
@@ -160,10 +159,10 @@ hdsAccordions.init(parseAccordionElements());
           clearFileList();
         });
         var crossIcon = document.createElement('div');
-        crossIcon.innerHTML = hds_icons['cross'];
+        crossIcon.innerHTML = hds_wp['cross'];
         button.appendChild(crossIcon.firstChild);
         var buttonSpan = document.createElement('span');
-        buttonSpan.appendChild(document.createTextNode(__('Remove', 'hds-wp')));
+        buttonSpan.appendChild(document.createTextNode(hds_wp['remove']));
         button.appendChild(buttonSpan);
         item.appendChild(button);
         fileList.appendChild(item);

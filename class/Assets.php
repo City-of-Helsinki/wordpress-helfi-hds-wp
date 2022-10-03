@@ -123,9 +123,10 @@ class Assets extends Module {
 			true
 		);
 
-		wp_localize_script('helsinki-wp-scripts', 'hds_icons', array(
+		wp_localize_script('helsinki-wp-scripts', 'hds_wp', array(
 			'cross' => Svg::icon('arrows-operators', 'cross'),
-			'paperclip' => Svg::icon('forms-data', 'paperclip')
+			'paperclip' => Svg::icon('forms-data', 'paperclip'),
+			'remove' => __('Remove', 'hds-wp')
 		) );
 	}
 

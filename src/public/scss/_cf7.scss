@@ -115,7 +115,16 @@
 
             button {
                 padding: 0 spacing('2-xs');
-                min-height: unset;
+                min-height: 44px;
+                align-content:flex-start;
+                align-items: center;
+                margin: -10px 0;
+                
+                span {
+                    line-height: 16px;
+                    display: block;
+                    padding: spacing('2-xs') spacing('xs');
+                }
             }
         }
     }
