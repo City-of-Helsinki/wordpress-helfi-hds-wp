@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Helsinki Design System for WordPress\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-05 14:10+0000\n"
-"PO-Revision-Date: 2022-08-12 08:27+0000\n"
+"PO-Revision-Date: 2022-10-03 09:24+0000\n"
 "Last-Translator: \n"
 "Language-Team: Suomi\n"
 "Language: fi\n"
@@ -14,6 +14,10 @@ msgstr ""
 "X-Generator: Loco https://localise.biz/\n"
 "X-Loco-Version: 2.6.0; wp-6.0.1\n"
 "X-Domain: hds-wp"
+
+#: integrations/plugins/contact-form-7.php:17
+msgid "Add file"
+msgstr "Lisää tiedosto"
 
 #: config/integrations/types.php:14
 msgid "Add Helsinki styling to contact forms."
@@ -325,6 +329,10 @@ msgid ""
 msgstr ""
 "Mahdollistaa yleiset Helsinki-tyylit, resurssit ja lohkot, sekä integraation "
 "Helsingin rajapintoihin ja eri lisäosiin."
+
+#: src/public/js/contact-form-7.js:79
+msgid "Remove"
+msgstr "Poista"
 
 #: assets/admin/js/scripts.js:25 src/admin/js/admin.js:28
 msgid "Remove image"

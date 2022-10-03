@@ -118,10 +118,15 @@ class Assets extends Module {
 		wp_enqueue_script(
 			'helsinki-wp-scripts',
 			$this->assetUrl('public', 'scripts', $this->minified, 'js'),
-			apply_filters( 'hds_wp_scripts_dependencies', array('jquery') ),
+			apply_filters( 'hds_wp_scripts_dependencies', array('jquery', 'wp-i18n') ),
 			$this->assetVersion( $this->assetPath('public', 'scripts', $this->minified, 'js') ),
 			true
 		);
+
+		wp_localize_script('helsinki-wp-scripts', 'hds_icons', array(
+			'cross' => Svg::icon('arrows-operators', 'cross'),
+			'paperclip' => Svg::icon('forms-data', 'paperclip')
+		) );
 	}
 
 	public function publicStyles() {
