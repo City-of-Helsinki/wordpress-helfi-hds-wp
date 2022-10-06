@@ -888,6 +888,10 @@ function hdsIcons(name) {
       Button = _wp$components4.Button,
       TextControl = _wp$components4.TextControl,
       SelectControl = _wp$components4.SelectControl;
+  var _wp$data2 = wp.data,
+      withSelect = _wp$data2.withSelect,
+      select = _wp$data2.select,
+      dispatch = _wp$data2.dispatch;
   var PostTypeSelect = hdsWithPostTypeSelectControl();
   var PostSearch = hdsSearchPostsTextControl();
 
@@ -906,6 +910,13 @@ function hdsIcons(name) {
 
   function edit() {
     return function (props) {
+      var clientId = props.clientId;
+      var parent = select('core/block-editor').getBlocksByClientId(select('core/block-editor').getBlockHierarchyRootClientId(clientId))[0];
+      dispatch('core/block-editor').updateBlockAttributes(parent.clientId, {
+        cards: select('core/block-editor').getBlocks(parent.clientId).map(function (block) {
+          return block.attributes.postId;
+        })
+      });
       return createElement(Fragment, {}, panelControls(props), placeholder(props));
     };
   }
@@ -953,9 +964,9 @@ function hdsIcons(name) {
       BlockControls = _wp$blockEditor5.BlockControls,
       InnerBlocks = _wp$blockEditor5.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data2 = wp.data,
-      select = _wp$data2.select,
-      useSelect = _wp$data2.useSelect;
+  var _wp$data3 = wp.data,
+      select = _wp$data3.select,
+      useSelect = _wp$data3.useSelect;
   var _wp$components5 = wp.components,
       ToolbarGroup = _wp$components5.ToolbarGroup,
       ToolbarButton = _wp$components5.ToolbarButton,
@@ -1509,7 +1520,10 @@ function hdsIcons(name) {
       BlockControls = _wp$blockEditor8.BlockControls,
       InnerBlocks = _wp$blockEditor8.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var withSelect = wp.data.withSelect;
+  var _wp$data4 = wp.data,
+      withSelect = _wp$data4.withSelect,
+      select = _wp$data4.select,
+      dispatch = _wp$data4.dispatch;
   var compose = wp.compose.compose;
   var apiFetch = wp.apiFetch;
   var _wp$components8 = wp.components,
@@ -1638,6 +1652,13 @@ function hdsIcons(name) {
 
   function edit() {
     return function (props) {
+      var clientId = props.clientId;
+      var parent = select('core/block-editor').getBlocksByClientId(select('core/block-editor').getBlockHierarchyRootClientId(clientId))[0];
+      dispatch('core/block-editor').updateBlockAttributes(parent.clientId, {
+        links: select('core/block-editor').getBlocks(parent.clientId).map(function (block) {
+          return block.attributes;
+        })
+      });
       var parent = getParentBlock(props.clientId);
       return createElement(Fragment, {}, toolbar(props, parent.attributes.linkType), panelControls(parent.attributes.linkType, props), placeholder(parent.attributes.linkType, props));
     };
@@ -1726,9 +1747,9 @@ function hdsIcons(name) {
       BlockControls = _wp$blockEditor9.BlockControls,
       InnerBlocks = _wp$blockEditor9.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data3 = wp.data,
-      select = _wp$data3.select,
-      useSelect = _wp$data3.useSelect;
+  var _wp$data5 = wp.data,
+      select = _wp$data5.select,
+      useSelect = _wp$data5.useSelect;
   var _wp$components9 = wp.components,
       ToolbarGroup = _wp$components9.ToolbarGroup,
       ToolbarButton = _wp$components9.ToolbarButton,
@@ -1890,9 +1911,9 @@ function hdsIcons(name) {
       ToolbarGroup = _wp$components10.ToolbarGroup,
       ToolbarButton = _wp$components10.ToolbarButton,
       Button = _wp$components10.Button;
-  var _wp$data4 = wp.data,
-      select = _wp$data4.select,
-      useSelect = _wp$data4.useSelect;
+  var _wp$data6 = wp.data,
+      select = _wp$data6.select,
+      useSelect = _wp$data6.useSelect;
 
   function edit() {
     return function (props) {
@@ -1987,9 +2008,9 @@ function hdsIcons(name) {
       ToolbarButton = _wp$components11.ToolbarButton,
       Button = _wp$components11.Button,
       ToggleControl = _wp$components11.ToggleControl;
-  var _wp$data5 = wp.data,
-      select = _wp$data5.select,
-      dispatch = _wp$data5.dispatch;
+  var _wp$data7 = wp.data,
+      select = _wp$data7.select,
+      dispatch = _wp$data7.dispatch;
 
   function timelineTitle(props) {
     if (props.attributes.title != null && props.attributes.title != '') {
@@ -2117,9 +2138,9 @@ function hdsIcons(name) {
       BlockControls = _wp$blockEditor12.BlockControls,
       InnerBlocks = _wp$blockEditor12.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data6 = wp.data,
-      select = _wp$data6.select,
-      useSelect = _wp$data6.useSelect;
+  var _wp$data8 = wp.data,
+      select = _wp$data8.select,
+      useSelect = _wp$data8.useSelect;
   var _wp$components12 = wp.components,
       ToolbarGroup = _wp$components12.ToolbarGroup,
       ToolbarButton = _wp$components12.ToolbarButton,
@@ -2228,9 +2249,9 @@ function hdsIcons(name) {
       BlockControls = _wp$blockEditor13.BlockControls,
       InnerBlocks = _wp$blockEditor13.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data7 = wp.data,
-      select = _wp$data7.select,
-      useSelect = _wp$data7.useSelect;
+  var _wp$data9 = wp.data,
+      select = _wp$data9.select,
+      useSelect = _wp$data9.useSelect;
   var _wp$components13 = wp.components,
       ToolbarGroup = _wp$components13.ToolbarGroup,
       ToolbarButton = _wp$components13.ToolbarButton,
