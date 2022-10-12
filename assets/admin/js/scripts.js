@@ -1128,6 +1128,10 @@ function hdsIcons(name) {
 
     if (getBlockType('core/media-text')) {
       unregisterBlockType('core/media-text');
+    }
+
+    if (getBlockType('core/rss')) {
+      unregisterBlockType('core/rss');
     } //Disable theme blocks
 
 
@@ -1279,9 +1283,6 @@ function hdsIcons(name) {
       unregisterBlockType('core/post-content');
     } //Disable blocks for posts
 
-    if (getBlockType('core/rss')) {
-      unregisterBlockType('core/rss');
-    }
 
     if (document.querySelector('body').classList.contains('post-type-post')) {
       if (getBlockType('hds-wp/accordion')) {
