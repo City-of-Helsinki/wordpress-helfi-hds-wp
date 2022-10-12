@@ -1,0 +1,7 @@
+.wp-block-tag-cloud {
+    &:not(.is-style-outline) {
+        a {
+            @include tagLink();
+        }
+    }
+}
