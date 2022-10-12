@@ -185,7 +185,20 @@
 
 	function edit() {
 		return function(props) {
-      var parent = getParentBlock(props.clientId);
+			var parent = getParentBlock(props.clientId);
+			if (props.attributes.hasOwnProperty('isExternalUrl') && props.attributes.isExternalUrl != null) {
+				if (props.attributes.isExternalUrl) {
+					props.attributes.linkDir = 'external';
+				}
+				else {
+					props.attributes.linkDir = 'internal';
+				}
+				props.attributes.isExternalUrl = null;
+			}
+			else if (!props.attributes.hasOwnProperty('linkDir')) {
+				props.attributes.linkDir = 'internal';
+			}
+
 			return createElement(
 				Fragment, {},
 				toolbar( props, parent.attributes.linkType ),
@@ -229,7 +242,6 @@
 			},
 			linkDir: {
 				type: 'string',
-				default: 'internal',
 			},
 			targetBlank: {
 				type: 'boolean',
@@ -237,7 +249,6 @@
 			},
 			isExternalUrl: {
 				type: 'boolean',
-				default: false
 			},
 			mediaId: {
 				type: 'number',
@@ -263,10 +274,10 @@
 				type: 'string',
 				default: '',
 			},
-      search: {
-        type: 'string',
-				default: ''
-      },
+			search: {
+				type: 'string',
+						default: ''
+			},
 		},
 		edit: edit(),
 	});

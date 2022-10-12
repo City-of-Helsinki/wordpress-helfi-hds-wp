@@ -389,7 +389,6 @@ function hdsWithSearchPosts(control) {
         return wp.apiFetch({
           path: '/wp/v2/posts?' + params.join('&')
         }).then(function (posts) {
-          console.log("inininin");
           return wp.apiFetch({
             path: '/wp/v2/pages?' + params.join('&')
           }).then(function (pages) {
@@ -464,7 +463,6 @@ function hdsSearchPostsTextControl() {
 
         if (text.length >= 3) {
           props.searchPosts(text).then(function (posts) {
-            console.log(posts);
             populateFoundPosts(posts, props);
           });
         }
@@ -1739,6 +1737,19 @@ function hdsIcons(name) {
   function edit() {
     return function (props) {
       var parent = getParentBlock(props.clientId);
+
+      if (props.attributes.hasOwnProperty('isExternalUrl') && props.attributes.isExternalUrl != null) {
+        if (props.attributes.isExternalUrl) {
+          props.attributes.linkDir = 'external';
+        } else {
+          props.attributes.linkDir = 'internal';
+        }
+
+        props.attributes.isExternalUrl = null;
+      } else if (!props.attributes.hasOwnProperty('linkDir')) {
+        props.attributes.linkDir = 'internal';
+      }
+
       return createElement(Fragment, {}, toolbar(props, parent.attributes.linkType), panelControls(parent.attributes.linkType, props), placeholder(parent.attributes.linkType, props));
     };
   }
@@ -1776,16 +1787,14 @@ function hdsIcons(name) {
         default: ''
       },
       linkDir: {
-        type: 'string',
-        default: 'internal'
+        type: 'string'
       },
       targetBlank: {
         type: 'boolean',
         default: false
       },
       isExternalUrl: {
-        type: 'boolean',
-        default: false
+        type: 'boolean'
       },
       mediaId: {
         type: 'number',
