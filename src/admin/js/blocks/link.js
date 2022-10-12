@@ -5,7 +5,7 @@
 	const { Fragment, createElement } = wp.element;
 	const { useBlockProps, BlockControls, InnerBlocks } = wp.blockEditor;
 	const { InspectorControls } = wp.editor;
-	const { withSelect } = wp.data;
+	const { withSelect, select, dispatch } = wp.data;
 	const compose = wp.compose.compose;
 	const apiFetch = wp.apiFetch;
 	const { Button, TextControl, SelectControl, ToolbarGroup, ToolbarButton } = wp.components;
@@ -132,7 +132,21 @@
 
 
 	function edit() {
+
 		return function(props) {
+			const {
+				clientId
+			} = props;
+		
+			var parent = select('core/block-editor').getBlocksByClientId(select('core/block-editor').getBlockHierarchyRootClientId( clientId ))[0];
+			dispatch('core/block-editor').updateBlockAttributes(parent.clientId, {
+				links: select('core/block-editor')
+				.getBlocks(parent.clientId)
+				.map(function(block){
+				  return block.attributes;
+				})
+			});
+	
       var parent = getParentBlock(props.clientId);
 			return createElement(
 				Fragment, {},
