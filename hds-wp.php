@@ -4,7 +4,7 @@ namespace ArtCloud\Helsinki\Plugin\HDS;
 /**
   * Plugin Name: WordPress Helsinki
   * Description: Provides common Helsinki styles, assets and blocks, and integrations to Helsinki APIs and various plugins.
-  * Version: 1.9.1
+  * Version: 1.10.0
   * License: MIT
   * Requires at least: 5.7
   * Requires PHP:      7.1
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
   exit;
 }
 
-define( __NAMESPACE__ . '\\PLUGIN_VERSION', '1.9.1' );
+define( __NAMESPACE__ . '\\PLUGIN_VERSION', '1.10.0' );
 define( __NAMESPACE__ . '\\PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( __NAMESPACE__ . '\\PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( __NAMESPACE__ . '\\PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -195,10 +195,19 @@ function textdomain() {
 	);
 }
 
-add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\\script_translations', 9999 );
-function script_translations() {
+add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\\admin_script_translations', 9999 );
+function admin_script_translations() {
     wp_set_script_translations(
         'helsinki-wp-admin-scripts',
+        'hds-wp',
+        plugin_dir_path( __FILE__ ) . 'languages'
+    );
+}
+
+add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\public_script_translations', 9999 );
+function public_script_translations() {
+    wp_set_script_translations(
+        'helsinki-wp-scripts',
         'hds-wp',
         plugin_dir_path( __FILE__ ) . 'languages'
     );
