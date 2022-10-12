@@ -35,6 +35,9 @@
         if(getBlockType('core/media-text')) {
             unregisterBlockType( 'core/media-text' );
         }
+        if(getBlockType('core/rss')) {
+            unregisterBlockType( 'core/rss' );
+        }
 
         //Disable theme blocks
         if(getBlockType('core/avatar')) {
