@@ -1128,6 +1128,159 @@ function hdsIcons(name) {
 
     if (getBlockType('core/media-text')) {
       unregisterBlockType('core/media-text');
+    } //Disable theme blocks
+
+
+    if (getBlockType('core/avatar')) {
+      unregisterBlockType('core/avatar');
+    }
+
+    if (getBlockType('core/comment-author-name')) {
+      unregisterBlockType('core/comment-author-name');
+    }
+
+    if (getBlockType('core/comment-content')) {
+      unregisterBlockType('core/comment-content');
+    }
+
+    if (getBlockType('core/comment-date')) {
+      unregisterBlockType('core/comment-date');
+    }
+
+    if (getBlockType('core/comment-edit-link')) {
+      unregisterBlockType('core/comment-edit-link');
+    }
+
+    if (getBlockType('core/comment-reply-link')) {
+      unregisterBlockType('core/comment-reply-link');
+    }
+
+    if (getBlockType('core/comments')) {
+      unregisterBlockType('core/comments');
+    }
+
+    if (getBlockType('core/comments-query-loop')) {
+      unregisterBlockType('core/comments-query-loop');
+    }
+
+    if (getBlockType('core/comments-pagination')) {
+      unregisterBlockType('core/comments-pagination');
+    }
+
+    if (getBlockType('core/comments-pagination-numbers')) {
+      unregisterBlockType('core/comments-pagination-numbers');
+    }
+
+    if (getBlockType('core/comments-pagination-previous')) {
+      unregisterBlockType('core/comments-pagination-previous');
+    }
+
+    if (getBlockType('core/comments-title')) {
+      unregisterBlockType('core/comments-title');
+    }
+
+    if (getBlockType('core/loginout')) {
+      unregisterBlockType('core/loginout');
+    }
+
+    if (getBlockType('core/navigation')) {
+      unregisterBlockType('core/navigation');
+    }
+
+    if (getBlockType('core/post-author')) {
+      unregisterBlockType('core/post-author');
+    }
+
+    if (getBlockType('core/post-author-biography')) {
+      unregisterBlockType('core/post-author-biography');
+    }
+
+    if (getBlockType('core/post-author-name')) {
+      unregisterBlockType('core/post-author-name');
+    }
+
+    if (getBlockType('core/post-comments-form')) {
+      unregisterBlockType('core/post-comments-form');
+    }
+
+    if (getBlockType('core/post-date')) {
+      unregisterBlockType('core/post-date');
+    }
+
+    if (getBlockType('core/post-excerpt')) {
+      unregisterBlockType('core/post-excerpt');
+    }
+
+    if (getBlockType('core/post-featured-image')) {
+      unregisterBlockType('core/post-featured-image');
+    }
+
+    if (getBlockType('core/post-navigation-link')) {
+      unregisterBlockType('core/post-navigation-link');
+    }
+
+    if (getBlockType('core/post-terms')) {
+      unregisterBlockType('core/post-terms');
+    }
+
+    if (getBlockType('core/post-title')) {
+      unregisterBlockType('core/post-title');
+    }
+
+    if (getBlockType('core/read-more')) {
+      unregisterBlockType('core/read-more');
+    }
+
+    if (getBlockType('core/site-logo')) {
+      unregisterBlockType('core/site-logo');
+    }
+
+    if (getBlockType('core/site-tagline')) {
+      unregisterBlockType('core/site-tagline');
+    }
+
+    if (getBlockType('core/site-title')) {
+      unregisterBlockType('core/site-title');
+    }
+
+    if (getBlockType('core/term-description')) {
+      unregisterBlockType('core/term-description');
+    }
+
+    if (getBlockType('core/query')) {
+      unregisterBlockType('core/query');
+    }
+
+    if (getBlockType('core/query-no-results')) {
+      unregisterBlockType('core/query-no-results');
+    }
+
+    if (getBlockType('core/query-pagination')) {
+      unregisterBlockType('core/query-pagination');
+    }
+
+    if (getBlockType('core/query-pagination-next')) {
+      unregisterBlockType('core/query-pagination-next');
+    }
+
+    if (getBlockType('core/query-pagination-numbers')) {
+      unregisterBlockType('core/query-pagination-numbers');
+    }
+
+    if (getBlockType('core/query-pagination-previous')) {
+      unregisterBlockType('core/query-pagination-previous');
+    }
+
+    if (getBlockType('core/query-title')) {
+      unregisterBlockType('core/query-title');
+    }
+
+    if (getBlockType('core/post-content')) {
+      unregisterBlockType('core/post-content');
+    } //Disable blocks for posts
+
+    if (getBlockType('core/rss')) {
+      unregisterBlockType('core/rss');
     }
 
     if (document.querySelector('body').classList.contains('post-type-post')) {
@@ -2358,6 +2511,53 @@ wp.domReady(function () {
 
   wp.blocks.unregisterBlockStyle('core/quote', 'plain');
 });
+
+(function (wp) {
+  function addColumnAttributes(settings, name) {
+    if (typeof settings.attributes !== 'undefined') {
+      if (name == 'core/column') {
+        settings.attributes = Object.assign(settings.attributes, {
+          allowedBlocks: {
+            type: 'array',
+            default: ['core/heading', 'core/paragraph', 'core/quote', 'core/table', 'core/list', 'core/freeform', 'core/image', 'core/video', 'core/audio', 'core/file', 'core/buttons', 'core/embed']
+          }
+        });
+      } else if (name == 'core/columns') {
+        settings.transforms.from[0].isMatch = function (attr, block) {
+          if (block[0].name.startsWith('hds-wp') || block[0].name.startsWith('helsinki')) {
+            return false;
+          }
+
+          return true;
+        };
+      }
+    }
+
+    return settings;
+  }
+
+  wp.hooks.addFilter('blocks.registerBlockType', 'column/custom-attributes', addColumnAttributes);
+})(window.wp);
+
+(function (wp) {
+  function addGroupAttributes(settings, name) {
+    if (typeof settings.attributes !== 'undefined') {
+      if (name == 'core/group') {
+        settings.transforms.from[0].isMatch = function (attr, block) {
+          if (block[0].name.startsWith('hds-wp') || block[0].name.startsWith('helsinki')) {
+            return false;
+          }
+
+          return true;
+        };
+      }
+    }
+
+    return settings;
+  }
+
+  wp.hooks.addFilter('blocks.registerBlockType', 'group/custom-attributes', addGroupAttributes);
+})(window.wp);
 
 (function (wp) {
   function addTableAttributes(settings, name) {

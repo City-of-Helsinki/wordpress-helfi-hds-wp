@@ -195,10 +195,19 @@ function textdomain() {
 	);
 }
 
-add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\\script_translations', 9999 );
-function script_translations() {
+add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\\admin_script_translations', 9999 );
+function admin_script_translations() {
     wp_set_script_translations(
         'helsinki-wp-admin-scripts',
+        'hds-wp',
+        plugin_dir_path( __FILE__ ) . 'languages'
+    );
+}
+
+add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\public_script_translations', 9999 );
+function public_script_translations() {
+    wp_set_script_translations(
+        'helsinki-wp-scripts',
         'hds-wp',
         plugin_dir_path( __FILE__ ) . 'languages'
     );
