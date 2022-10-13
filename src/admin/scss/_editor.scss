@@ -18,6 +18,44 @@
     }
 }
 
+.wp-block-embed {
+    .wp-block-embed__wrapper {
+        &:before {
+            padding-top: 56.25%;
+            content: "";
+            display: block;
+        }
+
+        iframe {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+    }
+}
+
+.wp-block-freeform {
+    dl {
+        border: none;
+        padding: 0;
+    }
+    dt {
+        float: none;
+        clear: left;
+        width: unset;
+        text-align:unset;
+        color: $black;
+
+        &:after {
+            content: '';
+        }
+    }
+}
+
 .wp-block-buttons {
     display: flex;
     flex-wrap: wrap;
