@@ -65,11 +65,13 @@ function hds_wp_render_block_content_cards( $attributes ) {
 		$koros,
 		$title,
 		implode( ' ', $gridClasses ),
-		implode( '', array_map( 'hds_wp_content_card_html', $posts ) )
+		implode( '', array_map( function($post) use ($attributes) {
+			return hds_wp_content_card_html($post, $attributes);
+		}, $posts ) )
 	);
 }
 
-function hds_wp_content_card_html( WP_Post $post ) {
+function hds_wp_content_card_html( WP_Post $post, $attributes) {
 	$image = get_the_post_thumbnail( $post, 'medium' );
 	$has_placeholder = false;
 	if ( ! $image ) {
@@ -86,6 +88,13 @@ function hds_wp_content_card_html( WP_Post $post ) {
 		);
 	}
 
+	$excerpt = '';
+	if (isset($attributes['linkType']) && $attributes['linkType'] == 'image-title-excerpt' && !empty($post->post_excerpt)) {
+		$excerpt = sprintf(
+			'<p class="card__excerpt">%s</p>',
+			$post->post_excerpt );
+	}
+
 	$date = 'post' === $post->post_type ? sprintf(
 			'<p class="card__date">%s</p>',
 			get_the_date( '', $post )
@@ -99,6 +108,7 @@ function hds_wp_content_card_html( WP_Post $post ) {
 		),
 		'content_open' => '<div class="card__content">',
 		'title' => '<h3 class="card__title">' . esc_html( $post->post_title ) . '</h3>',
+		'excerpt' => $excerpt,
 		'date' => $date,
 		'more' => '<div class="card__more">' . Svg::icon( 'arrows-operators', 'arrow-right' ) . '</div>',
 		'content_close' => '</div>',

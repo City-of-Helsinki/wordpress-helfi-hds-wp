@@ -8,14 +8,27 @@
 	const { Button, TextControl, SelectControl } = wp.components;
 	const { withSelect, select, dispatch } = wp.data;
 
-  const PostTypeSelect = hdsWithPostTypeSelectControl();
-  const PostSearch = hdsSearchPostsTextControl();
+	const PostTypeSelect = hdsWithPostTypeSelectControl();
+	const PostSearch = hdsSearchPostsTextControl();
+
+	function removePostButton(props) {
+		return hdsRemovePostControl({
+			text: wp.i18n.__( 'Detach post', 'hds-wp' )
+		}, props);
+	}
 
 	function panelControls(props) {
+		var controls = [];
+		controls.push(PostSearch);
+		if (props.attributes.postId != 0) {
+			controls.push(removePostButton);
+		}
+
 		return hdsInspectorControls(
 			{ title: __( 'Settings', 'hds-wp' ), initialOpen: false },
-      hdsPanelRow( {}, createElement(PostTypeSelect, props) ),
-      hdsPanelRow( {}, createElement(PostSearch, props) )
+			controls.map(function(control){
+				return hdsPanelRow({}, createElement(control, props));
+			  })
 		);
 	}
 
