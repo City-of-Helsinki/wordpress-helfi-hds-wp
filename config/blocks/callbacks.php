@@ -126,6 +126,20 @@ function hds_wp_query_block_post_ids( array $posts ) {
 	return $query->posts;
 }
 
+function hds_wp_query_block_post_id( int $post ) {
+	$query = new WP_Query( array(
+		'post_status' => 'publish',
+		'post_type' => array( 'post', 'page' ),
+		'p' => $post,
+		'no_found_rows' => true,
+		'update_post_term_cache' => false,
+		'ignore_sticky_posts' => 1,
+		'orderby' => 'post__in'
+	) );
+	return $query;
+}
+
+
 /**
   * Helsinki - Links
   */
@@ -260,6 +274,28 @@ function hds_wp_render_link_icon( bool $external ) {
 }
 
 function hds_wp_render_link_with_title( array $link ) {
+	if (isset($link['postId']) && $link['postId'] != 0 && isset($link['linkDir']) && $link['linkDir'] == 'internal') {
+		$posts = hds_wp_query_block_post_id( $link['postId'] );
+		if ($posts->have_posts()) {
+			$post = $posts->posts[0];
+			$link['linkTitle'] = $post->post_title;
+			$link['linkUrl'] = get_permalink( $post );
+			$link['isExternalUrl'] = false;
+			$link['targetBlank'] = false;
+		}
+		else {
+			return;
+		}
+	}
+	else {
+		if (isset($link['linkDir'])) {
+			$link['isExternalUrl'] = $link['linkDir'] == 'internal' ? false : true;
+		}
+		else if (!isset($link['isExternalUrl'] )) {
+			$link['isExternalUrl'] = false;
+		}
+	}
+
 	if ( empty( $link['linkTitle'] ) || empty( $link['linkUrl'] ) ) {
 		return;
 	}
@@ -277,6 +313,29 @@ function hds_wp_render_link_with_title( array $link ) {
 }
 
 function hds_wp_render_link_with_title_excerpt( array $link ) {
+	if (isset($link['postId']) && $link['postId'] != 0 && isset($link['linkDir']) && $link['linkDir'] == 'internal') {
+		$posts = hds_wp_query_block_post_id( $link['postId'] );
+		if ($posts->have_posts()) {
+			$post = $posts->posts[0];
+			$link['linkTitle'] = $post->post_title;
+			$link['linkExcerpt'] = $post->post_excerpt;
+			$link['linkUrl'] = get_permalink( $post );
+			$link['isExternalUrl'] = false;
+			$link['targetBlank'] = false;
+		}
+		else {
+			return;
+		}
+	}
+	else {
+		if (isset($link['linkDir'])) {
+			$link['isExternalUrl'] = $link['linkDir'] == 'internal' ? false : true;
+		}
+		else if (!isset($link['isExternalUrl'] )) {
+			$link['isExternalUrl'] = false;
+		}
+	}
+
 	if ( empty( $link['linkTitle'] ) || empty( $link['linkUrl'] ) ) {
 		return;
 	}
@@ -301,6 +360,30 @@ function hds_wp_render_link_with_title_excerpt( array $link ) {
 }
 
 function hds_wp_render_link_with_image_title( array $link ) {
+	if (isset($link['postId']) && $link['postId'] != 0 && isset($link['linkDir']) && $link['linkDir'] == 'internal') {
+		$posts = hds_wp_query_block_post_id( $link['postId'] );
+		if ($posts->have_posts()) {
+			$post = $posts->posts[0];
+			$link['linkTitle'] = $post->post_title;
+			$link['linkExcerpt'] = $post->post_excerpt;
+			$link['mediaId'] = get_post_thumbnail_id($post);
+			$link['linkUrl'] = get_permalink( $post );
+			$link['isExternalUrl'] = false;
+			$link['targetBlank'] = false;
+		}
+		else {
+			return;
+		}
+	}
+	else {
+		if (isset($link['linkDir'])) {
+			$link['isExternalUrl'] = $link['linkDir'] == 'internal' ? false : true;
+		}
+		else if (!isset($link['isExternalUrl'] )) {
+			$link['isExternalUrl'] = false;
+		}
+	}
+
 	if ( empty( $link['linkTitle'] ) || empty( $link['linkUrl'] ) ) {
 		return;
 	}
