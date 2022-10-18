@@ -21,7 +21,6 @@ add_filter('wpcf7_form_elements', function($elements){
 });
 
 add_filter('wpcf7_form_tag', function($scanned_tag, $replace){
-
 	if ( ! isset( $scanned_tag['basetype'] ) ) {
 		return $scanned_tag;
 	}
