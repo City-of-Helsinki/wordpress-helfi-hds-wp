@@ -160,7 +160,12 @@ function hdsTargetBlankControl(props) {
   return hdsCheckboxControl({
     label: wp.i18n.__('Open in new window', 'hds-wp'),
     checked: props.attributes.targetBlank,
-    attribute: 'targetBlank'
+    attribute: 'targetBlank',
+    help: wp.element.createElement('p', {}, wp.i18n.__('The link\'s description must clearly state it opens in a new tab, and it must fulfill accessibility requirements. ', 'hds-wp'), wp.element.createElement('a', {
+      href: 'https://www.w3.org/WAI/WCAG21/Techniques/general/G200.html',
+      target: '_blank'
+    }, wp.i18n.__('Check WCGA 3.2.5 accessibility requirements (the link opens in a new tab).', 'hds-wp'))),
+    helpVisibility: 'toggled'
   }, props);
 }
 
@@ -213,6 +218,7 @@ function hdsCheckboxControl(config, props) {
   return wp.element.createElement(wp.components.PanelRow, {}, wp.element.createElement(wp.components.CheckboxControl, {
     label: config.label,
     checked: config.checked,
+    help: config.helpVisibility == 'always' || config.helpVisibility == 'toggled' && config.checked ? config.help : '',
     onChange: function onChange(value) {
       var newAttributes = {};
       newAttributes[config.attribute] = value;
@@ -379,11 +385,15 @@ function hdsWithSearchPosts(control) {
   return wp.compose.compose(wp.data.withSelect(function (select, props) {
     return {
       searchPosts: function searchPosts(searchInput) {
-        var postType = props.attributes.postType ? props.attributes.postType : 'post',
-            url = '/wp/v2/' + postType + 's?',
-            params = ['status=publish', 'per_page=100', 'search=' + searchInput];
+        var params = ['status=publish', 'per_page=100', 'search=' + searchInput];
         return wp.apiFetch({
-          path: url + params.join('&')
+          path: '/wp/v2/posts?' + params.join('&')
+        }).then(function (posts) {
+          return wp.apiFetch({
+            path: '/wp/v2/pages?' + params.join('&')
+          }).then(function (pages) {
+            return posts.concat(pages);
+          });
         });
       }
     };
@@ -397,12 +407,24 @@ function hdsSearchPostsTextControl() {
 
     for (var i = 0; i < posts.length; i++) {
       foundPostsList.appendChild(foundPostListItem(posts[i], function (post) {
+        highlightSelectedPost(event.target);
         props.setAttributes({
           postId: post.id,
-          postTitle: post.title.rendered
+          postTitle: post.title.rendered,
+          postExcerpt: post.excerpt.rendered
         });
       }));
     }
+  }
+
+  function highlightSelectedPost(target) {
+    var links = target.closest('#found-posts').querySelectorAll('a');
+
+    for (var i = 0; i < links.length; i++) {
+      links[i].classList.remove('selected');
+    }
+
+    target.classList.add('selected');
   }
 
   function clearFoundPosts(element) {
@@ -447,6 +469,22 @@ function hdsSearchPostsTextControl() {
       }
     }), FoundPosts));
   });
+}
+
+function hdsRemovePostControl(config, props) {
+  return wp.element.createElement(wp.components.PanelRow, {
+    className: 'detach-post-group'
+  }, wp.element.createElement('p', {}, props.attributes.postTitle), wp.element.createElement(wp.components.Button, {
+    text: config.text,
+    variant: 'primary',
+    isDestructive: true,
+    onClick: function onClick() {
+      props.setAttributes({
+        postId: 0,
+        postTitle: ''
+      });
+    }
+  }));
 }
 
 function hdsIcons(name) {
@@ -1686,6 +1724,14 @@ function hdsIcons(name) {
       SelectControl = _wp$components8.SelectControl,
       ToolbarGroup = _wp$components8.ToolbarGroup,
       ToolbarButton = _wp$components8.ToolbarButton;
+  var PostTypeSelect = hdsWithPostTypeSelectControl();
+  var PostSearch = hdsSearchPostsTextControl();
+
+  function removePostButton(props) {
+    return hdsRemovePostControl({
+      text: wp.i18n.__('Detach post', 'hds-wp')
+    }, props);
+  }
 
   function titleText(props) {
     return hdsTextControl({
@@ -1711,30 +1757,70 @@ function hdsIcons(name) {
     }, props);
   }
 
+  function linkDirectionControl(props) {
+    return hdsRadioControl({
+      label: wp.i18n.__('Link type', 'hds-wp'),
+      selected: props.attributes.linkDir,
+      attribute: 'linkDir',
+      options: [{
+        label: __('Internal link', 'hds-wp'),
+        value: 'internal'
+      }, {
+        label: __('External link', 'hds-wp'),
+        value: 'external'
+      }]
+    }, props);
+  }
+
   function panelControls(linkType, props) {
     var controls = [];
+    controls.push(linkDirectionControl);
 
     switch (linkType) {
       case 'title':
-        controls.push(titleText);
-        controls.push(urlText);
-        controls.push(hdsExternalUrlControl);
-        controls.push(hdsTargetBlankControl);
+        if (props.attributes.linkDir == 'internal') {
+          controls.push(PostSearch);
+
+          if (props.attributes.postId != 0) {
+            controls.push(removePostButton);
+          }
+        } else {
+          controls.push(titleText);
+          controls.push(urlText);
+          controls.push(hdsTargetBlankControl);
+        }
+
         break;
 
       case 'title-excerpt':
-        controls.push(titleText);
-        controls.push(excerptText);
-        controls.push(urlText);
-        controls.push(hdsExternalUrlControl);
-        controls.push(hdsTargetBlankControl);
+        if (props.attributes.linkDir == 'internal') {
+          controls.push(PostSearch);
+
+          if (props.attributes.postId != 0) {
+            controls.push(removePostButton);
+          }
+        } else {
+          controls.push(titleText);
+          controls.push(excerptText);
+          controls.push(urlText);
+          controls.push(hdsTargetBlankControl);
+        }
+
         break;
 
       case 'image-title':
-        controls.push(titleText);
-        controls.push(urlText);
-        controls.push(hdsExternalUrlControl);
-        controls.push(hdsTargetBlankControl);
+        if (props.attributes.linkDir == 'internal') {
+          controls.push(PostSearch);
+
+          if (props.attributes.postId != 0) {
+            controls.push(removePostButton);
+          }
+        } else {
+          controls.push(titleText);
+          controls.push(urlText);
+          controls.push(hdsTargetBlankControl);
+        }
+
         break;
     }
 
@@ -1748,11 +1834,23 @@ function hdsIcons(name) {
 
   function placeholder(linkType, props) {
     var title = props.attributes.linkTitle ? props.attributes.linkTitle : __('Helsinki - Link', 'hds-wp');
+
+    if (props.attributes.linkDir == 'internal' && props.attributes.postId != 0) {
+      title = props.attributes.postTitle ? props.attributes.postTitle : __('Helsinki - Link', 'hds-wp');
+    }
+
     var parts = [createElement('h3', {
       className: 'link___title'
     }, title)];
 
-    if (linkType === 'title-excerpt' && props.attributes.linkExcerpt) {
+    if (linkType === 'title-excerpt' && props.attributes.linkDir == 'internal' && props.attributes.postId != 0 && props.attributes.postExcerpt) {
+      var excerptWrapper = document.createElement("div");
+      excerptWrapper.innerHTML = props.attributes.postExcerpt; //used to remove extra <p>-tags from excerpt source
+
+      parts.push(createElement('p', {
+        className: 'link___excerpt'
+      }, excerptWrapper.innerText));
+    } else if (linkType === 'title-excerpt' && (props.attributes.linkDir != 'internal' || props.attributes.postId == 0) && props.attributes.linkExcerpt) {
       parts.push(createElement('p', {
         className: 'link___excerpt'
       }, props.attributes.linkExcerpt));
@@ -1772,7 +1870,7 @@ function hdsIcons(name) {
     if (linkType === 'image-title') {
       return createElement(BlockControls, {
         key: 'controls'
-      }, createElement(ToolbarGroup, {}, hdsMediaUpload(props.attributes.mediaId, function (media) {
+      }, createElement(ToolbarGroup, {}, props.attributes.linkDir == 'external' ? hdsMediaUpload(props.attributes.mediaId, function (media) {
         props.setAttributes({
           mediaId: media.id,
           mediaUrl: media.sizes.full.url,
@@ -1787,7 +1885,7 @@ function hdsIcons(name) {
           label: __('Select image', 'hds-wp'),
           onClick: mediaUpload.open
         });
-      })));
+      }) : ''));
     }
 
     return null;
@@ -1814,6 +1912,19 @@ function hdsIcons(name) {
         })
       });
       var parent = getParentBlock(props.clientId);
+
+      if (props.attributes.hasOwnProperty('isExternalUrl') && props.attributes.isExternalUrl != null) {
+        if (props.attributes.isExternalUrl) {
+          props.attributes.linkDir = 'external';
+        } else {
+          props.attributes.linkDir = 'internal';
+        }
+
+        props.attributes.isExternalUrl = null;
+      } else if (!props.attributes.hasOwnProperty('linkDir')) {
+        props.attributes.linkDir = 'internal';
+      }
+
       return createElement(Fragment, {}, toolbar(props, parent.attributes.linkType), panelControls(parent.attributes.linkType, props), placeholder(parent.attributes.linkType, props));
     };
   }
@@ -1842,17 +1953,23 @@ function hdsIcons(name) {
         type: 'string',
         default: ''
       },
+      postExcerpt: {
+        type: 'string',
+        default: ''
+      },
       linkUrl: {
         type: 'string',
         default: ''
+      },
+      linkDir: {
+        type: 'string'
       },
       targetBlank: {
         type: 'boolean',
         default: false
       },
       isExternalUrl: {
-        type: 'boolean',
-        default: false
+        type: 'boolean'
       },
       mediaId: {
         type: 'number',
