@@ -1,6 +1,15 @@
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
 p {
-  font-size: rem-calc(18);
-  line-height: $global-line-height;
+    font-size: $global-font-size-m;
+    line-height: $global-line-height;
+
+    @include breakpoint('l') {
+        font-size: $global-font-size;
+    }
 }
 
 p.has-lead-font-size {
