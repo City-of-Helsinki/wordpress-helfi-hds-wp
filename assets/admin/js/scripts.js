@@ -541,7 +541,9 @@ function hdsIcons(name) {
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var registerBlockType = wp.blocks.registerBlockType;
+  var _wp$blocks = wp.blocks,
+      registerBlockType = _wp$blocks.registerBlockType,
+      getBlockContent = _wp$blocks.getBlockContent;
   var _wp$element = wp.element,
       Fragment = _wp$element.Fragment,
       createElement = _wp$element.createElement;
@@ -555,7 +557,9 @@ function hdsIcons(name) {
       ToolbarButton = _wp$components.ToolbarButton,
       Button = _wp$components.Button,
       ToggleControl = _wp$components.ToggleControl;
-  var select = wp.data.select;
+  var _wp$data = wp.data,
+      select = _wp$data.select,
+      dispatch = _wp$data.dispatch;
 
   function closePanel(toggle, panel) {
     toggle.setAttribute('aria-expanded', 'false');
@@ -664,6 +668,14 @@ function hdsIcons(name) {
         });
       }
 
+      var innerContent = getBlockContent(select('core/block-editor').getBlock(props.clientId));
+      props.attributes.innerContent = innerContent;
+      var parent = select('core/block-editor').getBlocksByClientId(select('core/block-editor').getBlockHierarchyRootClientId(props.clientId))[0];
+      dispatch('core/block-editor').updateBlockAttributes(parent.clientId, {
+        panels: select('core/block-editor').getBlocks(parent.clientId).map(function (block) {
+          return block.attributes;
+        })
+      });
       return createElement(Fragment, {}, panelControls(props), createElement('div', useBlockProps({
         className: 'accordion__section'
       }), panelTitle(props), panelContent(props, InnerBlocks)));
@@ -674,9 +686,7 @@ function hdsIcons(name) {
     return function (props) {
       var parentClientId = select('core/block-editor').getBlockHierarchyRootClientId(props.attributes.blockId);
       var parentAttributes = select('core/block-editor').getBlockAttributes(parentClientId);
-      return createElement(Fragment, {}, createElement('div', useBlockProps.save({
-        className: 'accordion__section'
-      }), panelTitle(props), panelContent(props, InnerBlocks.Content)));
+      return createElement(InnerBlocks.Content, useBlockProps.save());
     };
   }
 
@@ -700,16 +710,32 @@ function hdsIcons(name) {
       headingLevel: {
         type: 'string',
         default: 'h2'
+      },
+      innerContent: {
+        type: 'string',
+        default: ''
       }
     },
     edit: edit(),
-    save: save()
+    save: save(),
+    deprecated: [{
+      save: function save(props) {
+        var parentClientId = select('core/block-editor').getBlockHierarchyRootClientId(props.attributes.blockId);
+        var parentAttributes = select('core/block-editor').getBlockAttributes(parentClientId);
+        return createElement(Fragment, {}, createElement('div', useBlockProps.save({
+          className: 'accordion__section'
+        }), panelTitle(props), panelContent(props, InnerBlocks.Content)));
+      }
+    }]
   });
 })(window.wp);
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var registerBlockType = wp.blocks.registerBlockType;
+  var _wp$blocks2 = wp.blocks,
+      registerBlockType = _wp$blocks2.registerBlockType,
+      getBlockContent = _wp$blocks2.getBlockContent,
+      hasChildBlocks = _wp$blocks2.hasChildBlocks;
   var _wp$element2 = wp.element,
       Fragment = _wp$element2.Fragment,
       createElement = _wp$element2.createElement;
@@ -723,9 +749,10 @@ function hdsIcons(name) {
       ToolbarButton = _wp$components2.ToolbarButton,
       Button = _wp$components2.Button,
       ToggleControl = _wp$components2.ToggleControl;
-  var _wp$data = wp.data,
-      select = _wp$data.select,
-      dispatch = _wp$data.dispatch;
+  var _wp$data2 = wp.data,
+      select = _wp$data2.select,
+      dispatch = _wp$data2.dispatch,
+      useSelect = _wp$data2.useSelect;
 
   function accordionTitle(props) {
     if (props.attributes.title != null && props.attributes.title != '') {
@@ -764,6 +791,8 @@ function hdsIcons(name) {
 
   function edit() {
     return function (props) {
+      props.attributes.blockVersion = 2;
+      var content = null;
       var clientId = props.clientId;
       var children = select('core/block-editor').getBlocksByClientId(clientId)[0].innerBlocks;
       children.forEach(function (child) {
@@ -777,24 +806,44 @@ function hdsIcons(name) {
           });
         }
       });
-      return createElement(Fragment, {}, accordionControls(props), createElement('div', useBlockProps({
-        className: 'accordion-wrapper'
-      }), accordionTitle(props), accordionDescription(props), createElement('div', {
-        className: 'accordion'
-      }, createElement(InnerBlocks, {
-        allowedBlocks: ['hds-wp/accordion-panel'],
-        template: [['hds-wp/accordion-panel', {}], ['hds-wp/accordion-panel', {}], ['hds-wp/accordion-panel', {}]]
-      }))));
+      var isParentOfSelectedBlock = useSelect(function (selectFrom) {
+        return select('core/block-editor').hasSelectedInnerBlock(props.clientId, true);
+      });
+      props.attributes.panels = select('core/block-editor').getBlocks(props.clientId).map(function (block) {
+        var innerContent = '';
+
+        if (block.innerBlocks.length > 0) {
+          innerContent = getBlockContent(select('core/block-editor').getBlock(block.clientId));
+        }
+
+        block.attributes.innerContent = innerContent;
+        return block.attributes;
+      });
+
+      if (props.isSelected || isParentOfSelectedBlock) {
+        content = createElement(Fragment, {}, accordionControls(props), createElement('div', {
+          className: 'accordion-wrapper'
+        }, accordionTitle(props), accordionDescription(props), createElement('div', {
+          className: 'accordion'
+        }, createElement(InnerBlocks, {
+          allowedBlocks: ['hds-wp/accordion-panel'],
+          template: [['hds-wp/accordion-panel', {}], ['hds-wp/accordion-panel', {}], ['hds-wp/accordion-panel', {}]]
+        }))));
+      } else {
+        content = createElement(wp.serverSideRender, {
+          block: 'hds-wp/accordion',
+          attributes: props.attributes,
+          httpMethod: 'POST'
+        });
+      }
+
+      return createElement(Fragment, {}, createElement('div', useBlockProps(), content));
     };
   }
 
   function save() {
     return function (props) {
-      return createElement(Fragment, {}, createElement('div', useBlockProps.save({
-        className: 'accordion-wrapper'
-      }), accordionTitle(props), accordionDescription(props), createElement('div', {
-        className: 'accordion'
-      }, createElement(InnerBlocks.Content))));
+      return createElement(InnerBlocks.Content, useBlockProps.save());
     };
   }
 
@@ -812,10 +861,26 @@ function hdsIcons(name) {
       },
       description: {
         type: 'string'
+      },
+      panels: {
+        type: 'array',
+        default: []
+      },
+      blockVersion: {
+        type: 'number'
       }
     },
     edit: edit(),
-    save: save()
+    save: save(),
+    deprecated: [{
+      save: function save(props) {
+        return createElement(Fragment, {}, createElement('div', useBlockProps.save({
+          className: 'accordion-wrapper'
+        }), accordionTitle(props), accordionDescription(props), createElement('div', {
+          className: 'accordion'
+        }, createElement(InnerBlocks.Content))));
+      }
+    }]
   });
 })(window.wp);
 
@@ -990,9 +1055,9 @@ function hdsIcons(name) {
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks = wp.blocks,
-      registerBlockType = _wp$blocks.registerBlockType,
-      getBlockContent = _wp$blocks.getBlockContent;
+  var _wp$blocks3 = wp.blocks,
+      registerBlockType = _wp$blocks3.registerBlockType,
+      getBlockContent = _wp$blocks3.getBlockContent;
   var _wp$element5 = wp.element,
       Fragment = _wp$element5.Fragment,
       createElement = _wp$element5.createElement,
@@ -1125,11 +1190,11 @@ function hdsIcons(name) {
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks2 = wp.blocks,
-      unregisterBlockType = _wp$blocks2.unregisterBlockType,
-      unregisterBlockVariation = _wp$blocks2.unregisterBlockVariation,
-      getBlockType = _wp$blocks2.getBlockType,
-      getBlockVariations = _wp$blocks2.getBlockVariations;
+  var _wp$blocks4 = wp.blocks,
+      unregisterBlockType = _wp$blocks4.unregisterBlockType,
+      unregisterBlockVariation = _wp$blocks4.unregisterBlockVariation,
+      getBlockType = _wp$blocks4.getBlockType,
+      getBlockVariations = _wp$blocks4.getBlockVariations;
   var allowedEmbedBlocks = ['youtube'];
   wp.domReady(function () {
     if (getBlockType('core/pullquote')) {
@@ -2006,9 +2071,9 @@ function hdsIcons(name) {
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks3 = wp.blocks,
-      registerBlockType = _wp$blocks3.registerBlockType,
-      getBlockContent = _wp$blocks3.getBlockContent;
+  var _wp$blocks5 = wp.blocks,
+      registerBlockType = _wp$blocks5.registerBlockType,
+      getBlockContent = _wp$blocks5.getBlockContent;
   var _wp$element9 = wp.element,
       Fragment = _wp$element9.Fragment,
       createElement = _wp$element9.createElement,
@@ -2168,9 +2233,9 @@ function hdsIcons(name) {
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks4 = wp.blocks,
-      registerBlockType = _wp$blocks4.registerBlockType,
-      getBlockContent = _wp$blocks4.getBlockContent;
+  var _wp$blocks6 = wp.blocks,
+      registerBlockType = _wp$blocks6.registerBlockType,
+      getBlockContent = _wp$blocks6.getBlockContent;
   var _wp$element10 = wp.element,
       Fragment = _wp$element10.Fragment,
       createElement = _wp$element10.createElement;
@@ -2397,9 +2462,9 @@ function hdsIcons(name) {
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks5 = wp.blocks,
-      registerBlockType = _wp$blocks5.registerBlockType,
-      getBlockContent = _wp$blocks5.getBlockContent;
+  var _wp$blocks7 = wp.blocks,
+      registerBlockType = _wp$blocks7.registerBlockType,
+      getBlockContent = _wp$blocks7.getBlockContent;
   var _wp$element12 = wp.element,
       Fragment = _wp$element12.Fragment,
       createElement = _wp$element12.createElement,
@@ -2508,9 +2573,9 @@ function hdsIcons(name) {
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks6 = wp.blocks,
-      registerBlockType = _wp$blocks6.registerBlockType,
-      getBlockContent = _wp$blocks6.getBlockContent;
+  var _wp$blocks8 = wp.blocks,
+      registerBlockType = _wp$blocks8.registerBlockType,
+      getBlockContent = _wp$blocks8.getBlockContent;
   var _wp$element13 = wp.element,
       Fragment = _wp$element13.Fragment,
       createElement = _wp$element13.createElement,
