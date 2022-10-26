@@ -3,6 +3,7 @@ return array(
 	'accordion' => array(
 		'title' => __( 'Helsinki - Accordion', 'hds-wp' ),
 		'category' => 'hds-wp',
+		'render_callback' => 'hds_wp_render_block_accordion',
 		'dependencies' => array(
 			'wp-blocks',
 			'wp-i18n',
@@ -11,6 +12,21 @@ return array(
 			'wp-editor',
 			'wp-data',
 		),
+		'attributes' => array(
+			'title' => array (
+				'type' => 'string'
+			),
+			'description' => array(
+				'type' => 'string',
+			),
+			'panels' => array(
+				'type' => 'array',
+				'default' => array(),
+			),
+			'blockVersion' => array(
+				'type' => 'integer',
+			)
+		)
 	),
 	'accordion-panel' => array(
 		'title' => __( 'Helsinki - Accordion Panel', 'hds-wp' ),
@@ -23,6 +39,20 @@ return array(
 			'wp-editor',
 			'wp-data',
 		),
+		'attributes' => array(
+			'panelTitle' => array (
+				'type' => 'string'
+			),
+			'blockId' => array(
+				'type' => 'string',
+			),
+			'headingLevel' => array(
+				'type' => 'string',
+			),
+			'innerContent' => array(
+				'type' => 'string',
+			),
+		)
 	),
 	'banner' => array(
 		'title' => __( 'Helsinki - Banner', 'hds-wp' ),
@@ -118,6 +148,10 @@ return array(
 	            'type'    => 'string',
 	            'default' => '',
 	        ),
+			'linkType' => array(
+	            'type'    => 'string',
+	            'default' => 'image-title',
+			),
 	        'cards' => array(
 	            'type'    => 'array',
 	            'default' => array(),

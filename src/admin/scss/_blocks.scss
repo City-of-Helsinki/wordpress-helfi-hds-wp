@@ -27,6 +27,8 @@
       border: none;
       margin-top: 0;
       padding: 0;
+      min-width: unset;
+      max-width: unset;
 
       .card__more {
         .icon {
