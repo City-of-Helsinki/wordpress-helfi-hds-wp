@@ -102,6 +102,12 @@ class Assets extends Module {
 			$this->assetVersion( $this->assetPath('admin', 'scripts', $this->minified, 'js') ),
 			true
 		);
+		wp_set_script_translations(
+			'helsinki-wp-admin-scripts',
+			'hds-wp',
+			untrailingslashit( PLUGIN_PATH ) . DIRECTORY_SEPARATOR . 'languages'
+		);
+	
 	}
 
 	public function adminStyles( string $hook ) {
@@ -112,16 +118,30 @@ class Assets extends Module {
 			$this->assetVersion( $this->assetPath('admin', 'styles', $this->minified, 'css') ),
 			'all'
 		);
+		if (function_exists('helsinki_theme_mod') && function_exists('helsinki_scheme_root_styles')) {
+			$current_scheme = helsinki_theme_mod('helsinki_general_style', 'scheme');
+			ob_start();
+			helsinki_scheme_root_styles($current_scheme);
+			$inlineStyle = ob_get_clean();
+			wp_add_inline_style('helsinki-wp-admin-styles', $inlineStyle);
+		}
+
 	}
 
 	public function publicScripts() {
 		wp_enqueue_script(
 			'helsinki-wp-scripts',
 			$this->assetUrl('public', 'scripts', $this->minified, 'js'),
-			apply_filters( 'hds_wp_scripts_dependencies', array('jquery') ),
+			apply_filters( 'hds_wp_scripts_dependencies', array('jquery', 'wp-i18n') ),
 			$this->assetVersion( $this->assetPath('public', 'scripts', $this->minified, 'js') ),
 			true
 		);
+
+		wp_localize_script('helsinki-wp-scripts', 'hds_wp', array(
+			'cross' => Svg::icon('arrows-operators', 'cross'),
+			'paperclip' => Svg::icon('forms-data', 'paperclip'),
+			'remove' => __('Remove', 'hds-wp')
+		) );
 	}
 
 	public function publicStyles() {

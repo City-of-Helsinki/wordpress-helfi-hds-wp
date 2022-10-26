@@ -6,6 +6,7 @@
 	const { useBlockProps, BlockControls, InnerBlocks } = wp.blockEditor;
 	const { InspectorControls } = wp.editor;
 	const { Button, TextControl, SelectControl } = wp.components;
+	const { withSelect, select, dispatch } = wp.data;
 
   const PostTypeSelect = hdsWithPostTypeSelectControl();
   const PostSearch = hdsSearchPostsTextControl();
@@ -30,6 +31,19 @@
 
 	function edit() {
 		return function(props) {
+			const {
+				clientId
+			} = props;
+		
+			var parent = select('core/block-editor').getBlocksByClientId(select('core/block-editor').getBlockHierarchyRootClientId( clientId ))[0];
+			dispatch('core/block-editor').updateBlockAttributes(parent.clientId, {
+				cards: select('core/block-editor')
+				.getBlocks(parent.clientId)
+				.map(function(block){
+				  return block.attributes.postId;
+				})
+			});
+
 			return createElement(
 				Fragment, {},
 				panelControls(props),

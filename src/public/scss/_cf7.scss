@@ -53,7 +53,7 @@
 
     .wpcf7-select {
 
-        +.select-chevron {
+        + .select-chevron {
             position: absolute;
             right: var(--spacing-s);
             top: -5px;
@@ -61,7 +61,7 @@
         }
 
         &.active {
-            +.select-chevron {
+            + .select-chevron {
                 transform: rotate(180deg);
             }
         }
@@ -70,6 +70,62 @@
         }
 
         &:focus {
+        }
+    }
+
+    input[type=file] {
+        display: none;
+    }
+
+    .form-file-input {
+        padding: 0 spacing('2-xs');
+
+        svg {
+            margin-left: spacing('s');
+        }
+
+        span {
+            padding: spacing('s');
+        }
+    }
+
+    .file-input-list {
+        list-style: none;
+        margin: var(--spacing-s) 0 0;
+        padding: 0;
+
+        li {
+            align-items: flex-start;
+            background-color: var(--color-info-light);
+            border-bottom: 2px dotted var(--color-coat-of-arms);
+            box-sizing: border-box;
+            display: flex;
+            padding: var(--spacing-s) var(--spacing-2-xs);
+            max-width: 100%;
+            width: 500px;
+
+            .file-item-title {
+                align-items: flex-start;
+                display: flex;
+                flex: 1;
+                flex-wrap: nowrap;
+                font-size: var(--fontsize-body-s);
+                margin: 2px var(--spacing-xs) 0 var(--spacing-2-xs);
+            }
+
+            button {
+                padding: 0 spacing('2-xs');
+                min-height: 44px;
+                align-content:flex-start;
+                align-items: center;
+                margin: -10px 0;
+                
+                span {
+                    line-height: 16px;
+                    display: block;
+                    padding: spacing('2-xs') spacing('xs');
+                }
+            }
         }
     }
 }
