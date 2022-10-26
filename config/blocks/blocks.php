@@ -148,6 +148,10 @@ return array(
 	            'type'    => 'string',
 	            'default' => '',
 	        ),
+			'linkType' => array(
+	            'type'    => 'string',
+	            'default' => 'image-title',
+			),
 	        'cards' => array(
 	            'type'    => 'array',
 	            'default' => array(),

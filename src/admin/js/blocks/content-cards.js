@@ -8,6 +8,13 @@
 	const { select, useSelect } = wp.data;
 	const { ToolbarGroup, ToolbarButton, Button, ToggleControl } = wp.components;
 
+  function linkTypeOptions() {
+    return [
+      {label:__( 'Image & Title', 'hds-wp' ), value: 'image-title'},
+      {label:__( 'Image, Title & Excerpt', 'hds-wp' ), value: 'image-title-excerpt'},
+    ];
+  }
+
   function columnCountOptions() {
     return [
       {label: 2 + ' ' + __( 'Columns', 'hds-wp' ), value: 2},
@@ -26,6 +33,12 @@
         label: __( 'Title', 'hds-wp' ),
         value: props.attributes.title,
         attribute: 'title',
+      }, props),
+      hdsSelectControl({
+        label: __( 'Link type', 'hds-wp' ),
+        value: props.attributes.linkType,
+        attribute: 'linkType',
+        options: linkTypeOptions()
       }, props),
       hdsSelectControl({
         label: __( 'Column count', 'hds-wp' ),
@@ -123,6 +136,10 @@
       title: {
 				type: 'string',
 				default: '',
+			},
+      linkType: {
+				type: 'string',
+				default: 'image-title',
 			},
       cards: {
 				type: 'array',

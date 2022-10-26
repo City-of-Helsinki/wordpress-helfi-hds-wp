@@ -998,11 +998,26 @@ function hdsIcons(name) {
   var PostTypeSelect = hdsWithPostTypeSelectControl();
   var PostSearch = hdsSearchPostsTextControl();
 
+  function removePostButton(props) {
+    return hdsRemovePostControl({
+      text: wp.i18n.__('Detach post', 'hds-wp')
+    }, props);
+  }
+
   function panelControls(props) {
+    var controls = [];
+    controls.push(PostSearch);
+
+    if (props.attributes.postId != 0) {
+      controls.push(removePostButton);
+    }
+
     return hdsInspectorControls({
       title: __('Settings', 'hds-wp'),
       initialOpen: false
-    }, hdsPanelRow({}, createElement(PostTypeSelect, props)), hdsPanelRow({}, createElement(PostSearch, props)));
+    }, controls.map(function (control) {
+      return hdsPanelRow({}, createElement(control, props));
+    }));
   }
 
   function placeholder(props) {
@@ -1076,6 +1091,16 @@ function hdsIcons(name) {
       Button = _wp$components5.Button,
       ToggleControl = _wp$components5.ToggleControl;
 
+  function linkTypeOptions() {
+    return [{
+      label: __('Image & Title', 'hds-wp'),
+      value: 'image-title'
+    }, {
+      label: __('Image, Title & Excerpt', 'hds-wp'),
+      value: 'image-title-excerpt'
+    }];
+  }
+
   function columnCountOptions() {
     return [{
       label: 2 + ' ' + __('Columns', 'hds-wp'),
@@ -1097,6 +1122,11 @@ function hdsIcons(name) {
       label: __('Title', 'hds-wp'),
       value: props.attributes.title,
       attribute: 'title'
+    }, props), hdsSelectControl({
+      label: __('Link type', 'hds-wp'),
+      value: props.attributes.linkType,
+      attribute: 'linkType',
+      options: linkTypeOptions()
     }, props), hdsSelectControl({
       label: __('Column count', 'hds-wp'),
       value: props.attributes.columns,
@@ -1173,6 +1203,10 @@ function hdsIcons(name) {
       title: {
         type: 'string',
         default: ''
+      },
+      linkType: {
+        type: 'string',
+        default: 'image-title'
       },
       cards: {
         type: 'array',
@@ -1969,13 +2003,6 @@ function hdsIcons(name) {
 
   function edit() {
     return function (props) {
-      var clientId = props.clientId;
-      var parent = select('core/block-editor').getBlocksByClientId(select('core/block-editor').getBlockHierarchyRootClientId(clientId))[0];
-      dispatch('core/block-editor').updateBlockAttributes(parent.clientId, {
-        links: select('core/block-editor').getBlocks(parent.clientId).map(function (block) {
-          return block.attributes;
-        })
-      });
       var parent = getParentBlock(props.clientId);
 
       if (props.attributes.hasOwnProperty('isExternalUrl') && props.attributes.isExternalUrl != null) {

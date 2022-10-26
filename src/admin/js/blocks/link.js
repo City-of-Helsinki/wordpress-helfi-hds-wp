@@ -199,7 +199,7 @@
 				})
 			});
 	
-      		parent = getParentBlock(props.clientId);
+      parent = getParentBlock(props.clientId);
 			if (props.attributes.hasOwnProperty('isExternalUrl') && props.attributes.isExternalUrl != null) {
 				if (props.attributes.isExternalUrl) {
 					props.attributes.linkDir = 'external';
