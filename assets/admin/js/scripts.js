@@ -160,7 +160,12 @@ function hdsTargetBlankControl(props) {
   return hdsCheckboxControl({
     label: wp.i18n.__('Open in new window', 'hds-wp'),
     checked: props.attributes.targetBlank,
-    attribute: 'targetBlank'
+    attribute: 'targetBlank',
+    help: wp.element.createElement('p', {}, wp.i18n.__('The link\'s description must clearly state it opens in a new tab, and it must fulfill accessibility requirements. ', 'hds-wp'), wp.element.createElement('a', {
+      href: 'https://www.w3.org/WAI/WCAG21/Techniques/general/G200.html',
+      target: '_blank'
+    }, wp.i18n.__('Check WCGA 3.2.5 accessibility requirements (the link opens in a new tab).', 'hds-wp'))),
+    helpVisibility: 'toggled'
   }, props);
 }
 
@@ -213,6 +218,7 @@ function hdsCheckboxControl(config, props) {
   return wp.element.createElement(wp.components.PanelRow, {}, wp.element.createElement(wp.components.CheckboxControl, {
     label: config.label,
     checked: config.checked,
+    help: config.helpVisibility == 'always' || config.helpVisibility == 'toggled' && config.checked ? config.help : '',
     onChange: function onChange(value) {
       var newAttributes = {};
       newAttributes[config.attribute] = value;
@@ -379,11 +385,15 @@ function hdsWithSearchPosts(control) {
   return wp.compose.compose(wp.data.withSelect(function (select, props) {
     return {
       searchPosts: function searchPosts(searchInput) {
-        var postType = props.attributes.postType ? props.attributes.postType : 'post',
-            url = '/wp/v2/' + postType + 's?',
-            params = ['status=publish', 'per_page=100', 'search=' + searchInput];
+        var params = ['status=publish', 'per_page=100', 'search=' + searchInput];
         return wp.apiFetch({
-          path: url + params.join('&')
+          path: '/wp/v2/posts?' + params.join('&')
+        }).then(function (posts) {
+          return wp.apiFetch({
+            path: '/wp/v2/pages?' + params.join('&')
+          }).then(function (pages) {
+            return posts.concat(pages);
+          });
         });
       }
     };
@@ -397,12 +407,24 @@ function hdsSearchPostsTextControl() {
 
     for (var i = 0; i < posts.length; i++) {
       foundPostsList.appendChild(foundPostListItem(posts[i], function (post) {
+        highlightSelectedPost(event.target);
         props.setAttributes({
           postId: post.id,
-          postTitle: post.title.rendered
+          postTitle: post.title.rendered,
+          postExcerpt: post.excerpt.rendered
         });
       }));
     }
+  }
+
+  function highlightSelectedPost(target) {
+    var links = target.closest('#found-posts').querySelectorAll('a');
+
+    for (var i = 0; i < links.length; i++) {
+      links[i].classList.remove('selected');
+    }
+
+    target.classList.add('selected');
   }
 
   function clearFoundPosts(element) {
@@ -447,6 +469,22 @@ function hdsSearchPostsTextControl() {
       }
     }), FoundPosts));
   });
+}
+
+function hdsRemovePostControl(config, props) {
+  return wp.element.createElement(wp.components.PanelRow, {
+    className: 'detach-post-group'
+  }, wp.element.createElement('p', {}, props.attributes.postTitle), wp.element.createElement(wp.components.Button, {
+    text: config.text,
+    variant: 'primary',
+    isDestructive: true,
+    onClick: function onClick() {
+      props.setAttributes({
+        postId: 0,
+        postTitle: ''
+      });
+    }
+  }));
 }
 
 function hdsIcons(name) {
@@ -503,7 +541,9 @@ function hdsIcons(name) {
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var registerBlockType = wp.blocks.registerBlockType;
+  var _wp$blocks = wp.blocks,
+      registerBlockType = _wp$blocks.registerBlockType,
+      getBlockContent = _wp$blocks.getBlockContent;
   var _wp$element = wp.element,
       Fragment = _wp$element.Fragment,
       createElement = _wp$element.createElement;
@@ -517,7 +557,9 @@ function hdsIcons(name) {
       ToolbarButton = _wp$components.ToolbarButton,
       Button = _wp$components.Button,
       ToggleControl = _wp$components.ToggleControl;
-  var select = wp.data.select;
+  var _wp$data = wp.data,
+      select = _wp$data.select,
+      dispatch = _wp$data.dispatch;
 
   function closePanel(toggle, panel) {
     toggle.setAttribute('aria-expanded', 'false');
@@ -626,6 +668,14 @@ function hdsIcons(name) {
         });
       }
 
+      var innerContent = getBlockContent(select('core/block-editor').getBlock(props.clientId));
+      props.attributes.innerContent = innerContent;
+      var parent = select('core/block-editor').getBlocksByClientId(select('core/block-editor').getBlockHierarchyRootClientId(props.clientId))[0];
+      dispatch('core/block-editor').updateBlockAttributes(parent.clientId, {
+        panels: select('core/block-editor').getBlocks(parent.clientId).map(function (block) {
+          return block.attributes;
+        })
+      });
       return createElement(Fragment, {}, panelControls(props), createElement('div', useBlockProps({
         className: 'accordion__section'
       }), panelTitle(props), panelContent(props, InnerBlocks)));
@@ -636,9 +686,7 @@ function hdsIcons(name) {
     return function (props) {
       var parentClientId = select('core/block-editor').getBlockHierarchyRootClientId(props.attributes.blockId);
       var parentAttributes = select('core/block-editor').getBlockAttributes(parentClientId);
-      return createElement(Fragment, {}, createElement('div', useBlockProps.save({
-        className: 'accordion__section'
-      }), panelTitle(props), panelContent(props, InnerBlocks.Content)));
+      return createElement(InnerBlocks.Content, useBlockProps.save());
     };
   }
 
@@ -662,16 +710,32 @@ function hdsIcons(name) {
       headingLevel: {
         type: 'string',
         default: 'h2'
+      },
+      innerContent: {
+        type: 'string',
+        default: ''
       }
     },
     edit: edit(),
-    save: save()
+    save: save(),
+    deprecated: [{
+      save: function save(props) {
+        var parentClientId = select('core/block-editor').getBlockHierarchyRootClientId(props.attributes.blockId);
+        var parentAttributes = select('core/block-editor').getBlockAttributes(parentClientId);
+        return createElement(Fragment, {}, createElement('div', useBlockProps.save({
+          className: 'accordion__section'
+        }), panelTitle(props), panelContent(props, InnerBlocks.Content)));
+      }
+    }]
   });
 })(window.wp);
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var registerBlockType = wp.blocks.registerBlockType;
+  var _wp$blocks2 = wp.blocks,
+      registerBlockType = _wp$blocks2.registerBlockType,
+      getBlockContent = _wp$blocks2.getBlockContent,
+      hasChildBlocks = _wp$blocks2.hasChildBlocks;
   var _wp$element2 = wp.element,
       Fragment = _wp$element2.Fragment,
       createElement = _wp$element2.createElement;
@@ -685,9 +749,10 @@ function hdsIcons(name) {
       ToolbarButton = _wp$components2.ToolbarButton,
       Button = _wp$components2.Button,
       ToggleControl = _wp$components2.ToggleControl;
-  var _wp$data = wp.data,
-      select = _wp$data.select,
-      dispatch = _wp$data.dispatch;
+  var _wp$data2 = wp.data,
+      select = _wp$data2.select,
+      dispatch = _wp$data2.dispatch,
+      useSelect = _wp$data2.useSelect;
 
   function accordionTitle(props) {
     if (props.attributes.title != null && props.attributes.title != '') {
@@ -726,6 +791,8 @@ function hdsIcons(name) {
 
   function edit() {
     return function (props) {
+      props.attributes.blockVersion = 2;
+      var content = null;
       var clientId = props.clientId;
       var children = select('core/block-editor').getBlocksByClientId(clientId)[0].innerBlocks;
       children.forEach(function (child) {
@@ -739,24 +806,44 @@ function hdsIcons(name) {
           });
         }
       });
-      return createElement(Fragment, {}, accordionControls(props), createElement('div', useBlockProps({
-        className: 'accordion-wrapper'
-      }), accordionTitle(props), accordionDescription(props), createElement('div', {
-        className: 'accordion'
-      }, createElement(InnerBlocks, {
-        allowedBlocks: ['hds-wp/accordion-panel'],
-        template: [['hds-wp/accordion-panel', {}], ['hds-wp/accordion-panel', {}], ['hds-wp/accordion-panel', {}]]
-      }))));
+      var isParentOfSelectedBlock = useSelect(function (selectFrom) {
+        return select('core/block-editor').hasSelectedInnerBlock(props.clientId, true);
+      });
+      props.attributes.panels = select('core/block-editor').getBlocks(props.clientId).map(function (block) {
+        var innerContent = '';
+
+        if (block.innerBlocks.length > 0) {
+          innerContent = getBlockContent(select('core/block-editor').getBlock(block.clientId));
+        }
+
+        block.attributes.innerContent = innerContent;
+        return block.attributes;
+      });
+
+      if (props.isSelected || isParentOfSelectedBlock) {
+        content = createElement(Fragment, {}, accordionControls(props), createElement('div', {
+          className: 'accordion-wrapper'
+        }, accordionTitle(props), accordionDescription(props), createElement('div', {
+          className: 'accordion'
+        }, createElement(InnerBlocks, {
+          allowedBlocks: ['hds-wp/accordion-panel'],
+          template: [['hds-wp/accordion-panel', {}], ['hds-wp/accordion-panel', {}], ['hds-wp/accordion-panel', {}]]
+        }))));
+      } else {
+        content = createElement(wp.serverSideRender, {
+          block: 'hds-wp/accordion',
+          attributes: props.attributes,
+          httpMethod: 'POST'
+        });
+      }
+
+      return createElement(Fragment, {}, createElement('div', useBlockProps(), content));
     };
   }
 
   function save() {
     return function (props) {
-      return createElement(Fragment, {}, createElement('div', useBlockProps.save({
-        className: 'accordion-wrapper'
-      }), accordionTitle(props), accordionDescription(props), createElement('div', {
-        className: 'accordion'
-      }, createElement(InnerBlocks.Content))));
+      return createElement(InnerBlocks.Content, useBlockProps.save());
     };
   }
 
@@ -774,10 +861,26 @@ function hdsIcons(name) {
       },
       description: {
         type: 'string'
+      },
+      panels: {
+        type: 'array',
+        default: []
+      },
+      blockVersion: {
+        type: 'number'
       }
     },
     edit: edit(),
-    save: save()
+    save: save(),
+    deprecated: [{
+      save: function save(props) {
+        return createElement(Fragment, {}, createElement('div', useBlockProps.save({
+          className: 'accordion-wrapper'
+        }), accordionTitle(props), accordionDescription(props), createElement('div', {
+          className: 'accordion'
+        }, createElement(InnerBlocks.Content))));
+      }
+    }]
   });
 })(window.wp);
 
@@ -888,18 +991,33 @@ function hdsIcons(name) {
       Button = _wp$components4.Button,
       TextControl = _wp$components4.TextControl,
       SelectControl = _wp$components4.SelectControl;
-  var _wp$data2 = wp.data,
-      withSelect = _wp$data2.withSelect,
-      select = _wp$data2.select,
-      dispatch = _wp$data2.dispatch;
+  var _wp$data3 = wp.data,
+      withSelect = _wp$data3.withSelect,
+      select = _wp$data3.select,
+      dispatch = _wp$data3.dispatch;
   var PostTypeSelect = hdsWithPostTypeSelectControl();
   var PostSearch = hdsSearchPostsTextControl();
 
+  function removePostButton(props) {
+    return hdsRemovePostControl({
+      text: wp.i18n.__('Detach post', 'hds-wp')
+    }, props);
+  }
+
   function panelControls(props) {
+    var controls = [];
+    controls.push(PostSearch);
+
+    if (props.attributes.postId != 0) {
+      controls.push(removePostButton);
+    }
+
     return hdsInspectorControls({
       title: __('Settings', 'hds-wp'),
       initialOpen: false
-    }, hdsPanelRow({}, createElement(PostTypeSelect, props)), hdsPanelRow({}, createElement(PostSearch, props)));
+    }, controls.map(function (control) {
+      return hdsPanelRow({}, createElement(control, props));
+    }));
   }
 
   function placeholder(props) {
@@ -952,9 +1070,9 @@ function hdsIcons(name) {
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks = wp.blocks,
-      registerBlockType = _wp$blocks.registerBlockType,
-      getBlockContent = _wp$blocks.getBlockContent;
+  var _wp$blocks3 = wp.blocks,
+      registerBlockType = _wp$blocks3.registerBlockType,
+      getBlockContent = _wp$blocks3.getBlockContent;
   var _wp$element5 = wp.element,
       Fragment = _wp$element5.Fragment,
       createElement = _wp$element5.createElement,
@@ -964,14 +1082,24 @@ function hdsIcons(name) {
       BlockControls = _wp$blockEditor5.BlockControls,
       InnerBlocks = _wp$blockEditor5.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data3 = wp.data,
-      select = _wp$data3.select,
-      useSelect = _wp$data3.useSelect;
+  var _wp$data4 = wp.data,
+      select = _wp$data4.select,
+      useSelect = _wp$data4.useSelect;
   var _wp$components5 = wp.components,
       ToolbarGroup = _wp$components5.ToolbarGroup,
       ToolbarButton = _wp$components5.ToolbarButton,
       Button = _wp$components5.Button,
       ToggleControl = _wp$components5.ToggleControl;
+
+  function linkTypeOptions() {
+    return [{
+      label: __('Image & Title', 'hds-wp'),
+      value: 'image-title'
+    }, {
+      label: __('Image, Title & Excerpt', 'hds-wp'),
+      value: 'image-title-excerpt'
+    }];
+  }
 
   function columnCountOptions() {
     return [{
@@ -994,6 +1122,11 @@ function hdsIcons(name) {
       label: __('Title', 'hds-wp'),
       value: props.attributes.title,
       attribute: 'title'
+    }, props), hdsSelectControl({
+      label: __('Link type', 'hds-wp'),
+      value: props.attributes.linkType,
+      attribute: 'linkType',
+      options: linkTypeOptions()
     }, props), hdsSelectControl({
       label: __('Column count', 'hds-wp'),
       value: props.attributes.columns,
@@ -1071,6 +1204,10 @@ function hdsIcons(name) {
         type: 'string',
         default: ''
       },
+      linkType: {
+        type: 'string',
+        default: 'image-title'
+      },
       cards: {
         type: 'array',
         default: []
@@ -1087,11 +1224,11 @@ function hdsIcons(name) {
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks2 = wp.blocks,
-      unregisterBlockType = _wp$blocks2.unregisterBlockType,
-      unregisterBlockVariation = _wp$blocks2.unregisterBlockVariation,
-      getBlockType = _wp$blocks2.getBlockType,
-      getBlockVariations = _wp$blocks2.getBlockVariations;
+  var _wp$blocks4 = wp.blocks,
+      unregisterBlockType = _wp$blocks4.unregisterBlockType,
+      unregisterBlockVariation = _wp$blocks4.unregisterBlockVariation,
+      getBlockType = _wp$blocks4.getBlockType,
+      getBlockVariations = _wp$blocks4.getBlockVariations;
   var allowedEmbedBlocks = ['youtube'];
   wp.domReady(function () {
     if (getBlockType('core/pullquote')) {
@@ -1674,10 +1811,10 @@ function hdsIcons(name) {
       BlockControls = _wp$blockEditor8.BlockControls,
       InnerBlocks = _wp$blockEditor8.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data4 = wp.data,
-      withSelect = _wp$data4.withSelect,
-      select = _wp$data4.select,
-      dispatch = _wp$data4.dispatch;
+  var _wp$data5 = wp.data,
+      withSelect = _wp$data5.withSelect,
+      select = _wp$data5.select,
+      dispatch = _wp$data5.dispatch;
   var compose = wp.compose.compose;
   var apiFetch = wp.apiFetch;
   var _wp$components8 = wp.components,
@@ -1686,6 +1823,14 @@ function hdsIcons(name) {
       SelectControl = _wp$components8.SelectControl,
       ToolbarGroup = _wp$components8.ToolbarGroup,
       ToolbarButton = _wp$components8.ToolbarButton;
+  var PostTypeSelect = hdsWithPostTypeSelectControl();
+  var PostSearch = hdsSearchPostsTextControl();
+
+  function removePostButton(props) {
+    return hdsRemovePostControl({
+      text: wp.i18n.__('Detach post', 'hds-wp')
+    }, props);
+  }
 
   function titleText(props) {
     return hdsTextControl({
@@ -1711,30 +1856,70 @@ function hdsIcons(name) {
     }, props);
   }
 
+  function linkDirectionControl(props) {
+    return hdsRadioControl({
+      label: wp.i18n.__('Link type', 'hds-wp'),
+      selected: props.attributes.linkDir,
+      attribute: 'linkDir',
+      options: [{
+        label: __('Internal link', 'hds-wp'),
+        value: 'internal'
+      }, {
+        label: __('External link', 'hds-wp'),
+        value: 'external'
+      }]
+    }, props);
+  }
+
   function panelControls(linkType, props) {
     var controls = [];
+    controls.push(linkDirectionControl);
 
     switch (linkType) {
       case 'title':
-        controls.push(titleText);
-        controls.push(urlText);
-        controls.push(hdsExternalUrlControl);
-        controls.push(hdsTargetBlankControl);
+        if (props.attributes.linkDir == 'internal') {
+          controls.push(PostSearch);
+
+          if (props.attributes.postId != 0) {
+            controls.push(removePostButton);
+          }
+        } else {
+          controls.push(titleText);
+          controls.push(urlText);
+          controls.push(hdsTargetBlankControl);
+        }
+
         break;
 
       case 'title-excerpt':
-        controls.push(titleText);
-        controls.push(excerptText);
-        controls.push(urlText);
-        controls.push(hdsExternalUrlControl);
-        controls.push(hdsTargetBlankControl);
+        if (props.attributes.linkDir == 'internal') {
+          controls.push(PostSearch);
+
+          if (props.attributes.postId != 0) {
+            controls.push(removePostButton);
+          }
+        } else {
+          controls.push(titleText);
+          controls.push(excerptText);
+          controls.push(urlText);
+          controls.push(hdsTargetBlankControl);
+        }
+
         break;
 
       case 'image-title':
-        controls.push(titleText);
-        controls.push(urlText);
-        controls.push(hdsExternalUrlControl);
-        controls.push(hdsTargetBlankControl);
+        if (props.attributes.linkDir == 'internal') {
+          controls.push(PostSearch);
+
+          if (props.attributes.postId != 0) {
+            controls.push(removePostButton);
+          }
+        } else {
+          controls.push(titleText);
+          controls.push(urlText);
+          controls.push(hdsTargetBlankControl);
+        }
+
         break;
     }
 
@@ -1748,11 +1933,23 @@ function hdsIcons(name) {
 
   function placeholder(linkType, props) {
     var title = props.attributes.linkTitle ? props.attributes.linkTitle : __('Helsinki - Link', 'hds-wp');
+
+    if (props.attributes.linkDir == 'internal' && props.attributes.postId != 0) {
+      title = props.attributes.postTitle ? props.attributes.postTitle : __('Helsinki - Link', 'hds-wp');
+    }
+
     var parts = [createElement('h3', {
       className: 'link___title'
     }, title)];
 
-    if (linkType === 'title-excerpt' && props.attributes.linkExcerpt) {
+    if (linkType === 'title-excerpt' && props.attributes.linkDir == 'internal' && props.attributes.postId != 0 && props.attributes.postExcerpt) {
+      var excerptWrapper = document.createElement("div");
+      excerptWrapper.innerHTML = props.attributes.postExcerpt; //used to remove extra <p>-tags from excerpt source
+
+      parts.push(createElement('p', {
+        className: 'link___excerpt'
+      }, excerptWrapper.innerText));
+    } else if (linkType === 'title-excerpt' && (props.attributes.linkDir != 'internal' || props.attributes.postId == 0) && props.attributes.linkExcerpt) {
       parts.push(createElement('p', {
         className: 'link___excerpt'
       }, props.attributes.linkExcerpt));
@@ -1772,7 +1969,7 @@ function hdsIcons(name) {
     if (linkType === 'image-title') {
       return createElement(BlockControls, {
         key: 'controls'
-      }, createElement(ToolbarGroup, {}, hdsMediaUpload(props.attributes.mediaId, function (media) {
+      }, createElement(ToolbarGroup, {}, props.attributes.linkDir == 'external' ? hdsMediaUpload(props.attributes.mediaId, function (media) {
         props.setAttributes({
           mediaId: media.id,
           mediaUrl: media.sizes.full.url,
@@ -1787,7 +1984,7 @@ function hdsIcons(name) {
           label: __('Select image', 'hds-wp'),
           onClick: mediaUpload.open
         });
-      })));
+      }) : ''));
     }
 
     return null;
@@ -1813,7 +2010,20 @@ function hdsIcons(name) {
           return block.attributes;
         })
       });
-      var parent = getParentBlock(props.clientId);
+      parent = getParentBlock(props.clientId);
+
+      if (props.attributes.hasOwnProperty('isExternalUrl') && props.attributes.isExternalUrl != null) {
+        if (props.attributes.isExternalUrl) {
+          props.attributes.linkDir = 'external';
+        } else {
+          props.attributes.linkDir = 'internal';
+        }
+
+        props.attributes.isExternalUrl = null;
+      } else if (!props.attributes.hasOwnProperty('linkDir')) {
+        props.attributes.linkDir = 'internal';
+      }
+
       return createElement(Fragment, {}, toolbar(props, parent.attributes.linkType), panelControls(parent.attributes.linkType, props), placeholder(parent.attributes.linkType, props));
     };
   }
@@ -1842,17 +2052,23 @@ function hdsIcons(name) {
         type: 'string',
         default: ''
       },
+      postExcerpt: {
+        type: 'string',
+        default: ''
+      },
       linkUrl: {
         type: 'string',
         default: ''
+      },
+      linkDir: {
+        type: 'string'
       },
       targetBlank: {
         type: 'boolean',
         default: false
       },
       isExternalUrl: {
-        type: 'boolean',
-        default: false
+        type: 'boolean'
       },
       mediaId: {
         type: 'number',
@@ -1889,9 +2105,9 @@ function hdsIcons(name) {
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks3 = wp.blocks,
-      registerBlockType = _wp$blocks3.registerBlockType,
-      getBlockContent = _wp$blocks3.getBlockContent;
+  var _wp$blocks5 = wp.blocks,
+      registerBlockType = _wp$blocks5.registerBlockType,
+      getBlockContent = _wp$blocks5.getBlockContent;
   var _wp$element9 = wp.element,
       Fragment = _wp$element9.Fragment,
       createElement = _wp$element9.createElement,
@@ -1901,9 +2117,9 @@ function hdsIcons(name) {
       BlockControls = _wp$blockEditor9.BlockControls,
       InnerBlocks = _wp$blockEditor9.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data5 = wp.data,
-      select = _wp$data5.select,
-      useSelect = _wp$data5.useSelect;
+  var _wp$data6 = wp.data,
+      select = _wp$data6.select,
+      useSelect = _wp$data6.useSelect;
   var _wp$components9 = wp.components,
       ToolbarGroup = _wp$components9.ToolbarGroup,
       ToolbarButton = _wp$components9.ToolbarButton,
@@ -2051,9 +2267,9 @@ function hdsIcons(name) {
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks4 = wp.blocks,
-      registerBlockType = _wp$blocks4.registerBlockType,
-      getBlockContent = _wp$blocks4.getBlockContent;
+  var _wp$blocks6 = wp.blocks,
+      registerBlockType = _wp$blocks6.registerBlockType,
+      getBlockContent = _wp$blocks6.getBlockContent;
   var _wp$element10 = wp.element,
       Fragment = _wp$element10.Fragment,
       createElement = _wp$element10.createElement;
@@ -2065,9 +2281,9 @@ function hdsIcons(name) {
       ToolbarGroup = _wp$components10.ToolbarGroup,
       ToolbarButton = _wp$components10.ToolbarButton,
       Button = _wp$components10.Button;
-  var _wp$data6 = wp.data,
-      select = _wp$data6.select,
-      useSelect = _wp$data6.useSelect;
+  var _wp$data7 = wp.data,
+      select = _wp$data7.select,
+      useSelect = _wp$data7.useSelect;
 
   function edit() {
     return function (props) {
@@ -2162,9 +2378,9 @@ function hdsIcons(name) {
       ToolbarButton = _wp$components11.ToolbarButton,
       Button = _wp$components11.Button,
       ToggleControl = _wp$components11.ToggleControl;
-  var _wp$data7 = wp.data,
-      select = _wp$data7.select,
-      dispatch = _wp$data7.dispatch;
+  var _wp$data8 = wp.data,
+      select = _wp$data8.select,
+      dispatch = _wp$data8.dispatch;
 
   function timelineTitle(props) {
     if (props.attributes.title != null && props.attributes.title != '') {
@@ -2280,9 +2496,9 @@ function hdsIcons(name) {
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks5 = wp.blocks,
-      registerBlockType = _wp$blocks5.registerBlockType,
-      getBlockContent = _wp$blocks5.getBlockContent;
+  var _wp$blocks7 = wp.blocks,
+      registerBlockType = _wp$blocks7.registerBlockType,
+      getBlockContent = _wp$blocks7.getBlockContent;
   var _wp$element12 = wp.element,
       Fragment = _wp$element12.Fragment,
       createElement = _wp$element12.createElement,
@@ -2292,9 +2508,9 @@ function hdsIcons(name) {
       BlockControls = _wp$blockEditor12.BlockControls,
       InnerBlocks = _wp$blockEditor12.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data8 = wp.data,
-      select = _wp$data8.select,
-      useSelect = _wp$data8.useSelect;
+  var _wp$data9 = wp.data,
+      select = _wp$data9.select,
+      useSelect = _wp$data9.useSelect;
   var _wp$components12 = wp.components,
       ToolbarGroup = _wp$components12.ToolbarGroup,
       ToolbarButton = _wp$components12.ToolbarButton,
@@ -2391,9 +2607,9 @@ function hdsIcons(name) {
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks6 = wp.blocks,
-      registerBlockType = _wp$blocks6.registerBlockType,
-      getBlockContent = _wp$blocks6.getBlockContent;
+  var _wp$blocks8 = wp.blocks,
+      registerBlockType = _wp$blocks8.registerBlockType,
+      getBlockContent = _wp$blocks8.getBlockContent;
   var _wp$element13 = wp.element,
       Fragment = _wp$element13.Fragment,
       createElement = _wp$element13.createElement,
@@ -2403,9 +2619,9 @@ function hdsIcons(name) {
       BlockControls = _wp$blockEditor13.BlockControls,
       InnerBlocks = _wp$blockEditor13.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data9 = wp.data,
-      select = _wp$data9.select,
-      useSelect = _wp$data9.useSelect;
+  var _wp$data10 = wp.data,
+      select = _wp$data10.select,
+      useSelect = _wp$data10.useSelect;
   var _wp$components13 = wp.components,
       ToolbarGroup = _wp$components13.ToolbarGroup,
       ToolbarButton = _wp$components13.ToolbarButton,

@@ -1,5 +1,4 @@
 .content-cards {
-
     padding-bottom: 1px;
 
     @include breakpoint('m') {
@@ -115,11 +114,24 @@
         }
 
         .card__content {
+            display: flex;
+            flex-direction: column;
         }
 
         .card__title {
             font-size: rem-calc(24);
             margin: 0;
+        }
+
+        .card__excerpt {
+            font-size: rem-calc(16);
+            color: $dark-gray;
+            margin-top: spacing('m');
+            margin-bottom: 0;
+
+            @include breakpoint('m') {
+                font-size: rem-calc(18);
+            }
         }
 
         .card__date {
@@ -129,7 +141,7 @@
         }
 
         .card__more {
-            margin-top: spacing('l');
+            margin-top: auto;
 
             .icon {
                 transition: $default-transition-time;
