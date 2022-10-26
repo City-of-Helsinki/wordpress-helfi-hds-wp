@@ -186,7 +186,20 @@
 	function edit() {
 
 		return function(props) {
-			var parent = getParentBlock(props.clientId);
+			const {
+				clientId
+			} = props;
+		
+			var parent = select('core/block-editor').getBlocksByClientId(select('core/block-editor').getBlockHierarchyRootClientId( clientId ))[0];
+			dispatch('core/block-editor').updateBlockAttributes(parent.clientId, {
+				links: select('core/block-editor')
+				.getBlocks(parent.clientId)
+				.map(function(block){
+				  return block.attributes;
+				})
+			});
+	
+      parent = getParentBlock(props.clientId);
 			if (props.attributes.hasOwnProperty('isExternalUrl') && props.attributes.isExternalUrl != null) {
 				if (props.attributes.isExternalUrl) {
 					props.attributes.linkDir = 'external';
