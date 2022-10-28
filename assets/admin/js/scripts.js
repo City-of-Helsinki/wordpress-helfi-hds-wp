@@ -1151,6 +1151,7 @@ function hdsIcons(name) {
 
   function edit() {
     return function (props) {
+      props.attributes.columns = parseInt(props.attributes.columns);
       var content = null;
       var isParentOfSelectedBlock = useSelect(function (selectFrom) {
         return select('core/block-editor').hasSelectedInnerBlock(props.clientId, true);
@@ -2194,6 +2195,7 @@ function hdsIcons(name) {
 
   function edit() {
     return function (props) {
+      props.attributes.columns = parseInt(props.attributes.columns);
       var content = null;
       var isParentOfSelectedBlock = useSelect(function (selectFrom) {
         return select('core/block-editor').hasSelectedInnerBlock(props.clientId, true);
