@@ -77,6 +77,8 @@
 
 	function edit() {
 		return function(props) {
+      props.attributes.columns = parseInt(props.attributes.columns);
+
       var content = null;
 
       const isParentOfSelectedBlock = useSelect(function(selectFrom){
