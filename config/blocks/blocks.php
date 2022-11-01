@@ -25,6 +25,10 @@ return array(
 			),
 			'blockVersion' => array(
 				'type' => 'integer',
+			),
+			'anchor' => array(
+	            'type'    => 'string',
+	            'default' => '',
 			)
 		)
 	),
@@ -52,6 +56,10 @@ return array(
 			'innerContent' => array(
 				'type' => 'string',
 			),
+			'anchor' => array(
+	            'type'    => 'string',
+	            'default' => '',
+			)
 		)
 	),
 	'banner' => array(

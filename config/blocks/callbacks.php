@@ -235,16 +235,22 @@ function hds_wp_query_block_post_id( int $post ) {
 			Svg::icon( 'arrows-operators', 'angle-up' )
 		);
 
+		$id = '';
+		if (!empty($attributes['anchor'])) {
+			$id = 'id="'.esc_attr($attributes['anchor']).'"';
+		}	
+
 		$wrapClasses = array( 'wp-block-hds-wp-accordion-panel', 'accordion__section' );
 		if (!empty($attributes['className'])) {
 			$wrapClasses[] = esc_attr($attributes['className']);
 		}
 
 		return sprintf(
-			'<div class="%s">
+			'<div %s class="%s">
 				%s
 				%s
 			</div>',
+			$id,
 			implode( ' ', $wrapClasses ),
 			$title,
 			$panel
