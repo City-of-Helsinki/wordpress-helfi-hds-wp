@@ -196,7 +196,6 @@ function hds_wp_query_block_post_id( int $post ) {
 					%s
 					%s
 					<div class="accordion">%s</div>
-				</div>
 			</div>',
 			$id,
 			implode( ' ', $wrapClasses ),
