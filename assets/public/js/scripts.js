@@ -193,6 +193,15 @@ hdsAccordions.init(parseAccordionElements());
         return notificationWrapper;
       }
     });
+    $('.wpcf7').each(function () {
+      this.addEventListener('wpcf7submit', function (event) {
+        var response = this.querySelector('.wpcf7-response-hds-wrapper');
+        response.scrollIntoView({
+          block: 'center'
+        });
+        response.focus();
+      });
+    });
 
     function makeid(length) {
       var result = '';
