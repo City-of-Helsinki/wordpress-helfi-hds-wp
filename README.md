@@ -28,22 +28,22 @@ Upload plugin to site and activate it. If used alongside [Helsinki Theme](https:
 With other themes, you will have to specify theme supports to enable desired features:
 
 ```
-	add_theme_support(
-		'hds-wp',
-		array(
-			'assets' => array(
-				'scripts' => true,
-				'styles' => true,
-				'fonts' => true,
-				'favicon' => true,
-			),
-			'widgets' => true,
-			'blocks' => true,
-			'cpt' => array(
-				'faq' => true,
-			),
-		)
-	);
+add_theme_support(
+    'hds-wp',
+    array(
+        'assets' => array(
+            'scripts' => true,
+            'styles' => true,
+            'fonts' => true,
+            'favicon' => true,
+        ),
+        'widgets' => true,
+        'blocks' => true,
+        'cpt' => array(
+            'faq' => true,
+        ),
+    )
+);
 ```
 
 ## Development
