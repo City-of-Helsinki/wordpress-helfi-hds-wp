@@ -21,6 +21,31 @@ Recommended to be used with [Helsinki Theme](https://github.com/City-of-Helsinki
 
 Integrations can be found within `/integrations`. Script extending behaviour can be found within `/src`.
 
+
+## Installation
+Upload plugin to site and activate it. If used alongside [Helsinki Theme](https://github.com/City-of-Helsinki/wordpress-helfi-helsinkiteema) all features will be activated automatically upon plugin activation.
+
+With other themes, you will have to specify theme supports to enable desired features:
+
+```
+	add_theme_support(
+		'hds-wp',
+		array(
+			'assets' => array(
+				'scripts' => true,
+				'styles' => true,
+				'fonts' => true,
+				'favicon' => true,
+			),
+			'widgets' => true,
+			'blocks' => true,
+			'cpt' => array(
+				'faq' => true,
+			),
+		)
+	);
+```
+
 ## Development
 
 ### Assets
