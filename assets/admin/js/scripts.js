@@ -714,6 +714,10 @@ function hdsIcons(name) {
       innerContent: {
         type: 'string',
         default: ''
+      },
+      anchor: {
+        type: 'string',
+        default: ''
       }
     },
     edit: edit(),
@@ -868,6 +872,10 @@ function hdsIcons(name) {
       },
       blockVersion: {
         type: 'number'
+      },
+      anchor: {
+        type: 'string',
+        default: ''
       }
     },
     edit: edit(),
