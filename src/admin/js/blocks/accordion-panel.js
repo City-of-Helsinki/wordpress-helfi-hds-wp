@@ -125,6 +125,7 @@
 							'core/button',
 							'core/image',
 							'core/embed',
+							'core/file',
 						]
 					})
 			),
