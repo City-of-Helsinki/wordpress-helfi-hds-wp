@@ -302,16 +302,17 @@ function hds_wp_render_block_links_list( $attributes ) {
 	}
 
 	$wrapClasses = array( 'links-list' );
-	$decoration = '';
+	$koros = '';
 	if ( ! empty( $attributes['hasBackground'] ) ) {
 		$wrapClasses[] = 'has-background';
-		$decoration = sprintf(
-			'<div class="links-list__decoration">%s</div>',
-			Svg::placeholder(apply_filters(
-				'hds_wp_links_list_decoration',
-				'abstract-7'
-			))
+		$koros = sprintf(
+			'<div class="links-list__koros">%s</div>',
+			Svg::koros(
+				apply_filters( 'hds_wp_links_list_koros', 'basic' ),
+				md5( time() . implode( '', $links ) )
+			)
 		);
+
 	}
 	if (!empty($attributes['className'])) {
 		$wrapClasses[] = esc_attr($attributes['className']);
@@ -320,8 +321,7 @@ function hds_wp_render_block_links_list( $attributes ) {
 	$title = '';
 	if ( ! empty( $attributes['title'] ) ) {
 		$title = sprintf(
-			'<h2 class="links-list__title">%s<span>%s</span></h2>',
-			$decoration,
+			'<h2 class="links-list__title"><span>%s</span></h2>',
 			esc_html( $attributes['title'] )
 		);
 	}
@@ -333,7 +333,7 @@ function hds_wp_render_block_links_list( $attributes ) {
 	);
 
 	return sprintf(
-		'<div %s class="%s">
+		'<div %s class="%s">%s
 			<div class="hds-container">
 				%s
 				<ul class="%s">%s</ul>
@@ -341,6 +341,7 @@ function hds_wp_render_block_links_list( $attributes ) {
 		</div>',
 		$id,
 		implode( ' ', $wrapClasses ),
+		$koros,
 		$title,
 		implode( ' ', $gridClasses ),
 		implode( '', $links )
