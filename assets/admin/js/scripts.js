@@ -714,6 +714,10 @@ function hdsIcons(name) {
       innerContent: {
         type: 'string',
         default: ''
+      },
+      anchor: {
+        type: 'string',
+        default: ''
       }
     },
     edit: edit(),
@@ -868,6 +872,10 @@ function hdsIcons(name) {
       },
       blockVersion: {
         type: 'number'
+      },
+      anchor: {
+        type: 'string',
+        default: ''
       }
     },
     edit: edit(),
@@ -1151,6 +1159,7 @@ function hdsIcons(name) {
 
   function edit() {
     return function (props) {
+      props.attributes.columns = parseInt(props.attributes.columns);
       var content = null;
       var isParentOfSelectedBlock = useSelect(function (selectFrom) {
         return select('core/block-editor').hasSelectedInnerBlock(props.clientId, true);
@@ -2194,6 +2203,7 @@ function hdsIcons(name) {
 
   function edit() {
     return function (props) {
+      props.attributes.columns = parseInt(props.attributes.columns);
       var content = null;
       var isParentOfSelectedBlock = useSelect(function (selectFrom) {
         return select('core/block-editor').hasSelectedInnerBlock(props.clientId, true);

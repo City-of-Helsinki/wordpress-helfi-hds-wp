@@ -120,6 +120,9 @@ class Assets extends Module {
 		);
 		if (function_exists('helsinki_theme_mod') && function_exists('helsinki_scheme_root_styles')) {
 			$current_scheme = helsinki_theme_mod('helsinki_general_style', 'scheme');
+			if (function_exists('helsinki_default_scheme')) {
+				$current_scheme = $current_scheme ?: helsinki_default_scheme();
+			}		
 			ob_start();
 			helsinki_scheme_root_styles($current_scheme);
 			$inlineStyle = ob_get_clean();

@@ -162,7 +162,11 @@
 			},
 			blockVersion: {
 				type: 'number',
-			}
+			},
+			anchor: {
+				type: 'string',
+				default: '',
+			},
 		},
 		edit: edit(),
 		save: save(),
