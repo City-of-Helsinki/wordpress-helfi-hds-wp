@@ -229,7 +229,7 @@ function hds_wp_query_block_post_id( int $post ) {
 				</button>
 			</div>',
 			$attributes['blockId'],
-			isset($attributes['innerContent']) ? $attributes['innerContent'] : '',
+			apply_filters('the_content', isset($attributes['innerContent']) ? $attributes['innerContent'] : ''),
 			__('Close', 'hds-wp'),
 			Svg::icon( 'arrows-operators', 'angle-up' )
 		);
