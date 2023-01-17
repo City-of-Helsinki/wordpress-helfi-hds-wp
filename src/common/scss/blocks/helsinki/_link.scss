@@ -61,6 +61,7 @@
 
     .link {
         text-decoration: none;
+        position: relative;
 
         .link__thumbnail {
             position: relative;
@@ -87,6 +88,17 @@
                 path {
                     fill: $black;
                 }
+            }
+        }
+
+        .link__title_link {
+            &:after {
+                bottom: 0;
+                content: "";
+                left: 0;
+                position: absolute;
+                right: 0;
+                top: 0;
             }
         }
 

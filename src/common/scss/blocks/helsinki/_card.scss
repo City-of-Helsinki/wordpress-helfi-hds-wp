@@ -65,9 +65,26 @@
     }
 
     .content-cards__card {
+        position: relative;
 
         .card__link {
-            text-decoration: none;
+
+            .card__title_link {
+                text-decoration: none;
+
+                &:after {
+                    bottom: 0;
+                    content: "";
+                    left: 0;
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                }
+            }
+
+            .card__title {
+                text-decoration: none;
+            }
 
             &:focus,
             &:hover {
@@ -177,6 +194,17 @@
 
             .card__content {
                 height: 100%;
+            }
+
+            .card__title_link {
+                &:after {
+                    bottom: 0;
+                    content: "";
+                    left: 0;
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                }
             }
 
             .card__image {
