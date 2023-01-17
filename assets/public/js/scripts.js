@@ -141,14 +141,12 @@ hdsAccordions.init(parseAccordionElements());
         fileList.innerHTML = '';
       }
     });
-
     $('.wpcf7-form .wpcf7-response-output').each(function () {
       $(this).remove();
     });
     $('.wpcf7-form').each(function () {
       var $this = $(this);
       $this.prepend(prependNotification());
-
       function prependNotification() {
         var notification = document.createElement('div');
         notification.classList.add('wpcf7-response-output');
@@ -172,7 +170,6 @@ hdsAccordions.init(parseAccordionElements());
         response.focus();
       });
     });
-
     function makeid(length) {
       var result = '';
       var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

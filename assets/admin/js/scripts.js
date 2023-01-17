@@ -552,8 +552,8 @@ function hdsIcons(name) {
       'aria-controls': 'panel-' + props.attributes.blockId,
       'aria-expanded': 'false',
       onClick: function onClick(event) {
-
         //closeCurrent(event.currentTarget);
+
         var panel = togglePanel(event.currentTarget);
         if (isOpen(event.currentTarget)) {
           closePanel(event.currentTarget, panel);
