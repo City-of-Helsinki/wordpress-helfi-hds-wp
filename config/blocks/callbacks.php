@@ -65,11 +65,13 @@ function hds_wp_render_block_content_cards( $attributes ) {
 		$koros,
 		$title,
 		implode( ' ', $gridClasses ),
-		implode( '', array_map( 'hds_wp_content_card_html', $posts ) )
+		implode( '', array_map( function($post) use ($attributes) {
+			return hds_wp_content_card_html($post, $attributes);
+		}, $posts ) )
 	);
 }
 
-function hds_wp_content_card_html( WP_Post $post ) {
+function hds_wp_content_card_html( WP_Post $post, $attributes) {
 	$image = get_the_post_thumbnail( $post, 'medium' );
 	$has_placeholder = false;
 	if ( ! $image ) {
@@ -86,6 +88,13 @@ function hds_wp_content_card_html( WP_Post $post ) {
 		);
 	}
 
+	$excerpt = '';
+	if (isset($attributes['linkType']) && $attributes['linkType'] == 'image-title-excerpt' && !empty($post->post_excerpt)) {
+		$excerpt = sprintf(
+			'<p class="card__excerpt">%s</p>',
+			$post->post_excerpt );
+	}
+
 	$date = 'post' === $post->post_type ? sprintf(
 			'<p class="card__date">%s</p>',
 			get_the_date( '', $post )
@@ -99,6 +108,7 @@ function hds_wp_content_card_html( WP_Post $post ) {
 		),
 		'content_open' => '<div class="card__content">',
 		'title' => '<h3 class="card__title">' . esc_html( $post->post_title ) . '</h3>',
+		'excerpt' => $excerpt,
 		'date' => $date,
 		'more' => '<div class="card__more">' . Svg::icon( 'arrows-operators', 'arrow-right' ) . '</div>',
 		'content_close' => '</div>',
@@ -125,6 +135,126 @@ function hds_wp_query_block_post_ids( array $posts ) {
 	) );
 	return $query->posts;
 }
+
+function hds_wp_query_block_post_id( int $post ) {
+	$query = new WP_Query( array(
+		'post_status' => 'publish',
+		'post_type' => array( 'post', 'page' ),
+		'p' => $post,
+		'no_found_rows' => true,
+		'update_post_term_cache' => false,
+		'ignore_sticky_posts' => 1,
+		'orderby' => 'post__in'
+	) );
+	return $query;
+}
+
+/**
+ * Helsinki - Accordion
+ */
+
+	function hds_wp_render_block_accordion($attributes, $content) {
+		if (!isset($attributes['blockVersion']) || $attributes['blockVersion'] <= 1) {
+			return $content;
+		}
+		$title = '';
+		if ( ! empty( $attributes['title'] ) ) {
+			$title = sprintf(
+				'<h2 class="accordion_heading">%s</h2>',
+				esc_html( $attributes['title'] )
+			);
+		}
+		
+		$description = '';
+		if ( ! empty( $attributes['description'] ) ) {
+			$description = sprintf(
+				'<p class="accordion-description">%s</p>',
+				esc_html( $attributes['description'] )
+			);
+		}
+
+		$id = '';
+		if (!empty($attributes['anchor'])) {
+			$id = 'id="'.esc_attr($attributes['anchor']).'"';
+		}	
+
+		$wrapClasses = array( 'wp-block-hds-wp-accordion', 'accordion-wrapper' );
+		if (!empty($attributes['className'])) {
+			$wrapClasses[] = esc_attr($attributes['className']);
+		}
+	
+		$panels = array();
+		if ( !empty( $attributes['panels'] ) || is_array( $attributes['panels'] )) {
+			$panels = array_map(
+				'hds_wp_render_block_accordion_panel',
+				$attributes['panels']
+			);
+		}
+
+		return sprintf(
+			'<div %s class="%s">
+					%s
+					%s
+					<div class="accordion">%s</div>
+			</div>',
+			$id,
+			implode( ' ', $wrapClasses ),
+			$title,
+			$description,
+			implode(' ' , $panels )
+		);
+	
+	}
+
+	function hds_wp_render_block_accordion_panel($attributes) {
+		$title = sprintf(
+			'<%1$s class="accordion__title">
+				<button id="panel-toggle-%2$s" class="accordion__toggle" type="button" aria-controls="panel-%2$s" aria-expanded="false">
+					%3$s
+					<span class="accordion__icon">%4$s</span>
+				</button>
+			</%1$s>',
+			isset($attributes['headingLevel']) ? $attributes['headingLevel'] : 'h2',
+			$attributes['blockId'],
+			isset($attributes['panelTitle']) ? esc_html( $attributes['panelTitle'] ) : '',
+			Svg::icon( 'arrows-operators', 'angle-up' )
+		);
+
+		$panel = sprintf(
+			'<div id="panel-%1$s" class="accordion__panel" aria-labelledby="panel-toggle-%1$s" role="region" hidden="true">
+				<div class="accordion__content">%2$s</div>
+				<button class="accordion__close" type="button">
+					<span>%3$s</span>
+					%4$s
+				</button>
+			</div>',
+			$attributes['blockId'],
+			apply_filters('the_content', isset($attributes['innerContent']) ? $attributes['innerContent'] : ''),
+			__('Close', 'hds-wp'),
+			Svg::icon( 'arrows-operators', 'angle-up' )
+		);
+
+		$id = '';
+		if (!empty($attributes['anchor'])) {
+			$id = 'id="'.esc_attr($attributes['anchor']).'"';
+		}	
+
+		$wrapClasses = array( 'wp-block-hds-wp-accordion-panel', 'accordion__section' );
+		if (!empty($attributes['className'])) {
+			$wrapClasses[] = esc_attr($attributes['className']);
+		}
+
+		return sprintf(
+			'<div %s class="%s">
+				%s
+				%s
+			</div>',
+			$id,
+			implode( ' ', $wrapClasses ),
+			$title,
+			$panel
+		);
+	}
 
 /**
   * Helsinki - Links
@@ -172,16 +302,17 @@ function hds_wp_render_block_links_list( $attributes ) {
 	}
 
 	$wrapClasses = array( 'links-list' );
-	$decoration = '';
+	$koros = '';
 	if ( ! empty( $attributes['hasBackground'] ) ) {
 		$wrapClasses[] = 'has-background';
-		$decoration = sprintf(
-			'<div class="links-list__decoration">%s</div>',
-			Svg::placeholder(apply_filters(
-				'hds_wp_links_list_decoration',
-				'abstract-7'
-			))
+		$koros = sprintf(
+			'<div class="links-list__koros">%s</div>',
+			Svg::koros(
+				apply_filters( 'hds_wp_links_list_koros', 'basic' ),
+				md5( time() . implode( '', $links ) )
+			)
 		);
+
 	}
 	if (!empty($attributes['className'])) {
 		$wrapClasses[] = esc_attr($attributes['className']);
@@ -190,8 +321,7 @@ function hds_wp_render_block_links_list( $attributes ) {
 	$title = '';
 	if ( ! empty( $attributes['title'] ) ) {
 		$title = sprintf(
-			'<h2 class="links-list__title">%s<span>%s</span></h2>',
-			$decoration,
+			'<h2 class="links-list__title"><span>%s</span></h2>',
 			esc_html( $attributes['title'] )
 		);
 	}
@@ -203,7 +333,7 @@ function hds_wp_render_block_links_list( $attributes ) {
 	);
 
 	return sprintf(
-		'<div %s class="%s">
+		'<div %s class="%s">%s
 			<div class="hds-container">
 				%s
 				<ul class="%s">%s</ul>
@@ -211,6 +341,7 @@ function hds_wp_render_block_links_list( $attributes ) {
 		</div>',
 		$id,
 		implode( ' ', $wrapClasses ),
+		$koros,
 		$title,
 		implode( ' ', $gridClasses ),
 		implode( '', $links )
@@ -260,6 +391,28 @@ function hds_wp_render_link_icon( bool $external ) {
 }
 
 function hds_wp_render_link_with_title( array $link ) {
+	if (isset($link['postId']) && $link['postId'] != 0 && isset($link['linkDir']) && $link['linkDir'] == 'internal') {
+		$posts = hds_wp_query_block_post_id( $link['postId'] );
+		if ($posts->have_posts()) {
+			$post = $posts->posts[0];
+			$link['linkTitle'] = $post->post_title;
+			$link['linkUrl'] = get_permalink( $post );
+			$link['isExternalUrl'] = false;
+			$link['targetBlank'] = false;
+		}
+		else {
+			return;
+		}
+	}
+	else {
+		if (isset($link['linkDir'])) {
+			$link['isExternalUrl'] = $link['linkDir'] == 'internal' ? false : true;
+		}
+		else if (!isset($link['isExternalUrl'] )) {
+			$link['isExternalUrl'] = false;
+		}
+	}
+
 	if ( empty( $link['linkTitle'] ) || empty( $link['linkUrl'] ) ) {
 		return;
 	}
@@ -277,6 +430,29 @@ function hds_wp_render_link_with_title( array $link ) {
 }
 
 function hds_wp_render_link_with_title_excerpt( array $link ) {
+	if (isset($link['postId']) && $link['postId'] != 0 && isset($link['linkDir']) && $link['linkDir'] == 'internal') {
+		$posts = hds_wp_query_block_post_id( $link['postId'] );
+		if ($posts->have_posts()) {
+			$post = $posts->posts[0];
+			$link['linkTitle'] = $post->post_title;
+			$link['linkExcerpt'] = $post->post_excerpt;
+			$link['linkUrl'] = get_permalink( $post );
+			$link['isExternalUrl'] = false;
+			$link['targetBlank'] = false;
+		}
+		else {
+			return;
+		}
+	}
+	else {
+		if (isset($link['linkDir'])) {
+			$link['isExternalUrl'] = $link['linkDir'] == 'internal' ? false : true;
+		}
+		else if (!isset($link['isExternalUrl'] )) {
+			$link['isExternalUrl'] = false;
+		}
+	}
+
 	if ( empty( $link['linkTitle'] ) || empty( $link['linkUrl'] ) ) {
 		return;
 	}
@@ -301,6 +477,30 @@ function hds_wp_render_link_with_title_excerpt( array $link ) {
 }
 
 function hds_wp_render_link_with_image_title( array $link ) {
+	if (isset($link['postId']) && $link['postId'] != 0 && isset($link['linkDir']) && $link['linkDir'] == 'internal') {
+		$posts = hds_wp_query_block_post_id( $link['postId'] );
+		if ($posts->have_posts()) {
+			$post = $posts->posts[0];
+			$link['linkTitle'] = $post->post_title;
+			$link['linkExcerpt'] = $post->post_excerpt;
+			$link['mediaId'] = get_post_thumbnail_id($post);
+			$link['linkUrl'] = get_permalink( $post );
+			$link['isExternalUrl'] = false;
+			$link['targetBlank'] = false;
+		}
+		else {
+			return;
+		}
+	}
+	else {
+		if (isset($link['linkDir'])) {
+			$link['isExternalUrl'] = $link['linkDir'] == 'internal' ? false : true;
+		}
+		else if (!isset($link['isExternalUrl'] )) {
+			$link['isExternalUrl'] = false;
+		}
+	}
+
 	if ( empty( $link['linkTitle'] ) || empty( $link['linkUrl'] ) ) {
 		return;
 	}

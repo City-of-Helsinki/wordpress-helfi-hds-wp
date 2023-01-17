@@ -57,8 +57,9 @@ $default-transition: all $default-transition-time !default;
 /* ========== TYPOGRAPHY ========== */
 
 /* ===== GLOBAL ===== */
-$global-font-size: 16px !default;
-$global-line-height: var(--lineheight-l) !default;
+$global-font-size: $fontsize-body-l !default;
+$global-font-size-m: $fontsize-body-m !default;
+$global-line-height: $lineheight-l !default;
 
 $global-font-weight-light: 100 !default;
 $global-font-weight-normal: 400 !default;
@@ -76,25 +77,9 @@ $button-focus-outline: 2px $default-border-style var(--primary-color-dark);
 $button-font-weight: $global-font-weight-bold !default;
 
 /* ===== HEADINGS ===== */
-$heading-font-sizes: (
-	h1: 40px,
-	h2: 32px,
-	h3: 24px,
-	h4: 20px,
-	h5: 18px,
-	h6: 16px,
-) !default;
+$heading-font-sizes: ( h1: $fontsize-heading-xl-mobile, h2: $fontsize-heading-l, h3: $fontsize-heading-m, h4: $fontsize-heading-s, h5: $fontsize-heading-xs, h6: $fontsize-heading-xxs, ) !default;
 
-$heading-responsive-font-sizes: (
-	l: (
-		h1: 64px,
-		h2: 48px,
-		h3: 32px,
-		h4: 24px,
-		h5: 20px,
-		h6: 18px,
-	),
-) !default;
+$heading-responsive-font-sizes: ( l: ( h1: $fontsize-heading-xxl, h2: $fontsize-heading-xl, h3: $fontsize-heading-l, h4: $fontsize-heading-m, h5: $fontsize-heading-s, h6: $fontsize-heading-xs, ), ) !default;
 
 $heading-color: $body-color !default;
 $heading-font-family: $body-font-family !default;

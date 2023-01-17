@@ -1,12 +1,12 @@
 (function(wp){
 
 	const __ = wp.i18n.__;
-	const { registerBlockType } = wp.blocks;
+	const { registerBlockType, getBlockContent } = wp.blocks;
 	const { Fragment, createElement } = wp.element;
 	const { useBlockProps, BlockControls, InnerBlocks } = wp.blockEditor;
 	const { InspectorControls } = wp.editor;
 	const { ToolbarGroup, ToolbarButton, Button, ToggleControl } = wp.components;
-	const { select } = wp.data;
+	const { select, dispatch } = wp.data;
 
 	function closePanel(toggle, panel) {
 		toggle.setAttribute('aria-expanded', 'false');
@@ -23,7 +23,7 @@
 	}
 
 	function currentOpen(element) {
-		return element.closest('.accordion').querySelector('[aria-expanded="true"]');
+		return element.closest('.accordion__section').querySelector('.accordion__toggle[aria-expanded="true"]');
 	}
 
 	function togglePanel(toggle) {
@@ -73,7 +73,7 @@
 				'aria-controls': 'panel-' + props.attributes.blockId,
 				'aria-expanded': 'false',
 				onClick: function(event) {
-					closeCurrent(event.currentTarget);
+					//closeCurrent(event.currentTarget);
 
 					var panel = togglePanel(event.currentTarget);
 					if ( isOpen(event.currentTarget) ) {
@@ -157,6 +157,18 @@
 				});
 			}
 
+			const innerContent = getBlockContent( select('core/block-editor').getBlock(props.clientId));
+			props.attributes.innerContent = innerContent;
+
+			var parent = select('core/block-editor').getBlocksByClientId(select('core/block-editor').getBlockHierarchyRootClientId( props.clientId ))[0];
+			dispatch('core/block-editor').updateBlockAttributes(parent.clientId, {
+				panels: select('core/block-editor')
+				.getBlocks(parent.clientId)
+				.map(function(block){
+				  return block.attributes;
+				})
+			});
+
 			return createElement(
 				Fragment, {},
 				panelControls(props),
@@ -173,21 +185,10 @@
 
 	function save() {
 		return function( props ) {
-
 			const parentClientId = select( 'core/block-editor' ).getBlockHierarchyRootClientId( props.attributes.blockId );
 			const parentAttributes = select('core/block-editor').getBlockAttributes( parentClientId );
 
-
-			return createElement(
-				Fragment, {},
-				createElement(
-					'div', useBlockProps.save({
-						className: 'accordion__section',
-					}),
-					panelTitle(props),
-					panelContent(props, InnerBlocks.Content)
-				)
-			);
+			return createElement(InnerBlocks.Content, useBlockProps.save());
 		}
 	}
 
@@ -211,10 +212,37 @@
 			headingLevel: {
 				type: 'string',
 				default: 'h2',
-			}
+			},
+			innerContent: {
+				type: 'string',
+				default: '',
+			},
+			anchor: {
+				type: 'string',
+				default: '',
+			},
 		},
 		edit: edit(),
 		save: save(),
+		deprecated: [
+			{
+				save( props ) {
+					const parentClientId = select( 'core/block-editor' ).getBlockHierarchyRootClientId( props.attributes.blockId );
+					const parentAttributes = select('core/block-editor').getBlockAttributes( parentClientId );
+		
+					return createElement(
+						Fragment, {},
+						createElement(
+							'div', useBlockProps.save({
+								className: 'accordion__section',
+							}),
+							panelTitle(props),
+							panelContent(props, InnerBlocks.Content)
+						)
+					);
+				},
+			},
+		],
 	});
 
 })(window.wp);

@@ -24,9 +24,7 @@ function hdsAccordion() {
 	}
 
 	function _init(accordion) {
-		var _activeToggle = accordion.querySelector('[aria-expanded="true"]'),
-				_activePanel = _activeToggle ? _activeToggle.nextElementSibling : null,
-				_triggers = accordion.querySelectorAll('.accordion__toggle'),
+			var _triggers = accordion.querySelectorAll('.accordion__toggle'),
 				_closeButtons = accordion.querySelectorAll('.accordion__close');
 
 		for (var i = 0; i < _triggers.length; i++) {
@@ -36,13 +34,8 @@ function hdsAccordion() {
 
 				if ( _isOpen(_currentToggle) ) {
 					_close(_currentToggle, _currentPanel);
-					_activeToggle = null;
-					_activePanel = null;
 				} else {
-					_close(_activeToggle, _activePanel);
 					_open(_currentToggle, _currentPanel);
-					_activeToggle = _currentToggle;
-					_activePanel = _currentPanel;
 				}
 			});
 		}

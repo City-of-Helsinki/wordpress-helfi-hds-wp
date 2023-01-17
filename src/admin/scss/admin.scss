@@ -2,12 +2,13 @@
 
 @import '../../functions';
 @import '../../mixins';
+@import '../../hds-design-tokens';
 @import '../../settings';
 @import '../../hds-core';
 
 @import '../../common/scss/hds/index';
 
-body.wp-admin .editor-styles-wrapper {
+body.wp-admin .editor-styles-wrapper, body.editor-styles-wrapper {
     font-family: $body-font-family;
 
     @import 'editor';

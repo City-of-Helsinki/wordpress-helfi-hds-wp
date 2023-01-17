@@ -21,6 +21,13 @@
     }
 }
 
+.wp-block-gallery {
+    &.is-layout-flex {
+        --wp--style--unstable-gallery-gap: var(--gallery-block--gutter-size,16px) !important;
+        gap: var(--gallery-block--gutter-size,16px) !important;
+    }
+}
+
 .blocks-gallery-image,
 .blocks-gallery-item,
 .wp-block-image,

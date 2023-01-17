@@ -5,14 +5,14 @@ add_filter('wpcf7_form_elements', function($elements){
 		array(
 			//'<p><label>',
 			//'</label></p>',
-			//'class="wpcf7-form-control-wrap',
+			'class="wpcf7-form-control-wrap',
 			'</select>',
 			'<input type="file"'
 		),
 		array(
 			//'<div class="hds-text-input"><label>',
 			//'</label></div>',
-			//'class="wpcf7-form-control-wrap hds-text-input__input-wrapper',
+			'class="wpcf7-form-control-wrap hds-text-input__input-wrapper',
 			'</select><span class="select-chevron">' . helsinki_get_svg_icon('angle-down') . '</span>',
 			'<label class="hds-button hds-button--secondary form-file-input">' . helsinki_get_svg_icon('plus') . '<span>' . __('Add file', 'hds-wp') . '</span></label><input type="file"'
 		),

@@ -39,11 +39,11 @@ h4 {
 }
 
 h5 {
-  font-weight: $global-font-weight-medium;
+  font-weight: $global-font-weight-bold;
   line-height: 1.5;
 
   @include breakpoint('l') {
-    font-weight: $global-font-weight-bold;
+    font-weight: $global-font-weight-medium;
   }
 }
 

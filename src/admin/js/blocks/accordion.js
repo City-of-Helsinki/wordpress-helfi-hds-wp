@@ -1,12 +1,12 @@
 (function(wp){
 
 	const __ = wp.i18n.__;
-	const { registerBlockType } = wp.blocks;
+	const { registerBlockType, getBlockContent, hasChildBlocks } = wp.blocks;
 	const { Fragment, createElement } = wp.element;
 	const { useBlockProps, BlockControls, InnerBlocks } = wp.blockEditor;
 	const { InspectorControls } = wp.editor;
 	const { ToolbarGroup, ToolbarButton, Button, ToggleControl } = wp.components;
-	const { select, dispatch } = wp.data;
+	const { select, dispatch, useSelect } = wp.data;
 
 	function accordionTitle(props) {
 		if (props.attributes.title != null && props.attributes.title != '') {
@@ -58,7 +58,9 @@
 
 	function edit() {
 		return function(props) {
+			props.attributes.blockVersion = 2;
 
+			var content = null;
 			const {
 				clientId
 			} = props;
@@ -73,54 +75,69 @@
 				}
 			});
 
-			return createElement(
-				Fragment, {},
-				accordionControls(props),
-				createElement(
-					'div', useBlockProps({
-						className: 'accordion-wrapper',
-					}),
-					accordionTitle(props),
-					accordionDescription(props),
+			const isParentOfSelectedBlock = useSelect(function(selectFrom){
+                return select('core/block-editor').hasSelectedInnerBlock(props.clientId, true);
+            });
+
+			props.attributes.panels = select('core/block-editor')
+			.getBlocks( props.clientId )
+			.map(function(block){
+			  var innerContent = '';
+			  
+			  if (block.innerBlocks.length > 0) {
+				innerContent = getBlockContent( select('core/block-editor').getBlock(block.clientId));
+			  }
+			  block.attributes.innerContent = innerContent;
+  
+			  return block.attributes;
+			});
+
+			if ( props.isSelected || isParentOfSelectedBlock ) {
+				content = createElement(
+					Fragment, {},
+					accordionControls(props),
 					createElement(
 						'div', {
-							className: 'accordion',
+							className: 'accordion-wrapper',
 						},
+						accordionTitle(props),
+						accordionDescription(props),
 						createElement(
-							InnerBlocks,
-							{
-								allowedBlocks: ['hds-wp/accordion-panel'],
-								template: [
-									['hds-wp/accordion-panel', {}],
-									['hds-wp/accordion-panel', {}],
-									['hds-wp/accordion-panel', {}],
-								]
-							}
+							'div', {
+								className: 'accordion',
+							},
+							createElement(
+								InnerBlocks,
+								{
+									allowedBlocks: ['hds-wp/accordion-panel'],
+									template: [
+										['hds-wp/accordion-panel', {}],
+										['hds-wp/accordion-panel', {}],
+										['hds-wp/accordion-panel', {}],
+									]
+								}
+							)
 						)
 					)
-				)
+				);
+			} else {
+				content = createElement( wp.serverSideRender, {
+				  block: 'hds-wp/accordion',
+				  attributes: props.attributes,
+				  httpMethod: 'POST',
+				});
+			}
+		
+			return createElement(
+				Fragment, {},
+				createElement( 'div', useBlockProps(), content)
 			);
 		}
 	}
 
 	function save() {
 		return function( props ) {
-			return createElement(
-				Fragment, {},
-				createElement(
-					'div', useBlockProps.save({
-						className: 'accordion-wrapper',
-					}),
-					accordionTitle(props),
-					accordionDescription(props),
-					createElement(
-						'div', {
-							className: 'accordion',
-						},
-						createElement(InnerBlocks.Content)
-					)
-				)
-			);
+			return createElement(InnerBlocks.Content, useBlockProps.save());
 		}
 	}
 
@@ -138,10 +155,44 @@
 			},
 			description: {
 				type: 'string',
-			}
+			},
+			panels: {
+				type: 'array',
+				default: [],
+			},
+			blockVersion: {
+				type: 'number',
+			},
+			anchor: {
+				type: 'string',
+				default: '',
+			},
 		},
 		edit: edit(),
 		save: save(),
+		deprecated: [
+			{
+				save( props ) {
+					return createElement(
+						Fragment, {},
+						createElement(
+							'div', useBlockProps.save({
+								className: 'accordion-wrapper',
+							}),
+							accordionTitle(props),
+							accordionDescription(props),
+							createElement(
+								'div', {
+									className: 'accordion',
+								},
+								createElement(InnerBlocks.Content)
+							)
+						)
+					);				
+				},
+			},
+		],
+
 	});
 
 })(window.wp);
