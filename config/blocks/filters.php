@@ -39,13 +39,15 @@ function hds_button_class( $block_content = '', $block = [] ) {
 
 add_filter( 'render_block', 'hds_file_render', 10, 2 );
 function hds_file_render( $block_content = '', $block = [] ) {
-	if ( empty( $block['blockName'] ) || 'core/file' !== $block['blockName'] ) {
+	if ( empty( $block['blockName'] ) || ('core/file' !== $block['blockName'] && 'hds-wp/accordion' !== $block['blockName'])) {
 		return $block_content;
 	}
 
-	if (str_contains($block_content, 'download')) {
-		$block_content = substr($block_content, 0, -11);
-		$block_content .= Svg::icon( 'actions-settings', 'download' ) . '</a></div>';
+	if ('core/file' == $block['blockName']) {
+		if (str_contains($block_content, 'download')) {
+			$block_content = substr($block_content, 0, -11);
+			$block_content .= Svg::icon( 'actions-settings', 'download' ) . '</a></div>';
+		}
 	}
 
 	return str_replace(
