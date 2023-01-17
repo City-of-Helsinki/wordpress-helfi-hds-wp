@@ -1,0 +1,9 @@
+table {
+    caption {
+        @extend h4;
+
+        @include breakpoint('l') {
+            line-height: 1.3;
+        }
+    }
+}
