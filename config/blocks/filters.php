@@ -89,19 +89,29 @@ function hds_audio_render( $block_content = '', $block = [] ) {
 
 add_filter( 'render_block', 'hds_table_render', 10, 2 );
 function hds_table_render( $block_content = '', $block = [] ) {
-	if ( empty( $block['blockName'] ) || 'core/table' !== $block['blockName'] ) {
+	if ( empty( $block['blockName'] ) || ('core/table' !== $block['blockName'] && 'core/calendar' !== $block['blockName'])) {
 		return $block_content;
 	}
 
-	if ( !empty( $block['attrs']['title'] ) ) {
-		preg_match_all('/(?<table><table[^\>]*>)/sU', $block_content, $matches);
-		$block_content = preg_replace(
-			'/(?<table><table[^\>]*>)/sU',
-			$matches['table'][0] . '<caption>' . $block['attrs']['title'] . '</caption>',
-			$block_content,
-			1
-		);
+	if ('core/table' == $block['blockName']) {
+		if ( !empty( $block['attrs']['title'] ) ) {
+			preg_match_all('/(?<table><table[^\>]*>)/sU', $block_content, $matches);
+			$block_content = preg_replace(
+				'/(?<table><table[^\>]*>)/sU',
+				$matches['table'][0] . '<caption>' . $block['attrs']['title'] . '</caption>',
+				$block_content,
+				1
+			);
+		}
 	}
+
+	preg_match_all('/(?<table><table)/sU', $block_content, $matches);
+	$block_content = preg_replace(
+		'/(?<table><table)/sU',
+		$matches['table'][0] . ' tabindex="0"',
+		$block_content,
+		1
+	);
 
 	return $block_content;
 }
