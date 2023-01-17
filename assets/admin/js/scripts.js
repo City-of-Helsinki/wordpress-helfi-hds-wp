@@ -517,7 +517,7 @@ function hdsIcons(name) {
     return 'true' === toggle.getAttribute('aria-expanded');
   }
   function currentOpen(element) {
-    return element.closest('.accordion').querySelector('[aria-expanded="true"]');
+    return element.closest('.accordion__section').querySelector('.accordion__toggle[aria-expanded="true"]');
   }
   function togglePanel(toggle) {
     return toggle.parentElement.nextElementSibling;
@@ -552,7 +552,8 @@ function hdsIcons(name) {
       'aria-controls': 'panel-' + props.attributes.blockId,
       'aria-expanded': 'false',
       onClick: function onClick(event) {
-        closeCurrent(event.currentTarget);
+
+        //closeCurrent(event.currentTarget);
         var panel = togglePanel(event.currentTarget);
         if (isOpen(event.currentTarget)) {
           closePanel(event.currentTarget, panel);

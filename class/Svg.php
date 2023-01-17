@@ -38,20 +38,36 @@ class Svg extends Singleton {
 			)
 		);
 
+		$pathHtml = '';
+		if ($name == 'vibration') {
+			$pathHtml = sprintf(
+				'<polygon transform="scale(%1$s)" points="%2$s"></polygon>',
+				esc_attr( $size['scale'] ),
+				$path
+			);
+		}
+		else {
+			$pathHtml = sprintf(
+				'<path transform="scale(%1$s)" d="%2$s"></path>',
+				esc_attr( $size['scale'] ),
+				$path
+			);
+
+		}
+
 		return $path ? sprintf(
-			'<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="%6$s" height="%3$d">
+			'<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="%5$s" height="%3$d">
 				<defs>
 					<pattern id="%1$s" x="0" y="0" width="%2$d" height="%3$d" patternUnits="userSpaceOnUse">
-						<path transform="scale(%4$s)" d="%5$s"></path>
+						%4$s
 					</pattern>
 				</defs>
-				<rect fill="url(#%1$s)" width="%6$s" height="%3$d"></rect>
+				<rect fill="url(#%1$s)" width="%5$s" height="%3$d"></rect>
 			</svg>',
 			esc_attr( "koros_{$name}-{$id}" ),
 			esc_attr( $size['width'] ),
 			esc_attr( $size['height'] ),
-			esc_attr( $size['scale'] ),
-			$path,
+			$pathHtml,
 			'100%'
 		) : '';
 	}

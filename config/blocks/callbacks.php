@@ -96,7 +96,10 @@ function hds_wp_content_card_html( WP_Post $post, $attributes) {
 	}
 
 	$date = 'post' === $post->post_type ? sprintf(
-			'<p class="card__date">%s</p>',
+			'<span class="screen-reader-text">%s</span>
+			<time datetime="%s" class="card__date">%s</time>',
+			__('Published:', 'hds-wp'),
+			esc_attr( get_the_date( 'c', $post ) ),
 			get_the_date( '', $post )
 		) : '';
 
@@ -107,7 +110,7 @@ function hds_wp_content_card_html( WP_Post $post, $attributes) {
 			$image
 		),
 		'content_open' => '<div class="card__content">',
-		'title' => '<h3 class="card__title">' . esc_html( $post->post_title ) . '</h3>',
+		'title' => '<a class="card__title_link" href="' . esc_url( get_permalink( $post ) ) . '"><h3 class="card__title">' . esc_html( $post->post_title ) . '</h3></a>',
 		'excerpt' => $excerpt,
 		'date' => $date,
 		'more' => '<div class="card__more">' . Svg::icon( 'arrows-operators', 'arrow-right' ) . '</div>',
@@ -116,9 +119,8 @@ function hds_wp_content_card_html( WP_Post $post, $attributes) {
 
 	return sprintf(
 		'<article class="content-cards__card card">
-			<a class="card__link" href="%s">%s</a>
+			<div class="card__link">%s</div>
 		</article>',
-		esc_url( get_permalink( $post ) ),
 		implode( '', $parts )
 	);
 }
@@ -229,7 +231,7 @@ function hds_wp_query_block_post_id( int $post ) {
 				</button>
 			</div>',
 			$attributes['blockId'],
-			isset($attributes['innerContent']) ? $attributes['innerContent'] : '',
+			apply_filters('the_content', isset($attributes['innerContent']) ? $attributes['innerContent'] : ''),
 			__('Close', 'hds-wp'),
 			Svg::icon( 'arrows-operators', 'angle-up' )
 		);
@@ -302,16 +304,17 @@ function hds_wp_render_block_links_list( $attributes ) {
 	}
 
 	$wrapClasses = array( 'links-list' );
-	$decoration = '';
+	$koros = '';
 	if ( ! empty( $attributes['hasBackground'] ) ) {
 		$wrapClasses[] = 'has-background';
-		$decoration = sprintf(
-			'<div class="links-list__decoration">%s</div>',
-			Svg::placeholder(apply_filters(
-				'hds_wp_links_list_decoration',
-				'abstract-7'
-			))
+		$koros = sprintf(
+			'<div class="links-list__koros">%s</div>',
+			Svg::koros(
+				apply_filters( 'hds_wp_links_list_koros', 'basic' ),
+				md5( time() . implode( '', $links ) )
+			)
 		);
+
 	}
 	if (!empty($attributes['className'])) {
 		$wrapClasses[] = esc_attr($attributes['className']);
@@ -320,8 +323,7 @@ function hds_wp_render_block_links_list( $attributes ) {
 	$title = '';
 	if ( ! empty( $attributes['title'] ) ) {
 		$title = sprintf(
-			'<h2 class="links-list__title">%s<span>%s</span></h2>',
-			$decoration,
+			'<h2 class="links-list__title"><span>%s</span></h2>',
 			esc_html( $attributes['title'] )
 		);
 	}
@@ -333,7 +335,7 @@ function hds_wp_render_block_links_list( $attributes ) {
 	);
 
 	return sprintf(
-		'<div %s class="%s">
+		'<div %s class="%s">%s
 			<div class="hds-container">
 				%s
 				<ul class="%s">%s</ul>
@@ -341,6 +343,7 @@ function hds_wp_render_block_links_list( $attributes ) {
 		</div>',
 		$id,
 		implode( ' ', $wrapClasses ),
+		$koros,
 		$title,
 		implode( ' ', $gridClasses ),
 		implode( '', $links )
@@ -418,9 +421,9 @@ function hds_wp_render_link_with_title( array $link ) {
 
 	return hds_wp_render_links_list_item(
 		sprintf(
-			'<a %s>
-				<h3 class="link___title"><span>%s</span>%s</h3>
-			</a>',
+			'<div class="link">
+				<a %s><h3 class="link___title"><span>%s</span>%s</h3></a>
+			</div>',
 			hds_links_list_link_attributes( $link ),
 			esc_html( $link['linkTitle'] ),
 			hds_wp_render_link_icon( $link['isExternalUrl'] )
@@ -463,10 +466,10 @@ function hds_wp_render_link_with_title_excerpt( array $link ) {
 
 	return hds_wp_render_links_list_item(
 		sprintf(
-			'<a %s>
-				<h3 class="link___title"><span>%s</span>%s</h3>
+			'<div class="link">
+				<a %s><h3 class="link___title"><span>%s</span>%s</h3></a>
 				%s
-			</a>',
+			</div>',
 			hds_links_list_link_attributes( $link ),
 			esc_html( $link['linkTitle'] ),
 			hds_wp_render_link_icon( $link['isExternalUrl'] ),
@@ -507,11 +510,10 @@ function hds_wp_render_link_with_image_title( array $link ) {
 	$has_placeholder = empty( $link['mediaId'] );
 	return hds_wp_render_links_list_item(
 		sprintf(
-			'<a %s>
+			'<div class="link">
 				<div class="link__thumbnail%s">%s</div>
-				<h3 class="link___title"><span>%s</span>%s</h3>
-			</a>',
-			hds_links_list_link_attributes( $link ),
+				<a %s><h3 class="link___title"><span>%s</span>%s</h3></a>
+			</div>',
 			$has_placeholder ? ' has-placeholder' : '',
 			$link['mediaId'] ? wp_get_attachment_image($link['mediaId'], 'medium_large') : Svg::placeholder(
 				apply_filters(
@@ -519,6 +521,7 @@ function hds_wp_render_link_with_image_title( array $link ) {
 					'abstract-3'
 				)
 			),
+			hds_links_list_link_attributes( $link ),
 			esc_html( $link['linkTitle'] ),
 			hds_wp_render_link_icon( $link['isExternalUrl'] )
 		)
@@ -527,12 +530,17 @@ function hds_wp_render_link_with_image_title( array $link ) {
 
 function hds_links_list_link_attributes( array $link ) {
 	$attributes = array(
-		'class="link"',
 		'href="' . esc_url( $link['linkUrl'] ) . '"'
 	);
 
+	$attributes[] = 'class="link__title_link"';
+
 	if ( ! empty( $link['targetBlank'] ) ) {
 		$attributes[] = 'target="_blank"';
+	}
+
+	if (! empty( $link['isExternalUrl'] ) && $link['isExternalUrl'] ) {
+		$attributes[] = 'aria-label="' . $link['linkTitle'] . ' - ' . __('(Link leads to external service)', 'hds-wp') . '"';
 	}
 
 	return implode( ' ', $attributes );

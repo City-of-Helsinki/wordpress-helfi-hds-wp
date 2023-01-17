@@ -88,6 +88,41 @@
             }
         });
 
+        $('.wpcf7-form .wpcf7-response-output').each(function(){
+            $(this).remove();
+        });
+
+        $('.wpcf7-form').each(function(){
+            var $this = $(this);
+            $this.prepend(prependNotification());
+
+            function prependNotification() {
+                var notification = document.createElement('div');
+                notification.classList.add('wpcf7-response-output');
+                notification.setAttribute('aria-hidden', true);
+
+                var notificationIcons = document.createElement('div');
+                notificationIcons.classList.add('wpcf7-response-label');
+                notificationIcons.innerHTML = hds_wp['alert-circle'] + hds_wp['info-circle'] + hds_wp['error'] + hds_wp['check-circle'];
+
+                var notificationWrapper = document.createElement('div');
+                notificationWrapper.classList.add('wpcf7-response-hds-wrapper');
+
+                notificationWrapper.appendChild(notificationIcons);
+                notificationWrapper.appendChild(notification);
+                return notificationWrapper;
+            }
+
+        });
+
+        $('.wpcf7').each(function(){
+            this.addEventListener('wpcf7submit', function( event ) {
+                var response = this.querySelector('.wpcf7-response-hds-wrapper');
+                response.scrollIntoView({block: 'center'});
+                response.focus();
+            });
+        });
+
         function makeid(length) {
             var result           = '';
             var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

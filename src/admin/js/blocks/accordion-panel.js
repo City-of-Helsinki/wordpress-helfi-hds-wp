@@ -23,7 +23,7 @@
 	}
 
 	function currentOpen(element) {
-		return element.closest('.accordion').querySelector('[aria-expanded="true"]');
+		return element.closest('.accordion__section').querySelector('.accordion__toggle[aria-expanded="true"]');
 	}
 
 	function togglePanel(toggle) {
@@ -73,7 +73,7 @@
 				'aria-controls': 'panel-' + props.attributes.blockId,
 				'aria-expanded': 'false',
 				onClick: function(event) {
-					closeCurrent(event.currentTarget);
+					//closeCurrent(event.currentTarget);
 
 					var panel = togglePanel(event.currentTarget);
 					if ( isOpen(event.currentTarget) ) {

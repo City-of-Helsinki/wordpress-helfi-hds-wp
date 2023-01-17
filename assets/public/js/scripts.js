@@ -23,9 +23,7 @@ function hdsAccordion() {
     }
   }
   function _init(accordion) {
-    var _activeToggle = accordion.querySelector('[aria-expanded="true"]'),
-      _activePanel = _activeToggle ? _activeToggle.nextElementSibling : null,
-      _triggers = accordion.querySelectorAll('.accordion__toggle'),
+    var _triggers = accordion.querySelectorAll('.accordion__toggle'),
       _closeButtons = accordion.querySelectorAll('.accordion__close');
     for (var i = 0; i < _triggers.length; i++) {
       _triggers[i].addEventListener('click', function (event) {
@@ -33,13 +31,8 @@ function hdsAccordion() {
         var _currentPanel = _currentToggle.parentElement.nextElementSibling;
         if (_isOpen(_currentToggle)) {
           _close(_currentToggle, _currentPanel);
-          _activeToggle = null;
-          _activePanel = null;
         } else {
-          _close(_activeToggle, _activePanel);
           _open(_currentToggle, _currentPanel);
-          _activeToggle = _currentToggle;
-          _activePanel = _currentPanel;
         }
       });
     }
@@ -148,6 +141,38 @@ hdsAccordions.init(parseAccordionElements());
         fileList.innerHTML = '';
       }
     });
+
+    $('.wpcf7-form .wpcf7-response-output').each(function () {
+      $(this).remove();
+    });
+    $('.wpcf7-form').each(function () {
+      var $this = $(this);
+      $this.prepend(prependNotification());
+
+      function prependNotification() {
+        var notification = document.createElement('div');
+        notification.classList.add('wpcf7-response-output');
+        notification.setAttribute('aria-hidden', true);
+        var notificationIcons = document.createElement('div');
+        notificationIcons.classList.add('wpcf7-response-label');
+        notificationIcons.innerHTML = hds_wp['alert-circle'] + hds_wp['info-circle'] + hds_wp['error'] + hds_wp['check-circle'];
+        var notificationWrapper = document.createElement('div');
+        notificationWrapper.classList.add('wpcf7-response-hds-wrapper');
+        notificationWrapper.appendChild(notificationIcons);
+        notificationWrapper.appendChild(notification);
+        return notificationWrapper;
+      }
+    });
+    $('.wpcf7').each(function () {
+      this.addEventListener('wpcf7submit', function (event) {
+        var response = this.querySelector('.wpcf7-response-hds-wrapper');
+        response.scrollIntoView({
+          block: 'center'
+        });
+        response.focus();
+      });
+    });
+
     function makeid(length) {
       var result = '';
       var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
