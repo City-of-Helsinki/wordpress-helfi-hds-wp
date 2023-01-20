@@ -106,6 +106,20 @@ hdsAccordions.init(parseAccordionElements());
         $this.attr('id', fileInputId);
       }
       label.setAttribute('for', fileInputId);
+      label.addEventListener('focus', function (event) {
+        event.preventDefault(); //for accessibility reasons
+      });
+      // activate using spacebar
+      label.addEventListener('keydown', function (event) {
+        if (event.keyCode == 32) {
+          event.preventDefault();
+        }
+      });
+      label.addEventListener('keyup', function (event) {
+        if (event.keyCode == 32) {
+          $this.click();
+        }
+      });
       $this.change(function () {
         clearFileList();
         addFileListItem(this.files[0]);
