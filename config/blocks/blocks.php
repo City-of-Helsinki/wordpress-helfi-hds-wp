@@ -330,6 +330,17 @@ return array(
 	            'type'    => 'string',
 	            'default' => 'numberless',
 	        ),
+			'cards' => array(
+				'type' => 'array',
+				'default' => array(),
+			),
+			'blockVersion' => array(
+				'type' => 'integer',
+			),
+			'anchor' => array(
+	            'type'    => 'string',
+	            'default' => '',
+			)
 
 	    ),
 	),
