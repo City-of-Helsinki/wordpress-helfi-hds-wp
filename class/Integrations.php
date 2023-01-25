@@ -13,30 +13,45 @@ class Integrations extends Module {
 	protected function loadIncludes() {
 		foreach ( $this->config->value('types') as $type => $integrations ) {
 			foreach ($integrations as $integration => $config) {
-				$file = $this->config->value('path') . $type . DIRECTORY_SEPARATOR . $integration . '.php';
+				$file = implode(DIRECTORY_SEPARATOR, [
+					$this->config->value('path') . $type,
+					$integration . '.php'
+				]);
+
 				if ( file_exists( $file ) ) {
 					if ( isset($config['data']) ) {
-						add_filter(
-							"hds_wp_{$integration}_data", 
-							function () use ($integration, $config) {
-								return $this->includeTypeConfig($integration, $config['data']);
-							}
-						);
+						$this->provideIntegrationData($integration, $config['data']);
 					}
+
 					require_once $file;
 				}
 			}
 		}
 	}
-	
-	protected function includeTypeConfig( string $type, array $config ) {
+
+	protected function provideIntegrationData( string $integration, array $files ) {
+		add_filter(
+			"hds_wp_{$integration}_data",
+			function () use ($integration, $files) {
+				return $this->includeTypeConfig($integration, $files);
+			}
+		);
+	}
+
+	protected function includeTypeConfig( string $type, array $files ) {
 		$out = array();
-		foreach ($config as $key) {
-			$file = $this->config->value('config') . 'integrations' . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . $key . '.php';
-			if ( $file ) {
-				$out[$key] = include_once $file;
+		foreach ($files as $fileName) {
+			$file = implode(DIRECTORY_SEPARATOR, [
+				$this->config->value('config') . 'integrations',
+				$type,
+				$fileName . '.php'
+			]);
+
+			if ( file_exists( $file ) ) {
+				$out[$fileName] = include $file;
 			}
 		}
+
 		return $out;
 	}
 
