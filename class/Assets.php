@@ -8,6 +8,7 @@ class Assets extends Module {
 		$this->minified = $this->config->value('debug') ? '' : 'min';
 
 		add_filter( 'hds_wp_settings_tabs', array( $this, 'settingsTab' ) );
+		add_action( 'customize_register', array( $this, 'modify_customizer' ) );
 
 		if ( $this->config->value('is_admin') ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'adminScripts' ), 1 );
@@ -34,7 +35,10 @@ class Assets extends Module {
 		}
 
 		if ( $this->config->value('favicon') ) {
+			add_filter( 'get_site_icon_url', '__return_false', 100 );
 			add_action( 'wp_head', array( $this, 'favicon' ), 100 );
+			add_action( 'admin_head', array( $this, 'favicon' ), 100 );
+			add_action( 'login_head', array( $this, 'favicon' ), 100 );
 			add_action( 'helsinki_login_head', array( $this, 'favicon' ), 100 );
 		}
 
@@ -50,6 +54,11 @@ class Assets extends Module {
 				),
 			)
 		);
+	}
+
+	public function modify_customizer( $wp_customize ) {
+		//remove site icon setting
+		$wp_customize->remove_control( 'site_icon' );
 	}
 
 	public function implodeParts( array $parts, string $separator ) {
