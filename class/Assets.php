@@ -34,7 +34,8 @@ class Assets extends Module {
 		}
 
 		if ( $this->config->value('favicon') ) {
-			add_filter( 'get_site_icon_url', array( $this, 'favicon' ), 10, 3 );
+			add_action( 'wp_head', array( $this, 'favicon' ), 100 );
+			add_action( 'helsinki_login_head', array( $this, 'favicon' ), 100 );
 		}
 
 	}
@@ -181,8 +182,12 @@ class Assets extends Module {
 		);
 	}
 
-	public function favicon($url, $size, $blog_id) {
-		return $url ?: $this->assetUrl('img', 'favicon.ico', '', '');
+	public function favicon() {
+		return printf('<link rel="icon" href="%1$s/favicon.ico" sizes="any">
+		<link rel="icon" href="%1$s/favicon.svg" type="image/svg+xml">
+		<link rel="apple-touch-icon" href="%1$s/apple-touch-icon.png">
+		<link rel="manifest" href="%1$s/manifest.webmanifest">',
+		$this->assetUrl('img', 'favicon', '', ''));
 	}
 
 }
