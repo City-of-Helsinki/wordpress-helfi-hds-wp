@@ -3,9 +3,10 @@
 }
 
 .wp-block-hds-wp-image-banner {
-    max-width: 100%;
-    margin-left: auto;
-    margin-right: auto;
+	margin-left: calc(50% - 50vw) !important;
+    margin-right: calc(50% - 50vw) !important;
+    max-width: 100vw;
+    width: 100vw;
 
     @include breakpoint('m') {
         .image {
