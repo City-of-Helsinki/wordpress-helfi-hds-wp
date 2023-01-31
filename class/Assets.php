@@ -35,7 +35,7 @@ class Assets extends Module {
 		}
 
 		if ( $this->config->value('favicon') ) {
-			add_filter( 'get_site_icon_url', '__return_false', 100 );
+			add_filter( 'get_site_icon_url', array( $this, 'favicon_main' ), 100, 3 );
 			add_action( 'wp_head', array( $this, 'favicon' ), 100 );
 			add_action( 'admin_head', array( $this, 'favicon' ), 100 );
 			add_action( 'login_head', array( $this, 'favicon' ), 100 );
@@ -199,4 +199,7 @@ class Assets extends Module {
 		$this->assetUrl('img', 'favicon', '', ''));
 	}
 
+	public function favicon_main($url, $size, $blog_id) {
+		return $this->assetUrl('img', 'favicon/favicon.svg', '', '');
+	}
 }
