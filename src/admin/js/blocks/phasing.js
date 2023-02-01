@@ -1,12 +1,12 @@
 (function(wp){
 
 	const __ = wp.i18n.__;
-	const { registerBlockType } = wp.blocks;
+	const { registerBlockType, getBlockContent } = wp.blocks;
 	const { Fragment, createElement } = wp.element;
 	const { useBlockProps, BlockControls, InnerBlocks } = wp.blockEditor;
 	const { InspectorControls } = wp.editor;
 	const { ToolbarGroup, ToolbarButton, Button, ToggleControl } = wp.components;
-	const { select, dispatch } = wp.data;
+	const { select, dispatch, useSelect } = wp.data;
 
 	function timelineTitle(props) {
 		if (props.attributes.title != null && props.attributes.title != '') {
@@ -72,7 +72,9 @@
 
 	function edit() {
 		return function(props) {
+			props.attributes.blockVersion = 2;
 
+			var content = null;
 			const {
 				clientId
 			} = props;
@@ -85,64 +87,77 @@
                 });
 			}
 
-			return createElement(
-				Fragment, {},
-				timelineControls(props),
-				createElement(
-					'div', useBlockProps({
-						className: 'timeline-wrapper',
-					}),
-					timelineTitle(props),
-                    timelineDescription(props),
+			const isParentOfSelectedBlock = useSelect(function(selectFrom){
+                return select('core/block-editor').hasSelectedInnerBlock(props.clientId, true);
+            });
+
+			props.attributes.cards = select('core/block-editor')
+			.getBlocks( props.clientId )
+			.map(function(block){
+			  var innerContent = '';
+			  
+			  if (block.innerBlocks.length > 0) {
+				innerContent = getBlockContent( select('core/block-editor').getBlock(block.clientId));
+			  }
+			  block.attributes.innerContent = innerContent;
+  
+			  return block.attributes;
+			});
+
+
+			if ( props.isSelected || isParentOfSelectedBlock ) {
+
+				content = createElement(
+					Fragment, {},
+					timelineControls(props),
 					createElement(
 						'div', {
-							className: 'timeline',
+							className: 'timeline-wrapper',
 						},
-                        createElement(
-                            'div', {
-                                className: 'timeline-line',
-                            },
-                        ),    
+						timelineTitle(props),
+						timelineDescription(props),
 						createElement(
-							InnerBlocks,
-							{
-								allowedBlocks: ['hds-wp/timeline-card'],
-								template: [
-									['hds-wp/timeline-card', {}],
-									['hds-wp/timeline-card', {}],
-									['hds-wp/timeline-card', {}],
-								]
-							}
+							'div', {
+								className: 'timeline',
+							},
+							createElement(
+								'div', {
+									className: 'timeline-line',
+								},
+							),    
+							createElement(
+								InnerBlocks,
+								{
+									allowedBlocks: ['hds-wp/timeline-card'],
+									template: [
+										['hds-wp/timeline-card', {}],
+										['hds-wp/timeline-card', {}],
+										['hds-wp/timeline-card', {}],
+									]
+								}
+							)
 						)
 					)
-				)
+				);
+			} else {
+				content = createElement( wp.serverSideRender, {
+					block: 'hds-wp/timeline',
+					attributes: props.attributes,
+					httpMethod: 'POST',
+				});
+			}
+
+			return createElement(
+				Fragment, {},
+				createElement( 'div', useBlockProps(), content)
 			);
+
 		}
 	}
 
 	function save() {
 		return function( props ) {
-			return createElement(
-				Fragment, {},
-				createElement(
-					'div', useBlockProps.save({
-						className: 'timeline-wrapper',
-					}),
-					timelineTitle(props),
-                    timelineDescription(props),
-					createElement(
-						'div', {
-							className: 'timeline',
-						},
-                        createElement(
-                            'div', {
-                                className: 'timeline-line',
-                            },
-                        ),    
-						createElement(InnerBlocks.Content)
-					)
-				)
-			);
+			return createElement(InnerBlocks.Content, useBlockProps.save());
 		}
 	}
 
@@ -164,10 +179,63 @@
             style: {
                 type: 'string',
                 default: 'numberless'
-            }
+            },
+			cards: {
+				type: 'array',
+				default: [],
+			},
+			blockVersion: {
+				type: 'number',
+			},
+			anchor: {
+				type: 'string',
+				default: '',
+			},
 		},
 		edit: edit(),
 		save: save(),
+		deprecated: [
+			{
+				attributes: {
+					title: {
+						type: 'string',
+					},
+					description: {
+						type: 'string',
+					},
+					style: {
+						type: 'string',
+						default: 'numberless'
+					},
+				},
+				supports: {
+					anchor: true,
+				},
+				save( props ) {
+					return createElement(
+						Fragment, {},
+						createElement(
+							'div', useBlockProps.save({
+								className: 'timeline-wrapper',
+							}),
+							timelineTitle(props),
+							timelineDescription(props),
+							createElement(
+								'div', {
+									className: 'timeline',
+								},
+								createElement(
+									'div', {
+										className: 'timeline-line',
+									},
+								),    
+								createElement(InnerBlocks.Content)
+							)
+						)
+					);
+				},		
+			},
+		],
 	});
 
 })(window.wp);
