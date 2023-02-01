@@ -192,7 +192,7 @@ class Assets extends Module {
 	}
 
 	public function favicon() {
-		return printf('<link rel="icon" href="%1$s/favicon.ico" sizes="any">
+		return printf('<link rel="icon" href="%1$s/favicon-32x32.ico" sizes="any">
 		<link rel="icon" href="%1$s/favicon.svg" type="image/svg+xml">
 		<link rel="apple-touch-icon" href="%1$s/apple-touch-icon.png">
 		<link rel="manifest" href="%1$s/manifest.webmanifest">',
