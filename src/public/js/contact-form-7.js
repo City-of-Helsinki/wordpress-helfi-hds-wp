@@ -41,6 +41,21 @@
                 $this.attr('id', fileInputId);
             }
             label.setAttribute('for', fileInputId);
+			label.addEventListener('focus', event => {
+				event.preventDefault(); //for accessibility reasons
+			});
+			// activate using spacebar
+			label.addEventListener('keydown', event => {
+				if (event.keyCode == 32) {
+					event.preventDefault();
+				}
+			});
+			label.addEventListener('keyup', event => {
+				if (event.keyCode == 32) {
+					$this.click();
+				}
+			});
+
 
             $this.change(function() {
                 clearFileList();

@@ -2136,7 +2136,9 @@ function hdsIcons(name) {
 })(window.wp);
 (function (wp) {
   var __ = wp.i18n.__;
-  var registerBlockType = wp.blocks.registerBlockType;
+  var _wp$blocks7 = wp.blocks,
+    registerBlockType = _wp$blocks7.registerBlockType,
+    getBlockContent = _wp$blocks7.getBlockContent;
   var _wp$element11 = wp.element,
     Fragment = _wp$element11.Fragment,
     createElement = _wp$element11.createElement;
@@ -2152,7 +2154,8 @@ function hdsIcons(name) {
     ToggleControl = _wp$components11.ToggleControl;
   var _wp$data8 = wp.data,
     select = _wp$data8.select,
-    dispatch = _wp$data8.dispatch;
+    dispatch = _wp$data8.dispatch,
+    useSelect = _wp$data8.useSelect;
   function timelineTitle(props) {
     if (props.attributes.title != null && props.attributes.title != '') {
       return createElement('h2', {
@@ -2199,6 +2202,8 @@ function hdsIcons(name) {
   }
   function edit() {
     return function (props) {
+      props.attributes.blockVersion = 2;
+      var content = null;
       var clientId = props.clientId;
       var children = select('core/block-editor').getBlocksByClientId(clientId)[0].innerBlocks;
       for (var i = 0; i < children.length; i++) {
@@ -2207,27 +2212,41 @@ function hdsIcons(name) {
           order: i + 1
         });
       }
-      return createElement(Fragment, {}, timelineControls(props), createElement('div', useBlockProps({
-        className: 'timeline-wrapper'
-      }), timelineTitle(props), timelineDescription(props), createElement('div', {
-        className: 'timeline'
-      }, createElement('div', {
-        className: 'timeline-line'
-      }), createElement(InnerBlocks, {
-        allowedBlocks: ['hds-wp/timeline-card'],
-        template: [['hds-wp/timeline-card', {}], ['hds-wp/timeline-card', {}], ['hds-wp/timeline-card', {}]]
-      }))));
+      var isParentOfSelectedBlock = useSelect(function (selectFrom) {
+        return select('core/block-editor').hasSelectedInnerBlock(props.clientId, true);
+      });
+      props.attributes.cards = select('core/block-editor').getBlocks(props.clientId).map(function (block) {
+        var innerContent = '';
+        if (block.innerBlocks.length > 0) {
+          innerContent = getBlockContent(select('core/block-editor').getBlock(block.clientId));
+        }
+        block.attributes.innerContent = innerContent;
+        return block.attributes;
+      });
+      if (props.isSelected || isParentOfSelectedBlock) {
+        content = createElement(Fragment, {}, timelineControls(props), createElement('div', {
+          className: 'timeline-wrapper'
+        }, timelineTitle(props), timelineDescription(props), createElement('div', {
+          className: 'timeline'
+        }, createElement('div', {
+          className: 'timeline-line'
+        }), createElement(InnerBlocks, {
+          allowedBlocks: ['hds-wp/timeline-card'],
+          template: [['hds-wp/timeline-card', {}], ['hds-wp/timeline-card', {}], ['hds-wp/timeline-card', {}]]
+        }))));
+      } else {
+        content = createElement(wp.serverSideRender, {
+          block: 'hds-wp/timeline',
+          attributes: props.attributes,
+          httpMethod: 'POST'
+        });
+      }
+      return createElement(Fragment, {}, createElement('div', useBlockProps(), content));
     };
   }
   function save() {
     return function (props) {
-      return createElement(Fragment, {}, createElement('div', useBlockProps.save({
-        className: 'timeline-wrapper'
-      }), timelineTitle(props), timelineDescription(props), createElement('div', {
-        className: 'timeline'
-      }, createElement('div', {
-        className: 'timeline-line'
-      }), createElement(InnerBlocks.Content))));
+      return createElement(InnerBlocks.Content, useBlockProps.save());
     };
   }
   registerBlockType('hds-wp/timeline', {
@@ -2248,17 +2267,54 @@ function hdsIcons(name) {
       style: {
         type: 'string',
         default: 'numberless'
+      },
+      cards: {
+        type: 'array',
+        default: []
+      },
+      blockVersion: {
+        type: 'number'
+      },
+      anchor: {
+        type: 'string',
+        default: ''
       }
     },
     edit: edit(),
-    save: save()
+    save: save(),
+    deprecated: [{
+      attributes: {
+        title: {
+          type: 'string'
+        },
+        description: {
+          type: 'string'
+        },
+        style: {
+          type: 'string',
+          default: 'numberless'
+        }
+      },
+      supports: {
+        anchor: true
+      },
+      save: function save(props) {
+        return createElement(Fragment, {}, createElement('div', useBlockProps.save({
+          className: 'timeline-wrapper'
+        }), timelineTitle(props), timelineDescription(props), createElement('div', {
+          className: 'timeline'
+        }, createElement('div', {
+          className: 'timeline-line'
+        }), createElement(InnerBlocks.Content))));
+      }
+    }]
   });
 })(window.wp);
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks7 = wp.blocks,
-    registerBlockType = _wp$blocks7.registerBlockType,
-    getBlockContent = _wp$blocks7.getBlockContent;
+  var _wp$blocks8 = wp.blocks,
+    registerBlockType = _wp$blocks8.registerBlockType,
+    getBlockContent = _wp$blocks8.getBlockContent;
   var _wp$element12 = wp.element,
     Fragment = _wp$element12.Fragment,
     createElement = _wp$element12.createElement,
@@ -2359,9 +2415,9 @@ function hdsIcons(name) {
 })(window.wp);
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks8 = wp.blocks,
-    registerBlockType = _wp$blocks8.registerBlockType,
-    getBlockContent = _wp$blocks8.getBlockContent;
+  var _wp$blocks9 = wp.blocks,
+    registerBlockType = _wp$blocks9.registerBlockType,
+    getBlockContent = _wp$blocks9.getBlockContent;
   var _wp$element13 = wp.element,
     Fragment = _wp$element13.Fragment,
     createElement = _wp$element13.createElement,
