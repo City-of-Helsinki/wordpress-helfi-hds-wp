@@ -68,13 +68,12 @@
 }
 
 .wp-block-image {
-	&.aligncenter {
-		display: table !important;
-	}
 
-	.aligncenter {
+	//not alignfull
+	&:not(.alignfull) {
 		display: table !important;
 	}
+	
 }
 
 .wp-caption {
