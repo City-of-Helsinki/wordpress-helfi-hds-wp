@@ -2640,7 +2640,7 @@ wp.domReady(function () {
     return extraProps;
   }
   wp.hooks.addFilter('blocks.getSaveContent.extraProps', 'table/custom-apply-class', tableApplyExtraClass);
-  var withYourCustomBlockClass = wp.compose.createHigherOrderComponent(function (BlockListBlock) {
+  var tableEditorWrapperExtraClass = wp.compose.createHigherOrderComponent(function (BlockListBlock) {
     return function (props) {
       var name = props.name,
         attributes = props.attributes;
@@ -2655,6 +2655,6 @@ wp.domReady(function () {
         className: customClass
       }));
     };
-  }, 'withYourCustomBlockClass');
-  wp.hooks.addFilter('editor.BlockListBlock', 'your-plugin/your-custom-class', withYourCustomBlockClass);
+  }, 'tableEditorWrapperExtraClass');
+  wp.hooks.addFilter('editor.BlockListBlock', 'table/custom-editor-wrapper-class', tableEditorWrapperExtraClass);
 })(window.wp);
