@@ -217,6 +217,14 @@
             }
         }
     }
+
+    &:not(.has-background) {
+
+        .hds-container {
+            padding: 0;
+        }
+    }
+
 }
 
 .has-sidebar:not(.home) {

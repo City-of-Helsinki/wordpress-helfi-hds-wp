@@ -8,6 +8,7 @@ class Assets extends Module {
 		$this->minified = $this->config->value('debug') ? '' : 'min';
 
 		add_filter( 'hds_wp_settings_tabs', array( $this, 'settingsTab' ) );
+		add_action( 'customize_register', array( $this, 'modify_customizer' ) );
 
 		if ( $this->config->value('is_admin') ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'adminScripts' ), 1 );
@@ -34,7 +35,11 @@ class Assets extends Module {
 		}
 
 		if ( $this->config->value('favicon') ) {
-			add_filter( 'get_site_icon_url', array( $this, 'favicon' ), 10, 3 );
+			add_filter( 'get_site_icon_url', array( $this, 'favicon_main' ), 100, 3 );
+			add_action( 'wp_head', array( $this, 'favicon' ), 100 );
+			add_action( 'admin_head', array( $this, 'favicon' ), 100 );
+			add_action( 'login_head', array( $this, 'favicon' ), 100 );
+			add_action( 'helsinki_login_head', array( $this, 'favicon' ), 100 );
 		}
 
 	}
@@ -49,6 +54,11 @@ class Assets extends Module {
 				),
 			)
 		);
+	}
+
+	public function modify_customizer( $wp_customize ) {
+		//remove site icon setting
+		$wp_customize->remove_control( 'site_icon' );
 	}
 
 	public function implodeParts( array $parts, string $separator ) {
@@ -181,8 +191,15 @@ class Assets extends Module {
 		);
 	}
 
-	public function favicon($url, $size, $blog_id) {
-		return $url ?: $this->assetUrl('img', 'favicon.ico', '', '');
+	public function favicon() {
+		return printf('<link rel="icon" href="%1$s/favicon-32x32.ico" sizes="any">
+		<link rel="icon" href="%1$s/favicon.svg" type="image/svg+xml">
+		<link rel="apple-touch-icon" href="%1$s/apple-touch-icon.png">
+		<link rel="manifest" href="%1$s/manifest.webmanifest">',
+		$this->assetUrl('img', 'favicon', '', ''));
 	}
 
+	public function favicon_main($url, $size, $blog_id) {
+		return $this->assetUrl('img', 'favicon/favicon.svg', '', '');
+	}
 }
