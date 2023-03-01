@@ -73,4 +73,26 @@
         tableApplyExtraClass
     );
 
+    const tableEditorWrapperExtraClass = wp.compose.createHigherOrderComponent( ( BlockListBlock ) => {
+        return ( props ) => {
+            const { name, attributes } = props;
+    
+            console.log(name);
+            if ( name != 'core/table' ) {
+                return <BlockListBlock { ...props }/>;
+            }
+        console.log(attributes);
+        const { verticalHeader } = attributes;
+        const customClass = verticalHeader ? 'has-vertical-header' : '';
+    
+            return <BlockListBlock { ...props } className={ customClass } />;
+        };
+    }, 'tableEditorWrapperExtraClass' );
+    
+    wp.hooks.addFilter(
+        'editor.BlockListBlock',
+        'table/custom-editor-wrapper-class',
+        tableEditorWrapperExtraClass
+    );
+
 })(window.wp);
