@@ -1,0 +1,14 @@
+.wp-block-social-links {
+    &:not(.is-style-logos-only) {
+        .wp-social-link {
+            background-color: #000000;
+            color: #ffffff;
+        }
+    }
+    &.is-style-logos-only {
+        .wp-social-link {
+            background-color: transparent;
+            color: #000000;
+        }
+    }
+}
