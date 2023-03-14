@@ -38,6 +38,9 @@
         if(getBlockType('core/rss')) {
             unregisterBlockType( 'core/rss' );
         }
+        if(getBlockType('core/search')) {
+            unregisterBlockType( 'core/search' );
+        }
 
         //Disable theme blocks
         if(getBlockType('core/avatar')) {
