@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Helsinki Design System for WordPress\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-20 12:33+0000\n"
+"POT-Creation-Date: 2023-02-23 09:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -16,7 +16,7 @@ msgstr ""
 "X-Loco-Version: 2.5.2; wp-5.7.1\n"
 "X-Domain: hds-wp"
 
-#: config/blocks/callbacks.php:542
+#: config/blocks/callbacks.php:543
 msgid "(Link leads to external service)"
 msgstr ""
 
@@ -36,7 +36,7 @@ msgstr ""
 msgid "Adds Helsinki styles, scripts and fonts to the site."
 msgstr ""
 
-#: assets/admin/js/scripts.js:2552 src/admin/js/filters/table.js:36
+#: assets/admin/js/scripts.js:2613 src/admin/js/filters/table.js:36
 msgid "Advanced table settings"
 msgstr ""
 
@@ -56,7 +56,7 @@ msgstr ""
 msgid "ArtCloud"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2298 src/admin/js/blocks/recent-posts.js:33
+#: assets/admin/js/scripts.js:2354 src/admin/js/blocks/recent-posts.js:33
 msgid "Article count"
 msgstr ""
 
@@ -89,8 +89,8 @@ msgstr ""
 msgid "City of Helsinki"
 msgstr ""
 
-#: config/blocks/callbacks.php:236 assets/admin/js/scripts.js:592
-#: src/admin/js/blocks/accordion-panel.js:146
+#: config/blocks/callbacks.php:235 assets/admin/js/scripts.js:592
+#: src/admin/js/blocks/accordion-panel.js:147
 msgid "Close"
 msgstr ""
 
@@ -144,7 +144,7 @@ msgid ""
 "variables."
 msgstr ""
 
-#: assets/admin/js/scripts.js:712 assets/admin/js/scripts.js:2190
+#: assets/admin/js/scripts.js:712 assets/admin/js/scripts.js:2193
 #: src/admin/js/blocks/accordion.js:51 src/admin/js/blocks/phasing.js:59
 msgid "Description"
 msgstr ""
@@ -202,7 +202,7 @@ msgid "Helsinki - Accordion"
 msgstr ""
 
 #: config/blocks/blocks.php:36 assets/admin/js/scripts.js:623
-#: src/admin/js/blocks/accordion-panel.js:197
+#: src/admin/js/blocks/accordion-panel.js:198
 msgid "Helsinki - Accordion Panel"
 msgstr ""
 
@@ -244,22 +244,22 @@ msgstr ""
 msgid "Helsinki - Links"
 msgstr ""
 
-#: config/blocks/blocks.php:308 assets/admin/js/scripts.js:2235
-#: src/admin/js/blocks/phasing.js:151
+#: config/blocks/blocks.php:308 assets/admin/js/scripts.js:2254
+#: src/admin/js/blocks/phasing.js:166
 msgid "Helsinki - Phasing"
 msgstr ""
 
-#: config/blocks/blocks.php:337 assets/admin/js/scripts.js:2105
+#: config/blocks/blocks.php:348 assets/admin/js/scripts.js:2105
 #: src/admin/js/blocks/phasing-card.js:77
 msgid "Helsinki - Phasing Card"
 msgstr ""
 
-#: config/blocks/blocks.php:242 assets/admin/js/scripts.js:2333
+#: config/blocks/blocks.php:242 assets/admin/js/scripts.js:2389
 #: src/admin/js/blocks/recent-posts.js:83
 msgid "Helsinki - Recent Posts"
 msgstr ""
 
-#: config/blocks/blocks.php:275 assets/admin/js/scripts.js:2415
+#: config/blocks/blocks.php:275 assets/admin/js/scripts.js:2471
 #: src/admin/js/blocks/rss-feed.js:59
 msgid "Helsinki - RSS"
 msgstr ""
@@ -289,7 +289,7 @@ msgstr ""
 msgid "Image, Title & Excerpt"
 msgstr ""
 
-#: class/Integrations.php:48
+#: class/Integrations.php:63
 msgid "Integrations"
 msgstr ""
 
@@ -301,11 +301,11 @@ msgstr ""
 msgid "Is external URL"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2395 src/admin/js/blocks/rss-feed.js:28
+#: assets/admin/js/scripts.js:2451 src/admin/js/blocks/rss-feed.js:28
 msgid "Lifetime (h)"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2463 src/admin/js/filters/block-styles.js:27
+#: assets/admin/js/scripts.js:2524 src/admin/js/filters/block-styles.js:33
 msgid "Light Gray Background"
 msgstr ""
 
@@ -315,11 +315,11 @@ msgstr ""
 msgid "Link type"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2177 src/admin/js/blocks/phasing.js:42
+#: assets/admin/js/scripts.js:2180 src/admin/js/blocks/phasing.js:42
 msgid "Numbered"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2174 src/admin/js/blocks/phasing.js:41
+#: assets/admin/js/scripts.js:2177 src/admin/js/blocks/phasing.js:41
 msgid "Numberless"
 msgstr ""
 
@@ -331,7 +331,7 @@ msgstr ""
 msgid "Open in new window"
 msgstr ""
 
-#: assets/admin/js/scripts.js:633 src/admin/js/blocks/accordion-panel.js:207
+#: assets/admin/js/scripts.js:633 src/admin/js/blocks/accordion-panel.js:208
 msgid "Panel"
 msgstr ""
 
@@ -345,6 +345,10 @@ msgstr ""
 
 #: class/Cpt.php:29
 msgid "Post Types"
+msgstr ""
+
+#: assets/admin/js/scripts.js:2507 src/admin/js/filters/block-styles.js:13
+msgid "Primary"
 msgstr ""
 
 #. Description of the plugin
@@ -373,7 +377,7 @@ msgstr ""
 msgid "Search posts"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2450 src/admin/js/filters/block-styles.js:12
+#: assets/admin/js/scripts.js:2511 src/admin/js/filters/block-styles.js:18
 msgid "Secondary"
 msgstr ""
 
@@ -386,8 +390,8 @@ msgstr ""
 #: class/Settings.php:128 assets/admin/js/scripts.js:534
 #: assets/admin/js/scripts.js:705 assets/admin/js/scripts.js:929
 #: assets/admin/js/scripts.js:1025 assets/admin/js/scripts.js:1732
-#: assets/admin/js/scripts.js:1943 assets/admin/js/scripts.js:2183
-#: assets/admin/js/scripts.js:2291 assets/admin/js/scripts.js:2384
+#: assets/admin/js/scripts.js:1943 assets/admin/js/scripts.js:2186
+#: assets/admin/js/scripts.js:2347 assets/admin/js/scripts.js:2440
 #: src/admin/js/blocks/accordion-panel.js:47
 #: src/admin/js/blocks/accordion.js:42 src/admin/js/blocks/content-card.js:28
 #: src/admin/js/blocks/content-cards.js:29 src/admin/js/blocks/link.js:107
@@ -396,11 +400,11 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2194 src/admin/js/blocks/phasing.js:64
+#: assets/admin/js/scripts.js:2197 src/admin/js/blocks/phasing.js:64
 msgid "Style"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2453 src/admin/js/filters/block-styles.js:16
+#: assets/admin/js/scripts.js:2514 src/admin/js/filters/block-styles.js:22
 msgid "Supplementary"
 msgstr ""
 
@@ -419,9 +423,9 @@ msgstr ""
 
 #: assets/admin/js/scripts.js:91 assets/admin/js/scripts.js:708
 #: assets/admin/js/scripts.js:1028 assets/admin/js/scripts.js:1656
-#: assets/admin/js/scripts.js:1946 assets/admin/js/scripts.js:2186
-#: assets/admin/js/scripts.js:2294 assets/admin/js/scripts.js:2387
-#: assets/admin/js/scripts.js:2554 src/admin/js/admin.js:117
+#: assets/admin/js/scripts.js:1946 assets/admin/js/scripts.js:2189
+#: assets/admin/js/scripts.js:2350 assets/admin/js/scripts.js:2443
+#: assets/admin/js/scripts.js:2615 src/admin/js/admin.js:117
 #: src/admin/js/blocks/accordion.js:46 src/admin/js/blocks/content-cards.js:33
 #: src/admin/js/blocks/link.js:24 src/admin/js/blocks/links.js:34
 #: src/admin/js/blocks/phasing.js:54 src/admin/js/blocks/recent-posts.js:28
@@ -433,16 +437,16 @@ msgstr ""
 msgid "Title & Excerpt"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1670 assets/admin/js/scripts.js:2391
+#: assets/admin/js/scripts.js:1670 assets/admin/js/scripts.js:2447
 #: src/admin/js/blocks/link.js:40 src/admin/js/blocks/rss-feed.js:23
 msgid "URL"
 msgstr ""
 
-#: class/Integrations.php:49
+#: class/Integrations.php:64
 msgid "Use Helsinki settings with plugins and enable available Helsinki APIs."
 msgstr ""
 
-#: assets/admin/js/scripts.js:2562 src/admin/js/filters/table.js:43
+#: assets/admin/js/scripts.js:2623 src/admin/js/filters/table.js:43
 msgid "Vertical header"
 msgstr ""
 
@@ -476,6 +480,6 @@ msgstr ""
 msgid "Yoast SEO"
 msgstr ""
 
-#: config/blocks/filters.php:84
+#: config/blocks/filters.php:86
 msgid "Your browser does not support the <code>audio</code> element."
 msgstr ""
