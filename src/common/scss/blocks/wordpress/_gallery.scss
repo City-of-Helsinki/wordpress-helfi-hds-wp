@@ -30,11 +30,16 @@
 
 .blocks-gallery-image,
 .blocks-gallery-item,
+.gallery-item,
+.wp-block-gallery .wp-block-image {
+	display: block !important;
+}
+
+.blocks-gallery-image,
+.blocks-gallery-item,
 .wp-block-image,
 .gallery-item,
 .wp-caption {
-    display: block !important;
-
     a {
         display: block;
         height: unset !important;
@@ -62,8 +67,21 @@
     }
 }
 
+.wp-block-image {
+
+	//not alignfull
+	&:not(.alignfull) {
+		display: table !important;
+	}
+	
+}
+
 .wp-caption {
-    width: unset !important;
+    &.aligncenter {
+		margin-left: auto !important;
+		margin-right: auto !important;
+	}
+    max-width: 100%;
 }
 
 .gallery-item {
