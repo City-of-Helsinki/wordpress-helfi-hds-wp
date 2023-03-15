@@ -2500,14 +2500,19 @@ wp.domReady(function () {
   /**
     * Buttons
     */
+  wp.blocks.unregisterBlockStyle('core/button', 'default');
   wp.blocks.unregisterBlockStyle('core/button', 'outline');
   wp.blocks.unregisterBlockStyle('core/button', 'fill');
   wp.blocks.registerBlockStyle('core/button', [{
+    name: 'default',
+    label: wp.i18n.__('Primary', 'hds-wp'),
+    isDefault: true
+  }, {
     name: 'secondary',
-    title: wp.i18n.__('Secondary', 'hds-wp')
+    label: wp.i18n.__('Secondary', 'hds-wp')
   }, {
     name: 'supplementary',
-    title: wp.i18n.__('Supplementary', 'hds-wp')
+    label: wp.i18n.__('Supplementary', 'hds-wp')
   }]);
 
   /**
@@ -2517,7 +2522,7 @@ wp.domReady(function () {
   for (var i = 0; i < withBackgroundStyle.length; i++) {
     wp.blocks.registerBlockStyle(withBackgroundStyle[i], [{
       name: 'light-gray-background',
-      title: wp.i18n.__('Light Gray Background', 'hds-wp')
+      label: wp.i18n.__('Light Gray Background', 'hds-wp')
     }]);
   }
 
