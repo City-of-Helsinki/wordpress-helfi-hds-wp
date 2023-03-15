@@ -66,6 +66,24 @@
     justify-content: flex-start;
 }
 
+.wp-block-button {
+    .wp-block-button__link {
+        @extend .hds-button;
+    }
+
+    &.is-style-secondary {
+        .wp-block-button__link {
+            @extend .hds-button--secondary;
+        }
+    }
+
+    &.is-style-supplementary {
+        .wp-block-button__link {
+            @extend .hds-button--supplementary;
+        }
+    }
+}
+
 .wp-block-button__link,
 .wp-block-file__button {
   background-color: $black;
