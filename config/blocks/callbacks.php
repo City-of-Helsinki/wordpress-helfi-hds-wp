@@ -87,6 +87,10 @@ function hds_wp_content_card_html( WP_Post $post, $attributes) {
 			$post
 		);
 	}
+	$has_invert_color = false;
+	if (function_exists('helsinki_scheme_has_invert_color')) {
+		$has_invert_color = helsinki_scheme_has_invert_color();
+	}
 
 	$excerpt = '';
 	if (isset($attributes['linkType']) && $attributes['linkType'] == 'image-title-excerpt' && !empty($post->post_excerpt)) {
@@ -106,7 +110,7 @@ function hds_wp_content_card_html( WP_Post $post, $attributes) {
 	$parts = array(
 		'image' => sprintf(
 			'<div class="card__image%s">%s</div>',
-			$has_placeholder ? ' has-placeholder' : '',
+			$has_placeholder ? ' has-placeholder' . ($has_invert_color ? ' has-invert-color' : '') : '',
 			$image
 		),
 		'content_open' => '<div class="card__content">',
