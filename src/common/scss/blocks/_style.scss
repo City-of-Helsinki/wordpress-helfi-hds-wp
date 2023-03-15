@@ -7,9 +7,14 @@ $hasColors: (
     background-color: $color;
     padding: spacing('layout-m') spacing('layout-s');
 
-    .wp-block-group {
-      >:first-child {
+    &.wp-block-group {
+      margin-bottom: spacing('l');
+
+      > *:first-child {
         margin-top: 0;
+      }
+      > *:last-child {
+        margin-bottom: 0;
       }
     }
   }
