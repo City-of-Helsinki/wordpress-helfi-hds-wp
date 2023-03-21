@@ -62,6 +62,92 @@ return array(
 			)
 		)
 	),
+	'accordion-wc' => array(
+		'title' => __( 'Helsinki - Web Component Accordion', 'hds-wp' ),
+		'category' => 'hds-wp',
+		'render_callback' => 'hds_wp_render_block_accordion_wc',
+		'dependencies' => array(
+			'wp-blocks',
+			'wp-i18n',
+			'wp-element',
+			'wp-components',
+			'wp-editor',
+			'wp-data',
+		),
+		'attributes' => array(
+			'title' => array (
+				'type' => 'string'
+			),
+			'description' => array(
+				'type' => 'string',
+			),
+			'hasCard' => array(
+				'type' => 'boolean',
+				'default' => false,
+			),
+			'hasBorder' => array(
+				'type' => 'boolean',
+				'default' => false,
+			),
+			'size' => array(
+				'type' => 'string',
+				'default' => 'm',
+			),
+			'panels' => array(
+				'type' => 'array',
+				'default' => array(),
+			),
+			'blockVersion' => array(
+				'type' => 'integer',
+			),
+			'anchor' => array(
+	            'type'    => 'string',
+	            'default' => '',
+			)
+		)
+	),
+	'accordion-panel-wc' => array(
+		'title' => __( 'Helsinki - Web Component Accordion Panel', 'hds-wp' ),
+		'category' => 'hds-wp',
+		'dependencies' => array(
+			'wp-blocks',
+			'wp-i18n',
+			'wp-element',
+			'wp-components',
+			'wp-editor',
+			'wp-data',
+		),
+		'attributes' => array(
+			'panelTitle' => array (
+				'type' => 'string'
+			),
+			'hasCard' => array(
+				'type' => 'boolean',
+				'default' => false,
+			),
+			'hasBorder' => array(
+				'type' => 'boolean',
+				'default' => false,
+			),
+			'size' => array(
+				'type' => 'string',
+				'default' => 'm',
+			),
+			'blockId' => array(
+				'type' => 'string',
+			),
+			'headingLevel' => array(
+				'type' => 'string',
+			),
+			'innerContent' => array(
+				'type' => 'string',
+			),
+			'anchor' => array(
+	            'type'    => 'string',
+	            'default' => '',
+			)
+		)
+	),
 	'banner' => array(
 		'title' => __( 'Helsinki - Banner', 'hds-wp' ),
 		'category' => 'hds-wp',

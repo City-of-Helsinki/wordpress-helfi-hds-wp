@@ -8,10 +8,17 @@ var fs = require('fs'),
 	prefix = require('gulp-autoprefixer'),
 	concat = require('gulp-concat'),
 	uglify = require('gulp-uglify'),
-	babel = require('gulp-babel');
+	babel = require('gulp-babel'),
+	browserify = require('browserify'),
+	source = require('vinyl-source-stream'),
+	buffer = require('vinyl-buffer');
 
 const ASSETS = 'assets';
 const SOURCE = 'src';
+
+var COMPONENTS = [
+	'webcomponents/hds-web-components.js'
+];
 
 var sassOptions = {
   outputStyle: 'compressed'
@@ -51,6 +58,21 @@ gulp.task('scripts', function () {
       .pipe(rename(folder + '/js/scripts.min.js'))
       .pipe(gulp.dest(ASSETS));
    });
+});
+
+gulp.task('components', function() {
+	return merge(COMPONENTS.map(function(component) {
+		console.log(path.join(SOURCE, component));
+		return browserify(path.join(SOURCE, component)).transform("babelify", 
+		{
+			presets: ["@babel/preset-env", "@babel/preset-react"], 
+			sourceMaps: true, 
+			global: true, 		
+		})
+		.bundle()
+		.pipe(source('web-components/js/components.js'))
+		.pipe(gulp.dest(ASSETS))
+	}))
 });
 
 gulp.task('styles', function () {
