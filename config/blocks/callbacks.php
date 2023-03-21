@@ -262,6 +262,79 @@ function hds_wp_query_block_post_id( int $post ) {
 		);
 	}
 
+
+	function hds_wp_render_block_accordion_wc($attributes, $content) {
+		$title = '';
+		if ( ! empty( $attributes['title'] ) ) {
+			$title = sprintf(
+				'<h2 class="accordion_heading">%s</h2>',
+				esc_html( $attributes['title'] )
+			);
+		}
+		
+		$description = '';
+		if ( ! empty( $attributes['description'] ) ) {
+			$description = sprintf(
+				'<p class="accordion-description">%s</p>',
+				esc_html( $attributes['description'] )
+			);
+		}
+
+		$id = '';
+		if (!empty($attributes['anchor'])) {
+			$id = 'id="'.esc_attr($attributes['anchor']).'"';
+		}	
+
+		$wrapClasses = array( 'wp-block-hds-wp-accordion', 'accordion-wrapper' );
+		if (!empty($attributes['className'])) {
+			$wrapClasses[] = esc_attr($attributes['className']);
+		}
+	
+		$panels = array();
+		if ( !empty( $attributes['panels'] ) || is_array( $attributes['panels'] )) {
+			$panels = array_map(
+				'hds_wp_render_block_accordion_panel_wc',
+				$attributes['panels']
+			);
+		}
+
+		return sprintf(
+			'<div %s class="%s">
+					%s
+					%s
+					<div class="accordion">%s</div>
+			</div>',
+			$id,
+			implode( ' ', $wrapClasses ),
+			$title,
+			$description,
+			implode(' ' , $panels )
+		);
+	}
+
+	function hds_wp_render_block_accordion_panel_wc($attributes) {
+
+		return sprintf(
+			'<hds-accordion
+				heading="%s"
+				language="%s"
+				card="%s"
+				border="%s"
+				size="%s"
+			>
+			<div>%s</div>
+			</hds-accordion>',
+			isset($attributes['panelTitle']) ? esc_html( $attributes['panelTitle'] ) : '',
+			function_exists( 'pll_current_language' ) ? pll_current_language('slug') : substr( get_bloginfo('language'), 0, 2 ),
+			isset($attributes['hasCard']) ? ($attributes['hasCard'] ? 'true' : 'false') : 'false',
+			isset($attributes['hasBorder']) ? ($attributes['hasBorder'] ? 'true' : 'false') : 'false',
+			isset($attributes['size']) ? esc_html( $attributes['size'] ) : '',
+			apply_filters('the_content', isset($attributes['innerContent']) ? $attributes['innerContent'] : ''),
+
+		);
+	}
+
+
 /**
   * Helsinki - Links
   */

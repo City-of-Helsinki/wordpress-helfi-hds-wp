@@ -492,7 +492,9 @@ function hdsIcons(name) {
     getBlockContent = _wp$blocks.getBlockContent;
   var _wp$element = wp.element,
     Fragment = _wp$element.Fragment,
-    createElement = _wp$element.createElement;
+    createElement = _wp$element.createElement,
+    render = _wp$element.render,
+    renderToString = _wp$element.renderToString;
   var _wp$blockEditor = wp.blockEditor,
     useBlockProps = _wp$blockEditor.useBlockProps,
     BlockControls = _wp$blockEditor.BlockControls,
@@ -506,6 +508,193 @@ function hdsIcons(name) {
   var _wp$data = wp.data,
     select = _wp$data.select,
     dispatch = _wp$data.dispatch;
+  function closePanel(toggle, panel) {
+    toggle.setAttribute('aria-expanded', 'false');
+    panel.setAttribute('hidden', 'true');
+  }
+  function openPanel(toggle, panel) {
+    toggle.setAttribute('aria-expanded', 'true');
+    panel.removeAttribute('hidden');
+  }
+  function isOpen(toggle) {
+    return 'true' === toggle.getAttribute('aria-expanded');
+  }
+  function currentOpen(element) {
+    return element.closest('.accordion__section').querySelector('.accordion__toggle[aria-expanded="true"]');
+  }
+  function togglePanel(toggle) {
+    return toggle.parentElement.nextElementSibling;
+  }
+  function closeCurrent(element) {
+    var currentToggle = currentOpen(element);
+    var currentPanel = currentToggle ? togglePanel(currentToggle) : null;
+    if (currentToggle && currentPanel) {
+      closePanel(currentToggle, currentPanel);
+    }
+  }
+  function panelControls(props) {
+    return hdsInspectorControls({
+      title: __('Settings', 'hds-wp'),
+      initialOpen: false
+    }, hdsTextControl({
+      label: __('Panel Title', 'hds-wp'),
+      value: props.attributes.panelTitle,
+      attribute: 'panelTitle'
+    }, props));
+  }
+  function panelTitle(props) {
+    return createElement(props.attributes.headingLevel, {
+      className: 'accordion__title'
+    }, panelToggle(props));
+  }
+  function panelToggle(props) {
+    return createElement('button', {
+      id: 'panel-toggle-' + props.attributes.blockId,
+      className: 'accordion__toggle',
+      type: 'button',
+      'aria-controls': 'panel-' + props.attributes.blockId,
+      'aria-expanded': 'false',
+      onClick: function onClick(event) {
+        //closeCurrent(event.currentTarget);
+
+        var panel = togglePanel(event.currentTarget);
+        if (isOpen(event.currentTarget)) {
+          closePanel(event.currentTarget, panel);
+        } else {
+          openPanel(event.currentTarget, panel);
+        }
+      }
+    }, createElement(Fragment, {}, props.attributes.panelTitle), panelIcon(props));
+  }
+  function panelIcon(props) {
+    return createElement('span', {
+      className: 'accordion__icon'
+    }, hdsAngleIcon());
+  }
+  function panelContent(props, innerBlocks) {
+    return createElement('div', {
+      className: 'accordion__content'
+    }, createElement(innerBlocks, {
+      allowedBlocks: ['core/heading', 'core/paragraph', 'core/list', 'core/table', 'core/freeform', 'core/quote', 'core/buttons', 'core/button', 'core/image', 'core/embed', 'core/file']
+    }));
+    var el = document.createElement('html');
+    el.innerHTML = content;
+    return el.getElementsByTagName('div');
+  }
+  function panelClose(props) {
+    return createElement('button', {
+      className: 'accordion__close',
+      type: 'button',
+      onClick: function onClick(event) {
+        event.preventDefault();
+        closeCurrent(event.currentTarget);
+      }
+    }, createElement('span', {}, __('Close', 'hds-wp')), hdsAngleIcon());
+  }
+  function edit() {
+    return function (props) {
+      if (!props.attributes.blockId) {
+        props.setAttributes({
+          blockId: props.clientId
+        });
+      }
+      var innerContent = getBlockContent(select('core/block-editor').getBlock(props.clientId));
+      props.attributes.innerContent = innerContent;
+      var parent = select('core/block-editor').getBlocksByClientId(select('core/block-editor').getBlockHierarchyRootClientId(props.clientId))[0];
+      dispatch('core/block-editor').updateBlockAttributes(parent.clientId, {
+        panels: select('core/block-editor').getBlocks(parent.clientId).map(function (block) {
+          return block.attributes;
+        })
+      });
+
+      //var pContent = panelContent(props, InnerBlocks);
+
+      return createElement(Fragment, {}, panelControls(props), createElement('div', useBlockProps({
+        className: 'accordion__section'
+      }), createElement('hds-accordion', {
+        heading: props.attributes.panelTitle,
+        language: 'fi',
+        card: props.attributes.hasCard,
+        border: props.attributes.hasBorder,
+        size: props.attributes.size,
+        headingLevel: props.attributes.headingLevel
+      }, panelContent(props, InnerBlocks))));
+    };
+  }
+  function save() {
+    return function (props) {
+      var parentClientId = select('core/block-editor').getBlockHierarchyRootClientId(props.attributes.blockId);
+      var parentAttributes = select('core/block-editor').getBlockAttributes(parentClientId);
+      return createElement(InnerBlocks.Content, useBlockProps.save());
+    };
+  }
+  registerBlockType('hds-wp/accordion-panel-wc', {
+    apiVersion: 2,
+    title: __('Helsinki - Web Component Accordion Panel', 'hds-wp'),
+    category: 'hds-wp',
+    icon: 'format-gallery',
+    supports: {
+      anchor: true
+    },
+    parent: ['hds-wp/accordion-wc'],
+    attributes: {
+      panelTitle: {
+        type: 'string',
+        default: __('Panel', 'hds-wp')
+      },
+      hasCard: {
+        type: 'boolean',
+        default: false
+      },
+      hasBorder: {
+        type: 'boolean',
+        default: false
+      },
+      size: {
+        type: 'string',
+        default: 'm'
+      },
+      blockId: {
+        type: 'string'
+      },
+      headingLevel: {
+        type: 'string',
+        default: 'h2'
+      },
+      innerContent: {
+        type: 'string',
+        default: ''
+      },
+      anchor: {
+        type: 'string',
+        default: ''
+      }
+    },
+    edit: edit(),
+    save: save()
+  });
+})(window.wp);
+(function (wp) {
+  var __ = wp.i18n.__;
+  var _wp$blocks2 = wp.blocks,
+    registerBlockType = _wp$blocks2.registerBlockType,
+    getBlockContent = _wp$blocks2.getBlockContent;
+  var _wp$element2 = wp.element,
+    Fragment = _wp$element2.Fragment,
+    createElement = _wp$element2.createElement;
+  var _wp$blockEditor2 = wp.blockEditor,
+    useBlockProps = _wp$blockEditor2.useBlockProps,
+    BlockControls = _wp$blockEditor2.BlockControls,
+    InnerBlocks = _wp$blockEditor2.InnerBlocks;
+  var InspectorControls = wp.editor.InspectorControls;
+  var _wp$components2 = wp.components,
+    ToolbarGroup = _wp$components2.ToolbarGroup,
+    ToolbarButton = _wp$components2.ToolbarButton,
+    Button = _wp$components2.Button,
+    ToggleControl = _wp$components2.ToggleControl;
+  var _wp$data2 = wp.data,
+    select = _wp$data2.select,
+    dispatch = _wp$data2.dispatch;
   function closePanel(toggle, panel) {
     toggle.setAttribute('aria-expanded', 'false');
     panel.setAttribute('hidden', 'true');
@@ -664,27 +853,202 @@ function hdsIcons(name) {
 })(window.wp);
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks2 = wp.blocks,
-    registerBlockType = _wp$blocks2.registerBlockType,
-    getBlockContent = _wp$blocks2.getBlockContent,
-    hasChildBlocks = _wp$blocks2.hasChildBlocks;
-  var _wp$element2 = wp.element,
-    Fragment = _wp$element2.Fragment,
-    createElement = _wp$element2.createElement;
-  var _wp$blockEditor2 = wp.blockEditor,
-    useBlockProps = _wp$blockEditor2.useBlockProps,
-    BlockControls = _wp$blockEditor2.BlockControls,
-    InnerBlocks = _wp$blockEditor2.InnerBlocks;
+  var _wp$blocks3 = wp.blocks,
+    registerBlockType = _wp$blocks3.registerBlockType,
+    getBlockContent = _wp$blocks3.getBlockContent,
+    hasChildBlocks = _wp$blocks3.hasChildBlocks;
+  var _wp$element3 = wp.element,
+    Fragment = _wp$element3.Fragment,
+    createElement = _wp$element3.createElement;
+  var _wp$blockEditor3 = wp.blockEditor,
+    useBlockProps = _wp$blockEditor3.useBlockProps,
+    BlockControls = _wp$blockEditor3.BlockControls,
+    InnerBlocks = _wp$blockEditor3.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$components2 = wp.components,
-    ToolbarGroup = _wp$components2.ToolbarGroup,
-    ToolbarButton = _wp$components2.ToolbarButton,
-    Button = _wp$components2.Button,
-    ToggleControl = _wp$components2.ToggleControl;
-  var _wp$data2 = wp.data,
-    select = _wp$data2.select,
-    dispatch = _wp$data2.dispatch,
-    useSelect = _wp$data2.useSelect;
+  var _wp$components3 = wp.components,
+    ToolbarGroup = _wp$components3.ToolbarGroup,
+    ToolbarButton = _wp$components3.ToolbarButton,
+    Button = _wp$components3.Button,
+    ToggleControl = _wp$components3.ToggleControl;
+  var _wp$data3 = wp.data,
+    select = _wp$data3.select,
+    dispatch = _wp$data3.dispatch,
+    useSelect = _wp$data3.useSelect;
+  function accordionTitle(props) {
+    if (props.attributes.title != null && props.attributes.title != '') {
+      return createElement('h2', {
+        className: 'accordion__heading'
+      }, createElement(Fragment, {}, props.attributes.title ? props.attributes.title : ''));
+    }
+    return '';
+  }
+  function accordionDescription(props) {
+    if (props.attributes.description != null && props.attributes.description != '') {
+      return createElement('p', {
+        className: 'accordion-description'
+      }, createElement(Fragment, {}, props.attributes.description ? props.attributes.description : ''));
+    }
+    return '';
+  }
+  function accordionControls(props) {
+    return hdsInspectorControls({
+      title: __('Settings', 'hds-wp'),
+      initialOpen: false
+    }, hdsTextControl({
+      label: __('Title', 'hds-wp'),
+      value: props.attributes.title,
+      attribute: 'title'
+    }, props), hdsTextAreaControl({
+      label: __('Description', 'hds-wp'),
+      value: props.attributes.description,
+      attribute: 'description'
+    }, props), hdsCheckboxControl({
+      label: wp.i18n.__('Card', 'hds-wp'),
+      checked: props.attributes.hasCard,
+      attribute: 'hasCard'
+    }, props), hdsCheckboxControl({
+      label: wp.i18n.__('Border', 'hds-wp'),
+      checked: props.attributes.hasBorder,
+      attribute: 'hasBorder'
+    }, props), hdsSelectControl({
+      label: __('Size', 'hds-wp'),
+      value: props.attributes.size,
+      attribute: 'size',
+      options: [{
+        label: __('Small', 'hds-wp'),
+        value: 's'
+      }, {
+        label: __('Medium', 'hds-wp'),
+        value: 'm'
+      }, {
+        label: __('Large', 'hds-wp'),
+        value: 'l'
+      }]
+    }, props));
+  }
+  function edit() {
+    return function (props) {
+      props.attributes.blockVersion = 2;
+      var content = null;
+      var clientId = props.clientId;
+      var children = select('core/block-editor').getBlocksByClientId(clientId)[0].innerBlocks;
+      children.forEach(function (child) {
+        if (props.attributes.title != null && props.attributes.title != '') {
+          dispatch('core/block-editor').updateBlockAttributes(child.clientId, {
+            headingLevel: '3'
+          });
+        } else {
+          dispatch('core/block-editor').updateBlockAttributes(child.clientId, {
+            headingLevel: '2'
+          });
+        }
+        dispatch('core/block-editor').updateBlockAttributes(child.clientId, {
+          hasCard: props.attributes.hasCard,
+          hasBorder: props.attributes.hasBorder,
+          size: props.attributes.size
+        });
+      });
+      var isParentOfSelectedBlock = useSelect(function (selectFrom) {
+        return select('core/block-editor').hasSelectedInnerBlock(props.clientId, true);
+      });
+      props.attributes.panels = select('core/block-editor').getBlocks(props.clientId).map(function (block) {
+        var innerContent = '';
+        if (block.innerBlocks.length > 0) {
+          innerContent = getBlockContent(select('core/block-editor').getBlock(block.clientId));
+        }
+        block.attributes.innerContent = innerContent;
+        return block.attributes;
+      });
+      if (props.isSelected || isParentOfSelectedBlock) {
+        content = createElement(Fragment, {}, accordionControls(props), createElement('div', {
+          className: 'accordion-wrapper'
+        }, accordionTitle(props), accordionDescription(props), createElement('div', {
+          className: 'accordion'
+        }, createElement(InnerBlocks, {
+          allowedBlocks: ['hds-wp/accordion-panel-wc'],
+          template: [['hds-wp/accordion-panel-wc', {}], ['hds-wp/accordion-panel-wc', {}], ['hds-wp/accordion-panel-wc', {}]]
+        }))));
+      } else {
+        content = createElement(wp.serverSideRender, {
+          block: 'hds-wp/accordion-wc',
+          attributes: props.attributes,
+          httpMethod: 'POST'
+        });
+      }
+      return createElement(Fragment, {}, createElement('div', useBlockProps(), content));
+    };
+  }
+  function save() {
+    return function (props) {
+      return createElement(InnerBlocks.Content, useBlockProps.save());
+    };
+  }
+  registerBlockType('hds-wp/accordion-wc', {
+    apiVersion: 2,
+    title: __('Helsinki - Web Component Accordion', 'hds-wp'),
+    category: 'hds-wp',
+    icon: 'format-gallery',
+    supports: {
+      anchor: true
+    },
+    attributes: {
+      title: {
+        type: 'string'
+      },
+      description: {
+        type: 'string'
+      },
+      panels: {
+        type: 'array',
+        default: []
+      },
+      hasCard: {
+        type: 'boolean',
+        default: false
+      },
+      hasBorder: {
+        type: 'boolean',
+        default: false
+      },
+      size: {
+        type: 'string',
+        default: 'm'
+      },
+      blockVersion: {
+        type: 'number'
+      },
+      anchor: {
+        type: 'string',
+        default: ''
+      }
+    },
+    edit: edit(),
+    save: save()
+  });
+})(window.wp);
+(function (wp) {
+  var __ = wp.i18n.__;
+  var _wp$blocks4 = wp.blocks,
+    registerBlockType = _wp$blocks4.registerBlockType,
+    getBlockContent = _wp$blocks4.getBlockContent,
+    hasChildBlocks = _wp$blocks4.hasChildBlocks;
+  var _wp$element4 = wp.element,
+    Fragment = _wp$element4.Fragment,
+    createElement = _wp$element4.createElement;
+  var _wp$blockEditor4 = wp.blockEditor,
+    useBlockProps = _wp$blockEditor4.useBlockProps,
+    BlockControls = _wp$blockEditor4.BlockControls,
+    InnerBlocks = _wp$blockEditor4.InnerBlocks;
+  var InspectorControls = wp.editor.InspectorControls;
+  var _wp$components4 = wp.components,
+    ToolbarGroup = _wp$components4.ToolbarGroup,
+    ToolbarButton = _wp$components4.ToolbarButton,
+    Button = _wp$components4.Button,
+    ToggleControl = _wp$components4.ToggleControl;
+  var _wp$data4 = wp.data,
+    select = _wp$data4.select,
+    dispatch = _wp$data4.dispatch,
+    useSelect = _wp$data4.useSelect;
   function accordionTitle(props) {
     if (props.attributes.title != null && props.attributes.title != '') {
       return createElement('h2', {
@@ -810,17 +1174,17 @@ function hdsIcons(name) {
 (function (wp) {
   var __ = wp.i18n.__;
   var registerBlockType = wp.blocks.registerBlockType;
-  var _wp$element3 = wp.element,
-    Fragment = _wp$element3.Fragment,
-    createElement = _wp$element3.createElement;
-  var _wp$blockEditor3 = wp.blockEditor,
-    useBlockProps = _wp$blockEditor3.useBlockProps,
-    BlockControls = _wp$blockEditor3.BlockControls,
-    InnerBlocks = _wp$blockEditor3.InnerBlocks;
-  var _wp$components3 = wp.components,
-    ToolbarGroup = _wp$components3.ToolbarGroup,
-    ToolbarButton = _wp$components3.ToolbarButton,
-    Button = _wp$components3.Button;
+  var _wp$element5 = wp.element,
+    Fragment = _wp$element5.Fragment,
+    createElement = _wp$element5.createElement;
+  var _wp$blockEditor5 = wp.blockEditor,
+    useBlockProps = _wp$blockEditor5.useBlockProps,
+    BlockControls = _wp$blockEditor5.BlockControls,
+    InnerBlocks = _wp$blockEditor5.InnerBlocks;
+  var _wp$components5 = wp.components,
+    ToolbarGroup = _wp$components5.ToolbarGroup,
+    ToolbarButton = _wp$components5.ToolbarButton,
+    Button = _wp$components5.Button;
   function contentButton(props) {
     return hdsContentButton(props, {
       className: 'content__link hds-button',
@@ -897,22 +1261,22 @@ function hdsIcons(name) {
 (function (wp) {
   var __ = wp.i18n.__;
   var registerBlockType = wp.blocks.registerBlockType;
-  var _wp$element4 = wp.element,
-    Fragment = _wp$element4.Fragment,
-    createElement = _wp$element4.createElement;
-  var _wp$blockEditor4 = wp.blockEditor,
-    useBlockProps = _wp$blockEditor4.useBlockProps,
-    BlockControls = _wp$blockEditor4.BlockControls,
-    InnerBlocks = _wp$blockEditor4.InnerBlocks;
+  var _wp$element6 = wp.element,
+    Fragment = _wp$element6.Fragment,
+    createElement = _wp$element6.createElement;
+  var _wp$blockEditor6 = wp.blockEditor,
+    useBlockProps = _wp$blockEditor6.useBlockProps,
+    BlockControls = _wp$blockEditor6.BlockControls,
+    InnerBlocks = _wp$blockEditor6.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$components4 = wp.components,
-    Button = _wp$components4.Button,
-    TextControl = _wp$components4.TextControl,
-    SelectControl = _wp$components4.SelectControl;
-  var _wp$data3 = wp.data,
-    withSelect = _wp$data3.withSelect,
-    select = _wp$data3.select,
-    dispatch = _wp$data3.dispatch;
+  var _wp$components6 = wp.components,
+    Button = _wp$components6.Button,
+    TextControl = _wp$components6.TextControl,
+    SelectControl = _wp$components6.SelectControl;
+  var _wp$data5 = wp.data,
+    withSelect = _wp$data5.withSelect,
+    select = _wp$data5.select,
+    dispatch = _wp$data5.dispatch;
   var PostTypeSelect = hdsWithPostTypeSelectControl();
   var PostSearch = hdsSearchPostsTextControl();
   function removePostButton(props) {
@@ -980,26 +1344,26 @@ function hdsIcons(name) {
 })(window.wp);
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks3 = wp.blocks,
-    registerBlockType = _wp$blocks3.registerBlockType,
-    getBlockContent = _wp$blocks3.getBlockContent;
-  var _wp$element5 = wp.element,
-    Fragment = _wp$element5.Fragment,
-    createElement = _wp$element5.createElement,
-    useState = _wp$element5.useState;
-  var _wp$blockEditor5 = wp.blockEditor,
-    useBlockProps = _wp$blockEditor5.useBlockProps,
-    BlockControls = _wp$blockEditor5.BlockControls,
-    InnerBlocks = _wp$blockEditor5.InnerBlocks;
+  var _wp$blocks5 = wp.blocks,
+    registerBlockType = _wp$blocks5.registerBlockType,
+    getBlockContent = _wp$blocks5.getBlockContent;
+  var _wp$element7 = wp.element,
+    Fragment = _wp$element7.Fragment,
+    createElement = _wp$element7.createElement,
+    useState = _wp$element7.useState;
+  var _wp$blockEditor7 = wp.blockEditor,
+    useBlockProps = _wp$blockEditor7.useBlockProps,
+    BlockControls = _wp$blockEditor7.BlockControls,
+    InnerBlocks = _wp$blockEditor7.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data4 = wp.data,
-    select = _wp$data4.select,
-    useSelect = _wp$data4.useSelect;
-  var _wp$components5 = wp.components,
-    ToolbarGroup = _wp$components5.ToolbarGroup,
-    ToolbarButton = _wp$components5.ToolbarButton,
-    Button = _wp$components5.Button,
-    ToggleControl = _wp$components5.ToggleControl;
+  var _wp$data6 = wp.data,
+    select = _wp$data6.select,
+    useSelect = _wp$data6.useSelect;
+  var _wp$components7 = wp.components,
+    ToolbarGroup = _wp$components7.ToolbarGroup,
+    ToolbarButton = _wp$components7.ToolbarButton,
+    Button = _wp$components7.Button,
+    ToggleControl = _wp$components7.ToggleControl;
   function linkTypeOptions() {
     return [{
       label: __('Image & Title', 'hds-wp'),
@@ -1124,11 +1488,11 @@ function hdsIcons(name) {
 })(window.wp);
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks4 = wp.blocks,
-    unregisterBlockType = _wp$blocks4.unregisterBlockType,
-    unregisterBlockVariation = _wp$blocks4.unregisterBlockVariation,
-    getBlockType = _wp$blocks4.getBlockType,
-    getBlockVariations = _wp$blocks4.getBlockVariations;
+  var _wp$blocks6 = wp.blocks,
+    unregisterBlockType = _wp$blocks6.unregisterBlockType,
+    unregisterBlockVariation = _wp$blocks6.unregisterBlockVariation,
+    getBlockType = _wp$blocks6.getBlockType,
+    getBlockVariations = _wp$blocks6.getBlockVariations;
   var allowedEmbedBlocks = ['youtube'];
   wp.domReady(function () {
     if (getBlockType('core/pullquote')) {
@@ -1341,17 +1705,17 @@ function hdsIcons(name) {
 (function (wp) {
   var __ = wp.i18n.__;
   var registerBlockType = wp.blocks.registerBlockType;
-  var _wp$element6 = wp.element,
-    Fragment = _wp$element6.Fragment,
-    createElement = _wp$element6.createElement;
-  var _wp$blockEditor6 = wp.blockEditor,
-    useBlockProps = _wp$blockEditor6.useBlockProps,
-    BlockControls = _wp$blockEditor6.BlockControls,
-    InnerBlocks = _wp$blockEditor6.InnerBlocks;
-  var _wp$components6 = wp.components,
-    ToolbarGroup = _wp$components6.ToolbarGroup,
-    ToolbarButton = _wp$components6.ToolbarButton,
-    Button = _wp$components6.Button;
+  var _wp$element8 = wp.element,
+    Fragment = _wp$element8.Fragment,
+    createElement = _wp$element8.createElement;
+  var _wp$blockEditor8 = wp.blockEditor,
+    useBlockProps = _wp$blockEditor8.useBlockProps,
+    BlockControls = _wp$blockEditor8.BlockControls,
+    InnerBlocks = _wp$blockEditor8.InnerBlocks;
+  var _wp$components8 = wp.components,
+    ToolbarGroup = _wp$components8.ToolbarGroup,
+    ToolbarButton = _wp$components8.ToolbarButton,
+    Button = _wp$components8.Button;
   function toolbar(props) {
     return createElement(BlockControls, {
       key: 'controls'
@@ -1486,17 +1850,17 @@ function hdsIcons(name) {
 (function (wp) {
   var __ = wp.i18n.__;
   var registerBlockType = wp.blocks.registerBlockType;
-  var _wp$element7 = wp.element,
-    Fragment = _wp$element7.Fragment,
-    createElement = _wp$element7.createElement;
-  var _wp$blockEditor7 = wp.blockEditor,
-    useBlockProps = _wp$blockEditor7.useBlockProps,
-    BlockControls = _wp$blockEditor7.BlockControls,
-    InnerBlocks = _wp$blockEditor7.InnerBlocks;
-  var _wp$components7 = wp.components,
-    ToolbarGroup = _wp$components7.ToolbarGroup,
-    ToolbarButton = _wp$components7.ToolbarButton,
-    Button = _wp$components7.Button;
+  var _wp$element9 = wp.element,
+    Fragment = _wp$element9.Fragment,
+    createElement = _wp$element9.createElement;
+  var _wp$blockEditor9 = wp.blockEditor,
+    useBlockProps = _wp$blockEditor9.useBlockProps,
+    BlockControls = _wp$blockEditor9.BlockControls,
+    InnerBlocks = _wp$blockEditor9.InnerBlocks;
+  var _wp$components9 = wp.components,
+    ToolbarGroup = _wp$components9.ToolbarGroup,
+    ToolbarButton = _wp$components9.ToolbarButton,
+    Button = _wp$components9.Button;
   function toolbar(props) {
     return createElement(BlockControls, {
       key: 'controls'
@@ -1628,26 +1992,26 @@ function hdsIcons(name) {
 (function (wp) {
   var __ = wp.i18n.__;
   var registerBlockType = wp.blocks.registerBlockType;
-  var _wp$element8 = wp.element,
-    Fragment = _wp$element8.Fragment,
-    createElement = _wp$element8.createElement;
-  var _wp$blockEditor8 = wp.blockEditor,
-    useBlockProps = _wp$blockEditor8.useBlockProps,
-    BlockControls = _wp$blockEditor8.BlockControls,
-    InnerBlocks = _wp$blockEditor8.InnerBlocks;
+  var _wp$element10 = wp.element,
+    Fragment = _wp$element10.Fragment,
+    createElement = _wp$element10.createElement;
+  var _wp$blockEditor10 = wp.blockEditor,
+    useBlockProps = _wp$blockEditor10.useBlockProps,
+    BlockControls = _wp$blockEditor10.BlockControls,
+    InnerBlocks = _wp$blockEditor10.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data5 = wp.data,
-    withSelect = _wp$data5.withSelect,
-    select = _wp$data5.select,
-    dispatch = _wp$data5.dispatch;
+  var _wp$data7 = wp.data,
+    withSelect = _wp$data7.withSelect,
+    select = _wp$data7.select,
+    dispatch = _wp$data7.dispatch;
   var compose = wp.compose.compose;
   var apiFetch = wp.apiFetch;
-  var _wp$components8 = wp.components,
-    Button = _wp$components8.Button,
-    TextControl = _wp$components8.TextControl,
-    SelectControl = _wp$components8.SelectControl,
-    ToolbarGroup = _wp$components8.ToolbarGroup,
-    ToolbarButton = _wp$components8.ToolbarButton;
+  var _wp$components10 = wp.components,
+    Button = _wp$components10.Button,
+    TextControl = _wp$components10.TextControl,
+    SelectControl = _wp$components10.SelectControl,
+    ToolbarGroup = _wp$components10.ToolbarGroup,
+    ToolbarButton = _wp$components10.ToolbarButton;
   var PostTypeSelect = hdsWithPostTypeSelectControl();
   var PostSearch = hdsSearchPostsTextControl();
   function removePostButton(props) {
@@ -1898,26 +2262,26 @@ function hdsIcons(name) {
 })(window.wp);
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks5 = wp.blocks,
-    registerBlockType = _wp$blocks5.registerBlockType,
-    getBlockContent = _wp$blocks5.getBlockContent;
-  var _wp$element9 = wp.element,
-    Fragment = _wp$element9.Fragment,
-    createElement = _wp$element9.createElement,
-    useState = _wp$element9.useState;
-  var _wp$blockEditor9 = wp.blockEditor,
-    useBlockProps = _wp$blockEditor9.useBlockProps,
-    BlockControls = _wp$blockEditor9.BlockControls,
-    InnerBlocks = _wp$blockEditor9.InnerBlocks;
+  var _wp$blocks7 = wp.blocks,
+    registerBlockType = _wp$blocks7.registerBlockType,
+    getBlockContent = _wp$blocks7.getBlockContent;
+  var _wp$element11 = wp.element,
+    Fragment = _wp$element11.Fragment,
+    createElement = _wp$element11.createElement,
+    useState = _wp$element11.useState;
+  var _wp$blockEditor11 = wp.blockEditor,
+    useBlockProps = _wp$blockEditor11.useBlockProps,
+    BlockControls = _wp$blockEditor11.BlockControls,
+    InnerBlocks = _wp$blockEditor11.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data6 = wp.data,
-    select = _wp$data6.select,
-    useSelect = _wp$data6.useSelect;
-  var _wp$components9 = wp.components,
-    ToolbarGroup = _wp$components9.ToolbarGroup,
-    ToolbarButton = _wp$components9.ToolbarButton,
-    Button = _wp$components9.Button,
-    ToggleControl = _wp$components9.ToggleControl;
+  var _wp$data8 = wp.data,
+    select = _wp$data8.select,
+    useSelect = _wp$data8.useSelect;
+  var _wp$components11 = wp.components,
+    ToolbarGroup = _wp$components11.ToolbarGroup,
+    ToolbarButton = _wp$components11.ToolbarButton,
+    Button = _wp$components11.Button,
+    ToggleControl = _wp$components11.ToggleControl;
   function linkTypeOptions() {
     return [{
       label: __('Only title', 'hds-wp'),
@@ -2049,23 +2413,23 @@ function hdsIcons(name) {
 })(window.wp);
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks6 = wp.blocks,
-    registerBlockType = _wp$blocks6.registerBlockType,
-    getBlockContent = _wp$blocks6.getBlockContent;
-  var _wp$element10 = wp.element,
-    Fragment = _wp$element10.Fragment,
-    createElement = _wp$element10.createElement;
-  var _wp$blockEditor10 = wp.blockEditor,
-    useBlockProps = _wp$blockEditor10.useBlockProps,
-    BlockControls = _wp$blockEditor10.BlockControls,
-    InnerBlocks = _wp$blockEditor10.InnerBlocks;
-  var _wp$components10 = wp.components,
-    ToolbarGroup = _wp$components10.ToolbarGroup,
-    ToolbarButton = _wp$components10.ToolbarButton,
-    Button = _wp$components10.Button;
-  var _wp$data7 = wp.data,
-    select = _wp$data7.select,
-    useSelect = _wp$data7.useSelect;
+  var _wp$blocks8 = wp.blocks,
+    registerBlockType = _wp$blocks8.registerBlockType,
+    getBlockContent = _wp$blocks8.getBlockContent;
+  var _wp$element12 = wp.element,
+    Fragment = _wp$element12.Fragment,
+    createElement = _wp$element12.createElement;
+  var _wp$blockEditor12 = wp.blockEditor,
+    useBlockProps = _wp$blockEditor12.useBlockProps,
+    BlockControls = _wp$blockEditor12.BlockControls,
+    InnerBlocks = _wp$blockEditor12.InnerBlocks;
+  var _wp$components12 = wp.components,
+    ToolbarGroup = _wp$components12.ToolbarGroup,
+    ToolbarButton = _wp$components12.ToolbarButton,
+    Button = _wp$components12.Button;
+  var _wp$data9 = wp.data,
+    select = _wp$data9.select,
+    useSelect = _wp$data9.useSelect;
   function edit() {
     return function (props) {
       var isParentOfSelectedBlock = useSelect(function (selectFrom) {
@@ -2140,26 +2504,26 @@ function hdsIcons(name) {
 })(window.wp);
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks7 = wp.blocks,
-    registerBlockType = _wp$blocks7.registerBlockType,
-    getBlockContent = _wp$blocks7.getBlockContent;
-  var _wp$element11 = wp.element,
-    Fragment = _wp$element11.Fragment,
-    createElement = _wp$element11.createElement;
-  var _wp$blockEditor11 = wp.blockEditor,
-    useBlockProps = _wp$blockEditor11.useBlockProps,
-    BlockControls = _wp$blockEditor11.BlockControls,
-    InnerBlocks = _wp$blockEditor11.InnerBlocks;
+  var _wp$blocks9 = wp.blocks,
+    registerBlockType = _wp$blocks9.registerBlockType,
+    getBlockContent = _wp$blocks9.getBlockContent;
+  var _wp$element13 = wp.element,
+    Fragment = _wp$element13.Fragment,
+    createElement = _wp$element13.createElement;
+  var _wp$blockEditor13 = wp.blockEditor,
+    useBlockProps = _wp$blockEditor13.useBlockProps,
+    BlockControls = _wp$blockEditor13.BlockControls,
+    InnerBlocks = _wp$blockEditor13.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$components11 = wp.components,
-    ToolbarGroup = _wp$components11.ToolbarGroup,
-    ToolbarButton = _wp$components11.ToolbarButton,
-    Button = _wp$components11.Button,
-    ToggleControl = _wp$components11.ToggleControl;
-  var _wp$data8 = wp.data,
-    select = _wp$data8.select,
-    dispatch = _wp$data8.dispatch,
-    useSelect = _wp$data8.useSelect;
+  var _wp$components13 = wp.components,
+    ToolbarGroup = _wp$components13.ToolbarGroup,
+    ToolbarButton = _wp$components13.ToolbarButton,
+    Button = _wp$components13.Button,
+    ToggleControl = _wp$components13.ToggleControl;
+  var _wp$data10 = wp.data,
+    select = _wp$data10.select,
+    dispatch = _wp$data10.dispatch,
+    useSelect = _wp$data10.useSelect;
   function timelineTitle(props) {
     if (props.attributes.title != null && props.attributes.title != '') {
       return createElement('h2', {
@@ -2316,26 +2680,26 @@ function hdsIcons(name) {
 })(window.wp);
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks8 = wp.blocks,
-    registerBlockType = _wp$blocks8.registerBlockType,
-    getBlockContent = _wp$blocks8.getBlockContent;
-  var _wp$element12 = wp.element,
-    Fragment = _wp$element12.Fragment,
-    createElement = _wp$element12.createElement,
-    useState = _wp$element12.useState;
-  var _wp$blockEditor12 = wp.blockEditor,
-    useBlockProps = _wp$blockEditor12.useBlockProps,
-    BlockControls = _wp$blockEditor12.BlockControls,
-    InnerBlocks = _wp$blockEditor12.InnerBlocks;
+  var _wp$blocks10 = wp.blocks,
+    registerBlockType = _wp$blocks10.registerBlockType,
+    getBlockContent = _wp$blocks10.getBlockContent;
+  var _wp$element14 = wp.element,
+    Fragment = _wp$element14.Fragment,
+    createElement = _wp$element14.createElement,
+    useState = _wp$element14.useState;
+  var _wp$blockEditor14 = wp.blockEditor,
+    useBlockProps = _wp$blockEditor14.useBlockProps,
+    BlockControls = _wp$blockEditor14.BlockControls,
+    InnerBlocks = _wp$blockEditor14.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data9 = wp.data,
-    select = _wp$data9.select,
-    useSelect = _wp$data9.useSelect;
-  var _wp$components12 = wp.components,
-    ToolbarGroup = _wp$components12.ToolbarGroup,
-    ToolbarButton = _wp$components12.ToolbarButton,
-    Button = _wp$components12.Button,
-    ToggleControl = _wp$components12.ToggleControl;
+  var _wp$data11 = wp.data,
+    select = _wp$data11.select,
+    useSelect = _wp$data11.useSelect;
+  var _wp$components14 = wp.components,
+    ToolbarGroup = _wp$components14.ToolbarGroup,
+    ToolbarButton = _wp$components14.ToolbarButton,
+    Button = _wp$components14.Button,
+    ToggleControl = _wp$components14.ToggleControl;
   var PostCategorySelect = hdsWithPostCategorySelectControl();
   function articleCountOptions() {
     return [{
@@ -2419,26 +2783,26 @@ function hdsIcons(name) {
 })(window.wp);
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks9 = wp.blocks,
-    registerBlockType = _wp$blocks9.registerBlockType,
-    getBlockContent = _wp$blocks9.getBlockContent;
-  var _wp$element13 = wp.element,
-    Fragment = _wp$element13.Fragment,
-    createElement = _wp$element13.createElement,
-    useState = _wp$element13.useState;
-  var _wp$blockEditor13 = wp.blockEditor,
-    useBlockProps = _wp$blockEditor13.useBlockProps,
-    BlockControls = _wp$blockEditor13.BlockControls,
-    InnerBlocks = _wp$blockEditor13.InnerBlocks;
+  var _wp$blocks11 = wp.blocks,
+    registerBlockType = _wp$blocks11.registerBlockType,
+    getBlockContent = _wp$blocks11.getBlockContent;
+  var _wp$element15 = wp.element,
+    Fragment = _wp$element15.Fragment,
+    createElement = _wp$element15.createElement,
+    useState = _wp$element15.useState;
+  var _wp$blockEditor15 = wp.blockEditor,
+    useBlockProps = _wp$blockEditor15.useBlockProps,
+    BlockControls = _wp$blockEditor15.BlockControls,
+    InnerBlocks = _wp$blockEditor15.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data10 = wp.data,
-    select = _wp$data10.select,
-    useSelect = _wp$data10.useSelect;
-  var _wp$components13 = wp.components,
-    ToolbarGroup = _wp$components13.ToolbarGroup,
-    ToolbarButton = _wp$components13.ToolbarButton,
-    Button = _wp$components13.Button,
-    ToggleControl = _wp$components13.ToggleControl;
+  var _wp$data12 = wp.data,
+    select = _wp$data12.select,
+    useSelect = _wp$data12.useSelect;
+  var _wp$components15 = wp.components,
+    ToolbarGroup = _wp$components15.ToolbarGroup,
+    ToolbarButton = _wp$components15.ToolbarButton,
+    Button = _wp$components15.Button,
+    ToggleControl = _wp$components15.ToggleControl;
   function inspectorControls(props) {
     return hdsInspectorControls({
       title: __('Settings', 'hds-wp'),
@@ -2598,18 +2962,18 @@ wp.domReady(function () {
   var tableAdvancedControls = wp.compose.createHigherOrderComponent(function (BlockEdit) {
     return function (props) {
       var __ = wp.i18n.__;
-      var _wp$element14 = wp.element,
-        Fragment = _wp$element14.Fragment,
-        createElement = _wp$element14.createElement;
-      var _wp$components14 = wp.components,
-        ToggleControl = _wp$components14.ToggleControl,
-        Panel = _wp$components14.Panel,
-        PanelBody = _wp$components14.PanelBody,
-        TextControl = _wp$components14.TextControl;
-      var _wp$blockEditor14 = wp.blockEditor,
-        InspectorControls = _wp$blockEditor14.InspectorControls,
-        BlockControls = _wp$blockEditor14.BlockControls,
-        useBlockProps = _wp$blockEditor14.useBlockProps;
+      var _wp$element16 = wp.element,
+        Fragment = _wp$element16.Fragment,
+        createElement = _wp$element16.createElement;
+      var _wp$components16 = wp.components,
+        ToggleControl = _wp$components16.ToggleControl,
+        Panel = _wp$components16.Panel,
+        PanelBody = _wp$components16.PanelBody,
+        TextControl = _wp$components16.TextControl;
+      var _wp$blockEditor16 = wp.blockEditor,
+        InspectorControls = _wp$blockEditor16.InspectorControls,
+        BlockControls = _wp$blockEditor16.BlockControls,
+        useBlockProps = _wp$blockEditor16.useBlockProps;
       var attributes = props.attributes,
         setAttributes = props.setAttributes,
         isSelected = props.isSelected;

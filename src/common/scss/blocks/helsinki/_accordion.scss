@@ -117,3 +117,19 @@
 	}
 
 }
+
+hds-accordion {
+	&.card {
+		max-width: unset;
+		margin-top: 0;
+		background-color: var(--background-color);
+		padding-left: var(--padding-horizontal);
+		padding-right: var(--padding-horizontal);
+		padding-top: 0;
+		padding-bottom: 0;
+	}
+
+	&.border {
+		border: 2px solid var(--border-color);
+	}
+}
