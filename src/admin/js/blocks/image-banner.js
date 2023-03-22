@@ -135,6 +135,7 @@
 		title: __( 'Helsinki - Image Banner', 'hds-wp' ),
 		category: 'hds-wp',
 		icon: 'format-gallery',
+		keywords: [ 'Helsinki - Kuvabanneri' ],
 		supports: {
 			anchor: true,
 		},

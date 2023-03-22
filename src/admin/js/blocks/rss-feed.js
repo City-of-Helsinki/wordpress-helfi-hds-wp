@@ -56,9 +56,10 @@
 
 	registerBlockType('hds-wp/rss-feed', {
 		apiVersion: 2,
-		title: __( 'Helsinki - RSS', 'hds-wp' ),
+		title: __( 'Helsinki - RSS-feed', 'hds-wp' ),
 		category: 'hds-wp',
 		icon: 'images-alt',
+    keywords: [ __( 'Helsinki - RSS', 'hds-wp' ), __( 'news', 'hds-wp' ) ],
 		supports: {
 			anchor: true,
 		},

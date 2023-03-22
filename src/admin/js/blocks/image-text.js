@@ -129,6 +129,7 @@
 		title: __( 'Helsinki - Image & Text', 'hds-wp' ),
 		category: 'hds-wp',
 		icon: 'format-gallery',
+		keywords: [ 'Helsinki - Kuva & teksti' ],
 		supports: {
 			color: true,
 			anchor: true,

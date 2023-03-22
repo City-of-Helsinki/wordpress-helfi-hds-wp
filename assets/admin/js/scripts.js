@@ -1790,6 +1790,7 @@ function hdsIcons(name) {
     title: __('Helsinki - Image Banner', 'hds-wp'),
     category: 'hds-wp',
     icon: 'format-gallery',
+    keywords: ['Helsinki - Kuvabanneri'],
     supports: {
       anchor: true
     },
@@ -1931,6 +1932,7 @@ function hdsIcons(name) {
     title: __('Helsinki - Image & Text', 'hds-wp'),
     category: 'hds-wp',
     icon: 'format-gallery',
+    keywords: ['Helsinki - Kuva & teksti'],
     supports: {
       color: true,
       anchor: true
@@ -2378,6 +2380,7 @@ function hdsIcons(name) {
     title: __('Helsinki - Links', 'hds-wp'),
     category: 'hds-wp',
     icon: 'screenoptions',
+    keywords: ['Helsinki - Linkit'],
     supports: {
       anchor: true
     },
@@ -2754,9 +2757,10 @@ function hdsIcons(name) {
   }
   registerBlockType('hds-wp/recent-posts', {
     apiVersion: 2,
-    title: __('Helsinki - Recent Posts', 'hds-wp'),
+    title: __('Helsinki - Posts', 'hds-wp'),
     category: 'hds-wp',
     icon: 'images-alt',
+    keywords: [__('Helsinki - Recent Posts', 'hds-wp'), __('news', 'hds-wp'), __('blog', 'hds-wp')],
     supports: {
       anchor: true
     },
@@ -2836,9 +2840,10 @@ function hdsIcons(name) {
   }
   registerBlockType('hds-wp/rss-feed', {
     apiVersion: 2,
-    title: __('Helsinki - RSS', 'hds-wp'),
+    title: __('Helsinki - RSS-feed', 'hds-wp'),
     category: 'hds-wp',
     icon: 'images-alt',
+    keywords: [__('Helsinki - RSS', 'hds-wp'), __('news', 'hds-wp')],
     supports: {
       anchor: true
     },

@@ -80,9 +80,10 @@
 
 	registerBlockType('hds-wp/recent-posts', {
 		apiVersion: 2,
-		title: __( 'Helsinki - Recent Posts', 'hds-wp' ),
+		title: __( 'Helsinki - Posts', 'hds-wp' ),
 		category: 'hds-wp',
 		icon: 'images-alt',
+    keywords: [ __( 'Helsinki - Recent Posts', 'hds-wp' ), __( 'news', 'hds-wp' ), __( 'blog', 'hds-wp' ) ],
 		supports: {
 			anchor: true,
 		},
