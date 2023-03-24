@@ -1,0 +1,12 @@
+.widget {
+    &--widget_categories {
+        .cat-item {
+            @extend .hds-tag;
+
+            a {
+                @extend .hds-tag__label;
+                line-height: var(--tag-height);
+            }
+        }
+    }
+}
