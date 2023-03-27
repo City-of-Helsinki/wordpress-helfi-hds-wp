@@ -2,10 +2,18 @@
     &--widget_categories {
         .cat-item {
             @extend .hds-tag;
-
+            --tag-focus-outline-color: #{$black};
+            margin-right: spacing('2-xs') !important;
+            margin-bottom: spacing('2-xs') !important;
+    
             a {
                 @extend .hds-tag__label;
-                line-height: var(--tag-height);
+                //line-height: var(--tag-height);
+                font-size: var(--tag-font-size);
+            }
+
+            &.current-cat {
+                font-weight: $global-font-weight-bold;
             }
         }
     }
