@@ -1,0 +1,16 @@
+.tagcloud {
+    .tag-cloud-link {
+        @extend .hds-tag;
+        @extend .hds-tag--rounded-corners;
+        --tag-focus-outline-color: #{$black};
+        padding-left: var(--tag-padding);
+        padding-right: var(--tag-padding);
+        margin-right: spacing('2-xs');
+        margin-bottom: spacing('2-xs');
+        text-decoration: none;
+
+        &.current_tag {
+            font-weight: $global-font-weight-bold;
+        }
+    }
+}
