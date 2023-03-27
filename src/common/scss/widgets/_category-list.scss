@@ -5,10 +5,10 @@
             --tag-focus-outline-color: #{$black};
             margin-right: spacing('2-xs') !important;
             margin-bottom: spacing('2-xs') !important;
-    
+            padding-left: var(--tag-padding);
+            padding-right: var(--tag-padding);
+
             a {
-                @extend .hds-tag__label;
-                //line-height: var(--tag-height);
                 font-size: var(--tag-font-size);
             }
 
