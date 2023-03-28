@@ -9,6 +9,10 @@
         margin-bottom: spacing('2-xs');
         text-decoration: none;
 
+        .tag-link-count {
+            display: contents;
+        }
+
         &.current_tag {
             font-weight: $global-font-weight-bold;
         }
