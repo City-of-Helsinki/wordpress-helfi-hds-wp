@@ -14,11 +14,11 @@ return array(
   <p>Evästeet voivat olla ensimmäisen tai kolmannen osapuolen evästeitä. Ensimmäisen osapuolen evästeet asetetaan samalta sivustolta, jolla käyttäjä vierailee. Kolmannen osapuolen evästeet puolestaan asettaa ulkopuolinen taho. Tällaisia ovat esimerkiksi sivustolle upotettujen sosiaalisen median palveluiden evästeet.</p>
   {{used_cookies}}
   {{manage_consent}}
-  <h3>Lisätietoa tietosuojasta ja rekisteröidyn oikeuksista</h3>
+  <h2>Lisätietoa tietosuojasta ja rekisteröidyn oikeuksista</h2>
   <p>Lisätietoa henkilötietojen käsittelystä sekä rekisteröidyn oikeuksista löydät <a href="https://hel.fi/tietosuoja">tietosuojasivulta</a>.&nbsp;</p>
-  <h3>Lisätietoa saavutettavuudesta</h3>
+  <h2>Lisätietoa saavutettavuudesta</h2>
   <p>Noudatamme lakia digitaalisten palveluiden tarjoamisesta. Lisätietoa saavutettavuudesta löydät <a href="https://www.hel.fi/saavutettavuus/">hel.fi-saavutettavuusselosteesta</a>.&nbsp;</p>
-  <h3>Tekstisisältöjen käyttöön riittää maininta lähteestä</h3>
+  <h2>Tekstisisältöjen käyttöön riittää maininta lähteestä</h2>
   <p>Hel.fi-sivuston tekstisisällöt on lisensoitu&nbsp;<a href="https://creativecommons.org/licenses/by/4.0/deed.fi">Creative Commons BY 4.0 lisenssillä</a>. Sivuston kuvia ei saa käyttää muualla ilman lupaa.</p>',
 
   'sv' => '<h2>Kakor</h2>
@@ -33,11 +33,11 @@ return array(
     <p>Kakorna kan komma från första eller tredje part. Kakor från första part läggs in av den webbplats som användaren besöker. Kakor från tredje part läggs in av utomstående parter. Sådana är till exempel sociala medietjänsters kakor som är inbäddade i webbplatsen.</p>
     {{used_cookies}}
     {{manage_consent}}
-    <h3>Registerbeskrivning och den registrerades rättigheter</h3>
+    <h2>Registerbeskrivning och den registrerades rättigheter</h2>
     <p>Vi följer lagen om tillhandahållande av digitala tjänster. <a href="https://www.hel.fi/helsinki/sv/stad-och-forvaltning/information/dataskydd">Mer information om behandlingen av dina personuppgifter.</a></p>
-    <h3>Mer information om tillgänglighet</h3>
+    <h2>Mer information om tillgänglighet</h2>
     <p>Mer information om tillgänglighet finns i <a href="https://www.hel.fi/tillganglighet">tillgänglighetsutlåtandet för webbplatsen hel.fi</a>.&nbsp;</p>
-    <h3>Textinnehållet licensierat med Creative Commons</h3>
+    <h2>Textinnehållet licensierat med Creative Commons</h2>
     <p>Textinnehållet på webbplatsen hel.fi är licensierat med&nbsp;<a href="https://creativecommons.org/licenses/by/4.0/deed.fi">Creative Commons BY 4.0-licensen</a>. Bilderna på webbplatsen får inte användas annanstans utan tillstånd.</p>',
   
   'en' => '<h2>Cookies</h2>
@@ -52,11 +52,11 @@ return array(
     <p>Cookies may be first-party or third-party cookies. First-party cookies are set by the website the user is visiting. Third-party cookies are set by an outside party. Examples of the latter include cookies of social media services embedded on the website.</p>
     {{used_cookies}}
     {{manage_consent}}
-    <h3>Register description and the rights of data subjects</h3>
+    <h2>Register description and the rights of data subjects</h2>
     <p>For more information on the processing of your personal data, please see more about <a href="https://www.hel.fi/helsinki/en/administration/information/data-protection">data protection</a>.&nbsp;</p>
-    <h3>More information on accessibility</h3>
+    <h2>More information on accessibility</h2>
     <p>For more information on accessibility, please see <a href="https://www.hel.fi/accessibility">the accessibility statement for hel.fi</a>.&nbsp;</p>
-    <h3>Text licenced under Creative Commons</h3>
+    <h2>Text licenced under Creative Commons</h2>
     <p>The text content of the hel.fi website is licensed under a&nbsp;<a href="https://creativecommons.org/licenses/by/4.0/deed.fi">Creative Commons BY 4.0 licence</a>. The images on the website may not be used elsewhere without permission.</p>',
   
 );
