@@ -1,5 +1,9 @@
 .widget {
     &--widget_categories {
+        ul {
+            display: flex;
+            flex-wrap: wrap;
+        }
         .cat-item {
             @extend .hds-tag;
             --tag-focus-outline-color: #{$black};
