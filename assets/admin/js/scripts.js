@@ -1280,9 +1280,12 @@ function hdsIcons(name) {
 
     if (getBlockType('core/rss')) {
       unregisterBlockType('core/rss');
-    } //Disable theme blocks
-
-
+    }
+    if (getBlockType('core/search')) {
+      unregisterBlockType('core/search');
+    }
+    
+    //Disable theme blocks
     if (getBlockType('core/avatar')) {
       unregisterBlockType('core/avatar');
     }
