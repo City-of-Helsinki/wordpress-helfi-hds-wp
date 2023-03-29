@@ -1,0 +1,24 @@
+.widget {
+    &--widget_categories {
+        ul {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .cat-item {
+            @extend .hds-tag;
+            --tag-focus-outline-color: #{$black};
+            margin-right: spacing('2-xs') !important;
+            margin-bottom: spacing('2-xs') !important;
+            padding-left: var(--tag-padding);
+            padding-right: var(--tag-padding);
+
+            a {
+                font-size: var(--tag-font-size);
+            }
+
+            &.current-cat {
+                font-weight: $global-font-weight-bold;
+            }
+        }
+    }
+}
