@@ -1,0 +1,19 @@
+.hds-pagination-container {
+    text-align: center;
+    @import 'node_modules/hds-core/lib/components/pagination/pagination';
+
+    .hds-button--supplementary {
+        --color: #{$black};
+        --color-hover: #{$black};
+        --color-focus: #{$black};
+        --color-hover-focus: #{$black};
+        --background-color: transparent;
+        --border-color: transparent;
+        --border-color-hover: transparent;
+        --border-color-focus: #{$black};
+        --border-color-hover-focus: #{$black};
+        --background-color-hover: var(--color-black-5);
+        --background-color-focus: var(--color-black-5);
+        --background-color-hover-focus: var(--color-black-5);   
+    }
+}
