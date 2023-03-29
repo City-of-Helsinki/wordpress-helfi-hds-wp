@@ -1,5 +1,6 @@
 .button,
-.hds-button {
+.hds-button,
+%hds-button {
   align-items: center;
   background-color: $black;
   border: 2px solid $black;
@@ -105,9 +106,8 @@
     }
 
     &:hover {
-      background-color: transparent;
+      background-color: var(--color-black-5);
       color: $black;
-      text-decoration: underline;
     }
 
     &:focus {

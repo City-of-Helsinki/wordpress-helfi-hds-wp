@@ -133,6 +133,7 @@
 		title: __( 'Helsinki - Links', 'hds-wp' ),
 		category: 'hds-wp',
 		icon: 'screenoptions',
+    keywords: [ 'Helsinki - Linkit' ],
 		supports: {
 			anchor: true,
 		},
