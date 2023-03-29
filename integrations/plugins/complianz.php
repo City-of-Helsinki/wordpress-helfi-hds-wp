@@ -32,7 +32,7 @@ function helsinki_wp_complianz_document_placeholder_html( array $element ) {
   $parts = array();
   
   if ( ! empty($element['title']) ) {
-    $parts[] = sprintf('<h2>%s</h2>', esc_html( $element['title'] ));
+    $parts[] = sprintf('<h3>%s</h3>', esc_html( $element['title'] ));
   }
   
   if ( ! empty($element['content']) ) {
