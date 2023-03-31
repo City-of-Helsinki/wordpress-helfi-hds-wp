@@ -859,7 +859,7 @@ function hds_wp_render_recent_posts( $attributes ) {
 function hds_wp_render_rss_feed( $attributes ) {
 	if ( function_exists( 'helsinki_front_page_section' ) ) {
 		add_filter( 'wp_feed_cache_transient_lifetime', function( $lifetime, $url ) use ( $attributes ) {
-			return hds_wp_rss_feed_lifetime($lifetime, $url, $attributes);
+			return hds_wp_rss_feed_lifetime(1, $url, $attributes);
 		}, 10, 2 );
 		ob_start();
 		add_action('helsinki_front_page_feed-posts', 'helsinki_front_page_feed_posts_title', 10);
