@@ -1678,6 +1678,10 @@ function hdsIcons(name) {
 
     if (getBlockType('core/search')) {
       unregisterBlockType('core/search');
+    }
+
+    if (getBlockType('core/freeform')) {
+      unregisterBlockType('core/freeform');
     } //Disable theme blocks
 
 
