@@ -42,6 +42,7 @@
             .wpcf7-list-item-label {
                 @extend .hds-checkbox__label;
                 line-height: 22px;
+                font-weight: normal;
             }
         }
 
@@ -56,6 +57,7 @@
             .wpcf7-list-item-label {
                 @extend .hds-radio-button__label;
                 line-height: 22px;
+                font-weight: normal;
             }
         }
 
