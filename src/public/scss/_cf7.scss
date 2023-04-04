@@ -3,6 +3,11 @@
         p {
             @extend .hds-text-input;
             margin-bottom: spacing('m');
+
+            > label {
+                font-size: 16px;
+                font-weight: $global-font-weight-medium;
+            }
         }
 
         .hds-text-input__input-wrapper {
