@@ -1,0 +1,31 @@
+#sb_instagram {
+    #sbi_load {
+        float:none;
+        text-align: left;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+
+        .sbi_load_btn {
+            @extend %hds-button;
+            margin: 0;
+
+            &:active {
+                box-shadow: none !important;
+            }
+
+            &:hover {
+                box-shadow: none !important;
+            }
+        }
+
+        .sbi_follow_btn_link {
+            @extend %hds-button;
+            @extend %hds-button--secondary;
+
+            svg {
+                width: 24px;
+            }
+        }
+    }
+}
