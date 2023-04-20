@@ -142,7 +142,11 @@ class Assets extends Module {
 		wp_localize_script('helsinki-wp-scripts', 'hds_wp', array(
 			'cross' => Svg::icon('arrows-operators', 'cross'),
 			'paperclip' => Svg::icon('forms-data', 'paperclip'),
-			'remove' => __('Remove', 'hds-wp')
+			'remove' => __('Remove', 'hds-wp'),
+			'alert-circle' => Svg::icon('notifications-expressions', 'alert-circle'),
+			'info-circle' => Svg::icon('notifications-expressions', 'info-circle'),
+			'check-circle' => Svg::icon('notifications-expressions', 'check-circle'),
+			'error' => Svg::icon('notifications-expressions', 'error'),
 		) );
 
 		add_action('wp_head', function() {
