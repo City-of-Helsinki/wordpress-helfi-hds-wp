@@ -1785,6 +1785,10 @@ function hdsIcons(name) {
       unregisterBlockType('core/read-more');
     }
 
+    if (getBlockType('core/more')) {
+      unregisterBlockType('core/more');
+    }
+
     if (getBlockType('core/site-logo')) {
       unregisterBlockType('core/site-logo');
     }
