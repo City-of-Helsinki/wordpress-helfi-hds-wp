@@ -129,8 +129,13 @@ function helsinki_wpseo_add_opengraph_images( $image_container ) {
 		$og_default_id = WPSEO_Options::get_option('wpseo_social')['og_default_image_id'];
 		$og_default_image = WPSEO_Options::get_option('wpseo_social')['og_default_image'];
 
-		if ( has_post_thumbnail() ) {
-			$image_container->add_image_by_id( get_post_thumbnail_id() );
+		$id = null;
+		if (is_front_page()) {
+			$id = get_option('page_on_front');
+		}
+
+		if ( has_post_thumbnail( $id ) ) {
+			$image_container->add_image_by_id( get_post_thumbnail_id( $id ) );
 		}
 		else if ( $og_default_id ) {
 			$image_container->add_image_by_id( $og_default_id );
