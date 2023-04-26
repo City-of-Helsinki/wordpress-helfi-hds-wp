@@ -287,15 +287,19 @@ return array(
 		'attributes' => array(
 	        'title' => array(
 	            'type'    => 'string',
-	            'default' => '',
+	            'default' => 'Helsingin kaupungin uutiset',
 	        ),
 			'url' => array(
 	            'type'    => 'string',
-	            'default' => '',
+	            'default' => 'https://www.hel.fi/fi/uutiset/rss',
 	        ),
 			'lifespan' => array(
 	            'type'    => 'integer',
-	            'default' => 12,
+	            'default' => 1,
+	        ),
+			'amount' => array(
+	            'type'    => 'integer',
+	            'default' => 6,
 	        ),
 			'anchor' => array(
 	            'type'    => 'string',
