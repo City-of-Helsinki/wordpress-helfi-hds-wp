@@ -8,6 +8,14 @@
 	const { select, useSelect } = wp.data;
 	const { ToolbarGroup, ToolbarButton, Button, ToggleControl } = wp.components;
 
+  function articleCountOptions() {
+    return [
+      {label: 4 + ' ' + __( 'articles', 'hds-wp' ), value: 4},
+      {label: 6 + ' ' + __( 'articles', 'hds-wp' ), value: 6},
+      {label: 8 + ' ' + __( 'articles', 'hds-wp' ), value: 8},
+    ];
+  }
+
   function inspectorControls(props) {
     return hdsInspectorControls(
       {
@@ -24,10 +32,11 @@
         value: props.attributes.url,
         attribute: 'url',
       }, props),
-      hdsTextControl({
-        label: __( 'Lifetime (h)', 'hds-wp' ),
-        value: props.attributes.lifespan,
-        attribute: 'lifespan',
+      hdsSelectControl({
+        label: __( 'Count', 'hds-wp' ),
+        value: props.attributes.amount,
+        attribute: 'amount',
+        options: articleCountOptions()
       }, props),
     );
   }
@@ -37,6 +46,7 @@
 		return function(props) {
         var content = null;
         props.attributes.lifespan = parseInt(props.attributes.lifespan);
+        props.attributes.amount = parseInt(props.attributes.amount);
         var blockAttributes = props.attributes;
 
 
@@ -66,15 +76,19 @@
 		attributes: {
             title: {
                 type: 'string',
-                default: '',
+                default: 'Helsingin kaupungin uutiset',
             },
             url: {
                 type: 'string',
-                default: '',
+                default: 'https://www.hel.fi/fi/uutiset/rss',
             },
             lifespan: {
                 type: 'number',
-                default: 12,
+                default: 1,
+            },
+            amount: {
+                type: 'number',
+                default: 6,
             },
             anchor: {
               type: 'string',

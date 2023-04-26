@@ -121,6 +121,9 @@
         if(getBlockType('core/read-more')) {
             unregisterBlockType( 'core/read-more' );
         }
+        if(getBlockType('core/more')) {
+            unregisterBlockType( 'core/more' );
+        }
         if(getBlockType('core/site-logo')) {
             unregisterBlockType( 'core/site-logo' );
         }

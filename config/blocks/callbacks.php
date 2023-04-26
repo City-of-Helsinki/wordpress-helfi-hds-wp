@@ -137,7 +137,8 @@ function hds_wp_query_block_post_ids( array $posts ) {
 		'no_found_rows' => true,
 		'update_post_term_cache' => false,
 		'ignore_sticky_posts' => 1,
-		'orderby' => 'post__in'
+		'orderby' => 'post__in',
+		'posts_per_page' => -1,
 	) );
 	return $query->posts;
 }
@@ -786,7 +787,7 @@ function hds_wp_render_recent_posts( $attributes ) {
 function hds_wp_render_rss_feed( $attributes ) {
 	if ( function_exists( 'helsinki_front_page_section' ) ) {
 		add_filter( 'wp_feed_cache_transient_lifetime', function( $lifetime, $url ) use ( $attributes ) {
-			return hds_wp_rss_feed_lifetime($lifetime, $url, $attributes);
+			return hds_wp_rss_feed_lifetime(1, $url, $attributes);
 		}, 10, 2 );
 		ob_start();
 		add_action('helsinki_front_page_feed-posts', 'helsinki_front_page_feed_posts_title', 10);
