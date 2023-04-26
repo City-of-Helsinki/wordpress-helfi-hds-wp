@@ -2729,7 +2729,6 @@ function hdsIcons(name) {
     }];
   }
 
-
   function inspectorControls(props) {
     return hdsInspectorControls({
       title: __('Settings', 'hds-wp'),
