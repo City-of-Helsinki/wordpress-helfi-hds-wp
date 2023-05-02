@@ -1132,14 +1132,18 @@ wp.domReady(function () {
   }
 
   function hasIcon(props) {
+    var checkAttribute = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
     if (props.attributes.className) {
       if (props.attributes.className.includes('align-center')) {
         return false;
       }
     }
 
-    if (!props.attributes.contentIcon || props.attributes.contentIcon === "(empty)") {
-      return false;
+    if (checkAttribute) {
+      if (!props.attributes.contentIcon || props.attributes.contentIcon === "(empty)") {
+        return false;
+      }
     }
 
     return true;
@@ -1195,7 +1199,7 @@ wp.domReady(function () {
           href: 'https://www.w3.org/WAI/WCAG21/Techniques/general/G200.html',
           target: '_blank'
         }, wp.i18n.__('Check WCGA 3.2.5 accessibility requirements (the link opens in a new tab).', 'hds-wp')))
-      }), hasIcon(props) ? hdsIconControl(props) : ''), createElement('div', useBlockProps({
+      }), hasIcon(props, false) ? hdsIconControl(props) : ''), createElement('div', useBlockProps({
         className: wrapperClasses
       }), content));
     };
