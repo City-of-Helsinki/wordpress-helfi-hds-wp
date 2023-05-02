@@ -18,14 +18,16 @@
 		);
 	}
 
-	function hasIcon(props) {
+	function hasIcon(props, checkAttribute = true) {
 		if ( props.attributes.className ) {
 			if (props.attributes.className.includes('align-center')) {
 				return false;
 			}
 		}
-		if ( !props.attributes.contentIcon || props.attributes.contentIcon === "(empty)" ) {
-			return false;
+		if (checkAttribute) {
+			if ( !props.attributes.contentIcon || props.attributes.contentIcon === "(empty)" ) {
+				return false;
+			}
 		}
 		return true;
 	}
@@ -87,7 +89,7 @@
 					hdsTargetBlankControl(props, {
 						help: wp.element.createElement('p', {}, wp.i18n.__( 'I have made sure that the description of this link clearly states that it opens in a new tab. ', 'hds-wp' ), wp.element.createElement('a', {href: 'https://www.w3.org/WAI/WCAG21/Techniques/general/G200.html', target: '_blank'}, wp.i18n.__( 'Check WCGA 3.2.5 accessibility requirements (the link opens in a new tab).', 'hds-wp' )))
 					}),
-					hasIcon(props) ? hdsIconControl(props) : '',
+					hasIcon(props, false) ? hdsIconControl(props) : '',
 				),
 				createElement('div', useBlockProps({ className: wrapperClasses }), content)
 			);
