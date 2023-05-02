@@ -655,19 +655,26 @@ function hds_wp_render_banner($attributes) {
 	if ( ! empty( $attributes['buttonUrl'] ) && ! empty( $attributes['buttonText'] ) ) {
 		$button = sprintf(
 			'<div class="content__inner content__inner--button">
-				<a class="content__link hds-button" href="%s" rel="noopener">
-					%s
+				<a class="content__link hds-button" href="%s" %s rel="noopener">
 					%s
 				</a>
 			</div>',
 			$attributes['buttonUrl'],
+			$attributes['targetBlank'] ? 'target="_blank"' : '',
 			$attributes['buttonText'],
-			hds_wp_render_link_icon($attributes['isExternalUrl'])
 		);
 	}
 
 
 	$wrapClasses = array( 'wp-block-hds-wp-banner' );
+
+	if (!empty($attributes['className'])) {
+		$wrapClasses[] = esc_attr($attributes['className']);
+
+		if (str_contains($attributes['className'], 'align-center')) {
+			$icon = '';
+		}
+	}
 	
 	if (empty($icon)) {
 		$wrapClasses[] = 'no-icon';
@@ -677,9 +684,6 @@ function hds_wp_render_banner($attributes) {
 		$wrapClasses[] = 'no-button';
 	}
 
-	if (!empty($attributes['className'])) {
-		$wrapClasses[] = esc_attr($attributes['className']);
-	}
 
 	$id = '';
 	if (!empty($attributes['anchor'])) {

@@ -175,11 +175,15 @@ return array(
 	        ),
 	        'buttonText' => array(
 	            'type'    => 'string',
-	            'default' => '',
+	            'default' => __('Button Text', 'hds-wp'),
 	        ),
 	        'buttonUrl' => array(
 	            'type'    => 'string',
 	            'default' => '',
+	        ),
+			'targetBlank' => array(
+	            'type'    => 'boolean',
+	            'default' => false,
 	        ),
 	        'isExternalUrl' => array(
 	            'type'    => 'boolean',
