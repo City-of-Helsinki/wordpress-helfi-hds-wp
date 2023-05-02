@@ -10,16 +10,19 @@
 	.content {
 		display: flex;
 		flex-flow: column;
-		padding: spacing('xl') spacing('l') spacing('2-xl');
+		padding: spacing('l') spacing('m');
 
 		&__inner {
 
 			&--icon {
 				svg {
 					fill: var(--primary-content-color);
-					margin-bottom: spacing('s');
 					margin-right: spacing('s');
 					width: 64px;
+
+					@include breakpointMax('m') {
+						margin-bottom: spacing('s');
+					}
 				}
 			}
 
@@ -41,6 +44,14 @@
 			margin: 0 0 spacing('m');
 			color: var(--primary-content-color);
 			max-width: none;
+
+			a {
+				color: inherit;
+
+				svg {
+					fill: var(--primary-content-color);
+				}
+			}
 		}
 
 		&__link {
@@ -151,6 +162,85 @@
 
 			&__text {
 				margin-bottom: 0;
+			}
+		}
+	}
+
+	&[class*="-secondary-color"] {
+		background-color: var(--secondary-color);
+		color: var(--secondary-content-color);
+
+		.content {
+
+			&__inner {
+
+				&--icon {
+					svg {
+						fill: var(--secondary-content-color);
+					}
+				}
+	
+				&--text {
+				}
+	
+				&--button {
+				}
+			}
+	
+			&__heading {
+				color: var(--secondary-content-color);
+			}
+	
+			&__text {
+				color: var(--secondary-content-color);
+				a {	
+					svg {
+						fill: var(--secondary-content-color);
+					}
+				}	
+			}
+	
+			&__link {
+				background-color: $black;
+				border-color: $black;
+				color: $white;
+			}
+	
+			&__link:hover {
+				color: $black;
+				background-color: transparent;
+			}
+	
+			&__link svg {
+				fill: $white;
+			}
+	
+			&__link:hover svg {
+				fill: $black;
+			}
+	
+		}
+	}
+
+	&[class*="-align-center"] {
+	
+		.content {
+			&__heading {
+				margin-left: auto;
+				margin-right: auto;
+				text-align: center;
+			}
+
+			&__text {
+				margin-left: auto;
+				margin-right: auto;
+				text-align: center;
+			}
+
+			&__inner {
+				&--button {
+					text-align: center;
+				}
 			}
 		}
 	}

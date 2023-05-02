@@ -128,6 +128,22 @@ function hdsContentTitle(props) {
 	) : '';
 }
 
+function hdsContentTitleRich(props, config) {
+	return wp.element.createElement(
+		wp.blockEditor.RichText, {
+			tagName: 'h2',
+			className: 'content__heading',
+			value: props.attributes.contentTitle,
+			onChange: function (value) {
+				props.setAttributes({contentTitle: value});
+			},
+			allowedFormats: [],
+			placeholder: config.placeholder ? config.placeholder : wp.i18n.__( 'Title', 'hds-wp' ),
+		},
+	);
+}
+
+
 function hdsContentTextControl(props) {
 	return hdsTextAreaControl({
 		label: wp.i18n.__( 'Excerpt', 'hds-wp' ),
@@ -142,6 +158,20 @@ function hdsContentText(props) {
 		{className: 'content__text'},
 		props.attributes.contentText
 	) : '';
+}
+
+function hdsContentTextRich(props, config) {
+	return wp.element.createElement(
+		wp.blockEditor.RichText, {
+			tagName: 'p',
+			className: 'content__text',
+			value: props.attributes.contentText,
+			onChange: function (value) {
+				props.setAttributes({contentText: value});
+			},
+			placeholder: config.placeholder ? config.placeholder : wp.i18n.__( 'Excerpt', 'hds-wp' ),
+		},
+	);
 }
 
 function hdsButtonTextControl(props) {
@@ -169,12 +199,12 @@ function hdsExternalUrlControl(props) {
 	}, props);
 }
 
-function hdsTargetBlankControl(props) {
+function hdsTargetBlankControl(props, config) {
 	return hdsCheckboxControl({
 		label: wp.i18n.__( 'Open in new window', 'hds-wp' ),
 		checked: props.attributes.targetBlank,
 		attribute: 'targetBlank',
-		help: wp.element.createElement('p', {}, wp.i18n.__( 'The link\'s description must clearly state it opens in a new tab, and it must fulfill accessibility requirements. ', 'hds-wp' ), wp.element.createElement('a', {href: 'https://www.w3.org/WAI/WCAG21/Techniques/general/G200.html', target: '_blank'}, wp.i18n.__( 'Check WCGA 3.2.5 accessibility requirements (the link opens in a new tab).', 'hds-wp' ))),
+		help: config.help ? config.help : wp.element.createElement('p', {}, wp.i18n.__( 'The link\'s description must clearly state it opens in a new tab, and it must fulfill accessibility requirements. ', 'hds-wp' ), wp.element.createElement('a', {href: 'https://www.w3.org/WAI/WCAG21/Techniques/general/G200.html', target: '_blank'}, wp.i18n.__( 'Check WCGA 3.2.5 accessibility requirements (the link opens in a new tab).', 'hds-wp' ))),
 		helpVisibility: 'toggled',
 	}, props);
 }
