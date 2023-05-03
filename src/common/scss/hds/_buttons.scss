@@ -20,7 +20,8 @@
 
   svg {
 		fill: $white;
-    margin-left: .5rem
+    margin-left: .5rem;
+    flex-shrink: 0;
 	}
 
   &:hover {
