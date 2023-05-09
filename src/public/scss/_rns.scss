@@ -47,7 +47,6 @@
                             }
 
                             .rns-label {
-                                transition-duration: inherit;
                                 font-size: inherit;
                                 font-weight: inherit;
                                 color: inherit;
@@ -63,8 +62,10 @@
             .rns-inputs {
                 margin-left: -5px;
                 margin-right: -5px;
+                margin-bottom: -5px;
                 padding-left: 5px;
                 padding-right: 5px;
+                padding-bottom: -5px;
 
                 form {
 
@@ -92,7 +93,7 @@
                             @extend .hds-text-input;
 
                             textarea {
-                                font-size: 18px;
+                                font-size: 18px !important;
                             }
                         }
 
@@ -102,6 +103,7 @@
                     .rns-form-submit {
                         @extend %hds-button;
                         margin-top: 24px;
+                        opacity: 1;
                     }
 
                 }
@@ -116,8 +118,8 @@
                     font-size: map-get( $heading-font-sizes, 'h5' );
 
                     @include breakpoint('l') {
-                    font-weight: $global-font-weight-medium;
-                    font-size: map-get(map-get( $heading-responsive-font-sizes, 'l' ), 'h5');
+                        font-weight: $global-font-weight-medium;
+                        font-size: map-get(map-get( $heading-responsive-font-sizes, 'l' ), 'h5');
                     }
                 }
 
