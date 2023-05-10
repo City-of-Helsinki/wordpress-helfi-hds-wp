@@ -1,115 +1,60 @@
-/**
-  * Helsinki Grotesk
-  */
 
 @font-face {
   font-family: 'Helsinki Grotesk';
-  src: url('../HelsinkiGrotesk-Black.woff2') format('woff2'),
-      url('../HelsinkiGrotesk-Black.woff') format('woff');
-  font-weight: 900;
+  src: url(https://makasiini.hel.ninja/delivery/HelsinkiGrotesk/565d73a693abe0776c801607ac28f0bf.woff) format("woff");
+  font-weight: 400;
   font-style: normal;
-  font-display: swap;
 }
 
 @font-face {
   font-family: 'Helsinki Grotesk';
-  src: url('../HelsinkiGrotesk-MediumItalic.woff2') format('woff2'),
-      url('../HelsinkiGrotesk-MediumItalic.woff') format('woff');
-  font-weight: 500;
+  src: url(https://makasiini.hel.ninja/delivery/HelsinkiGrotesk/5bb29e3b7b1d3ef30121229bbe67c3e1.woff) format("woff");
+  font-weight: 400;
   font-style: italic;
-  font-display: swap;
 }
 
 @font-face {
   font-family: 'Helsinki Grotesk';
-  src: url('../HelsinkiGrotesk-RegularItalic.woff2') format('woff2'),
-      url('../HelsinkiGrotesk-RegularItalic.woff') format('woff');
-  font-weight: normal;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Helsinki Grotesk';
-  src: url('../HelsinkiGrotesk-BlackItalic.woff2') format('woff2'),
-      url('../HelsinkiGrotesk-BlackItalic.woff') format('woff');
-  font-weight: 900;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Helsinki Grotesk';
-  src: url('../HelsinkiGrotesk-Medium.woff2') format('woff2'),
-      url('../HelsinkiGrotesk-Medium.woff') format('woff');
+  src: url(https://makasiini.hel.ninja/delivery/HelsinkiGrotesk/7c46f288e8133b87e6b12b45dac71865.woff) format("woff");
   font-weight: 500;
   font-style: normal;
-  font-display: swap;
 }
 
 @font-face {
   font-family: 'Helsinki Grotesk';
-  src: url('../HelsinkiGrotesk-Regular.woff2') format('woff2'),
-      url('../HelsinkiGrotesk-Regular.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+  src: url(https://makasiini.hel.ninja/delivery/HelsinkiGrotesk/e62dc97e83a385e4d8cdc939cf1e4213.woff) format("woff");
+  font-weight: 500;
+  font-style: italic;
 }
 
 @font-face {
   font-family: 'Helsinki Grotesk';
-  src: url('../HelsinkiGrotesk-BoldItalic.woff2') format('woff2'),
-      url('../HelsinkiGrotesk-BoldItalic.woff') format('woff');
-  font-weight: bold;
-  font-style: italic;
-  font-display: swap;
+  src: url(https://makasiini.hel.ninja/delivery/HelsinkiGrotesk/533af26cf28d7660f24c2884d3c27eac.woff) format("woff");
+  font-weight: 700;
+  font-style: normal;
 }
 
 @font-face {
   font-family: 'Helsinki Grotesk';
-  src: url('../HelsinkiGrotesk-Bold.woff2') format('woff2'),
-      url('../HelsinkiGrotesk-Bold.woff') format('woff');
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
-}
-
-
-/**
-  * Helsinki Open Sans
-  */
-@font-face {
-  font-family: 'Helsinki Avoin Sans';
-  src: url('../HelsinkiAvoinSans-Italic.woff2') format('woff2'),
-      url('../HelsinkiAvoinSans-Italic.woff') format('woff');
-  font-weight: normal;
+  src: url(https://makasiini.hel.ninja/delivery/HelsinkiGrotesk/20d494430c87e15e194932b729d48270.woff) format("woff");
+  font-weight: 700;
   font-style: italic;
-  font-display: swap;
 }
 
 @font-face {
-  font-family: 'Helsinki Avoin Sans';
-  src: url('../HelsinkiAvoinSans-BoldItalic.woff2') format('woff2'),
-      url('../HelsinkiAvoinSans-BoldItalic.woff') format('woff');
-  font-weight: bold;
+  font-family: 'Helsinki Grotesk';
+  src: url(https://makasiini.hel.ninja/delivery/HelsinkiGrotesk/a50a1bd245ce63abcc0d1da80ff790d2.woff) format("woff");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Helsinki Grotesk';
+  src: url(https://makasiini.hel.ninja/delivery/HelsinkiGrotesk/62a1781d8b396fbb025b0552cf6304d2.woff) format("woff");
+  font-weight: 900;
   font-style: italic;
-  font-display: swap;
 }
 
-@font-face {
-  font-family: 'Helsinki Avoin Sans';
-  src: url('../HelsinkiAvoinSans-Regular.woff2') format('woff2'),
-      url('../HelsinkiAvoinSans-Regular.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Helsinki Avoin Sans';
-  src: url('../HelsinkiAvoinSans-Bold.woff2') format('woff2'),
-      url('../HelsinkiAvoinSans-Bold.woff') format('woff');
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
+body {
+ text-rendering: optimizeLegibility;
 }

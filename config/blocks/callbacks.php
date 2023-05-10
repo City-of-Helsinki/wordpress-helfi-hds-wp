@@ -137,7 +137,8 @@ function hds_wp_query_block_post_ids( array $posts ) {
 		'no_found_rows' => true,
 		'update_post_term_cache' => false,
 		'ignore_sticky_posts' => 1,
-		'orderby' => 'post__in'
+		'orderby' => 'post__in',
+		'posts_per_page' => -1,
 	) );
 	return $query->posts;
 }
@@ -581,19 +582,26 @@ function hds_wp_render_banner($attributes) {
 	if ( ! empty( $attributes['buttonUrl'] ) && ! empty( $attributes['buttonText'] ) ) {
 		$button = sprintf(
 			'<div class="content__inner content__inner--button">
-				<a class="content__link hds-button" href="%s" rel="noopener">
-					%s
+				<a class="content__link hds-button" href="%s" %s rel="noopener">
 					%s
 				</a>
 			</div>',
 			$attributes['buttonUrl'],
+			$attributes['targetBlank'] ? 'target="_blank"' : '',
 			$attributes['buttonText'],
-			hds_wp_render_link_icon($attributes['isExternalUrl'])
 		);
 	}
 
 
 	$wrapClasses = array( 'wp-block-hds-wp-banner' );
+
+	if (!empty($attributes['className'])) {
+		$wrapClasses[] = esc_attr($attributes['className']);
+
+		if (str_contains($attributes['className'], 'align-center')) {
+			$icon = '';
+		}
+	}
 	
 	if (empty($icon)) {
 		$wrapClasses[] = 'no-icon';
@@ -603,9 +611,6 @@ function hds_wp_render_banner($attributes) {
 		$wrapClasses[] = 'no-button';
 	}
 
-	if (!empty($attributes['className'])) {
-		$wrapClasses[] = esc_attr($attributes['className']);
-	}
 
 	$id = '';
 	if (!empty($attributes['anchor'])) {
@@ -786,7 +791,7 @@ function hds_wp_render_recent_posts( $attributes ) {
 function hds_wp_render_rss_feed( $attributes ) {
 	if ( function_exists( 'helsinki_front_page_section' ) ) {
 		add_filter( 'wp_feed_cache_transient_lifetime', function( $lifetime, $url ) use ( $attributes ) {
-			return hds_wp_rss_feed_lifetime($lifetime, $url, $attributes);
+			return hds_wp_rss_feed_lifetime(1, $url, $attributes);
 		}, 10, 2 );
 		ob_start();
 		add_action('helsinki_front_page_feed-posts', 'helsinki_front_page_feed_posts_title', 10);
