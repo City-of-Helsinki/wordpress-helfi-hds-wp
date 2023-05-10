@@ -2964,13 +2964,11 @@ wp.domReady(function () {
     return function (props) {
       var name = props.name,
           attributes = props.attributes;
-      console.log(name);
 
       if (name != 'core/table') {
         return /*#__PURE__*/React.createElement(BlockListBlock, props);
       }
 
-      console.log(attributes);
       var verticalHeader = attributes.verticalHeader;
       var customClass = verticalHeader ? 'has-vertical-header' : '';
       return /*#__PURE__*/React.createElement(BlockListBlock, _extends({}, props, {
