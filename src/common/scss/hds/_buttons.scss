@@ -20,7 +20,9 @@
 
   svg {
 		fill: $white;
-    margin-left: .5rem
+    margin-left: 1rem !important;
+    margin-top: 0 !important;
+    flex-shrink: 0;
 	}
 
   &:hover {
@@ -145,6 +147,49 @@
   } // --small
 
 }
+
+%hds-button--secondary {
+  background-color: transparent;
+  color: $black;
+
+  svg {
+    fill: $black;
+  }
+
+  &:hover {
+    background-color: $black;
+    color: $white;
+
+    svg {
+      fill: $white;
+    }
+  }
+
+  &:focus {
+    border-color: $black;
+    outline: 2px solid $black;
+  }
+
+  &:disabled,
+  &[disabled],
+  .disabled {
+    background-color: transparent;
+    border-color: $medium-gray;
+    color: $medium-gray;
+
+    svg {
+      fill: $medium-gray;
+    }
+
+    &:hover,
+    &:focus {
+      background-color: transparent;
+      border-color: $medium-gray;
+      color: $medium-gray;
+    }
+  }
+} // --secondary
+
 
 .wp-block-buttons {
     margin-bottom: spacing('l');
