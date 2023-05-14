@@ -1,5 +1,17 @@
 "use strict";
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function hdsSingleImage(attributes) {
@@ -2981,25 +2993,247 @@ wp.domReady(function () {
   });
 })(window.wp);
 
+var __ = wp.i18n.__;
+var registerBlockType = wp.blocks.registerBlockType;
+var _wp$element13 = wp.element,
+    Fragment = _wp$element13.Fragment,
+    createElement = _wp$element13.createElement,
+    useState = _wp$element13.useState,
+    useEffect = _wp$element13.useEffect;
+var _wp$blockEditor13 = wp.blockEditor,
+    useBlockProps = _wp$blockEditor13.useBlockProps,
+    BlockControls = _wp$blockEditor13.BlockControls,
+    InnerBlocks = _wp$blockEditor13.InnerBlocks,
+    RichText = _wp$blockEditor13.RichText;
+var InspectorControls = wp.editor.InspectorControls;
+var _wp$data9 = wp.data,
+    select = _wp$data9.select,
+    useSelect = _wp$data9.useSelect,
+    useDispatch = _wp$data9.useDispatch,
+    dispatch = _wp$data9.dispatch,
+    subscribe = _wp$data9.subscribe;
+var _wp$components13 = wp.components,
+    ToolbarGroup = _wp$components13.ToolbarGroup,
+    ToolbarButton = _wp$components13.ToolbarButton,
+    Button = _wp$components13.Button,
+    ToggleControl = _wp$components13.ToggleControl,
+    TextControl = _wp$components13.TextControl,
+    Notice = _wp$components13.Notice;
+var store = wp.notices.store;
+registerBlockType('hds-wp/map', {
+  apiVersion: 2,
+  title: __('Helsinki - Map', 'hds-wp'),
+  icon: 'location-alt',
+  category: 'hds-wp',
+  style: 'hds-map',
+  attributes: {
+    title: {
+      type: 'string',
+      default: 'Kartan otsikko'
+    },
+    desricption: {
+      type: 'string',
+      default: 'Kartan kuvaus'
+    },
+    url: {
+      type: 'string',
+      default: 'https://palvelukartta.hel.fi/fi/embed/unit/1915?city=helsinki,espoo,vantaa,kauniainen,kirkkonummi&bbox=60.22464068641878,24.932012557983402,60.23254640738538,24.962611198425297'
+    },
+    assistive_title: {
+      type: 'string'
+    }
+  },
+  edit: edit,
+  save: save
+});
+
+function edit(_ref) {
+  var attributes = _ref.attributes,
+      setAttributes = _ref.setAttributes,
+      clientId = _ref.clientId;
+  var blockProps = useBlockProps({});
+
+  var _useState = useState(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      urlError = _useState2[0],
+      setUrlError = _useState2[1];
+
+  var _useState3 = useState(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      assistiveTitleError = _useState4[0],
+      setAssistiveTitleError = _useState4[1];
+
+  var _useDispatch = useDispatch(store),
+      createErrorNotice = _useDispatch.createErrorNotice,
+      removeNotice = _useDispatch.removeNotice;
+
+  useEffect(function () {
+    var url = attributes.url;
+
+    if (!url) {
+      dispatch('core/editor').lockPostSaving('requiredValueLock');
+      createErrorNotice(__('Helsinki - Map', 'hds-wp') + ': ' + __('Please enter a valid map embed URL', 'hds-wp'), {
+        type: 'default',
+        id: 'urlError-' + clientId,
+        isDismissible: false,
+        class: 'hds-error-notice',
+        className: 'hds-error-notice'
+      });
+    } else {
+      dispatch('core/notices').removeNotice('urlError-' + clientId);
+    }
+  }, [urlError]);
+  useEffect(function () {
+    var assistiveTitle = attributes.assistive_title;
+
+    if (!assistiveTitle) {
+      dispatch('core/editor').lockPostSaving('requiredValueLock');
+      createErrorNotice(__('Helsinki - Map', 'hds-wp') + ': ' + __('Please enter assistive technology title', 'hds-wp'), {
+        type: 'default',
+        isDismissible: false,
+        id: 'assistiveTitleError-' + clientId,
+        actions: [{
+          label: __('Focus', 'hds-wp'),
+          onClick: function onClick() {
+            document.getElementById("block-".concat(clientId)).scrollIntoView({
+              behavior: 'smooth'
+            });
+            dispatch('core/block-editor').selectBlock(clientId);
+          }
+        }]
+      });
+    } else {
+      dispatch('core/notices').removeNotice('assistiveTitleError-' + clientId);
+    }
+  }, [assistiveTitleError]);
+
+  if (!urlError && !assistiveTitleError) {
+    dispatch('core/editor').unlockPostSaving('requiredValueLock');
+  }
+
+  return /*#__PURE__*/React.createElement(Fragment, null, /*#__PURE__*/React.createElement("div", blockProps, /*#__PURE__*/React.createElement("div", {
+    className: "hds-map has-background"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "hds-container"
+  }, /*#__PURE__*/React.createElement(RichText, {
+    tagName: "h2",
+    value: attributes.title,
+    onChange: function onChange(value) {
+      return setAttributes({
+        title: value
+      });
+    },
+    placeholder: __('Map title', 'hds-wp'),
+    allowedFormats: []
+  }), /*#__PURE__*/React.createElement(RichText, {
+    tagName: "p",
+    value: attributes.desricption,
+    onChange: function onChange(value) {
+      return setAttributes({
+        desricption: value
+      });
+    },
+    placeholder: __('Map description', 'hds-wp'),
+    allowedFormats: ['core/bold', 'core/italic', 'core/link', 'core/paragraph']
+  }), attributes.url && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("iframe", {
+    src: attributes.url,
+    title: attributes.assistive_title || attributes.title
+  }), /*#__PURE__*/React.createElement("a", {
+    href: attributes.url,
+    target: "_blank",
+    className: "hds-map__link",
+    rel: "noopener"
+  }, __('Open map in new window', 'hds-wp'), ' ', hdsExternalLinkIcon()))))), /*#__PURE__*/React.createElement(InspectorControls, null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '1rem'
+    }
+  }, /*#__PURE__*/React.createElement(TextControl, {
+    label: __('Map URL', 'hds-wp'),
+    value: attributes.url,
+    onChange: function onChange(value) {
+      if (value.includes('palvelukartta.hel.fi') || value.includes('kartta.hel.fi')) {
+        setUrlError(false);
+      } else {
+        setUrlError(true);
+      }
+
+      setAttributes({
+        url: value
+      });
+    },
+    placeholder: __('https://palvelukartta.hel.fi/fi/', 'hds-wp')
+  }), urlError && /*#__PURE__*/React.createElement("div", {
+    className: "inspector-errornotice"
+  }, __('Please enter a valid map embed URL', 'hds-wp')), /*#__PURE__*/React.createElement("div", {
+    style: {
+      color: 'grey',
+      marginBottom: '1rem'
+    }
+  }, /*#__PURE__*/React.createElement("small", null, __('Add map url from:', 'hds-wp'), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("a", {
+    href: "https://palvelukartta.hel.fi/fi/",
+    target: "_blank"
+  }, "https://palvelukartta.hel.fi/fi/"), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("a", {
+    href: "https://kartta.hel.fi/",
+    target: "_blank"
+  }, "https://kartta.hel.fi/"))), /*#__PURE__*/React.createElement(TextControl, {
+    label: __('Assistive technology title', 'hds-wp'),
+    value: attributes.assistive_title,
+    onChange: function onChange(value) {
+      setAttributes({
+        assistive_title: value
+      });
+
+      if (value) {
+        setAssistiveTitleError(false);
+      } else {
+        setAssistiveTitleError(true);
+      }
+    },
+    placeholder: __('Assistive technology title', 'hds-wp')
+  }), !attributes.assistive_title && /*#__PURE__*/React.createElement("div", {
+    className: "inspector-errornotice"
+  }, __('Please enter assistive technology title', 'hds-wp')))));
+}
+
+function save(_ref2) {
+  var attributes = _ref2.attributes;
+  var blockProps = useBlockProps.save({
+    className: 'hds-map has-background'
+  });
+  return /*#__PURE__*/React.createElement("div", blockProps, /*#__PURE__*/React.createElement("div", {
+    className: "hds-container"
+  }, /*#__PURE__*/React.createElement("h2", null, attributes.title), /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement(RichText.Content, {
+    value: attributes.desricption
+  })), /*#__PURE__*/React.createElement("div", null, attributes.url && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("iframe", {
+    src: attributes.url,
+    title: attributes.assistive_title || attributes.title
+  }), /*#__PURE__*/React.createElement("a", {
+    href: attributes.url,
+    target: "_blank",
+    className: "hds-map__link",
+    rel: "noopener"
+  }, __('Open map in new window', 'hds-wp'), " ", hdsExternalLinkIcon())))));
+}
+
 (function (wp) {
   var __ = wp.i18n.__;
   var _wp$blocks9 = wp.blocks,
       registerBlockType = _wp$blocks9.registerBlockType,
       getBlockContent = _wp$blocks9.getBlockContent;
-  var _wp$element13 = wp.element,
-      Fragment = _wp$element13.Fragment,
-      createElement = _wp$element13.createElement;
-  var _wp$blockEditor13 = wp.blockEditor,
-      useBlockProps = _wp$blockEditor13.useBlockProps,
-      BlockControls = _wp$blockEditor13.BlockControls,
-      InnerBlocks = _wp$blockEditor13.InnerBlocks;
-  var _wp$components13 = wp.components,
-      ToolbarGroup = _wp$components13.ToolbarGroup,
-      ToolbarButton = _wp$components13.ToolbarButton,
-      Button = _wp$components13.Button;
-  var _wp$data9 = wp.data,
-      select = _wp$data9.select,
-      useSelect = _wp$data9.useSelect;
+  var _wp$element14 = wp.element,
+      Fragment = _wp$element14.Fragment,
+      createElement = _wp$element14.createElement;
+  var _wp$blockEditor14 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor14.useBlockProps,
+      BlockControls = _wp$blockEditor14.BlockControls,
+      InnerBlocks = _wp$blockEditor14.InnerBlocks;
+  var _wp$components14 = wp.components,
+      ToolbarGroup = _wp$components14.ToolbarGroup,
+      ToolbarButton = _wp$components14.ToolbarButton,
+      Button = _wp$components14.Button;
+  var _wp$data10 = wp.data,
+      select = _wp$data10.select,
+      useSelect = _wp$data10.useSelect;
 
   function edit() {
     return function (props) {
@@ -3083,23 +3317,23 @@ wp.domReady(function () {
   var _wp$blocks10 = wp.blocks,
       registerBlockType = _wp$blocks10.registerBlockType,
       getBlockContent = _wp$blocks10.getBlockContent;
-  var _wp$element14 = wp.element,
-      Fragment = _wp$element14.Fragment,
-      createElement = _wp$element14.createElement;
-  var _wp$blockEditor14 = wp.blockEditor,
-      useBlockProps = _wp$blockEditor14.useBlockProps,
-      BlockControls = _wp$blockEditor14.BlockControls,
-      InnerBlocks = _wp$blockEditor14.InnerBlocks;
+  var _wp$element15 = wp.element,
+      Fragment = _wp$element15.Fragment,
+      createElement = _wp$element15.createElement;
+  var _wp$blockEditor15 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor15.useBlockProps,
+      BlockControls = _wp$blockEditor15.BlockControls,
+      InnerBlocks = _wp$blockEditor15.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$components14 = wp.components,
-      ToolbarGroup = _wp$components14.ToolbarGroup,
-      ToolbarButton = _wp$components14.ToolbarButton,
-      Button = _wp$components14.Button,
-      ToggleControl = _wp$components14.ToggleControl;
-  var _wp$data10 = wp.data,
-      select = _wp$data10.select,
-      dispatch = _wp$data10.dispatch,
-      useSelect = _wp$data10.useSelect;
+  var _wp$components15 = wp.components,
+      ToolbarGroup = _wp$components15.ToolbarGroup,
+      ToolbarButton = _wp$components15.ToolbarButton,
+      Button = _wp$components15.Button,
+      ToggleControl = _wp$components15.ToggleControl;
+  var _wp$data11 = wp.data,
+      select = _wp$data11.select,
+      dispatch = _wp$data11.dispatch,
+      useSelect = _wp$data11.useSelect;
 
   function timelineTitle(props) {
     if (props.attributes.title != null && props.attributes.title != '') {
@@ -3275,23 +3509,23 @@ wp.domReady(function () {
   var _wp$blocks11 = wp.blocks,
       registerBlockType = _wp$blocks11.registerBlockType,
       getBlockContent = _wp$blocks11.getBlockContent;
-  var _wp$element15 = wp.element,
-      Fragment = _wp$element15.Fragment,
-      createElement = _wp$element15.createElement,
-      useState = _wp$element15.useState;
-  var _wp$blockEditor15 = wp.blockEditor,
-      useBlockProps = _wp$blockEditor15.useBlockProps,
-      BlockControls = _wp$blockEditor15.BlockControls,
-      InnerBlocks = _wp$blockEditor15.InnerBlocks;
+  var _wp$element16 = wp.element,
+      Fragment = _wp$element16.Fragment,
+      createElement = _wp$element16.createElement,
+      useState = _wp$element16.useState;
+  var _wp$blockEditor16 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor16.useBlockProps,
+      BlockControls = _wp$blockEditor16.BlockControls,
+      InnerBlocks = _wp$blockEditor16.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data11 = wp.data,
-      select = _wp$data11.select,
-      useSelect = _wp$data11.useSelect;
-  var _wp$components15 = wp.components,
-      ToolbarGroup = _wp$components15.ToolbarGroup,
-      ToolbarButton = _wp$components15.ToolbarButton,
-      Button = _wp$components15.Button,
-      ToggleControl = _wp$components15.ToggleControl;
+  var _wp$data12 = wp.data,
+      select = _wp$data12.select,
+      useSelect = _wp$data12.useSelect;
+  var _wp$components16 = wp.components,
+      ToolbarGroup = _wp$components16.ToolbarGroup,
+      ToolbarButton = _wp$components16.ToolbarButton,
+      Button = _wp$components16.Button,
+      ToggleControl = _wp$components16.ToggleControl;
   var PostCategorySelect = hdsWithPostCategorySelectControl();
 
   function articleCountOptions() {
@@ -3387,23 +3621,23 @@ wp.domReady(function () {
   var _wp$blocks12 = wp.blocks,
       registerBlockType = _wp$blocks12.registerBlockType,
       getBlockContent = _wp$blocks12.getBlockContent;
-  var _wp$element16 = wp.element,
-      Fragment = _wp$element16.Fragment,
-      createElement = _wp$element16.createElement,
-      useState = _wp$element16.useState;
-  var _wp$blockEditor16 = wp.blockEditor,
-      useBlockProps = _wp$blockEditor16.useBlockProps,
-      BlockControls = _wp$blockEditor16.BlockControls,
-      InnerBlocks = _wp$blockEditor16.InnerBlocks;
+  var _wp$element17 = wp.element,
+      Fragment = _wp$element17.Fragment,
+      createElement = _wp$element17.createElement,
+      useState = _wp$element17.useState;
+  var _wp$blockEditor17 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor17.useBlockProps,
+      BlockControls = _wp$blockEditor17.BlockControls,
+      InnerBlocks = _wp$blockEditor17.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data12 = wp.data,
-      select = _wp$data12.select,
-      useSelect = _wp$data12.useSelect;
-  var _wp$components16 = wp.components,
-      ToolbarGroup = _wp$components16.ToolbarGroup,
-      ToolbarButton = _wp$components16.ToolbarButton,
-      Button = _wp$components16.Button,
-      ToggleControl = _wp$components16.ToggleControl;
+  var _wp$data13 = wp.data,
+      select = _wp$data13.select,
+      useSelect = _wp$data13.useSelect;
+  var _wp$components17 = wp.components,
+      ToolbarGroup = _wp$components17.ToolbarGroup,
+      ToolbarButton = _wp$components17.ToolbarButton,
+      Button = _wp$components17.Button,
+      ToggleControl = _wp$components17.ToggleControl;
 
   function articleCountOptions() {
     return [{
