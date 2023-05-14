@@ -1,22 +1,30 @@
 .headingLevel .components-base-control {
-    width: 100%;
+  width: 100%;
 }
 
 #found-posts {
-    cursor: pointer;
+  cursor: pointer;
 
-    a {
-        &.selected {
-            font-weight: bold;
-        }
+  a {
+    &.selected {
+      font-weight: bold;
     }
+  }
 }
 
 .detach-post-group {
-    flex-direction: column;
-    align-items: flex-start;
+  flex-direction: column;
+  align-items: flex-start;
 
-    p {
-        font-weight: bold;
-    }
+  p {
+    font-weight: bold;
+  }
+}
+
+.inspector-errornotice {
+  font-weight: 600;
+  color: #b01038;
+  background-color: #f6e2e6;
+  margin: -1rem 0 0.25rem;
+  padding: 0.25rem 0.5rem;
 }
