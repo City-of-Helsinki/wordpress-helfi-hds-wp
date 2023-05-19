@@ -161,6 +161,18 @@
             unregisterBlockType( 'core/post-content' );
         }
 
+        //Disable Yoast blocks
+        if(getBlockType('yoast-seo/breadcrumbs')) {
+            unregisterBlockType( 'yoast-seo/breadcrumbs' );
+        }
+        if(getBlockType('yoast/faq-block')) {
+            unregisterBlockType( 'yoast/faq-block' );
+        }
+        if(getBlockType('yoast/how-to-block')) {
+            unregisterBlockType( 'yoast/how-to-block' );
+        }
+        
+
         //Disable blocks for posts
         if (document.querySelector('body').classList.contains('post-type-post')) {
             if (getBlockType('hds-wp/accordion')) {
