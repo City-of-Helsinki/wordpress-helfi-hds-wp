@@ -55,8 +55,99 @@
   }
   iframe   {
     width: 100%;
-    height: 400px;
+    height: 675px;
     border: none;
+  }
+
+  &__container {
+    position: relative;
+  }
+
+  .skip-link {
+    --border-width: 2px;
+    --border-color: var(--color-white);
+    --outline-width: 3px;
+    --background-color: #121212;
+    --color: var(--color-white);
+    --focus-outline-color: #121212;
+    word-wrap: normal;
+    background-color: #121212;
+    border: 2px solid var(--color-white);
+    color: var(--color-white);
+    font-weight: 500;
+    left: 50%;
+    max-width: 90%;
+    position: absolute;
+    scroll-margin-top: 105px;
+    text-align: center;
+    text-decoration: none;
+    transform: translate(-50%, 0);
+    transition: transform ease-out 0.2s;
+    width: -moz-max-content;
+    width: max-content;
+    z-index: 2;
+  }
+
+  @media (prefers-reduced-motion) {
+    .skip-link {
+      transition: none;
+    }
+  }
+
+  .skip-link:not(:focus) {
+    clip: rect(1px, 1px, 1px, 1px);
+    -webkit-clip-path: inset(50%);
+    clip-path: inset(50%);
+    max-height: 1px;
+    max-width: 1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+  }
+
+  @media (min-width: 768px) {
+    .skip-link {
+      scroll-margin-top: 24px;
+    }
+  }
+
+  .skip-link:focus,
+  .skip-link:active {
+    outline: 3px solid #121212;
+    outline-offset: 0;
+    padding: 8px 24px;
+  }
+
+  .skip-link:hover {
+    text-decoration: underline;
+  }
+
+  .skip-link--skip-to-main {
+    top: 0;
+  }
+
+  .skip-link--skip-to-main:focus,
+  .skip-link--skip-to-main:active {
+    transform: translate(-50%, 102px);
+  }
+
+  @media (min-width: 768px) {
+    .skip-link--skip-to-main:focus,
+    .skip-link--skip-to-main:active {
+      transform: translate(-50%, 24px);
+    }
+  }
+  .skip-link--map--before:focus,
+  .skip-link--map--before:active {
+    transform: translate(-50%, 24px);
+  }
+  .skip-link--map--after {
+    bottom: 0;
+  }
+  .skip-link--map--after:focus,
+  .skip-link--map--after:active {
+    transform: translate(-50%, -24px);
   }
 }
 
@@ -67,6 +158,9 @@
     }
     .hds-container {
       padding: 0;
+    }
+    iframe   {
+      height: 450px;
     }
     &.has-background {
       margin-left: 0;
@@ -79,6 +173,15 @@
       @include breakpointMax('l') {
         padding: spacing('l') spacing('s');
       }
+    }
+  }
+}
+
+.block-editor-block-list__block {
+  .hds-map {
+    iframe {
+      overflow: hidden;
+      pointer-events: none;
     }
   }
 }
