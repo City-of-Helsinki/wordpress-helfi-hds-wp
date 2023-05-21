@@ -182,6 +182,8 @@ function edit({attributes, setAttributes, clientId}) {
               setAttributes({url: value});
             }}
             placeholder={__('https://palvelukartta.hel.fi/fi/', 'hds-wp')}
+            className="is-required" // or your own class name
+            required
           />
           {urlError && (
             <div className="inspector-errornotice">
@@ -213,6 +215,8 @@ function edit({attributes, setAttributes, clientId}) {
               }
             }}
             placeholder={__('Assistive technology title', 'hds-wp')}
+            className="is-required" // or your own class name
+            required
           />
           {!attributes.assistive_title && (
             <div className="inspector-errornotice">
