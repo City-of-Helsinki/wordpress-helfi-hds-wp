@@ -2837,8 +2837,8 @@ var _wp$blockEditor12 = wp.blockEditor,
     useBlockProps = _wp$blockEditor12.useBlockProps,
     BlockControls = _wp$blockEditor12.BlockControls,
     InnerBlocks = _wp$blockEditor12.InnerBlocks,
-    RichText = _wp$blockEditor12.RichText;
-var InspectorControls = wp.editor.InspectorControls;
+    RichText = _wp$blockEditor12.RichText,
+    InspectorControls = _wp$blockEditor12.InspectorControls;
 var _wp$data9 = wp.data,
     select = _wp$data9.select,
     useSelect = _wp$data9.useSelect,
@@ -2860,6 +2860,9 @@ registerBlockType('hds-wp/map', {
   category: 'hds-wp',
   style: 'hds-map',
   attributes: {
+    blockId: {
+      type: 'string'
+    },
     title: {
       type: 'string',
       default: 'Kartan otsikko'
@@ -2886,47 +2889,62 @@ function edit(_ref) {
       clientId = _ref.clientId;
   var blockProps = useBlockProps({});
 
-  var _useState = useState(false),
+  var _useState = useState(attributes.url ? false : true),
       _useState2 = _slicedToArray(_useState, 2),
       urlError = _useState2[0],
       setUrlError = _useState2[1];
 
-  var _useState3 = useState(false),
+  var _useState3 = useState(attributes.assistive_title ? false : true),
       _useState4 = _slicedToArray(_useState3, 2),
       assistiveTitleError = _useState4[0],
       setAssistiveTitleError = _useState4[1];
 
   var _useDispatch = useDispatch(store),
       createErrorNotice = _useDispatch.createErrorNotice,
-      removeNotice = _useDispatch.removeNotice;
+      removeNotice = _useDispatch.removeNotice; // Set unique block id, needed for skip link
+
+
+  useEffect(function () {
+    if (clientId) {
+      setAttributes({
+        blockId: clientId
+      });
+    }
+  }, []); // Check if url is valid, if not, show error notice
 
   useEffect(function () {
     var url = attributes.url;
 
     if (!url) {
-      dispatch('core/editor').lockPostSaving('requiredValueLock');
       createErrorNotice(__('Helsinki - Map', 'hds-wp') + ': ' + __('Please enter a valid map embed URL', 'hds-wp'), {
         type: 'default',
         id: 'urlError-' + clientId,
         isDismissible: false,
-        class: 'hds-error-notice',
-        className: 'hds-error-notice'
+        actions: [{
+          label: __('Select', 'hds-wp'),
+          onClick: function onClick() {
+            document.getElementById("block-".concat(clientId)).scrollIntoView({
+              behavior: 'smooth'
+            });
+            dispatch('core/block-editor').selectBlock(clientId);
+          }
+        }]
       });
     } else {
       dispatch('core/notices').removeNotice('urlError-' + clientId);
     }
-  }, [urlError]);
+  }, [urlError]); // Check if assistive title is set, if not, show error notice
+
   useEffect(function () {
     var assistiveTitle = attributes.assistive_title;
 
     if (!assistiveTitle) {
-      dispatch('core/editor').lockPostSaving('requiredValueLock');
       createErrorNotice(__('Helsinki - Map', 'hds-wp') + ': ' + __('Please enter assistive technology title', 'hds-wp'), {
         type: 'default',
         isDismissible: false,
         id: 'assistiveTitleError-' + clientId,
         actions: [{
-          label: __('Focus', 'hds-wp'),
+          label: __('Select', 'hds-wp'),
           onClick: function onClick() {
             document.getElementById("block-".concat(clientId)).scrollIntoView({
               behavior: 'smooth'
@@ -2939,11 +2957,6 @@ function edit(_ref) {
       dispatch('core/notices').removeNotice('assistiveTitleError-' + clientId);
     }
   }, [assistiveTitleError]);
-
-  if (!urlError && !assistiveTitleError) {
-    dispatch('core/editor').unlockPostSaving('requiredValueLock');
-  }
-
   return /*#__PURE__*/React.createElement(Fragment, null, /*#__PURE__*/React.createElement("div", blockProps, /*#__PURE__*/React.createElement("div", {
     className: "hds-map has-background"
   }, /*#__PURE__*/React.createElement("div", {
@@ -2970,7 +2983,8 @@ function edit(_ref) {
     allowedFormats: ['core/bold', 'core/italic', 'core/link', 'core/paragraph']
   }), attributes.url && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("iframe", {
     src: attributes.url,
-    title: attributes.assistive_title || attributes.title
+    title: attributes.assistive_title || attributes.title,
+    scrolling: "no"
   }), /*#__PURE__*/React.createElement("a", {
     href: attributes.url,
     target: "_blank",
@@ -2994,7 +3008,10 @@ function edit(_ref) {
         url: value
       });
     },
-    placeholder: __('https://palvelukartta.hel.fi/fi/', 'hds-wp')
+    placeholder: __('https://palvelukartta.hel.fi/fi/', 'hds-wp'),
+    className: "is-required" // or your own class name
+    ,
+    required: true
   }), urlError && /*#__PURE__*/React.createElement("div", {
     className: "inspector-errornotice"
   }, __('Please enter a valid map embed URL', 'hds-wp')), /*#__PURE__*/React.createElement("div", {
@@ -3022,7 +3039,10 @@ function edit(_ref) {
         setAssistiveTitleError(true);
       }
     },
-    placeholder: __('Assistive technology title', 'hds-wp')
+    placeholder: __('Assistive technology title', 'hds-wp'),
+    className: "is-required" // or your own class name
+    ,
+    required: true
   }), !attributes.assistive_title && /*#__PURE__*/React.createElement("div", {
     className: "inspector-errornotice"
   }, __('Please enter assistive technology title', 'hds-wp')))));
@@ -3033,14 +3053,25 @@ function save(_ref2) {
   var blockProps = useBlockProps.save({
     className: 'hds-map has-background'
   });
+  var blockid = 'hds-map-' + attributes.blockId;
   return /*#__PURE__*/React.createElement("div", blockProps, /*#__PURE__*/React.createElement("div", {
     className: "hds-container"
   }, /*#__PURE__*/React.createElement("h2", null, attributes.title), /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement(RichText.Content, {
     value: attributes.desricption
-  })), /*#__PURE__*/React.createElement("div", null, attributes.url && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("iframe", {
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "hds-map__container"
+  }, attributes.url && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("a", {
+    href: '#' + blockid + '-after',
+    id: blockid + '-before',
+    class: "focusable skip-link skip-link--map--before"
+  }, __('Move below the map', 'hds-wp')), /*#__PURE__*/React.createElement("iframe", {
     src: attributes.url,
     title: attributes.assistive_title || attributes.title
   }), /*#__PURE__*/React.createElement("a", {
+    href: '#' + blockid + '-before',
+    id: blockid + '-after',
+    class: "focusable skip-link skip-link--map--after"
+  }, __('Move above the map', 'hds-wp')), /*#__PURE__*/React.createElement("a", {
     href: attributes.url,
     target: "_blank",
     className: "hds-map__link",
@@ -3733,4 +3764,57 @@ wp.domReady(function () {
     };
   }, 'tableEditorWrapperExtraClass');
   wp.hooks.addFilter('editor.BlockListBlock', 'table/custom-editor-wrapper-class', tableEditorWrapperExtraClass);
+})(window.wp); //remove error notices when block is removed
+
+
+(function () {
+  var _wp$data14 = wp.data,
+      select = _wp$data14.select,
+      subscribe = _wp$data14.subscribe,
+      dispatch = _wp$data14.dispatch;
+  var store = wp.notices.store;
+
+  var getBlocks = function getBlocks() {
+    return select('core/block-editor').getBlocks();
+  };
+
+  Array.prototype.diff = function (a) {
+    return this.filter(function (i) {
+      return a.indexOf(i) < 0;
+    });
+  };
+
+  var blocksState = getBlocks();
+  subscribe(_.debounce(function () {
+    var notices = select(store).getNotices();
+    var newBlocksState = getBlocks(); // Lock saving if notices contain error notices
+
+    var errorNotices = notices.filter(function (notice) {
+      return notice.status === 'error';
+    });
+
+    if (errorNotices.length > 0) {
+      dispatch('core/editor').lockPostSaving('requiredValueLock');
+    } else {
+      dispatch('core/editor').unlockPostSaving('requiredValueLock');
+    } // When very last block is removed, it's replaced with a new paragraph block.
+    // This is a workaround to remove the error notice.
+
+
+    if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
+      // remove newBlocksState from blocksState
+      var removedBlock = blocksState.diff(newBlocksState);
+
+      if (removedBlock.length === 1 || removedBlock.length > 0 && removedBlock[0].name === 'core/paragraph') {
+        var noticesToRemove = notices.filter(function (notice) {
+          return notice.id.includes(removedBlock[0].clientId);
+        });
+        noticesToRemove.forEach(function (notice) {
+          dispatch('core/notices').removeNotice(notice.id);
+        });
+      }
+    }
+
+    blocksState = newBlocksState;
+  }, 300));
 })(window.wp);

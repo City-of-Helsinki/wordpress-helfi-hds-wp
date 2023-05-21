@@ -1,8 +1,8 @@
 const {__} = wp.i18n;
 const {registerBlockType} = wp.blocks;
 const {Fragment, createElement, useState, useEffect} = wp.element;
-const {useBlockProps, BlockControls, InnerBlocks, RichText} = wp.blockEditor;
-const {InspectorControls} = wp.editor;
+const {useBlockProps, BlockControls, InnerBlocks, RichText, InspectorControls} =
+  wp.blockEditor;
 const {select, useSelect, useDispatch, dispatch, subscribe} = wp.data;
 const {
   ToolbarGroup,
@@ -21,6 +21,9 @@ registerBlockType('hds-wp/map', {
   category: 'hds-wp',
   style: 'hds-map',
   attributes: {
+    blockId: {
+      type: 'string',
+    },
     title: {
       type: 'string',
       default: 'Kartan otsikko',
@@ -44,14 +47,23 @@ registerBlockType('hds-wp/map', {
 
 function edit({attributes, setAttributes, clientId}) {
   const blockProps = useBlockProps({});
-  const [urlError, setUrlError] = useState(false);
-  const [assistiveTitleError, setAssistiveTitleError] = useState(false);
+  const [urlError, setUrlError] = useState(attributes.url ? false : true);
+  const [assistiveTitleError, setAssistiveTitleError] = useState(
+    attributes.assistive_title ? false : true
+  );
   const {createErrorNotice, removeNotice} = useDispatch(store);
 
+  // Set unique block id, needed for skip link
+  useEffect(() => {
+    if (clientId) {
+      setAttributes({blockId: clientId});
+    }
+  }, []);
+
+  // Check if url is valid, if not, show error notice
   useEffect(() => {
     const url = attributes.url;
     if (!url) {
-      dispatch('core/editor').lockPostSaving('requiredValueLock');
       createErrorNotice(
         __('Helsinki - Map', 'hds-wp') +
           ': ' +
@@ -60,8 +72,17 @@ function edit({attributes, setAttributes, clientId}) {
           type: 'default',
           id: 'urlError-' + clientId,
           isDismissible: false,
-          class: 'hds-error-notice',
-          className: 'hds-error-notice',
+          actions: [
+            {
+              label: __('Select', 'hds-wp'),
+              onClick: () => {
+                document
+                  .getElementById(`block-${clientId}`)
+                  .scrollIntoView({behavior: 'smooth'});
+                dispatch('core/block-editor').selectBlock(clientId);
+              },
+            },
+          ],
         }
       );
     } else {
@@ -69,10 +90,10 @@ function edit({attributes, setAttributes, clientId}) {
     }
   }, [urlError]);
 
+  // Check if assistive title is set, if not, show error notice
   useEffect(() => {
     const assistiveTitle = attributes.assistive_title;
     if (!assistiveTitle) {
-      dispatch('core/editor').lockPostSaving('requiredValueLock');
       createErrorNotice(
         __('Helsinki - Map', 'hds-wp') +
           ': ' +
@@ -83,7 +104,7 @@ function edit({attributes, setAttributes, clientId}) {
           id: 'assistiveTitleError-' + clientId,
           actions: [
             {
-              label: __('Focus', 'hds-wp'),
+              label: __('Select', 'hds-wp'),
               onClick: () => {
                 document
                   .getElementById(`block-${clientId}`)
@@ -98,10 +119,6 @@ function edit({attributes, setAttributes, clientId}) {
       dispatch('core/notices').removeNotice('assistiveTitleError-' + clientId);
     }
   }, [assistiveTitleError]);
-
-  if (!urlError && !assistiveTitleError) {
-    dispatch('core/editor').unlockPostSaving('requiredValueLock');
-  }
 
   return (
     <Fragment>
@@ -132,6 +149,7 @@ function edit({attributes, setAttributes, clientId}) {
                 <iframe
                   src={attributes.url}
                   title={attributes.assistive_title || attributes.title}
+                  scrolling="no"
                 ></iframe>
                 <a
                   href={attributes.url}
@@ -164,6 +182,8 @@ function edit({attributes, setAttributes, clientId}) {
               setAttributes({url: value});
             }}
             placeholder={__('https://palvelukartta.hel.fi/fi/', 'hds-wp')}
+            className="is-required" // or your own class name
+            required
           />
           {urlError && (
             <div className="inspector-errornotice">
@@ -195,6 +215,8 @@ function edit({attributes, setAttributes, clientId}) {
               }
             }}
             placeholder={__('Assistive technology title', 'hds-wp')}
+            className="is-required" // or your own class name
+            required
           />
           {!attributes.assistive_title && (
             <div className="inspector-errornotice">
@@ -211,6 +233,7 @@ function save({attributes}) {
   const blockProps = useBlockProps.save({
     className: 'hds-map has-background',
   });
+  const blockid = 'hds-map-' + attributes.blockId;
   return (
     <div {...blockProps}>
       <div className="hds-container">
@@ -218,13 +241,27 @@ function save({attributes}) {
         <p>
           <RichText.Content value={attributes.desricption} />
         </p>
-        <div>
+        <div className="hds-map__container">
           {attributes.url && (
             <>
+              <a
+                href={'#' + blockid + '-after'}
+                id={blockid + '-before'}
+                class="focusable skip-link skip-link--map--before"
+              >
+                {__('Move below the map', 'hds-wp')}
+              </a>
               <iframe
                 src={attributes.url}
                 title={attributes.assistive_title || attributes.title}
               ></iframe>
+              <a
+                href={'#' + blockid + '-before'}
+                id={blockid + '-after'}
+                class="focusable skip-link skip-link--map--after"
+              >
+                {__('Move above the map', 'hds-wp')}
+              </a>
               <a
                 href={attributes.url}
                 target="_blank"
