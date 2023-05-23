@@ -170,6 +170,15 @@
 		
 				.content__text {
 					color: var(--primary-content-color);
+
+					a {	
+						color: var(--primary-content-color);
+
+						svg {
+							fill: var(--primary-content-color);
+						}
+					}	
+
 				}
 		
 				.hds-button {

@@ -123,6 +123,15 @@
 		};
 	}
 
+
+	function classNamesStringV1(props) {
+		var classNames = [
+			'align-' + props.attributes.alignment,
+			props.attributes.mediaId ? 'has-image' : 'has-placeholder',
+		];
+		return classNames.join(' ');
+	}
+
 	const v1 = {
 		attributes: {
 			alignment: {
@@ -180,7 +189,7 @@
 		},
 		save: function(props) {
 			return createElement('div', useBlockProps.save({
-					className: classNamesString(props),
+					className: classNamesStringV1(props),
 				}),
 				hdsSingleImage(
 					imageConfig(props)

@@ -1899,6 +1899,11 @@ function hdsIcons(name) {
     };
   }
 
+  function classNamesStringV1(props) {
+    var classNames = ['align-' + props.attributes.alignment, props.attributes.mediaId ? 'has-image' : 'has-placeholder'];
+    return classNames.join(' ');
+  }
+
   var v1 = {
     attributes: {
       alignment: {
@@ -1956,7 +1961,7 @@ function hdsIcons(name) {
     },
     save: function save(props) {
       return createElement('div', useBlockProps.save({
-        className: classNamesString(props)
+        className: classNamesStringV1(props)
       }), hdsSingleImage(imageConfig(props)), hdsContent(props, hdsContentTitle(props), hdsContentText(props), hdsContentButton(props, {
         className: 'content__link hds-button hds-button--secondary',
         href: props.attributes.buttonUrl
