@@ -580,7 +580,60 @@ function hdsIcons(name) {
     "cake": "M18,2.18036665 L18.6170955,3.07374524 C19.7056028,4.64959381 20.25,5.73838824 20.25,6.5 C20.25,7.47956939 19.6240154,8.31293223 18.7502535,8.6218811 L18.750584,10.007947 C20.6239926,10.1275594 22,11.5844616 22,13.5000171 L22,22.0000171 L2,22.0000171 L2,13.5000171 C2,11.5841197 3.37649862,10.1270394 5.25041913,10.0078831 L5.25076538,8.62224108 C4.37647132,8.31357999 3.75,7.4799501 3.75,6.5 C3.75,5.78318893 4.23223421,4.77655515 5.19646322,3.34681278 L5.38290448,3.07374524 L6,2.18036665 L6.61709552,3.07374524 C7.70560278,4.64959381 8.25,5.73838824 8.25,6.5 C8.25,7.47956939 7.62401536,8.31293223 6.7502535,8.6218811 L6.75,9.99936665 L11.25,9.99936665 L11.2507654,8.62224108 C10.4226656,8.32988842 9.81689238,7.566576 9.75519081,6.65404881 L9.75,6.5 C9.75,5.78318893 10.2322342,4.77655515 11.1964632,3.34681278 L11.3829045,3.07374524 L12,2.18036665 L12.6170955,3.07374524 C13.7056028,4.64959381 14.25,5.73838824 14.25,6.5 C14.25,7.47956939 13.6240154,8.31293223 12.7502535,8.6218811 L12.75,9.99936665 L17.25,9.99936665 L17.2507654,8.62224108 C16.4226656,8.32988842 15.8168924,7.566576 15.7551908,6.65404881 L15.75,6.5 C15.75,5.78318893 16.2322342,4.77655515 17.1964632,3.34681278 L17.3829045,3.07374524 L18,2.18036665 Z M15.2524986,17.1749293 L15,17.025 L14.9911282,17.0311542 C14.1889167,17.533117 13.2875201,17.8080212 12.2991185,17.8538553 L12,17.8607314 C10.9943191,17.8607314 10.0744254,17.6314602 9.25249863,17.1749293 L9,17.025 L8.99112819,17.0311542 C8.18891668,17.533117 7.28752013,17.8080212 6.29911847,17.8538553 L6,17.8607314 C5.28908765,17.8607314 4.62104336,17.746164 4.00016954,17.5177396 L4,20 L20,20 L20.00084,17.5173681 C19.3796808,17.7460397 18.7112977,17.8607314 18,17.8607314 C16.9943191,17.8607314 16.0744254,17.6314602 15.2524986,17.1749293 Z M18.5,12.0000171 L5.5,12.0000171 C4.5,12.0000171 3.99984155,12.5000171 3.99984155,13.5000171 L3.99984155,15.8740735 C4.59297228,16.1991606 5.25576505,16.3607314 6,16.3607314 C6.88939013,16.3607314 7.66247112,16.129989 8.33934762,15.665184 L8.53954454,15.5187173 L9,15.1605852 L9.46045546,15.5187173 C10.1840758,16.0815331 11.0216709,16.3607314 12,16.3607314 C12.8893901,16.3607314 13.6624711,16.129989 14.3393476,15.665184 L14.5395445,15.5187173 L15,15.1605852 L15.4604555,15.5187173 C16.1840758,16.0815331 17.0216709,16.3607314 18,16.3607314 C18.7446545,16.3607314 19.4077749,16.1989784 20.0011614,15.8735236 L20,13.5000171 C20,12.5000171 19.5,12.0000171 18.5,12.0000171 Z M12.1776599,5.16381918 L12,4.868 L11.7714885,5.25185018 L11.7714885,5.25185018 L11.5527141,5.65496405 C11.3508947,6.0513759 11.25,6.33860812 11.25,6.5 C11.25,6.91421356 11.5857864,7.25 12,7.25 C12.4142136,7.25 12.75,6.91421356 12.75,6.5 C12.75,6.35878211 12.6727525,6.1212177 12.5182374,5.79846816 L12.4472859,5.65496405 L12.2769975,5.33744432 L12.1776599,5.16381918 L12.1776599,5.16381918 Z M18.1776599,5.16381918 L18,4.868 L17.7714885,5.25185018 L17.7714885,5.25185018 L17.5527141,5.65496405 C17.3508947,6.0513759 17.25,6.33860812 17.25,6.5 C17.25,6.91421356 17.5857864,7.25 18,7.25 C18.4142136,7.25 18.75,6.91421356 18.75,6.5 C18.75,6.35878211 18.6727525,6.1212177 18.5182374,5.79846816 L18.4472859,5.65496405 L18.2769975,5.33744432 L18.1776599,5.16381918 L18.1776599,5.16381918 Z M6.17765988,5.16381918 L6,4.868 L5.7714885,5.25185018 L5.7714885,5.25185018 L5.55271413,5.65496405 C5.35089473,6.0513759 5.25,6.33860812 5.25,6.5 C5.25,6.91421356 5.58578644,7.25 6,7.25 C6.41421356,7.25 6.75,6.91421356 6.75,6.5 C6.75,6.35878211 6.67275247,6.1212177 6.51823736,5.79846816 L6.44728587,5.65496405 L6.27699748,5.33744432 L6.17765988,5.16381918 L6.17765988,5.16381918 Z"
   };
   return name ? icons[name] : icons;
-}
+} //remove error notices when block is removed
+
+
+(function () {
+  var _wp$data = wp.data,
+      select = _wp$data.select,
+      subscribe = _wp$data.subscribe,
+      dispatch = _wp$data.dispatch;
+  var store = wp.notices.store;
+
+  var getBlocks = function getBlocks() {
+    return select('core/block-editor').getBlocks();
+  };
+
+  Array.prototype.diff = function (a) {
+    return this.filter(function (i) {
+      return a.indexOf(i) < 0;
+    });
+  };
+
+  var blocksState = getBlocks();
+  subscribe(_.debounce(function () {
+    var notices = select(store).getNotices();
+    var newBlocksState = getBlocks(); // Lock saving if notices contain error notices
+
+    var errorNotices = notices.filter(function (notice) {
+      return notice.status === 'error';
+    });
+
+    if (errorNotices.length > 0) {
+      dispatch('core/editor').lockPostSaving('requiredValueLock');
+    } else {
+      dispatch('core/editor').unlockPostSaving('requiredValueLock');
+    } // When very last block is removed, it's replaced with a new paragraph block.
+    // This is a workaround to remove the error notice.
+
+
+    if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
+      // remove newBlocksState from blocksState
+      var removedBlock = blocksState.diff(newBlocksState);
+
+      if (removedBlock.length === 1 || removedBlock.length > 0 && removedBlock[0].name === 'core/paragraph') {
+        var noticesToRemove = notices.filter(function (notice) {
+          return notice.id.includes(removedBlock[0].clientId);
+        });
+        noticesToRemove.forEach(function (notice) {
+          dispatch('core/notices').removeNotice(notice.id);
+        });
+      }
+    }
+
+    blocksState = newBlocksState;
+  }, 300));
+})(window.wp);
 
 wp.domReady(function () {
   /**
@@ -780,9 +833,9 @@ wp.domReady(function () {
       ToolbarButton = _wp$components2.ToolbarButton,
       Button = _wp$components2.Button,
       ToggleControl = _wp$components2.ToggleControl;
-  var _wp$data = wp.data,
-      select = _wp$data.select,
-      dispatch = _wp$data.dispatch;
+  var _wp$data2 = wp.data,
+      select = _wp$data2.select,
+      dispatch = _wp$data2.dispatch;
 
   function closePanel(toggle, panel) {
     toggle.setAttribute('aria-expanded', 'false');
@@ -976,10 +1029,10 @@ wp.domReady(function () {
       ToolbarButton = _wp$components3.ToolbarButton,
       Button = _wp$components3.Button,
       ToggleControl = _wp$components3.ToggleControl;
-  var _wp$data2 = wp.data,
-      select = _wp$data2.select,
-      dispatch = _wp$data2.dispatch,
-      useSelect = _wp$data2.useSelect;
+  var _wp$data3 = wp.data,
+      select = _wp$data3.select,
+      dispatch = _wp$data3.dispatch,
+      useSelect = _wp$data3.useSelect;
 
   function accordionTitle(props) {
     if (props.attributes.title != null && props.attributes.title != '') {
@@ -1308,10 +1361,10 @@ wp.domReady(function () {
       Button = _wp$components5.Button,
       TextControl = _wp$components5.TextControl,
       SelectControl = _wp$components5.SelectControl;
-  var _wp$data3 = wp.data,
-      withSelect = _wp$data3.withSelect,
-      select = _wp$data3.select,
-      dispatch = _wp$data3.dispatch;
+  var _wp$data4 = wp.data,
+      withSelect = _wp$data4.withSelect,
+      select = _wp$data4.select,
+      dispatch = _wp$data4.dispatch;
   var PostTypeSelect = hdsWithPostTypeSelectControl();
   var PostSearch = hdsSearchPostsTextControl();
 
@@ -1399,9 +1452,9 @@ wp.domReady(function () {
       BlockControls = _wp$blockEditor6.BlockControls,
       InnerBlocks = _wp$blockEditor6.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data4 = wp.data,
-      select = _wp$data4.select,
-      useSelect = _wp$data4.useSelect;
+  var _wp$data5 = wp.data,
+      select = _wp$data5.select,
+      useSelect = _wp$data5.useSelect;
   var _wp$components6 = wp.components,
       ToolbarGroup = _wp$components6.ToolbarGroup,
       ToolbarButton = _wp$components6.ToolbarButton,
@@ -2143,10 +2196,10 @@ wp.domReady(function () {
       BlockControls = _wp$blockEditor9.BlockControls,
       InnerBlocks = _wp$blockEditor9.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data5 = wp.data,
-      withSelect = _wp$data5.withSelect,
-      select = _wp$data5.select,
-      dispatch = _wp$data5.dispatch;
+  var _wp$data6 = wp.data,
+      withSelect = _wp$data6.withSelect,
+      select = _wp$data6.select,
+      dispatch = _wp$data6.dispatch;
   var compose = wp.compose.compose;
   var apiFetch = wp.apiFetch;
   var _wp$components9 = wp.components,
@@ -2449,9 +2502,9 @@ wp.domReady(function () {
       BlockControls = _wp$blockEditor10.BlockControls,
       InnerBlocks = _wp$blockEditor10.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data6 = wp.data,
-      select = _wp$data6.select,
-      useSelect = _wp$data6.useSelect;
+  var _wp$data7 = wp.data,
+      select = _wp$data7.select,
+      useSelect = _wp$data7.useSelect;
   var _wp$components10 = wp.components,
       ToolbarGroup = _wp$components10.ToolbarGroup,
       ToolbarButton = _wp$components10.ToolbarButton,
@@ -2612,12 +2665,12 @@ var _wp$blockEditor11 = wp.blockEditor,
     InnerBlocks = _wp$blockEditor11.InnerBlocks,
     RichText = _wp$blockEditor11.RichText,
     InspectorControls = _wp$blockEditor11.InspectorControls;
-var _wp$data7 = wp.data,
-    select = _wp$data7.select,
-    useSelect = _wp$data7.useSelect,
-    useDispatch = _wp$data7.useDispatch,
-    dispatch = _wp$data7.dispatch,
-    subscribe = _wp$data7.subscribe;
+var _wp$data8 = wp.data,
+    select = _wp$data8.select,
+    useSelect = _wp$data8.useSelect,
+    useDispatch = _wp$data8.useDispatch,
+    dispatch = _wp$data8.dispatch,
+    subscribe = _wp$data8.subscribe;
 var _wp$components11 = wp.components,
     ToolbarGroup = _wp$components11.ToolbarGroup,
     ToolbarButton = _wp$components11.ToolbarButton,
@@ -2640,7 +2693,7 @@ registerBlockType('hds-wp/map', {
       type: 'string',
       default: 'Kartan otsikko'
     },
-    desricption: {
+    description: {
       type: 'string',
       default: 'Kartan kuvaus'
     },
@@ -2652,8 +2705,7 @@ registerBlockType('hds-wp/map', {
       type: 'string'
     }
   },
-  edit: edit,
-  save: save
+  edit: edit
 });
 
 function edit(_ref) {
@@ -2746,10 +2798,10 @@ function edit(_ref) {
     allowedFormats: []
   }), /*#__PURE__*/React.createElement(RichText, {
     tagName: "p",
-    value: attributes.desricption,
+    value: attributes.description,
     onChange: function onChange(value) {
       return setAttributes({
-        desricption: value
+        description: value
       });
     },
     placeholder: __('Map description', 'hds-wp'),
@@ -2820,37 +2872,70 @@ function edit(_ref) {
     className: "inspector-errornotice"
   }, __('Please enter assistive technology title', 'hds-wp')))));
 }
-
-function save(_ref2) {
-  var attributes = _ref2.attributes;
-  var blockProps = useBlockProps.save({
-    className: 'hds-map has-background'
+/* function save({attributes}) {
+  const blockProps = useBlockProps.save({
+    className: 'hds-map has-background',
   });
-  var blockid = 'hds-map-' + attributes.blockId;
-  return /*#__PURE__*/React.createElement("div", blockProps, /*#__PURE__*/React.createElement("div", {
-    className: "hds-container"
-  }, /*#__PURE__*/React.createElement("h2", null, attributes.title), /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement(RichText.Content, {
-    value: attributes.desricption
-  })), /*#__PURE__*/React.createElement("div", {
-    className: "hds-map__container"
-  }, attributes.url && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("a", {
-    href: '#' + blockid + '-after',
-    id: blockid + '-before',
-    class: "focusable skip-link skip-link--map--before"
-  }, __('Move below the map', 'hds-wp')), /*#__PURE__*/React.createElement("iframe", {
-    src: attributes.url,
-    title: attributes.assistive_title || attributes.title
-  }), /*#__PURE__*/React.createElement("a", {
-    href: '#' + blockid + '-before',
-    id: blockid + '-after',
-    class: "focusable skip-link skip-link--map--after"
-  }, __('Move above the map', 'hds-wp')), /*#__PURE__*/React.createElement("a", {
-    href: attributes.url,
-    target: "_blank",
-    className: "hds-map__link",
-    rel: "noopener"
-  }, __('Open map in new window', 'hds-wp'), " ", hdsExternalLinkIcon())))));
-}
+  const blockid = 'hds-map-' + attributes.blockId;
+
+  if (
+    attributes.url.includes('palvelukartta.hel.fi') &&
+    attributes.url.includes('embed')
+  ) {
+    const externalUrl = attributes.url.replace('/embed', '');
+  } else if (
+    attributes.url.includes('kartta.hel.fi') &&
+    attributes.url.includes('embed')
+  ) {
+    const externalUrl = attributes.url.replace('embed', '');
+  } else {
+    const externalUrl = attributes.url;
+  }
+
+  return (
+    <div {...blockProps}>
+      <div className="hds-container">
+        <h2>{attributes.title}</h2>
+        <p>
+          <RichText.Content value={attributes.desricption} />
+        </p>
+        <div className="hds-map__container">
+          {attributes.url && (
+            <>
+              <a
+                href={'#' + blockid + '-after'}
+                id={blockid + '-before'}
+                class="focusable skip-link skip-link--map--before"
+              >
+                {__('Move below the map', 'hds-wp')}
+              </a>
+              <iframe
+                src={attributes.url}
+                title={attributes.assistive_title || attributes.title}
+              ></iframe>
+              <a
+                href={'#' + blockid + '-before'}
+                id={blockid + '-after'}
+                class="focusable skip-link skip-link--map--after"
+              >
+                {__('Move above the map', 'hds-wp')}
+              </a>
+              <a
+                href={externalUrl}
+                target="_blank"
+                className="hds-map__link"
+                rel="noopener"
+              >
+                {__('Open map in new window', 'hds-wp')} {hdsExternalLinkIcon()}
+              </a>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+} */
+
 
 (function (wp) {
   var __ = wp.i18n.__;
@@ -2868,9 +2953,9 @@ function save(_ref2) {
       ToolbarGroup = _wp$components12.ToolbarGroup,
       ToolbarButton = _wp$components12.ToolbarButton,
       Button = _wp$components12.Button;
-  var _wp$data8 = wp.data,
-      select = _wp$data8.select,
-      useSelect = _wp$data8.useSelect;
+  var _wp$data9 = wp.data,
+      select = _wp$data9.select,
+      useSelect = _wp$data9.useSelect;
 
   function edit() {
     return function (props) {
@@ -2967,10 +3052,10 @@ function save(_ref2) {
       ToolbarButton = _wp$components13.ToolbarButton,
       Button = _wp$components13.Button,
       ToggleControl = _wp$components13.ToggleControl;
-  var _wp$data9 = wp.data,
-      select = _wp$data9.select,
-      dispatch = _wp$data9.dispatch,
-      useSelect = _wp$data9.useSelect;
+  var _wp$data10 = wp.data,
+      select = _wp$data10.select,
+      dispatch = _wp$data10.dispatch,
+      useSelect = _wp$data10.useSelect;
 
   function timelineTitle(props) {
     if (props.attributes.title != null && props.attributes.title != '') {
@@ -3155,9 +3240,9 @@ function save(_ref2) {
       BlockControls = _wp$blockEditor14.BlockControls,
       InnerBlocks = _wp$blockEditor14.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data10 = wp.data,
-      select = _wp$data10.select,
-      useSelect = _wp$data10.useSelect;
+  var _wp$data11 = wp.data,
+      select = _wp$data11.select,
+      useSelect = _wp$data11.useSelect;
   var _wp$components14 = wp.components,
       ToolbarGroup = _wp$components14.ToolbarGroup,
       ToolbarButton = _wp$components14.ToolbarButton,
@@ -3267,9 +3352,9 @@ function save(_ref2) {
       BlockControls = _wp$blockEditor15.BlockControls,
       InnerBlocks = _wp$blockEditor15.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data11 = wp.data,
-      select = _wp$data11.select,
-      useSelect = _wp$data11.useSelect;
+  var _wp$data12 = wp.data,
+      select = _wp$data12.select,
+      useSelect = _wp$data12.useSelect;
   var _wp$components15 = wp.components,
       ToolbarGroup = _wp$components15.ToolbarGroup,
       ToolbarButton = _wp$components15.ToolbarButton,
@@ -3357,57 +3442,4 @@ function save(_ref2) {
     },
     edit: edit()
   });
-})(window.wp); //remove error notices when block is removed
-
-
-(function () {
-  var _wp$data12 = wp.data,
-      select = _wp$data12.select,
-      subscribe = _wp$data12.subscribe,
-      dispatch = _wp$data12.dispatch;
-  var store = wp.notices.store;
-
-  var getBlocks = function getBlocks() {
-    return select('core/block-editor').getBlocks();
-  };
-
-  Array.prototype.diff = function (a) {
-    return this.filter(function (i) {
-      return a.indexOf(i) < 0;
-    });
-  };
-
-  var blocksState = getBlocks();
-  subscribe(_.debounce(function () {
-    var notices = select(store).getNotices();
-    var newBlocksState = getBlocks(); // Lock saving if notices contain error notices
-
-    var errorNotices = notices.filter(function (notice) {
-      return notice.status === 'error';
-    });
-
-    if (errorNotices.length > 0) {
-      dispatch('core/editor').lockPostSaving('requiredValueLock');
-    } else {
-      dispatch('core/editor').unlockPostSaving('requiredValueLock');
-    } // When very last block is removed, it's replaced with a new paragraph block.
-    // This is a workaround to remove the error notice.
-
-
-    if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
-      // remove newBlocksState from blocksState
-      var removedBlock = blocksState.diff(newBlocksState);
-
-      if (removedBlock.length === 1 || removedBlock.length > 0 && removedBlock[0].name === 'core/paragraph') {
-        var noticesToRemove = notices.filter(function (notice) {
-          return notice.id.includes(removedBlock[0].clientId);
-        });
-        noticesToRemove.forEach(function (notice) {
-          dispatch('core/notices').removeNotice(notice.id);
-        });
-      }
-    }
-
-    blocksState = newBlocksState;
-  }, 300));
 })(window.wp);

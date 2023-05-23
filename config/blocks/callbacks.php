@@ -808,3 +808,19 @@ function hds_wp_render_rss_feed( $attributes ) {
 function hds_wp_rss_feed_lifetime($lifetime, $url, $attributes) {
 	return $attributes['lifespan'] > 0 ? HOUR_IN_SECONDS * $attributes['lifespan'] : HOUR_IN_SECONDS * 12;
 }
+
+/**
+ * Map Block
+ */
+ 
+function hds_wp_render_map( $attributes ) {
+	var_dump($attributes);
+	return sprintf(
+		'<div class="wp-block-hds-wp-map">
+			<div class="wp-block-hds-wp-map__inner">
+				<div class="wp-block-hds-wp-map__map" data-map="%s"></div>
+			</div>
+		</div>',
+		$attributes['title']
+	);
+}

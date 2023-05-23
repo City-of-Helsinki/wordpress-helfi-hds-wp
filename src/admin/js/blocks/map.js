@@ -28,7 +28,7 @@ registerBlockType('hds-wp/map', {
       type: 'string',
       default: 'Kartan otsikko',
     },
-    desricption: {
+    description: {
       type: 'string',
       default: 'Kartan kuvaus',
     },
@@ -42,7 +42,6 @@ registerBlockType('hds-wp/map', {
     },
   },
   edit: edit,
-  save: save,
 });
 
 function edit({attributes, setAttributes, clientId}) {
@@ -134,8 +133,8 @@ function edit({attributes, setAttributes, clientId}) {
             />
             <RichText
               tagName="p"
-              value={attributes.desricption}
-              onChange={(value) => setAttributes({desricption: value})}
+              value={attributes.description}
+              onChange={(value) => setAttributes({description: value})}
               placeholder={__('Map description', 'hds-wp')}
               allowedFormats={[
                 'core/bold',
@@ -229,11 +228,26 @@ function edit({attributes, setAttributes, clientId}) {
   );
 }
 
-function save({attributes}) {
+/* function save({attributes}) {
   const blockProps = useBlockProps.save({
     className: 'hds-map has-background',
   });
   const blockid = 'hds-map-' + attributes.blockId;
+
+  if (
+    attributes.url.includes('palvelukartta.hel.fi') &&
+    attributes.url.includes('embed')
+  ) {
+    const externalUrl = attributes.url.replace('/embed', '');
+  } else if (
+    attributes.url.includes('kartta.hel.fi') &&
+    attributes.url.includes('embed')
+  ) {
+    const externalUrl = attributes.url.replace('embed', '');
+  } else {
+    const externalUrl = attributes.url;
+  }
+
   return (
     <div {...blockProps}>
       <div className="hds-container">
@@ -263,7 +277,7 @@ function save({attributes}) {
                 {__('Move above the map', 'hds-wp')}
               </a>
               <a
-                href={attributes.url}
+                href={externalUrl}
                 target="_blank"
                 className="hds-map__link"
                 rel="noopener"
@@ -276,4 +290,4 @@ function save({attributes}) {
       </div>
     </div>
   );
-}
+} */
