@@ -641,14 +641,6 @@ function hds_wp_render_banner($attributes) {
  */
 
 function hds_wp_render_image_text($attributes) {
-	/* Output HTML
-	Example output:
-
-	<div class="wp-block-hds-wp-image-text align-right has-image additional-class" id="block-id">
-		<div class="image"><img decoding="async" id="476" alt="" src="https://city-of-helsinki.test/wp-content/uploads/2022/05/harrison-hargrave-hAm5CBe1oRA-unsplash.jpg" srcset="" width="3495" height="5243"></div>
-		<div class="content"><h2 class="content__heading">Kuva &amp; Teksti</h2><p class="content__text">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p><a class="content__link hds-button hds-button--primary" href="URL" data-is-external="true">Button</a></div>
-	</div>
-	*/
 
 	$wrapClasses = array( 'wp-block-hds-wp-image-text' );
 
@@ -690,6 +682,10 @@ function hds_wp_render_image_text($attributes) {
 			wp_get_attachment_image($attributes['mediaId'], 'full', false, $imageConfig)
 		);
 		$wrapClasses[] = 'has-image';
+	}
+	else {
+		$image = '<div class="image"><div class="placeholder"></div></div>';
+		$wrapClasses[] = 'has-placeholder';
 	}
 
 	$content = '';
