@@ -2210,7 +2210,10 @@ function hdsIcons(name) {
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var registerBlockType = wp.blocks.registerBlockType;
+  var _wp$blocks8 = wp.blocks,
+      registerBlockType = _wp$blocks8.registerBlockType,
+      registerBlockStyle = _wp$blocks8.registerBlockStyle,
+      unregisterBlockStyle = _wp$blocks8.unregisterBlockStyle;
   var _wp$element9 = wp.element,
       Fragment = _wp$element9.Fragment,
       createElement = _wp$element9.createElement;
@@ -2264,46 +2267,63 @@ function hdsIcons(name) {
   }
 
   function classNamesString(props) {
-    var classNames = ['align-' + props.attributes.alignment, props.attributes.mediaId ? 'has-image' : 'has-placeholder'];
+    var classNames = ['align-' + props.attributes.alignment, props.attributes.mediaId ? 'has-image' : 'has-placeholder', hds_wp['hasInvertedColor'] ? 'has-invert-color' : ''];
     return classNames.join(' ');
   }
 
   function contentButton(props) {
     return hdsContentButton(props, {
-      className: 'content__link hds-button hds-button--secondary',
+      className: 'content__link hds-button hds-button--primary',
       href: props.attributes.buttonUrl
-    }, props.attributes.isExternalUrl ? hdsExternalLinkIcon() : hdsArrowIcon());
+    });
   }
 
   function edit() {
     return function (props) {
-      return createElement(Fragment, {}, toolbar(props), hdsInspectorControls({
-        title: __('Content', 'hds-wp'),
-        initialOpen: false
-      }, hdsContentTitleControl(props), hdsContentTextControl(props), hdsButtonTextControl(props), hdsButtonUrlControl(props), hdsExternalUrlControl(props)), createElement('div', useBlockProps({
+      var content = null;
+
+      if (props.isSelected) {
+        content = createElement(Fragment, {}, toolbar(props), hdsInspectorControls({
+          title: __('Content', 'hds-wp'),
+          initialOpen: false
+        }, hdsButtonTextControl(props), hdsButtonUrlControl(props), hdsTargetBlankControl(props, {
+          help: wp.element.createElement('p', {}, wp.i18n.__('I have made sure that the description of this link clearly states that it opens in a new tab. ', 'hds-wp'), wp.element.createElement('a', {
+            href: 'https://www.w3.org/WAI/WCAG21/Techniques/general/G200.html',
+            target: '_blank'
+          }, wp.i18n.__('Check WCGA 3.2.5 accessibility requirements (the link opens in a new tab).', 'hds-wp')))
+        })), createElement('div', {
+          className: 'image-text--wrapper'
+        }, hdsSingleImage(imageConfig(props)), hdsContent(props, hdsContentTitleRich(props, {
+          placeholder: __('This is the title', 'hds-wp')
+        }), hdsContentTextRich(props, {
+          placeholder: __('This is the excerpt.', 'hds-wp')
+        }), contentButton(props))));
+      } else {
+        content = createElement(wp.serverSideRender, {
+          block: 'hds-wp/image-text',
+          attributes: props.attributes,
+          httpMethod: 'POST'
+        });
+      }
+
+      return createElement('div', useBlockProps({
         className: classNamesString(props)
-      }), hdsSingleImage(imageConfig(props)), hdsContent(props, hdsContentTitle(props), hdsContentText(props), contentButton(props))));
+      }), content);
     };
   }
 
   function save() {
     return function (props) {
-      return createElement('div', useBlockProps.save({
-        className: classNamesString(props)
-      }), hdsSingleImage(imageConfig(props)), hdsContent(props, hdsContentTitle(props), hdsContentText(props), contentButton(props)));
+      return createElement(Fragment, {}, createElement(InnerBlocks.Content));
     };
   }
 
-  registerBlockType('hds-wp/image-text', {
-    apiVersion: 2,
-    title: __('Helsinki - Image & Text', 'hds-wp'),
-    category: 'hds-wp',
-    icon: 'format-gallery',
-    keywords: ['Helsinki - Kuva & teksti'],
-    supports: {
-      color: true,
-      anchor: true
-    },
+  function classNamesStringV1(props) {
+    var classNames = ['align-' + props.attributes.alignment, props.attributes.mediaId ? 'has-image' : 'has-placeholder'];
+    return classNames.join(' ');
+  }
+
+  var v1 = {
     attributes: {
       alignment: {
         type: 'string',
@@ -2354,8 +2374,96 @@ function hdsIcons(name) {
         default: false
       }
     },
+    supports: {
+      color: true,
+      anchor: true
+    },
+    save: function save(props) {
+      return createElement('div', useBlockProps.save({
+        className: classNamesStringV1(props)
+      }), hdsSingleImage(imageConfig(props)), hdsContent(props, hdsContentTitle(props), hdsContentText(props), hdsContentButton(props, {
+        className: 'content__link hds-button hds-button--secondary',
+        href: props.attributes.buttonUrl
+      }, props.attributes.isExternalUrl ? hdsExternalLinkIcon() : hdsArrowIcon())));
+    }
+  };
+  registerBlockType('hds-wp/image-text', {
+    apiVersion: 2,
+    title: __('Helsinki - Image & Text', 'hds-wp'),
+    category: 'hds-wp',
+    icon: 'format-gallery',
+    keywords: ['Helsinki - Kuva & teksti'],
+    supports: {
+      color: true,
+      anchor: true
+    },
+    attributes: {
+      alignment: {
+        type: 'string',
+        default: 'right'
+      },
+      mediaId: {
+        type: 'number',
+        default: 0
+      },
+      mediaUrl: {
+        type: 'string',
+        default: ''
+      },
+      mediaWidth: {
+        type: 'number',
+        default: 0
+      },
+      mediaHeight: {
+        type: 'number',
+        default: 0
+      },
+      mediaAlt: {
+        type: 'string',
+        default: ''
+      },
+      mediaSrcset: {
+        type: 'string',
+        default: ''
+      },
+      contentTitle: {
+        type: 'string',
+        default: ''
+      },
+      contentText: {
+        type: 'string',
+        default: ''
+      },
+      buttonText: {
+        type: 'string',
+        default: __('Button Text', 'hds-wp')
+      },
+      buttonUrl: {
+        type: 'string',
+        default: ''
+      },
+      targetBlank: {
+        type: 'boolean',
+        default: false
+      },
+      anchor: {
+        type: 'string',
+        default: ''
+      }
+    },
     edit: edit(),
-    save: save()
+    save: save(),
+    deprecated: [v1]
+  });
+  unregisterBlockStyle('hds-wp/image-text', 'default');
+  registerBlockStyle('hds-wp/image-text', {
+    name: 'default',
+    label: __('Secondary color', 'hds-wp'),
+    isDefault: true
+  });
+  registerBlockStyle('hds-wp/image-text', {
+    name: 'primary-color',
+    label: __('Primary color', 'hds-wp')
   });
 })(window.wp);
 
@@ -2664,9 +2772,9 @@ function hdsIcons(name) {
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks8 = wp.blocks,
-      registerBlockType = _wp$blocks8.registerBlockType,
-      getBlockContent = _wp$blocks8.getBlockContent;
+  var _wp$blocks9 = wp.blocks,
+      registerBlockType = _wp$blocks9.registerBlockType,
+      getBlockContent = _wp$blocks9.getBlockContent;
   var _wp$element11 = wp.element,
       Fragment = _wp$element11.Fragment,
       createElement = _wp$element11.createElement,
@@ -3081,9 +3189,9 @@ function save(_ref2) {
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks9 = wp.blocks,
-      registerBlockType = _wp$blocks9.registerBlockType,
-      getBlockContent = _wp$blocks9.getBlockContent;
+  var _wp$blocks10 = wp.blocks,
+      registerBlockType = _wp$blocks10.registerBlockType,
+      getBlockContent = _wp$blocks10.getBlockContent;
   var _wp$element13 = wp.element,
       Fragment = _wp$element13.Fragment,
       createElement = _wp$element13.createElement;
@@ -3178,9 +3286,9 @@ function save(_ref2) {
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks10 = wp.blocks,
-      registerBlockType = _wp$blocks10.registerBlockType,
-      getBlockContent = _wp$blocks10.getBlockContent;
+  var _wp$blocks11 = wp.blocks,
+      registerBlockType = _wp$blocks11.registerBlockType,
+      getBlockContent = _wp$blocks11.getBlockContent;
   var _wp$element14 = wp.element,
       Fragment = _wp$element14.Fragment,
       createElement = _wp$element14.createElement;
@@ -3370,9 +3478,9 @@ function save(_ref2) {
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks11 = wp.blocks,
-      registerBlockType = _wp$blocks11.registerBlockType,
-      getBlockContent = _wp$blocks11.getBlockContent;
+  var _wp$blocks12 = wp.blocks,
+      registerBlockType = _wp$blocks12.registerBlockType,
+      getBlockContent = _wp$blocks12.getBlockContent;
   var _wp$element15 = wp.element,
       Fragment = _wp$element15.Fragment,
       createElement = _wp$element15.createElement,
@@ -3482,9 +3590,9 @@ function save(_ref2) {
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks12 = wp.blocks,
-      registerBlockType = _wp$blocks12.registerBlockType,
-      getBlockContent = _wp$blocks12.getBlockContent;
+  var _wp$blocks13 = wp.blocks,
+      registerBlockType = _wp$blocks13.registerBlockType,
+      getBlockContent = _wp$blocks13.getBlockContent;
   var _wp$element16 = wp.element,
       Fragment = _wp$element16.Fragment,
       createElement = _wp$element16.createElement,
