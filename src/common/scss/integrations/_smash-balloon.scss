@@ -1,6 +1,12 @@
 #sb_instagram {
 
     overflow: visible !important;
+    
+	margin-bottom: $paragraph-margin-bottom-small;
+
+	@include breakpoint('m') {
+		margin-bottom: $paragraph-margin-bottom-big;
+	}
 
     #sbi_images {
         padding: 0 !important;
