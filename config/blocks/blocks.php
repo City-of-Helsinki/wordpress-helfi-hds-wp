@@ -415,7 +415,7 @@ return array(
 			),
 			'url' => array(
 					'type'    => 'string',
-					'default' => '',
+					'default' => 'https://palvelukartta.hel.fi/fi/embed/unit/1915?city=helsinki,espoo,vantaa,kauniainen,kirkkonummi&bbox=60.22464068641878,24.932012557983402,60.23254640738538,24.962611198425297',
 			),
 			'assistive_title' => array(
 					'type'    => 'string',
