@@ -26,11 +26,11 @@ registerBlockType('hds-wp/map', {
     },
     title: {
       type: 'string',
-      default: 'Kartan otsikko',
+      default: '',
     },
-    desricption: {
+    description: {
       type: 'string',
-      default: 'Kartan kuvaus',
+      default: '',
     },
     url: {
       type: 'string',
@@ -42,7 +42,6 @@ registerBlockType('hds-wp/map', {
     },
   },
   edit: edit,
-  save: save,
 });
 
 function edit({attributes, setAttributes, clientId}) {
@@ -134,8 +133,8 @@ function edit({attributes, setAttributes, clientId}) {
             />
             <RichText
               tagName="p"
-              value={attributes.desricption}
-              onChange={(value) => setAttributes({desricption: value})}
+              value={attributes.description}
+              onChange={(value) => setAttributes({description: value})}
               placeholder={__('Map description', 'hds-wp')}
               allowedFormats={[
                 'core/bold',
@@ -226,54 +225,5 @@ function edit({attributes, setAttributes, clientId}) {
         </div>
       </InspectorControls>
     </Fragment>
-  );
-}
-
-function save({attributes}) {
-  const blockProps = useBlockProps.save({
-    className: 'hds-map has-background',
-  });
-  const blockid = 'hds-map-' + attributes.blockId;
-  return (
-    <div {...blockProps}>
-      <div className="hds-container">
-        <h2>{attributes.title}</h2>
-        <p>
-          <RichText.Content value={attributes.desricption} />
-        </p>
-        <div className="hds-map__container">
-          {attributes.url && (
-            <>
-              <a
-                href={'#' + blockid + '-after'}
-                id={blockid + '-before'}
-                class="focusable skip-link skip-link--map--before"
-              >
-                {__('Move below the map', 'hds-wp')}
-              </a>
-              <iframe
-                src={attributes.url}
-                title={attributes.assistive_title || attributes.title}
-              ></iframe>
-              <a
-                href={'#' + blockid + '-before'}
-                id={blockid + '-after'}
-                class="focusable skip-link skip-link--map--after"
-              >
-                {__('Move above the map', 'hds-wp')}
-              </a>
-              <a
-                href={attributes.url}
-                target="_blank"
-                className="hds-map__link"
-                rel="noopener"
-              >
-                {__('Open map in new window', 'hds-wp')} {hdsExternalLinkIcon()}
-              </a>
-            </>
-          )}
-        </div>
-      </div>
-    </div>
   );
 }

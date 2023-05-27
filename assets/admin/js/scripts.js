@@ -2973,11 +2973,11 @@ registerBlockType('hds-wp/map', {
     },
     title: {
       type: 'string',
-      default: 'Kartan otsikko'
+      default: ''
     },
-    desricption: {
+    description: {
       type: 'string',
-      default: 'Kartan kuvaus'
+      default: ''
     },
     url: {
       type: 'string',
@@ -2987,8 +2987,7 @@ registerBlockType('hds-wp/map', {
       type: 'string'
     }
   },
-  edit: edit,
-  save: save
+  edit: edit
 });
 
 function edit(_ref) {
@@ -3081,10 +3080,10 @@ function edit(_ref) {
     allowedFormats: []
   }), /*#__PURE__*/React.createElement(RichText, {
     tagName: "p",
-    value: attributes.desricption,
+    value: attributes.description,
     onChange: function onChange(value) {
       return setAttributes({
-        desricption: value
+        description: value
       });
     },
     placeholder: __('Map description', 'hds-wp'),
@@ -3154,37 +3153,6 @@ function edit(_ref) {
   }), !attributes.assistive_title && /*#__PURE__*/React.createElement("div", {
     className: "inspector-errornotice"
   }, __('Please enter assistive technology title', 'hds-wp')))));
-}
-
-function save(_ref2) {
-  var attributes = _ref2.attributes;
-  var blockProps = useBlockProps.save({
-    className: 'hds-map has-background'
-  });
-  var blockid = 'hds-map-' + attributes.blockId;
-  return /*#__PURE__*/React.createElement("div", blockProps, /*#__PURE__*/React.createElement("div", {
-    className: "hds-container"
-  }, /*#__PURE__*/React.createElement("h2", null, attributes.title), /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement(RichText.Content, {
-    value: attributes.desricption
-  })), /*#__PURE__*/React.createElement("div", {
-    className: "hds-map__container"
-  }, attributes.url && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("a", {
-    href: '#' + blockid + '-after',
-    id: blockid + '-before',
-    class: "focusable skip-link skip-link--map--before"
-  }, __('Move below the map', 'hds-wp')), /*#__PURE__*/React.createElement("iframe", {
-    src: attributes.url,
-    title: attributes.assistive_title || attributes.title
-  }), /*#__PURE__*/React.createElement("a", {
-    href: '#' + blockid + '-before',
-    id: blockid + '-after',
-    class: "focusable skip-link skip-link--map--after"
-  }, __('Move above the map', 'hds-wp')), /*#__PURE__*/React.createElement("a", {
-    href: attributes.url,
-    target: "_blank",
-    className: "hds-map__link",
-    rel: "noopener"
-  }, __('Open map in new window', 'hds-wp'), " ", hdsExternalLinkIcon())))));
 }
 
 (function (wp) {
@@ -3692,6 +3660,59 @@ function save(_ref2) {
     },
     edit: edit()
   });
+})(window.wp); //remove error notices when block is removed
+
+
+(function () {
+  var _wp$data14 = wp.data,
+      select = _wp$data14.select,
+      subscribe = _wp$data14.subscribe,
+      dispatch = _wp$data14.dispatch;
+  var store = wp.notices.store;
+
+  var getBlocks = function getBlocks() {
+    return select('core/block-editor').getBlocks();
+  };
+
+  Array.prototype.diff = function (a) {
+    return this.filter(function (i) {
+      return a.indexOf(i) < 0;
+    });
+  };
+
+  var blocksState = getBlocks();
+  subscribe(_.debounce(function () {
+    var notices = select(store).getNotices();
+    var newBlocksState = getBlocks(); // Lock saving if notices contain error notices
+
+    var errorNotices = notices.filter(function (notice) {
+      return notice.status === 'error';
+    });
+
+    if (errorNotices.length > 0) {
+      dispatch('core/editor').lockPostSaving('requiredValueLock');
+    } else {
+      dispatch('core/editor').unlockPostSaving('requiredValueLock');
+    } // When very last block is removed, it's replaced with a new paragraph block.
+    // This is a workaround to remove the error notice.
+
+
+    if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
+      // remove newBlocksState from blocksState
+      var removedBlock = blocksState.diff(newBlocksState);
+
+      if (removedBlock.length === 1 || removedBlock.length > 0 && removedBlock[0].name === 'core/paragraph') {
+        var noticesToRemove = notices.filter(function (notice) {
+          return notice.id.includes(removedBlock[0].clientId);
+        });
+        noticesToRemove.forEach(function (notice) {
+          dispatch('core/notices').removeNotice(notice.id);
+        });
+      }
+    }
+
+    blocksState = newBlocksState;
+  }, 300));
 })(window.wp);
 
 wp.domReady(function () {
@@ -3872,57 +3893,4 @@ wp.domReady(function () {
     };
   }, 'tableEditorWrapperExtraClass');
   wp.hooks.addFilter('editor.BlockListBlock', 'table/custom-editor-wrapper-class', tableEditorWrapperExtraClass);
-})(window.wp); //remove error notices when block is removed
-
-
-(function () {
-  var _wp$data14 = wp.data,
-      select = _wp$data14.select,
-      subscribe = _wp$data14.subscribe,
-      dispatch = _wp$data14.dispatch;
-  var store = wp.notices.store;
-
-  var getBlocks = function getBlocks() {
-    return select('core/block-editor').getBlocks();
-  };
-
-  Array.prototype.diff = function (a) {
-    return this.filter(function (i) {
-      return a.indexOf(i) < 0;
-    });
-  };
-
-  var blocksState = getBlocks();
-  subscribe(_.debounce(function () {
-    var notices = select(store).getNotices();
-    var newBlocksState = getBlocks(); // Lock saving if notices contain error notices
-
-    var errorNotices = notices.filter(function (notice) {
-      return notice.status === 'error';
-    });
-
-    if (errorNotices.length > 0) {
-      dispatch('core/editor').lockPostSaving('requiredValueLock');
-    } else {
-      dispatch('core/editor').unlockPostSaving('requiredValueLock');
-    } // When very last block is removed, it's replaced with a new paragraph block.
-    // This is a workaround to remove the error notice.
-
-
-    if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
-      // remove newBlocksState from blocksState
-      var removedBlock = blocksState.diff(newBlocksState);
-
-      if (removedBlock.length === 1 || removedBlock.length > 0 && removedBlock[0].name === 'core/paragraph') {
-        var noticesToRemove = notices.filter(function (notice) {
-          return notice.id.includes(removedBlock[0].clientId);
-        });
-        noticesToRemove.forEach(function (notice) {
-          dispatch('core/notices').removeNotice(notice.id);
-        });
-      }
-    }
-
-    blocksState = newBlocksState;
-  }, 300));
 })(window.wp);

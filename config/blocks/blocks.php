@@ -530,4 +530,39 @@ return array(
 	    ),
 	),
 
+	'map' => array(
+		'title' => __( 'Helsinki - Map', 'hds-wp' ),
+		'category' => 'hds-wp',
+		'dependencies' => array(
+			'wp-blocks',
+			'wp-i18n',
+			'wp-element',
+			'wp-components',
+			'wp-editor',
+			'wp-data',
+			'wp-server-side-render',
+		),
+		'render_callback' => 'hds_wp_render_map',
+		'attributes' => array(
+			'blockId'	=> array(
+				'type'		=> 'string',
+			),
+			'title' => array(
+					'type'    => 'string',
+					'default' => '',
+			),
+			'description' => array(
+					'type'    => 'string',
+					'default' => '',
+			),
+			'url' => array(
+					'type'    => 'string',
+					'default' => 'https://palvelukartta.hel.fi/fi/embed/unit/1915?city=helsinki,espoo,vantaa,kauniainen,kirkkonummi&bbox=60.22464068641878,24.932012557983402,60.23254640738538,24.962611198425297',
+			),
+			'assistive_title' => array(
+					'type'    => 'string',
+					'default' => '',
+			),
+		),
+	),
 );
