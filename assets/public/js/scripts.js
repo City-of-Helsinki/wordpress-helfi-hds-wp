@@ -7,35 +7,28 @@ function hdsAccordion() {
     if (toggle) {
       toggle.setAttribute('aria-expanded', 'true');
     }
-
     if (panel) {
       panel.removeAttribute('hidden');
     }
   }
-
   function _isOpen(toggle) {
     return 'true' === toggle.getAttribute('aria-expanded');
   }
-
   function _close(toggle, panel) {
     if (toggle) {
       toggle.setAttribute('aria-expanded', 'false');
     }
-
     if (panel) {
       panel.setAttribute('hidden', 'true');
     }
   }
-
   function _init(accordion) {
     var _triggers = accordion.querySelectorAll('.accordion__toggle'),
-        _closeButtons = accordion.querySelectorAll('.accordion__close');
-
+      _closeButtons = accordion.querySelectorAll('.accordion__close');
     for (var i = 0; i < _triggers.length; i++) {
       _triggers[i].addEventListener('click', function (event) {
         var _currentToggle = event.currentTarget;
         var _currentPanel = _currentToggle.parentElement.nextElementSibling;
-
         if (_isOpen(_currentToggle)) {
           _close(_currentToggle, _currentPanel);
         } else {
@@ -43,20 +36,16 @@ function hdsAccordion() {
         }
       });
     }
-
     for (var i = 0; i < _closeButtons.length; i++) {
       _closeButtons[i].addEventListener('click', function (event) {
         var _section = event.currentTarget.closest('.accordion__section'),
-            _toggle = _section.querySelector('.accordion__toggle'),
-            _panel = _toggle.parentElement.nextElementSibling;
-
+          _toggle = _section.querySelector('.accordion__toggle'),
+          _panel = _toggle.parentElement.nextElementSibling;
         _close(_toggle, _panel);
-
         _toggle.focus();
       });
     }
   }
-
   return {
     init: function init(accordions) {
       for (var i = 0; i < accordions.length; i++) {
@@ -64,13 +53,12 @@ function hdsAccordion() {
       }
     }
   };
-} //saved block markup may differ so try to account for the different possibilities...
+}
 
-
+//saved block markup may differ so try to account for the different possibilities...
 function parseAccordionElements() {
   var accordions = [];
   var elements = document.querySelectorAll('.wp-block-hds-wp-accordion');
-
   for (var i = 0; i < elements.length; i++) {
     if (elements[i].querySelector('.accordion')) {
       accordions.push(elements[i].querySelector('.accordion'));
@@ -78,23 +66,19 @@ function parseAccordionElements() {
       accordions.push(elements[i]);
     }
   }
-
   return accordions;
 }
-
 var hdsAccordions = hdsAccordion();
 hdsAccordions.init(parseAccordionElements());
-
 (function ($) {
   $(function () {
     $('.wpcf7-form select').each(function () {
       var $this = $(this),
-          numberOfOptions = $(this).children('option').length;
+        numberOfOptions = $(this).children('option').length;
       var $styledSelect = $this.next('div.select-styled');
       $styledSelect.text($this.children('option').eq(0).text());
       $this.click(function (e) {
         e.stopPropagation();
-
         if (!$this.hasClass('active')) {
           $this.toggleClass('active');
         } else {
@@ -103,7 +87,6 @@ hdsAccordions.init(parseAccordionElements());
       });
       $this.find('option').click(function (e) {
         e.stopPropagation();
-
         if ($this.hasClass('active')) {
           $this.removeClass('active');
         }
@@ -118,17 +101,15 @@ hdsAccordions.init(parseAccordionElements());
       var label = $this.siblings('label')[0];
       $this.parent().append('<ul class="file-input-list"></ul>');
       var fileList = $this.siblings('.file-input-list')[0];
-
       if (!fileInputId) {
         fileInputId = makeid(8);
         $this.attr('id', fileInputId);
       }
-
       label.setAttribute('for', fileInputId);
       label.addEventListener('focus', function (event) {
         event.preventDefault(); //for accessibility reasons
-      }); // activate using spacebar
-
+      });
+      // activate using spacebar
       label.addEventListener('keydown', function (event) {
         if (event.keyCode == 32) {
           event.preventDefault();
@@ -143,7 +124,6 @@ hdsAccordions.init(parseAccordionElements());
         clearFileList();
         addFileListItem(this.files[0]);
       });
-
       function addFileListItem(file) {
         var item = document.createElement('li');
         var attachmentIcon = document.createElement('div');
@@ -171,7 +151,6 @@ hdsAccordions.init(parseAccordionElements());
         item.appendChild(button);
         fileList.appendChild(item);
       }
-
       function clearFileList() {
         fileList.innerHTML = '';
       }
@@ -182,7 +161,6 @@ hdsAccordions.init(parseAccordionElements());
     $('.wpcf7-form').each(function () {
       var $this = $(this);
       $this.prepend(prependNotification());
-
       function prependNotification() {
         var notification = document.createElement('div');
         notification.classList.add('wpcf7-response-output');
@@ -207,34 +185,27 @@ hdsAccordions.init(parseAccordionElements());
       });
       this.setAttribute('lang', document.documentElement.lang);
     });
-
     function makeid(length) {
       var result = '';
       var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
       var charactersLength = characters.length;
-
       for (var i = 0; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
       }
-
       return result;
     }
   });
 })(jQuery);
-
 (function ($) {
   $(function () {
     $("select[name='cat']").each(function () {
       var $this = $(this),
-          numberOfOptions = $(this).children('option').length;
-
+        numberOfOptions = $(this).children('option').length;
       if (!$this.hasClass('hds-text-input__input')) {
         $this.addClass('hds-text-input__input');
       }
-
       $this.click(function (e) {
         e.stopPropagation();
-
         if (!$this.hasClass('active')) {
           $this.toggleClass('active');
         } else {
@@ -243,7 +214,6 @@ hdsAccordions.init(parseAccordionElements());
       });
       $this.find('option').click(function (e) {
         e.stopPropagation();
-
         if ($this.hasClass('active')) {
           $this.removeClass('active');
         }
