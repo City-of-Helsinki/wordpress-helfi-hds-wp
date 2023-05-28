@@ -2,6 +2,18 @@
 
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 function hdsSingleImage(attributes) {
   var imageOrPlaceholder = attributes.src ? wp.element.createElement('img', attributes) : wp.element.createElement('div', {
     className: 'placeholder'
@@ -2927,6 +2939,264 @@ function hdsIcons(name) {
   });
 })(window.wp);
 
+var __ = wp.i18n.__;
+var registerBlockType = wp.blocks.registerBlockType;
+var _wp$element14 = wp.element,
+    Fragment = _wp$element14.Fragment,
+    createElement = _wp$element14.createElement,
+    useState = _wp$element14.useState,
+    useEffect = _wp$element14.useEffect;
+var _wp$blockEditor14 = wp.blockEditor,
+    useBlockProps = _wp$blockEditor14.useBlockProps,
+    BlockControls = _wp$blockEditor14.BlockControls,
+    InnerBlocks = _wp$blockEditor14.InnerBlocks,
+    RichText = _wp$blockEditor14.RichText;
+var InspectorControls = wp.editor.InspectorControls;
+var _wp$data11 = wp.data,
+    select = _wp$data11.select,
+    useSelect = _wp$data11.useSelect,
+    useDispatch = _wp$data11.useDispatch,
+    dispatch = _wp$data11.dispatch,
+    subscribe = _wp$data11.subscribe;
+var _wp$components14 = wp.components,
+    ToolbarGroup = _wp$components14.ToolbarGroup,
+    ToolbarButton = _wp$components14.ToolbarButton,
+    Button = _wp$components14.Button,
+    ToggleControl = _wp$components14.ToggleControl,
+    TextControl = _wp$components14.TextControl,
+    Notice = _wp$components14.Notice;
+var store = wp.notices.store;
+registerBlockType('hds-wp/video', {
+  apiVersion: 2,
+  title: __('Helsinki - Video', 'hds-wp'),
+  icon: 'video-alt3',
+  category: 'hds-wp',
+  style: 'hds-video',
+  attributes: {
+    blockId: {
+      type: 'string'
+    },
+    title: {
+      type: 'string',
+      default: ''
+    },
+    description: {
+      type: 'string',
+      default: ''
+    },
+    iframeUrl: {
+      type: 'string',
+      default: ''
+    },
+    url: {
+      type: 'string',
+      default: ''
+    },
+    assistive_title: {
+      type: 'string'
+    }
+  },
+  edit: edit
+});
+
+function edit(_ref) {
+  var attributes = _ref.attributes,
+      setAttributes = _ref.setAttributes,
+      clientId = _ref.clientId;
+  var blockProps = useBlockProps({});
+
+  var _useState = useState(attributes.title ? false : true),
+      _useState2 = _slicedToArray(_useState, 2),
+      titleError = _useState2[0],
+      setTitleError = _useState2[1];
+
+  var _useState3 = useState(attributes.url ? false : true),
+      _useState4 = _slicedToArray(_useState3, 2),
+      urlError = _useState4[0],
+      setUrlError = _useState4[1];
+
+  var _useState5 = useState(attributes.assistive_title ? false : true),
+      _useState6 = _slicedToArray(_useState5, 2),
+      assistiveTitleError = _useState6[0],
+      setAssistiveTitleError = _useState6[1];
+
+  var _useDispatch = useDispatch(store),
+      createErrorNotice = _useDispatch.createErrorNotice,
+      removeNotice = _useDispatch.removeNotice; // Set unique block id, needed for skip link
+
+
+  useEffect(function () {
+    if (clientId) {
+      setAttributes({
+        blockId: clientId
+      });
+    }
+  }, []); // Check if title is valid, if not, show error notice
+
+  useEffect(function () {
+    var title = attributes.title;
+
+    if (!title) {
+      createErrorNotice(__('Helsinki - Video', 'hds-wp') + ': ' + __('Please enter a title', 'hds-wp'), {
+        type: 'default',
+        id: 'titleError-' + clientId,
+        isDismissible: false,
+        actions: [{
+          label: __('Select', 'hds-wp'),
+          onClick: function onClick() {
+            document.getElementById("block-".concat(clientId)).scrollIntoView({
+              behavior: 'smooth'
+            });
+            dispatch('core/block-editor').selectBlock(clientId);
+          }
+        }]
+      });
+    } else {
+      dispatch('core/notices').removeNotice('titleError-' + clientId);
+    }
+  }, [titleError]); // Check if url is valid, if not, show error notice
+
+  useEffect(function () {
+    var url = attributes.url;
+
+    if (!url) {
+      createErrorNotice(__('Helsinki - Video', 'hds-wp') + ': ' + __('Please enter a valid video URL', 'hds-wp'), {
+        type: 'default',
+        id: 'urlError-' + clientId,
+        isDismissible: false,
+        actions: [{
+          label: __('Select', 'hds-wp'),
+          onClick: function onClick() {
+            document.getElementById("block-".concat(clientId)).scrollIntoView({
+              behavior: 'smooth'
+            });
+            dispatch('core/block-editor').selectBlock(clientId);
+          }
+        }]
+      });
+    } else {
+      dispatch('core/notices').removeNotice('urlError-' + clientId);
+    }
+  }, [urlError]); // Check if assistive title is set, if not, show error notice
+
+  useEffect(function () {
+    var assistiveTitle = attributes.assistive_title;
+
+    if (!assistiveTitle) {
+      createErrorNotice(__('Helsinki - Video', 'hds-wp') + ': ' + __('Please enter assistive technology title', 'hds-wp'), {
+        type: 'default',
+        isDismissible: false,
+        id: 'assistiveTitleError-' + clientId,
+        actions: [{
+          label: __('Select', 'hds-wp'),
+          onClick: function onClick() {
+            document.getElementById("block-".concat(clientId)).scrollIntoView({
+              behavior: 'smooth'
+            });
+            dispatch('core/block-editor').selectBlock(clientId);
+          }
+        }]
+      });
+    } else {
+      dispatch('core/notices').removeNotice('assistiveTitleError-' + clientId);
+    }
+  }, [assistiveTitleError]);
+  return /*#__PURE__*/React.createElement(Fragment, null, /*#__PURE__*/React.createElement("div", blockProps, /*#__PURE__*/React.createElement("div", {
+    className: "hds-video has-background"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "hds-container"
+  }, /*#__PURE__*/React.createElement(RichText, {
+    tagName: "h2",
+    value: attributes.title,
+    onChange: function onChange(value) {
+      setTitleError(value ? false : true);
+      setAttributes({
+        title: value
+      });
+    },
+    placeholder: __('Video title*', 'hds-wp'),
+    allowedFormats: []
+  }), /*#__PURE__*/React.createElement(RichText, {
+    tagName: "p",
+    value: attributes.description,
+    onChange: function onChange(value) {
+      return setAttributes({
+        description: value
+      });
+    },
+    placeholder: __('Video description', 'hds-wp'),
+    allowedFormats: ['core/bold', 'core/italic', 'core/link', 'core/paragraph']
+  }), attributes.iframeUrl && /*#__PURE__*/React.createElement("figure", {
+    class: "wp-block-embed wp-has-aspect-ratio wp-embed-aspect-16-9"
+  }, /*#__PURE__*/React.createElement("div", {
+    class: "wp-block-embed__wrapper"
+  }, /*#__PURE__*/React.createElement("iframe", {
+    src: attributes.iframeUrl,
+    title: attributes.assistive_title || attributes.title,
+    scrolling: "no"
+  }), /*#__PURE__*/React.createElement("a", {
+    href: attributes.url,
+    target: "_blank",
+    className: "hds-video__link",
+    rel: "noopener"
+  }, __('Open video in new window', 'hds-wp'), ' ', hdsExternalLinkIcon())))))), /*#__PURE__*/React.createElement(InspectorControls, null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '1rem'
+    }
+  }, /*#__PURE__*/React.createElement(TextControl, {
+    label: __('Video URL', 'hds-wp'),
+    value: attributes.url,
+    onChange: function onChange(value) {
+      if (value.includes('youtube.com') || value.includes('helsinkikanava.fi')) {
+        setUrlError(false);
+        setAttributes({
+          url: value
+        });
+
+        if (value.includes('youtube.com')) {
+          setAttributes({
+            iframeUrl: value.replace('watch?v=', 'embed/')
+          });
+        }
+
+        if (value.includes('helsinkikanava.fi')) {
+          setAttributes({
+            iframeUrl: value.replace('player/vod', 'player/embed/vod')
+          });
+        }
+      } else {
+        setUrlError(true);
+      }
+    },
+    placeholder: __('youtube.com', 'hds-wp'),
+    className: "is-required" // or your own class name
+    ,
+    required: true
+  }), urlError && /*#__PURE__*/React.createElement("div", {
+    className: "inspector-errornotice"
+  }, __('Please enter a valid video URL', 'hds-wp')), /*#__PURE__*/React.createElement("div", {
+    style: {
+      color: 'grey',
+      marginBottom: '1rem'
+    }
+  }, /*#__PURE__*/React.createElement("small", null, __('Add video url from:', 'hds-wp'), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("a", {
+    href: "https://youtube.com",
+    target: "_blank"
+  }, "youtube.com"), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("a", {
+    href: "https://helsinkikanava.fi",
+    target: "_blank"
+  }, "helsinkikanava.fi"))), /*#__PURE__*/React.createElement(TextControl, {
+    label: __('Assistive title', 'hds-wp'),
+    value: attributes.assistive_title,
+    onChange: function onChange(value) {
+      setAssistiveTitleError(value ? false : true);
+      setAttributes({
+        assistive_title: value
+      });
+    }
+  }))));
+}
+
 wp.domReady(function () {
   /**
     * Buttons
@@ -3039,18 +3309,18 @@ wp.domReady(function () {
   var tableAdvancedControls = wp.compose.createHigherOrderComponent(function (BlockEdit) {
     return function (props) {
       var __ = wp.i18n.__;
-      var _wp$element14 = wp.element,
-          Fragment = _wp$element14.Fragment,
-          createElement = _wp$element14.createElement;
-      var _wp$components14 = wp.components,
-          ToggleControl = _wp$components14.ToggleControl,
-          Panel = _wp$components14.Panel,
-          PanelBody = _wp$components14.PanelBody,
-          TextControl = _wp$components14.TextControl;
-      var _wp$blockEditor14 = wp.blockEditor,
-          InspectorControls = _wp$blockEditor14.InspectorControls,
-          BlockControls = _wp$blockEditor14.BlockControls,
-          useBlockProps = _wp$blockEditor14.useBlockProps;
+      var _wp$element15 = wp.element,
+          Fragment = _wp$element15.Fragment,
+          createElement = _wp$element15.createElement;
+      var _wp$components15 = wp.components,
+          ToggleControl = _wp$components15.ToggleControl,
+          Panel = _wp$components15.Panel,
+          PanelBody = _wp$components15.PanelBody,
+          TextControl = _wp$components15.TextControl;
+      var _wp$blockEditor15 = wp.blockEditor,
+          InspectorControls = _wp$blockEditor15.InspectorControls,
+          BlockControls = _wp$blockEditor15.BlockControls,
+          useBlockProps = _wp$blockEditor15.useBlockProps;
       var attributes = props.attributes,
           setAttributes = props.setAttributes,
           isSelected = props.isSelected;

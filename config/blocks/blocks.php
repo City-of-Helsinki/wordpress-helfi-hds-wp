@@ -388,4 +388,44 @@ return array(
 	    ),
 	),
 
+	'video' => array(
+		'title' => __( 'Helsinki - Video', 'hds-wp' ),
+		'category' => 'hds-wp',
+		'dependencies' => array(
+			'wp-blocks',
+			'wp-i18n',
+			'wp-element',
+			'wp-components',
+			'wp-editor',
+			'wp-data',
+			'wp-server-side-render',
+		),
+		'render_callback' => 'hds_wp_render_video',
+		'attributes' => array(
+			'blockId'	=> array(
+				'type'		=> 'string',
+			),
+			'title' => array(
+					'type'    => 'string',
+					'default' => '',
+			),
+			'description' => array(
+					'type'    => 'string',
+					'default' => '',
+			),
+			'url' => array(
+					'type'    => 'string',
+					'default' => '',
+			),
+			'iframeUrl' => array(
+					'type'    => 'string',
+					'default' => '',
+			),
+			'assistive_title' => array(
+					'type'    => 'string',
+					'default' => '',
+			),
+		),
+	),
+
 );

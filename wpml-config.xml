@@ -6,5 +6,10 @@
       <key name="buttonText" />
       <key name="buttonUrl" />
     </gutenberg-block>
+    <gutenberg-block type="hds-wp/video" translate="1">
+      <key name="title" />
+      <key name="description" />
+      <key name="assistive_title" />
+    </gutenberg-block>
   </gutenberg-blocks>
 </wpml-config>
