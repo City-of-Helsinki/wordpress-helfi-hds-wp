@@ -2841,7 +2841,7 @@ function hdsIcons(name) {
       },
       title: {
         type: 'string',
-        default: ''
+        default: __('Latest news', 'hds-wp')
       },
       category: {
         type: 'number',

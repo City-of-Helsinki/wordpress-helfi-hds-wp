@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Helsinki Design System for WordPress\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-30 11:35+0000\n"
+"POT-Creation-Date: 2023-05-30 12:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -347,6 +347,10 @@ msgstr ""
 
 #: assets/admin/js/scripts.js:190 src/admin/js/admin.js:196
 msgid "Is external URL"
+msgstr ""
+
+#: assets/admin/js/scripts.js:2844 src/admin/js/blocks/recent-posts.js:117
+msgid "Latest news"
 msgstr ""
 
 #: assets/admin/js/scripts.js:3006 src/admin/js/filters/block-styles.js:33
