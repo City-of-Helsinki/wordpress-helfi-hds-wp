@@ -926,6 +926,19 @@ function hds_wp_render_timeline_card($attributes, $content = null) {
  */
 
 function hds_wp_render_recent_posts( $attributes ) {
+	//migrate old options
+	$count = $attributes['articles'];
+	if ( $count === 3 ) {
+		$attributes['articles'] = 4;
+	}
+	else if ( $count === 6 ) {
+		$attributes['articles'] = 8;
+	}
+
+	if ( isset($attributes['isEditRender'] ) && $attributes['isEditRender'] ) {
+		return hds_wp_render_recent_posts_articles( $attributes );
+	}
+
 	if ( function_exists( 'helsinki_front_page_section' ) ) {
 		ob_start();
 		add_action('helsinki_front_page_recent_posts', 'helsinki_front_page_recent_posts_title', 10);
@@ -936,6 +949,21 @@ function hds_wp_render_recent_posts( $attributes ) {
 		return $content;
 	}
 	return;
+}
+
+
+//only render articles section; use in editor
+function hds_wp_render_recent_posts_articles( $attributes ) {
+	if ( function_exists( 'helsinki_front_page_section' ) ) {
+		ob_start();
+		$data = helsinki_front_page_section_data('recent-posts', $attributes);
+		helsinki_front_page_recent_posts_grid( $data );
+		helsinki_front_page_recent_posts_more( $data );
+		$content = ob_get_clean();
+		return $content;
+	}
+	return;
+
 }
 
 /**

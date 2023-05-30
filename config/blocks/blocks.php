@@ -413,8 +413,11 @@ return array(
 			'anchor' => array(
 	            'type'    => 'string',
 	            'default' => '',
-			)
-
+			),
+			'isEditRender' => array(
+	            'type'    => 'boolean',
+	            'default' => false,
+			),
 	    ),
 	),
 	'rss-feed' => array(
