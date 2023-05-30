@@ -23,5 +23,8 @@
       <key name="description" />
       <key name="assistive_title" />
     </gutenberg-block>
+    <gutenberg-block type="hds-wp/recent-posts" translate="1">
+      <key name="title" />
+    </gutenberg-block>
   </gutenberg-blocks>
 </wpml-config>
