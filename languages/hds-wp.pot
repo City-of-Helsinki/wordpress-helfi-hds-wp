@@ -464,7 +464,12 @@ msgid "Large"
 msgstr ""
 
 #: assets/admin/js/scripts.js:547 src/admin/js/filters/block-styles.js:33
-#: assets/admin/js/scripts.js:3006
+#: assets/admin/js/scripts.js:3006 assets/admin/js/scripts.js:2844
+#: src/admin/js/blocks/recent-posts.js:117
+msgid "Latest news"
+msgstr ""
+
+#: assets/admin/js/scripts.js:3006 src/admin/js/filters/block-styles.js:33
 msgid "Light Gray Background"
 msgstr ""
 
