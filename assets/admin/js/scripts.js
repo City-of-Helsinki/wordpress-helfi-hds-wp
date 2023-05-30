@@ -2,6 +2,12 @@
 
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function hdsSingleImage(attributes) {
   var imageOrPlaceholder = attributes.src ? wp.element.createElement('img', attributes) : wp.element.createElement('div', {
     className: 'placeholder'
@@ -122,10 +128,10 @@ function hdsContentTitle(props) {
 function hdsContentTitleRich(props, config) {
   return wp.element.createElement(wp.blockEditor.RichText, {
     tagName: 'h2',
-    className: 'content__heading',
-    value: props.attributes.contentTitle,
+    className: config.className ? config.className : 'content__heading',
+    value: config.titleAttribute ? props.attributes[config.titleAttribute] : props.attributes.contentTitle,
     onChange: function onChange(value) {
-      props.setAttributes({
+      props.setAttributes(config.titleAttribute ? _defineProperty({}, config.titleAttribute, value) : {
         contentTitle: value
       });
     },
@@ -2713,6 +2719,8 @@ function hdsIcons(name) {
   var __ = wp.i18n.__;
   var _wp$blocks9 = wp.blocks,
       registerBlockType = _wp$blocks9.registerBlockType,
+      registerBlockStyle = _wp$blocks9.registerBlockStyle,
+      unregisterBlockStyle = _wp$blocks9.unregisterBlockStyle,
       getBlockContent = _wp$blocks9.getBlockContent;
   var _wp$element12 = wp.element,
       Fragment = _wp$element12.Fragment,
@@ -2735,11 +2743,11 @@ function hdsIcons(name) {
 
   function articleCountOptions() {
     return [{
-      label: 3,
-      value: 3
+      label: 4,
+      value: 4
     }, {
-      label: 6,
-      value: 6
+      label: 8,
+      value: 8
     }];
   }
 
@@ -2747,11 +2755,7 @@ function hdsIcons(name) {
     return hdsInspectorControls({
       title: __('Settings', 'hds-wp'),
       initialOpen: true
-    }, hdsTextControl({
-      label: __('Title', 'hds-wp'),
-      value: props.attributes.title,
-      attribute: 'title'
-    }, props), hdsSelectControl({
+    }, hdsSelectControl({
       label: __('Article count', 'hds-wp'),
       value: props.attributes.articles,
       attribute: 'articles',
@@ -2769,23 +2773,54 @@ function hdsIcons(name) {
     }, props.attributes.title);
   }
 
+  var cachedProps = null;
+  var cachedArticles = null;
+
   function edit() {
     return function (props) {
       var content = null;
       props.attributes.articles = parseInt(props.attributes.articles);
       props.attributes.category = parseInt(props.attributes.category);
       var blockAttributes = props.attributes;
-      content = createElement(wp.serverSideRender, {
-        block: 'hds-wp/recent-posts',
-        attributes: blockAttributes,
-        httpMethod: 'POST'
-      });
+
+      if (props.isSelected) {
+        //we must serverside render only the articles, so the title can be edited from the editor!
+        //only re-render articles if relevant attributes have changed
+        if (cachedProps == null || cachedProps.articles != props.attributes.articles || cachedProps.category != props.attributes.category || cachedProps.className != props.attributes.className) {
+          cachedProps = props.attributes;
+          cachedArticles = createElement(wp.serverSideRender, {
+            block: 'hds-wp/recent-posts',
+            attributes: _objectSpread(_objectSpread({}, blockAttributes), {}, {
+              isEditRender: true
+            }),
+            httpMethod: 'POST'
+          });
+        }
+
+        content = createElement('div', {
+          className: 'front-page-section posts'
+        }, createElement('div', {
+          className: 'hds-container'
+        }, hdsContentTitleRich(props, {
+          placeholder: __('This is the title', 'hds-wp'),
+          titleAttribute: 'title',
+          className: 'container__heading'
+        }), cachedArticles));
+      } else {
+        content = createElement(wp.serverSideRender, {
+          block: 'hds-wp/recent-posts',
+          attributes: blockAttributes,
+          httpMethod: 'POST'
+        });
+      }
+
       return createElement(Fragment, {}, inspectorControls(props), createElement('div', useBlockProps(), content));
     };
   }
 
   function save() {
     return function (props) {
+      props.isEditRender = false;
       return createElement(Fragment, {}, createElement(InnerBlocks.Content));
     };
   }
@@ -2802,7 +2837,7 @@ function hdsIcons(name) {
     attributes: {
       articles: {
         type: 'number',
-        default: 3
+        default: 4
       },
       title: {
         type: 'string',
@@ -2815,9 +2850,23 @@ function hdsIcons(name) {
       anchor: {
         type: 'string',
         default: ''
+      },
+      isEditRender: {
+        type: 'boolean',
+        default: false
       }
     },
     edit: edit()
+  });
+  unregisterBlockStyle('hds-wp/recent-posts', 'default');
+  registerBlockStyle('hds-wp/recent-posts', {
+    name: 'default',
+    label: __('With image', 'hds-wp'),
+    isDefault: true
+  });
+  registerBlockStyle('hds-wp/recent-posts', {
+    name: 'without-image',
+    label: __('Without image', 'hds-wp')
   });
 })(window.wp);
 
