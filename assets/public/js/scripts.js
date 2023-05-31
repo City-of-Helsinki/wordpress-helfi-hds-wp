@@ -205,6 +205,7 @@ hdsAccordions.init(parseAccordionElements());
         });
         response.focus();
       });
+      this.setAttribute('lang', document.documentElement.lang);
     });
 
     function makeid(length) {
