@@ -1,5 +1,13 @@
 #sb_instagram {
 
+    overflow: visible !important;
+    
+	margin-bottom: $paragraph-margin-bottom-small;
+
+	@include breakpoint('m') {
+		margin-bottom: $paragraph-margin-bottom-big;
+	}
+
     #sbi_images {
         padding: 0 !important;
         margin-left: -8px !important;
@@ -17,6 +25,7 @@
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
+        padding-top: 16px;
 
         .sbi_load_btn {
             @extend %hds-button;
@@ -39,5 +48,17 @@
                 width: 24px;
             }
         }
+
+        //fixes style bug only present in pro plugin
+        a {
+            border-bottom-style: solid !important;
+            border-bottom-width: 2px !important;
+            border-bottom-color: $black !important;
+
+            &.sbi_load_btn:focus {
+                border-bottom-color: $white !important;
+            }
+        }
+        
     }
 }
