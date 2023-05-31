@@ -404,7 +404,7 @@ return array(
 	        ),
 	        'title' => array(
 	            'type'    => 'string',
-	            'default' => '',
+	            'default' => __( 'Latest news', 'hds-wp' ),
 	        ),
 			'category' => array(
 	            'type'    => 'integer',
