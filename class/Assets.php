@@ -31,7 +31,7 @@ class Assets extends Module {
 		}
 
 		if ( $this->config->value('styles') ) {
-			add_action( 'wp_enqueue_scripts', array( $this, 'publicStyles' ), 2 );
+			add_action( 'wp_enqueue_scripts', array( $this, 'publicStyles' ), 11 );
 		}
 
 		if ( $this->config->value('favicon') ) {
