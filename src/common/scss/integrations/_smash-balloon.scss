@@ -86,6 +86,10 @@
         }
     }
 
+    .cff-author a {
+        font-weight: 500;
+    }
+
     a.cff-load-more {
         @extend %hds-button;
         width: unset;
@@ -113,9 +117,13 @@
     }
 
     .cff-meta-wrap {
-        .cff-meta {
-            li {
-                margin-right: 16px !important;
+        .cff-view-comments {
+            box-shadow: none;
+
+            .cff-meta {
+                li {
+                    margin-right: 16px !important;
+                }
             }
         }
     }
