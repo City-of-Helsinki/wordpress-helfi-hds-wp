@@ -161,6 +161,7 @@ class Assets extends Module {
 			'info-circle' => Svg::icon('notifications-expressions', 'info-circle'),
 			'check-circle' => Svg::icon('notifications-expressions', 'check-circle'),
 			'error' => Svg::icon('notifications-expressions', 'error'),
+			'follow_on_facebook' => __('Follow on Facebook', 'hds-wp'),
 		) );
 	}
 
