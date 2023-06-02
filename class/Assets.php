@@ -30,7 +30,7 @@ class Assets extends Module {
 		}
 
 		if ( $this->config->value('styles') ) {
-			add_action( 'wp_enqueue_scripts', array( $this, 'publicStyles' ), 2 );
+			add_action( 'wp_enqueue_scripts', array( $this, 'publicStyles' ), 11 );
 		}
 
 		if ( $this->config->value('favicon') ) {
@@ -151,6 +151,7 @@ class Assets extends Module {
 			'info-circle' => Svg::icon('notifications-expressions', 'info-circle'),
 			'check-circle' => Svg::icon('notifications-expressions', 'check-circle'),
 			'error' => Svg::icon('notifications-expressions', 'error'),
+			'follow_on_facebook' => __('Follow on Facebook', 'hds-wp'),
 		) );
 
 		add_action('wp_head', function() {

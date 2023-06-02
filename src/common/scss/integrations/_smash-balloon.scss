@@ -62,3 +62,62 @@
         
     }
 }
+
+#cff {
+
+    .cff-posts-wrap {
+
+        @media only screen and (min-width: 480px) {
+            margin-left: -12px;
+            width: calc(100% + 24px) !important;
+        }
+
+        .cff-item {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            width: 100% !important;
+
+            @media only screen and (min-width: 480px) {
+                margin-left: 12px !important;
+                margin-right: 12px !important;
+                width: calc(33.33333333333333% - 24px) !important;
+            }
+
+        }
+    }
+
+    a.cff-load-more {
+        @extend %hds-button;
+        width: unset;
+        margin-right: 10px;
+        text-decoration: none;
+
+        .cff-loader {
+            background-color: rgba(255,255,255,.5) !important;
+        }
+
+        &:hover {
+            .cff-loader {
+                background-color: rgba(0,0,0,.5) !important;
+            }
+        }
+    }
+
+    a.cff-follow-link {
+        margin-top: 10px;
+        text-decoration: none !important;
+    }
+
+    .cff-view-comments {
+        pointer-events: none;
+    }
+
+    .cff-meta-wrap {
+        .cff-meta {
+            li {
+                margin-right: 16px !important;
+            }
+        }
+    }
+
+}
