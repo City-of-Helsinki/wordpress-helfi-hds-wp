@@ -4,6 +4,7 @@
         $('.cff').each(function(){
             var $this = $(this);
 
+            hideFeedFromScreenReaders($this);
             hideLinksFromScreenReaders($this);
 
             var href = $this.find('a').attr('href');
@@ -21,6 +22,12 @@
             element.find('a:not(.cff-follow-link)').each(function(){
                 $(this).attr('aria-hidden', 'true');
                 $(this).attr('tabindex', '-1');
+            });
+        }
+
+        function hideFeedFromScreenReaders(element) {
+            element.find('.cff-posts-wrap, .cff-screenreader').each(function(){
+                $(this).attr('aria-hidden', 'true');
             });
         }
 
