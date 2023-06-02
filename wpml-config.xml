@@ -26,5 +26,15 @@
     <gutenberg-block type="hds-wp/recent-posts" translate="1">
       <key name="title" />
     </gutenberg-block>
+    <gutenberg-block type="hds-wp/rss-feed" translate="1">
+      <key name="title" />
+    </gutenberg-block>
+    <gutenberg-block type="hds-wp/timeline" translate="1">
+      <key name="title" />
+      <key name="description" />
+    </gutenberg-block>
+    <gutenberg-block type="hds-wp/timeline-card" translate="1">
+      <key name="contentTitle" />
+    </gutenberg-block>
   </gutenberg-blocks>
 </wpml-config>
