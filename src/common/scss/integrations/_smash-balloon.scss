@@ -69,7 +69,7 @@
 
         @media only screen and (min-width: 480px) {
             margin-left: -12px;
-            width: calc(100% + 24px);
+            width: calc(100% + 24px) !important;
         }
 
         .cff-item {
