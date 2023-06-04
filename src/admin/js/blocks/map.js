@@ -2,22 +2,9 @@
   const {__} = wp.i18n;
   const {registerBlockType} = wp.blocks;
   const {Fragment, createElement, useState, useEffect} = wp.element;
-  const {
-    useBlockProps,
-    BlockControls,
-    InnerBlocks,
-    RichText,
-    InspectorControls,
-  } = wp.blockEditor;
-  const {select, useSelect, useDispatch, dispatch, subscribe} = wp.data;
-  const {
-    ToolbarGroup,
-    ToolbarButton,
-    Button,
-    ToggleControl,
-    TextControl,
-    Notice,
-  } = wp.components;
+  const {useBlockProps, RichText, InspectorControls} = wp.blockEditor;
+  const {useDispatch, dispatch} = wp.data;
+  const {TextControl} = wp.components;
   const {store} = wp.notices;
 
   registerBlockType('hds-wp/map', {
@@ -48,6 +35,14 @@
       },
     },
     edit: edit,
+    example: {
+      attributes: {
+        title: __('Map title', 'hds-wp'),
+        description: __('Map description', 'hds-wp'),
+        url: 'https://palvelukartta.hel.fi/fi/embed/unit/1915?city=helsinki,espoo,vantaa,kauniainen,kirkkonummi&bbox=60.22464068641878,24.932012557983402,60.23254640738538,24.962611198425297',
+        assistive_title: __('Map title', 'hds-wp'),
+      },
+    },
   });
 
   function edit({attributes, setAttributes, clientId}) {

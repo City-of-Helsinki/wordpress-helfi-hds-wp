@@ -3130,23 +3130,12 @@ wp.domReady(function () {
       useEffect = _wp$element13.useEffect;
   var _wp$blockEditor13 = wp.blockEditor,
       useBlockProps = _wp$blockEditor13.useBlockProps,
-      BlockControls = _wp$blockEditor13.BlockControls,
-      InnerBlocks = _wp$blockEditor13.InnerBlocks,
       RichText = _wp$blockEditor13.RichText,
       InspectorControls = _wp$blockEditor13.InspectorControls;
   var _wp$data9 = wp.data,
-      select = _wp$data9.select,
-      useSelect = _wp$data9.useSelect,
       useDispatch = _wp$data9.useDispatch,
-      dispatch = _wp$data9.dispatch,
-      subscribe = _wp$data9.subscribe;
-  var _wp$components13 = wp.components,
-      ToolbarGroup = _wp$components13.ToolbarGroup,
-      ToolbarButton = _wp$components13.ToolbarButton,
-      Button = _wp$components13.Button,
-      ToggleControl = _wp$components13.ToggleControl,
-      TextControl = _wp$components13.TextControl,
-      Notice = _wp$components13.Notice;
+      dispatch = _wp$data9.dispatch;
+  var TextControl = wp.components.TextControl;
   var store = wp.notices.store;
   registerBlockType('hds-wp/map', {
     apiVersion: 2,
@@ -3174,7 +3163,15 @@ wp.domReady(function () {
         type: 'string'
       }
     },
-    edit: edit
+    edit: edit,
+    example: {
+      attributes: {
+        title: __('Map title', 'hds-wp'),
+        description: __('Map description', 'hds-wp'),
+        url: 'https://palvelukartta.hel.fi/fi/embed/unit/1915?city=helsinki,espoo,vantaa,kauniainen,kirkkonummi&bbox=60.22464068641878,24.932012557983402,60.23254640738538,24.962611198425297',
+        assistive_title: __('Map title', 'hds-wp')
+      }
+    }
   });
 
   function edit(_ref2) {
@@ -3355,10 +3352,10 @@ wp.domReady(function () {
       useBlockProps = _wp$blockEditor14.useBlockProps,
       BlockControls = _wp$blockEditor14.BlockControls,
       InnerBlocks = _wp$blockEditor14.InnerBlocks;
-  var _wp$components14 = wp.components,
-      ToolbarGroup = _wp$components14.ToolbarGroup,
-      ToolbarButton = _wp$components14.ToolbarButton,
-      Button = _wp$components14.Button;
+  var _wp$components13 = wp.components,
+      ToolbarGroup = _wp$components13.ToolbarGroup,
+      ToolbarButton = _wp$components13.ToolbarButton,
+      Button = _wp$components13.Button;
   var _wp$data10 = wp.data,
       select = _wp$data10.select,
       useSelect = _wp$data10.useSelect;
@@ -3452,11 +3449,11 @@ wp.domReady(function () {
       BlockControls = _wp$blockEditor15.BlockControls,
       InnerBlocks = _wp$blockEditor15.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$components15 = wp.components,
-      ToolbarGroup = _wp$components15.ToolbarGroup,
-      ToolbarButton = _wp$components15.ToolbarButton,
-      Button = _wp$components15.Button,
-      ToggleControl = _wp$components15.ToggleControl;
+  var _wp$components14 = wp.components,
+      ToolbarGroup = _wp$components14.ToolbarGroup,
+      ToolbarButton = _wp$components14.ToolbarButton,
+      Button = _wp$components14.Button,
+      ToggleControl = _wp$components14.ToggleControl;
   var _wp$data11 = wp.data,
       select = _wp$data11.select,
       dispatch = _wp$data11.dispatch,
@@ -3650,11 +3647,11 @@ wp.domReady(function () {
   var _wp$data12 = wp.data,
       select = _wp$data12.select,
       useSelect = _wp$data12.useSelect;
-  var _wp$components16 = wp.components,
-      ToolbarGroup = _wp$components16.ToolbarGroup,
-      ToolbarButton = _wp$components16.ToolbarButton,
-      Button = _wp$components16.Button,
-      ToggleControl = _wp$components16.ToggleControl;
+  var _wp$components15 = wp.components,
+      ToolbarGroup = _wp$components15.ToolbarGroup,
+      ToolbarButton = _wp$components15.ToolbarButton,
+      Button = _wp$components15.Button,
+      ToggleControl = _wp$components15.ToggleControl;
   var PostCategorySelect = hdsWithPostCategorySelectControl();
 
   function articleCountOptions() {
@@ -3803,11 +3800,11 @@ wp.domReady(function () {
   var _wp$data13 = wp.data,
       select = _wp$data13.select,
       useSelect = _wp$data13.useSelect;
-  var _wp$components17 = wp.components,
-      ToolbarGroup = _wp$components17.ToolbarGroup,
-      ToolbarButton = _wp$components17.ToolbarButton,
-      Button = _wp$components17.Button,
-      ToggleControl = _wp$components17.ToggleControl;
+  var _wp$components16 = wp.components,
+      ToolbarGroup = _wp$components16.ToolbarGroup,
+      ToolbarButton = _wp$components16.ToolbarButton,
+      Button = _wp$components16.Button,
+      ToggleControl = _wp$components16.ToggleControl;
 
   function articleCountOptions() {
     return [{
@@ -3912,13 +3909,13 @@ wp.domReady(function () {
       useDispatch = _wp$data14.useDispatch,
       dispatch = _wp$data14.dispatch,
       subscribe = _wp$data14.subscribe;
-  var _wp$components18 = wp.components,
-      ToolbarGroup = _wp$components18.ToolbarGroup,
-      ToolbarButton = _wp$components18.ToolbarButton,
-      Button = _wp$components18.Button,
-      ToggleControl = _wp$components18.ToggleControl,
-      TextControl = _wp$components18.TextControl,
-      Notice = _wp$components18.Notice;
+  var _wp$components17 = wp.components,
+      ToolbarGroup = _wp$components17.ToolbarGroup,
+      ToolbarButton = _wp$components17.ToolbarButton,
+      Button = _wp$components17.Button,
+      ToggleControl = _wp$components17.ToggleControl,
+      TextControl = _wp$components17.TextControl,
+      Notice = _wp$components17.Notice;
   var store = wp.notices.store;
   registerBlockType('hds-wp/video', {
     apiVersion: 2,
