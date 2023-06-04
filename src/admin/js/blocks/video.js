@@ -1,18 +1,11 @@
 (function (wp) {
   const {__} = wp.i18n;
   const {registerBlockType} = wp.blocks;
-  const {Fragment, createElement, useState, useEffect} = wp.element;
-  const {useBlockProps, BlockControls, InnerBlocks, RichText} = wp.blockEditor;
+  const {Fragment, useState, useEffect} = wp.element;
+  const {useBlockProps, RichText} = wp.blockEditor;
   const {InspectorControls} = wp.editor;
-  const {select, useSelect, useDispatch, dispatch, subscribe} = wp.data;
-  const {
-    ToolbarGroup,
-    ToolbarButton,
-    Button,
-    ToggleControl,
-    TextControl,
-    Notice,
-  } = wp.components;
+  const {useDispatch, dispatch, subscribe} = wp.data;
+  const {TextControl} = wp.components;
   const {store} = wp.notices;
 
   registerBlockType('hds-wp/video', {
@@ -46,6 +39,15 @@
       },
     },
     edit: edit,
+    example: {
+      attributes: {
+        title: __('Video title', 'hds-wp'),
+        description: __('Video description', 'hds-wp'),
+        iframeUrl:
+          'https://www.helsinkikanava.fi/fi_FI/web/helsinkikanava/player/embed/vod?assetId=107834317',
+        assistive_title: __('Video assistive title', 'hds-wp'),
+      },
+    },
   });
 
   function edit({attributes, setAttributes, clientId}) {
@@ -186,24 +188,26 @@
                 ]}
               />
               {attributes.iframeUrl && (
-                <figure class="wp-block-embed wp-has-aspect-ratio wp-embed-aspect-16-9">
-                  <div class="wp-block-embed__wrapper">
-                    <iframe
-                      src={attributes.iframeUrl}
-                      title={attributes.assistive_title || attributes.title}
-                      scrolling="no"
-                    ></iframe>
-                    <a
-                      href={attributes.url}
-                      target="_blank"
-                      className="hds-video__link"
-                      rel="noopener"
-                    >
-                      {__('Open video in new window', 'hds-wp')}{' '}
-                      {hdsExternalLinkIcon()}
-                    </a>
-                  </div>
-                </figure>
+                <>
+                  <figure class="wp-block-embed wp-has-aspect-ratio wp-embed-aspect-16-9">
+                    <div class="wp-block-embed__wrapper">
+                      <iframe
+                        src={attributes.iframeUrl}
+                        title={attributes.assistive_title || attributes.title}
+                        scrolling="no"
+                      ></iframe>
+                    </div>
+                  </figure>
+                  <a
+                    href={attributes.url}
+                    target="_blank"
+                    className="hds-video__link"
+                    rel="noopener"
+                  >
+                    {__('Open video in new window', 'hds-wp')}{' '}
+                    {hdsExternalLinkIcon()}
+                  </a>
+                </>
               )}
             </div>
           </div>
@@ -238,7 +242,7 @@
                 }
               }}
               placeholder={__('youtube.com', 'hds-wp')}
-              className="is-required" // or your own class name
+              className="is-required"
               required
             />
             {urlError && (
@@ -266,7 +270,14 @@
                 setAssistiveTitleError(value ? false : true);
                 setAttributes({assistive_title: value});
               }}
+              className="is-required"
+              required
             />
+            {assistiveTitleError && (
+              <div className="inspector-errornotice">
+                {__('Please enter assistive technology title', 'hds-wp')}
+              </div>
+            )}
           </div>
         </InspectorControls>
       </Fragment>
