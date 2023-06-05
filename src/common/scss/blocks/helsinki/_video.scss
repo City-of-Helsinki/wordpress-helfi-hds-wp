@@ -11,12 +11,6 @@
     margin-top: 1rem;
   }
 
-  &__link {
-    float: right;
-    display: flex;
-    align-items: center;
-  }
-
   &.has-background {
     background-color: $light-gray;
     margin-left: calc(50% - 50vw);
@@ -151,6 +145,23 @@
       @include breakpointMax('l') {
         padding: spacing('l') spacing('s');
       }
+    }
+  }
+}
+
+.block-embed-external-link {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  text-decoration: underline;
+  svg {
+    transition: 0.3s;
+  }
+  &:hover {
+    text-decoration: none;
+    svg {
+      transform: translate(3px, -3px);
     }
   }
 }
