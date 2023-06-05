@@ -2466,7 +2466,7 @@ registerBlockType('hds-wp/map', {
     },
     url: {
       type: 'string',
-      default: 'https://palvelukartta.hel.fi/fi/embed/unit/1915?city=helsinki,espoo,vantaa,kauniainen,kirkkonummi&bbox=60.22464068641878,24.932012557983402,60.23254640738538,24.962611198425297'
+      default: ''
     },
     assistive_title: {
       type: 'string'
@@ -2489,15 +2489,25 @@ function edit(_ref) {
       clientId = _ref.clientId;
   var blockProps = useBlockProps({});
 
-  var _useState = useState(attributes.url ? false : true),
+  var _useState = useState(attributes.title ? false : true),
       _useState2 = _slicedToArray(_useState, 2),
-      urlError = _useState2[0],
-      setUrlError = _useState2[1];
+      titleError = _useState2[0],
+      setTitleError = _useState2[1];
 
-  var _useState3 = useState(attributes.assistive_title ? false : true),
+  var _useState3 = useState(attributes.description ? false : true),
       _useState4 = _slicedToArray(_useState3, 2),
-      assistiveTitleError = _useState4[0],
-      setAssistiveTitleError = _useState4[1];
+      descriptionError = _useState4[0],
+      setDescriptionError = _useState4[1];
+
+  var _useState5 = useState(attributes.url ? false : true),
+      _useState6 = _slicedToArray(_useState5, 2),
+      urlError = _useState6[0],
+      setUrlError = _useState6[1];
+
+  var _useState7 = useState(attributes.assistive_title ? false : true),
+      _useState8 = _slicedToArray(_useState7, 2),
+      assistiveTitleError = _useState8[0],
+      setAssistiveTitleError = _useState8[1];
 
   var _useDispatch = useDispatch(store),
       createErrorNotice = _useDispatch.createErrorNotice,
@@ -2510,7 +2520,53 @@ function edit(_ref) {
         blockId: clientId
       });
     }
-  }, []); // Check if url is valid, if not, show error notice
+  }, []); // Check if title is set, if not, show error notice
+
+  useEffect(function () {
+    var title = attributes.title;
+
+    if (!title) {
+      createErrorNotice(__('Helsinki - Map', 'hds-wp') + ': ' + __('Please enter a title', 'hds-wp'), {
+        type: 'default',
+        id: 'titleError-' + clientId,
+        isDismissible: false,
+        actions: [{
+          label: __('Select', 'hds-wp'),
+          onClick: function onClick() {
+            document.getElementById("block-".concat(clientId)).scrollIntoView({
+              behavior: 'smooth'
+            });
+            dispatch('core/block-editor').selectBlock(clientId);
+          }
+        }]
+      });
+    } else {
+      dispatch('core/notices').removeNotice('titleError-' + clientId);
+    }
+  }, [titleError]); // Check if description is set, if not, show error notice
+
+  useEffect(function () {
+    var description = attributes.description;
+
+    if (!description) {
+      createErrorNotice(__('Helsinki - Map', 'hds-wp') + ': ' + __('Please enter a description', 'hds-wp'), {
+        type: 'default',
+        id: 'descriptionError-' + clientId,
+        isDismissible: false,
+        actions: [{
+          label: __('Select', 'hds-wp'),
+          onClick: function onClick() {
+            document.getElementById("block-".concat(clientId)).scrollIntoView({
+              behavior: 'smooth'
+            });
+            dispatch('core/block-editor').selectBlock(clientId);
+          }
+        }]
+      });
+    } else {
+      dispatch('core/notices').removeNotice('descriptionError-' + clientId);
+    }
+  }, [descriptionError]); // Check if url is valid, if not, show error notice
 
   useEffect(function () {
     var url = attributes.url;
@@ -2569,7 +2625,7 @@ function edit(_ref) {
         title: value
       });
     },
-    placeholder: __('Map title', 'hds-wp'),
+    placeholder: __('Map title*', 'hds-wp'),
     allowedFormats: []
   }), /*#__PURE__*/React.createElement(RichText, {
     tagName: "p",
@@ -2579,7 +2635,7 @@ function edit(_ref) {
         description: value
       });
     },
-    placeholder: __('Map description', 'hds-wp'),
+    placeholder: __('Map description*', 'hds-wp'),
     allowedFormats: ['core/bold', 'core/italic', 'core/link', 'core/paragraph']
   }), attributes.url && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("iframe", {
     src: attributes.url,
@@ -2588,7 +2644,7 @@ function edit(_ref) {
   }), /*#__PURE__*/React.createElement("a", {
     href: attributes.url,
     target: "_blank",
-    className: "hds-map__link",
+    className: "block-embed-external-link",
     rel: "noopener"
   }, __('Open map in new window', 'hds-wp'), ' ', hdsExternalLinkIcon()))))), /*#__PURE__*/React.createElement(InspectorControls, null, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -2608,9 +2664,7 @@ function edit(_ref) {
         url: value
       });
     },
-    placeholder: __('https://palvelukartta.hel.fi/fi/', 'hds-wp'),
-    className: "is-required" // or your own class name
-    ,
+    className: "is-required",
     required: true
   }), urlError && /*#__PURE__*/React.createElement("div", {
     className: "inspector-errornotice"
@@ -2622,10 +2676,10 @@ function edit(_ref) {
   }, /*#__PURE__*/React.createElement("small", null, __('Add map url from:', 'hds-wp'), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("a", {
     href: "https://palvelukartta.hel.fi/fi/",
     target: "_blank"
-  }, "https://palvelukartta.hel.fi/fi/"), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("a", {
+  }, "palvelukartta.hel.fi"), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("a", {
     href: "https://kartta.hel.fi/",
     target: "_blank"
-  }, "https://kartta.hel.fi/"))), /*#__PURE__*/React.createElement(TextControl, {
+  }, "kartta.hel.fi"))), /*#__PURE__*/React.createElement(TextControl, {
     label: __('Assistive technology title', 'hds-wp'),
     value: attributes.assistive_title,
     onChange: function onChange(value) {

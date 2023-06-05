@@ -34,8 +34,7 @@ registerBlockType('hds-wp/map', {
     },
     url: {
       type: 'string',
-      default:
-        'https://palvelukartta.hel.fi/fi/embed/unit/1915?city=helsinki,espoo,vantaa,kauniainen,kirkkonummi&bbox=60.22464068641878,24.932012557983402,60.23254640738538,24.962611198425297',
+      default: '',
     },
     assistive_title: {
       type: 'string',
@@ -54,6 +53,10 @@ registerBlockType('hds-wp/map', {
 
 function edit({attributes, setAttributes, clientId}) {
   const blockProps = useBlockProps({});
+  const [titleError, setTitleError] = useState(attributes.title ? false : true);
+  const [descriptionError, setDescriptionError] = useState(
+    attributes.description ? false : true
+  );
   const [urlError, setUrlError] = useState(attributes.url ? false : true);
   const [assistiveTitleError, setAssistiveTitleError] = useState(
     attributes.assistive_title ? false : true
@@ -66,6 +69,66 @@ function edit({attributes, setAttributes, clientId}) {
       setAttributes({blockId: clientId});
     }
   }, []);
+
+  // Check if title is set, if not, show error notice
+  useEffect(() => {
+    const title = attributes.title;
+    if (!title) {
+      createErrorNotice(
+        __('Helsinki - Map', 'hds-wp') +
+          ': ' +
+          __('Please enter a title', 'hds-wp'),
+        {
+          type: 'default',
+          id: 'titleError-' + clientId,
+          isDismissible: false,
+          actions: [
+            {
+              label: __('Select', 'hds-wp'),
+              onClick: () => {
+                document
+                  .getElementById(`block-${clientId}`)
+                  .scrollIntoView({behavior: 'smooth'});
+                dispatch('core/block-editor').selectBlock(clientId);
+              },
+            },
+          ],
+        }
+      );
+    } else {
+      dispatch('core/notices').removeNotice('titleError-' + clientId);
+    }
+  }, [titleError]);
+
+  // Check if description is set, if not, show error notice
+  useEffect(() => {
+    const description = attributes.description;
+    if (!description) {
+      createErrorNotice(
+        __('Helsinki - Map', 'hds-wp') +
+          ': ' +
+          __('Please enter a description', 'hds-wp'),
+        {
+          type: 'default',
+          id: 'descriptionError-' + clientId,
+          isDismissible: false,
+          actions: [
+            {
+              label: __('Select', 'hds-wp'),
+              onClick: () => {
+                document
+                  .getElementById(`block-${clientId}`)
+                  .scrollIntoView({behavior: 'smooth'});
+                dispatch('core/block-editor').selectBlock(clientId);
+              },
+            },
+          ],
+        }
+      );
+    } else {
+      dispatch('core/notices').removeNotice('descriptionError-' + clientId);
+    }
+  }, [descriptionError]);
 
   // Check if url is valid, if not, show error notice
   useEffect(() => {
@@ -136,14 +199,14 @@ function edit({attributes, setAttributes, clientId}) {
               tagName="h2"
               value={attributes.title}
               onChange={(value) => setAttributes({title: value})}
-              placeholder={__('Map title', 'hds-wp')}
+              placeholder={__('Map title*', 'hds-wp')}
               allowedFormats={[]}
             />
             <RichText
               tagName="p"
               value={attributes.description}
               onChange={(value) => setAttributes({description: value})}
-              placeholder={__('Map description', 'hds-wp')}
+              placeholder={__('Map description*', 'hds-wp')}
               allowedFormats={[
                 'core/bold',
                 'core/italic',
@@ -161,7 +224,7 @@ function edit({attributes, setAttributes, clientId}) {
                 <a
                   href={attributes.url}
                   target="_blank"
-                  className="hds-map__link"
+                  className="block-embed-external-link"
                   rel="noopener"
                 >
                   {__('Open map in new window', 'hds-wp')}{' '}
@@ -188,8 +251,7 @@ function edit({attributes, setAttributes, clientId}) {
               }
               setAttributes({url: value});
             }}
-            placeholder={__('https://palvelukartta.hel.fi/fi/', 'hds-wp')}
-            className="is-required" // or your own class name
+            className="is-required"
             required
           />
           {urlError && (
@@ -202,11 +264,11 @@ function edit({attributes, setAttributes, clientId}) {
               {__('Add map url from:', 'hds-wp')}
               <br />
               <a href="https://palvelukartta.hel.fi/fi/" target="_blank">
-                https://palvelukartta.hel.fi/fi/
+                palvelukartta.hel.fi
               </a>
               <br />
               <a href="https://kartta.hel.fi/" target="_blank">
-                https://kartta.hel.fi/
+                kartta.hel.fi
               </a>
             </small>
           </div>
