@@ -7,28 +7,8 @@
     padding-top: $paragraph-margin-bottom-big;
   }
 
-  &__koros {
-    background-color: $white;
-    height: 42px;
-    margin-bottom: spacing('xl');
-
-    @include breakpoint('l') {
-      margin-bottom: spacing('3-xl');
-    }
-
-    svg {
-      fill: $light-gray;
-    }
-  }
-
   h2 {
     margin-top: 1rem;
-  }
-
-  &__link {
-    float: right;
-    display: flex;
-    align-items: center;
   }
 
   &.has-background {
@@ -162,9 +142,6 @@
 
 .has-sidebar:not(.home) {
   .hds-map {
-    &__koros {
-      display: none;
-    }
     .hds-container {
       padding: 0;
     }

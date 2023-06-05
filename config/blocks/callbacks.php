@@ -1035,7 +1035,7 @@ function hds_wp_render_map( $attributes ) {
 	);
 
 	$externalLink = sprintf(
-		'<a href="%s" target="_blank" class="hds-map__link" rel="noopener">%s %s</a>',
+		'<a href="%s" target="_blank" class="block-embed-external-link" rel="noopener">%s %s</a>',
 		$linkUrl,
 		__('Open map in new window', 'hds-wp'),
 		hds_wp_render_link_icon( true )
