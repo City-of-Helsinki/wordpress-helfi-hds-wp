@@ -1793,6 +1793,10 @@ function hdsIcons(name) {
       });
     }
 
+    if (getBlockType('core/html')) {
+      unregisterBlockType('core/html');
+    }
+
     if (getBlockType('core/latest-posts')) {
       unregisterBlockType('core/latest-posts');
     }
