@@ -273,6 +273,7 @@
                     });
                   }
                 } else {
+                  setAttributes({url: value});
                   setUrlError(true);
                 }
               }}
