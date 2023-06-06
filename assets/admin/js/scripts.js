@@ -2419,288 +2419,290 @@ function hdsIcons(name) {
   });
 })(window.wp);
 
-var __ = wp.i18n.__;
-var registerBlockType = wp.blocks.registerBlockType;
-var _wp$element10 = wp.element,
-    Fragment = _wp$element10.Fragment,
-    createElement = _wp$element10.createElement,
-    useState = _wp$element10.useState,
-    useEffect = _wp$element10.useEffect;
-var _wp$blockEditor10 = wp.blockEditor,
-    useBlockProps = _wp$blockEditor10.useBlockProps,
-    BlockControls = _wp$blockEditor10.BlockControls,
-    InnerBlocks = _wp$blockEditor10.InnerBlocks,
-    RichText = _wp$blockEditor10.RichText,
-    InspectorControls = _wp$blockEditor10.InspectorControls;
-var _wp$data7 = wp.data,
-    select = _wp$data7.select,
-    useSelect = _wp$data7.useSelect,
-    useDispatch = _wp$data7.useDispatch,
-    dispatch = _wp$data7.dispatch,
-    subscribe = _wp$data7.subscribe;
-var _wp$components10 = wp.components,
-    ToolbarGroup = _wp$components10.ToolbarGroup,
-    ToolbarButton = _wp$components10.ToolbarButton,
-    Button = _wp$components10.Button,
-    ToggleControl = _wp$components10.ToggleControl,
-    TextControl = _wp$components10.TextControl,
-    Notice = _wp$components10.Notice;
-var store = wp.notices.store;
-registerBlockType('hds-wp/map', {
-  apiVersion: 2,
-  title: __('Helsinki - Map', 'hds-wp'),
-  icon: 'location-alt',
-  category: 'hds-wp',
-  style: 'hds-map',
-  attributes: {
-    blockId: {
-      type: 'string'
-    },
-    title: {
-      type: 'string',
-      default: ''
-    },
-    description: {
-      type: 'string',
-      default: ''
-    },
-    url: {
-      type: 'string',
-      default: ''
-    },
-    assistive_title: {
-      type: 'string'
-    }
-  },
-  edit: edit,
-  example: {
+(function (wp) {
+  var __ = wp.i18n.__;
+  var registerBlockType = wp.blocks.registerBlockType;
+  var _wp$element10 = wp.element,
+      Fragment = _wp$element10.Fragment,
+      createElement = _wp$element10.createElement,
+      useState = _wp$element10.useState,
+      useEffect = _wp$element10.useEffect;
+  var _wp$blockEditor10 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor10.useBlockProps,
+      BlockControls = _wp$blockEditor10.BlockControls,
+      InnerBlocks = _wp$blockEditor10.InnerBlocks,
+      RichText = _wp$blockEditor10.RichText,
+      InspectorControls = _wp$blockEditor10.InspectorControls;
+  var _wp$data7 = wp.data,
+      select = _wp$data7.select,
+      useSelect = _wp$data7.useSelect,
+      useDispatch = _wp$data7.useDispatch,
+      dispatch = _wp$data7.dispatch,
+      subscribe = _wp$data7.subscribe;
+  var _wp$components10 = wp.components,
+      ToolbarGroup = _wp$components10.ToolbarGroup,
+      ToolbarButton = _wp$components10.ToolbarButton,
+      Button = _wp$components10.Button,
+      ToggleControl = _wp$components10.ToggleControl,
+      TextControl = _wp$components10.TextControl,
+      Notice = _wp$components10.Notice;
+  var store = wp.notices.store;
+  registerBlockType('hds-wp/map', {
+    apiVersion: 2,
+    title: __('Helsinki - Map', 'hds-wp'),
+    icon: 'location-alt',
+    category: 'hds-wp',
+    style: 'hds-map',
     attributes: {
-      title: __('Map title', 'hds-wp'),
-      description: __('Map description', 'hds-wp'),
-      url: 'https://palvelukartta.hel.fi/fi/embed/unit/1915?city=helsinki,espoo,vantaa,kauniainen,kirkkonummi&bbox=60.22464068641878,24.932012557983402,60.23254640738538,24.962611198425297',
-      assistive_title: __('Map title', 'hds-wp')
+      blockId: {
+        type: 'string'
+      },
+      title: {
+        type: 'string',
+        default: ''
+      },
+      description: {
+        type: 'string',
+        default: ''
+      },
+      url: {
+        type: 'string',
+        default: ''
+      },
+      assistive_title: {
+        type: 'string'
+      }
+    },
+    edit: edit,
+    example: {
+      attributes: {
+        title: __('Map title', 'hds-wp'),
+        description: __('Map description', 'hds-wp'),
+        url: 'https://palvelukartta.hel.fi/fi/embed/unit/1915?city=helsinki,espoo,vantaa,kauniainen,kirkkonummi&bbox=60.22464068641878,24.932012557983402,60.23254640738538,24.962611198425297',
+        assistive_title: __('Map title', 'hds-wp')
+      }
     }
+  });
+
+  function edit(_ref) {
+    var attributes = _ref.attributes,
+        setAttributes = _ref.setAttributes,
+        clientId = _ref.clientId;
+    var blockProps = useBlockProps({});
+
+    var _useState = useState(attributes.title ? false : true),
+        _useState2 = _slicedToArray(_useState, 2),
+        titleError = _useState2[0],
+        setTitleError = _useState2[1];
+
+    var _useState3 = useState(attributes.description ? false : true),
+        _useState4 = _slicedToArray(_useState3, 2),
+        descriptionError = _useState4[0],
+        setDescriptionError = _useState4[1];
+
+    var _useState5 = useState(attributes.url ? false : true),
+        _useState6 = _slicedToArray(_useState5, 2),
+        urlError = _useState6[0],
+        setUrlError = _useState6[1];
+
+    var _useState7 = useState(attributes.assistive_title ? false : true),
+        _useState8 = _slicedToArray(_useState7, 2),
+        assistiveTitleError = _useState8[0],
+        setAssistiveTitleError = _useState8[1];
+
+    var _useDispatch = useDispatch(store),
+        createErrorNotice = _useDispatch.createErrorNotice,
+        removeNotice = _useDispatch.removeNotice; // Set unique block id, needed for skip link
+
+
+    useEffect(function () {
+      if (clientId) {
+        setAttributes({
+          blockId: clientId
+        });
+      }
+    }, []); // Check if title is set, if not, show error notice
+
+    useEffect(function () {
+      var title = attributes.title;
+
+      if (!title) {
+        createErrorNotice(__('Helsinki - Map', 'hds-wp') + ': ' + __('Please enter a title', 'hds-wp'), {
+          type: 'default',
+          id: 'titleError-' + clientId,
+          isDismissible: false,
+          actions: [{
+            label: __('Select', 'hds-wp'),
+            onClick: function onClick() {
+              document.getElementById("block-".concat(clientId)).scrollIntoView({
+                behavior: 'smooth'
+              });
+              dispatch('core/block-editor').selectBlock(clientId);
+            }
+          }]
+        });
+      } else {
+        dispatch('core/notices').removeNotice('titleError-' + clientId);
+      }
+    }, [titleError]); // Check if description is set, if not, show error notice
+
+    useEffect(function () {
+      var description = attributes.description;
+
+      if (!description) {
+        createErrorNotice(__('Helsinki - Map', 'hds-wp') + ': ' + __('Please enter a description', 'hds-wp'), {
+          type: 'default',
+          id: 'descriptionError-' + clientId,
+          isDismissible: false,
+          actions: [{
+            label: __('Select', 'hds-wp'),
+            onClick: function onClick() {
+              document.getElementById("block-".concat(clientId)).scrollIntoView({
+                behavior: 'smooth'
+              });
+              dispatch('core/block-editor').selectBlock(clientId);
+            }
+          }]
+        });
+      } else {
+        dispatch('core/notices').removeNotice('descriptionError-' + clientId);
+      }
+    }, [descriptionError]); // Check if url is valid, if not, show error notice
+
+    useEffect(function () {
+      var url = attributes.url;
+
+      if (!url) {
+        createErrorNotice(__('Helsinki - Map', 'hds-wp') + ': ' + __('Please enter a valid map embed URL', 'hds-wp'), {
+          type: 'default',
+          id: 'urlError-' + clientId,
+          isDismissible: false,
+          actions: [{
+            label: __('Select', 'hds-wp'),
+            onClick: function onClick() {
+              document.getElementById("block-".concat(clientId)).scrollIntoView({
+                behavior: 'smooth'
+              });
+              dispatch('core/block-editor').selectBlock(clientId);
+            }
+          }]
+        });
+      } else {
+        dispatch('core/notices').removeNotice('urlError-' + clientId);
+      }
+    }, [urlError]); // Check if assistive title is set, if not, show error notice
+
+    useEffect(function () {
+      var assistiveTitle = attributes.assistive_title;
+
+      if (!assistiveTitle) {
+        createErrorNotice(__('Helsinki - Map', 'hds-wp') + ': ' + __('Please enter assistive technology title', 'hds-wp'), {
+          type: 'default',
+          isDismissible: false,
+          id: 'assistiveTitleError-' + clientId,
+          actions: [{
+            label: __('Select', 'hds-wp'),
+            onClick: function onClick() {
+              document.getElementById("block-".concat(clientId)).scrollIntoView({
+                behavior: 'smooth'
+              });
+              dispatch('core/block-editor').selectBlock(clientId);
+            }
+          }]
+        });
+      } else {
+        dispatch('core/notices').removeNotice('assistiveTitleError-' + clientId);
+      }
+    }, [assistiveTitleError]);
+    return /*#__PURE__*/React.createElement(Fragment, null, /*#__PURE__*/React.createElement("div", blockProps, /*#__PURE__*/React.createElement("div", {
+      className: "hds-map has-background"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "hds-container"
+    }, /*#__PURE__*/React.createElement(RichText, {
+      tagName: "h2",
+      value: attributes.title,
+      onChange: function onChange(value) {
+        return setAttributes({
+          title: value
+        }), setTitleError(value ? false : true);
+      },
+      placeholder: __('Map title*', 'hds-wp'),
+      allowedFormats: []
+    }), /*#__PURE__*/React.createElement(RichText, {
+      tagName: "p",
+      value: attributes.description,
+      onChange: function onChange(value) {
+        return setAttributes({
+          description: value
+        }), setDescriptionError(value ? false : true);
+      },
+      placeholder: __('Map description*', 'hds-wp'),
+      allowedFormats: ['core/bold', 'core/italic', 'core/link', 'core/paragraph']
+    }), attributes.url && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("iframe", {
+      src: attributes.url,
+      title: attributes.assistive_title || attributes.title,
+      scrolling: "no"
+    }), /*#__PURE__*/React.createElement("a", {
+      href: attributes.url,
+      target: "_blank",
+      className: "block-embed-external-link",
+      rel: "noopener"
+    }, __('Open map in new window', 'hds-wp'), ' ', hdsExternalLinkIcon()))))), /*#__PURE__*/React.createElement(InspectorControls, null, /*#__PURE__*/React.createElement("div", {
+      style: {
+        padding: '1rem'
+      }
+    }, /*#__PURE__*/React.createElement(TextControl, {
+      label: __('Map URL', 'hds-wp'),
+      value: attributes.url,
+      onChange: function onChange(value) {
+        if (value.includes('palvelukartta.hel.fi') || value.includes('kartta.hel.fi')) {
+          setUrlError(false);
+        } else {
+          setUrlError(true);
+        }
+
+        setAttributes({
+          url: value
+        });
+      },
+      className: "is-required",
+      required: true
+    }), urlError && /*#__PURE__*/React.createElement("div", {
+      className: "inspector-errornotice"
+    }, __('Please enter a valid map embed URL', 'hds-wp')), /*#__PURE__*/React.createElement("div", {
+      style: {
+        color: 'grey',
+        marginBottom: '1rem'
+      }
+    }, /*#__PURE__*/React.createElement("small", null, __('Add map url from:', 'hds-wp'), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("a", {
+      href: "https://palvelukartta.hel.fi/fi/",
+      target: "_blank"
+    }, "palvelukartta.hel.fi"), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("a", {
+      href: "https://kartta.hel.fi/",
+      target: "_blank"
+    }, "kartta.hel.fi"))), /*#__PURE__*/React.createElement(TextControl, {
+      label: __('Assistive technology title', 'hds-wp'),
+      value: attributes.assistive_title,
+      onChange: function onChange(value) {
+        setAttributes({
+          assistive_title: value
+        });
+
+        if (value) {
+          setAssistiveTitleError(false);
+        } else {
+          setAssistiveTitleError(true);
+        }
+      },
+      placeholder: __('Assistive technology title', 'hds-wp'),
+      className: "is-required" // or your own class name
+      ,
+      required: true
+    }), !attributes.assistive_title && /*#__PURE__*/React.createElement("div", {
+      className: "inspector-errornotice"
+    }, __('Please enter assistive technology title', 'hds-wp')))));
   }
-});
-
-function edit(_ref) {
-  var attributes = _ref.attributes,
-      setAttributes = _ref.setAttributes,
-      clientId = _ref.clientId;
-  var blockProps = useBlockProps({});
-
-  var _useState = useState(attributes.title ? false : true),
-      _useState2 = _slicedToArray(_useState, 2),
-      titleError = _useState2[0],
-      setTitleError = _useState2[1];
-
-  var _useState3 = useState(attributes.description ? false : true),
-      _useState4 = _slicedToArray(_useState3, 2),
-      descriptionError = _useState4[0],
-      setDescriptionError = _useState4[1];
-
-  var _useState5 = useState(attributes.url ? false : true),
-      _useState6 = _slicedToArray(_useState5, 2),
-      urlError = _useState6[0],
-      setUrlError = _useState6[1];
-
-  var _useState7 = useState(attributes.assistive_title ? false : true),
-      _useState8 = _slicedToArray(_useState7, 2),
-      assistiveTitleError = _useState8[0],
-      setAssistiveTitleError = _useState8[1];
-
-  var _useDispatch = useDispatch(store),
-      createErrorNotice = _useDispatch.createErrorNotice,
-      removeNotice = _useDispatch.removeNotice; // Set unique block id, needed for skip link
-
-
-  useEffect(function () {
-    if (clientId) {
-      setAttributes({
-        blockId: clientId
-      });
-    }
-  }, []); // Check if title is set, if not, show error notice
-
-  useEffect(function () {
-    var title = attributes.title;
-
-    if (!title) {
-      createErrorNotice(__('Helsinki - Map', 'hds-wp') + ': ' + __('Please enter a title', 'hds-wp'), {
-        type: 'default',
-        id: 'titleError-' + clientId,
-        isDismissible: false,
-        actions: [{
-          label: __('Select', 'hds-wp'),
-          onClick: function onClick() {
-            document.getElementById("block-".concat(clientId)).scrollIntoView({
-              behavior: 'smooth'
-            });
-            dispatch('core/block-editor').selectBlock(clientId);
-          }
-        }]
-      });
-    } else {
-      dispatch('core/notices').removeNotice('titleError-' + clientId);
-    }
-  }, [titleError]); // Check if description is set, if not, show error notice
-
-  useEffect(function () {
-    var description = attributes.description;
-
-    if (!description) {
-      createErrorNotice(__('Helsinki - Map', 'hds-wp') + ': ' + __('Please enter a description', 'hds-wp'), {
-        type: 'default',
-        id: 'descriptionError-' + clientId,
-        isDismissible: false,
-        actions: [{
-          label: __('Select', 'hds-wp'),
-          onClick: function onClick() {
-            document.getElementById("block-".concat(clientId)).scrollIntoView({
-              behavior: 'smooth'
-            });
-            dispatch('core/block-editor').selectBlock(clientId);
-          }
-        }]
-      });
-    } else {
-      dispatch('core/notices').removeNotice('descriptionError-' + clientId);
-    }
-  }, [descriptionError]); // Check if url is valid, if not, show error notice
-
-  useEffect(function () {
-    var url = attributes.url;
-
-    if (!url) {
-      createErrorNotice(__('Helsinki - Map', 'hds-wp') + ': ' + __('Please enter a valid map embed URL', 'hds-wp'), {
-        type: 'default',
-        id: 'urlError-' + clientId,
-        isDismissible: false,
-        actions: [{
-          label: __('Select', 'hds-wp'),
-          onClick: function onClick() {
-            document.getElementById("block-".concat(clientId)).scrollIntoView({
-              behavior: 'smooth'
-            });
-            dispatch('core/block-editor').selectBlock(clientId);
-          }
-        }]
-      });
-    } else {
-      dispatch('core/notices').removeNotice('urlError-' + clientId);
-    }
-  }, [urlError]); // Check if assistive title is set, if not, show error notice
-
-  useEffect(function () {
-    var assistiveTitle = attributes.assistive_title;
-
-    if (!assistiveTitle) {
-      createErrorNotice(__('Helsinki - Map', 'hds-wp') + ': ' + __('Please enter assistive technology title', 'hds-wp'), {
-        type: 'default',
-        isDismissible: false,
-        id: 'assistiveTitleError-' + clientId,
-        actions: [{
-          label: __('Select', 'hds-wp'),
-          onClick: function onClick() {
-            document.getElementById("block-".concat(clientId)).scrollIntoView({
-              behavior: 'smooth'
-            });
-            dispatch('core/block-editor').selectBlock(clientId);
-          }
-        }]
-      });
-    } else {
-      dispatch('core/notices').removeNotice('assistiveTitleError-' + clientId);
-    }
-  }, [assistiveTitleError]);
-  return /*#__PURE__*/React.createElement(Fragment, null, /*#__PURE__*/React.createElement("div", blockProps, /*#__PURE__*/React.createElement("div", {
-    className: "hds-map has-background"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "hds-container"
-  }, /*#__PURE__*/React.createElement(RichText, {
-    tagName: "h2",
-    value: attributes.title,
-    onChange: function onChange(value) {
-      return setAttributes({
-        title: value
-      });
-    },
-    placeholder: __('Map title*', 'hds-wp'),
-    allowedFormats: []
-  }), /*#__PURE__*/React.createElement(RichText, {
-    tagName: "p",
-    value: attributes.description,
-    onChange: function onChange(value) {
-      return setAttributes({
-        description: value
-      });
-    },
-    placeholder: __('Map description*', 'hds-wp'),
-    allowedFormats: ['core/bold', 'core/italic', 'core/link', 'core/paragraph']
-  }), attributes.url && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("iframe", {
-    src: attributes.url,
-    title: attributes.assistive_title || attributes.title,
-    scrolling: "no"
-  }), /*#__PURE__*/React.createElement("a", {
-    href: attributes.url,
-    target: "_blank",
-    className: "block-embed-external-link",
-    rel: "noopener"
-  }, __('Open map in new window', 'hds-wp'), ' ', hdsExternalLinkIcon()))))), /*#__PURE__*/React.createElement(InspectorControls, null, /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: '1rem'
-    }
-  }, /*#__PURE__*/React.createElement(TextControl, {
-    label: __('Map URL', 'hds-wp'),
-    value: attributes.url,
-    onChange: function onChange(value) {
-      if (value.includes('palvelukartta.hel.fi') || value.includes('kartta.hel.fi')) {
-        setUrlError(false);
-      } else {
-        setUrlError(true);
-      }
-
-      setAttributes({
-        url: value
-      });
-    },
-    className: "is-required",
-    required: true
-  }), urlError && /*#__PURE__*/React.createElement("div", {
-    className: "inspector-errornotice"
-  }, __('Please enter a valid map embed URL', 'hds-wp')), /*#__PURE__*/React.createElement("div", {
-    style: {
-      color: 'grey',
-      marginBottom: '1rem'
-    }
-  }, /*#__PURE__*/React.createElement("small", null, __('Add map url from:', 'hds-wp'), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("a", {
-    href: "https://palvelukartta.hel.fi/fi/",
-    target: "_blank"
-  }, "palvelukartta.hel.fi"), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("a", {
-    href: "https://kartta.hel.fi/",
-    target: "_blank"
-  }, "kartta.hel.fi"))), /*#__PURE__*/React.createElement(TextControl, {
-    label: __('Assistive technology title', 'hds-wp'),
-    value: attributes.assistive_title,
-    onChange: function onChange(value) {
-      setAttributes({
-        assistive_title: value
-      });
-
-      if (value) {
-        setAssistiveTitleError(false);
-      } else {
-        setAssistiveTitleError(true);
-      }
-    },
-    placeholder: __('Assistive technology title', 'hds-wp'),
-    className: "is-required" // or your own class name
-    ,
-    required: true
-  }), !attributes.assistive_title && /*#__PURE__*/React.createElement("div", {
-    className: "inspector-errornotice"
-  }, __('Please enter assistive technology title', 'hds-wp')))));
-}
+})(window.wp);
 
 (function (wp) {
   var __ = wp.i18n.__;
