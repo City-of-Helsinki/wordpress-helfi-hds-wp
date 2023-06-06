@@ -3371,6 +3371,9 @@ wp.domReady(function () {
             });
           }
         } else {
+          setAttributes({
+            url: value
+          });
           setUrlError(true);
         }
       },
