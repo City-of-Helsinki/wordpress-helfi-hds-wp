@@ -208,14 +208,20 @@
               <RichText
                 tagName="h2"
                 value={attributes.title}
-                onChange={(value) => setAttributes({title: value})}
+                onChange={(value) => (
+                  setAttributes({title: value}),
+                  setTitleError(value ? false : true)
+                )}
                 placeholder={__('Map title*', 'hds-wp')}
                 allowedFormats={[]}
               />
               <RichText
                 tagName="p"
                 value={attributes.description}
-                onChange={(value) => setAttributes({description: value})}
+                onChange={(value) => (
+                  setAttributes({description: value}),
+                  setDescriptionError(value ? false : true)
+                )}
                 placeholder={__('Map description*', 'hds-wp')}
                 allowedFormats={[
                   'core/bold',
