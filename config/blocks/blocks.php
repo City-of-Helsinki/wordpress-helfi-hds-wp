@@ -318,7 +318,7 @@ return array(
 	        ),
 	        'title' => array(
 	            'type'    => 'string',
-	            'default' => '',
+	            'default' => __( 'Latest news', 'hds-wp' ),
 	        ),
 			'category' => array(
 	            'type'    => 'integer',
@@ -327,8 +327,11 @@ return array(
 			'anchor' => array(
 	            'type'    => 'string',
 	            'default' => '',
-			)
-
+			),
+			'isEditRender' => array(
+	            'type'    => 'boolean',
+	            'default' => false,
+			),
 	    ),
 	),
 	'rss-feed' => array(
