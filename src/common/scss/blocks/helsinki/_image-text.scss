@@ -1,114 +1,117 @@
 .wp-block-hds-wp-image-text {
-	background-color: transparent !important;
-	position: relative;
-	padding: 0 !important;
-	margin-bottom: $paragraph-margin-bottom-small;
 
-	@include breakpoint('m') {
-		margin-bottom: $paragraph-margin-bottom-big;
-	}
-
-	@include breakpoint('l') {
-		display: flex;
-		align-items: center;
-	}
-
-	.image {
-		background-color: $white;
+	.image-text--wrapper {
+		background-color: transparent !important;
 		position: relative;
-		padding-top: 64%;
-		overflow: hidden;
-		transition: $default-transition;
-		width: calc(100% - 2rem);
-
-		img {
-			@include absoluteCenter();
-			display: block;
-			width: auto;
-			max-width: unset;
-			height: 100%;
-			width: 100%;
-			object-fit: cover;
-		}
-
-		.placeholder {
-			background-color: $light-gray;
-			position: absolute;
-			top: 50%;
-			transform: translateY(-50%);
-			left: 0;
-			width: 100%;
-			height: 100%;
-		}
-
+		padding: 0 !important;
+		margin-bottom: $paragraph-margin-bottom-small;
+	
 		@include breakpoint('m') {
-			padding-top: 424px;
-			max-width: 640px;
+			margin-bottom: $paragraph-margin-bottom-big;
 		}
-
+	
 		@include breakpoint('l') {
-			padding-top: 461px;
-			max-width: 713px;
+			display: flex;
+			align-items: center;
 		}
-
-		@include breakpoint('xl') {
-			padding-top: 578px;
-			max-width: 893px;
-		}
-	}
-
-	.content {
-		background-color: var(--secondary-color, var(--primary-color));
-		display: flex;
-		align-items: flex-start;
-		justify-content: center;
-		flex-direction: column;
-		padding: spacing('l') spacing('m');
-		position: relative;
-		margin-top: -2rem;
-		transition: $default-transition;
-		width: calc(100% - 2rem);
-
-		:last-child {
-			margin-bottom: 0;
-		}
-
-		.content__heading {
-			font-size: rem-calc(24);
-			margin: 0;
-
+	
+		.image {
+			background-color: $white;
+			position: relative;
+			padding-top: 64%;
+			overflow: hidden;
+			transition: $default-transition;
+			width: calc(100% - 2rem);
+	
+			img {
+				@include absoluteCenter();
+				display: block;
+				width: auto;
+				max-width: unset;
+				height: 100%;
+				width: 100%;
+				object-fit: cover;
+			}
+	
+			.placeholder {
+				background-color: $light-gray;
+				position: absolute;
+				top: 50%;
+				transform: translateY(-50%);
+				left: 0;
+				width: 100%;
+				height: 100%;
+			}
+	
 			@include breakpoint('m') {
-				font-size: rem-calc(32);
+				padding-top: 424px;
+				max-width: 640px;
+			}
+	
+			@include breakpoint('l') {
+				padding-top: 461px;
+				max-width: 713px;
+			}
+	
+			@include breakpoint('xl') {
+				padding-top: 578px;
+				max-width: 893px;
 			}
 		}
-
-		.content__text {
-			margin: spacing('s') 0 0;
-
-			@include breakpoint('m') {
-				
+	
+		.content {
+			background-color: var(--secondary-color, var(--primary-color));
+			display: flex;
+			align-items: flex-start;
+			justify-content: center;
+			flex-direction: column;
+			padding: spacing('l') spacing('m');
+			position: relative;
+			margin-top: -2rem;
+			transition: $default-transition;
+			width: calc(100% - 2rem);
+	
+			:last-child {
+				margin-bottom: 0;
 			}
-		}
-
-		.content__link {
-			margin: spacing('m') 0 0;
-		}
-
-		@include breakpoint('m') {
-			padding: rem-calc(42) rem-calc(32);
-			max-width: 645px;
-		}
-
-		@include breakpoint('l') {
-			margin: 0;
-			padding: rem-calc(48) rem-calc(32);
-			max-width: 460px;
-		}
-
-		@include breakpoint('xl') {
-			padding: rem-calc(86) rem-calc(32);
-			max-width: 464px;
-		}
+	
+			.content__heading {
+				font-size: rem-calc(24);
+				margin: 0;
+	
+				@include breakpoint('m') {
+					font-size: rem-calc(32);
+				}
+			}
+	
+			.content__text {
+				margin: spacing('s') 0 0;
+	
+				@include breakpoint('m') {
+					
+				}
+			}
+	
+			.content__link {
+				margin: spacing('m') 0 0;
+			}
+	
+			@include breakpoint('m') {
+				padding: rem-calc(42) rem-calc(32);
+				max-width: 645px;
+			}
+	
+			@include breakpoint('l') {
+				margin: 0;
+				padding: rem-calc(48) rem-calc(32);
+				max-width: 460px;
+			}
+	
+			@include breakpoint('xl') {
+				padding: rem-calc(86) rem-calc(32);
+				max-width: 464px;
+			}
+		}	
 	}
 
 	&.align-left {
@@ -134,10 +137,12 @@
 	@include breakpoint('l') {
 
 		&.align-left {
-			flex-direction: row-reverse;
+			.image-text--wrapper {
+				flex-direction: row-reverse;
 
-			.content {
-				margin-right: -50%;
+				.content {
+					margin-right: -50%;
+				}
 			}
 		}
 
@@ -147,4 +152,43 @@
 			}
 		}
 	}
+
+	&.is-style-primary-color {
+		.content {
+			background-color: var(--primary-color);
+		}
+	}
+
+	&.has-invert-color {
+		&.is-style-primary-color {
+			.content {
+				color: var(--primary-content-color);
+	
+				.content__heading {
+					color: var(--primary-content-color);
+				}
+		
+				.content__text {
+					color: var(--primary-content-color);
+
+					a {	
+						color: var(--primary-content-color);
+
+						svg {
+							fill: var(--primary-content-color);
+						}
+					}	
+
+				}
+		
+				.hds-button {
+					@extend %inverted-button;
+				}
+	
+			}
+		}
+	
+	}	
+
 }
+

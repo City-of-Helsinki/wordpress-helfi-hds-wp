@@ -9,5 +9,12 @@
     <gutenberg-block type="hds-wp/recent-posts" translate="1">
       <key name="title" />
     </gutenberg-block>
+    <gutenberg-block type="hds-wp/image-text" translate="1">
+      <key name="contentTitle" />
+      <key name="contentText" />
+      <key name="buttonText" />
+      <key name="buttonUrl" />
+      <key name="mediaAlt" />
+    </gutenberg-block>
   </gutenberg-blocks>
 </wpml-config>
