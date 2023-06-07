@@ -1,7 +1,7 @@
 (function(wp){
 
 	const __ = wp.i18n.__;
-	const { registerBlockType, getBlockContent } = wp.blocks;
+	const { registerBlockType, registerBlockStyle, unregisterBlockStyle, getBlockContent } = wp.blocks;
 	const { Fragment, createElement, useState } = wp.element;
 	const { useBlockProps, BlockControls, InnerBlocks } = wp.blockEditor;
 	const { InspectorControls } = wp.editor;
@@ -13,8 +13,8 @@
 
   function articleCountOptions() {
     return [
-      {label: 3, value: 3},
-      {label: 6, value: 6},
+      {label: 4, value: 4},
+      {label: 8, value: 8},
     ];
   }
 
@@ -24,11 +24,6 @@
         title: __( 'Settings', 'hds-wp' ),
         initialOpen: true,
       },
-      hdsTextControl({
-        label: __( 'Title', 'hds-wp' ),
-        value: props.attributes.title,
-        attribute: 'title',
-      }, props),
       hdsSelectControl({
         label: __( 'Article count', 'hds-wp' ),
         value: props.attributes.articles,
@@ -50,6 +45,9 @@
     );
   }
 
+
+  var cachedProps = null;
+  var cachedArticles = null;
 	function edit() {
 		return function(props) {
         var content = null;
@@ -57,12 +55,33 @@
         props.attributes.category = parseInt(props.attributes.category);
         var blockAttributes = props.attributes;
 
+        if ( props.isSelected ) {
+          //we must serverside render only the articles, so the title can be edited from the editor!
+          //only re-render articles if relevant attributes have changed
+          if ( cachedProps == null || cachedProps.articles != props.attributes.articles || cachedProps.category != props.attributes.category || cachedProps.className != props.attributes.className ) {
+            cachedProps = props.attributes;
+            cachedArticles = createElement( wp.serverSideRender, {
+              block: 'hds-wp/recent-posts',
+              attributes: { ...blockAttributes, isEditRender: true },
+              httpMethod: 'POST',
+            });
+          }
 
-        content = createElement( wp.serverSideRender, {
-          block: 'hds-wp/recent-posts',
-          attributes: blockAttributes,
-          httpMethod: 'POST',
-        });
+          content = createElement( 'div', {className: 'front-page-section posts'}, 
+            createElement( 'div', {className: 'hds-container'},
+              hdsContentTitleRich(props, {placeholder: __( 'This is the title', 'hds-wp' ), titleAttribute: 'title', className: 'container__heading'}),
+              cachedArticles
+            )
+          );
+        }
+        else {
+          content = createElement( wp.serverSideRender, {
+            block: 'hds-wp/recent-posts',
+            attributes: blockAttributes,
+            httpMethod: 'POST',
+          });
+
+        }
 
 			return createElement(
 				Fragment, {},
@@ -74,6 +93,7 @@
 
   function save() {
     return function(props) {
+      props.isEditRender = false;
       return createElement( Fragment, {}, createElement(InnerBlocks.Content) );
     };
   }
@@ -90,11 +110,11 @@
 		attributes: {
             articles: {
                 type: 'number',
-                default: 3,
+                default: 4,
             },
             title: {
                 type: 'string',
-                default: '',
+                default: __( 'Latest news', 'hds-wp' ),
             },
             category: {
                 type: 'number',
@@ -103,9 +123,26 @@
             anchor: {
               type: 'string',
               default: '',
-            }
+            },
+            isEditRender: {
+              type: 'boolean',
+              default: false,
+            },
     },
 		edit: edit(),
 	});
+
+  unregisterBlockStyle('hds-wp/recent-posts', 'default');
+	registerBlockStyle('hds-wp/recent-posts', {
+		name: 'default',
+		label: __( 'With image', 'hds-wp' ),
+		isDefault: true,
+	});
+
+	registerBlockStyle('hds-wp/recent-posts', {
+		name: 'without-image',
+		label: __( 'Without image', 'hds-wp' ),
+	});
+
 
 })(window.wp);

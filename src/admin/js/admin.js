@@ -132,10 +132,10 @@ function hdsContentTitleRich(props, config) {
 	return wp.element.createElement(
 		wp.blockEditor.RichText, {
 			tagName: 'h2',
-			className: 'content__heading',
-			value: props.attributes.contentTitle,
+			className: config.className ? config.className : 'content__heading',
+			value: config.titleAttribute ? props.attributes[config.titleAttribute] : props.attributes.contentTitle,
 			onChange: function (value) {
-				props.setAttributes({contentTitle: value});
+				props.setAttributes(config.titleAttribute ? {[config.titleAttribute]: value} : {contentTitle: value});
 			},
 			allowedFormats: [],
 			placeholder: config.placeholder ? config.placeholder : wp.i18n.__( 'Title', 'hds-wp' ),

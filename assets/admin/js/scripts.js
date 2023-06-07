@@ -2,6 +2,10 @@
 
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -13,6 +17,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function hdsSingleImage(attributes) {
   var imageOrPlaceholder = attributes.src ? wp.element.createElement('img', attributes) : wp.element.createElement('div', {
@@ -134,10 +140,10 @@ function hdsContentTitle(props) {
 function hdsContentTitleRich(props, config) {
   return wp.element.createElement(wp.blockEditor.RichText, {
     tagName: 'h2',
-    className: 'content__heading',
-    value: props.attributes.contentTitle,
+    className: config.className ? config.className : 'content__heading',
+    value: config.titleAttribute ? props.attributes[config.titleAttribute] : props.attributes.contentTitle,
     onChange: function onChange(value) {
-      props.setAttributes({
+      props.setAttributes(config.titleAttribute ? _defineProperty({}, config.titleAttribute, value) : {
         contentTitle: value
       });
     },
@@ -1367,7 +1373,7 @@ function hdsIcons(name) {
       unregisterBlockVariation = _wp$blocks5.unregisterBlockVariation,
       getBlockType = _wp$blocks5.getBlockType,
       getBlockVariations = _wp$blocks5.getBlockVariations;
-  var allowedEmbedBlocks = ['youtube'];
+  var allowedEmbedBlocks = [];
   wp.domReady(function () {
     if (getBlockType('core/pullquote')) {
       unregisterBlockType('core/pullquote');
@@ -1390,7 +1396,13 @@ function hdsIcons(name) {
         if (-1 === allowedEmbedBlocks.indexOf(blockVariation.name)) {
           wp.blocks.unregisterBlockVariation('core/embed', blockVariation.name);
         }
+
+        unregisterBlockType('core/embed');
       });
+    }
+
+    if (getBlockType('core/html')) {
+      unregisterBlockType('core/html');
     }
 
     if (getBlockType('core/latest-posts')) {
@@ -1568,6 +1580,19 @@ function hdsIcons(name) {
 
     if (getBlockType('core/post-content')) {
       unregisterBlockType('core/post-content');
+    } //Disable Yoast blocks
+
+
+    if (getBlockType('yoast-seo/breadcrumbs')) {
+      unregisterBlockType('yoast-seo/breadcrumbs');
+    }
+
+    if (getBlockType('yoast/faq-block')) {
+      unregisterBlockType('yoast/faq-block');
+    }
+
+    if (getBlockType('yoast/how-to-block')) {
+      unregisterBlockType('yoast/how-to-block');
     } //Disable blocks for posts
 
 
@@ -1803,7 +1828,10 @@ function hdsIcons(name) {
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var registerBlockType = wp.blocks.registerBlockType;
+  var _wp$blocks6 = wp.blocks,
+      registerBlockType = _wp$blocks6.registerBlockType,
+      registerBlockStyle = _wp$blocks6.registerBlockStyle,
+      unregisterBlockStyle = _wp$blocks6.unregisterBlockStyle;
   var _wp$element7 = wp.element,
       Fragment = _wp$element7.Fragment,
       createElement = _wp$element7.createElement;
@@ -1857,46 +1885,63 @@ function hdsIcons(name) {
   }
 
   function classNamesString(props) {
-    var classNames = ['align-' + props.attributes.alignment, props.attributes.mediaId ? 'has-image' : 'has-placeholder'];
+    var classNames = ['align-' + props.attributes.alignment, props.attributes.mediaId ? 'has-image' : 'has-placeholder', hds_wp['hasInvertedColor'] ? 'has-invert-color' : ''];
     return classNames.join(' ');
   }
 
   function contentButton(props) {
     return hdsContentButton(props, {
-      className: 'content__link hds-button hds-button--secondary',
+      className: 'content__link hds-button hds-button--primary',
       href: props.attributes.buttonUrl
-    }, props.attributes.isExternalUrl ? hdsExternalLinkIcon() : hdsArrowIcon());
+    });
   }
 
   function edit() {
     return function (props) {
-      return createElement(Fragment, {}, toolbar(props), hdsInspectorControls({
-        title: __('Content', 'hds-wp'),
-        initialOpen: false
-      }, hdsContentTitleControl(props), hdsContentTextControl(props), hdsButtonTextControl(props), hdsButtonUrlControl(props), hdsExternalUrlControl(props)), createElement('div', useBlockProps({
+      var content = null;
+
+      if (props.isSelected) {
+        content = createElement(Fragment, {}, toolbar(props), hdsInspectorControls({
+          title: __('Content', 'hds-wp'),
+          initialOpen: false
+        }, hdsButtonTextControl(props), hdsButtonUrlControl(props), hdsTargetBlankControl(props, {
+          help: wp.element.createElement('p', {}, wp.i18n.__('I have made sure that the description of this link clearly states that it opens in a new tab. ', 'hds-wp'), wp.element.createElement('a', {
+            href: 'https://www.w3.org/WAI/WCAG21/Techniques/general/G200.html',
+            target: '_blank'
+          }, wp.i18n.__('Check WCGA 3.2.5 accessibility requirements (the link opens in a new tab).', 'hds-wp')))
+        })), createElement('div', {
+          className: 'image-text--wrapper'
+        }, hdsSingleImage(imageConfig(props)), hdsContent(props, hdsContentTitleRich(props, {
+          placeholder: __('This is the title', 'hds-wp')
+        }), hdsContentTextRich(props, {
+          placeholder: __('This is the excerpt.', 'hds-wp')
+        }), contentButton(props))));
+      } else {
+        content = createElement(wp.serverSideRender, {
+          block: 'hds-wp/image-text',
+          attributes: props.attributes,
+          httpMethod: 'POST'
+        });
+      }
+
+      return createElement('div', useBlockProps({
         className: classNamesString(props)
-      }), hdsSingleImage(imageConfig(props)), hdsContent(props, hdsContentTitle(props), hdsContentText(props), contentButton(props))));
+      }), content);
     };
   }
 
   function save() {
     return function (props) {
-      return createElement('div', useBlockProps.save({
-        className: classNamesString(props)
-      }), hdsSingleImage(imageConfig(props)), hdsContent(props, hdsContentTitle(props), hdsContentText(props), contentButton(props)));
+      return createElement(Fragment, {}, createElement(InnerBlocks.Content));
     };
   }
 
-  registerBlockType('hds-wp/image-text', {
-    apiVersion: 2,
-    title: __('Helsinki - Image & Text', 'hds-wp'),
-    category: 'hds-wp',
-    icon: 'format-gallery',
-    keywords: ['Helsinki - Kuva & teksti'],
-    supports: {
-      color: true,
-      anchor: true
-    },
+  function classNamesStringV1(props) {
+    var classNames = ['align-' + props.attributes.alignment, props.attributes.mediaId ? 'has-image' : 'has-placeholder'];
+    return classNames.join(' ');
+  }
+
+  var v1 = {
     attributes: {
       alignment: {
         type: 'string',
@@ -1947,8 +1992,96 @@ function hdsIcons(name) {
         default: false
       }
     },
+    supports: {
+      color: true,
+      anchor: true
+    },
+    save: function save(props) {
+      return createElement('div', useBlockProps.save({
+        className: classNamesStringV1(props)
+      }), hdsSingleImage(imageConfig(props)), hdsContent(props, hdsContentTitle(props), hdsContentText(props), hdsContentButton(props, {
+        className: 'content__link hds-button hds-button--secondary',
+        href: props.attributes.buttonUrl
+      }, props.attributes.isExternalUrl ? hdsExternalLinkIcon() : hdsArrowIcon())));
+    }
+  };
+  registerBlockType('hds-wp/image-text', {
+    apiVersion: 2,
+    title: __('Helsinki - Image & Text', 'hds-wp'),
+    category: 'hds-wp',
+    icon: 'format-gallery',
+    keywords: ['Helsinki - Kuva & teksti'],
+    supports: {
+      color: true,
+      anchor: true
+    },
+    attributes: {
+      alignment: {
+        type: 'string',
+        default: 'right'
+      },
+      mediaId: {
+        type: 'number',
+        default: 0
+      },
+      mediaUrl: {
+        type: 'string',
+        default: ''
+      },
+      mediaWidth: {
+        type: 'number',
+        default: 0
+      },
+      mediaHeight: {
+        type: 'number',
+        default: 0
+      },
+      mediaAlt: {
+        type: 'string',
+        default: ''
+      },
+      mediaSrcset: {
+        type: 'string',
+        default: ''
+      },
+      contentTitle: {
+        type: 'string',
+        default: ''
+      },
+      contentText: {
+        type: 'string',
+        default: ''
+      },
+      buttonText: {
+        type: 'string',
+        default: __('Button Text', 'hds-wp')
+      },
+      buttonUrl: {
+        type: 'string',
+        default: ''
+      },
+      targetBlank: {
+        type: 'boolean',
+        default: false
+      },
+      anchor: {
+        type: 'string',
+        default: ''
+      }
+    },
     edit: edit(),
-    save: save()
+    save: save(),
+    deprecated: [v1]
+  });
+  unregisterBlockStyle('hds-wp/image-text', 'default');
+  registerBlockStyle('hds-wp/image-text', {
+    name: 'default',
+    label: __('Secondary color', 'hds-wp'),
+    isDefault: true
+  });
+  registerBlockStyle('hds-wp/image-text', {
+    name: 'primary-color',
+    label: __('Primary color', 'hds-wp')
   });
 })(window.wp);
 
@@ -2257,9 +2390,9 @@ function hdsIcons(name) {
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks6 = wp.blocks,
-      registerBlockType = _wp$blocks6.registerBlockType,
-      getBlockContent = _wp$blocks6.getBlockContent;
+  var _wp$blocks7 = wp.blocks,
+      registerBlockType = _wp$blocks7.registerBlockType,
+      getBlockContent = _wp$blocks7.getBlockContent;
   var _wp$element9 = wp.element,
       Fragment = _wp$element9.Fragment,
       createElement = _wp$element9.createElement,
@@ -2484,10 +2617,10 @@ function hdsIcons(name) {
     }
   });
 
-  function edit(_ref) {
-    var attributes = _ref.attributes,
-        setAttributes = _ref.setAttributes,
-        clientId = _ref.clientId;
+  function edit(_ref2) {
+    var attributes = _ref2.attributes,
+        setAttributes = _ref2.setAttributes,
+        clientId = _ref2.clientId;
     var blockProps = useBlockProps({});
 
     var _useState = useState(attributes.title ? false : true),
@@ -2706,9 +2839,9 @@ function hdsIcons(name) {
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks7 = wp.blocks,
-      registerBlockType = _wp$blocks7.registerBlockType,
-      getBlockContent = _wp$blocks7.getBlockContent;
+  var _wp$blocks8 = wp.blocks,
+      registerBlockType = _wp$blocks8.registerBlockType,
+      getBlockContent = _wp$blocks8.getBlockContent;
   var _wp$element11 = wp.element,
       Fragment = _wp$element11.Fragment,
       createElement = _wp$element11.createElement;
@@ -2803,9 +2936,9 @@ function hdsIcons(name) {
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks8 = wp.blocks,
-      registerBlockType = _wp$blocks8.registerBlockType,
-      getBlockContent = _wp$blocks8.getBlockContent;
+  var _wp$blocks9 = wp.blocks,
+      registerBlockType = _wp$blocks9.registerBlockType,
+      getBlockContent = _wp$blocks9.getBlockContent;
   var _wp$element12 = wp.element,
       Fragment = _wp$element12.Fragment,
       createElement = _wp$element12.createElement;
@@ -2995,9 +3128,11 @@ function hdsIcons(name) {
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks9 = wp.blocks,
-      registerBlockType = _wp$blocks9.registerBlockType,
-      getBlockContent = _wp$blocks9.getBlockContent;
+  var _wp$blocks10 = wp.blocks,
+      registerBlockType = _wp$blocks10.registerBlockType,
+      registerBlockStyle = _wp$blocks10.registerBlockStyle,
+      unregisterBlockStyle = _wp$blocks10.unregisterBlockStyle,
+      getBlockContent = _wp$blocks10.getBlockContent;
   var _wp$element13 = wp.element,
       Fragment = _wp$element13.Fragment,
       createElement = _wp$element13.createElement,
@@ -3019,11 +3154,11 @@ function hdsIcons(name) {
 
   function articleCountOptions() {
     return [{
-      label: 3,
-      value: 3
+      label: 4,
+      value: 4
     }, {
-      label: 6,
-      value: 6
+      label: 8,
+      value: 8
     }];
   }
 
@@ -3031,11 +3166,7 @@ function hdsIcons(name) {
     return hdsInspectorControls({
       title: __('Settings', 'hds-wp'),
       initialOpen: true
-    }, hdsTextControl({
-      label: __('Title', 'hds-wp'),
-      value: props.attributes.title,
-      attribute: 'title'
-    }, props), hdsSelectControl({
+    }, hdsSelectControl({
       label: __('Article count', 'hds-wp'),
       value: props.attributes.articles,
       attribute: 'articles',
@@ -3053,23 +3184,54 @@ function hdsIcons(name) {
     }, props.attributes.title);
   }
 
+  var cachedProps = null;
+  var cachedArticles = null;
+
   function edit() {
     return function (props) {
       var content = null;
       props.attributes.articles = parseInt(props.attributes.articles);
       props.attributes.category = parseInt(props.attributes.category);
       var blockAttributes = props.attributes;
-      content = createElement(wp.serverSideRender, {
-        block: 'hds-wp/recent-posts',
-        attributes: blockAttributes,
-        httpMethod: 'POST'
-      });
+
+      if (props.isSelected) {
+        //we must serverside render only the articles, so the title can be edited from the editor!
+        //only re-render articles if relevant attributes have changed
+        if (cachedProps == null || cachedProps.articles != props.attributes.articles || cachedProps.category != props.attributes.category || cachedProps.className != props.attributes.className) {
+          cachedProps = props.attributes;
+          cachedArticles = createElement(wp.serverSideRender, {
+            block: 'hds-wp/recent-posts',
+            attributes: _objectSpread(_objectSpread({}, blockAttributes), {}, {
+              isEditRender: true
+            }),
+            httpMethod: 'POST'
+          });
+        }
+
+        content = createElement('div', {
+          className: 'front-page-section posts'
+        }, createElement('div', {
+          className: 'hds-container'
+        }, hdsContentTitleRich(props, {
+          placeholder: __('This is the title', 'hds-wp'),
+          titleAttribute: 'title',
+          className: 'container__heading'
+        }), cachedArticles));
+      } else {
+        content = createElement(wp.serverSideRender, {
+          block: 'hds-wp/recent-posts',
+          attributes: blockAttributes,
+          httpMethod: 'POST'
+        });
+      }
+
       return createElement(Fragment, {}, inspectorControls(props), createElement('div', useBlockProps(), content));
     };
   }
 
   function save() {
     return function (props) {
+      props.isEditRender = false;
       return createElement(Fragment, {}, createElement(InnerBlocks.Content));
     };
   }
@@ -3086,11 +3248,11 @@ function hdsIcons(name) {
     attributes: {
       articles: {
         type: 'number',
-        default: 3
+        default: 4
       },
       title: {
         type: 'string',
-        default: ''
+        default: __('Latest news', 'hds-wp')
       },
       category: {
         type: 'number',
@@ -3099,17 +3261,31 @@ function hdsIcons(name) {
       anchor: {
         type: 'string',
         default: ''
+      },
+      isEditRender: {
+        type: 'boolean',
+        default: false
       }
     },
     edit: edit()
+  });
+  unregisterBlockStyle('hds-wp/recent-posts', 'default');
+  registerBlockStyle('hds-wp/recent-posts', {
+    name: 'default',
+    label: __('With image', 'hds-wp'),
+    isDefault: true
+  });
+  registerBlockStyle('hds-wp/recent-posts', {
+    name: 'without-image',
+    label: __('Without image', 'hds-wp')
   });
 })(window.wp);
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks10 = wp.blocks,
-      registerBlockType = _wp$blocks10.registerBlockType,
-      getBlockContent = _wp$blocks10.getBlockContent;
+  var _wp$blocks11 = wp.blocks,
+      registerBlockType = _wp$blocks11.registerBlockType,
+      getBlockContent = _wp$blocks11.getBlockContent;
   var _wp$element14 = wp.element,
       Fragment = _wp$element14.Fragment,
       createElement = _wp$element14.createElement,
@@ -3209,6 +3385,59 @@ function hdsIcons(name) {
     },
     edit: edit()
   });
+})(window.wp); //remove error notices when block is removed
+
+
+(function () {
+  var _wp$data12 = wp.data,
+      select = _wp$data12.select,
+      subscribe = _wp$data12.subscribe,
+      dispatch = _wp$data12.dispatch;
+  var store = wp.notices.store;
+
+  var getBlocks = function getBlocks() {
+    return select('core/block-editor').getBlocks();
+  };
+
+  Array.prototype.diff = function (a) {
+    return this.filter(function (i) {
+      return a.indexOf(i) < 0;
+    });
+  };
+
+  var blocksState = getBlocks();
+  subscribe(_.debounce(function () {
+    var notices = select(store).getNotices();
+    var newBlocksState = getBlocks(); // Lock saving if notices contain error notices
+
+    var errorNotices = notices.filter(function (notice) {
+      return notice.status === 'error';
+    });
+
+    if (errorNotices.length > 0) {
+      dispatch('core/editor').lockPostSaving('requiredValueLock');
+    } else {
+      dispatch('core/editor').unlockPostSaving('requiredValueLock');
+    } // When very last block is removed, it's replaced with a new paragraph block.
+    // This is a workaround to remove the error notice.
+
+
+    if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
+      // remove newBlocksState from blocksState
+      var removedBlock = blocksState.diff(newBlocksState);
+
+      if (removedBlock.length === 1 || removedBlock.length > 0 && removedBlock[0].name === 'core/paragraph') {
+        var noticesToRemove = notices.filter(function (notice) {
+          return notice.id.includes(removedBlock[0].clientId);
+        });
+        noticesToRemove.forEach(function (notice) {
+          dispatch('core/notices').removeNotice(notice.id);
+        });
+      }
+    }
+
+    blocksState = newBlocksState;
+  }, 300));
 })(window.wp);
 
 wp.domReady(function () {
@@ -3389,57 +3618,4 @@ wp.domReady(function () {
     };
   }, 'tableEditorWrapperExtraClass');
   wp.hooks.addFilter('editor.BlockListBlock', 'table/custom-editor-wrapper-class', tableEditorWrapperExtraClass);
-})(window.wp); //remove error notices when block is removed
-
-
-(function () {
-  var _wp$data12 = wp.data,
-      select = _wp$data12.select,
-      subscribe = _wp$data12.subscribe,
-      dispatch = _wp$data12.dispatch;
-  var store = wp.notices.store;
-
-  var getBlocks = function getBlocks() {
-    return select('core/block-editor').getBlocks();
-  };
-
-  Array.prototype.diff = function (a) {
-    return this.filter(function (i) {
-      return a.indexOf(i) < 0;
-    });
-  };
-
-  var blocksState = getBlocks();
-  subscribe(_.debounce(function () {
-    var notices = select(store).getNotices();
-    var newBlocksState = getBlocks(); // Lock saving if notices contain error notices
-
-    var errorNotices = notices.filter(function (notice) {
-      return notice.status === 'error';
-    });
-
-    if (errorNotices.length > 0) {
-      dispatch('core/editor').lockPostSaving('requiredValueLock');
-    } else {
-      dispatch('core/editor').unlockPostSaving('requiredValueLock');
-    } // When very last block is removed, it's replaced with a new paragraph block.
-    // This is a workaround to remove the error notice.
-
-
-    if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
-      // remove newBlocksState from blocksState
-      var removedBlock = blocksState.diff(newBlocksState);
-
-      if (removedBlock.length === 1 || removedBlock.length > 0 && removedBlock[0].name === 'core/paragraph') {
-        var noticesToRemove = notices.filter(function (notice) {
-          return notice.id.includes(removedBlock[0].clientId);
-        });
-        noticesToRemove.forEach(function (notice) {
-          dispatch('core/notices').removeNotice(notice.id);
-        });
-      }
-    }
-
-    blocksState = newBlocksState;
-  }, 300));
 })(window.wp);
