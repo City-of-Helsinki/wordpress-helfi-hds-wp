@@ -6,8 +6,13 @@ msgstr ""
 "Language: fi\n"
 "Language-Team: Suomi\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"PO-Revision-Date: 2023-06-07 05:44+0000\n"
-"X-Generator: Loco https://localise.biz/"
+"PO-Revision-Date: 2023-06-07 08:28+0000\n"
+"X-Generator: Loco https://localise.biz/\n"
+"Last-Translator: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Loco-Version: 2.6.0; wp-6.2.2"
 
 #: config/blocks/callbacks.php:548
 msgid "(Link leads to external service)"
@@ -25,39 +30,43 @@ msgstr "Lisää Helsinki-tyylit yhteydenottolomakkeisiin."
 msgid "Add Helsinki styling to cookie notice."
 msgstr "Lisää Helsinki-tyylit evästeilmoitukseen."
 
+#: assets/admin/js/scripts.js:2842 src/admin/js/blocks/map.js:280
+msgid "Add map url from:"
+msgstr "Syötä kartan osoite osoitteesta:"
+
 #: class/Assets.php:53
 msgid "Adds Helsinki styles, scripts and fonts to the site."
 msgstr "Lisää Helsinki-tyylit, komentosarjat ja fontit sivustolle."
 
-#: assets/admin/js/scripts.js:3227 src/admin/js/filters/table.js:36
+#: assets/admin/js/scripts.js:3555 src/admin/js/filters/table.js:36
 msgid "Advanced table settings"
 msgstr "Taulukon lisäasetukset"
 
-#: assets/admin/js/scripts.js:41 src/admin/js/admin.js:37
+#: assets/admin/js/scripts.js:55 src/admin/js/admin.js:37
 msgid "Align Left"
 msgstr "Tasaus vasemmalla"
 
-#: assets/admin/js/scripts.js:49 src/admin/js/admin.js:45
+#: assets/admin/js/scripts.js:63 src/admin/js/admin.js:45
 msgid "Align Right"
 msgstr "Tasaus oikealla"
 
-#: assets/admin/js/scripts.js:1098 src/admin/js/blocks/banner.js:176
+#: assets/admin/js/scripts.js:1112 src/admin/js/blocks/banner.js:176
 msgid "Align to center, primary color"
 msgstr "Keskitetty, ensisijainen väri"
 
-#: assets/admin/js/scripts.js:1106 src/admin/js/blocks/banner.js:186
+#: assets/admin/js/scripts.js:1120 src/admin/js/blocks/banner.js:186
 msgid "Align to center, secondary color"
 msgstr "Keskitetty, toissijainen väri"
 
-#: assets/admin/js/scripts.js:1093 src/admin/js/blocks/banner.js:170
+#: assets/admin/js/scripts.js:1107 src/admin/js/blocks/banner.js:170
 msgid "Align to left, primary color"
 msgstr "Tasattu vasemmalle, ensisijainen väri"
 
-#: assets/admin/js/scripts.js:1102 src/admin/js/blocks/banner.js:181
+#: assets/admin/js/scripts.js:1116 src/admin/js/blocks/banner.js:181
 msgid "Align to left, secondary color"
 msgstr "Keskitetty vasemmalle, toissijainen väri"
 
-#: assets/admin/js/scripts.js:398 src/admin/js/admin.js:449
+#: assets/admin/js/scripts.js:412 src/admin/js/admin.js:449
 msgid "All categories"
 msgstr "Kaikki"
 
@@ -65,12 +74,12 @@ msgstr "Kaikki"
 msgid "ArtCloud"
 msgstr "ArtCloud"
 
-#: assets/admin/js/scripts.js:2879 src/admin/js/blocks/recent-posts.js:28
+#: assets/admin/js/scripts.js:3207 src/admin/js/blocks/recent-posts.js:28
 msgid "Article count"
 msgstr "Artikkelien lukumäärä"
 
-#: assets/admin/js/scripts.js:3018 assets/admin/js/scripts.js:3021
-#: assets/admin/js/scripts.js:3024 src/admin/js/blocks/rss-feed.js:13
+#: assets/admin/js/scripts.js:3346 assets/admin/js/scripts.js:3349
+#: assets/admin/js/scripts.js:3352 src/admin/js/blocks/rss-feed.js:13
 #: src/admin/js/blocks/rss-feed.js:14 src/admin/js/blocks/rss-feed.js:15
 msgid "articles"
 msgstr "artikkelia"
@@ -79,31 +88,36 @@ msgstr "artikkelia"
 msgid "Assets"
 msgstr "Resurssit"
 
+#: assets/admin/js/scripts.js:2849 assets/admin/js/scripts.js:2862
+#: src/admin/js/blocks/map.js:292 src/admin/js/blocks/map.js:302
+msgid "Assistive technology title"
+msgstr "Avustavan teknologian otsikko"
+
 #: class/Blocks.php:62
 msgid "Blocks"
 msgstr "Lohkot"
 
-#: assets/admin/js/scripts.js:2953 src/admin/js/blocks/recent-posts.js:106
+#: assets/admin/js/scripts.js:3281 src/admin/js/blocks/recent-posts.js:106
 msgid "blog"
 msgstr "blogi"
 
 #: config/blocks/blocks.php:92 config/blocks/blocks.php:176
-#: assets/admin/js/scripts.js:173 assets/admin/js/scripts.js:1069
-#: assets/admin/js/scripts.js:2045 src/admin/js/admin.js:179
+#: assets/admin/js/scripts.js:187 assets/admin/js/scripts.js:1083
+#: assets/admin/js/scripts.js:2074 src/admin/js/admin.js:179
 #: src/admin/js/blocks/banner.js:145 src/admin/js/blocks/image-text.js:264
 msgid "Button Text"
 msgstr "Painikkeen teksti"
 
-#: assets/admin/js/scripts.js:181 src/admin/js/admin.js:187
+#: assets/admin/js/scripts.js:195 src/admin/js/admin.js:187
 msgid "Button URL"
 msgstr "Painikkeen url"
 
-#: assets/admin/js/scripts.js:409 src/admin/js/admin.js:455
+#: assets/admin/js/scripts.js:423 src/admin/js/admin.js:455
 msgid "Category"
 msgstr "Kategoria"
 
-#: assets/admin/js/scripts.js:204 assets/admin/js/scripts.js:1027
-#: assets/admin/js/scripts.js:1899 src/admin/js/admin.js:207
+#: assets/admin/js/scripts.js:218 assets/admin/js/scripts.js:1041
+#: assets/admin/js/scripts.js:1928 src/admin/js/admin.js:207
 #: src/admin/js/blocks/banner.js:90 src/admin/js/blocks/image-text.js:92
 msgid ""
 "Check WCGA 3.2.5 accessibility requirements (the link opens in a new tab)."
@@ -115,19 +129,19 @@ msgstr ""
 msgid "City of Helsinki"
 msgstr "Helsingin kaupunki"
 
-#: config/blocks/callbacks.php:240 assets/admin/js/scripts.js:697
+#: config/blocks/callbacks.php:240 assets/admin/js/scripts.js:711
 #: src/admin/js/blocks/accordion-panel.js:147
 msgid "Close"
 msgstr "Sulje"
 
-#: assets/admin/js/scripts.js:1262 assets/admin/js/scripts.js:2442
+#: assets/admin/js/scripts.js:1276 assets/admin/js/scripts.js:2485
 #: src/admin/js/blocks/content-cards.js:44 src/admin/js/blocks/links.js:45
 msgid "Column count"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1237 assets/admin/js/scripts.js:1240
-#: assets/admin/js/scripts.js:1243 assets/admin/js/scripts.js:2417
-#: assets/admin/js/scripts.js:2420 assets/admin/js/scripts.js:2423
+#: assets/admin/js/scripts.js:1251 assets/admin/js/scripts.js:1254
+#: assets/admin/js/scripts.js:1257 assets/admin/js/scripts.js:2460
+#: assets/admin/js/scripts.js:2463 assets/admin/js/scripts.js:2466
 #: src/admin/js/blocks/content-cards.js:20
 #: src/admin/js/blocks/content-cards.js:21
 #: src/admin/js/blocks/content-cards.js:22 src/admin/js/blocks/links.js:21
@@ -153,14 +167,14 @@ msgstr "Käytössä olevat evästeet"
 msgid "Contact Form 7"
 msgstr "Contact Form 7"
 
-#: assets/admin/js/scripts.js:1021 assets/admin/js/scripts.js:1733
-#: assets/admin/js/scripts.js:1893 assets/admin/js/scripts.js:2593
+#: assets/admin/js/scripts.js:1035 assets/admin/js/scripts.js:1747
+#: assets/admin/js/scripts.js:1922 assets/admin/js/scripts.js:2927
 #: src/admin/js/blocks/banner.js:84 src/admin/js/blocks/image-banner.js:83
 #: src/admin/js/blocks/image-text.js:86 src/admin/js/blocks/phasing-card.js:59
 msgid "Content"
 msgstr "Sisältö"
 
-#: assets/admin/js/scripts.js:3042 src/admin/js/blocks/rss-feed.js:36
+#: assets/admin/js/scripts.js:3370 src/admin/js/blocks/rss-feed.js:36
 msgid "Count"
 msgstr "Määrä"
 
@@ -178,12 +192,12 @@ msgid ""
 msgstr ""
 "Oletusasetukset meta-otsikoille ja -kuvauksille, sekä lisämetamuuttujat."
 
-#: assets/admin/js/scripts.js:827 assets/admin/js/scripts.js:2702
+#: assets/admin/js/scripts.js:841 assets/admin/js/scripts.js:3036
 #: src/admin/js/blocks/accordion.js:51 src/admin/js/blocks/phasing.js:59
 msgid "Description"
 msgstr "Kuvausteksti"
 
-#: assets/admin/js/scripts.js:1134 assets/admin/js/scripts.js:2104
+#: assets/admin/js/scripts.js:1148 assets/admin/js/scripts.js:2133
 #: src/admin/js/blocks/content-card.js:16 src/admin/js/blocks/link.js:18
 msgid "Detach post"
 msgstr "Irrota julkaisu"
@@ -192,13 +206,13 @@ msgstr "Irrota julkaisu"
 msgid "Enable custom default template for Helsinki theme."
 msgstr ""
 
-#: assets/admin/js/scripts.js:145 assets/admin/js/scripts.js:167
-#: assets/admin/js/scripts.js:2118 src/admin/js/admin.js:149
+#: assets/admin/js/scripts.js:159 assets/admin/js/scripts.js:181
+#: assets/admin/js/scripts.js:2147 src/admin/js/admin.js:149
 #: src/admin/js/admin.js:172 src/admin/js/blocks/link.js:32
 msgid "Excerpt"
 msgstr "Oteteksti"
 
-#: assets/admin/js/scripts.js:2141 src/admin/js/blocks/link.js:53
+#: assets/admin/js/scripts.js:2170 src/admin/js/blocks/link.js:53
 msgid "External link"
 msgstr "Ulkoinen linkki"
 
@@ -222,7 +236,7 @@ msgstr "Usein kysytyt kysymykset"
 msgid "General"
 msgstr "Yleinen"
 
-#: assets/admin/js/scripts.js:1267 assets/admin/js/scripts.js:2447
+#: assets/admin/js/scripts.js:1281 assets/admin/js/scripts.js:2490
 #: src/admin/js/blocks/content-cards.js:50 src/admin/js/blocks/links.js:51
 msgid "Has background"
 msgstr ""
@@ -231,79 +245,88 @@ msgstr ""
 msgid "Helsinki"
 msgstr "Helsinki"
 
-#: config/blocks/blocks.php:4 assets/admin/js/scripts.js:893
+#: config/blocks/blocks.php:4 assets/admin/js/scripts.js:907
 #: src/admin/js/blocks/accordion.js:146
 msgid "Helsinki - Accordion"
 msgstr "Helsinki - Haitari"
 
-#: config/blocks/blocks.php:36 assets/admin/js/scripts.js:732
+#: config/blocks/blocks.php:36 assets/admin/js/scripts.js:746
 #: src/admin/js/blocks/accordion-panel.js:198
 msgid "Helsinki - Accordion Panel"
 msgstr "Helsinki - Haitaripaneeli"
 
-#: config/blocks/blocks.php:66 assets/admin/js/scripts.js:1048
+#: config/blocks/blocks.php:66 assets/admin/js/scripts.js:1062
 #: src/admin/js/blocks/banner.js:124
 msgid "Helsinki - Banner"
 msgstr "Helsinki - Banneri"
 
-#: config/blocks/blocks.php:234 assets/admin/js/scripts.js:1157
-#: assets/admin/js/scripts.js:1175 src/admin/js/blocks/content-card.js:40
+#: config/blocks/blocks.php:234 assets/admin/js/scripts.js:1171
+#: assets/admin/js/scripts.js:1189 src/admin/js/blocks/content-card.js:40
 #: src/admin/js/blocks/content-card.js:70
 msgid "Helsinki - Content Card"
 msgstr "Helsinki Sisältökortti"
 
-#: config/blocks/blocks.php:194 assets/admin/js/scripts.js:1320
+#: config/blocks/blocks.php:194 assets/admin/js/scripts.js:1334
 #: src/admin/js/blocks/content-cards.js:122
 msgid "Helsinki - Content Cards"
 msgstr "Helsinki - Sisältökortit"
 
-#: config/blocks/blocks.php:126 assets/admin/js/scripts.js:1998
+#: config/blocks/blocks.php:126 assets/admin/js/scripts.js:2027
 #: src/admin/js/blocks/image-text.js:217
 msgid "Helsinki - Image & Text"
 msgstr "Helsinki - Kuvallinen nosto"
 
-#: config/blocks/blocks.php:114 assets/admin/js/scripts.js:1755
+#: config/blocks/blocks.php:114 assets/admin/js/scripts.js:1769
 #: src/admin/js/blocks/image-banner.js:135
 msgid "Helsinki - Image Banner"
 msgstr "Helsinki - Kuvallinen nosto (taustakuva)"
 
-#: config/blocks/blocks.php:288 assets/admin/js/scripts.js:2208
-#: assets/admin/js/scripts.js:2211 assets/admin/js/scripts.js:2306
+#: config/blocks/blocks.php:288 assets/admin/js/scripts.js:2237
+#: assets/admin/js/scripts.js:2240 assets/admin/js/scripts.js:2335
 #: src/admin/js/blocks/link.js:115 src/admin/js/blocks/link.js:118
 #: src/admin/js/blocks/link.js:227
 msgid "Helsinki - Link"
 msgstr "Helsinki - Linkki"
 
-#: config/blocks/blocks.php:248 assets/admin/js/scripts.js:2505
+#: config/blocks/blocks.php:248 assets/admin/js/scripts.js:2548
 #: src/admin/js/blocks/links.js:133
 msgid "Helsinki - Links"
 msgstr "Helsinki - Linkkilista"
 
-#: config/blocks/blocks.php:375 assets/admin/js/scripts.js:2772
+#: config/blocks/blocks.php:451 assets/admin/js/scripts.js:2617
+#: assets/admin/js/scripts.js:2695 assets/admin/js/scripts.js:2718
+#: assets/admin/js/scripts.js:2741 assets/admin/js/scripts.js:2764
+#: src/admin/js/blocks/map.js:25 src/admin/js/blocks/map.js:86
+#: src/admin/js/blocks/map.js:116 src/admin/js/blocks/map.js:146
+#: src/admin/js/blocks/map.js:176
+msgid "Helsinki - Map"
+msgstr "Helsinki - Kartta"
+
+#: config/blocks/blocks.php:375 assets/admin/js/scripts.js:3106
 #: src/admin/js/blocks/phasing.js:166
 msgid "Helsinki - Phasing"
 msgstr "Helsinki - Vaiheistus"
 
-#: config/blocks/blocks.php:415 assets/admin/js/scripts.js:2607
+#: config/blocks/blocks.php:415 assets/admin/js/scripts.js:2941
 #: src/admin/js/blocks/phasing-card.js:77
 msgid "Helsinki - Phasing Card"
 msgstr "Helsinki - Vaiheistus Kortti"
 
-#: assets/admin/js/scripts.js:2950 src/admin/js/blocks/recent-posts.js:103
+#: assets/admin/js/scripts.js:3278 src/admin/js/blocks/recent-posts.js:103
 msgid "Helsinki - Posts"
 msgstr "Helsinki - Artikkelit"
 
-#: config/blocks/blocks.php:302 assets/admin/js/scripts.js:2953
+#: config/blocks/blocks.php:302 assets/admin/js/scripts.js:3281
 #: src/admin/js/blocks/recent-posts.js:106
 msgid "Helsinki - Recent Posts"
 msgstr "Helsinki - Viimeisimmät artikkelit"
 
-#: config/blocks/blocks.php:338 assets/admin/js/scripts.js:3069
+#: config/blocks/blocks.php:338 assets/admin/js/scripts.js:3397
 #: src/admin/js/blocks/rss-feed.js:72
 msgid "Helsinki - RSS"
 msgstr "Helsinki - RSS"
 
-#: assets/admin/js/scripts.js:3066 src/admin/js/blocks/rss-feed.js:69
+#: assets/admin/js/scripts.js:3394 src/admin/js/blocks/rss-feed.js:69
 msgid "Helsinki - RSS-feed"
 msgstr "Helsinki - RSS-syöte"
 
@@ -319,7 +342,7 @@ msgstr "Helsinki WP"
 msgid "https://www.artcloud.fi"
 msgstr "https://www.artcloud.fi"
 
-#: assets/admin/js/scripts.js:1024 assets/admin/js/scripts.js:1896
+#: assets/admin/js/scripts.js:1038 assets/admin/js/scripts.js:1925
 #: src/admin/js/blocks/banner.js:90 src/admin/js/blocks/image-text.js:92
 msgid ""
 "I have made sure that the description of this link clearly states that it "
@@ -328,16 +351,16 @@ msgstr ""
 "Olen huolehtinut, että tämän linkin kuvauksessa kerrotaan selkeästi sen "
 "aukeavan uuteen välilehteen. "
 
-#: assets/admin/js/scripts.js:279 src/admin/js/admin.js:315
+#: assets/admin/js/scripts.js:293 src/admin/js/admin.js:315
 msgid "Icon"
 msgstr "Ikoni"
 
-#: assets/admin/js/scripts.js:1227 assets/admin/js/scripts.js:2410
+#: assets/admin/js/scripts.js:1241 assets/admin/js/scripts.js:2453
 #: src/admin/js/blocks/content-cards.js:13 src/admin/js/blocks/links.js:15
 msgid "Image & Title"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1230 src/admin/js/blocks/content-cards.js:14
+#: assets/admin/js/scripts.js:1244 src/admin/js/blocks/content-cards.js:14
 msgid "Image, Title & Excerpt"
 msgstr ""
 
@@ -345,59 +368,107 @@ msgstr ""
 msgid "Integrations"
 msgstr "Integraatiot"
 
-#: assets/admin/js/scripts.js:2138 src/admin/js/blocks/link.js:52
+#: assets/admin/js/scripts.js:2167 src/admin/js/blocks/link.js:52
 msgid "Internal link"
 msgstr "Sisäinen linkki"
 
-#: assets/admin/js/scripts.js:190 src/admin/js/admin.js:196
+#: assets/admin/js/scripts.js:204 src/admin/js/admin.js:196
 msgid "Is external URL"
 msgstr "Ulkoinen linkki"
 
-#: config/blocks/blocks.php:321 assets/admin/js/scripts.js:2964
+#: config/blocks/blocks.php:321 assets/admin/js/scripts.js:3292
 #: src/admin/js/blocks/recent-posts.js:117
 msgid "Latest news"
 msgstr "Uusimmat uutiset"
 
-#: assets/admin/js/scripts.js:3126 src/admin/js/filters/block-styles.js:33
+#: assets/admin/js/scripts.js:3454 src/admin/js/filters/block-styles.js:33
 msgid "Light Gray Background"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1257 assets/admin/js/scripts.js:2134
-#: assets/admin/js/scripts.js:2437 src/admin/js/blocks/content-cards.js:38
+#: assets/admin/js/scripts.js:1271 assets/admin/js/scripts.js:2163
+#: assets/admin/js/scripts.js:2480 src/admin/js/blocks/content-cards.js:38
 #: src/admin/js/blocks/link.js:48 src/admin/js/blocks/links.js:39
 msgid "Link type"
 msgstr "Linkin tyyppi"
 
-#: assets/admin/js/scripts.js:2953 assets/admin/js/scripts.js:3069
+#: assets/admin/js/scripts.js:2645 src/admin/js/blocks/map.js:53
+msgid "Map description"
+msgstr "Kartan kuvaus"
+
+#: assets/admin/js/scripts.js:2804 src/admin/js/blocks/map.js:225
+msgid "Map description*"
+msgstr "Kartan kuvaus*"
+
+#: assets/admin/js/scripts.js:2644 assets/admin/js/scripts.js:2647
+#: src/admin/js/blocks/map.js:52 src/admin/js/blocks/map.js:55
+msgid "Map title"
+msgstr "Kartan otsikko"
+
+#: assets/admin/js/scripts.js:2794 src/admin/js/blocks/map.js:215
+msgid "Map title*"
+msgstr "Kartan otsikko*"
+
+#: assets/admin/js/scripts.js:2820 src/admin/js/blocks/map.js:257
+msgid "Map URL"
+msgstr "Kartan URL-osoite"
+
+#: config/blocks/callbacks.php:948 config/blocks/callbacks.php:955
+msgid "Move above the map"
+msgstr "Siirry kartan yläpuolelle"
+
+#: assets/admin/js/scripts.js:3281 assets/admin/js/scripts.js:3397
 #: src/admin/js/blocks/recent-posts.js:106 src/admin/js/blocks/rss-feed.js:72
 msgid "news"
 msgstr "uutiset"
 
-#: assets/admin/js/scripts.js:2688 src/admin/js/blocks/phasing.js:42
+#: assets/admin/js/scripts.js:3022 src/admin/js/blocks/phasing.js:42
 msgid "Numbered"
 msgstr "Numeroitu"
 
-#: assets/admin/js/scripts.js:2685 src/admin/js/blocks/phasing.js:41
+#: assets/admin/js/scripts.js:3019 src/admin/js/blocks/phasing.js:41
 msgid "Numberless"
 msgstr "Numeroimaton"
 
-#: assets/admin/js/scripts.js:2404 src/admin/js/blocks/links.js:13
+#: assets/admin/js/scripts.js:2447 src/admin/js/blocks/links.js:13
 msgid "Only title"
 msgstr "Vain otsikko"
 
-#: assets/admin/js/scripts.js:198 src/admin/js/admin.js:204
+#: assets/admin/js/scripts.js:212 src/admin/js/admin.js:204
 msgid "Open in new window"
 msgstr "Avaa linkki uuteen välilehteen"
 
-#: assets/admin/js/scripts.js:742 src/admin/js/blocks/accordion-panel.js:208
+#: config/blocks/callbacks.php:967 assets/admin/js/scripts.js:2815
+#: src/admin/js/blocks/map.js:246
+msgid "Open map in new window"
+msgstr "Avaa kartta uudessa ikkunassa"
+
+#: assets/admin/js/scripts.js:756 src/admin/js/blocks/accordion-panel.js:208
 msgid "Panel"
 msgstr "Paneeli"
 
-#: assets/admin/js/scripts.js:637 src/admin/js/blocks/accordion-panel.js:51
+#: assets/admin/js/scripts.js:651 src/admin/js/blocks/accordion-panel.js:51
 msgid "Panel Title"
 msgstr "Paneeliotsikko"
 
-#: assets/admin/js/scripts.js:370 src/admin/js/admin.js:425
+#: assets/admin/js/scripts.js:2718 src/admin/js/blocks/map.js:118
+msgid "Please enter a description"
+msgstr "Syötä kuvausteksti"
+
+#: assets/admin/js/scripts.js:2695 src/admin/js/blocks/map.js:88
+msgid "Please enter a title"
+msgstr "Syötä otsikko"
+
+#: assets/admin/js/scripts.js:2741 assets/admin/js/scripts.js:2837
+#: src/admin/js/blocks/map.js:148 src/admin/js/blocks/map.js:275
+msgid "Please enter a valid map embed URL"
+msgstr "Syötä sallittu kartan URL-osoite"
+
+#: assets/admin/js/scripts.js:2764 assets/admin/js/scripts.js:2868
+#: src/admin/js/blocks/map.js:178 src/admin/js/blocks/map.js:308
+msgid "Please enter assistive technology title"
+msgstr "Syötä avustavan teknologian otsikko"
+
+#: assets/admin/js/scripts.js:384 src/admin/js/admin.js:425
 msgid "Post type"
 msgstr "Julkaisun tyyppi"
 
@@ -405,11 +476,11 @@ msgstr "Julkaisun tyyppi"
 msgid "Post Types"
 msgstr "Sisältötyypit"
 
-#: assets/admin/js/scripts.js:3108 src/admin/js/filters/block-styles.js:13
+#: assets/admin/js/scripts.js:3436 src/admin/js/filters/block-styles.js:13
 msgid "Primary"
 msgstr "Ensisijainen"
 
-#: assets/admin/js/scripts.js:2072 src/admin/js/blocks/image-text.js:296
+#: assets/admin/js/scripts.js:2101 src/admin/js/blocks/image-text.js:296
 msgid "Primary color"
 msgstr "Ensisijainen väri"
 
@@ -432,7 +503,7 @@ msgstr "Julkaistu:"
 msgid "Remove"
 msgstr "Poista"
 
-#: assets/admin/js/scripts.js:33 src/admin/js/admin.js:28
+#: assets/admin/js/scripts.js:47 src/admin/js/admin.js:28
 msgid "Remove image"
 msgstr "Poista kuva"
 
@@ -440,29 +511,36 @@ msgstr "Poista kuva"
 msgid "Save settings"
 msgstr "Tallenna asetukset"
 
-#: assets/admin/js/scripts.js:493 src/admin/js/admin.js:556
+#: assets/admin/js/scripts.js:507 src/admin/js/admin.js:556
 msgid "Search posts"
 msgstr "Hae julkaisuja"
 
-#: assets/admin/js/scripts.js:3112 src/admin/js/filters/block-styles.js:18
+#: assets/admin/js/scripts.js:3440 src/admin/js/filters/block-styles.js:18
 msgid "Secondary"
 msgstr "Toissijainen"
 
-#: assets/admin/js/scripts.js:2067 src/admin/js/blocks/image-text.js:290
+#: assets/admin/js/scripts.js:2096 src/admin/js/blocks/image-text.js:290
 msgid "Secondary color"
 msgstr "Toissijainen väri"
 
-#: assets/admin/js/scripts.js:1693 assets/admin/js/scripts.js:1850
-#: assets/admin/js/scripts.js:2257 src/admin/js/blocks/image-banner.js:27
+#: assets/admin/js/scripts.js:2700 assets/admin/js/scripts.js:2723
+#: assets/admin/js/scripts.js:2746 assets/admin/js/scripts.js:2769
+#: src/admin/js/blocks/map.js:95 src/admin/js/blocks/map.js:125
+#: src/admin/js/blocks/map.js:155 src/admin/js/blocks/map.js:185
+msgid "Select"
+msgstr "Valitse"
+
+#: assets/admin/js/scripts.js:1707 assets/admin/js/scripts.js:1879
+#: assets/admin/js/scripts.js:2286 src/admin/js/blocks/image-banner.js:27
 #: src/admin/js/blocks/image-text.js:27 src/admin/js/blocks/link.js:163
 msgid "Select image"
 msgstr "Valitse kuva"
 
-#: class/Settings.php:128 assets/admin/js/scripts.js:634
-#: assets/admin/js/scripts.js:820 assets/admin/js/scripts.js:1147
-#: assets/admin/js/scripts.js:1250 assets/admin/js/scripts.js:2200
-#: assets/admin/js/scripts.js:2430 assets/admin/js/scripts.js:2695
-#: assets/admin/js/scripts.js:2876 assets/admin/js/scripts.js:3031
+#: class/Settings.php:128 assets/admin/js/scripts.js:648
+#: assets/admin/js/scripts.js:834 assets/admin/js/scripts.js:1161
+#: assets/admin/js/scripts.js:1264 assets/admin/js/scripts.js:2229
+#: assets/admin/js/scripts.js:2473 assets/admin/js/scripts.js:3029
+#: assets/admin/js/scripts.js:3204 assets/admin/js/scripts.js:3359
 #: src/admin/js/blocks/accordion-panel.js:47
 #: src/admin/js/blocks/accordion.js:42 src/admin/js/blocks/content-card.js:28
 #: src/admin/js/blocks/content-cards.js:29 src/admin/js/blocks/link.js:107
@@ -471,11 +549,11 @@ msgstr "Valitse kuva"
 msgid "Settings"
 msgstr "Asetukset"
 
-#: assets/admin/js/scripts.js:2706 src/admin/js/blocks/phasing.js:64
+#: assets/admin/js/scripts.js:3040 src/admin/js/blocks/phasing.js:64
 msgid "Style"
 msgstr "Tyyli"
 
-#: assets/admin/js/scripts.js:3115 src/admin/js/filters/block-styles.js:22
+#: assets/admin/js/scripts.js:3443 src/admin/js/filters/block-styles.js:22
 msgid "Supplementary"
 msgstr "Täydentävä"
 
@@ -488,7 +566,7 @@ msgstr ""
 "\"%s\" ominaisuus on kytketty automaattisesti käyttöön, koska sen tuki on "
 "ilmoitettu teeman tiedoissa."
 
-#: assets/admin/js/scripts.js:201 src/admin/js/admin.js:207
+#: assets/admin/js/scripts.js:215 src/admin/js/admin.js:207
 msgid ""
 "The link's description must clearly state it opens in a new tab, and it must "
 "fulfill accessibility requirements. "
@@ -496,22 +574,22 @@ msgstr ""
 "Linkin kuvauksessa tulee kertoa selkeästi sen aukeavan uuteen välilehteen ja "
 "linkin tulee täyttää saavutettavuusvaatimukset. "
 
-#: assets/admin/js/scripts.js:998 assets/admin/js/scripts.js:1905
+#: assets/admin/js/scripts.js:1012 assets/admin/js/scripts.js:1934
 #: src/admin/js/blocks/banner.js:54 src/admin/js/blocks/image-text.js:102
 msgid "This is the excerpt."
 msgstr "Tämä on kuvausteksti."
 
-#: assets/admin/js/scripts.js:996 assets/admin/js/scripts.js:1903
-#: assets/admin/js/scripts.js:2925 src/admin/js/blocks/banner.js:53
+#: assets/admin/js/scripts.js:1010 assets/admin/js/scripts.js:1932
+#: assets/admin/js/scripts.js:3253 src/admin/js/blocks/banner.js:53
 #: src/admin/js/blocks/image-text.js:101 src/admin/js/blocks/recent-posts.js:72
 msgid "This is the title"
 msgstr "Tämä on otsikko"
 
-#: assets/admin/js/scripts.js:116 assets/admin/js/scripts.js:139
-#: assets/admin/js/scripts.js:823 assets/admin/js/scripts.js:1253
-#: assets/admin/js/scripts.js:2110 assets/admin/js/scripts.js:2433
-#: assets/admin/js/scripts.js:2698 assets/admin/js/scripts.js:3034
-#: assets/admin/js/scripts.js:3229 src/admin/js/admin.js:117
+#: assets/admin/js/scripts.js:130 assets/admin/js/scripts.js:153
+#: assets/admin/js/scripts.js:837 assets/admin/js/scripts.js:1267
+#: assets/admin/js/scripts.js:2139 assets/admin/js/scripts.js:2476
+#: assets/admin/js/scripts.js:3032 assets/admin/js/scripts.js:3362
+#: assets/admin/js/scripts.js:3557 src/admin/js/admin.js:117
 #: src/admin/js/admin.js:141 src/admin/js/blocks/accordion.js:46
 #: src/admin/js/blocks/content-cards.js:33 src/admin/js/blocks/link.js:24
 #: src/admin/js/blocks/links.js:34 src/admin/js/blocks/phasing.js:54
@@ -519,11 +597,11 @@ msgstr "Tämä on otsikko"
 msgid "Title"
 msgstr "Otsikko"
 
-#: assets/admin/js/scripts.js:2407 src/admin/js/blocks/links.js:14
+#: assets/admin/js/scripts.js:2450 src/admin/js/blocks/links.js:14
 msgid "Title & Excerpt"
 msgstr "Otsiko & oteteksti"
 
-#: assets/admin/js/scripts.js:2126 assets/admin/js/scripts.js:3038
+#: assets/admin/js/scripts.js:2155 assets/admin/js/scripts.js:3366
 #: src/admin/js/blocks/link.js:40 src/admin/js/blocks/rss-feed.js:31
 msgid "URL"
 msgstr "URL"
@@ -533,7 +611,7 @@ msgid "Use Helsinki settings with plugins and enable available Helsinki APIs."
 msgstr ""
 "Käytä Helsinki-asetuksia lisäosissa ja ota käyttöön Helsinki-rajapinnat."
 
-#: assets/admin/js/scripts.js:3237 src/admin/js/filters/table.js:43
+#: assets/admin/js/scripts.js:3565 src/admin/js/filters/table.js:43
 msgid "Vertical header"
 msgstr "Vertikaalinen otsikkorivi"
 
@@ -546,11 +624,11 @@ msgstr "Helsinki-painike"
 msgid "Widgets"
 msgstr "Vimpaimet"
 
-#: assets/admin/js/scripts.js:2984 src/admin/js/blocks/recent-posts.js:138
+#: assets/admin/js/scripts.js:3312 src/admin/js/blocks/recent-posts.js:138
 msgid "With image"
 msgstr "Kuvallinen"
 
-#: assets/admin/js/scripts.js:2989 src/admin/js/blocks/recent-posts.js:144
+#: assets/admin/js/scripts.js:3317 src/admin/js/blocks/recent-posts.js:144
 msgid "Without image"
 msgstr "Ilman kuvaa"
 

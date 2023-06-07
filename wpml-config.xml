@@ -6,6 +6,11 @@
       <key name="buttonText" />
       <key name="buttonUrl" />
     </gutenberg-block>
+    <gutenberg-block type="hds-wp/map" translate="1">
+      <key name="title" />
+      <key name="desricption" />
+      <key name="assistive_title" />
+    </gutenberg-block>
     <gutenberg-block type="hds-wp/recent-posts" translate="1">
       <key name="title" />
     </gutenberg-block>
