@@ -3385,59 +3385,296 @@ function hdsIcons(name) {
     },
     edit: edit()
   });
-})(window.wp); //remove error notices when block is removed
+})(window.wp);
 
-
-(function () {
+(function (wp) {
+  var __ = wp.i18n.__;
+  var registerBlockType = wp.blocks.registerBlockType;
+  var _wp$element15 = wp.element,
+      Fragment = _wp$element15.Fragment,
+      useState = _wp$element15.useState,
+      useEffect = _wp$element15.useEffect;
+  var _wp$blockEditor15 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor15.useBlockProps,
+      RichText = _wp$blockEditor15.RichText;
+  var InspectorControls = wp.editor.InspectorControls;
   var _wp$data12 = wp.data,
-      select = _wp$data12.select,
-      subscribe = _wp$data12.subscribe,
-      dispatch = _wp$data12.dispatch;
+      useDispatch = _wp$data12.useDispatch,
+      dispatch = _wp$data12.dispatch,
+      subscribe = _wp$data12.subscribe;
+  var TextControl = wp.components.TextControl;
   var store = wp.notices.store;
-
-  var getBlocks = function getBlocks() {
-    return select('core/block-editor').getBlocks();
-  };
-
-  Array.prototype.diff = function (a) {
-    return this.filter(function (i) {
-      return a.indexOf(i) < 0;
-    });
-  };
-
-  var blocksState = getBlocks();
-  subscribe(_.debounce(function () {
-    var notices = select(store).getNotices();
-    var newBlocksState = getBlocks(); // Lock saving if notices contain error notices
-
-    var errorNotices = notices.filter(function (notice) {
-      return notice.status === 'error';
-    });
-
-    if (errorNotices.length > 0) {
-      dispatch('core/editor').lockPostSaving('requiredValueLock');
-    } else {
-      dispatch('core/editor').unlockPostSaving('requiredValueLock');
-    } // When very last block is removed, it's replaced with a new paragraph block.
-    // This is a workaround to remove the error notice.
-
-
-    if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
-      // remove newBlocksState from blocksState
-      var removedBlock = blocksState.diff(newBlocksState);
-
-      if (removedBlock.length === 1 || removedBlock.length > 0 && removedBlock[0].name === 'core/paragraph') {
-        var noticesToRemove = notices.filter(function (notice) {
-          return notice.id.includes(removedBlock[0].clientId);
-        });
-        noticesToRemove.forEach(function (notice) {
-          dispatch('core/notices').removeNotice(notice.id);
-        });
+  registerBlockType('hds-wp/video', {
+    apiVersion: 2,
+    title: __('Helsinki - Video', 'hds-wp'),
+    icon: 'video-alt3',
+    category: 'hds-wp',
+    style: 'hds-video',
+    attributes: {
+      blockId: {
+        type: 'string'
+      },
+      title: {
+        type: 'string',
+        default: ''
+      },
+      description: {
+        type: 'string',
+        default: ''
+      },
+      iframeUrl: {
+        type: 'string',
+        default: ''
+      },
+      url: {
+        type: 'string',
+        default: ''
+      },
+      assistive_title: {
+        type: 'string'
+      }
+    },
+    edit: edit,
+    example: {
+      attributes: {
+        title: __('Video title', 'hds-wp'),
+        description: __('Video description', 'hds-wp'),
+        iframeUrl: 'https://www.helsinkikanava.fi/fi_FI/web/helsinkikanava/player/embed/vod?assetId=107834317'
       }
     }
+  });
 
-    blocksState = newBlocksState;
-  }, 300));
+  function edit(_ref3) {
+    var attributes = _ref3.attributes,
+        setAttributes = _ref3.setAttributes,
+        clientId = _ref3.clientId;
+    var blockProps = useBlockProps({});
+
+    var _useState9 = useState(attributes.title ? false : true),
+        _useState10 = _slicedToArray(_useState9, 2),
+        titleError = _useState10[0],
+        setTitleError = _useState10[1];
+
+    var _useState11 = useState(attributes.description ? false : true),
+        _useState12 = _slicedToArray(_useState11, 2),
+        descriptionError = _useState12[0],
+        setDescriptionError = _useState12[1];
+
+    var _useState13 = useState(attributes.url ? false : true),
+        _useState14 = _slicedToArray(_useState13, 2),
+        urlError = _useState14[0],
+        setUrlError = _useState14[1];
+
+    var _useState15 = useState(attributes.assistive_title ? false : true),
+        _useState16 = _slicedToArray(_useState15, 2),
+        assistiveTitleError = _useState16[0],
+        setAssistiveTitleError = _useState16[1];
+
+    var _useDispatch2 = useDispatch(store),
+        createErrorNotice = _useDispatch2.createErrorNotice,
+        removeNotice = _useDispatch2.removeNotice; // Set unique block id, needed for skip link
+
+
+    useEffect(function () {
+      if (clientId) {
+        setAttributes({
+          blockId: clientId
+        });
+      }
+    }, []); // Check if title is valid, if not, show error notice
+
+    useEffect(function () {
+      var title = attributes.title;
+
+      if (!title) {
+        createErrorNotice(__('Helsinki - Video', 'hds-wp') + ': ' + __('Please enter a title', 'hds-wp'), {
+          type: 'default',
+          id: 'titleError-' + clientId,
+          isDismissible: false,
+          actions: [{
+            label: __('Select', 'hds-wp'),
+            onClick: function onClick() {
+              document.getElementById("block-".concat(clientId)).scrollIntoView({
+                behavior: 'smooth'
+              });
+              dispatch('core/block-editor').selectBlock(clientId);
+            }
+          }]
+        });
+      } else {
+        dispatch('core/notices').removeNotice('titleError-' + clientId);
+      }
+    }, [titleError]); // Check if description is valid, if not, show error notice
+
+    useEffect(function () {
+      var title = attributes.description;
+
+      if (!title) {
+        createErrorNotice(__('Helsinki - Video', 'hds-wp') + ': ' + __('Please enter a description', 'hds-wp'), {
+          type: 'default',
+          id: 'descriptionError-' + clientId,
+          isDismissible: false,
+          actions: [{
+            label: __('Select', 'hds-wp'),
+            onClick: function onClick() {
+              document.getElementById("block-".concat(clientId)).scrollIntoView({
+                behavior: 'smooth'
+              });
+              dispatch('core/block-editor').selectBlock(clientId);
+            }
+          }]
+        });
+      } else {
+        dispatch('core/notices').removeNotice('descriptionError-' + clientId);
+      }
+    }, [descriptionError]); // Check if url is valid, if not, show error notice
+
+    useEffect(function () {
+      var url = attributes.url;
+
+      if (!url) {
+        createErrorNotice(__('Helsinki - Video', 'hds-wp') + ': ' + __('Please enter a valid video URL', 'hds-wp'), {
+          type: 'default',
+          id: 'urlError-' + clientId,
+          isDismissible: false,
+          actions: [{
+            label: __('Select', 'hds-wp'),
+            onClick: function onClick() {
+              document.getElementById("block-".concat(clientId)).scrollIntoView({
+                behavior: 'smooth'
+              });
+              dispatch('core/block-editor').selectBlock(clientId);
+            }
+          }]
+        });
+      } else {
+        dispatch('core/notices').removeNotice('urlError-' + clientId);
+      }
+    }, [urlError]); // Check if assistive title is set, if not, show error notice
+
+    useEffect(function () {
+      var assistiveTitle = attributes.assistive_title;
+
+      if (!assistiveTitle) {
+        createErrorNotice(__('Helsinki - Video', 'hds-wp') + ': ' + __('Please enter assistive technology title', 'hds-wp'), {
+          type: 'default',
+          isDismissible: false,
+          id: 'assistiveTitleError-' + clientId,
+          actions: [{
+            label: __('Select', 'hds-wp'),
+            onClick: function onClick() {
+              document.getElementById("block-".concat(clientId)).scrollIntoView({
+                behavior: 'smooth'
+              });
+              dispatch('core/block-editor').selectBlock(clientId);
+            }
+          }]
+        });
+      } else {
+        dispatch('core/notices').removeNotice('assistiveTitleError-' + clientId);
+      }
+    }, [assistiveTitleError]);
+    return /*#__PURE__*/React.createElement(Fragment, null, /*#__PURE__*/React.createElement("div", blockProps, /*#__PURE__*/React.createElement("div", {
+      className: "hds-video has-background"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "hds-container"
+    }, /*#__PURE__*/React.createElement(RichText, {
+      tagName: "h2",
+      value: attributes.title,
+      onChange: function onChange(value) {
+        setTitleError(value ? false : true);
+        setAttributes({
+          title: value
+        });
+      },
+      placeholder: __('Video title*', 'hds-wp'),
+      allowedFormats: []
+    }), /*#__PURE__*/React.createElement(RichText, {
+      tagName: "p",
+      value: attributes.description,
+      onChange: function onChange(value) {
+        setDescriptionError(value ? false : true);
+        setAttributes({
+          description: value
+        });
+      },
+      placeholder: __('Video description*', 'hds-wp'),
+      allowedFormats: ['core/bold', 'core/italic', 'core/link', 'core/paragraph']
+    }), attributes.iframeUrl && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("figure", {
+      class: "wp-block-embed wp-has-aspect-ratio wp-embed-aspect-16-9"
+    }, /*#__PURE__*/React.createElement("div", {
+      class: "wp-block-embed__wrapper"
+    }, /*#__PURE__*/React.createElement("iframe", {
+      src: attributes.iframeUrl,
+      title: attributes.assistive_title || attributes.title,
+      scrolling: "no"
+    }))), /*#__PURE__*/React.createElement("a", {
+      href: attributes.url,
+      target: "_blank",
+      className: "block-embed-external-link",
+      rel: "noopener"
+    }, __('Open video in new window', 'hds-wp'), ' ', hdsExternalLinkIcon()))))), /*#__PURE__*/React.createElement(InspectorControls, null, /*#__PURE__*/React.createElement("div", {
+      style: {
+        padding: '1rem'
+      }
+    }, /*#__PURE__*/React.createElement(TextControl, {
+      label: __('Video URL', 'hds-wp'),
+      value: attributes.url,
+      onChange: function onChange(value) {
+        if (value.includes('youtube.com') || value.includes('helsinkikanava.fi')) {
+          setUrlError(false);
+          setAttributes({
+            url: value
+          });
+
+          if (value.includes('youtube.com')) {
+            setAttributes({
+              iframeUrl: value.replace('watch?v=', 'embed/')
+            });
+          }
+
+          if (value.includes('helsinkikanava.fi')) {
+            setAttributes({
+              iframeUrl: value.replace('player/vod', 'player/embed/vod')
+            });
+          }
+        } else {
+          setAttributes({
+            url: value
+          });
+          setUrlError(true);
+        }
+      },
+      className: "is-required",
+      required: true
+    }), urlError && /*#__PURE__*/React.createElement("div", {
+      className: "inspector-errornotice"
+    }, __('Please enter a valid video URL', 'hds-wp')), /*#__PURE__*/React.createElement("div", {
+      style: {
+        color: 'grey',
+        marginBottom: '1rem'
+      }
+    }, /*#__PURE__*/React.createElement("small", null, __('Add video url from:', 'hds-wp'), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("a", {
+      href: "https://youtube.com",
+      target: "_blank"
+    }, "youtube.com"), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("a", {
+      href: "https://helsinkikanava.fi",
+      target: "_blank"
+    }, "helsinkikanava.fi"))), /*#__PURE__*/React.createElement(TextControl, {
+      label: __('Assistive title', 'hds-wp'),
+      value: attributes.assistive_title,
+      onChange: function onChange(value) {
+        setAssistiveTitleError(value ? false : true);
+        setAttributes({
+          assistive_title: value
+        });
+      },
+      className: "is-required",
+      required: true
+    }), assistiveTitleError && /*#__PURE__*/React.createElement("div", {
+      className: "inspector-errornotice"
+    }, __('Please enter assistive technology title', 'hds-wp')))));
+  }
 })(window.wp);
 
 wp.domReady(function () {
@@ -3552,18 +3789,18 @@ wp.domReady(function () {
   var tableAdvancedControls = wp.compose.createHigherOrderComponent(function (BlockEdit) {
     return function (props) {
       var __ = wp.i18n.__;
-      var _wp$element15 = wp.element,
-          Fragment = _wp$element15.Fragment,
-          createElement = _wp$element15.createElement;
+      var _wp$element16 = wp.element,
+          Fragment = _wp$element16.Fragment,
+          createElement = _wp$element16.createElement;
       var _wp$components15 = wp.components,
           ToggleControl = _wp$components15.ToggleControl,
           Panel = _wp$components15.Panel,
           PanelBody = _wp$components15.PanelBody,
           TextControl = _wp$components15.TextControl;
-      var _wp$blockEditor15 = wp.blockEditor,
-          InspectorControls = _wp$blockEditor15.InspectorControls,
-          BlockControls = _wp$blockEditor15.BlockControls,
-          useBlockProps = _wp$blockEditor15.useBlockProps;
+      var _wp$blockEditor16 = wp.blockEditor,
+          InspectorControls = _wp$blockEditor16.InspectorControls,
+          BlockControls = _wp$blockEditor16.BlockControls,
+          useBlockProps = _wp$blockEditor16.useBlockProps;
       var attributes = props.attributes,
           setAttributes = props.setAttributes,
           isSelected = props.isSelected;
@@ -3618,4 +3855,57 @@ wp.domReady(function () {
     };
   }, 'tableEditorWrapperExtraClass');
   wp.hooks.addFilter('editor.BlockListBlock', 'table/custom-editor-wrapper-class', tableEditorWrapperExtraClass);
+})(window.wp); //remove error notices when block is removed
+
+
+(function () {
+  var _wp$data13 = wp.data,
+      select = _wp$data13.select,
+      subscribe = _wp$data13.subscribe,
+      dispatch = _wp$data13.dispatch;
+  var store = wp.notices.store;
+
+  var getBlocks = function getBlocks() {
+    return select('core/block-editor').getBlocks();
+  };
+
+  Array.prototype.diff = function (a) {
+    return this.filter(function (i) {
+      return a.indexOf(i) < 0;
+    });
+  };
+
+  var blocksState = getBlocks();
+  subscribe(_.debounce(function () {
+    var notices = select(store).getNotices();
+    var newBlocksState = getBlocks(); // Lock saving if notices contain error notices
+
+    var errorNotices = notices.filter(function (notice) {
+      return notice.status === 'error';
+    });
+
+    if (errorNotices.length > 0) {
+      dispatch('core/editor').lockPostSaving('requiredValueLock');
+    } else {
+      dispatch('core/editor').unlockPostSaving('requiredValueLock');
+    } // When very last block is removed, it's replaced with a new paragraph block.
+    // This is a workaround to remove the error notice.
+
+
+    if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
+      // remove newBlocksState from blocksState
+      var removedBlock = blocksState.diff(newBlocksState);
+
+      if (removedBlock.length === 1 || removedBlock.length > 0 && removedBlock[0].name === 'core/paragraph') {
+        var noticesToRemove = notices.filter(function (notice) {
+          return notice.id.includes(removedBlock[0].clientId);
+        });
+        noticesToRemove.forEach(function (notice) {
+          dispatch('core/notices').removeNotice(notice.id);
+        });
+      }
+    }
+
+    blocksState = newBlocksState;
+  }, 300));
 })(window.wp);
