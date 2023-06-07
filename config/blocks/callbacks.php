@@ -637,6 +637,87 @@ function hds_wp_render_banner($attributes) {
 }
 
 /**
+ * Image & Text
+ */
+
+function hds_wp_render_image_text($attributes) {
+
+	$wrapClasses = array( 'wp-block-hds-wp-image-text' );
+
+	if ($attributes['alignment'] === 'right') {
+		$wrapClasses[] = 'align-right';
+	} else {
+		$wrapClasses[] = 'align-left';
+	}
+
+	if (function_exists('helsinki_scheme_has_invert_color')) {
+		if(	helsinki_scheme_has_invert_color()	) {
+			$wrapClasses[] = 'has-invert-color';
+		}
+	}
+
+
+	if (!empty($attributes['className'])) {
+		$wrapClasses[] = esc_attr($attributes['className']);
+	}
+
+	$id = '';
+	if (!empty($attributes['anchor'])) {
+		$id = 'id="'.esc_attr($attributes['anchor']).'"';
+	}
+
+	$imageConfig = array(
+		'alt' => $attributes['mediaAlt'],
+		'width' => $attributes['mediaWidth'],
+		'height' => $attributes['mediaHeight'],
+		'src' => $attributes['mediaUrl'],
+		'srcset' => $attributes['mediaSrcset'],
+		'id' => $attributes['mediaId'],
+	);
+
+	$image = '';
+	if (!empty($attributes['mediaId'])) {
+		$image = sprintf(
+			'<div class="image">%s</div>',
+			wp_get_attachment_image($attributes['mediaId'], 'full', false, $imageConfig)
+		);
+		$wrapClasses[] = 'has-image';
+	}
+	else {
+		$image = '<div class="image"><div class="placeholder"></div></div>';
+		$wrapClasses[] = 'has-placeholder';
+	}
+
+	$content = '';
+	if (!empty($attributes['contentTitle']) || !empty($attributes['contentText']) || !empty($attributes['buttonText'])) {
+		$content = sprintf(
+			'<div class="content">
+				%s
+				%s
+				%s
+			</div>',
+			!empty($attributes['contentTitle']) ? sprintf('<h2 class="content__heading">%s</h2>', $attributes['contentTitle']) : '',
+			!empty($attributes['contentText']) ? sprintf('<p class="content__text">%s</p>', $attributes['contentText']) : '',
+			!empty($attributes['buttonText']) && !empty($attributes['buttonUrl']) ? sprintf('<a class="content__link hds-button hds-button--primary" href="%s" %s>%s</a>', $attributes['buttonUrl'], $attributes['targetBlank'] ? 'target="_blank"' : '', $attributes['buttonText']) : ''
+		);
+	}
+
+	return sprintf(
+		'<div %s class="%s">
+			<div class="image-text--wrapper">
+				%s
+				%s
+			</div>
+		</div>',
+		$id,
+		implode( ' ', $wrapClasses ),
+		$image,
+		$content
+	);
+
+}
+
+/**
  * Timeline
  */
 
@@ -772,6 +853,19 @@ function hds_wp_render_timeline_card($attributes, $content = null) {
  */
 
 function hds_wp_render_recent_posts( $attributes ) {
+	//migrate old options
+	$count = $attributes['articles'];
+	if ( $count === 3 ) {
+		$attributes['articles'] = 4;
+	}
+	else if ( $count === 6 ) {
+		$attributes['articles'] = 8;
+	}
+
+	if ( isset($attributes['isEditRender'] ) && $attributes['isEditRender'] ) {
+		return hds_wp_render_recent_posts_articles( $attributes );
+	}
+
 	if ( function_exists( 'helsinki_front_page_section' ) ) {
 		ob_start();
 		add_action('helsinki_front_page_recent_posts', 'helsinki_front_page_recent_posts_title', 10);
@@ -782,6 +876,21 @@ function hds_wp_render_recent_posts( $attributes ) {
 		return $content;
 	}
 	return;
+}
+
+
+//only render articles section; use in editor
+function hds_wp_render_recent_posts_articles( $attributes ) {
+	if ( function_exists( 'helsinki_front_page_section' ) ) {
+		ob_start();
+		$data = helsinki_front_page_section_data('recent-posts', $attributes);
+		helsinki_front_page_recent_posts_grid( $data );
+		helsinki_front_page_recent_posts_more( $data );
+		$content = ob_get_clean();
+		return $content;
+	}
+	return;
+
 }
 
 /**
@@ -807,6 +916,78 @@ function hds_wp_render_rss_feed( $attributes ) {
 
 function hds_wp_rss_feed_lifetime($lifetime, $url, $attributes) {
 	return $attributes['lifespan'] > 0 ? HOUR_IN_SECONDS * $attributes['lifespan'] : HOUR_IN_SECONDS * 12;
+}
+
+/**
+ * Map Block
+ */
+ 
+function hds_wp_render_map( $attributes ) {
+
+	$id = 'hds-map-' . $attributes['blockId'];
+	$title = $attributes['title'];
+	$description = $attributes['description'];
+	$url = $attributes['url'];
+	$linkUrl = $attributes['url'];
+
+	//if linkUrl contains palvelukartta.hel.fi and embed, remove '/embed' from linkUrl
+	if (strpos($linkUrl, 'palvelukartta.hel.fi') !== false && strpos($linkUrl, 'embed') !== false) {
+		$linkUrl = str_replace('/embed', '', $linkUrl);
+	}
+	//if linkUrl contains kartta.hel.fi and embed, remove 'embed' from linkUrl
+	if (strpos($linkUrl, 'kartta.hel.fi') !== false && strpos($linkUrl, 'embed') !== false) {
+		$linkUrl = str_replace('embed', '', $linkUrl);
+	}
+
+	$assistive_title = $attributes['assistive_title'];
+
+	$beforeMapSkipLink = sprintf(
+		'<a href="#%s-after" id="%s-before" class="focusable skip-link skip-link--map--before">%s</a>',
+		$id,
+		$id,
+		__('Move above the map', 'hds-wp'),
+	);
+
+	$afterMapSkipLink = sprintf(
+		'<a href="#%s-before" id="%s-after" class="focusable skip-link skip-link--map--after">%s</a>',
+		$id,
+		$id,
+		__('Move above the map', 'hds-wp'),
+	);
+
+	$iframe = sprintf(
+		'<iframe src="%s" title="%s"></iframe>',
+		$url,
+		$assistive_title
+	);
+
+	$externalLink = sprintf(
+		'<a href="%s" target="_blank" class="block-embed-external-link" rel="noopener">%s %s</a>',
+		$linkUrl,
+		__('Open map in new window', 'hds-wp'),
+		hds_wp_render_link_icon( true )
+	);
+
+	return sprintf(
+		'<div class="hds-map has-background">
+			<div class="hds-container">
+				<h2>%s</h2>
+				<p>%s</p>
+				<div class="hds-map__container">
+					%s
+					%s
+					%s
+					%s
+				</div>
+			</div>
+		</div>',
+		$title,
+		$description,
+		$beforeMapSkipLink,
+		$iframe,
+		$afterMapSkipLink,
+		$externalLink
+	);
 }
 
 /**

@@ -117,6 +117,9 @@ class Assets extends Module {
 			'hds-wp',
 			untrailingslashit( PLUGIN_PATH ) . DIRECTORY_SEPARATOR . 'languages'
 		);
+		wp_localize_script('helsinki-wp-admin-scripts', 'hds_wp', array(
+			'hasInvertedColor' => function_exists('helsinki_scheme_has_invert_color') ? helsinki_scheme_has_invert_color() : false,
+		));
 	
 	}
 

@@ -2,9 +2,7 @@
 
     const __ = wp.i18n.__;
     const { unregisterBlockType, unregisterBlockVariation, getBlockType, getBlockVariations } = wp.blocks;
-    const allowedEmbedBlocks = [
-        'youtube',
-      ];
+    const allowedEmbedBlocks = [];
 
     wp.domReady( function() {
         if (getBlockType('core/pullquote')) {
@@ -24,7 +22,11 @@
                 if (-1 === allowedEmbedBlocks.indexOf(blockVariation.name)) {
                   wp.blocks.unregisterBlockVariation('core/embed', blockVariation.name);
                 }
+                unregisterBlockType( 'core/embed' );
             });       
+        }
+        if(getBlockType('core/html')) {
+            unregisterBlockType( 'core/html' );
         }
         if(getBlockType('core/latest-posts')) {
             unregisterBlockType( 'core/latest-posts' );
