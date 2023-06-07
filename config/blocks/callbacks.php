@@ -853,6 +853,19 @@ function hds_wp_render_timeline_card($attributes, $content = null) {
  */
 
 function hds_wp_render_recent_posts( $attributes ) {
+	//migrate old options
+	$count = $attributes['articles'];
+	if ( $count === 3 ) {
+		$attributes['articles'] = 4;
+	}
+	else if ( $count === 6 ) {
+		$attributes['articles'] = 8;
+	}
+
+	if ( isset($attributes['isEditRender'] ) && $attributes['isEditRender'] ) {
+		return hds_wp_render_recent_posts_articles( $attributes );
+	}
+
 	if ( function_exists( 'helsinki_front_page_section' ) ) {
 		ob_start();
 		add_action('helsinki_front_page_recent_posts', 'helsinki_front_page_recent_posts_title', 10);
@@ -863,6 +876,21 @@ function hds_wp_render_recent_posts( $attributes ) {
 		return $content;
 	}
 	return;
+}
+
+
+//only render articles section; use in editor
+function hds_wp_render_recent_posts_articles( $attributes ) {
+	if ( function_exists( 'helsinki_front_page_section' ) ) {
+		ob_start();
+		$data = helsinki_front_page_section_data('recent-posts', $attributes);
+		helsinki_front_page_recent_posts_grid( $data );
+		helsinki_front_page_recent_posts_more( $data );
+		$content = ob_get_clean();
+		return $content;
+	}
+	return;
+
 }
 
 /**
@@ -888,4 +916,143 @@ function hds_wp_render_rss_feed( $attributes ) {
 
 function hds_wp_rss_feed_lifetime($lifetime, $url, $attributes) {
 	return $attributes['lifespan'] > 0 ? HOUR_IN_SECONDS * $attributes['lifespan'] : HOUR_IN_SECONDS * 12;
+}
+
+/**
+ * Map Block
+ */
+ 
+function hds_wp_render_map( $attributes ) {
+
+	$id = 'hds-map-' . $attributes['blockId'];
+	$title = $attributes['title'];
+	$description = $attributes['description'];
+	$url = $attributes['url'];
+	$linkUrl = $attributes['url'];
+
+	//if linkUrl contains palvelukartta.hel.fi and embed, remove '/embed' from linkUrl
+	if (strpos($linkUrl, 'palvelukartta.hel.fi') !== false && strpos($linkUrl, 'embed') !== false) {
+		$linkUrl = str_replace('/embed', '', $linkUrl);
+	}
+	//if linkUrl contains kartta.hel.fi and embed, remove 'embed' from linkUrl
+	if (strpos($linkUrl, 'kartta.hel.fi') !== false && strpos($linkUrl, 'embed') !== false) {
+		$linkUrl = str_replace('embed', '', $linkUrl);
+	}
+
+	$assistive_title = $attributes['assistive_title'];
+
+	$beforeMapSkipLink = sprintf(
+		'<a href="#%s-after" id="%s-before" class="focusable skip-link skip-link--map--before">%s</a>',
+		$id,
+		$id,
+		__('Move above the map', 'hds-wp'),
+	);
+
+	$afterMapSkipLink = sprintf(
+		'<a href="#%s-before" id="%s-after" class="focusable skip-link skip-link--map--after">%s</a>',
+		$id,
+		$id,
+		__('Move above the map', 'hds-wp'),
+	);
+
+	$iframe = sprintf(
+		'<iframe src="%s" title="%s"></iframe>',
+		$url,
+		$assistive_title
+	);
+
+	$externalLink = sprintf(
+		'<a href="%s" target="_blank" class="block-embed-external-link" rel="noopener">%s %s</a>',
+		$linkUrl,
+		__('Open map in new window', 'hds-wp'),
+		hds_wp_render_link_icon( true )
+	);
+
+	return sprintf(
+		'<div class="hds-map has-background">
+			<div class="hds-container">
+				<h2>%s</h2>
+				<p>%s</p>
+				<div class="hds-map__container">
+					%s
+					%s
+					%s
+					%s
+				</div>
+			</div>
+		</div>',
+		$title,
+		$description,
+		$beforeMapSkipLink,
+		$iframe,
+		$afterMapSkipLink,
+		$externalLink
+	);
+}
+
+/**
+ * Video block
+ */
+
+ function hds_wp_render_video( $attributes ) {
+
+	$id = 'hds-video-' . $attributes['blockId'];
+	$title = $attributes['title'];
+	$description = $attributes['description'];
+	$url = $attributes['iframeUrl'];
+	$linkUrl = $attributes['url'];
+
+	$assistive_title = $attributes['assistive_title'];
+
+	$beforeVideoSkipLink = sprintf(
+		'<a href="#%s-after" id="%s-before" class="focusable skip-link skip-link--video--before">%s</a>',
+		$id,
+		$id,
+		__('Move below the video', 'hds-wp'),
+	);
+
+	$afterVideoSkipLink = sprintf(
+		'<a href="#%s-before" id="%s-after" class="focusable skip-link skip-link--video--after">%s</a>',
+		$id,
+		$id,
+		__('Move above the video', 'hds-wp'),
+	);
+
+	$externalLink = sprintf(
+		'<a href="%s" target="_blank" class="block-embed-external-link" rel="noopener">%s %s</a>',
+		$linkUrl,
+		__('Open video in new window', 'hds-wp'),
+		hds_wp_render_link_icon( true )
+	);
+
+	$iframe = sprintf(
+		'<figure class="wp-block-embed wp-has-aspect-ratio wp-embed-aspect-16-9">	
+			%s	
+			<div class="wp-block-embed__wrapper">
+				<iframe src="%s" title="%s" width="1000" height="563" scrolling="no" allowfullscreen="true" sandbox="allow-scripts allow-presentation allow-same-origin"></iframe>
+			</div>
+			%s
+			%s
+		</figure>',
+		$beforeVideoSkipLink,
+		$url,
+		$assistive_title,
+		$afterVideoSkipLink,
+		$externalLink
+	);
+
+	return sprintf(
+		'<div class="hds-video has-background">
+			<div class="hds-container">
+				<h2>%s</h2>
+				<p>%s</p>
+				<div class="hds-video__container">
+					%s
+				</div>
+			</div>
+		</div>',
+		$title,
+		$description,
+		$iframe,
+	);
 }
