@@ -1355,7 +1355,7 @@ function hdsIcons(name) {
       unregisterBlockVariation = _wp$blocks5.unregisterBlockVariation,
       getBlockType = _wp$blocks5.getBlockType,
       getBlockVariations = _wp$blocks5.getBlockVariations;
-  var allowedEmbedBlocks = ['youtube'];
+  var allowedEmbedBlocks = [];
   wp.domReady(function () {
     if (getBlockType('core/pullquote')) {
       unregisterBlockType('core/pullquote');
@@ -1378,6 +1378,8 @@ function hdsIcons(name) {
         if (-1 === allowedEmbedBlocks.indexOf(blockVariation.name)) {
           wp.blocks.unregisterBlockVariation('core/embed', blockVariation.name);
         }
+
+        unregisterBlockType('core/embed');
       });
     }
 
