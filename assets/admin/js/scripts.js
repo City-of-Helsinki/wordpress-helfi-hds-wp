@@ -1553,7 +1553,7 @@ wp.domReady(function () {
       unregisterBlockVariation = _wp$blocks5.unregisterBlockVariation,
       getBlockType = _wp$blocks5.getBlockType,
       getBlockVariations = _wp$blocks5.getBlockVariations;
-  var allowedEmbedBlocks = [];
+  var allowedEmbedBlocks = ['youtube'];
   wp.domReady(function () {
     if (getBlockType('core/pullquote')) {
       unregisterBlockType('core/pullquote');
@@ -1576,8 +1576,6 @@ wp.domReady(function () {
         if (-1 === allowedEmbedBlocks.indexOf(blockVariation.name)) {
           wp.blocks.unregisterBlockVariation('core/embed', blockVariation.name);
         }
-
-        unregisterBlockType('core/embed');
       });
     }
 
