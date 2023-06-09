@@ -169,10 +169,10 @@ function hdsContentText(props) {
 function hdsContentTextRich(props, config) {
   return wp.element.createElement(wp.blockEditor.RichText, {
     tagName: 'p',
-    className: 'content__text',
-    value: props.attributes.contentText,
+    className: config.className ? config.className : 'content__text',
+    value: config.textAttribute ? props.attributes[config.textAttribute] : props.attributes.contentText,
     onChange: function onChange(value) {
-      props.setAttributes({
+      props.setAttributes(config.textAttribute ? _defineProperty({}, config.textAttribute, value) : {
         contentText: value
       });
     },
@@ -2795,10 +2795,10 @@ wp.domReady(function () {
     }
   });
 
-  function edit(_ref2) {
-    var attributes = _ref2.attributes,
-        setAttributes = _ref2.setAttributes,
-        clientId = _ref2.clientId;
+  function edit(_ref3) {
+    var attributes = _ref3.attributes,
+        setAttributes = _ref3.setAttributes,
+        clientId = _ref3.clientId;
     var blockProps = useBlockProps({});
 
     var _useState = useState(attributes.title ? false : true),
@@ -3168,15 +3168,7 @@ wp.domReady(function () {
     return hdsInspectorControls({
       title: __('Settings', 'hds-wp'),
       initialOpen: false
-    }, hdsTextControl({
-      label: __('Title', 'hds-wp'),
-      value: props.attributes.title,
-      attribute: 'title'
-    }, props), hdsTextAreaControl({
-      label: __('Description', 'hds-wp'),
-      value: props.attributes.description,
-      attribute: 'description'
-    }, props), hdsSelectControl({
+    }, hdsSelectControl({
       label: __('Style', 'hds-wp'),
       value: props.attributes.style,
       attribute: 'style',
@@ -3215,7 +3207,15 @@ wp.domReady(function () {
       if (props.isSelected || isParentOfSelectedBlock) {
         content = createElement(Fragment, {}, timelineControls(props), createElement('div', {
           className: 'timeline-wrapper'
-        }, timelineTitle(props), timelineDescription(props), createElement('div', {
+        }, hdsContentTitleRich(props, {
+          placeholder: __('This is the title', 'hds-wp'),
+          titleAttribute: 'title',
+          className: 'timeline__heading'
+        }), hdsContentTextRich(props, {
+          placeholder: __('This is the excerpt.', 'hds-wp'),
+          textAttribute: 'description',
+          className: 'excerpt'
+        }), createElement('div', {
           className: 'timeline'
         }, createElement('div', {
           className: 'timeline-line'
@@ -3621,10 +3621,10 @@ wp.domReady(function () {
     }
   });
 
-  function edit(_ref3) {
-    var attributes = _ref3.attributes,
-        setAttributes = _ref3.setAttributes,
-        clientId = _ref3.clientId;
+  function edit(_ref4) {
+    var attributes = _ref4.attributes,
+        setAttributes = _ref4.setAttributes,
+        clientId = _ref4.clientId;
     var blockProps = useBlockProps({});
 
     var _useState9 = useState(attributes.title ? false : true),
