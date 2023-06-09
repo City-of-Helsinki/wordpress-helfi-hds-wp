@@ -1,6 +1,24 @@
 "use strict";
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function hdsSingleImage(attributes) {
   var imageOrPlaceholder = attributes.src ? wp.element.createElement('img', attributes) : wp.element.createElement('div', {
@@ -122,10 +140,10 @@ function hdsContentTitle(props) {
 function hdsContentTitleRich(props, config) {
   return wp.element.createElement(wp.blockEditor.RichText, {
     tagName: 'h2',
-    className: 'content__heading',
-    value: props.attributes.contentTitle,
+    className: config.className ? config.className : 'content__heading',
+    value: config.titleAttribute ? props.attributes[config.titleAttribute] : props.attributes.contentTitle,
     onChange: function onChange(value) {
-      props.setAttributes({
+      props.setAttributes(config.titleAttribute ? _defineProperty({}, config.titleAttribute, value) : {
         contentTitle: value
       });
     },
@@ -1561,6 +1579,10 @@ wp.domReady(function () {
       });
     }
 
+    if (getBlockType('core/html')) {
+      unregisterBlockType('core/html');
+    }
+
     if (getBlockType('core/latest-posts')) {
       unregisterBlockType('core/latest-posts');
     }
@@ -2710,23 +2732,308 @@ wp.domReady(function () {
 
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks8 = wp.blocks,
-      registerBlockType = _wp$blocks8.registerBlockType,
-      getBlockContent = _wp$blocks8.getBlockContent;
+  var registerBlockType = wp.blocks.registerBlockType;
   var _wp$element11 = wp.element,
       Fragment = _wp$element11.Fragment,
-      createElement = _wp$element11.createElement;
+      createElement = _wp$element11.createElement,
+      useState = _wp$element11.useState,
+      useEffect = _wp$element11.useEffect;
   var _wp$blockEditor11 = wp.blockEditor,
       useBlockProps = _wp$blockEditor11.useBlockProps,
       BlockControls = _wp$blockEditor11.BlockControls,
-      InnerBlocks = _wp$blockEditor11.InnerBlocks;
+      InnerBlocks = _wp$blockEditor11.InnerBlocks,
+      RichText = _wp$blockEditor11.RichText,
+      InspectorControls = _wp$blockEditor11.InspectorControls;
+  var _wp$data7 = wp.data,
+      select = _wp$data7.select,
+      useSelect = _wp$data7.useSelect,
+      useDispatch = _wp$data7.useDispatch,
+      dispatch = _wp$data7.dispatch,
+      subscribe = _wp$data7.subscribe;
   var _wp$components11 = wp.components,
       ToolbarGroup = _wp$components11.ToolbarGroup,
       ToolbarButton = _wp$components11.ToolbarButton,
-      Button = _wp$components11.Button;
-  var _wp$data7 = wp.data,
-      select = _wp$data7.select,
-      useSelect = _wp$data7.useSelect;
+      Button = _wp$components11.Button,
+      ToggleControl = _wp$components11.ToggleControl,
+      TextControl = _wp$components11.TextControl,
+      Notice = _wp$components11.Notice;
+  var store = wp.notices.store;
+  registerBlockType('hds-wp/map', {
+    apiVersion: 2,
+    title: __('Helsinki - Map', 'hds-wp'),
+    icon: 'location-alt',
+    category: 'hds-wp',
+    style: 'hds-map',
+    attributes: {
+      blockId: {
+        type: 'string'
+      },
+      title: {
+        type: 'string',
+        default: ''
+      },
+      description: {
+        type: 'string',
+        default: ''
+      },
+      url: {
+        type: 'string',
+        default: ''
+      },
+      assistive_title: {
+        type: 'string'
+      }
+    },
+    edit: edit,
+    example: {
+      attributes: {
+        title: __('Map title', 'hds-wp'),
+        description: __('Map description', 'hds-wp'),
+        url: 'https://palvelukartta.hel.fi/fi/embed/unit/1915?city=helsinki,espoo,vantaa,kauniainen,kirkkonummi&bbox=60.22464068641878,24.932012557983402,60.23254640738538,24.962611198425297',
+        assistive_title: __('Map title', 'hds-wp')
+      }
+    }
+  });
+
+  function edit(_ref2) {
+    var attributes = _ref2.attributes,
+        setAttributes = _ref2.setAttributes,
+        clientId = _ref2.clientId;
+    var blockProps = useBlockProps({});
+
+    var _useState = useState(attributes.title ? false : true),
+        _useState2 = _slicedToArray(_useState, 2),
+        titleError = _useState2[0],
+        setTitleError = _useState2[1];
+
+    var _useState3 = useState(attributes.description ? false : true),
+        _useState4 = _slicedToArray(_useState3, 2),
+        descriptionError = _useState4[0],
+        setDescriptionError = _useState4[1];
+
+    var _useState5 = useState(attributes.url ? false : true),
+        _useState6 = _slicedToArray(_useState5, 2),
+        urlError = _useState6[0],
+        setUrlError = _useState6[1];
+
+    var _useState7 = useState(attributes.assistive_title ? false : true),
+        _useState8 = _slicedToArray(_useState7, 2),
+        assistiveTitleError = _useState8[0],
+        setAssistiveTitleError = _useState8[1];
+
+    var _useDispatch = useDispatch(store),
+        createErrorNotice = _useDispatch.createErrorNotice,
+        removeNotice = _useDispatch.removeNotice; // Set unique block id, needed for skip link
+
+
+    useEffect(function () {
+      if (clientId) {
+        setAttributes({
+          blockId: clientId
+        });
+      }
+    }, []); // Check if title is set, if not, show error notice
+
+    useEffect(function () {
+      var title = attributes.title;
+
+      if (!title) {
+        createErrorNotice(__('Helsinki - Map', 'hds-wp') + ': ' + __('Please enter a title', 'hds-wp'), {
+          type: 'default',
+          id: 'titleError-' + clientId,
+          isDismissible: false,
+          actions: [{
+            label: __('Select', 'hds-wp'),
+            onClick: function onClick() {
+              document.getElementById("block-".concat(clientId)).scrollIntoView({
+                behavior: 'smooth'
+              });
+              dispatch('core/block-editor').selectBlock(clientId);
+            }
+          }]
+        });
+      } else {
+        dispatch('core/notices').removeNotice('titleError-' + clientId);
+      }
+    }, [titleError]); // Check if description is set, if not, show error notice
+
+    useEffect(function () {
+      var description = attributes.description;
+
+      if (!description) {
+        createErrorNotice(__('Helsinki - Map', 'hds-wp') + ': ' + __('Please enter a description', 'hds-wp'), {
+          type: 'default',
+          id: 'descriptionError-' + clientId,
+          isDismissible: false,
+          actions: [{
+            label: __('Select', 'hds-wp'),
+            onClick: function onClick() {
+              document.getElementById("block-".concat(clientId)).scrollIntoView({
+                behavior: 'smooth'
+              });
+              dispatch('core/block-editor').selectBlock(clientId);
+            }
+          }]
+        });
+      } else {
+        dispatch('core/notices').removeNotice('descriptionError-' + clientId);
+      }
+    }, [descriptionError]); // Check if url is valid, if not, show error notice
+
+    useEffect(function () {
+      var url = attributes.url;
+
+      if (!url) {
+        createErrorNotice(__('Helsinki - Map', 'hds-wp') + ': ' + __('Please enter a valid map embed URL', 'hds-wp'), {
+          type: 'default',
+          id: 'urlError-' + clientId,
+          isDismissible: false,
+          actions: [{
+            label: __('Select', 'hds-wp'),
+            onClick: function onClick() {
+              document.getElementById("block-".concat(clientId)).scrollIntoView({
+                behavior: 'smooth'
+              });
+              dispatch('core/block-editor').selectBlock(clientId);
+            }
+          }]
+        });
+      } else {
+        dispatch('core/notices').removeNotice('urlError-' + clientId);
+      }
+    }, [urlError]); // Check if assistive title is set, if not, show error notice
+
+    useEffect(function () {
+      var assistiveTitle = attributes.assistive_title;
+
+      if (!assistiveTitle) {
+        createErrorNotice(__('Helsinki - Map', 'hds-wp') + ': ' + __('Please enter assistive technology title', 'hds-wp'), {
+          type: 'default',
+          isDismissible: false,
+          id: 'assistiveTitleError-' + clientId,
+          actions: [{
+            label: __('Select', 'hds-wp'),
+            onClick: function onClick() {
+              document.getElementById("block-".concat(clientId)).scrollIntoView({
+                behavior: 'smooth'
+              });
+              dispatch('core/block-editor').selectBlock(clientId);
+            }
+          }]
+        });
+      } else {
+        dispatch('core/notices').removeNotice('assistiveTitleError-' + clientId);
+      }
+    }, [assistiveTitleError]);
+    return /*#__PURE__*/React.createElement(Fragment, null, /*#__PURE__*/React.createElement("div", blockProps, /*#__PURE__*/React.createElement("div", {
+      className: "hds-map has-background"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "hds-container"
+    }, /*#__PURE__*/React.createElement(RichText, {
+      tagName: "h2",
+      value: attributes.title,
+      onChange: function onChange(value) {
+        return setAttributes({
+          title: value
+        }), setTitleError(value ? false : true);
+      },
+      placeholder: __('Map title*', 'hds-wp'),
+      allowedFormats: []
+    }), /*#__PURE__*/React.createElement(RichText, {
+      tagName: "p",
+      value: attributes.description,
+      onChange: function onChange(value) {
+        return setAttributes({
+          description: value
+        }), setDescriptionError(value ? false : true);
+      },
+      placeholder: __('Map description*', 'hds-wp'),
+      allowedFormats: ['core/bold', 'core/italic', 'core/link', 'core/paragraph']
+    }), attributes.url && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("iframe", {
+      src: attributes.url,
+      title: attributes.assistive_title || attributes.title,
+      scrolling: "no"
+    }), /*#__PURE__*/React.createElement("a", {
+      href: attributes.url,
+      target: "_blank",
+      className: "block-embed-external-link",
+      rel: "noopener"
+    }, __('Open map in new window', 'hds-wp'), ' ', hdsExternalLinkIcon()))))), /*#__PURE__*/React.createElement(InspectorControls, null, /*#__PURE__*/React.createElement("div", {
+      style: {
+        padding: '1rem'
+      }
+    }, /*#__PURE__*/React.createElement(TextControl, {
+      label: __('Map URL', 'hds-wp'),
+      value: attributes.url,
+      onChange: function onChange(value) {
+        if (value.includes('palvelukartta.hel.fi') || value.includes('kartta.hel.fi')) {
+          setUrlError(false);
+        } else {
+          setUrlError(true);
+        }
+
+        setAttributes({
+          url: value
+        });
+      },
+      className: "is-required",
+      required: true
+    }), urlError && /*#__PURE__*/React.createElement("div", {
+      className: "inspector-errornotice"
+    }, __('Please enter a valid map embed URL', 'hds-wp')), /*#__PURE__*/React.createElement("div", {
+      style: {
+        color: 'grey',
+        marginBottom: '1rem'
+      }
+    }, /*#__PURE__*/React.createElement("small", null, __('Add map url from:', 'hds-wp'), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("a", {
+      href: "https://palvelukartta.hel.fi/fi/",
+      target: "_blank"
+    }, "palvelukartta.hel.fi"), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("a", {
+      href: "https://kartta.hel.fi/",
+      target: "_blank"
+    }, "kartta.hel.fi"))), /*#__PURE__*/React.createElement(TextControl, {
+      label: __('Assistive technology title', 'hds-wp'),
+      value: attributes.assistive_title,
+      onChange: function onChange(value) {
+        setAttributes({
+          assistive_title: value
+        });
+
+        if (value) {
+          setAssistiveTitleError(false);
+        } else {
+          setAssistiveTitleError(true);
+        }
+      },
+      placeholder: __('Assistive technology title', 'hds-wp'),
+      className: "is-required" // or your own class name
+      ,
+      required: true
+    }), !attributes.assistive_title && /*#__PURE__*/React.createElement("div", {
+      className: "inspector-errornotice"
+    }, __('Please enter assistive technology title', 'hds-wp')))));
+  }
+})(window.wp);
+
+(function (wp) {
+  var __ = wp.i18n.__;
+  var _wp$blocks8 = wp.blocks,
+      registerBlockType = _wp$blocks8.registerBlockType,
+      getBlockContent = _wp$blocks8.getBlockContent;
+  var _wp$element12 = wp.element,
+      Fragment = _wp$element12.Fragment,
+      createElement = _wp$element12.createElement;
+  var _wp$blockEditor12 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor12.useBlockProps,
+      BlockControls = _wp$blockEditor12.BlockControls,
+      InnerBlocks = _wp$blockEditor12.InnerBlocks;
+  var _wp$components12 = wp.components,
+      ToolbarGroup = _wp$components12.ToolbarGroup,
+      ToolbarButton = _wp$components12.ToolbarButton,
+      Button = _wp$components12.Button;
+  var _wp$data8 = wp.data,
+      select = _wp$data8.select,
+      useSelect = _wp$data8.useSelect;
 
   function edit() {
     return function (props) {
@@ -2809,23 +3116,23 @@ wp.domReady(function () {
   var _wp$blocks9 = wp.blocks,
       registerBlockType = _wp$blocks9.registerBlockType,
       getBlockContent = _wp$blocks9.getBlockContent;
-  var _wp$element12 = wp.element,
-      Fragment = _wp$element12.Fragment,
-      createElement = _wp$element12.createElement;
-  var _wp$blockEditor12 = wp.blockEditor,
-      useBlockProps = _wp$blockEditor12.useBlockProps,
-      BlockControls = _wp$blockEditor12.BlockControls,
-      InnerBlocks = _wp$blockEditor12.InnerBlocks;
+  var _wp$element13 = wp.element,
+      Fragment = _wp$element13.Fragment,
+      createElement = _wp$element13.createElement;
+  var _wp$blockEditor13 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor13.useBlockProps,
+      BlockControls = _wp$blockEditor13.BlockControls,
+      InnerBlocks = _wp$blockEditor13.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$components12 = wp.components,
-      ToolbarGroup = _wp$components12.ToolbarGroup,
-      ToolbarButton = _wp$components12.ToolbarButton,
-      Button = _wp$components12.Button,
-      ToggleControl = _wp$components12.ToggleControl;
-  var _wp$data8 = wp.data,
-      select = _wp$data8.select,
-      dispatch = _wp$data8.dispatch,
-      useSelect = _wp$data8.useSelect;
+  var _wp$components13 = wp.components,
+      ToolbarGroup = _wp$components13.ToolbarGroup,
+      ToolbarButton = _wp$components13.ToolbarButton,
+      Button = _wp$components13.Button,
+      ToggleControl = _wp$components13.ToggleControl;
+  var _wp$data9 = wp.data,
+      select = _wp$data9.select,
+      dispatch = _wp$data9.dispatch,
+      useSelect = _wp$data9.useSelect;
 
   function timelineTitle(props) {
     if (props.attributes.title != null && props.attributes.title != '') {
@@ -3000,119 +3307,9 @@ wp.domReady(function () {
   var __ = wp.i18n.__;
   var _wp$blocks10 = wp.blocks,
       registerBlockType = _wp$blocks10.registerBlockType,
+      registerBlockStyle = _wp$blocks10.registerBlockStyle,
+      unregisterBlockStyle = _wp$blocks10.unregisterBlockStyle,
       getBlockContent = _wp$blocks10.getBlockContent;
-  var _wp$element13 = wp.element,
-      Fragment = _wp$element13.Fragment,
-      createElement = _wp$element13.createElement,
-      useState = _wp$element13.useState;
-  var _wp$blockEditor13 = wp.blockEditor,
-      useBlockProps = _wp$blockEditor13.useBlockProps,
-      BlockControls = _wp$blockEditor13.BlockControls,
-      InnerBlocks = _wp$blockEditor13.InnerBlocks;
-  var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data9 = wp.data,
-      select = _wp$data9.select,
-      useSelect = _wp$data9.useSelect;
-  var _wp$components13 = wp.components,
-      ToolbarGroup = _wp$components13.ToolbarGroup,
-      ToolbarButton = _wp$components13.ToolbarButton,
-      Button = _wp$components13.Button,
-      ToggleControl = _wp$components13.ToggleControl;
-  var PostCategorySelect = hdsWithPostCategorySelectControl();
-
-  function articleCountOptions() {
-    return [{
-      label: 3,
-      value: 3
-    }, {
-      label: 6,
-      value: 6
-    }];
-  }
-
-  function inspectorControls(props) {
-    return hdsInspectorControls({
-      title: __('Settings', 'hds-wp'),
-      initialOpen: true
-    }, hdsTextControl({
-      label: __('Title', 'hds-wp'),
-      value: props.attributes.title,
-      attribute: 'title'
-    }, props), hdsSelectControl({
-      label: __('Article count', 'hds-wp'),
-      value: props.attributes.articles,
-      attribute: 'articles',
-      options: articleCountOptions()
-    }, props), hdsPanelRow({}, createElement(PostCategorySelect, props)));
-  }
-
-  function title(props) {
-    if (!props.attributes.title) {
-      return;
-    }
-
-    return createElement('h2', {
-      className: 'content-cards__title'
-    }, props.attributes.title);
-  }
-
-  function edit() {
-    return function (props) {
-      var content = null;
-      props.attributes.articles = parseInt(props.attributes.articles);
-      props.attributes.category = parseInt(props.attributes.category);
-      var blockAttributes = props.attributes;
-      content = createElement(wp.serverSideRender, {
-        block: 'hds-wp/recent-posts',
-        attributes: blockAttributes,
-        httpMethod: 'POST'
-      });
-      return createElement(Fragment, {}, inspectorControls(props), createElement('div', useBlockProps(), content));
-    };
-  }
-
-  function save() {
-    return function (props) {
-      return createElement(Fragment, {}, createElement(InnerBlocks.Content));
-    };
-  }
-
-  registerBlockType('hds-wp/recent-posts', {
-    apiVersion: 2,
-    title: __('Helsinki - Posts', 'hds-wp'),
-    category: 'hds-wp',
-    icon: 'images-alt',
-    keywords: [__('Helsinki - Recent Posts', 'hds-wp'), __('news', 'hds-wp'), __('blog', 'hds-wp')],
-    supports: {
-      anchor: true
-    },
-    attributes: {
-      articles: {
-        type: 'number',
-        default: 3
-      },
-      title: {
-        type: 'string',
-        default: ''
-      },
-      category: {
-        type: 'number',
-        default: 0
-      },
-      anchor: {
-        type: 'string',
-        default: ''
-      }
-    },
-    edit: edit()
-  });
-})(window.wp);
-
-(function (wp) {
-  var __ = wp.i18n.__;
-  var _wp$blocks11 = wp.blocks,
-      registerBlockType = _wp$blocks11.registerBlockType,
-      getBlockContent = _wp$blocks11.getBlockContent;
   var _wp$element14 = wp.element,
       Fragment = _wp$element14.Fragment,
       createElement = _wp$element14.createElement,
@@ -3130,6 +3327,159 @@ wp.domReady(function () {
       ToolbarButton = _wp$components14.ToolbarButton,
       Button = _wp$components14.Button,
       ToggleControl = _wp$components14.ToggleControl;
+  var PostCategorySelect = hdsWithPostCategorySelectControl();
+
+  function articleCountOptions() {
+    return [{
+      label: 4,
+      value: 4
+    }, {
+      label: 8,
+      value: 8
+    }];
+  }
+
+  function inspectorControls(props) {
+    return hdsInspectorControls({
+      title: __('Settings', 'hds-wp'),
+      initialOpen: true
+    }, hdsSelectControl({
+      label: __('Article count', 'hds-wp'),
+      value: props.attributes.articles,
+      attribute: 'articles',
+      options: articleCountOptions()
+    }, props), hdsPanelRow({}, createElement(PostCategorySelect, props)));
+  }
+
+  function title(props) {
+    if (!props.attributes.title) {
+      return;
+    }
+
+    return createElement('h2', {
+      className: 'content-cards__title'
+    }, props.attributes.title);
+  }
+
+  var cachedProps = null;
+  var cachedArticles = null;
+
+  function edit() {
+    return function (props) {
+      var content = null;
+      props.attributes.articles = parseInt(props.attributes.articles);
+      props.attributes.category = parseInt(props.attributes.category);
+      var blockAttributes = props.attributes;
+
+      if (props.isSelected) {
+        //we must serverside render only the articles, so the title can be edited from the editor!
+        //only re-render articles if relevant attributes have changed
+        if (cachedProps == null || cachedProps.articles != props.attributes.articles || cachedProps.category != props.attributes.category || cachedProps.className != props.attributes.className) {
+          cachedProps = props.attributes;
+          cachedArticles = createElement(wp.serverSideRender, {
+            block: 'hds-wp/recent-posts',
+            attributes: _objectSpread(_objectSpread({}, blockAttributes), {}, {
+              isEditRender: true
+            }),
+            httpMethod: 'POST'
+          });
+        }
+
+        content = createElement('div', {
+          className: 'front-page-section posts'
+        }, createElement('div', {
+          className: 'hds-container'
+        }, hdsContentTitleRich(props, {
+          placeholder: __('This is the title', 'hds-wp'),
+          titleAttribute: 'title',
+          className: 'container__heading'
+        }), cachedArticles));
+      } else {
+        content = createElement(wp.serverSideRender, {
+          block: 'hds-wp/recent-posts',
+          attributes: blockAttributes,
+          httpMethod: 'POST'
+        });
+      }
+
+      return createElement(Fragment, {}, inspectorControls(props), createElement('div', useBlockProps(), content));
+    };
+  }
+
+  function save() {
+    return function (props) {
+      props.isEditRender = false;
+      return createElement(Fragment, {}, createElement(InnerBlocks.Content));
+    };
+  }
+
+  registerBlockType('hds-wp/recent-posts', {
+    apiVersion: 2,
+    title: __('Helsinki - Posts', 'hds-wp'),
+    category: 'hds-wp',
+    icon: 'images-alt',
+    keywords: [__('Helsinki - Recent Posts', 'hds-wp'), __('news', 'hds-wp'), __('blog', 'hds-wp')],
+    supports: {
+      anchor: true
+    },
+    attributes: {
+      articles: {
+        type: 'number',
+        default: 4
+      },
+      title: {
+        type: 'string',
+        default: __('Latest news', 'hds-wp')
+      },
+      category: {
+        type: 'number',
+        default: 0
+      },
+      anchor: {
+        type: 'string',
+        default: ''
+      },
+      isEditRender: {
+        type: 'boolean',
+        default: false
+      }
+    },
+    edit: edit()
+  });
+  unregisterBlockStyle('hds-wp/recent-posts', 'default');
+  registerBlockStyle('hds-wp/recent-posts', {
+    name: 'default',
+    label: __('With image', 'hds-wp'),
+    isDefault: true
+  });
+  registerBlockStyle('hds-wp/recent-posts', {
+    name: 'without-image',
+    label: __('Without image', 'hds-wp')
+  });
+})(window.wp);
+
+(function (wp) {
+  var __ = wp.i18n.__;
+  var _wp$blocks11 = wp.blocks,
+      registerBlockType = _wp$blocks11.registerBlockType,
+      getBlockContent = _wp$blocks11.getBlockContent;
+  var _wp$element15 = wp.element,
+      Fragment = _wp$element15.Fragment,
+      createElement = _wp$element15.createElement,
+      useState = _wp$element15.useState;
+  var _wp$blockEditor15 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor15.useBlockProps,
+      BlockControls = _wp$blockEditor15.BlockControls,
+      InnerBlocks = _wp$blockEditor15.InnerBlocks;
+  var InspectorControls = wp.editor.InspectorControls;
+  var _wp$data11 = wp.data,
+      select = _wp$data11.select,
+      useSelect = _wp$data11.useSelect;
+  var _wp$components15 = wp.components,
+      ToolbarGroup = _wp$components15.ToolbarGroup,
+      ToolbarButton = _wp$components15.ToolbarButton,
+      Button = _wp$components15.Button,
+      ToggleControl = _wp$components15.ToggleControl;
 
   function articleCountOptions() {
     return [{
@@ -3212,4 +3562,347 @@ wp.domReady(function () {
     },
     edit: edit()
   });
+})(window.wp);
+
+(function (wp) {
+  var __ = wp.i18n.__;
+  var registerBlockType = wp.blocks.registerBlockType;
+  var _wp$element16 = wp.element,
+      Fragment = _wp$element16.Fragment,
+      useState = _wp$element16.useState,
+      useEffect = _wp$element16.useEffect;
+  var _wp$blockEditor16 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor16.useBlockProps,
+      RichText = _wp$blockEditor16.RichText;
+  var InspectorControls = wp.editor.InspectorControls;
+  var _wp$data12 = wp.data,
+      useDispatch = _wp$data12.useDispatch,
+      dispatch = _wp$data12.dispatch,
+      subscribe = _wp$data12.subscribe;
+  var TextControl = wp.components.TextControl;
+  var store = wp.notices.store;
+  registerBlockType('hds-wp/video', {
+    apiVersion: 2,
+    title: __('Helsinki - Video', 'hds-wp'),
+    icon: 'video-alt3',
+    category: 'hds-wp',
+    style: 'hds-video',
+    attributes: {
+      blockId: {
+        type: 'string'
+      },
+      title: {
+        type: 'string',
+        default: ''
+      },
+      description: {
+        type: 'string',
+        default: ''
+      },
+      iframeUrl: {
+        type: 'string',
+        default: ''
+      },
+      url: {
+        type: 'string',
+        default: ''
+      },
+      assistive_title: {
+        type: 'string'
+      }
+    },
+    edit: edit,
+    example: {
+      attributes: {
+        title: __('Video title', 'hds-wp'),
+        description: __('Video description', 'hds-wp'),
+        iframeUrl: 'https://www.helsinkikanava.fi/fi_FI/web/helsinkikanava/player/embed/vod?assetId=107834317'
+      }
+    }
+  });
+
+  function edit(_ref3) {
+    var attributes = _ref3.attributes,
+        setAttributes = _ref3.setAttributes,
+        clientId = _ref3.clientId;
+    var blockProps = useBlockProps({});
+
+    var _useState9 = useState(attributes.title ? false : true),
+        _useState10 = _slicedToArray(_useState9, 2),
+        titleError = _useState10[0],
+        setTitleError = _useState10[1];
+
+    var _useState11 = useState(attributes.description ? false : true),
+        _useState12 = _slicedToArray(_useState11, 2),
+        descriptionError = _useState12[0],
+        setDescriptionError = _useState12[1];
+
+    var _useState13 = useState(attributes.url ? false : true),
+        _useState14 = _slicedToArray(_useState13, 2),
+        urlError = _useState14[0],
+        setUrlError = _useState14[1];
+
+    var _useState15 = useState(attributes.assistive_title ? false : true),
+        _useState16 = _slicedToArray(_useState15, 2),
+        assistiveTitleError = _useState16[0],
+        setAssistiveTitleError = _useState16[1];
+
+    var _useDispatch2 = useDispatch(store),
+        createErrorNotice = _useDispatch2.createErrorNotice,
+        removeNotice = _useDispatch2.removeNotice; // Set unique block id, needed for skip link
+
+
+    useEffect(function () {
+      if (clientId) {
+        setAttributes({
+          blockId: clientId
+        });
+      }
+    }, []); // Check if title is valid, if not, show error notice
+
+    useEffect(function () {
+      var title = attributes.title;
+
+      if (!title) {
+        createErrorNotice(__('Helsinki - Video', 'hds-wp') + ': ' + __('Please enter a title', 'hds-wp'), {
+          type: 'default',
+          id: 'titleError-' + clientId,
+          isDismissible: false,
+          actions: [{
+            label: __('Select', 'hds-wp'),
+            onClick: function onClick() {
+              document.getElementById("block-".concat(clientId)).scrollIntoView({
+                behavior: 'smooth'
+              });
+              dispatch('core/block-editor').selectBlock(clientId);
+            }
+          }]
+        });
+      } else {
+        dispatch('core/notices').removeNotice('titleError-' + clientId);
+      }
+    }, [titleError]); // Check if description is valid, if not, show error notice
+
+    useEffect(function () {
+      var title = attributes.description;
+
+      if (!title) {
+        createErrorNotice(__('Helsinki - Video', 'hds-wp') + ': ' + __('Please enter a description', 'hds-wp'), {
+          type: 'default',
+          id: 'descriptionError-' + clientId,
+          isDismissible: false,
+          actions: [{
+            label: __('Select', 'hds-wp'),
+            onClick: function onClick() {
+              document.getElementById("block-".concat(clientId)).scrollIntoView({
+                behavior: 'smooth'
+              });
+              dispatch('core/block-editor').selectBlock(clientId);
+            }
+          }]
+        });
+      } else {
+        dispatch('core/notices').removeNotice('descriptionError-' + clientId);
+      }
+    }, [descriptionError]); // Check if url is valid, if not, show error notice
+
+    useEffect(function () {
+      var url = attributes.url;
+
+      if (!url) {
+        createErrorNotice(__('Helsinki - Video', 'hds-wp') + ': ' + __('Please enter a valid video URL', 'hds-wp'), {
+          type: 'default',
+          id: 'urlError-' + clientId,
+          isDismissible: false,
+          actions: [{
+            label: __('Select', 'hds-wp'),
+            onClick: function onClick() {
+              document.getElementById("block-".concat(clientId)).scrollIntoView({
+                behavior: 'smooth'
+              });
+              dispatch('core/block-editor').selectBlock(clientId);
+            }
+          }]
+        });
+      } else {
+        dispatch('core/notices').removeNotice('urlError-' + clientId);
+      }
+    }, [urlError]); // Check if assistive title is set, if not, show error notice
+
+    useEffect(function () {
+      var assistiveTitle = attributes.assistive_title;
+
+      if (!assistiveTitle) {
+        createErrorNotice(__('Helsinki - Video', 'hds-wp') + ': ' + __('Please enter assistive technology title', 'hds-wp'), {
+          type: 'default',
+          isDismissible: false,
+          id: 'assistiveTitleError-' + clientId,
+          actions: [{
+            label: __('Select', 'hds-wp'),
+            onClick: function onClick() {
+              document.getElementById("block-".concat(clientId)).scrollIntoView({
+                behavior: 'smooth'
+              });
+              dispatch('core/block-editor').selectBlock(clientId);
+            }
+          }]
+        });
+      } else {
+        dispatch('core/notices').removeNotice('assistiveTitleError-' + clientId);
+      }
+    }, [assistiveTitleError]);
+    return /*#__PURE__*/React.createElement(Fragment, null, /*#__PURE__*/React.createElement("div", blockProps, /*#__PURE__*/React.createElement("div", {
+      className: "hds-video has-background"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "hds-container"
+    }, /*#__PURE__*/React.createElement(RichText, {
+      tagName: "h2",
+      value: attributes.title,
+      onChange: function onChange(value) {
+        setTitleError(value ? false : true);
+        setAttributes({
+          title: value
+        });
+      },
+      placeholder: __('Video title*', 'hds-wp'),
+      allowedFormats: []
+    }), /*#__PURE__*/React.createElement(RichText, {
+      tagName: "p",
+      value: attributes.description,
+      onChange: function onChange(value) {
+        setDescriptionError(value ? false : true);
+        setAttributes({
+          description: value
+        });
+      },
+      placeholder: __('Video description*', 'hds-wp'),
+      allowedFormats: ['core/bold', 'core/italic', 'core/link', 'core/paragraph']
+    }), attributes.iframeUrl && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("figure", {
+      class: "wp-block-embed wp-has-aspect-ratio wp-embed-aspect-16-9"
+    }, /*#__PURE__*/React.createElement("div", {
+      class: "wp-block-embed__wrapper"
+    }, /*#__PURE__*/React.createElement("iframe", {
+      src: attributes.iframeUrl,
+      title: attributes.assistive_title || attributes.title,
+      scrolling: "no"
+    }))), /*#__PURE__*/React.createElement("a", {
+      href: attributes.url,
+      target: "_blank",
+      className: "block-embed-external-link",
+      rel: "noopener"
+    }, __('Open video in new window', 'hds-wp'), ' ', hdsExternalLinkIcon()))))), /*#__PURE__*/React.createElement(InspectorControls, null, /*#__PURE__*/React.createElement("div", {
+      style: {
+        padding: '1rem'
+      }
+    }, /*#__PURE__*/React.createElement(TextControl, {
+      label: __('Video URL', 'hds-wp'),
+      value: attributes.url,
+      onChange: function onChange(value) {
+        if (value.includes('youtube.com') || value.includes('helsinkikanava.fi')) {
+          setUrlError(false);
+          setAttributes({
+            url: value
+          });
+
+          if (value.includes('youtube.com')) {
+            setAttributes({
+              iframeUrl: value.replace('watch?v=', 'embed/')
+            });
+          }
+
+          if (value.includes('helsinkikanava.fi')) {
+            setAttributes({
+              iframeUrl: value.replace('player/vod', 'player/embed/vod')
+            });
+          }
+        } else {
+          setAttributes({
+            url: value
+          });
+          setUrlError(true);
+        }
+      },
+      className: "is-required",
+      required: true
+    }), urlError && /*#__PURE__*/React.createElement("div", {
+      className: "inspector-errornotice"
+    }, __('Please enter a valid video URL', 'hds-wp')), /*#__PURE__*/React.createElement("div", {
+      style: {
+        color: 'grey',
+        marginBottom: '1rem'
+      }
+    }, /*#__PURE__*/React.createElement("small", null, __('Add video url from:', 'hds-wp'), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("a", {
+      href: "https://youtube.com",
+      target: "_blank"
+    }, "youtube.com"), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("a", {
+      href: "https://helsinkikanava.fi",
+      target: "_blank"
+    }, "helsinkikanava.fi"))), /*#__PURE__*/React.createElement(TextControl, {
+      label: __('Assistive title', 'hds-wp'),
+      value: attributes.assistive_title,
+      onChange: function onChange(value) {
+        setAssistiveTitleError(value ? false : true);
+        setAttributes({
+          assistive_title: value
+        });
+      },
+      className: "is-required",
+      required: true
+    }), assistiveTitleError && /*#__PURE__*/React.createElement("div", {
+      className: "inspector-errornotice"
+    }, __('Please enter assistive technology title', 'hds-wp')))));
+  }
+})(window.wp); //remove error notices when block is removed
+
+
+(function () {
+  var _wp$data13 = wp.data,
+      select = _wp$data13.select,
+      subscribe = _wp$data13.subscribe,
+      dispatch = _wp$data13.dispatch;
+  var store = wp.notices.store;
+
+  var getBlocks = function getBlocks() {
+    return select('core/block-editor').getBlocks();
+  };
+
+  Array.prototype.diff = function (a) {
+    return this.filter(function (i) {
+      return a.indexOf(i) < 0;
+    });
+  };
+
+  var blocksState = getBlocks();
+  subscribe(_.debounce(function () {
+    var notices = select(store).getNotices();
+    var newBlocksState = getBlocks(); // Lock saving if notices contain error notices
+
+    var errorNotices = notices.filter(function (notice) {
+      return notice.status === 'error';
+    });
+
+    if (errorNotices.length > 0) {
+      dispatch('core/editor').lockPostSaving('requiredValueLock');
+    } else {
+      dispatch('core/editor').unlockPostSaving('requiredValueLock');
+    } // When very last block is removed, it's replaced with a new paragraph block.
+    // This is a workaround to remove the error notice.
+
+
+    if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
+      // remove newBlocksState from blocksState
+      var removedBlock = blocksState.diff(newBlocksState);
+
+      if (removedBlock.length === 1 || removedBlock.length > 0 && removedBlock[0].name === 'core/paragraph') {
+        var noticesToRemove = notices.filter(function (notice) {
+          return notice.id.includes(removedBlock[0].clientId);
+        });
+        noticesToRemove.forEach(function (notice) {
+          dispatch('core/notices').removeNotice(notice.id);
+        });
+      }
+    }
+
+    blocksState = newBlocksState;
+  }, 300));
 })(window.wp);
