@@ -4069,13 +4069,6 @@ function hdsIcons(name) {
 })(window.wp);
 
 wp.domReady(function () {
-  /* Disable default formats */
-  wp.richText.unregisterFormatType('core/image');
-  wp.richText.unregisterFormatType('core/text-color');
-  wp.richText.unregisterFormatType('core/keyboard');
-  wp.richText.unregisterFormatType('core/code');
-});
-wp.domReady(function () {
   /**
     * Buttons
     */
@@ -4253,8 +4246,15 @@ wp.domReady(function () {
     };
   }, 'tableEditorWrapperExtraClass');
   wp.hooks.addFilter('editor.BlockListBlock', 'table/custom-editor-wrapper-class', tableEditorWrapperExtraClass);
-})(window.wp); //remove error notices when block is removed
+})(window.wp);
 
+wp.domReady(function () {
+  /* Disable default formats */
+  wp.richText.unregisterFormatType('core/image');
+  wp.richText.unregisterFormatType('core/text-color');
+  wp.richText.unregisterFormatType('core/keyboard');
+  wp.richText.unregisterFormatType('core/code');
+}); //remove error notices when block is removed
 
 (function () {
   var _wp$data15 = wp.data,

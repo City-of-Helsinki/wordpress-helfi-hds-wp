@@ -152,6 +152,7 @@ class Assets extends Module {
 			'check-circle' => Svg::icon('notifications-expressions', 'check-circle'),
 			'error' => Svg::icon('notifications-expressions', 'error'),
 			'follow_on_facebook' => __('Follow on Facebook', 'hds-wp'),
+			'external_link_icon' => function_exists('helsinki_get_svg_icon') ? helsinki_get_svg_icon('link-external', 'inline-icon', __('(Link leads to external service)', 'helsinki-universal')) : Svg::icon('blocks', 'link-external'),
 		) );
 
 		add_action('wp_head', function() {
