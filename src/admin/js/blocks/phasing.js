@@ -50,16 +50,6 @@
 				title: __( 'Settings', 'hds-wp' ),
 				initialOpen: false,
 			},
-			hdsTextControl({
-				label: __( 'Title', 'hds-wp' ),
-				value: props.attributes.title,
-				attribute: 'title',
-			}, props),
-			hdsTextAreaControl({
-				label: __( 'Description', 'hds-wp' ),
-				value: props.attributes.description,
-				attribute: 'description',
-			}, props),
             hdsSelectControl({
                 label: __( 'Style', 'hds-wp' ),
                 value: props.attributes.style,
@@ -114,8 +104,8 @@
 						'div', {
 							className: 'timeline-wrapper',
 						},
-						timelineTitle(props),
-						timelineDescription(props),
+						hdsContentTitleRich(props, {placeholder: __( 'This is the title', 'hds-wp' ), titleAttribute: 'title', className: 'timeline__heading'}),
+						hdsContentTextRich(props, {placeholder: __( 'This is the excerpt.', 'hds-wp' ), textAttribute: 'description', className: 'excerpt'}),
 						createElement(
 							'div', {
 								className: 'timeline',
