@@ -6,13 +6,13 @@ msgstr ""
 "Language: fi\n"
 "Language-Team: Suomi\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"PO-Revision-Date: 2023-06-07 08:41+0000\n"
+"PO-Revision-Date: 2023-06-13 07:21+0000\n"
 "X-Generator: Loco https://localise.biz/\n"
 "Last-Translator: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Loco-Version: 2.6.0; wp-6.2.2"
+"X-Loco-Version: 2.6.4; wp-6.2.2"
 
 #: config/blocks/callbacks.php:548
 msgid "(Link leads to external service)"
@@ -400,7 +400,7 @@ msgstr "Uusimmat uutiset"
 
 #: assets/admin/js/scripts.js:3707 src/admin/js/filters/block-styles.js:33
 msgid "Light Gray Background"
-msgstr ""
+msgstr "Harmaa"
 
 #: assets/admin/js/scripts.js:1269 assets/admin/js/scripts.js:2146
 #: assets/admin/js/scripts.js:2449 src/admin/js/blocks/content-cards.js:38
