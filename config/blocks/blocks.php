@@ -62,6 +62,92 @@ return array(
 			)
 		)
 	),
+	'accordion-wc' => array(
+		'title' => __( 'Helsinki - Web Component Accordion', 'hds-wp' ),
+		'category' => 'hds-wp',
+		'render_callback' => 'hds_wp_render_block_accordion_wc',
+		'dependencies' => array(
+			'wp-blocks',
+			'wp-i18n',
+			'wp-element',
+			'wp-components',
+			'wp-editor',
+			'wp-data',
+		),
+		'attributes' => array(
+			'title' => array (
+				'type' => 'string'
+			),
+			'description' => array(
+				'type' => 'string',
+			),
+			'hasCard' => array(
+				'type' => 'boolean',
+				'default' => false,
+			),
+			'hasBorder' => array(
+				'type' => 'boolean',
+				'default' => false,
+			),
+			'size' => array(
+				'type' => 'string',
+				'default' => 'm',
+			),
+			'panels' => array(
+				'type' => 'array',
+				'default' => array(),
+			),
+			'blockVersion' => array(
+				'type' => 'integer',
+			),
+			'anchor' => array(
+	            'type'    => 'string',
+	            'default' => '',
+			)
+		)
+	),
+	'accordion-panel-wc' => array(
+		'title' => __( 'Helsinki - Web Component Accordion Panel', 'hds-wp' ),
+		'category' => 'hds-wp',
+		'dependencies' => array(
+			'wp-blocks',
+			'wp-i18n',
+			'wp-element',
+			'wp-components',
+			'wp-editor',
+			'wp-data',
+		),
+		'attributes' => array(
+			'panelTitle' => array (
+				'type' => 'string'
+			),
+			'hasCard' => array(
+				'type' => 'boolean',
+				'default' => false,
+			),
+			'hasBorder' => array(
+				'type' => 'boolean',
+				'default' => false,
+			),
+			'size' => array(
+				'type' => 'string',
+				'default' => 'm',
+			),
+			'blockId' => array(
+				'type' => 'string',
+			),
+			'headingLevel' => array(
+				'type' => 'string',
+			),
+			'innerContent' => array(
+				'type' => 'string',
+			),
+			'anchor' => array(
+	            'type'    => 'string',
+	            'default' => '',
+			)
+		)
+	),
 	'banner' => array(
 		'title' => __( 'Helsinki - Banner', 'hds-wp' ),
 		'category' => 'hds-wp',
@@ -143,15 +229,15 @@ return array(
 	            'type'    => 'integer',
 	            'default' => 0,
 	        ),
-	        'mediaUrl' => array(
+			'mediaUrl' => array(
 	            'type'    => 'string',
 	            'default' => '',
 	        ),
-	        'mediaWidth' => array(
+			'mediaWidth' => array(
 	            'type'    => 'integer',
 	            'default' => 0,
 	        ),
-	        'mediaHeight' => array(
+			'mediaHeight' => array(
 	            'type'    => 'integer',
 	            'default' => 0,
 	        ),
@@ -159,7 +245,7 @@ return array(
 	            'type'    => 'string',
 	            'default' => '',
 	        ),
-	        'mediaSrcset' => array(
+			'mediaSrcset' => array(
 	            'type'    => 'string',
 	            'default' => '',
 	        ),
@@ -171,11 +257,11 @@ return array(
 	            'type'    => 'string',
 	            'default' => '',
 	        ),
-	        'buttonText' => array(
+			'buttonText' => array(
 	            'type'    => 'string',
 	            'default' => __('Button Text', 'hds-wp'),
 	        ),
-	        'buttonUrl' => array(
+			'buttonUrl' => array(
 	            'type'    => 'string',
 	            'default' => '',
 	        ),
@@ -186,6 +272,10 @@ return array(
 			'anchor' => array(
 	            'type'    => 'string',
 	            'default' => '',
+			),
+			'preview' => array(
+							'type'    => 'string',
+							'default' => '',
 			)
 		)
 
@@ -281,6 +371,10 @@ return array(
 			'anchor' => array(
 	            'type'    => 'string',
 	            'default' => '',
+			),
+			'preview' => array(
+				'type'    => 'string',
+				'default' => '',
 			)
 	    ),
 	),
@@ -332,6 +426,10 @@ return array(
 	            'type'    => 'boolean',
 	            'default' => false,
 			),
+			'preview' => array(
+	            'type'    => 'string',
+	            'default' => '',
+			)
 	    ),
 	),
 	'rss-feed' => array(
@@ -407,6 +505,10 @@ return array(
 			'anchor' => array(
 	            'type'    => 'string',
 	            'default' => '',
+			),
+			'preview' => array(
+	            'type'    => 'string',
+	            'default' => '',
 			)
 
 	    ),
@@ -446,6 +548,7 @@ return array(
 			)
 	    ),
 	),
+
 	'map' => array(
 		'title' => __( 'Helsinki - Map', 'hds-wp' ),
 		'category' => 'hds-wp',
@@ -481,6 +584,7 @@ return array(
 			),
 		),
 	),
+
 	'video' => array(
 		'title' => __( 'Helsinki - Video', 'hds-wp' ),
 		'category' => 'hds-wp',
@@ -520,5 +624,4 @@ return array(
 			),
 		),
 	),
-
 );

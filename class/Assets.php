@@ -117,8 +117,13 @@ class Assets extends Module {
 			'hds-wp',
 			untrailingslashit( PLUGIN_PATH ) . DIRECTORY_SEPARATOR . 'languages'
 		);
+
+		$pluginUrl = plugin_dir_url(__FILE__);
+		$pluginUrl = str_replace('/class', '/src/admin/js/blocks', $pluginUrl);
+
 		wp_localize_script('helsinki-wp-admin-scripts', 'hds_wp', array(
 			'hasInvertedColor' => function_exists('helsinki_scheme_has_invert_color') ? helsinki_scheme_has_invert_color() : false,
+			'blocksUrl' => $pluginUrl,
 		));
 	
 	}
