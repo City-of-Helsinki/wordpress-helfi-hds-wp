@@ -229,15 +229,15 @@ return array(
 	            'type'    => 'integer',
 	            'default' => 0,
 	        ),
-	        'mediaUrl' => array(
+			'mediaUrl' => array(
 	            'type'    => 'string',
 	            'default' => '',
 	        ),
-	        'mediaWidth' => array(
+			'mediaWidth' => array(
 	            'type'    => 'integer',
 	            'default' => 0,
 	        ),
-	        'mediaHeight' => array(
+			'mediaHeight' => array(
 	            'type'    => 'integer',
 	            'default' => 0,
 	        ),
@@ -245,7 +245,7 @@ return array(
 	            'type'    => 'string',
 	            'default' => '',
 	        ),
-	        'mediaSrcset' => array(
+			'mediaSrcset' => array(
 	            'type'    => 'string',
 	            'default' => '',
 	        ),
@@ -257,11 +257,11 @@ return array(
 	            'type'    => 'string',
 	            'default' => '',
 	        ),
-	        'buttonText' => array(
+			'buttonText' => array(
 	            'type'    => 'string',
 	            'default' => __('Button Text', 'hds-wp'),
 	        ),
-	        'buttonUrl' => array(
+			'buttonUrl' => array(
 	            'type'    => 'string',
 	            'default' => '',
 	        ),
@@ -272,6 +272,10 @@ return array(
 			'anchor' => array(
 	            'type'    => 'string',
 	            'default' => '',
+			),
+			'preview' => array(
+							'type'    => 'string',
+							'default' => '',
 			)
 		)
 
@@ -367,6 +371,10 @@ return array(
 			'anchor' => array(
 	            'type'    => 'string',
 	            'default' => '',
+			),
+			'preview' => array(
+				'type'    => 'string',
+				'default' => '',
 			)
 	    ),
 	),
@@ -418,6 +426,10 @@ return array(
 	            'type'    => 'boolean',
 	            'default' => false,
 			),
+			'preview' => array(
+	            'type'    => 'string',
+	            'default' => '',
+			)
 	    ),
 	),
 	'rss-feed' => array(
@@ -493,6 +505,10 @@ return array(
 			'anchor' => array(
 	            'type'    => 'string',
 	            'default' => '',
+			),
+			'preview' => array(
+	            'type'    => 'string',
+	            'default' => '',
 			)
 
 	    ),
@@ -531,80 +547,6 @@ return array(
 	            'default' => '',
 			)
 	    ),
-	),
-	'map' => array(
-		'title' => __( 'Helsinki - Map', 'hds-wp' ),
-		'category' => 'hds-wp',
-		'dependencies' => array(
-			'wp-blocks',
-			'wp-i18n',
-			'wp-element',
-			'wp-components',
-			'wp-editor',
-			'wp-data',
-			'wp-server-side-render',
-		),
-		'render_callback' => 'hds_wp_render_map',
-		'attributes' => array(
-			'blockId'	=> array(
-				'type'		=> 'string',
-			),
-			'title' => array(
-					'type'    => 'string',
-					'default' => '',
-			),
-			'description' => array(
-					'type'    => 'string',
-					'default' => '',
-			),
-			'url' => array(
-					'type'    => 'string',
-					'default' => 'https://palvelukartta.hel.fi/fi/embed/unit/1915?city=helsinki,espoo,vantaa,kauniainen,kirkkonummi&bbox=60.22464068641878,24.932012557983402,60.23254640738538,24.962611198425297',
-			),
-			'assistive_title' => array(
-					'type'    => 'string',
-					'default' => '',
-			),
-		),
-	),
-	'video' => array(
-		'title' => __( 'Helsinki - Video', 'hds-wp' ),
-		'category' => 'hds-wp',
-		'dependencies' => array(
-			'wp-blocks',
-			'wp-i18n',
-			'wp-element',
-			'wp-components',
-			'wp-editor',
-			'wp-data',
-			'wp-server-side-render',
-		),
-		'render_callback' => 'hds_wp_render_video',
-		'attributes' => array(
-			'blockId'	=> array(
-				'type'		=> 'string',
-			),
-			'title' => array(
-					'type'    => 'string',
-					'default' => '',
-			),
-			'description' => array(
-					'type'    => 'string',
-					'default' => '',
-			),
-			'url' => array(
-					'type'    => 'string',
-					'default' => '',
-			),
-			'iframeUrl' => array(
-					'type'    => 'string',
-					'default' => '',
-			),
-			'assistive_title' => array(
-					'type'    => 'string',
-					'default' => '',
-			),
-		),
 	),
 
 	'map' => array(

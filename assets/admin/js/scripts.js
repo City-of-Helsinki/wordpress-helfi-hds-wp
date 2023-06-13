@@ -1238,6 +1238,12 @@ function hdsIcons(name) {
 
   function edit() {
     return function (props) {
+      if (props.attributes.preview) {
+        return /*#__PURE__*/React.createElement("img", {
+          src: props.attributes.preview
+        });
+      }
+
       props.attributes.blockVersion = 2;
       var content = null;
       var clientId = props.clientId;
@@ -1319,6 +1325,10 @@ function hdsIcons(name) {
       anchor: {
         type: 'string',
         default: ''
+      },
+      preview: {
+        type: 'string',
+        default: ''
       }
     },
     edit: edit(),
@@ -1331,7 +1341,12 @@ function hdsIcons(name) {
           className: 'accordion'
         }, createElement(InnerBlocks.Content))));
       }
-    }]
+    }],
+    example: {
+      attributes: {
+        preview: hds_wp.blocksUrl + '/previews/accordion.png'
+      }
+    }
   });
 })(window.wp);
 
@@ -1373,7 +1388,7 @@ function hdsIcons(name) {
     }
 
     if (checkAttribute) {
-      if (!props.attributes.contentIcon || props.attributes.contentIcon === "(empty)") {
+      if (!props.attributes.contentIcon || props.attributes.contentIcon === '(empty)') {
         return false;
       }
     }
@@ -1491,7 +1506,19 @@ function hdsIcons(name) {
         default: ''
       }
     },
-    edit: edit()
+    edit: edit(),
+    example: {
+      attributes: {
+        contentTitle: 'Banneri',
+        contentText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed fermentum ullamcorper velit. Sed fringilla ultricies pharetra. Duis vestibulum faucibus justo, eu bibendum mi eleifend vel.',
+        buttonText: 'Painikkeen teksti',
+        buttonUrl: 'https://www.hel.fi',
+        targetBlank: true,
+        isExternalUrl: true,
+        contentIcon: 'info-circle'
+      },
+      viewportWidth: 1200
+    }
   });
   unregisterBlockStyle('hds-wp/banner', 'default');
   registerBlockStyle('hds-wp/banner', {
@@ -1688,6 +1715,12 @@ function hdsIcons(name) {
 
   function edit() {
     return function (props) {
+      if (props.attributes.preview) {
+        return /*#__PURE__*/React.createElement("img", {
+          src: props.attributes.preview
+        });
+      }
+
       props.attributes.columns = parseInt(props.attributes.columns);
       var content = null;
       var isParentOfSelectedBlock = useSelect(function (selectFrom) {
@@ -1753,10 +1786,19 @@ function hdsIcons(name) {
       anchor: {
         type: 'string',
         default: ''
+      },
+      preview: {
+        type: 'string',
+        default: ''
       }
     },
     edit: edit(),
-    save: save()
+    save: save(),
+    example: {
+      attributes: {
+        preview: hds_wp.blocksUrl + '/previews/content-cards.png'
+      }
+    }
   });
 })(window.wp);
 
@@ -2133,6 +2175,12 @@ function hdsIcons(name) {
 
   function edit() {
     return function (props) {
+      if (props.attributes.preview) {
+        return /*#__PURE__*/React.createElement("img", {
+          src: props.attributes.preview
+        });
+      }
+
       return createElement(Fragment, {}, toolbar(props), hdsInspectorControls({
         title: wp.i18n.__('Content', 'hds-wp'),
         initialOpen: false
@@ -2211,10 +2259,19 @@ function hdsIcons(name) {
       isExternalUrl: {
         type: 'boolean',
         default: false
+      },
+      preview: {
+        type: 'string',
+        default: ''
       }
     },
     edit: edit(),
-    save: save()
+    save: save(),
+    example: {
+      attributes: {
+        preview: hds_wp.blocksUrl + '/previews/image-banner.png'
+      }
+    }
   });
 })(window.wp);
 
@@ -2290,6 +2347,12 @@ function hdsIcons(name) {
 
   function edit() {
     return function (props) {
+      if (props.attributes.preview) {
+        return /*#__PURE__*/React.createElement("img", {
+          src: props.attributes.preview
+        });
+      }
+
       var content = null;
 
       if (props.isSelected) {
@@ -2459,11 +2522,20 @@ function hdsIcons(name) {
       anchor: {
         type: 'string',
         default: ''
+      },
+      preview: {
+        type: 'string',
+        default: ''
       }
     },
     edit: edit(),
     save: save(),
-    deprecated: [v1]
+    deprecated: [v1],
+    example: {
+      attributes: {
+        preview: hds_wp.blocksUrl + '/previews/image-text.png'
+      }
+    }
   });
   unregisterBlockStyle('hds-wp/image-text', 'default');
   registerBlockStyle('hds-wp/image-text', {
@@ -2871,6 +2943,12 @@ function hdsIcons(name) {
 
   function edit() {
     return function (props) {
+      if (props.attributes.preview) {
+        return /*#__PURE__*/React.createElement("img", {
+          src: props.attributes.preview
+        });
+      }
+
       props.attributes.columns = parseInt(props.attributes.columns);
       var content = null;
       var isParentOfSelectedBlock = useSelect(function (selectFrom) {
@@ -2937,10 +3015,19 @@ function hdsIcons(name) {
       anchor: {
         type: 'string',
         default: ''
+      },
+      preview: {
+        type: 'string',
+        default: ''
       }
     },
     edit: edit(),
-    save: save()
+    save: save(),
+    example: {
+      attributes: {
+        preview: hds_wp.blocksUrl + '/previews/links.png'
+      }
+    }
   });
 })(window.wp);
 
@@ -3392,6 +3479,12 @@ function hdsIcons(name) {
 
   function edit() {
     return function (props) {
+      if (props.attributes.preview) {
+        return /*#__PURE__*/React.createElement("img", {
+          src: props.attributes.preview
+        });
+      }
+
       props.attributes.blockVersion = 2;
       var content = null;
       var clientId = props.clientId;
@@ -3484,6 +3577,10 @@ function hdsIcons(name) {
       anchor: {
         type: 'string',
         default: ''
+      },
+      preview: {
+        type: 'string',
+        default: ''
       }
     },
     edit: edit(),
@@ -3513,7 +3610,12 @@ function hdsIcons(name) {
           className: 'timeline-line'
         }), createElement(InnerBlocks.Content))));
       }
-    }]
+    }],
+    example: {
+      attributes: {
+        preview: hds_wp.blocksUrl + '/previews/phasing.png'
+      }
+    }
   });
 })(window.wp);
 
@@ -3580,6 +3682,12 @@ function hdsIcons(name) {
 
   function edit() {
     return function (props) {
+      if (props.attributes.preview) {
+        return /*#__PURE__*/React.createElement("img", {
+          src: props.attributes.preview
+        });
+      }
+
       var content = null;
       props.attributes.articles = parseInt(props.attributes.articles);
       props.attributes.category = parseInt(props.attributes.category);
@@ -3656,9 +3764,18 @@ function hdsIcons(name) {
       isEditRender: {
         type: 'boolean',
         default: false
+      },
+      preview: {
+        type: 'string',
+        default: ''
       }
     },
-    edit: edit()
+    edit: edit(),
+    example: {
+      attributes: {
+        preview: hds_wp.blocksUrl + '/previews/recent-posts.png'
+      }
+    }
   });
   unregisterBlockStyle('hds-wp/recent-posts', 'default');
   registerBlockStyle('hds-wp/recent-posts', {
@@ -3774,7 +3891,10 @@ function hdsIcons(name) {
         default: ''
       }
     },
-    edit: edit()
+    edit: edit(),
+    example: {
+      viewportWidth: 1200
+    }
   });
 })(window.wp);
 

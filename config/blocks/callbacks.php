@@ -161,6 +161,7 @@ function hds_wp_query_block_post_id( int $post ) {
  */
 
 	function hds_wp_render_block_accordion($attributes, $content) {
+		//var_dump($attributes); 
 		if (!isset($attributes['blockVersion']) || $attributes['blockVersion'] <= 1) {
 			return $content;
 		}
