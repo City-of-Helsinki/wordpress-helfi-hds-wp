@@ -45,6 +45,8 @@
         description: __('Video description', 'hds-wp'),
         iframeUrl:
           'https://www.helsinkikanava.fi/fi_FI/web/helsinkikanava/player/embed/vod?assetId=107834317',
+        url: 'https://www.helsinkikanava.fi/fi_FI/web/helsinkikanava/player/vod?assetId=107834317',
+        assistive_title: __('Video title', 'hds-wp'),
       },
     },
   });
