@@ -164,10 +164,10 @@ function hdsContentTextRich(props, config) {
 	return wp.element.createElement(
 		wp.blockEditor.RichText, {
 			tagName: 'p',
-			className: 'content__text',
-			value: props.attributes.contentText,
+			className: config.className ? config.className : 'content__text',
+			value: config.textAttribute ? props.attributes[config.textAttribute] : props.attributes.contentText,
 			onChange: function (value) {
-				props.setAttributes({contentText: value});
+				props.setAttributes(config.textAttribute ? {[config.textAttribute]: value} : {contentText: value});
 			},
 			placeholder: config.placeholder ? config.placeholder : wp.i18n.__( 'Excerpt', 'hds-wp' ),
 		},
