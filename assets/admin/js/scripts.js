@@ -768,6 +768,14 @@ wp.domReady(function () {
   wp.hooks.addFilter('editor.BlockListBlock', 'table/custom-editor-wrapper-class', tableEditorWrapperExtraClass);
 })(window.wp);
 
+wp.domReady(function () {
+  /* Disable default formats */
+  wp.richText.unregisterFormatType('core/image');
+  wp.richText.unregisterFormatType('core/text-color');
+  wp.richText.unregisterFormatType('core/keyboard');
+  wp.richText.unregisterFormatType('core/code');
+});
+
 (function (wp) {
   var __ = wp.i18n.__;
   var _wp$blocks = wp.blocks,
@@ -1024,6 +1032,12 @@ wp.domReady(function () {
 
   function edit() {
     return function (props) {
+      if (props.attributes.preview) {
+        return /*#__PURE__*/React.createElement("img", {
+          src: props.attributes.preview
+        });
+      }
+
       props.attributes.blockVersion = 2;
       var content = null;
       var clientId = props.clientId;
@@ -1105,6 +1119,10 @@ wp.domReady(function () {
       anchor: {
         type: 'string',
         default: ''
+      },
+      preview: {
+        type: 'string',
+        default: ''
       }
     },
     edit: edit(),
@@ -1117,7 +1135,12 @@ wp.domReady(function () {
           className: 'accordion'
         }, createElement(InnerBlocks.Content))));
       }
-    }]
+    }],
+    example: {
+      attributes: {
+        preview: hds_wp.blocksUrl + '/previews/accordion.png'
+      }
+    }
   });
 })(window.wp);
 
@@ -1159,7 +1182,7 @@ wp.domReady(function () {
     }
 
     if (checkAttribute) {
-      if (!props.attributes.contentIcon || props.attributes.contentIcon === "(empty)") {
+      if (!props.attributes.contentIcon || props.attributes.contentIcon === '(empty)') {
         return false;
       }
     }
@@ -1277,7 +1300,19 @@ wp.domReady(function () {
         default: ''
       }
     },
-    edit: edit()
+    edit: edit(),
+    example: {
+      attributes: {
+        contentTitle: 'Banneri',
+        contentText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed fermentum ullamcorper velit. Sed fringilla ultricies pharetra. Duis vestibulum faucibus justo, eu bibendum mi eleifend vel.',
+        buttonText: 'Painikkeen teksti',
+        buttonUrl: 'https://www.hel.fi',
+        targetBlank: true,
+        isExternalUrl: true,
+        contentIcon: 'info-circle'
+      },
+      viewportWidth: 1200
+    }
   });
   unregisterBlockStyle('hds-wp/banner', 'default');
   registerBlockStyle('hds-wp/banner', {
@@ -1474,6 +1509,12 @@ wp.domReady(function () {
 
   function edit() {
     return function (props) {
+      if (props.attributes.preview) {
+        return /*#__PURE__*/React.createElement("img", {
+          src: props.attributes.preview
+        });
+      }
+
       props.attributes.columns = parseInt(props.attributes.columns);
       var content = null;
       var isParentOfSelectedBlock = useSelect(function (selectFrom) {
@@ -1539,10 +1580,19 @@ wp.domReady(function () {
       anchor: {
         type: 'string',
         default: ''
+      },
+      preview: {
+        type: 'string',
+        default: ''
       }
     },
     edit: edit(),
-    save: save()
+    save: save(),
+    example: {
+      attributes: {
+        preview: hds_wp.blocksUrl + '/previews/content-cards.png'
+      }
+    }
   });
 })(window.wp);
 
@@ -1919,6 +1969,12 @@ wp.domReady(function () {
 
   function edit() {
     return function (props) {
+      if (props.attributes.preview) {
+        return /*#__PURE__*/React.createElement("img", {
+          src: props.attributes.preview
+        });
+      }
+
       return createElement(Fragment, {}, toolbar(props), hdsInspectorControls({
         title: wp.i18n.__('Content', 'hds-wp'),
         initialOpen: false
@@ -1997,10 +2053,19 @@ wp.domReady(function () {
       isExternalUrl: {
         type: 'boolean',
         default: false
+      },
+      preview: {
+        type: 'string',
+        default: ''
       }
     },
     edit: edit(),
-    save: save()
+    save: save(),
+    example: {
+      attributes: {
+        preview: hds_wp.blocksUrl + '/previews/image-banner.png'
+      }
+    }
   });
 })(window.wp);
 
@@ -2076,6 +2141,12 @@ wp.domReady(function () {
 
   function edit() {
     return function (props) {
+      if (props.attributes.preview) {
+        return /*#__PURE__*/React.createElement("img", {
+          src: props.attributes.preview
+        });
+      }
+
       var content = null;
 
       if (props.isSelected) {
@@ -2245,11 +2316,20 @@ wp.domReady(function () {
       anchor: {
         type: 'string',
         default: ''
+      },
+      preview: {
+        type: 'string',
+        default: ''
       }
     },
     edit: edit(),
     save: save(),
-    deprecated: [v1]
+    deprecated: [v1],
+    example: {
+      attributes: {
+        preview: hds_wp.blocksUrl + '/previews/image-text.png'
+      }
+    }
   });
   unregisterBlockStyle('hds-wp/image-text', 'default');
   registerBlockStyle('hds-wp/image-text', {
@@ -2657,6 +2737,12 @@ wp.domReady(function () {
 
   function edit() {
     return function (props) {
+      if (props.attributes.preview) {
+        return /*#__PURE__*/React.createElement("img", {
+          src: props.attributes.preview
+        });
+      }
+
       props.attributes.columns = parseInt(props.attributes.columns);
       var content = null;
       var isParentOfSelectedBlock = useSelect(function (selectFrom) {
@@ -2723,10 +2809,19 @@ wp.domReady(function () {
       anchor: {
         type: 'string',
         default: ''
+      },
+      preview: {
+        type: 'string',
+        default: ''
       }
     },
     edit: edit(),
-    save: save()
+    save: save(),
+    example: {
+      attributes: {
+        preview: hds_wp.blocksUrl + '/previews/links.png'
+      }
+    }
   });
 })(window.wp);
 
@@ -3178,6 +3273,12 @@ wp.domReady(function () {
 
   function edit() {
     return function (props) {
+      if (props.attributes.preview) {
+        return /*#__PURE__*/React.createElement("img", {
+          src: props.attributes.preview
+        });
+      }
+
       props.attributes.blockVersion = 2;
       var content = null;
       var clientId = props.clientId;
@@ -3270,6 +3371,10 @@ wp.domReady(function () {
       anchor: {
         type: 'string',
         default: ''
+      },
+      preview: {
+        type: 'string',
+        default: ''
       }
     },
     edit: edit(),
@@ -3299,7 +3404,12 @@ wp.domReady(function () {
           className: 'timeline-line'
         }), createElement(InnerBlocks.Content))));
       }
-    }]
+    }],
+    example: {
+      attributes: {
+        preview: hds_wp.blocksUrl + '/previews/phasing.png'
+      }
+    }
   });
 })(window.wp);
 
@@ -3366,6 +3476,12 @@ wp.domReady(function () {
 
   function edit() {
     return function (props) {
+      if (props.attributes.preview) {
+        return /*#__PURE__*/React.createElement("img", {
+          src: props.attributes.preview
+        });
+      }
+
       var content = null;
       props.attributes.articles = parseInt(props.attributes.articles);
       props.attributes.category = parseInt(props.attributes.category);
@@ -3442,9 +3558,18 @@ wp.domReady(function () {
       isEditRender: {
         type: 'boolean',
         default: false
+      },
+      preview: {
+        type: 'string',
+        default: ''
       }
     },
-    edit: edit()
+    edit: edit(),
+    example: {
+      attributes: {
+        preview: hds_wp.blocksUrl + '/previews/recent-posts.png'
+      }
+    }
   });
   unregisterBlockStyle('hds-wp/recent-posts', 'default');
   registerBlockStyle('hds-wp/recent-posts', {
@@ -3560,7 +3685,10 @@ wp.domReady(function () {
         default: ''
       }
     },
-    edit: edit()
+    edit: edit(),
+    example: {
+      viewportWidth: 1200
+    }
   });
 })(window.wp);
 
@@ -3906,11 +4034,3 @@ wp.domReady(function () {
     blocksState = newBlocksState;
   }, 300));
 })(window.wp);
-
-wp.domReady(function () {
-  /* Disable default formats */
-  wp.richText.unregisterFormatType('core/image');
-  wp.richText.unregisterFormatType('core/text-color');
-  wp.richText.unregisterFormatType('core/keyboard');
-  wp.richText.unregisterFormatType('core/code');
-});
