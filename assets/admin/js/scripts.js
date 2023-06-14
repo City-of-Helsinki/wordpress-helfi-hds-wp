@@ -169,10 +169,10 @@ function hdsContentText(props) {
 function hdsContentTextRich(props, config) {
   return wp.element.createElement(wp.blockEditor.RichText, {
     tagName: 'p',
-    className: 'content__text',
-    value: props.attributes.contentText,
+    className: config.className ? config.className : 'content__text',
+    value: config.textAttribute ? props.attributes[config.textAttribute] : props.attributes.contentText,
     onChange: function onChange(value) {
-      props.setAttributes({
+      props.setAttributes(config.textAttribute ? _defineProperty({}, config.textAttribute, value) : {
         contentText: value
       });
     },
@@ -766,60 +766,15 @@ wp.domReady(function () {
     };
   }, 'tableEditorWrapperExtraClass');
   wp.hooks.addFilter('editor.BlockListBlock', 'table/custom-editor-wrapper-class', tableEditorWrapperExtraClass);
-})(window.wp); //remove error notices when block is removed
-
-
-(function () {
-  var _wp$data = wp.data,
-      select = _wp$data.select,
-      subscribe = _wp$data.subscribe,
-      dispatch = _wp$data.dispatch;
-  var store = wp.notices.store;
-
-  var getBlocks = function getBlocks() {
-    return select('core/block-editor').getBlocks();
-  };
-
-  Array.prototype.diff = function (a) {
-    return this.filter(function (i) {
-      return a.indexOf(i) < 0;
-    });
-  };
-
-  var blocksState = getBlocks();
-  subscribe(_.debounce(function () {
-    var notices = select(store).getNotices();
-    var newBlocksState = getBlocks(); // Lock saving if notices contain error notices
-
-    var errorNotices = notices.filter(function (notice) {
-      return notice.status === 'error';
-    });
-
-    if (errorNotices.length > 0) {
-      dispatch('core/editor').lockPostSaving('requiredValueLock');
-    } else {
-      dispatch('core/editor').unlockPostSaving('requiredValueLock');
-    } // When very last block is removed, it's replaced with a new paragraph block.
-    // This is a workaround to remove the error notice.
-
-
-    if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
-      // remove newBlocksState from blocksState
-      var removedBlock = blocksState.diff(newBlocksState);
-
-      if (removedBlock.length === 1 || removedBlock.length > 0 && removedBlock[0].name === 'core/paragraph') {
-        var noticesToRemove = notices.filter(function (notice) {
-          return notice.id.includes(removedBlock[0].clientId);
-        });
-        noticesToRemove.forEach(function (notice) {
-          dispatch('core/notices').removeNotice(notice.id);
-        });
-      }
-    }
-
-    blocksState = newBlocksState;
-  }, 300));
 })(window.wp);
+
+wp.domReady(function () {
+  /* Disable default formats */
+  wp.richText.unregisterFormatType('core/image');
+  wp.richText.unregisterFormatType('core/text-color');
+  wp.richText.unregisterFormatType('core/keyboard');
+  wp.richText.unregisterFormatType('core/code');
+});
 
 (function (wp) {
   var __ = wp.i18n.__;
@@ -839,9 +794,9 @@ wp.domReady(function () {
       ToolbarButton = _wp$components2.ToolbarButton,
       Button = _wp$components2.Button,
       ToggleControl = _wp$components2.ToggleControl;
-  var _wp$data2 = wp.data,
-      select = _wp$data2.select,
-      dispatch = _wp$data2.dispatch;
+  var _wp$data = wp.data,
+      select = _wp$data.select,
+      dispatch = _wp$data.dispatch;
 
   function closePanel(toggle, panel) {
     toggle.setAttribute('aria-expanded', 'false');
@@ -1035,10 +990,10 @@ wp.domReady(function () {
       ToolbarButton = _wp$components3.ToolbarButton,
       Button = _wp$components3.Button,
       ToggleControl = _wp$components3.ToggleControl;
-  var _wp$data3 = wp.data,
-      select = _wp$data3.select,
-      dispatch = _wp$data3.dispatch,
-      useSelect = _wp$data3.useSelect;
+  var _wp$data2 = wp.data,
+      select = _wp$data2.select,
+      dispatch = _wp$data2.dispatch,
+      useSelect = _wp$data2.useSelect;
 
   function accordionTitle(props) {
     if (props.attributes.title != null && props.attributes.title != '') {
@@ -1394,10 +1349,10 @@ wp.domReady(function () {
       Button = _wp$components5.Button,
       TextControl = _wp$components5.TextControl,
       SelectControl = _wp$components5.SelectControl;
-  var _wp$data4 = wp.data,
-      withSelect = _wp$data4.withSelect,
-      select = _wp$data4.select,
-      dispatch = _wp$data4.dispatch;
+  var _wp$data3 = wp.data,
+      withSelect = _wp$data3.withSelect,
+      select = _wp$data3.select,
+      dispatch = _wp$data3.dispatch;
   var PostTypeSelect = hdsWithPostTypeSelectControl();
   var PostSearch = hdsSearchPostsTextControl();
 
@@ -1485,9 +1440,9 @@ wp.domReady(function () {
       BlockControls = _wp$blockEditor6.BlockControls,
       InnerBlocks = _wp$blockEditor6.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data5 = wp.data,
-      select = _wp$data5.select,
-      useSelect = _wp$data5.useSelect;
+  var _wp$data4 = wp.data,
+      select = _wp$data4.select,
+      useSelect = _wp$data4.useSelect;
   var _wp$components6 = wp.components,
       ToolbarGroup = _wp$components6.ToolbarGroup,
       ToolbarButton = _wp$components6.ToolbarButton,
@@ -2399,10 +2354,10 @@ wp.domReady(function () {
       BlockControls = _wp$blockEditor9.BlockControls,
       InnerBlocks = _wp$blockEditor9.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data6 = wp.data,
-      withSelect = _wp$data6.withSelect,
-      select = _wp$data6.select,
-      dispatch = _wp$data6.dispatch;
+  var _wp$data5 = wp.data,
+      withSelect = _wp$data5.withSelect,
+      select = _wp$data5.select,
+      dispatch = _wp$data5.dispatch;
   var compose = wp.compose.compose;
   var apiFetch = wp.apiFetch;
   var _wp$components9 = wp.components,
@@ -2705,9 +2660,9 @@ wp.domReady(function () {
       BlockControls = _wp$blockEditor10.BlockControls,
       InnerBlocks = _wp$blockEditor10.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data7 = wp.data,
-      select = _wp$data7.select,
-      useSelect = _wp$data7.useSelect;
+  var _wp$data6 = wp.data,
+      select = _wp$data6.select,
+      useSelect = _wp$data6.useSelect;
   var _wp$components10 = wp.components,
       ToolbarGroup = _wp$components10.ToolbarGroup,
       ToolbarButton = _wp$components10.ToolbarButton,
@@ -2884,12 +2839,12 @@ wp.domReady(function () {
       InnerBlocks = _wp$blockEditor11.InnerBlocks,
       RichText = _wp$blockEditor11.RichText,
       InspectorControls = _wp$blockEditor11.InspectorControls;
-  var _wp$data8 = wp.data,
-      select = _wp$data8.select,
-      useSelect = _wp$data8.useSelect,
-      useDispatch = _wp$data8.useDispatch,
-      dispatch = _wp$data8.dispatch,
-      subscribe = _wp$data8.subscribe;
+  var _wp$data7 = wp.data,
+      select = _wp$data7.select,
+      useSelect = _wp$data7.useSelect,
+      useDispatch = _wp$data7.useDispatch,
+      dispatch = _wp$data7.dispatch,
+      subscribe = _wp$data7.subscribe;
   var _wp$components11 = wp.components,
       ToolbarGroup = _wp$components11.ToolbarGroup,
       ToolbarButton = _wp$components11.ToolbarButton,
@@ -2935,10 +2890,10 @@ wp.domReady(function () {
     }
   });
 
-  function edit(_ref2) {
-    var attributes = _ref2.attributes,
-        setAttributes = _ref2.setAttributes,
-        clientId = _ref2.clientId;
+  function edit(_ref3) {
+    var attributes = _ref3.attributes,
+        setAttributes = _ref3.setAttributes,
+        clientId = _ref3.clientId;
     var blockProps = useBlockProps({});
 
     var _useState = useState(attributes.title ? false : true),
@@ -3171,9 +3126,9 @@ wp.domReady(function () {
       ToolbarGroup = _wp$components12.ToolbarGroup,
       ToolbarButton = _wp$components12.ToolbarButton,
       Button = _wp$components12.Button;
-  var _wp$data9 = wp.data,
-      select = _wp$data9.select,
-      useSelect = _wp$data9.useSelect;
+  var _wp$data8 = wp.data,
+      select = _wp$data8.select,
+      useSelect = _wp$data8.useSelect;
 
   function edit() {
     return function (props) {
@@ -3190,7 +3145,9 @@ wp.domReady(function () {
           className: stepClasses
         }, props.attributes.style == 'numbered' ? props.attributes.order : ''), createElement('div', {
           className: 'content__inner content__inner--text'
-        }, hdsContentTitle(props), createElement(InnerBlocks, {
+        }, hdsContentTitleRich(props, {
+          placeholder: __('This is the title', 'hds-wp')
+        }), createElement(InnerBlocks, {
           allowedBlocks: ['core/paragraph', 'core/buttons']
         }))));
       } else {
@@ -3204,10 +3161,7 @@ wp.domReady(function () {
         }));
       }
 
-      return createElement(Fragment, {}, hdsInspectorControls({
-        title: __('Content', 'hds-wp'),
-        initialOpen: false
-      }, hdsContentTitleControl(props)), content);
+      return createElement(Fragment, {}, content);
     };
   }
 
@@ -3270,10 +3224,10 @@ wp.domReady(function () {
       ToolbarButton = _wp$components13.ToolbarButton,
       Button = _wp$components13.Button,
       ToggleControl = _wp$components13.ToggleControl;
-  var _wp$data10 = wp.data,
-      select = _wp$data10.select,
-      dispatch = _wp$data10.dispatch,
-      useSelect = _wp$data10.useSelect;
+  var _wp$data9 = wp.data,
+      select = _wp$data9.select,
+      dispatch = _wp$data9.dispatch,
+      useSelect = _wp$data9.useSelect;
 
   function timelineTitle(props) {
     if (props.attributes.title != null && props.attributes.title != '') {
@@ -3309,15 +3263,7 @@ wp.domReady(function () {
     return hdsInspectorControls({
       title: __('Settings', 'hds-wp'),
       initialOpen: false
-    }, hdsTextControl({
-      label: __('Title', 'hds-wp'),
-      value: props.attributes.title,
-      attribute: 'title'
-    }, props), hdsTextAreaControl({
-      label: __('Description', 'hds-wp'),
-      value: props.attributes.description,
-      attribute: 'description'
-    }, props), hdsSelectControl({
+    }, hdsSelectControl({
       label: __('Style', 'hds-wp'),
       value: props.attributes.style,
       attribute: 'style',
@@ -3362,7 +3308,15 @@ wp.domReady(function () {
       if (props.isSelected || isParentOfSelectedBlock) {
         content = createElement(Fragment, {}, timelineControls(props), createElement('div', {
           className: 'timeline-wrapper'
-        }, timelineTitle(props), timelineDescription(props), createElement('div', {
+        }, hdsContentTitleRich(props, {
+          placeholder: __('This is the title', 'hds-wp'),
+          titleAttribute: 'title',
+          className: 'timeline__heading'
+        }), hdsContentTextRich(props, {
+          placeholder: __('This is the excerpt.', 'hds-wp'),
+          textAttribute: 'description',
+          className: 'excerpt'
+        }), createElement('div', {
           className: 'timeline'
         }, createElement('div', {
           className: 'timeline-line'
@@ -3475,9 +3429,9 @@ wp.domReady(function () {
       BlockControls = _wp$blockEditor14.BlockControls,
       InnerBlocks = _wp$blockEditor14.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data11 = wp.data,
-      select = _wp$data11.select,
-      useSelect = _wp$data11.useSelect;
+  var _wp$data10 = wp.data,
+      select = _wp$data10.select,
+      useSelect = _wp$data10.useSelect;
   var _wp$components14 = wp.components,
       ToolbarGroup = _wp$components14.ToolbarGroup,
       ToolbarButton = _wp$components14.ToolbarButton,
@@ -3643,9 +3597,9 @@ wp.domReady(function () {
       BlockControls = _wp$blockEditor15.BlockControls,
       InnerBlocks = _wp$blockEditor15.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data12 = wp.data,
-      select = _wp$data12.select,
-      useSelect = _wp$data12.useSelect;
+  var _wp$data11 = wp.data,
+      select = _wp$data11.select,
+      useSelect = _wp$data11.useSelect;
   var _wp$components15 = wp.components,
       ToolbarGroup = _wp$components15.ToolbarGroup,
       ToolbarButton = _wp$components15.ToolbarButton,
@@ -3749,10 +3703,10 @@ wp.domReady(function () {
       useBlockProps = _wp$blockEditor16.useBlockProps,
       RichText = _wp$blockEditor16.RichText;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data13 = wp.data,
-      useDispatch = _wp$data13.useDispatch,
-      dispatch = _wp$data13.dispatch,
-      subscribe = _wp$data13.subscribe;
+  var _wp$data12 = wp.data,
+      useDispatch = _wp$data12.useDispatch,
+      dispatch = _wp$data12.dispatch,
+      subscribe = _wp$data12.subscribe;
   var TextControl = wp.components.TextControl;
   var store = wp.notices.store;
   registerBlockType('hds-wp/video', {
@@ -3795,10 +3749,10 @@ wp.domReady(function () {
     }
   });
 
-  function edit(_ref3) {
-    var attributes = _ref3.attributes,
-        setAttributes = _ref3.setAttributes,
-        clientId = _ref3.clientId;
+  function edit(_ref4) {
+    var attributes = _ref4.attributes,
+        setAttributes = _ref4.setAttributes,
+        clientId = _ref4.clientId;
     var blockProps = useBlockProps({});
 
     var _useState9 = useState(attributes.title ? false : true),
@@ -4026,4 +3980,57 @@ wp.domReady(function () {
       className: "inspector-errornotice"
     }, __('Please enter assistive technology title', 'hds-wp')))));
   }
+})(window.wp); //remove error notices when block is removed
+
+
+(function () {
+  var _wp$data13 = wp.data,
+      select = _wp$data13.select,
+      subscribe = _wp$data13.subscribe,
+      dispatch = _wp$data13.dispatch;
+  var store = wp.notices.store;
+
+  var getBlocks = function getBlocks() {
+    return select('core/block-editor').getBlocks();
+  };
+
+  Array.prototype.diff = function (a) {
+    return this.filter(function (i) {
+      return a.indexOf(i) < 0;
+    });
+  };
+
+  var blocksState = getBlocks();
+  subscribe(_.debounce(function () {
+    var notices = select(store).getNotices();
+    var newBlocksState = getBlocks(); // Lock saving if notices contain error notices
+
+    var errorNotices = notices.filter(function (notice) {
+      return notice.status === 'error';
+    });
+
+    if (errorNotices.length > 0) {
+      dispatch('core/editor').lockPostSaving('requiredValueLock');
+    } else {
+      dispatch('core/editor').unlockPostSaving('requiredValueLock');
+    } // When very last block is removed, it's replaced with a new paragraph block.
+    // This is a workaround to remove the error notice.
+
+
+    if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
+      // remove newBlocksState from blocksState
+      var removedBlock = blocksState.diff(newBlocksState);
+
+      if (removedBlock.length === 1 || removedBlock.length > 0 && removedBlock[0].name === 'core/paragraph') {
+        var noticesToRemove = notices.filter(function (notice) {
+          return notice.id.includes(removedBlock[0].clientId);
+        });
+        noticesToRemove.forEach(function (notice) {
+          dispatch('core/notices').removeNotice(notice.id);
+        });
+      }
+    }
+
+    blocksState = newBlocksState;
+  }, 300));
 })(window.wp);

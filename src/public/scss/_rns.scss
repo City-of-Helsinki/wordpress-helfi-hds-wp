@@ -53,6 +53,21 @@
                             }
                         }
 
+                        &.selected {
+
+                            .rns-reaction-button {
+                                
+                                background-color: $black;
+                                color: $white;
+                          
+                                svg {
+                                    fill: $white;
+                                }
+                        
+                            }
+
+                        }
+
                     }
 
                 }
