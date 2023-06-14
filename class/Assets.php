@@ -31,7 +31,7 @@ class Assets extends Module {
 		}
 
 		if ( $this->config->value('styles') ) {
-			add_action( 'wp_enqueue_scripts', array( $this, 'publicStyles' ), 2 );
+			add_action( 'wp_enqueue_scripts', array( $this, 'publicStyles' ), 11 );
 		}
 
 		if ( $this->config->value('favicon') ) {
@@ -117,8 +117,13 @@ class Assets extends Module {
 			'hds-wp',
 			untrailingslashit( PLUGIN_PATH ) . DIRECTORY_SEPARATOR . 'languages'
 		);
+
+		$pluginUrl = plugin_dir_url(__FILE__);
+		$pluginUrl = str_replace('/class', '/src/admin/js/blocks', $pluginUrl);
+
 		wp_localize_script('helsinki-wp-admin-scripts', 'hds_wp', array(
 			'hasInvertedColor' => function_exists('helsinki_scheme_has_invert_color') ? helsinki_scheme_has_invert_color() : false,
+			'blocksUrl' => $pluginUrl,
 		));
 	
 	}
@@ -161,6 +166,8 @@ class Assets extends Module {
 			'info-circle' => Svg::icon('notifications-expressions', 'info-circle'),
 			'check-circle' => Svg::icon('notifications-expressions', 'check-circle'),
 			'error' => Svg::icon('notifications-expressions', 'error'),
+			'follow_on_facebook' => __('Follow on Facebook', 'hds-wp'),
+			'external_link_icon' => function_exists('helsinki_get_svg_icon') ? helsinki_get_svg_icon('link-external', 'inline-icon', __('(Link leads to external service)', 'helsinki-universal')) : Svg::icon('blocks', 'link-external'),
 		) );
 	}
 
