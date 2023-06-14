@@ -25,7 +25,7 @@
                         ),
                         createElement(
                             'div', {className: 'content__inner content__inner--text'},
-                            hdsContentTitle(props),
+							hdsContentTitleRich(props, {placeholder: __( 'This is the title', 'hds-wp' )}),
                             createElement(
                                 InnerBlocks,
                                 {
@@ -54,13 +54,6 @@
 
 			return createElement(
 				Fragment, {},
-				hdsInspectorControls(
-					{
-						title: __( 'Content', 'hds-wp' ),
-						initialOpen: false,
-					},
-					hdsContentTitleControl(props),
-				),
 				content
 			);
 		}
