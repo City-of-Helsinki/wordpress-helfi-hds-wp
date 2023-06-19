@@ -72,7 +72,7 @@
         className: 'content__link hds-button',
         href: props.attributes.buttonUrl,
       },
-      props.attributes.isExternalUrl ? hdsExternalLinkIcon() : hdsArrowIcon()
+      props.attributes.targetBlank ? hdsExternalLinkIcon() : hdsArrowIcon()
     );
   }
 
@@ -81,20 +81,41 @@
       if (props.attributes.preview) {
         return <img src={props.attributes.preview} />;
       }
-      return createElement(
+
+      var content = null;
+
+      content = createElement(
         Fragment,
         {},
         toolbar(props),
         hdsInspectorControls(
           {
-            title: wp.i18n.__('Content', 'hds-wp'),
+            title: __('Content', 'hds-wp'),
             initialOpen: false,
           },
-          hdsContentTitleControl(props),
-          hdsContentTextControl(props),
           hdsButtonTextControl(props),
           hdsButtonUrlControl(props),
-          hdsExternalUrlControl(props)
+          hdsTargetBlankControl(props, {
+            help: wp.element.createElement(
+              'p',
+              {},
+              wp.i18n.__(
+                'I have made sure that the description of this link clearly states that it opens in a new tab. ',
+                'hds-wp'
+              ),
+              wp.element.createElement(
+                'a',
+                {
+                  href: 'https://www.w3.org/WAI/WCAG21/Techniques/general/G200.html',
+                  target: '_blank',
+                },
+                wp.i18n.__(
+                  'Check WCGA 3.2.5 accessibility requirements (the link opens in a new tab).',
+                  'hds-wp'
+                )
+              )
+            ),
+          })
         ),
         createElement(
           'div',
@@ -107,47 +128,40 @@
             createElement(
               'div',
               {className: 'content__inner'},
-              hdsContentTitle(props),
-              hdsContentText(props),
+              hdsContentTitleRich(props, {
+                placeholder: __('This is the title', 'hds-wp'),
+              }),
+              hdsContentTextRich(props, {
+                placeholder: __('This is the excerpt.', 'hds-wp'),
+              }),
               contentButton(props)
             )
           )
         )
+      );
+      return createElement(
+        'div',
+        useBlockProps({className: classNamesString(props)}),
+        content
       );
     };
   }
 
   function save() {
     return function (props) {
-      return createElement(
-        'div',
-        useBlockProps.save({
-          className: classNamesString(props),
-        }),
-        hdsSingleImage(imageConfig(props)),
-        hdsContent(
-          props,
-          createElement(
-            'div',
-            {className: 'content__inner'},
-            hdsContentTitle(props),
-            hdsContentText(props),
-            contentButton(props)
-          )
-        )
-      );
+      return createElement(Fragment, {}, createElement(InnerBlocks.Content));
     };
   }
 
-  registerBlockType('hds-wp/image-banner', {
-    apiVersion: 2,
-    title: __('Helsinki - Image Banner', 'hds-wp'),
-    category: 'hds-wp',
-    icon: 'format-gallery',
-    keywords: ['Helsinki - Kuvabanneri'],
-    supports: {
-      anchor: true,
-    },
+  function classNamesStringV1(props) {
+    var classNames = [
+      'align-' + props.attributes.alignment,
+      props.attributes.mediaId ? 'has-image' : 'has-placeholder',
+    ];
+    return classNames.join(' ');
+  }
+
+  const v1 = {
     attributes: {
       alignment: {
         type: 'string',
@@ -197,6 +211,92 @@
         type: 'boolean',
         default: false,
       },
+    },
+    supports: {
+      color: true,
+      anchor: true,
+    },
+    save: function (props) {
+      return function (props) {
+        return createElement(
+          'div',
+          useBlockProps.save({
+            className: classNamesStringV1(props),
+          }),
+          hdsSingleImage(imageConfig(props)),
+          hdsContent(
+            props,
+            createElement(
+              'div',
+              {className: 'content__inner'},
+              hdsContentTitle(props),
+              hdsContentText(props),
+              contentButton(props)
+            )
+          )
+        );
+      };
+    },
+  };
+
+  registerBlockType('hds-wp/image-banner', {
+    apiVersion: 2,
+    title: __('Helsinki - Image Banner', 'hds-wp'),
+    category: 'hds-wp',
+    icon: 'format-gallery',
+    keywords: ['Helsinki - Kuvabanneri'],
+    supports: {
+      anchor: true,
+    },
+    attributes: {
+      alignment: {
+        type: 'string',
+        default: 'right',
+      },
+      mediaId: {
+        type: 'number',
+        default: 0,
+      },
+      mediaUrl: {
+        type: 'string',
+        default: '',
+      },
+      mediaWidth: {
+        type: 'number',
+        default: 0,
+      },
+      mediaHeight: {
+        type: 'number',
+        default: 0,
+      },
+      mediaAlt: {
+        type: 'string',
+        default: '',
+      },
+      mediaSrcset: {
+        type: 'string',
+        default: '',
+      },
+      contentTitle: {
+        type: 'string',
+        default: '',
+      },
+      contentText: {
+        type: 'string',
+        default: '',
+      },
+      buttonText: {
+        type: 'string',
+        default: __('Button Text', 'hds-wp'),
+      },
+      buttonUrl: {
+        type: 'string',
+        default: '',
+      },
+      targetBlank: {
+        type: 'boolean',
+        default: false,
+      },
       preview: {
         type: 'string',
         default: '',
@@ -204,6 +304,7 @@
     },
     edit: edit(),
     save: save(),
+    deprecated: [v1],
     example: {
       attributes: {
         preview: hds_wp.blocksUrl + '/previews/image-banner.png',
