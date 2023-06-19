@@ -1,11 +1,12 @@
-(function (wp) {
-  const __ = wp.i18n.__;
-  const {registerBlockType, getBlockContent} = wp.blocks;
-  const {Fragment, createElement} = wp.element;
-  const {useBlockProps, BlockControls, InnerBlocks} = wp.blockEditor;
-  const {InspectorControls} = wp.editor;
-  const {ToolbarGroup, ToolbarButton, Button, ToggleControl} = wp.components;
-  const {select, dispatch, useSelect} = wp.data;
+(function(wp){
+
+	const __ = wp.i18n.__;
+	const { registerBlockType, getBlockContent } = wp.blocks;
+	const { Fragment, createElement } = wp.element;
+	const { useBlockProps, BlockControls, InnerBlocks } = wp.blockEditor;
+	const { InspectorControls } = wp.editor;
+	const { ToolbarGroup, ToolbarButton, Button, ToggleControl } = wp.components;
+	const { select, dispatch, useSelect } = wp.data;
 
   function timelineTitle(props) {
     if (props.attributes.title != null && props.attributes.title != '') {
