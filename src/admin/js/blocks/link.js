@@ -49,8 +49,8 @@
 		selected: props.attributes.linkDir,
 		attribute: 'linkDir',
 		options:  [
-			{label: __('Internal link', 'hds-wp'), value: 'internal'},
-			{label: __('External link', 'hds-wp'), value: 'external'},
+			{label: __('Post', 'hds-wp'), value: 'internal'},
+			{label: __('Link', 'hds-wp'), value: 'external'},
 		]
 	}, props);
   }

@@ -473,6 +473,8 @@ function hdsWithSearchPosts(control) {
                 'status=publish',
                 'per_page=100',
                 'search=' + searchInput,
+				'orderby=relevance',
+				'search_columns=post_title',
               ];
 
 			  return wp.apiFetch({
