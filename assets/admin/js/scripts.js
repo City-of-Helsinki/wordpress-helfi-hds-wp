@@ -1954,9 +1954,9 @@ wp.domReady(function () {
 
   function contentButton(props) {
     return hdsContentButton(props, {
-      className: 'content__link hds-button',
+      className: 'content__link hds-button hds-button--primary',
       href: props.attributes.buttonUrl
-    }, props.attributes.targetBlank ? hdsExternalLinkIcon() : hdsArrowIcon());
+    });
   }
 
   function edit() {
@@ -4054,15 +4054,8 @@ wp.domReady(function () {
       className: "inspector-errornotice"
     }, __('Please enter assistive technology title', 'hds-wp')))));
   }
-})(window.wp);
+})(window.wp); //remove error notices when block is removed
 
-wp.domReady(function () {
-  /* Disable default formats */
-  wp.richText.unregisterFormatType('core/image');
-  wp.richText.unregisterFormatType('core/text-color');
-  wp.richText.unregisterFormatType('core/keyboard');
-  wp.richText.unregisterFormatType('core/code');
-}); //remove error notices when block is removed
 
 (function () {
   var _wp$data13 = wp.data,
@@ -4115,3 +4108,11 @@ wp.domReady(function () {
     blocksState = newBlocksState;
   }, 300));
 })(window.wp);
+
+wp.domReady(function () {
+  /* Disable default formats */
+  wp.richText.unregisterFormatType('core/image');
+  wp.richText.unregisterFormatType('core/text-color');
+  wp.richText.unregisterFormatType('core/keyboard');
+  wp.richText.unregisterFormatType('core/code');
+});

@@ -66,14 +66,10 @@
   }
 
   function contentButton(props) {
-    return hdsContentButton(
-      props,
-      {
-        className: 'content__link hds-button',
-        href: props.attributes.buttonUrl,
-      },
-      props.attributes.targetBlank ? hdsExternalLinkIcon() : hdsArrowIcon()
-    );
+    return hdsContentButton(props, {
+      className: 'content__link hds-button hds-button--primary',
+      href: props.attributes.buttonUrl,
+    });
   }
 
   function edit() {
@@ -139,6 +135,7 @@
           )
         )
       );
+
       return createElement(
         'div',
         useBlockProps({className: classNamesString(props)}),
