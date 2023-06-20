@@ -1036,10 +1036,9 @@ function hds_wp_render_map( $attributes ) {
 	);
 
 	$externalLink = sprintf(
-		'<a href="%s" target="_blank" class="block-embed-external-link" rel="noopener">%s %s</a>',
+		'<a href="%s" target="_blank" class="block-embed-external-link" rel="noopener">%s</a>',
 		$linkUrl,
-		__('Open map in new window', 'hds-wp'),
-		hds_wp_render_link_icon( true )
+		__('Open map in new window', 'hds-wp')
 	);
 
 	return sprintf(
@@ -1073,10 +1072,14 @@ function hds_wp_render_map( $attributes ) {
 	$id = 'hds-video-' . $attributes['blockId'];
 	$title = $attributes['title'];
 	$description = $attributes['description'];
-	$url = $attributes['iframeUrl'];
 	$linkUrl = $attributes['url'];
-
 	$assistive_title = $attributes['assistive_title'];
+
+	if (strpos($attributes['iframeUrl'], 'youtube') !== false) {
+		$url = $attributes['iframeUrl'] . '?rel=0';
+	} else {
+		$url = $attributes['iframeUrl'];
+	}
 
 	$beforeVideoSkipLink = sprintf(
 		'<a href="#%s-after" id="%s-before" class="focusable skip-link skip-link--video--before">%s</a>',
@@ -1093,10 +1096,9 @@ function hds_wp_render_map( $attributes ) {
 	);
 
 	$externalLink = sprintf(
-		'<a href="%s" target="_blank" class="block-embed-external-link" rel="noopener">%s %s</a>',
+		'<a href="%s" target="_blank" class="block-embed-external-link" rel="noopener">%s</a>',
 		$linkUrl,
-		__('Open video in new window', 'hds-wp'),
-		hds_wp_render_link_icon( true )
+		__('Open video in new window', 'hds-wp')
 	);
 
 	$iframe = sprintf(
