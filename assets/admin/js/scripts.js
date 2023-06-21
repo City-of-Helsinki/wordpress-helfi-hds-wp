@@ -2189,7 +2189,7 @@ function hdsIcons(name) {
 
   function titleText(props) {
     return hdsTextControl({
-      label: wp.i18n.__('Title', 'hds-wp'),
+      label: wp.i18n.__('Link text', 'hds-wp'),
       value: props.attributes.linkTitle,
       attribute: 'linkTitle'
     }, props);
@@ -2205,7 +2205,7 @@ function hdsIcons(name) {
 
   function urlText(props) {
     return hdsTextControl({
-      label: wp.i18n.__('URL', 'hds-wp'),
+      label: wp.i18n.__('Link URL', 'hds-wp'),
       value: props.attributes.linkUrl,
       attribute: 'linkUrl'
     }, props);

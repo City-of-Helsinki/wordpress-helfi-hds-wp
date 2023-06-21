@@ -370,6 +370,10 @@ return array(
 	            'type'    => 'string',
 	            'default' => '',
 	        ),
+			'contentText' => array(
+	            'type'    => 'string',
+	            'default' => '',
+			),
 	        'links' => array(
 	            'type'    => 'array',
 	            'default' => array(),

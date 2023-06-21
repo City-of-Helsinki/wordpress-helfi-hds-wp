@@ -334,6 +334,14 @@ function hds_wp_render_block_links_list( $attributes ) {
 		);
 	}
 
+	$description = '';
+	if ( ! empty( $attributes['contentText'] ) ) {
+		$description = sprintf(
+			'<p class="links-list__description">%s</p>',
+			esc_html( $attributes['contentText'] )
+		);
+	}
+
 	$gridClasses = array(
 		'links-list__links',
 		'links-list__links--' . $linkType,
@@ -344,6 +352,7 @@ function hds_wp_render_block_links_list( $attributes ) {
 		'<div %s class="%s">%s
 			<div class="hds-container">
 				%s
+				%s
 				<ul class="%s">%s</ul>
 			</div>
 		</div>',
@@ -351,6 +360,7 @@ function hds_wp_render_block_links_list( $attributes ) {
 		implode( ' ', $wrapClasses ),
 		$koros,
 		$title,
+		$description,
 		implode( ' ', $gridClasses ),
 		implode( '', $links )
 	);
@@ -390,6 +400,16 @@ function hds_wp_render_links_list_item( string $link ) {
 	return '<li class="links-list__item">' . $link . '</li>';
 }
 
+function hds_link_is_external( string $url ) {
+	$home_url = get_option('home'); // get the site url from options, because plugins can change it from get_home_url()
+    $home_url = preg_replace('/^https?:\/\//', '', $home_url);
+
+	if (!str_contains(preg_replace('/^https?:\/\//', '', $url), $home_url) && !str_starts_with( $url, '#' ) && !str_starts_with( $url, '/' )) {
+		return true;
+	}
+	return false;
+}
+
 function hds_wp_render_link_icon( bool $external ) {
 	if ( $external ) {
 		return Svg::icon( 'forms-data', 'link-external' );
@@ -405,19 +425,10 @@ function hds_wp_render_link_with_title( array $link ) {
 			$post = $posts->posts[0];
 			$link['linkTitle'] = $post->post_title;
 			$link['linkUrl'] = get_permalink( $post );
-			$link['isExternalUrl'] = false;
 			$link['targetBlank'] = false;
 		}
 		else {
 			return;
-		}
-	}
-	else {
-		if (isset($link['linkDir'])) {
-			$link['isExternalUrl'] = $link['linkDir'] == 'internal' ? false : true;
-		}
-		else if (!isset($link['isExternalUrl'] )) {
-			$link['isExternalUrl'] = false;
 		}
 	}
 
@@ -428,11 +439,11 @@ function hds_wp_render_link_with_title( array $link ) {
 	return hds_wp_render_links_list_item(
 		sprintf(
 			'<div class="link">
-				<a %s><h3 class="link___title"><span>%s</span>%s</h3></a>
+				<a %s><span>%s</span>%s</a>
 			</div>',
 			hds_links_list_link_attributes( $link ),
 			esc_html( $link['linkTitle'] ),
-			hds_wp_render_link_icon( $link['isExternalUrl'] )
+			!hds_link_is_external( $link['linkUrl'] ) ? hds_wp_render_link_icon( false ) : '',
 		)
 	);
 }
@@ -445,19 +456,10 @@ function hds_wp_render_link_with_title_excerpt( array $link ) {
 			$link['linkTitle'] = $post->post_title;
 			$link['linkExcerpt'] = $post->post_excerpt;
 			$link['linkUrl'] = get_permalink( $post );
-			$link['isExternalUrl'] = false;
 			$link['targetBlank'] = false;
 		}
 		else {
 			return;
-		}
-	}
-	else {
-		if (isset($link['linkDir'])) {
-			$link['isExternalUrl'] = $link['linkDir'] == 'internal' ? false : true;
-		}
-		else if (!isset($link['isExternalUrl'] )) {
-			$link['isExternalUrl'] = false;
 		}
 	}
 
@@ -473,12 +475,12 @@ function hds_wp_render_link_with_title_excerpt( array $link ) {
 	return hds_wp_render_links_list_item(
 		sprintf(
 			'<div class="link">
-				<a %s><h3 class="link___title"><span>%s</span>%s</h3></a>
+				<a %s><span>%s</span>%s</a>
 				%s
 			</div>',
 			hds_links_list_link_attributes( $link ),
 			esc_html( $link['linkTitle'] ),
-			hds_wp_render_link_icon( $link['isExternalUrl'] ),
+			!hds_link_is_external( $link['linkUrl'] ) ? hds_wp_render_link_icon( false ) : '',
 			$excerpt
 		)
 	);
@@ -493,19 +495,10 @@ function hds_wp_render_link_with_image_title( array $link ) {
 			$link['linkExcerpt'] = $post->post_excerpt;
 			$link['mediaId'] = get_post_thumbnail_id($post);
 			$link['linkUrl'] = get_permalink( $post );
-			$link['isExternalUrl'] = false;
 			$link['targetBlank'] = false;
 		}
 		else {
 			return;
-		}
-	}
-	else {
-		if (isset($link['linkDir'])) {
-			$link['isExternalUrl'] = $link['linkDir'] == 'internal' ? false : true;
-		}
-		else if (!isset($link['isExternalUrl'] )) {
-			$link['isExternalUrl'] = false;
 		}
 	}
 
@@ -518,7 +511,7 @@ function hds_wp_render_link_with_image_title( array $link ) {
 		sprintf(
 			'<div class="link">
 				<div class="link__thumbnail%s">%s</div>
-				<a %s><h3 class="link___title"><span>%s</span>%s</h3></a>
+				<a %s><span>%s</span>%s</a>
 			</div>',
 			$has_placeholder ? ' has-placeholder' : '',
 			$link['mediaId'] ? wp_get_attachment_image($link['mediaId'], 'medium_large') : Svg::placeholder(
@@ -529,7 +522,7 @@ function hds_wp_render_link_with_image_title( array $link ) {
 			),
 			hds_links_list_link_attributes( $link ),
 			esc_html( $link['linkTitle'] ),
-			hds_wp_render_link_icon( $link['isExternalUrl'] )
+			!hds_link_is_external( $link['linkUrl'] ) ? hds_wp_render_link_icon( false ) : '',
 		)
 	);
 }
@@ -543,10 +536,6 @@ function hds_links_list_link_attributes( array $link ) {
 
 	if ( ! empty( $link['targetBlank'] ) ) {
 		$attributes[] = 'target="_blank"';
-	}
-
-	if (! empty( $link['isExternalUrl'] ) && $link['isExternalUrl'] ) {
-		$attributes[] = 'aria-label="' . $link['linkTitle'] . ' - ' . __('(Link leads to external service)', 'hds-wp') . '"';
 	}
 
 	return implode( ' ', $attributes );
