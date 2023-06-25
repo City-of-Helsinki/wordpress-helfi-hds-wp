@@ -732,13 +732,6 @@ function hds_wp_render_image_text($attributes) {
 		$wrapClasses[] = 'align-left';
 	}
 
-	if (function_exists('helsinki_scheme_has_invert_color')) {
-		if(	helsinki_scheme_has_invert_color()	) {
-			$wrapClasses[] = 'has-invert-color';
-		}
-	}
-
-
 	if (!empty($attributes['className'])) {
 		$wrapClasses[] = esc_attr($attributes['className']);
 	}
@@ -788,8 +781,10 @@ function hds_wp_render_image_text($attributes) {
 
 	return sprintf(
 		'<div %s class="%s">
-			%s
-			%s
+		  <div class="image-banner--wrapper">
+				%s
+				%s
+			</div>
 		</div>',
 		$id,
 		implode( ' ', $wrapClasses ),

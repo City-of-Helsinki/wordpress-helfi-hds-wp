@@ -115,9 +115,7 @@
         ),
         createElement(
           'div',
-          useBlockProps({
-            className: classNamesString(props),
-          }),
+          {className: 'image-banner--wrapper'},
           hdsSingleImage(imageConfig(props)),
           hdsContent(
             props,
@@ -136,11 +134,25 @@
         )
       );
 
-      return createElement(
-        'div',
-        useBlockProps({className: classNamesString(props)}),
-        content
-      );
+      var SSRContent = createElement(wp.serverSideRender, {
+        block: 'hds-wp/image-banner',
+        attributes: props.attributes,
+        httpMethod: 'POST',
+      });
+
+      if (props.isSelected) {
+        return createElement(
+          'div',
+          useBlockProps({className: classNamesString(props)}),
+          content
+        );
+      } else {
+        return createElement(
+          'div',
+          useBlockProps({className: classNamesString(props)}),
+          SSRContent
+        );
+      }
     };
   }
 
