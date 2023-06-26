@@ -25,6 +25,7 @@
     </gutenberg-block>
     <gutenberg-block type="hds-wp/recent-posts" translate="1">
       <key name="title" />
+    </gutenberg-block>
     <gutenberg-block type="hds-wp/image-banner" translate="1">
       <key name="contentTitle" />
       <key name="contentText" />
