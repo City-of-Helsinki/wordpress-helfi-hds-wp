@@ -1,0 +1,54 @@
+.recent-posts {
+
+	margin-bottom: $paragraph-margin-bottom-small;
+
+	@include breakpoint('m') {
+		margin-bottom: $paragraph-margin-bottom-big;
+	}
+
+    .posts-page {
+
+        .link-wrap {
+            display: inline-block;
+
+            a {
+                &:focus,
+                &:hover {
+                    svg {
+
+                    }
+                }
+            }
+        }
+    }
+
+    .hds-container {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .entry__thumbnail {
+        .icon {
+            path {
+                fill: $black;
+            }
+        }
+    }
+
+}
+
+.has-sidebar {
+	
+    .recent-posts {
+
+        .grid {
+            @include breakpoint('l') {
+                $gutter: map-get($gutters, 'l');
+
+                .grid__column {
+                    width: calc(50% - #{$gutter} / 2);
+                }
+            }
+        }
+    }
+}
