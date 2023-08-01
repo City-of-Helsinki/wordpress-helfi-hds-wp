@@ -92,6 +92,7 @@
         }
 
         .link__title_link {
+            display: inline-block;
             &:after {
                 bottom: 0;
                 content: "";
