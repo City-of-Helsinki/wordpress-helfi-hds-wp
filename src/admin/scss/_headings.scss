@@ -14,10 +14,6 @@ h6 {
   margin-bottom: $heading-margin-bottom;
   word-break: $heading-word-wrap;
 
-  + p {
-    margin-top: calc(var(--spacing-s) * -1);
-  }
-
   &.has-background {
     padding: 0;
   }
