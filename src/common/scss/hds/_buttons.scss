@@ -1,3 +1,11 @@
+button {
+  outline-offset: 2px;
+
+  &:focus {
+    outline: 3px solid $black;
+  }
+}
+
 .button,
 .hds-button,
 %hds-button {
