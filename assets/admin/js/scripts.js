@@ -768,14 +768,6 @@ wp.domReady(function () {
   wp.hooks.addFilter('editor.BlockListBlock', 'table/custom-editor-wrapper-class', tableEditorWrapperExtraClass);
 })(window.wp);
 
-wp.domReady(function () {
-  /* Disable default formats */
-  wp.richText.unregisterFormatType('core/image');
-  wp.richText.unregisterFormatType('core/text-color');
-  wp.richText.unregisterFormatType('core/keyboard');
-  wp.richText.unregisterFormatType('core/code');
-});
-
 (function (wp) {
   var __ = wp.i18n.__;
   var _wp$blocks = wp.blocks,
@@ -3982,8 +3974,15 @@ wp.domReady(function () {
       className: "inspector-errornotice"
     }, __('Please enter assistive technology title', 'hds-wp')))));
   }
-})(window.wp); //remove error notices when block is removed
+})(window.wp);
 
+wp.domReady(function () {
+  /* Disable default formats */
+  wp.richText.unregisterFormatType('core/image');
+  wp.richText.unregisterFormatType('core/text-color');
+  wp.richText.unregisterFormatType('core/keyboard');
+  wp.richText.unregisterFormatType('core/code');
+}); //remove error notices when block is removed
 
 (function () {
   var _wp$data13 = wp.data,
