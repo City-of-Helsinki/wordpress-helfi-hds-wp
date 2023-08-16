@@ -237,6 +237,11 @@
                             display: block;
                             text-decoration: none;
                         }
+
+                        .icon {
+                            margin-top: spacing('s');
+                            margin-left: calc(var(--spacing-2-xs) * -1);
+                        }
                     }
 
                     &:focus,
