@@ -55,6 +55,24 @@ function hdsAccordion() {
         _toggle.focus();
       });
     }
+
+    if (window.location.hash) {
+      var _hash = window.location.hash;
+
+      var _anchor = accordion.querySelector(_hash);
+
+      if (_anchor) {
+        var _section = _anchor.closest('.accordion__section'),
+            _toggle = _section.querySelector('.accordion__toggle'),
+            _panel = _toggle.parentElement.nextElementSibling;
+
+        _open(_toggle, _panel);
+
+        _anchor.scrollIntoView();
+
+        _anchor.focus();
+      }
+    }
   }
 
   return {
@@ -261,6 +279,7 @@ hdsAccordions.init(parseAccordionElements());
 
 (function ($) {
   $(function () {
+    //Custom Facebook Feed
     $('.cff').each(function () {
       var $this = $(this);
       hideFeedFromScreenReaders($this);
@@ -275,7 +294,16 @@ hdsAccordions.init(parseAccordionElements());
         hideLinksFromScreenReaders($this);
       });
       ro.observe($this[0]);
-    });
+    }); //Social wall
+
+    $('.sb-wall').each(function () {
+      var $this = $(this);
+      hideLinksFromScreenReaders($this);
+      var ro = new ResizeObserver(function (entries) {
+        hideLinksFromScreenReaders($this);
+      });
+      ro.observe($this[0]);
+    }); //General Functions
 
     function hideLinksFromScreenReaders(element) {
       element.find('a:not(.cff-follow-link)').each(function () {

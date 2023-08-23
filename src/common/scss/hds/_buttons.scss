@@ -1,3 +1,11 @@
+button {
+  outline-offset: 2px;
+
+  &:focus {
+    outline: 3px solid $black;
+  }
+}
+
 .button,
 .hds-button,
 %hds-button {
@@ -17,6 +25,7 @@
   position: relative;
   text-decoration: none;
   transition: $default-transition;
+  outline-offset: 2px;
 
   svg {
 		fill: $white;
@@ -35,8 +44,7 @@
   }
 
   &:focus {
-    border-color: $white;
-    outline: 2px solid $black;
+    outline: 3px solid $black;
   }
 
   &:disabled,
@@ -74,8 +82,7 @@
     }
 
     &:focus {
-      border-color: $black;
-      outline: 2px solid $black;
+      outline: 3px solid $black;
     }
 
     &:disabled,
@@ -113,7 +120,7 @@
     }
 
     &:focus {
-      outline: 2px solid $black;
+      outline: 3px solid $black;
     }
 
     &:disabled,
@@ -166,8 +173,7 @@
   }
 
   &:focus {
-    border-color: $black;
-    outline: 2px solid $black;
+    outline: 3px solid $black;
   }
 
   &:disabled,
@@ -203,16 +209,19 @@
 		fill: $black;
 	}
 
-	&:focus,
+
 	&:hover {
 		background-color: transparent;
-		border-color: $white;
 		color: $white;
 
 		.icon {
 			fill: $white;
 		}
 	}
+
+  &:focus {
+    outline-color: $white;
+  }
 
 	&.hds-button--secondary {
 		background-color: transparent;
@@ -223,15 +232,18 @@
 			fill: $white;
 		}
 
-		&:focus,
 		&:hover {
 			background-color: $white;
-			border-color: $white;
 			color: $black;
 
 			.icon {
 				fill: $black;
 			}
 		}
+
+    &:focus {
+      outline-color: $white;
+    }
+
 	}
 }

@@ -9,9 +9,9 @@
 
   function linkTypeOptions() {
     return [
-      {label: __('Only title', 'hds-wp'), value: 'title'},
-      {label: __('Title & Excerpt', 'hds-wp'), value: 'title-excerpt'},
-      {label: __('Image & Title', 'hds-wp'), value: 'image-title'},
+      {label: __('Without image', 'hds-wp'), value: 'title'},
+      {label: __('Title & excerpt', 'hds-wp'), value: 'title-excerpt'},
+      {label: __('With image', 'hds-wp'), value: 'image-title'},
     ];
   }
 
@@ -29,14 +29,6 @@
         title: __('Settings', 'hds-wp'),
         initialOpen: false,
       },
-      hdsTextControl(
-        {
-          label: __('Title', 'hds-wp'),
-          value: props.attributes.title,
-          attribute: 'title',
-        },
-        props
-      ),
       hdsSelectControl(
         {
           label: __('Link type', 'hds-wp'),
@@ -57,7 +49,7 @@
       ),
       hdsCheckboxControl(
         {
-          label: __('Has background', 'hds-wp'),
+          label: __('Background', 'hds-wp'),
           checked: props.attributes.hasBackground,
           attribute: 'hasBackground',
         },
@@ -107,7 +99,14 @@
         content = createElement(
           Fragment,
           {},
-          title(props),
+          hdsContentTitleRich(props, {
+            placeholder: __('This is the title', 'hds-wp'),
+            titleAttribute: 'title',
+            className: 'links__title',
+          }),
+          hdsContentTextRich(props, {
+            placeholder: __('This is the excerpt.', 'hds-wp'),
+          }),
           createElement(InnerBlocks, {
             allowedBlocks: ['hds-wp/link'],
             template: [
@@ -174,6 +173,10 @@
         type: 'string',
         default: '',
       },
+      contentText: {
+        type: 'string',
+        default: '',
+      }, 
       links: {
         type: 'array',
         default: [],

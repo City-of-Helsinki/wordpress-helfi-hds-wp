@@ -1,6 +1,7 @@
 (function( $ ) {
     $(function () {    
 
+        //Custom Facebook Feed
         $('.cff').each(function(){
             var $this = $(this);
 
@@ -20,6 +21,22 @@
             ro.observe($this[0]);
 
         });
+
+        //Social wall
+
+        $('.sb-wall').each(function(){
+            var $this = $(this);
+
+            hideLinksFromScreenReaders($this);
+                
+            var ro = new ResizeObserver(function(entries) {
+                hideLinksFromScreenReaders($this);
+            });
+            ro.observe($this[0]);
+
+        });
+
+        //General Functions
 
         function hideLinksFromScreenReaders(element) {
             element.find('a:not(.cff-follow-link)').each(function(){
