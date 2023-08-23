@@ -6,7 +6,7 @@ msgstr ""
 "Language: sv_SE\n"
 "Language-Team: Swedish\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"PO-Revision-Date: 2023-06-14 06:36+0000\n"
+"PO-Revision-Date: 2023-08-11 09:01+0000\n"
 "X-Generator: Loco https://localise.biz/"
 
 #: config/blocks/callbacks.php:549
@@ -133,7 +133,7 @@ msgstr "Helsingfors stad"
 #: config/blocks/callbacks.php:241 assets/admin/js/scripts.js:709
 #: src/admin/js/blocks/accordion-panel.js:144
 msgid "Close"
-msgstr ""
+msgstr "Stäng"
 
 #: assets/admin/js/scripts.js:1301 assets/admin/js/scripts.js:2524
 #: src/admin/js/blocks/content-cards.js:53 src/admin/js/blocks/links.js:51
