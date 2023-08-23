@@ -1467,6 +1467,14 @@ function hdsIcons(name) {
 
     if (getBlockType('core/freeform')) {
       unregisterBlockType('core/freeform');
+    }
+
+    if (getBlockType('core/details')) {
+      unregisterBlockType('core/details');
+    }
+
+    if (getBlockType('core/footnotes')) {
+      unregisterBlockType('core/footnotes');
     } //Disable theme blocks
 
 

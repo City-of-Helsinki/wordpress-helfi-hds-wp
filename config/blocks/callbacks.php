@@ -765,7 +765,6 @@ function hds_wp_render_image_text($attributes) {
 	if (empty($attributes['style']) || $attributes['style'] == 'numberless') {
 		$timeline = sprintf(
 			'<ul class="timeline">
-				<div class="timeline-line"></div>
 				%s
 			</ul>',
 			do_blocks(implode(' ', $cards))
@@ -774,7 +773,6 @@ function hds_wp_render_image_text($attributes) {
 	else if ($attributes['style'] == 'numbered') {
 		$timeline = sprintf(
 			'<ol class="timeline">
-				<div class="timeline-line"></div>
 				%s
 			</ol>',
 			do_blocks(implode(' ', $cards))
@@ -832,14 +830,14 @@ function hds_wp_render_timeline_card($attributes, $content = null) {
 	}
 
 	return sprintf(
-		'<div %s class="%s">
+		'<li %s class="%s">
 			<div class="content">
 				%s
 				<div class="content-wrapper">
 					%s
 				</div>
 			</div>
-		</div>',
+		</li>',
 		$id,
 		implode( ' ', $wrapClasses ),
 		$step,
