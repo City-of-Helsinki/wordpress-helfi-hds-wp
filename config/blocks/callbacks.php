@@ -72,7 +72,7 @@ function hds_wp_render_block_content_cards( $attributes ) {
 }
 
 function hds_wp_content_card_html( WP_Post $post, $attributes) {
-	$image = get_the_post_thumbnail( $post, 'medium' );
+	$image = get_the_post_thumbnail( $post, 'medium', array( 'alt' => '' ) );
 	$has_placeholder = false;
 	if ( ! $image ) {
 		$has_placeholder = true;
@@ -521,7 +521,7 @@ function hds_wp_render_link_with_image_title( array $link ) {
 				<a %s><h3 class="link___title"><span>%s</span>%s</h3></a>
 			</div>',
 			$has_placeholder ? ' has-placeholder' : '',
-			$link['mediaId'] ? wp_get_attachment_image($link['mediaId'], 'medium_large') : Svg::placeholder(
+			$link['mediaId'] ? wp_get_attachment_image($link['mediaId'], 'medium_large', false, array( 'alt' => '' ) ) : Svg::placeholder(
 				apply_filters(
 					'hds_wp_links_list_item_placeholder_icon',
 					'abstract-3'
