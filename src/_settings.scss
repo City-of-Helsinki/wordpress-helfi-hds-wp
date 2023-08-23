@@ -41,6 +41,7 @@ $gutters: (
 	xs: 12px,
 	s: 16px,
 	m: 24px,
+	l: 24px,
 );
 
 /* ========== OPACITY ========== */
@@ -58,7 +59,7 @@ $default-transition: all $default-transition-time !default;
 
 /* ===== GLOBAL ===== */
 $global-font-size: $fontsize-body-l !default;
-$global-font-size-m: $fontsize-body-m !default;
+$global-font-size-m: $fontsize-body-l !default;
 $global-line-height: $lineheight-l !default;
 
 $global-font-weight-light: 100 !default;
@@ -87,7 +88,7 @@ $heading-font-weight: $global-font-weight-normal !default;
 $heading-line-height: 1 !default;
 $heading-letter-spacing: 0 !default;
 $heading-margin-top: var(--spacing-4-xl) !default;
-$heading-margin-bottom: var(--spacing-l) !default;
+$heading-margin-bottom: var(--spacing-s) !default;
 $heading-word-wrap: break-word !default;
 
 /* ===== LINKS ===== */
