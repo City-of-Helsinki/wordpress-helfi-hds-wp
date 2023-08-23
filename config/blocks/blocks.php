@@ -29,6 +29,9 @@ return array(
 			'anchor' => array(
 	            'type'    => 'string',
 	            'default' => '',
+			),
+			'preview' => array(
+				'type' => 'string',
 			)
 		)
 	),
@@ -317,6 +320,9 @@ return array(
 			'anchor' => array(
 	            'type'    => 'string',
 	            'default' => '',
+			),
+			'preview' => array(
+				'type' => 'string',
 			)
 	    ),
 	),
@@ -364,6 +370,10 @@ return array(
 	            'type'    => 'string',
 	            'default' => '',
 	        ),
+			'contentText' => array(
+	            'type'    => 'string',
+	            'default' => '',
+			),
 	        'links' => array(
 	            'type'    => 'array',
 	            'default' => array(),

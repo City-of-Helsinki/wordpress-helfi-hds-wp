@@ -55,22 +55,7 @@
 		}
 
 		&__link {
-			background-color: var(--primary-content-color);
-			border-color: var(--primary-content-color);
-			color: var(--primary-content-secondary-color);
-		}
-
-		&__link:hover {
-			color: var(--primary-content-color);
-			background-color: transparent;
-		}
-
-		&__link svg {
-			fill: var(--primary-content-secondary-color);
-		}
-
-		&__link:hover svg {
-			fill: var(--primary-content-color);
+			@extend %inverted-button;
 		}
 
 		@include breakpoint('m') {
@@ -201,22 +186,7 @@
 			}
 	
 			&__link {
-				background-color: $black;
-				border-color: $black;
-				color: $white;
-			}
-	
-			&__link:hover {
-				color: $black;
-				background-color: transparent;
-			}
-	
-			&__link svg {
-				fill: $white;
-			}
-	
-			&__link:hover svg {
-				fill: $black;
+				@extend %hds-button;
 			}
 	
 		}
@@ -240,6 +210,16 @@
 				margin-left: auto;
 				margin-right: auto;
 				text-align: center;
+
+				p {
+					margin-left: auto;
+					margin-right: auto;
+					text-align: center;	
+
+					&:last-child {
+						margin-bottom: 0;
+					}
+				}
 			}
 
 			&__inner {
