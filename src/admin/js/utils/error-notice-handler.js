@@ -25,7 +25,9 @@
       if (errorNotices.length > 0) {
         dispatch('core/editor').lockPostSaving('requiredValueLock');
       } else {
-        dispatch('core/editor').unlockPostSaving('requiredValueLock');
+        if (select('core/editor').isPostSavingLocked()) {
+          dispatch('core/editor').unlockPostSaving('requiredValueLock');
+        }
       }
 
       // When very last block is removed, it's replaced with a new paragraph block.

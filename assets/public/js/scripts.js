@@ -55,6 +55,24 @@ function hdsAccordion() {
         _toggle.focus();
       });
     }
+
+    if (window.location.hash) {
+      var _hash = window.location.hash;
+
+      var _anchor = accordion.querySelector(_hash);
+
+      if (_anchor) {
+        var _section = _anchor.closest('.accordion__section'),
+            _toggle = _section.querySelector('.accordion__toggle'),
+            _panel = _toggle.parentElement.nextElementSibling;
+
+        _open(_toggle, _panel);
+
+        _anchor.scrollIntoView();
+
+        _anchor.focus();
+      }
+    }
   }
 
   return {
