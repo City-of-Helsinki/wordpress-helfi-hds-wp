@@ -163,7 +163,7 @@ function hdsContentText(props) {
 function hdsContentTextRich(props, config) {
 	return wp.element.createElement(
 		wp.blockEditor.RichText, {
-			tagName: 'p',
+			tagName: 'div',
 			className: config.className ? config.className : 'content__text',
 			value: config.textAttribute ? props.attributes[config.textAttribute] : props.attributes.contentText,
 			onChange: function (value) {

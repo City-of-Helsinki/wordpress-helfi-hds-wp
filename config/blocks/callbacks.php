@@ -562,10 +562,10 @@ function hds_wp_render_banner($attributes) {
 	$text = sprintf(
 		'<div class="content__inner content__inner--text">
 			<h2 class="content__heading">%s</h2>
-			<p class="content__text">%s</p>
+			<div class="content__text">%s</div>
 		</div>',
 		$attributes['contentTitle'],
-		$attributes['contentText']
+		wpautop($attributes['contentText'], false)
 	);
 
 	$button = '';
@@ -687,7 +687,7 @@ function hds_wp_render_image_text($attributes) {
 				%s
 			</div>',
 			!empty($attributes['contentTitle']) ? sprintf('<h2 class="content__heading">%s</h2>', $attributes['contentTitle']) : '',
-			!empty($attributes['contentText']) ? sprintf('<p class="content__text">%s</p>', $attributes['contentText']) : '',
+			!empty($attributes['contentText']) ? sprintf('<div class="content__text">%s</div>', wpautop($attributes['contentText'], false)) : '',
 			!empty($attributes['buttonText']) && !empty($attributes['buttonUrl']) ? sprintf('<a class="content__link hds-button hds-button--primary" href="%s" %s>%s</a>', $attributes['buttonUrl'], $attributes['targetBlank'] ? 'target="_blank"' : '', $attributes['buttonText']) : ''
 		);
 	}
