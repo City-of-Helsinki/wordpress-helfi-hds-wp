@@ -434,7 +434,7 @@ function hdsWithSearchPosts(control) {
   return wp.compose.compose(wp.data.withSelect(function (select, props) {
     return {
       searchPosts: function searchPosts(searchInput) {
-        var params = ['status=publish', 'per_page=100', 'search=' + searchInput];
+        var params = ['status=publish', 'per_page=100', 'search=' + searchInput, 'orderby=relevance', 'search_columns=post_title'];
         return wp.apiFetch({
           path: '/wp/v2/posts?' + params.join('&')
         }).then(function (posts) {
@@ -2197,7 +2197,7 @@ function hdsIcons(name) {
 
   function titleText(props) {
     return hdsTextControl({
-      label: wp.i18n.__('Title', 'hds-wp'),
+      label: wp.i18n.__('Link text', 'hds-wp'),
       value: props.attributes.linkTitle,
       attribute: 'linkTitle'
     }, props);
@@ -2213,7 +2213,7 @@ function hdsIcons(name) {
 
   function urlText(props) {
     return hdsTextControl({
-      label: wp.i18n.__('URL', 'hds-wp'),
+      label: wp.i18n.__('Link URL', 'hds-wp'),
       value: props.attributes.linkUrl,
       attribute: 'linkUrl'
     }, props);
@@ -2225,10 +2225,10 @@ function hdsIcons(name) {
       selected: props.attributes.linkDir,
       attribute: 'linkDir',
       options: [{
-        label: __('Internal link', 'hds-wp'),
+        label: __('Post', 'hds-wp'),
         value: 'internal'
       }, {
-        label: __('External link', 'hds-wp'),
+        label: __('Link', 'hds-wp'),
         value: 'external'
       }]
     }, props);
@@ -2491,13 +2491,13 @@ function hdsIcons(name) {
 
   function linkTypeOptions() {
     return [{
-      label: __('Only title', 'hds-wp'),
+      label: __('Without image', 'hds-wp'),
       value: 'title'
     }, {
-      label: __('Title & Excerpt', 'hds-wp'),
+      label: __('Title & excerpt', 'hds-wp'),
       value: 'title-excerpt'
     }, {
-      label: __('Image & Title', 'hds-wp'),
+      label: __('With image', 'hds-wp'),
       value: 'image-title'
     }];
   }
@@ -2519,11 +2519,7 @@ function hdsIcons(name) {
     return hdsInspectorControls({
       title: __('Settings', 'hds-wp'),
       initialOpen: false
-    }, hdsTextControl({
-      label: __('Title', 'hds-wp'),
-      value: props.attributes.title,
-      attribute: 'title'
-    }, props), hdsSelectControl({
+    }, hdsSelectControl({
       label: __('Link type', 'hds-wp'),
       value: props.attributes.linkType,
       attribute: 'linkType',
@@ -2534,7 +2530,7 @@ function hdsIcons(name) {
       attribute: 'columns',
       options: columnCountOptions()
     }, props), hdsCheckboxControl({
-      label: __('Has background', 'hds-wp'),
+      label: __('Background', 'hds-wp'),
       checked: props.attributes.hasBackground,
       attribute: 'hasBackground'
     }, props));
@@ -2570,7 +2566,13 @@ function hdsIcons(name) {
       });
 
       if (props.isSelected || isParentOfSelectedBlock) {
-        content = createElement(Fragment, {}, title(props), createElement(InnerBlocks, {
+        content = createElement(Fragment, {}, hdsContentTitleRich(props, {
+          placeholder: __('This is the title', 'hds-wp'),
+          titleAttribute: 'title',
+          className: 'links__title'
+        }), hdsContentTextRich(props, {
+          placeholder: __('This is the excerpt.', 'hds-wp')
+        }), createElement(InnerBlocks, {
           allowedBlocks: ['hds-wp/link'],
           template: [['hds-wp/link', {}], ['hds-wp/link', {}], ['hds-wp/link', {}]]
         }));
@@ -2619,6 +2621,10 @@ function hdsIcons(name) {
         default: 'title'
       },
       title: {
+        type: 'string',
+        default: ''
+      },
+      contentText: {
         type: 'string',
         default: ''
       },
