@@ -169,10 +169,10 @@ function hdsContentText(props) {
 function hdsContentTextRich(props, config) {
   return wp.element.createElement(wp.blockEditor.RichText, {
     tagName: 'div',
-    className: 'content__text',
-    value: props.attributes.contentText,
+    className: config.className ? config.className : 'content__text',
+    value: config.textAttribute ? props.attributes[config.textAttribute] : props.attributes.contentText,
     onChange: function onChange(value) {
-      props.setAttributes({
+      props.setAttributes(config.textAttribute ? _defineProperty({}, config.textAttribute, value) : {
         contentText: value
       });
     },
@@ -434,7 +434,7 @@ function hdsWithSearchPosts(control) {
   return wp.compose.compose(wp.data.withSelect(function (select, props) {
     return {
       searchPosts: function searchPosts(searchInput) {
-        var params = ['status=publish', 'per_page=100', 'search=' + searchInput];
+        var params = ['status=publish', 'per_page=100', 'search=' + searchInput, 'orderby=relevance', 'search_columns=post_title'];
         return wp.apiFetch({
           path: '/wp/v2/posts?' + params.join('&')
         }).then(function (posts) {
@@ -1024,6 +1024,12 @@ wp.domReady(function () {
 
   function edit() {
     return function (props) {
+      if (props.attributes.preview) {
+        return /*#__PURE__*/React.createElement("img", {
+          src: props.attributes.preview
+        });
+      }
+
       props.attributes.blockVersion = 2;
       var content = null;
       var clientId = props.clientId;
@@ -1105,6 +1111,10 @@ wp.domReady(function () {
       anchor: {
         type: 'string',
         default: ''
+      },
+      preview: {
+        type: 'string',
+        default: ''
       }
     },
     edit: edit(),
@@ -1117,7 +1127,12 @@ wp.domReady(function () {
           className: 'accordion'
         }, createElement(InnerBlocks.Content))));
       }
-    }]
+    }],
+    example: {
+      attributes: {
+        preview: hds_wp.blocksUrl + '/previews/accordion.png'
+      }
+    }
   });
 })(window.wp);
 
@@ -1159,7 +1174,7 @@ wp.domReady(function () {
     }
 
     if (checkAttribute) {
-      if (!props.attributes.contentIcon || props.attributes.contentIcon === "(empty)") {
+      if (!props.attributes.contentIcon || props.attributes.contentIcon === '(empty)') {
         return false;
       }
     }
@@ -1277,7 +1292,19 @@ wp.domReady(function () {
         default: ''
       }
     },
-    edit: edit()
+    edit: edit(),
+    example: {
+      attributes: {
+        contentTitle: 'Banneri',
+        contentText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed fermentum ullamcorper velit. Sed fringilla ultricies pharetra. Duis vestibulum faucibus justo, eu bibendum mi eleifend vel.',
+        buttonText: 'Painikkeen teksti',
+        buttonUrl: 'https://www.hel.fi',
+        targetBlank: true,
+        isExternalUrl: true,
+        contentIcon: 'info-circle'
+      },
+      viewportWidth: 1200
+    }
   });
   unregisterBlockStyle('hds-wp/banner', 'default');
   registerBlockStyle('hds-wp/banner', {
@@ -1474,6 +1501,12 @@ wp.domReady(function () {
 
   function edit() {
     return function (props) {
+      if (props.attributes.preview) {
+        return /*#__PURE__*/React.createElement("img", {
+          src: props.attributes.preview
+        });
+      }
+
       props.attributes.columns = parseInt(props.attributes.columns);
       var content = null;
       var isParentOfSelectedBlock = useSelect(function (selectFrom) {
@@ -1539,10 +1572,19 @@ wp.domReady(function () {
       anchor: {
         type: 'string',
         default: ''
+      },
+      preview: {
+        type: 'string',
+        default: ''
       }
     },
     edit: edit(),
-    save: save()
+    save: save(),
+    example: {
+      attributes: {
+        preview: hds_wp.blocksUrl + '/previews/content-cards.png'
+      }
+    }
   });
 })(window.wp);
 
@@ -1605,6 +1647,14 @@ wp.domReady(function () {
 
     if (getBlockType('core/freeform')) {
       unregisterBlockType('core/freeform');
+    }
+
+    if (getBlockType('core/details')) {
+      unregisterBlockType('core/details');
+    }
+
+    if (getBlockType('core/footnotes')) {
+      unregisterBlockType('core/footnotes');
     } //Disable theme blocks
 
 
@@ -1919,6 +1969,12 @@ wp.domReady(function () {
 
   function edit() {
     return function (props) {
+      if (props.attributes.preview) {
+        return /*#__PURE__*/React.createElement("img", {
+          src: props.attributes.preview
+        });
+      }
+
       return createElement(Fragment, {}, toolbar(props), hdsInspectorControls({
         title: wp.i18n.__('Content', 'hds-wp'),
         initialOpen: false
@@ -1997,10 +2053,19 @@ wp.domReady(function () {
       isExternalUrl: {
         type: 'boolean',
         default: false
+      },
+      preview: {
+        type: 'string',
+        default: ''
       }
     },
     edit: edit(),
-    save: save()
+    save: save(),
+    example: {
+      attributes: {
+        preview: hds_wp.blocksUrl + '/previews/image-banner.png'
+      }
+    }
   });
 })(window.wp);
 
@@ -2076,6 +2141,12 @@ wp.domReady(function () {
 
   function edit() {
     return function (props) {
+      if (props.attributes.preview) {
+        return /*#__PURE__*/React.createElement("img", {
+          src: props.attributes.preview
+        });
+      }
+
       var content = null;
 
       if (props.isSelected) {
@@ -2245,11 +2316,20 @@ wp.domReady(function () {
       anchor: {
         type: 'string',
         default: ''
+      },
+      preview: {
+        type: 'string',
+        default: ''
       }
     },
     edit: edit(),
     save: save(),
-    deprecated: [v1]
+    deprecated: [v1],
+    example: {
+      attributes: {
+        preview: hds_wp.blocksUrl + '/previews/image-text.png'
+      }
+    }
   });
   unregisterBlockStyle('hds-wp/image-text', 'default');
   registerBlockStyle('hds-wp/image-text', {
@@ -2297,7 +2377,7 @@ wp.domReady(function () {
 
   function titleText(props) {
     return hdsTextControl({
-      label: wp.i18n.__('Title', 'hds-wp'),
+      label: wp.i18n.__('Link text', 'hds-wp'),
       value: props.attributes.linkTitle,
       attribute: 'linkTitle'
     }, props);
@@ -2313,7 +2393,7 @@ wp.domReady(function () {
 
   function urlText(props) {
     return hdsTextControl({
-      label: wp.i18n.__('URL', 'hds-wp'),
+      label: wp.i18n.__('Link URL', 'hds-wp'),
       value: props.attributes.linkUrl,
       attribute: 'linkUrl'
     }, props);
@@ -2325,10 +2405,10 @@ wp.domReady(function () {
       selected: props.attributes.linkDir,
       attribute: 'linkDir',
       options: [{
-        label: __('Internal link', 'hds-wp'),
+        label: __('Post', 'hds-wp'),
         value: 'internal'
       }, {
-        label: __('External link', 'hds-wp'),
+        label: __('Link', 'hds-wp'),
         value: 'external'
       }]
     }, props);
@@ -2591,13 +2671,13 @@ wp.domReady(function () {
 
   function linkTypeOptions() {
     return [{
-      label: __('Only title', 'hds-wp'),
+      label: __('Without image', 'hds-wp'),
       value: 'title'
     }, {
-      label: __('Title & Excerpt', 'hds-wp'),
+      label: __('Title & excerpt', 'hds-wp'),
       value: 'title-excerpt'
     }, {
-      label: __('Image & Title', 'hds-wp'),
+      label: __('With image', 'hds-wp'),
       value: 'image-title'
     }];
   }
@@ -2619,11 +2699,7 @@ wp.domReady(function () {
     return hdsInspectorControls({
       title: __('Settings', 'hds-wp'),
       initialOpen: false
-    }, hdsTextControl({
-      label: __('Title', 'hds-wp'),
-      value: props.attributes.title,
-      attribute: 'title'
-    }, props), hdsSelectControl({
+    }, hdsSelectControl({
       label: __('Link type', 'hds-wp'),
       value: props.attributes.linkType,
       attribute: 'linkType',
@@ -2634,7 +2710,7 @@ wp.domReady(function () {
       attribute: 'columns',
       options: columnCountOptions()
     }, props), hdsCheckboxControl({
-      label: __('Has background', 'hds-wp'),
+      label: __('Background', 'hds-wp'),
       checked: props.attributes.hasBackground,
       attribute: 'hasBackground'
     }, props));
@@ -2657,6 +2733,12 @@ wp.domReady(function () {
 
   function edit() {
     return function (props) {
+      if (props.attributes.preview) {
+        return /*#__PURE__*/React.createElement("img", {
+          src: props.attributes.preview
+        });
+      }
+
       props.attributes.columns = parseInt(props.attributes.columns);
       var content = null;
       var isParentOfSelectedBlock = useSelect(function (selectFrom) {
@@ -2664,7 +2746,13 @@ wp.domReady(function () {
       });
 
       if (props.isSelected || isParentOfSelectedBlock) {
-        content = createElement(Fragment, {}, title(props), createElement(InnerBlocks, {
+        content = createElement(Fragment, {}, hdsContentTitleRich(props, {
+          placeholder: __('This is the title', 'hds-wp'),
+          titleAttribute: 'title',
+          className: 'links__title'
+        }), hdsContentTextRich(props, {
+          placeholder: __('This is the excerpt.', 'hds-wp')
+        }), createElement(InnerBlocks, {
           allowedBlocks: ['hds-wp/link'],
           template: [['hds-wp/link', {}], ['hds-wp/link', {}], ['hds-wp/link', {}]]
         }));
@@ -2716,6 +2804,10 @@ wp.domReady(function () {
         type: 'string',
         default: ''
       },
+      contentText: {
+        type: 'string',
+        default: ''
+      },
       links: {
         type: 'array',
         default: []
@@ -2723,10 +2815,19 @@ wp.domReady(function () {
       anchor: {
         type: 'string',
         default: ''
+      },
+      preview: {
+        type: 'string',
+        default: ''
       }
     },
     edit: edit(),
-    save: save()
+    save: save(),
+    example: {
+      attributes: {
+        preview: hds_wp.blocksUrl + '/previews/links.png'
+      }
+    }
   });
 })(window.wp);
 
@@ -2795,10 +2896,10 @@ wp.domReady(function () {
     }
   });
 
-  function edit(_ref2) {
-    var attributes = _ref2.attributes,
-        setAttributes = _ref2.setAttributes,
-        clientId = _ref2.clientId;
+  function edit(_ref3) {
+    var attributes = _ref3.attributes,
+        setAttributes = _ref3.setAttributes,
+        clientId = _ref3.clientId;
     var blockProps = useBlockProps({});
 
     var _useState = useState(attributes.title ? false : true),
@@ -3050,7 +3151,9 @@ wp.domReady(function () {
           className: stepClasses
         }, props.attributes.style == 'numbered' ? props.attributes.order : ''), createElement('div', {
           className: 'content__inner content__inner--text'
-        }, hdsContentTitle(props), createElement(InnerBlocks, {
+        }, hdsContentTitleRich(props, {
+          placeholder: __('This is the title', 'hds-wp')
+        }), createElement(InnerBlocks, {
           allowedBlocks: ['core/paragraph', 'core/buttons']
         }))));
       } else {
@@ -3064,10 +3167,7 @@ wp.domReady(function () {
         }));
       }
 
-      return createElement(Fragment, {}, hdsInspectorControls({
-        title: __('Content', 'hds-wp'),
-        initialOpen: false
-      }, hdsContentTitleControl(props)), content);
+      return createElement(Fragment, {}, content);
     };
   }
 
@@ -3169,15 +3269,7 @@ wp.domReady(function () {
     return hdsInspectorControls({
       title: __('Settings', 'hds-wp'),
       initialOpen: false
-    }, hdsTextControl({
-      label: __('Title', 'hds-wp'),
-      value: props.attributes.title,
-      attribute: 'title'
-    }, props), hdsTextAreaControl({
-      label: __('Description', 'hds-wp'),
-      value: props.attributes.description,
-      attribute: 'description'
-    }, props), hdsSelectControl({
+    }, hdsSelectControl({
       label: __('Style', 'hds-wp'),
       value: props.attributes.style,
       attribute: 'style',
@@ -3187,6 +3279,12 @@ wp.domReady(function () {
 
   function edit() {
     return function (props) {
+      if (props.attributes.preview) {
+        return /*#__PURE__*/React.createElement("img", {
+          src: props.attributes.preview
+        });
+      }
+
       props.attributes.blockVersion = 2;
       var content = null;
       var clientId = props.clientId;
@@ -3216,7 +3314,15 @@ wp.domReady(function () {
       if (props.isSelected || isParentOfSelectedBlock) {
         content = createElement(Fragment, {}, timelineControls(props), createElement('div', {
           className: 'timeline-wrapper'
-        }, timelineTitle(props), timelineDescription(props), createElement('div', {
+        }, hdsContentTitleRich(props, {
+          placeholder: __('This is the title', 'hds-wp'),
+          titleAttribute: 'title',
+          className: 'timeline__heading'
+        }), hdsContentTextRich(props, {
+          placeholder: __('This is the excerpt.', 'hds-wp'),
+          textAttribute: 'description',
+          className: 'excerpt'
+        }), createElement('div', {
           className: 'timeline'
         }, createElement('div', {
           className: 'timeline-line'
@@ -3271,6 +3377,10 @@ wp.domReady(function () {
       anchor: {
         type: 'string',
         default: ''
+      },
+      preview: {
+        type: 'string',
+        default: ''
       }
     },
     edit: edit(),
@@ -3300,7 +3410,12 @@ wp.domReady(function () {
           className: 'timeline-line'
         }), createElement(InnerBlocks.Content))));
       }
-    }]
+    }],
+    example: {
+      attributes: {
+        preview: hds_wp.blocksUrl + '/previews/phasing.png'
+      }
+    }
   });
 })(window.wp);
 
@@ -3367,6 +3482,12 @@ wp.domReady(function () {
 
   function edit() {
     return function (props) {
+      if (props.attributes.preview) {
+        return /*#__PURE__*/React.createElement("img", {
+          src: props.attributes.preview
+        });
+      }
+
       var content = null;
       props.attributes.articles = parseInt(props.attributes.articles);
       props.attributes.category = parseInt(props.attributes.category);
@@ -3387,7 +3508,7 @@ wp.domReady(function () {
         }
 
         content = createElement('div', {
-          className: 'front-page-section posts'
+          className: 'recent-posts'
         }, createElement('div', {
           className: 'hds-container'
         }, hdsContentTitleRich(props, {
@@ -3443,9 +3564,18 @@ wp.domReady(function () {
       isEditRender: {
         type: 'boolean',
         default: false
+      },
+      preview: {
+        type: 'string',
+        default: ''
       }
     },
-    edit: edit()
+    edit: edit(),
+    example: {
+      attributes: {
+        preview: hds_wp.blocksUrl + '/previews/recent-posts.png'
+      }
+    }
   });
   unregisterBlockStyle('hds-wp/recent-posts', 'default');
   registerBlockStyle('hds-wp/recent-posts', {
@@ -3561,7 +3691,10 @@ wp.domReady(function () {
         default: ''
       }
     },
-    edit: edit()
+    edit: edit(),
+    example: {
+      viewportWidth: 1200
+    }
   });
 })(window.wp);
 
@@ -3617,15 +3750,17 @@ wp.domReady(function () {
       attributes: {
         title: __('Video title', 'hds-wp'),
         description: __('Video description', 'hds-wp'),
-        iframeUrl: 'https://www.helsinkikanava.fi/fi_FI/web/helsinkikanava/player/embed/vod?assetId=107834317'
+        iframeUrl: 'https://www.helsinkikanava.fi/fi_FI/web/helsinkikanava/player/embed/vod?assetId=107834317',
+        url: 'https://www.helsinkikanava.fi/fi_FI/web/helsinkikanava/player/vod?assetId=107834317',
+        assistive_title: __('Video title', 'hds-wp')
       }
     }
   });
 
-  function edit(_ref3) {
-    var attributes = _ref3.attributes,
-        setAttributes = _ref3.setAttributes,
-        clientId = _ref3.clientId;
+  function edit(_ref4) {
+    var attributes = _ref4.attributes,
+        setAttributes = _ref4.setAttributes,
+        clientId = _ref4.clientId;
     var blockProps = useBlockProps({});
 
     var _useState9 = useState(attributes.title ? false : true),
@@ -3853,8 +3988,196 @@ wp.domReady(function () {
       className: "inspector-errornotice"
     }, __('Please enter assistive technology title', 'hds-wp')))));
   }
+
 })(window.wp); //remove error notices when block is removed
 
+wp.domReady(function () {
+  /**
+    * Buttons
+    */
+  wp.blocks.unregisterBlockStyle('core/button', 'default');
+  wp.blocks.unregisterBlockStyle('core/button', 'outline');
+  wp.blocks.unregisterBlockStyle('core/button', 'fill');
+  wp.blocks.registerBlockStyle('core/button', [{
+    name: 'default',
+    label: wp.i18n.__('Primary', 'hds-wp'),
+    isDefault: true
+  }, {
+    name: 'secondary',
+    label: wp.i18n.__('Secondary', 'hds-wp')
+  }, {
+    name: 'supplementary',
+    label: wp.i18n.__('Supplementary', 'hds-wp')
+  }]);
+  /**
+    * Text
+    */
+
+  var withBackgroundStyle = ['core/group', 'core/paragraph'];
+
+  for (var i = 0; i < withBackgroundStyle.length; i++) {
+    wp.blocks.registerBlockStyle(withBackgroundStyle[i], [{
+      name: 'light-gray-background',
+      label: wp.i18n.__('Light Gray Background', 'hds-wp')
+    }]);
+  }
+  /**
+   * Image
+   */
+
+
+  wp.blocks.unregisterBlockStyle('core/image', 'rounded');
+  /**
+   * Quote
+   */
+
+  wp.blocks.unregisterBlockStyle('core/quote', 'plain');
+});
+
+(function (wp) {
+  function addColumnAttributes(settings, name) {
+    if (typeof settings.attributes !== 'undefined') {
+      if (name == 'core/column') {
+        settings.attributes = Object.assign(settings.attributes, {
+          allowedBlocks: {
+            type: 'array',
+            default: ['core/heading', 'core/paragraph', 'core/quote', 'core/table', 'core/list', 'core/freeform', 'core/image', 'core/video', 'core/audio', 'core/file', 'core/buttons', 'core/embed']
+          }
+        });
+      } else if (name == 'core/columns') {
+        settings.transforms.from[0].isMatch = function (attr, block) {
+          if (block[0].name.startsWith('hds-wp') || block[0].name.startsWith('helsinki')) {
+            return false;
+          }
+
+          return true;
+        };
+      }
+    }
+
+    return settings;
+  }
+
+  wp.hooks.addFilter('blocks.registerBlockType', 'column/custom-attributes', addColumnAttributes);
+})(window.wp);
+
+(function (wp) {
+  function addGroupAttributes(settings, name) {
+    if (typeof settings.attributes !== 'undefined') {
+      if (name == 'core/group') {
+        settings.transforms.from[0].isMatch = function (attr, block) {
+          if (block[0].name.startsWith('hds-wp') || block[0].name.startsWith('helsinki')) {
+            return false;
+          }
+
+          return true;
+        };
+      }
+    }
+
+    return settings;
+  }
+
+  wp.hooks.addFilter('blocks.registerBlockType', 'group/custom-attributes', addGroupAttributes);
+})(window.wp);
+
+(function (wp) {
+  function addTableAttributes(settings, name) {
+    if (typeof settings.attributes !== 'undefined') {
+      if (name == 'core/table') {
+        settings.attributes = Object.assign(settings.attributes, {
+          verticalHeader: {
+            type: 'boolean'
+          },
+          title: {
+            type: 'string'
+          }
+        });
+      }
+    }
+
+    return settings;
+  }
+
+  wp.hooks.addFilter('blocks.registerBlockType', 'table/custom-attributes', addTableAttributes);
+  var tableAdvancedControls = wp.compose.createHigherOrderComponent(function (BlockEdit) {
+    return function (props) {
+      var __ = wp.i18n.__;
+      var _wp$element16 = wp.element,
+          Fragment = _wp$element16.Fragment,
+          createElement = _wp$element16.createElement;
+      var _wp$components15 = wp.components,
+          ToggleControl = _wp$components15.ToggleControl,
+          Panel = _wp$components15.Panel,
+          PanelBody = _wp$components15.PanelBody,
+          TextControl = _wp$components15.TextControl;
+      var _wp$blockEditor16 = wp.blockEditor,
+          InspectorControls = _wp$blockEditor16.InspectorControls,
+          BlockControls = _wp$blockEditor16.BlockControls,
+          useBlockProps = _wp$blockEditor16.useBlockProps;
+      var attributes = props.attributes,
+          setAttributes = props.setAttributes,
+          isSelected = props.isSelected;
+      return /*#__PURE__*/React.createElement(Fragment, null, /*#__PURE__*/React.createElement(BlockEdit, props), isSelected && props.name == 'core/table' && /*#__PURE__*/React.createElement(InspectorControls, null, /*#__PURE__*/React.createElement(PanelBody, {
+        title: __('Advanced table settings', 'hds-wp')
+      }, /*#__PURE__*/React.createElement(TextControl, {
+        label: __('Title', 'hds-wp'),
+        value: attributes.title,
+        onChange: function onChange(value) {
+          return setAttributes({
+            title: value
+          });
+        }
+      }), /*#__PURE__*/React.createElement(ToggleControl, {
+        label: __('Vertical header', 'hds-wp'),
+        checked: attributes.verticalHeader,
+        onChange: function onChange(value) {
+          return setAttributes({
+            verticalHeader: value
+          });
+        }
+      }))));
+    };
+  }, 'tableAdvancedControls');
+  wp.hooks.addFilter('editor.BlockEdit', 'table/custom-control', tableAdvancedControls);
+
+  function tableApplyExtraClass(extraProps, blockType, attributes) {
+    var verticalHeader = attributes.verticalHeader;
+
+    if (typeof verticalHeader !== 'undefined' && verticalHeader) {
+      extraProps.className = extraProps.className + ' has-vertical-header';
+    }
+
+    return extraProps;
+  }
+
+  wp.hooks.addFilter('blocks.getSaveContent.extraProps', 'table/custom-apply-class', tableApplyExtraClass);
+  var tableEditorWrapperExtraClass = wp.compose.createHigherOrderComponent(function (BlockListBlock) {
+    return function (props) {
+      var name = props.name,
+          attributes = props.attributes;
+
+      if (name != 'core/table') {
+        return /*#__PURE__*/React.createElement(BlockListBlock, props);
+      }
+
+      var verticalHeader = attributes.verticalHeader;
+      var customClass = verticalHeader ? 'has-vertical-header' : '';
+      return /*#__PURE__*/React.createElement(BlockListBlock, _extends({}, props, {
+        className: customClass
+      }));
+    };
+  }, 'tableEditorWrapperExtraClass');
+  wp.hooks.addFilter('editor.BlockListBlock', 'table/custom-editor-wrapper-class', tableEditorWrapperExtraClass);
+})(window.wp);
+
+wp.domReady(function () {
+  /* Disable default formats */
+  wp.richText.unregisterFormatType('core/image');
+  wp.richText.unregisterFormatType('core/text-color');
+  wp.richText.unregisterFormatType('core/keyboard');
+  wp.richText.unregisterFormatType('core/code');
+}); //remove error notices when block is removed
 
 (function () {
   var _wp$data13 = wp.data,
@@ -3885,7 +4208,9 @@ wp.domReady(function () {
     if (errorNotices.length > 0) {
       dispatch('core/editor').lockPostSaving('requiredValueLock');
     } else {
-      dispatch('core/editor').unlockPostSaving('requiredValueLock');
+      if (select('core/editor').isPostSavingLocked()) {
+        dispatch('core/editor').unlockPostSaving('requiredValueLock');
+      }
     } // When very last block is removed, it's replaced with a new paragraph block.
     // This is a workaround to remove the error notice.
 
@@ -3906,4 +4231,185 @@ wp.domReady(function () {
 
     blocksState = newBlocksState;
   }, 300));
+})(window.wp);
+
+(function (wp) {
+  /* inspired from https://github.com/Yoast/wpseo-woocommerce/blob/trunk/js/src/yoastseo-woo-replacevars.js */
+
+  /* global jQuery, YoastSEO, app, globals YoastACFAnalysisConfig */
+  var pluginName = "additionalVariablePlugin";
+  var ReplaceVar = window.YoastReplaceVarPlugin && window.YoastReplaceVarPlugin.ReplaceVar;
+  var placeholders = {};
+  var modifiableFields = ["content", "title", "snippet_title", "snippet_meta", "primary_category", "data_page_title", "data_meta_desc"];
+
+  var replaceVarPluginAvailable = function replaceVarPluginAvailable() {
+    if (typeof ReplaceVar === "undefined") {
+      if (config.debug) {
+        console.log("Additional replace variables in the Snippet Window requires Yoast SEO >= 5.3.");
+      }
+
+      return false;
+    }
+
+    return true;
+  };
+  /**
+   * Gets City of Helsinki text
+   *
+   * @returns {string}
+   */
+
+
+  var i = 0;
+
+  function getHelsinki() {
+    return wp.i18n.__('City of Helsinki', 'hds-wp');
+  }
+  /**
+   * Variable replacement plugin for WordPress.
+   *
+   * @returns {void}
+   */
+
+
+  var YoastReplaceVarPlugin = function YoastReplaceVarPlugin() {
+    if (!replaceVarPluginAvailable()) {
+      return;
+    }
+
+    this._app = YoastSEO.app;
+
+    this._app.registerPlugin(pluginName, {
+      status: "ready"
+    });
+
+    this._store = YoastSEO.store;
+    this.registerReplacements();
+    this.registerModifications(this._app);
+    this.registerEvents();
+  };
+  /**
+   * Register the events that might have influence for the replace vars.
+   *
+   * @returns {void}
+   */
+
+
+  YoastReplaceVarPlugin.prototype.registerEvents = function () {
+    jQuery(document).on("change", "#inspector-text-control-1", this.declareReloaded.bind(this));
+  };
+  /**
+   * Registers all the placeholders and their replacements.
+   *
+   * @returns {void}
+   */
+
+
+  YoastReplaceVarPlugin.prototype.registerReplacements = function () {
+    this.addReplacement(new ReplaceVar("%%helsinki%%", "helsinki"));
+  };
+  /**
+   * Registers the modifications for the plugin on initial load.
+   *
+   * @param {app} app The app object.
+   *
+   * @returns {void}
+   */
+
+
+  YoastReplaceVarPlugin.prototype.registerModifications = function (app) {
+    var callback = this.replaceVariables.bind(this);
+
+    for (var i = 0; i < modifiableFields.length; i++) {
+      app.registerModification(modifiableFields[i], callback, pluginName, 10);
+    }
+  };
+  /**
+   * Runs the different replacements on the data-string.
+   *
+   * @param {string} data The data that needs its placeholders replaced.
+   *
+   * @returns {string} The data with all its placeholders replaced by actual values.
+   */
+
+
+  YoastReplaceVarPlugin.prototype.replaceVariables = function (data) {
+    if (typeof data !== "undefined") {
+      data = data.replace(/%%helsinki%%/g, getHelsinki());
+      data = this.replacePlaceholders(data);
+    }
+
+    return data;
+  };
+  /**
+   * Adds a replacement object to be used when replacing placeholders.
+   *
+   * @param {ReplaceVar} replacement The replacement to add to the placeholders.
+   *
+   * @returns {void}
+   */
+
+
+  YoastReplaceVarPlugin.prototype.addReplacement = function (replacement) {
+    placeholders[replacement.placeholder] = replacement;
+
+    this._store.dispatch({
+      type: "SNIPPET_EDITOR_UPDATE_REPLACEMENT_VARIABLE",
+      name: replacement.placeholder.replace(/^%%|%%$/g, ""),
+      value: replacement.placeholder
+    });
+  };
+  /**
+   * Reloads the app to apply possibly made changes in the content.
+   *
+   * @returns {void}
+   */
+
+
+  YoastReplaceVarPlugin.prototype.declareReloaded = function () {
+    this._app.pluginReloaded(pluginName);
+
+    this._store.dispatch({
+      type: "SNIPPET_EDITOR_REFRESH"
+    });
+  };
+  /**
+   * Replaces placeholder variables with their replacement value.
+   *
+   * @param {string} text The text to have its placeholders replaced.
+   *
+   * @returns {string} The text in which the placeholders have been replaced.
+   */
+
+
+  YoastReplaceVarPlugin.prototype.replacePlaceholders = function (text) {
+    for (var i = 0; i < placeholders.length; i++) {
+      var replaceVar = placeholders[i];
+      text = text.replace(new RegExp(replaceVar.getPlaceholder(true), "g"), replaceVar.replacement);
+    }
+
+    return text;
+  };
+  /**
+   * Initializes the Additional ReplaceVars plugin.
+   *
+   * @returns {void}
+   */
+
+
+  function initializeReplacevarPlugin() {
+    // When YoastSEO is available, just instantiate the plugin.
+    if (typeof YoastSEO !== "undefined" && typeof YoastSEO.app !== "undefined") {
+      new YoastReplaceVarPlugin(); // eslint-disable-line no-new
+
+      return;
+    } // Otherwise, add an event that will be executed when YoastSEO will be available.
+
+
+    jQuery(window).on("YoastSEO:ready", function () {
+      new YoastReplaceVarPlugin(); // eslint-disable-line no-new
+    });
+  }
+
+  initializeReplacevarPlugin();
 })(window.wp);

@@ -164,10 +164,10 @@ function hdsContentTextRich(props, config) {
 	return wp.element.createElement(
 		wp.blockEditor.RichText, {
 			tagName: 'div',
-			className: 'content__text',
-			value: props.attributes.contentText,
+			className: config.className ? config.className : 'content__text',
+			value: config.textAttribute ? props.attributes[config.textAttribute] : props.attributes.contentText,
 			onChange: function (value) {
-				props.setAttributes({contentText: value});
+				props.setAttributes(config.textAttribute ? {[config.textAttribute]: value} : {contentText: value});
 			},
 			placeholder: config.placeholder ? config.placeholder : wp.i18n.__( 'Excerpt', 'hds-wp' ),
 		},
@@ -473,6 +473,8 @@ function hdsWithSearchPosts(control) {
                 'status=publish',
                 'per_page=100',
                 'search=' + searchInput,
+				'orderby=relevance',
+				'search_columns=post_title',
               ];
 
 			  return wp.apiFetch({
