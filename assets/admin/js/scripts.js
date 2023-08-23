@@ -3322,7 +3322,7 @@ function hdsIcons(name) {
         }
 
         content = createElement('div', {
-          className: 'front-page-section posts'
+          className: 'recent-posts'
         }, createElement('div', {
           className: 'hds-container'
         }, hdsContentTitleRich(props, {
