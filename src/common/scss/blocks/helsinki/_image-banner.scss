@@ -65,36 +65,45 @@
         font-size: rem-calc(16);
       }
 
-      &__link {
-        //force correct button styling on outdated saved markup...
-        &.hds-button--supplementary {
-          background-color: $black;
-          border-color: $black;
-          color: $white;
+	  &__link {
+		//force correct button styling on outdated saved markup...
+		&.hds-button--supplementary {
+			background-color: $black;
+			border-color: $black;
+			color: $white;
 
-          &:hover {
-            background-color: transparent;
-            color: $black;
+			&:hover {
+				background-color: transparent;
+				color: $black;
 
-            svg {
-              fill: $black;
-            }
-          }
+				svg {
+					fill : $black;
 
-          svg {
-            fill: $white;
-          }
-        }
-      }
+					&.mask-icon {
+						background-color: $black;
+					}
+				}
+			}
 
-      .wp-block-button {
-        margin-top: 0.5rem;
+			svg {
+				fill: $white;
 
-        .wp-block-button__link {
-          border-radius: 0;
-        }
-      }
-    }
+				&.mask-icon {
+					background-color: $white;
+				}
+
+			}
+		}
+	  }
+
+		.wp-block-button {
+			margin-top: .5rem;
+
+			.wp-block-button__link {
+				border-radius: 0;
+			}
+		}
+	}
 
     @include breakpoint('m') {
       display: flex;

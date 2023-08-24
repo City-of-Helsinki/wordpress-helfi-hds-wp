@@ -72,6 +72,17 @@
     });
   }
 
+  function deprecatedContentButton(props) {
+    return hdsContentButton(
+      props,
+      {
+        className: 'content__link hds-button',
+        href: props.attributes.buttonUrl,
+      },
+      props.attributes.isExternalUrl ? hdsDeprecatedExternalLinkIcon() : hdsDeprecatedArrowIcon()
+    );
+  }
+
   function edit() {
     return function (props) {
       if (props.attributes.preview) {
@@ -171,6 +182,9 @@
   }
 
   const v1 = {
+    supports: {
+      anchor: true,
+    },
     attributes: {
       alignment: {
         type: 'string',
@@ -220,33 +234,31 @@
         type: 'boolean',
         default: false,
       },
-    },
-    supports: {
-      color: true,
-      anchor: true,
+      preview: {
+        type: 'string',
+        default: '',
+      },
     },
     save: function (props) {
-      return function (props) {
-        return createElement(
-          'div',
-          useBlockProps.save({
-            className: classNamesStringV1(props),
-          }),
-          hdsSingleImage(imageConfig(props)),
-          hdsContent(
-            props,
-            createElement(
-              'div',
-              {className: 'content__inner'},
-              hdsContentTitle(props),
-              hdsContentText(props),
-              contentButton(props)
-            )
+      return createElement(
+        'div',
+        useBlockProps.save({
+          className: classNamesStringV1(props),
+        }),
+        hdsSingleImage(imageConfig(props)),
+        hdsContent(
+          props,
+          createElement(
+            'div',
+            {className: 'content__inner'},
+            hdsContentTitle(props),
+            hdsContentText(props),
+            deprecatedContentButton(props)
           )
-        );
-      };
+        )
+      );
     },
-  };
+  }
 
   registerBlockType('hds-wp/image-banner', {
     apiVersion: 2,

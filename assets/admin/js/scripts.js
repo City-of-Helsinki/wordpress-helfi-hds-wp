@@ -308,9 +308,10 @@ function hdsSelectControl(config, props) {
     },
     options: config.options
   }));
-}
+} //deprecated icon functions are used to identify block migrations
 
-function hdsContentIcon(props) {
+
+function hdsDeprecatedContentIcon(props) {
   return props.attributes.contentIcon ? wp.element.createElement('svg', {
     className: 'icon icon--' + props.attributes.contentIcon,
     viewBox: '0 0 24 24',
@@ -321,7 +322,25 @@ function hdsContentIcon(props) {
   })) : '';
 }
 
+function hdsContentIcon(props) {
+  return props.attributes.contentIcon ? wp.element.createElement('svg', {
+    className: 'icon mask-icon icon--' + props.attributes.contentIcon + ' hds-icon--' + props.attributes.contentIcon,
+    viewBox: '0 0 24 24',
+    'aria-hidden': 'true',
+    tabindex: '-1'
+  }) : '';
+}
+
 function hdsAngleIcon() {
+  return wp.element.createElement('svg', {
+    className: 'icon mask-icon icon--angle-up hds-icon--angle-up',
+    viewBox: '0 0 24 24',
+    'aria-hidden': 'true',
+    tabindex: '-1'
+  });
+}
+
+function hdsDeprecatedAngleIcon() {
   return wp.element.createElement('svg', {
     className: 'icon icon--angle-up',
     viewBox: '0 0 24 24',
@@ -332,7 +351,7 @@ function hdsAngleIcon() {
   }));
 }
 
-function hdsExternalLinkIcon() {
+function hdsDeprecatedExternalLinkIcon() {
   return wp.element.createElement('svg', {
     className: 'icon icon--link-external',
     viewBox: '0 0 24 24',
@@ -343,7 +362,25 @@ function hdsExternalLinkIcon() {
   }));
 }
 
+function hdsExternalLinkIcon() {
+  return wp.element.createElement('svg', {
+    className: 'icon mask-icon icon--link-external hds-icon--link-external',
+    viewBox: '0 0 24 24',
+    'aria-hidden': 'true',
+    tabindex: '-1'
+  });
+}
+
 function hdsArrowIcon() {
+  return wp.element.createElement('svg', {
+    className: 'icon mask-icon icon--arrow-right hds-icon--arrow-right',
+    viewBox: '0 0 24 24',
+    'aria-hidden': 'true',
+    tabindex: '-1'
+  });
+}
+
+function hdsDeprecatedArrowIcon() {
   return wp.element.createElement('svg', {
     className: 'icon icon--arrow-right',
     viewBox: '0 0 24 24',
@@ -534,7 +571,8 @@ function hdsRemovePostControl(config, props) {
       });
     }
   }));
-}
+} //deprecated icons paths; kept for possible block migrations
+
 
 function hdsIcons(name) {
   var icons = {
@@ -2181,6 +2219,13 @@ function hdsIcons(name) {
     });
   }
 
+  function deprecatedContentButton(props) {
+    return hdsContentButton(props, {
+      className: 'content__link hds-button',
+      href: props.attributes.buttonUrl
+    }, props.attributes.isExternalUrl ? hdsDeprecatedExternalLinkIcon() : hdsDeprecatedArrowIcon());
+  }
+
   function edit() {
     return function (props) {
       if (props.attributes.preview) {
@@ -2237,6 +2282,9 @@ function hdsIcons(name) {
   }
 
   var v1 = {
+    supports: {
+      anchor: true
+    },
     attributes: {
       alignment: {
         type: 'string',
@@ -2285,20 +2333,18 @@ function hdsIcons(name) {
       isExternalUrl: {
         type: 'boolean',
         default: false
+      },
+      preview: {
+        type: 'string',
+        default: ''
       }
     },
-    supports: {
-      color: true,
-      anchor: true
-    },
     save: function save(props) {
-      return function (props) {
-        return createElement('div', useBlockProps.save({
-          className: classNamesStringV1(props)
-        }), hdsSingleImage(imageConfig(props)), hdsContent(props, createElement('div', {
-          className: 'content__inner'
-        }, hdsContentTitle(props), hdsContentText(props), contentButton(props))));
-      };
+      return createElement('div', useBlockProps.save({
+        className: classNamesStringV1(props)
+      }), hdsSingleImage(imageConfig(props)), hdsContent(props, createElement('div', {
+        className: 'content__inner'
+      }, hdsContentTitle(props), hdsContentText(props), deprecatedContentButton(props))));
     }
   };
   registerBlockType('hds-wp/image-banner', {
@@ -2557,7 +2603,7 @@ function hdsIcons(name) {
       }), hdsSingleImage(imageConfig(props)), hdsContent(props, hdsContentTitle(props), hdsContentText(props), hdsContentButton(props, {
         className: 'content__link hds-button hds-button--secondary',
         href: props.attributes.buttonUrl
-      }, props.attributes.isExternalUrl ? hdsExternalLinkIcon() : hdsArrowIcon())));
+      }, props.attributes.isExternalUrl ? hdsDeprecatedExternalLinkIcon() : hdsDeprecatedArrowIcon())));
     }
   };
   registerBlockType('hds-wp/image-text', {
@@ -4476,14 +4522,6 @@ wp.domReady(function () {
   wp.hooks.addFilter('editor.BlockListBlock', 'table/custom-editor-wrapper-class', tableEditorWrapperExtraClass);
 })(window.wp);
 
-wp.domReady(function () {
-  /* Disable default formats */
-  wp.richText.unregisterFormatType('core/image');
-  wp.richText.unregisterFormatType('core/text-color');
-  wp.richText.unregisterFormatType('core/keyboard');
-  wp.richText.unregisterFormatType('core/code');
-});
-
 (function (wp) {
   /* inspired from https://github.com/Yoast/wpseo-woocommerce/blob/trunk/js/src/yoastseo-woo-replacevars.js */
 
@@ -4719,3 +4757,11 @@ wp.domReady(function () {
     blocksState = newBlocksState;
   }, 300));
 })(window.wp);
+
+wp.domReady(function () {
+  /* Disable default formats */
+  wp.richText.unregisterFormatType('core/image');
+  wp.richText.unregisterFormatType('core/text-color');
+  wp.richText.unregisterFormatType('core/keyboard');
+  wp.richText.unregisterFormatType('core/code');
+});
