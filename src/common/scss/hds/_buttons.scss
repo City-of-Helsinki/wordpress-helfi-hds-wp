@@ -23,6 +23,11 @@
     margin-left: 1rem !important;
     margin-top: 0 !important;
     flex-shrink: 0;
+
+    &.mask-icon {
+      background-color: $white;
+    }
+
 	}
 
   &:hover {
@@ -31,6 +36,10 @@
 
     svg {
   		fill: $black;
+
+      &.mask-icon {
+        background-color: $black;
+      }  
   	}
   }
 
@@ -49,6 +58,11 @@
 
     svg {
   		fill: $medium-gray;
+
+      &.mask-icon {
+        background-color: $medium-gray;
+      }
+  
   	}
 
     &:focus {
@@ -62,6 +76,11 @@
 
     svg {
   		fill: $black;
+
+      &.mask-icon {
+        background-color: $black;
+      }
+  
   	}
 
     &:hover {
@@ -70,6 +89,11 @@
 
       svg {
     		fill: $white;
+
+        &.mask-icon {
+          background-color: $white;
+        }
+    
     	}
     }
 
@@ -87,6 +111,11 @@
 
       svg {
     		fill: $medium-gray;
+
+        &.mask-icon {
+          background-color: $medium-gray;
+        }
+    
     	}
 
       &:hover,
@@ -105,6 +134,11 @@
 
     svg {
       fill: $black;
+
+      &.mask-icon {
+        background-color: $black;
+      }
+  
     }
 
     &:hover {
@@ -126,6 +160,11 @@
 
       svg {
         fill: $medium-gray;
+
+        &.mask-icon {
+          background-color: $medium-gray;
+        }
+    
       }
 
       &:hover,
@@ -154,6 +193,11 @@
 
   svg {
     fill: $black;
+
+    &.mask-icon {
+      background-color: $black;
+    }
+
   }
 
   &:hover {
@@ -162,6 +206,11 @@
 
     svg {
       fill: $white;
+
+      &.mask-icon {
+        background-color: $white;
+      }
+  
     }
   }
 
@@ -179,6 +228,11 @@
 
     svg {
       fill: $medium-gray;
+
+      &.mask-icon {
+        background-color: $medium-gray;
+      }
+  
     }
 
     &:hover,
@@ -201,6 +255,11 @@
 
 	.icon {
 		fill: $black;
+
+    &.mask-icon {
+      background-color: $black;
+    }
+
 	}
 
 	&:focus,
@@ -211,6 +270,11 @@
 
 		.icon {
 			fill: $white;
+
+      &.mask-icon {
+        background-color: $white;
+      }
+  
 		}
 	}
 
@@ -221,6 +285,11 @@
 
 		.icon {
 			fill: $white;
+
+      &.mask-icon {
+        background-color: $white;
+      }
+  
 		}
 
 		&:focus,
@@ -231,6 +300,11 @@
 
 			.icon {
 				fill: $black;
+
+        &.mask-icon {
+          background-color: $black;
+        }
+    
 			}
 		}
 	}

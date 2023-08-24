@@ -308,9 +308,10 @@ function hdsSelectControl(config, props) {
     },
     options: config.options
   }));
-}
+} //deprecated icon functions are used to identify block migrations
 
-function hdsContentIcon(props) {
+
+function hdsDeprecatedContentIcon(props) {
   return props.attributes.contentIcon ? wp.element.createElement('svg', {
     className: 'icon icon--' + props.attributes.contentIcon,
     viewBox: '0 0 24 24',
@@ -321,7 +322,25 @@ function hdsContentIcon(props) {
   })) : '';
 }
 
+function hdsContentIcon(props) {
+  return props.attributes.contentIcon ? wp.element.createElement('svg', {
+    className: 'icon mask-icon icon--' + props.attributes.contentIcon + ' hds-icon--' + props.attributes.contentIcon,
+    viewBox: '0 0 24 24',
+    'aria-hidden': 'true',
+    tabindex: '-1'
+  }) : '';
+}
+
 function hdsAngleIcon() {
+  return wp.element.createElement('svg', {
+    className: 'icon mask-icon icon--angle-up hds-icon--angle-up',
+    viewBox: '0 0 24 24',
+    'aria-hidden': 'true',
+    tabindex: '-1'
+  });
+}
+
+function hdsDeprecatedAngleIcon() {
   return wp.element.createElement('svg', {
     className: 'icon icon--angle-up',
     viewBox: '0 0 24 24',
@@ -332,7 +351,7 @@ function hdsAngleIcon() {
   }));
 }
 
-function hdsExternalLinkIcon() {
+function hdsDeprecatedExternalLinkIcon() {
   return wp.element.createElement('svg', {
     className: 'icon icon--link-external',
     viewBox: '0 0 24 24',
@@ -343,7 +362,25 @@ function hdsExternalLinkIcon() {
   }));
 }
 
+function hdsExternalLinkIcon() {
+  return wp.element.createElement('svg', {
+    className: 'icon mask-icon icon--link-external hds-icon--link-external',
+    viewBox: '0 0 24 24',
+    'aria-hidden': 'true',
+    tabindex: '-1'
+  });
+}
+
 function hdsArrowIcon() {
+  return wp.element.createElement('svg', {
+    className: 'icon mask-icon icon--arrow-right hds-icon--arrow-right',
+    viewBox: '0 0 24 24',
+    'aria-hidden': 'true',
+    tabindex: '-1'
+  });
+}
+
+function hdsDeprecatedArrowIcon() {
   return wp.element.createElement('svg', {
     className: 'icon icon--arrow-right',
     viewBox: '0 0 24 24',
@@ -534,7 +571,8 @@ function hdsRemovePostControl(config, props) {
       });
     }
   }));
-}
+} //deprecated icons paths; kept for possible block migrations
+
 
 function hdsIcons(name) {
   var icons = {
@@ -1787,6 +1825,13 @@ function hdsIcons(name) {
     }, props.attributes.isExternalUrl ? hdsExternalLinkIcon() : hdsArrowIcon());
   }
 
+  function deprecatedContentButton(props) {
+    return hdsContentButton(props, {
+      className: 'content__link hds-button',
+      href: props.attributes.buttonUrl
+    }, props.attributes.isExternalUrl ? hdsDeprecatedExternalLinkIcon() : hdsDeprecatedArrowIcon());
+  }
+
   function edit() {
     return function (props) {
       if (props.attributes.preview) {
@@ -1816,6 +1861,72 @@ function hdsIcons(name) {
     };
   }
 
+  var v1 = {
+    supports: {
+      anchor: true
+    },
+    attributes: {
+      alignment: {
+        type: 'string',
+        default: 'right'
+      },
+      mediaId: {
+        type: 'number',
+        default: 0
+      },
+      mediaUrl: {
+        type: 'string',
+        default: ''
+      },
+      mediaWidth: {
+        type: 'number',
+        default: 0
+      },
+      mediaHeight: {
+        type: 'number',
+        default: 0
+      },
+      mediaAlt: {
+        type: 'string',
+        default: ''
+      },
+      mediaSrcset: {
+        type: 'string',
+        default: ''
+      },
+      contentTitle: {
+        type: 'string',
+        default: ''
+      },
+      contentText: {
+        type: 'string',
+        default: ''
+      },
+      buttonText: {
+        type: 'string',
+        default: ''
+      },
+      buttonUrl: {
+        type: 'string',
+        default: ''
+      },
+      isExternalUrl: {
+        type: 'boolean',
+        default: false
+      },
+      preview: {
+        type: 'string',
+        default: ''
+      }
+    },
+    save: function save(props) {
+      return createElement('div', useBlockProps.save({
+        className: classNamesString(props)
+      }), hdsSingleImage(imageConfig(props)), hdsContent(props, createElement('div', {
+        className: 'content__inner'
+      }, hdsContentTitle(props), hdsContentText(props), deprecatedContentButton(props))));
+    }
+  };
   registerBlockType('hds-wp/image-banner', {
     apiVersion: 2,
     title: __('Helsinki - Image Banner', 'hds-wp'),
@@ -1881,6 +1992,7 @@ function hdsIcons(name) {
     },
     edit: edit(),
     save: save(),
+    deprecated: [v1],
     example: {
       attributes: {
         preview: hds_wp.blocksUrl + '/previews/image-banner.png'
@@ -2071,7 +2183,7 @@ function hdsIcons(name) {
       }), hdsSingleImage(imageConfig(props)), hdsContent(props, hdsContentTitle(props), hdsContentText(props), hdsContentButton(props, {
         className: 'content__link hds-button hds-button--secondary',
         href: props.attributes.buttonUrl
-      }, props.attributes.isExternalUrl ? hdsExternalLinkIcon() : hdsArrowIcon())));
+      }, props.attributes.isExternalUrl ? hdsDeprecatedExternalLinkIcon() : hdsDeprecatedArrowIcon())));
     }
   };
   registerBlockType('hds-wp/image-text', {
@@ -3982,15 +4094,8 @@ wp.domReady(function () {
     };
   }, 'tableEditorWrapperExtraClass');
   wp.hooks.addFilter('editor.BlockListBlock', 'table/custom-editor-wrapper-class', tableEditorWrapperExtraClass);
-})(window.wp);
+})(window.wp); //remove error notices when block is removed
 
-wp.domReady(function () {
-  /* Disable default formats */
-  wp.richText.unregisterFormatType('core/image');
-  wp.richText.unregisterFormatType('core/text-color');
-  wp.richText.unregisterFormatType('core/keyboard');
-  wp.richText.unregisterFormatType('core/code');
-}); //remove error notices when block is removed
 
 (function () {
   var _wp$data13 = wp.data,
@@ -4043,3 +4148,11 @@ wp.domReady(function () {
     blocksState = newBlocksState;
   }, 300));
 })(window.wp);
+
+wp.domReady(function () {
+  /* Disable default formats */
+  wp.richText.unregisterFormatType('core/image');
+  wp.richText.unregisterFormatType('core/text-color');
+  wp.richText.unregisterFormatType('core/keyboard');
+  wp.richText.unregisterFormatType('core/code');
+});

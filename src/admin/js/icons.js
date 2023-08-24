@@ -1,3 +1,4 @@
+//deprecated icons paths; kept for possible block migrations
 function hdsIcons( name ) {
 	var icons = {
 		"(empty)": "",

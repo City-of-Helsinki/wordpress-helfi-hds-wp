@@ -20,6 +20,10 @@
 					margin-right: spacing('s');
 					width: 64px;
 
+					&.mask-icon {
+						background-color: var(--primary-content-color);
+					}
+
 					@include breakpointMax('m') {
 						margin-bottom: spacing('s');
 					}
@@ -50,6 +54,10 @@
 
 				svg {
 					fill: var(--primary-content-color);
+
+					&.mask-icon {
+						background-color: var(--primary-content-color);
+					}
 				}
 			}
 		}
@@ -67,10 +75,18 @@
 
 		&__link svg {
 			fill: var(--primary-content-secondary-color);
+
+			&.mask-icon {
+				background-color: var(--primary-content-secondary-color);
+			}
 		}
 
 		&__link:hover svg {
 			fill: var(--primary-content-color);
+
+			&.mask-icon {
+				background-color: var(--primary-content-color);
+			}
 		}
 
 		@include breakpoint('m') {
@@ -168,7 +184,7 @@
 
 	&[class*="-secondary-color"] {
 		background-color: var(--secondary-color);
-		color: var(--secondary-content-color);
+		color: var(--primary-content-secondary-color);
 
 		.content {
 
@@ -176,7 +192,11 @@
 
 				&--icon {
 					svg {
-						fill: var(--secondary-content-color);
+						fill: var(--primary-content-secondary-color);
+
+						&.mask-icon {
+							background-color: var(--primary-content-secondary-color);
+						}
 					}
 				}
 	
@@ -188,14 +208,18 @@
 			}
 	
 			&__heading {
-				color: var(--secondary-content-color);
+				color: var(--primary-content-secondary-color);
 			}
 	
 			&__text {
-				color: var(--secondary-content-color);
+				color: var(--primary-content-secondary-color);
 				a {	
 					svg {
-						fill: var(--secondary-content-color);
+						fill: var(--primary-content-secondary-color);
+
+						&.mask-icon {
+							background-color: var(--primary-content-secondary-color);
+						}
 					}
 				}	
 			}
@@ -213,10 +237,18 @@
 	
 			&__link svg {
 				fill: $white;
+
+				&.mask-icon {
+					background-color: $white;
+				}
 			}
 	
 			&__link:hover svg {
 				fill: $black;
+
+				&.mask-icon {
+					background-color: $black;
+				}
 			}
 	
 		}
