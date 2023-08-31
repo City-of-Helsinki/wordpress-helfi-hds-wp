@@ -63,7 +63,31 @@
 		}
 
 		&__link {
-			@extend %inverted-button;
+			background-color: var(--primary-content-color);
+			border-color: var(--primary-content-color);
+			color: var(--primary-content-secondary-color);
+			outline-color: var(--primary-content-color);
+		}
+
+		&__link:hover {
+			color: var(--primary-content-color);
+			background-color: transparent;
+		}
+
+		&__link svg {
+			fill: var(--primary-content-secondary-color);
+
+			&.mask-icon {
+				background-color: var(--primary-content-secondary-color);
+			}
+		}
+
+		&__link:hover svg {
+			fill: var(--primary-content-color);
+
+			&.mask-icon {
+				background-color: var(--primary-content-color);
+			}
 		}
 
 		@include breakpoint('m') {
@@ -161,7 +185,7 @@
 
 	&[class*="-secondary-color"] {
 		background-color: var(--secondary-color);
-		color: var(--primary-content-secondary-color);
+		color: var(--secondary-content-color);
 
 		.content {
 
@@ -169,10 +193,10 @@
 
 				&--icon {
 					svg {
-						fill: var(--primary-content-secondary-color);
+						fill: var(--secondary-content-color);
 
 						&.mask-icon {
-							background-color: var(--primary-content-secondary-color);
+							background-color: var(--secondary-content-color);
 						}
 					}
 				}
@@ -185,24 +209,48 @@
 			}
 	
 			&__heading {
-				color: var(--primary-content-secondary-color);
+				color: var(--secondary-content-color);
 			}
 	
 			&__text {
-				color: var(--primary-content-secondary-color);
+				color: var(--secondary-content-color);
 				a {	
 					svg {
-						fill: var(--primary-content-secondary-color);
+						fill: var(--secondary-content-color);
 
 						&.mask-icon {
-							background-color: var(--primary-content-secondary-color);
+							background-color: var(--secondary-content-color);
 						}
 					}
 				}	
 			}
 	
 			&__link {
-				@extend %hds-button;
+				background-color: $black;
+				border-color: $black;
+				color: $white;
+				outline-color: $black;
+			}
+	
+			&__link:hover {
+				color: $black;
+				background-color: transparent;
+			}
+	
+			&__link svg {
+				fill: $white;
+
+				&.mask-icon {
+					background-color: $white;
+				}
+			}
+	
+			&__link:hover svg {
+				fill: $black;
+
+				&.mask-icon {
+					background-color: $black;
+				}
 			}
 	
 		}
