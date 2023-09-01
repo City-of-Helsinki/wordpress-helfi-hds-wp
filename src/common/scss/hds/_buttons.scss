@@ -37,6 +37,9 @@ button {
       background-color: $white;
     }
 
+    &.icon {
+      width: 24px;
+    }
 	}
 
   &:hover {
