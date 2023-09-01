@@ -5,6 +5,10 @@
 		display: block;
 		transition: $default-transition;
 		width: 24px;
+
+		&--link-external {
+			width: 16px;
+		}
 	}
 
 	.content__link {
