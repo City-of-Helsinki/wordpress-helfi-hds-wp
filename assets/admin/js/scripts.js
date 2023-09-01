@@ -1641,6 +1641,11 @@ function hdsIcons(name) {
 
     if (getBlockType('yoast/how-to-block')) {
       unregisterBlockType('yoast/how-to-block');
+    } //Disable Complianz blocks
+
+
+    if (getBlockType('complianz/consent-area')) {
+      unregisterBlockType('complianz/consent-area');
     } //Disable blocks for posts
 
 
