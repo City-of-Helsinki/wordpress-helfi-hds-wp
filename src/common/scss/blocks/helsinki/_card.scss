@@ -172,6 +172,11 @@
                 transition: $default-transition-time;
                 margin-left: -8px;
                 width: 48px;
+                pointer-events: none;
+
+                &:focus {
+                    outline: none;
+                }
             }
         }
     }
