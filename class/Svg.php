@@ -73,16 +73,13 @@ class Svg extends Singleton {
 	}
 
 	public static function icon( string $type, string $name ) {
-		$path = static::$config->value( $type, $name );
-		return $path ? sprintf(
-			'<svg class="icon icon--%s icon--%s" viewBox="%s" aria-hidden="true">
-				<path d="%s"></path>
-			</svg>',
+		return sprintf(
+			'<svg class="icon mask-icon icon--%s icon--%s hds-icon--%s" viewBox="%s" aria-hidden="true"></svg>',
 			esc_attr( $type ),
 			esc_attr( $name ),
+			esc_attr( $name ),
 			'0 0 24 24',
-			$path
-		) : '';
+		);
 	}
 
 	public static function placeholder( string $name ) {

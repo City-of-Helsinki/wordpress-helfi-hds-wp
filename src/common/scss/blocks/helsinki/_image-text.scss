@@ -176,6 +176,10 @@
 
 						svg {
 							fill: var(--primary-content-color);
+
+							&.mask-icon {
+								background-color: var(--primary-content-color);
+							}
 						}
 					}	
 

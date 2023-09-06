@@ -308,9 +308,10 @@ function hdsSelectControl(config, props) {
     },
     options: config.options
   }));
-}
+} //deprecated icon functions are used to identify block migrations
 
-function hdsContentIcon(props) {
+
+function hdsDeprecatedContentIcon(props) {
   return props.attributes.contentIcon ? wp.element.createElement('svg', {
     className: 'icon icon--' + props.attributes.contentIcon,
     viewBox: '0 0 24 24',
@@ -321,7 +322,25 @@ function hdsContentIcon(props) {
   })) : '';
 }
 
+function hdsContentIcon(props) {
+  return props.attributes.contentIcon ? wp.element.createElement('svg', {
+    className: 'icon mask-icon icon--' + props.attributes.contentIcon + ' hds-icon--' + props.attributes.contentIcon,
+    viewBox: '0 0 24 24',
+    'aria-hidden': 'true',
+    tabindex: '-1'
+  }) : '';
+}
+
 function hdsAngleIcon() {
+  return wp.element.createElement('svg', {
+    className: 'icon mask-icon icon--angle-up hds-icon--angle-up',
+    viewBox: '0 0 24 24',
+    'aria-hidden': 'true',
+    tabindex: '-1'
+  });
+}
+
+function hdsDeprecatedAngleIcon() {
   return wp.element.createElement('svg', {
     className: 'icon icon--angle-up',
     viewBox: '0 0 24 24',
@@ -332,7 +351,7 @@ function hdsAngleIcon() {
   }));
 }
 
-function hdsExternalLinkIcon() {
+function hdsDeprecatedExternalLinkIcon() {
   return wp.element.createElement('svg', {
     className: 'icon icon--link-external',
     viewBox: '0 0 24 24',
@@ -343,7 +362,25 @@ function hdsExternalLinkIcon() {
   }));
 }
 
+function hdsExternalLinkIcon() {
+  return wp.element.createElement('svg', {
+    className: 'icon mask-icon icon--link-external hds-icon--link-external',
+    viewBox: '0 0 24 24',
+    'aria-hidden': 'true',
+    tabindex: '-1'
+  });
+}
+
 function hdsArrowIcon() {
+  return wp.element.createElement('svg', {
+    className: 'icon mask-icon icon--arrow-right hds-icon--arrow-right',
+    viewBox: '0 0 24 24',
+    'aria-hidden': 'true',
+    tabindex: '-1'
+  });
+}
+
+function hdsDeprecatedArrowIcon() {
   return wp.element.createElement('svg', {
     className: 'icon icon--arrow-right',
     viewBox: '0 0 24 24',
@@ -534,7 +571,8 @@ function hdsRemovePostControl(config, props) {
       });
     }
   }));
-}
+} //deprecated icons paths; kept for possible block migrations
+
 
 function hdsIcons(name) {
   var icons = {
@@ -1415,7 +1453,7 @@ function hdsIcons(name) {
       unregisterBlockVariation = _wp$blocks5.unregisterBlockVariation,
       getBlockType = _wp$blocks5.getBlockType,
       getBlockVariations = _wp$blocks5.getBlockVariations;
-  var allowedEmbedBlocks = ['youtube'];
+  var allowedEmbedBlocks = [];
   wp.domReady(function () {
     if (getBlockType('core/pullquote')) {
       unregisterBlockType('core/pullquote');
@@ -1439,6 +1477,7 @@ function hdsIcons(name) {
           wp.blocks.unregisterBlockVariation('core/embed', blockVariation.name);
         }
       });
+      unregisterBlockType('core/embed');
     }
 
     if (getBlockType('core/html')) {
@@ -1641,6 +1680,11 @@ function hdsIcons(name) {
 
     if (getBlockType('yoast/how-to-block')) {
       unregisterBlockType('yoast/how-to-block');
+    } //Disable Complianz blocks
+
+
+    if (getBlockType('complianz/consent-area')) {
+      unregisterBlockType('complianz/consent-area');
     } //Disable blocks for posts
 
 
@@ -1787,6 +1831,13 @@ function hdsIcons(name) {
     }, props.attributes.isExternalUrl ? hdsExternalLinkIcon() : hdsArrowIcon());
   }
 
+  function deprecatedContentButton(props) {
+    return hdsContentButton(props, {
+      className: 'content__link hds-button',
+      href: props.attributes.buttonUrl
+    }, props.attributes.isExternalUrl ? hdsDeprecatedExternalLinkIcon() : hdsDeprecatedArrowIcon());
+  }
+
   function edit() {
     return function (props) {
       if (props.attributes.preview) {
@@ -1816,6 +1867,72 @@ function hdsIcons(name) {
     };
   }
 
+  var v1 = {
+    supports: {
+      anchor: true
+    },
+    attributes: {
+      alignment: {
+        type: 'string',
+        default: 'right'
+      },
+      mediaId: {
+        type: 'number',
+        default: 0
+      },
+      mediaUrl: {
+        type: 'string',
+        default: ''
+      },
+      mediaWidth: {
+        type: 'number',
+        default: 0
+      },
+      mediaHeight: {
+        type: 'number',
+        default: 0
+      },
+      mediaAlt: {
+        type: 'string',
+        default: ''
+      },
+      mediaSrcset: {
+        type: 'string',
+        default: ''
+      },
+      contentTitle: {
+        type: 'string',
+        default: ''
+      },
+      contentText: {
+        type: 'string',
+        default: ''
+      },
+      buttonText: {
+        type: 'string',
+        default: ''
+      },
+      buttonUrl: {
+        type: 'string',
+        default: ''
+      },
+      isExternalUrl: {
+        type: 'boolean',
+        default: false
+      },
+      preview: {
+        type: 'string',
+        default: ''
+      }
+    },
+    save: function save(props) {
+      return createElement('div', useBlockProps.save({
+        className: classNamesString(props)
+      }), hdsSingleImage(imageConfig(props)), hdsContent(props, createElement('div', {
+        className: 'content__inner'
+      }, hdsContentTitle(props), hdsContentText(props), deprecatedContentButton(props))));
+    }
+  };
   registerBlockType('hds-wp/image-banner', {
     apiVersion: 2,
     title: __('Helsinki - Image Banner', 'hds-wp'),
@@ -1881,6 +1998,7 @@ function hdsIcons(name) {
     },
     edit: edit(),
     save: save(),
+    deprecated: [v1],
     example: {
       attributes: {
         preview: hds_wp.blocksUrl + '/previews/image-banner.png'
@@ -2071,7 +2189,7 @@ function hdsIcons(name) {
       }), hdsSingleImage(imageConfig(props)), hdsContent(props, hdsContentTitle(props), hdsContentText(props), hdsContentButton(props, {
         className: 'content__link hds-button hds-button--secondary',
         href: props.attributes.buttonUrl
-      }, props.attributes.isExternalUrl ? hdsExternalLinkIcon() : hdsArrowIcon())));
+      }, props.attributes.isExternalUrl ? hdsDeprecatedExternalLinkIcon() : hdsDeprecatedArrowIcon())));
     }
   };
   registerBlockType('hds-wp/image-text', {
@@ -3811,6 +3929,13 @@ function hdsIcons(name) {
 })(window.wp);
 
 wp.domReady(function () {
+  /* Disable default formats */
+  wp.richText.unregisterFormatType('core/image');
+  wp.richText.unregisterFormatType('core/text-color');
+  wp.richText.unregisterFormatType('core/keyboard');
+  wp.richText.unregisterFormatType('core/code');
+});
+wp.domReady(function () {
   /**
     * Buttons
     */
@@ -3988,15 +4113,62 @@ wp.domReady(function () {
     };
   }, 'tableEditorWrapperExtraClass');
   wp.hooks.addFilter('editor.BlockListBlock', 'table/custom-editor-wrapper-class', tableEditorWrapperExtraClass);
-})(window.wp);
+})(window.wp); //remove error notices when block is removed
 
-wp.domReady(function () {
-  /* Disable default formats */
-  wp.richText.unregisterFormatType('core/image');
-  wp.richText.unregisterFormatType('core/text-color');
-  wp.richText.unregisterFormatType('core/keyboard');
-  wp.richText.unregisterFormatType('core/code');
-});
+
+(function () {
+  var _wp$data13 = wp.data,
+      select = _wp$data13.select,
+      subscribe = _wp$data13.subscribe,
+      dispatch = _wp$data13.dispatch;
+  var store = wp.notices.store;
+
+  var getBlocks = function getBlocks() {
+    return select('core/block-editor').getBlocks();
+  };
+
+  Array.prototype.diff = function (a) {
+    return this.filter(function (i) {
+      return a.indexOf(i) < 0;
+    });
+  };
+
+  var blocksState = getBlocks();
+  subscribe(_.debounce(function () {
+    var notices = select(store).getNotices();
+    var newBlocksState = getBlocks(); // Lock saving if notices contain error notices
+
+    var errorNotices = notices.filter(function (notice) {
+      return notice.status === 'error';
+    });
+
+    if (errorNotices.length > 0) {
+      dispatch('core/editor').lockPostSaving('requiredValueLock');
+    } else {
+      if (select('core/editor').isPostSavingLocked()) {
+        dispatch('core/editor').unlockPostSaving('requiredValueLock');
+      }
+    } // When very last block is removed, it's replaced with a new paragraph block.
+    // This is a workaround to remove the error notice.
+
+
+    if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
+      // remove newBlocksState from blocksState
+      var removedBlock = blocksState.diff(newBlocksState);
+
+      if (removedBlock.length === 1 || removedBlock.length > 0 && removedBlock[0].name === 'core/paragraph') {
+        var noticesToRemove = notices.filter(function (notice) {
+          return notice.id.includes(removedBlock[0].clientId);
+        });
+        noticesToRemove.forEach(function (notice) {
+          dispatch('core/notices').removeNotice(notice.id);
+        });
+      }
+    }
+
+    blocksState = newBlocksState;
+  }, 300));
+})(window.wp);
 
 (function (wp) {
   /* inspired from https://github.com/Yoast/wpseo-woocommerce/blob/trunk/js/src/yoastseo-woo-replacevars.js */
@@ -4177,59 +4349,4 @@ wp.domReady(function () {
   }
 
   initializeReplacevarPlugin();
-})(window.wp); //remove error notices when block is removed
-
-
-(function () {
-  var _wp$data13 = wp.data,
-      select = _wp$data13.select,
-      subscribe = _wp$data13.subscribe,
-      dispatch = _wp$data13.dispatch;
-  var store = wp.notices.store;
-
-  var getBlocks = function getBlocks() {
-    return select('core/block-editor').getBlocks();
-  };
-
-  Array.prototype.diff = function (a) {
-    return this.filter(function (i) {
-      return a.indexOf(i) < 0;
-    });
-  };
-
-  var blocksState = getBlocks();
-  subscribe(_.debounce(function () {
-    var notices = select(store).getNotices();
-    var newBlocksState = getBlocks(); // Lock saving if notices contain error notices
-
-    var errorNotices = notices.filter(function (notice) {
-      return notice.status === 'error';
-    });
-
-    if (errorNotices.length > 0) {
-      dispatch('core/editor').lockPostSaving('requiredValueLock');
-    } else {
-      if (select('core/editor').isPostSavingLocked()) {
-        dispatch('core/editor').unlockPostSaving('requiredValueLock');
-      }
-    } // When very last block is removed, it's replaced with a new paragraph block.
-    // This is a workaround to remove the error notice.
-
-
-    if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
-      // remove newBlocksState from blocksState
-      var removedBlock = blocksState.diff(newBlocksState);
-
-      if (removedBlock.length === 1 || removedBlock.length > 0 && removedBlock[0].name === 'core/paragraph') {
-        var noticesToRemove = notices.filter(function (notice) {
-          return notice.id.includes(removedBlock[0].clientId);
-        });
-        noticesToRemove.forEach(function (notice) {
-          dispatch('core/notices').removeNotice(notice.id);
-        });
-      }
-    }
-
-    blocksState = newBlocksState;
-  }, 300));
 })(window.wp);

@@ -32,6 +32,11 @@ button {
     margin-left: 1rem !important;
     margin-top: 0 !important;
     flex-shrink: 0;
+
+    &.mask-icon {
+      background-color: $white;
+    }
+
 	}
 
   &:hover {
@@ -40,6 +45,10 @@ button {
 
     svg {
   		fill: $black;
+
+      &.mask-icon {
+        background-color: $black;
+      }  
   	}
   }
 
@@ -57,6 +66,11 @@ button {
 
     svg {
   		fill: $medium-gray;
+
+      &.mask-icon {
+        background-color: $medium-gray;
+      }
+  
   	}
 
     &:focus {
@@ -70,6 +84,11 @@ button {
 
     svg {
   		fill: $black;
+
+      &.mask-icon {
+        background-color: $black;
+      }
+  
   	}
 
     &:hover {
@@ -78,6 +97,11 @@ button {
 
       svg {
     		fill: $white;
+
+        &.mask-icon {
+          background-color: $white;
+        }
+    
     	}
     }
 
@@ -94,6 +118,11 @@ button {
 
       svg {
     		fill: $medium-gray;
+
+        &.mask-icon {
+          background-color: $medium-gray;
+        }
+    
     	}
 
       &:hover,
@@ -112,6 +141,11 @@ button {
 
     svg {
       fill: $black;
+
+      &.mask-icon {
+        background-color: $black;
+      }
+  
     }
 
     &:hover {
@@ -133,6 +167,11 @@ button {
 
       svg {
         fill: $medium-gray;
+
+        &.mask-icon {
+          background-color: $medium-gray;
+        }
+    
       }
 
       &:hover,
@@ -161,6 +200,11 @@ button {
 
   svg {
     fill: $black;
+
+    &.mask-icon {
+      background-color: $black;
+    }
+
   }
 
   &:hover {
@@ -169,6 +213,11 @@ button {
 
     svg {
       fill: $white;
+
+      &.mask-icon {
+        background-color: $white;
+      }
+  
     }
   }
 
@@ -185,6 +234,11 @@ button {
 
     svg {
       fill: $medium-gray;
+
+      &.mask-icon {
+        background-color: $medium-gray;
+      }
+  
     }
 
     &:hover,
@@ -207,6 +261,11 @@ button {
 
 	.icon {
 		fill: $black;
+
+    &.mask-icon {
+      background-color: $black;
+    }
+
 	}
 
 
@@ -216,6 +275,11 @@ button {
 
 		.icon {
 			fill: $white;
+
+      &.mask-icon {
+        background-color: $white;
+      }
+  
 		}
 	}
 
@@ -230,6 +294,11 @@ button {
 
 		.icon {
 			fill: $white;
+
+      &.mask-icon {
+        background-color: $white;
+      }
+  
 		}
 
 		&:hover {
@@ -238,6 +307,11 @@ button {
 
 			.icon {
 				fill: $black;
+
+        &.mask-icon {
+          background-color: $black;
+        }
+    
 			}
 		}
 
