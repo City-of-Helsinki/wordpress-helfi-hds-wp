@@ -1415,7 +1415,7 @@ function hdsIcons(name) {
       unregisterBlockVariation = _wp$blocks5.unregisterBlockVariation,
       getBlockType = _wp$blocks5.getBlockType,
       getBlockVariations = _wp$blocks5.getBlockVariations;
-  var allowedEmbedBlocks = ['youtube'];
+  var allowedEmbedBlocks = [];
   wp.domReady(function () {
     if (getBlockType('core/pullquote')) {
       unregisterBlockType('core/pullquote');
@@ -1439,6 +1439,7 @@ function hdsIcons(name) {
           wp.blocks.unregisterBlockVariation('core/embed', blockVariation.name);
         }
       });
+      unregisterBlockType('core/embed');
     }
 
     if (getBlockType('core/html')) {
@@ -1641,6 +1642,11 @@ function hdsIcons(name) {
 
     if (getBlockType('yoast/how-to-block')) {
       unregisterBlockType('yoast/how-to-block');
+    } //Disable Complianz blocks
+
+
+    if (getBlockType('complianz/consent-area')) {
+      unregisterBlockType('complianz/consent-area');
     } //Disable blocks for posts
 
 
