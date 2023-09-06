@@ -4113,7 +4113,7 @@ wp.domReady(function () {
     };
   }, 'tableEditorWrapperExtraClass');
   wp.hooks.addFilter('editor.BlockListBlock', 'table/custom-editor-wrapper-class', tableEditorWrapperExtraClass);
-})(window.wp); //remove error notices when block is removed
+})(window.wp);
 
 (function (wp) {
   /* inspired from https://github.com/Yoast/wpseo-woocommerce/blob/trunk/js/src/yoastseo-woo-replacevars.js */
@@ -4296,6 +4296,7 @@ wp.domReady(function () {
   initializeReplacevarPlugin();
 })(window.wp); //remove error notices when block is removed
 
+
 (function () {
   var _wp$data13 = wp.data,
       select = _wp$data13.select,
@@ -4349,11 +4350,3 @@ wp.domReady(function () {
     blocksState = newBlocksState;
   }, 300));
 })(window.wp);
-
-wp.domReady(function () {
-  /* Disable default formats */
-  wp.richText.unregisterFormatType('core/image');
-  wp.richText.unregisterFormatType('core/text-color');
-  wp.richText.unregisterFormatType('core/keyboard');
-  wp.richText.unregisterFormatType('core/code');
-});
