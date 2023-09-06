@@ -132,11 +132,11 @@
             }
 
             &__link svg {
-                fill: var(--primary-content-secondary-color);
+                background-color: var(--primary-content-secondary-color);
             }
 
             &__link:hover svg {
-                fill: var(--secondary-content-color);
+                background-color: var(--secondary-content-color);
             }
 
             @include breakpoint('m') {

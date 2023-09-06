@@ -243,8 +243,8 @@
               href: props.attributes.buttonUrl,
             },
             props.attributes.isExternalUrl
-              ? hdsExternalLinkIcon()
-              : hdsArrowIcon()
+              ? hdsDeprecatedExternalLinkIcon()
+              : hdsDeprecatedArrowIcon()
           )
         )
       );

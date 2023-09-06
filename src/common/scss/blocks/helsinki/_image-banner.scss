@@ -79,12 +79,21 @@
 					color: $black;
 
 					svg {
-						fill: $black;
+						fill : $black;
+
+						&.mask-icon {
+							background-color: $black;
+						}
 					}
 				}
 
 				svg {
 					fill: $white;
+
+					&.mask-icon {
+						background-color: $white;
+					}
+
 				}
 			}
 		}

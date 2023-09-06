@@ -76,6 +76,17 @@
     );
   }
 
+  function deprecatedContentButton(props) {
+    return hdsContentButton(
+      props,
+      {
+        className: 'content__link hds-button',
+        href: props.attributes.buttonUrl,
+      },
+      props.attributes.isExternalUrl ? hdsDeprecatedExternalLinkIcon() : hdsDeprecatedArrowIcon()
+    );
+  }
+
   function edit() {
     return function (props) {
       if (props.attributes.preview) {
@@ -137,6 +148,85 @@
         )
       );
     };
+  }
+
+  const v1 = {
+    supports: {
+      anchor: true,
+    },
+    attributes: {
+      alignment: {
+        type: 'string',
+        default: 'right',
+      },
+      mediaId: {
+        type: 'number',
+        default: 0,
+      },
+      mediaUrl: {
+        type: 'string',
+        default: '',
+      },
+      mediaWidth: {
+        type: 'number',
+        default: 0,
+      },
+      mediaHeight: {
+        type: 'number',
+        default: 0,
+      },
+      mediaAlt: {
+        type: 'string',
+        default: '',
+      },
+      mediaSrcset: {
+        type: 'string',
+        default: '',
+      },
+      contentTitle: {
+        type: 'string',
+        default: '',
+      },
+      contentText: {
+        type: 'string',
+        default: '',
+      },
+      buttonText: {
+        type: 'string',
+        default: '',
+      },
+      buttonUrl: {
+        type: 'string',
+        default: '',
+      },
+      isExternalUrl: {
+        type: 'boolean',
+        default: false,
+      },
+      preview: {
+        type: 'string',
+        default: '',
+      },
+    },
+    save: function (props) {
+      return createElement(
+        'div',
+        useBlockProps.save({
+          className: classNamesString(props),
+        }),
+        hdsSingleImage(imageConfig(props)),
+        hdsContent(
+          props,
+          createElement(
+            'div',
+            {className: 'content__inner'},
+            hdsContentTitle(props),
+            hdsContentText(props),
+            deprecatedContentButton(props)
+          )
+        )
+      );
+    },
   }
 
   registerBlockType('hds-wp/image-banner', {
@@ -204,6 +294,7 @@
     },
     edit: edit(),
     save: save(),
+    deprecated: [v1],
     example: {
       attributes: {
         preview: hds_wp.blocksUrl + '/previews/image-banner.png',

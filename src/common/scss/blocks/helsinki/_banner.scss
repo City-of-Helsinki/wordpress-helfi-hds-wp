@@ -185,7 +185,7 @@
 
 	&[class*="-secondary-color"] {
 		background-color: var(--secondary-color);
-		color: var(--secondary-content-color);
+		color: var(--primary-content-secondary-color);
 
 		.content {
 
@@ -209,11 +209,11 @@
 			}
 	
 			&__heading {
-				color: var(--secondary-content-color);
+				color: var(--primary-content-secondary-color);
 			}
 	
 			&__text {
-				color: var(--secondary-content-color);
+				color: var(--primary-content-secondary-color);
 				a {	
 					svg {
 						fill: var(--secondary-content-color);
