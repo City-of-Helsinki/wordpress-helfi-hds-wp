@@ -66,6 +66,7 @@
 			background-color: var(--primary-content-color);
 			border-color: var(--primary-content-color);
 			color: var(--primary-content-secondary-color);
+			outline-color: var(--primary-content-color);
 		}
 
 		&__link:hover {
@@ -192,10 +193,10 @@
 
 				&--icon {
 					svg {
-						fill: var(--primary-content-secondary-color);
+						fill: var(--secondary-content-color);
 
 						&.mask-icon {
-							background-color: var(--primary-content-secondary-color);
+							background-color: var(--secondary-content-color);
 						}
 					}
 				}
@@ -215,10 +216,10 @@
 				color: var(--primary-content-secondary-color);
 				a {	
 					svg {
-						fill: var(--primary-content-secondary-color);
+						fill: var(--secondary-content-color);
 
 						&.mask-icon {
-							background-color: var(--primary-content-secondary-color);
+							background-color: var(--secondary-content-color);
 						}
 					}
 				}	
@@ -228,6 +229,7 @@
 				background-color: $black;
 				border-color: $black;
 				color: $white;
+				outline-color: $black;
 			}
 	
 			&__link:hover {
@@ -272,6 +274,16 @@
 				margin-left: auto;
 				margin-right: auto;
 				text-align: center;
+
+				p {
+					margin-left: auto;
+					margin-right: auto;
+					text-align: center;	
+
+					&:last-child {
+						margin-bottom: 0;
+					}
+				}
 			}
 
 			&__inner {
