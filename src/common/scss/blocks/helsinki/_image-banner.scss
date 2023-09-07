@@ -66,34 +66,34 @@
       }
 
 	  &__link {
-		//force correct button styling on outdated saved markup...
-		&.hds-button--supplementary {
-			background-color: $black;
-			border-color: $black;
-			color: $white;
+      //force correct button styling on outdated saved markup...
+      &.hds-button--supplementary {
+        background-color: $black;
+        border-color: $black;
+        color: $white;
 
-			&:hover {
-				background-color: transparent;
-				color: $black;
+        &:hover {
+          background-color: transparent;
+          color: $black;
 
-				svg {
-					fill : $black;
+          svg {
+            fill : $black;
 
-					&.mask-icon {
-						background-color: $black;
-					}
-				}
-			}
+            &.mask-icon {
+              background-color: $black;
+            }
+          }
+        }
 
-			svg {
-				fill: $white;
+        svg {
+          fill: $white;
 
-				&.mask-icon {
-					background-color: $white;
-				}
+          &.mask-icon {
+            background-color: $white;
+          }
 
-			}
-		}
+        }
+      }
 	  }
 
 		.wp-block-button {
