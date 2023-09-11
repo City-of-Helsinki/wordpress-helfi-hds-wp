@@ -176,8 +176,8 @@ function hds_wp_query_block_post_id( int $post ) {
 		$description = '';
 		if ( ! empty( $attributes['description'] ) ) {
 			$description = sprintf(
-				'<p class="accordion-description">%s</p>',
-				esc_html( $attributes['description'] )
+				'<div class="accordion-description">%s</div>',
+				wpautop($attributes['description'] , false)
 			);
 		}
 
@@ -231,7 +231,7 @@ function hds_wp_query_block_post_id( int $post ) {
 		$panel = sprintf(
 			'<div id="panel-%1$s" class="accordion__panel" aria-labelledby="panel-toggle-%1$s" role="region" hidden="true">
 				<div class="accordion__content">%2$s</div>
-				<button class="accordion__close" type="button">
+				<button class="accordion__close hds-button hds-button--supplementary" type="button">
 					<span>%3$s</span>
 					%4$s
 				</button>

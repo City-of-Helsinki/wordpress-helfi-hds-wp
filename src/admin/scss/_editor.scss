@@ -133,6 +133,30 @@
       }
     }
   }
+
+  &.hds-button--supplementary {
+    color: $black;
+
+    .icon {
+      fill: $black;
+
+      &.mask-icon {
+        background-color: $black;
+      }
+    }
+
+    &:hover {
+      color: $black;
+
+      .icon {
+        fill: $black;
+
+        &.mask-icon {
+          background-color: $black;
+        }
+      }
+    }
+  }
 }
 
 .content__link {

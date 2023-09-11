@@ -84,7 +84,11 @@
           }
         },
       },
-      createElement(Fragment, {}, props.attributes.panelTitle),
+      //createElement(Fragment, {}, props.attributes.panelTitle),
+      hdsContentTextRich(props, {
+        placeholder: __('Accordion heading', 'hds-wp'),
+        textAttribute: 'panelTitle',
+      }),
       panelIcon(props)
     );
   }
@@ -134,7 +138,7 @@
     return createElement(
       'button',
       {
-        className: 'accordion__close',
+        className: 'accordion__close hds-button hds-button--supplementary',
         type: 'button',
         onClick: function (event) {
           event.preventDefault();
@@ -175,7 +179,6 @@
       return createElement(
         Fragment,
         {},
-        panelControls(props),
         createElement(
           'div',
           useBlockProps({
