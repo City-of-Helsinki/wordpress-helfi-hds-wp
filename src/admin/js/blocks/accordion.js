@@ -8,36 +8,19 @@
   const {select, dispatch, useSelect} = wp.data;
 
   function accordionTitle(props) {
-    if (props.attributes.title != null && props.attributes.title != '') {
-      return createElement(
-        'h2',
-        {className: 'accordion__heading'},
-        createElement(
-          Fragment,
-          {},
-          props.attributes.title ? props.attributes.title : ''
-        )
-      );
-    }
-    return '';
+    return hdsContentTitleRich(props, {
+      placeholder: __('This is the title', 'hds-wp'),
+      titleAttribute: 'title',
+      className: 'accordion__heading',
+    });
   }
 
   function accordionDescription(props) {
-    if (
-      props.attributes.description != null &&
-      props.attributes.description != ''
-    ) {
-      return createElement(
-        'p',
-        {className: 'accordion-description'},
-        createElement(
-          Fragment,
-          {},
-          props.attributes.description ? props.attributes.description : ''
-        )
-      );
-    }
-    return '';
+    return hdsContentTextRich(props, {
+      placeholder: __('This is the excerpt.', 'hds-wp'),
+      textAttribute: 'description',
+      className: 'accordion-description',
+    });
   }
 
   function accordionControls(props) {
@@ -117,7 +100,6 @@
         content = createElement(
           Fragment,
           {},
-          accordionControls(props),
           createElement(
             'div',
             {
