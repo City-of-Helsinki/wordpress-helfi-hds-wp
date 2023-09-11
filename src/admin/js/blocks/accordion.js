@@ -23,6 +23,40 @@
     });
   }
 
+  function accordionTitleV1(props) {
+    if (props.attributes.title != null && props.attributes.title != '') {
+      return createElement(
+        'h2',
+        {className: 'accordion__heading'},
+        createElement(
+          Fragment,
+          {},
+          props.attributes.title ? props.attributes.title : ''
+        )
+      );
+    }
+    return '';
+  }
+
+  function accordionDescriptionV1(props) {
+    if (
+      props.attributes.description != null &&
+      props.attributes.description != ''
+    ) {
+      return createElement(
+        'p',
+        {className: 'accordion-description'},
+        createElement(
+          Fragment,
+          {},
+          props.attributes.description ? props.attributes.description : ''
+        )
+      );
+    }
+    return '';
+  }
+
+
   function accordionControls(props) {
     return hdsInspectorControls(
       {
@@ -189,8 +223,8 @@
               useBlockProps.save({
                 className: 'accordion-wrapper',
               }),
-              accordionTitle(props),
-              accordionDescription(props),
+              accordionTitleV1(props),
+              accordionDescriptionV1(props),
               createElement(
                 'div',
                 {

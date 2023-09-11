@@ -720,6 +720,32 @@ function hdsIcons(name) {
     }), panelIcon(props));
   }
 
+  function panelTitleV1(props) {
+    return createElement(props.attributes.headingLevel, {
+      className: 'accordion__title'
+    }, panelToggleV1(props));
+  }
+
+  function panelToggleV1(props) {
+    return createElement('button', {
+      id: 'panel-toggle-' + props.attributes.blockId,
+      className: 'accordion__toggle',
+      type: 'button',
+      'aria-controls': 'panel-' + props.attributes.blockId,
+      'aria-expanded': 'false',
+      onClick: function onClick(event) {
+        //closeCurrent(event.currentTarget);
+        var panel = togglePanel(event.currentTarget);
+
+        if (isOpen(event.currentTarget)) {
+          closePanel(event.currentTarget, panel);
+        } else {
+          openPanel(event.currentTarget, panel);
+        }
+      }
+    }, createElement(Fragment, {}, props.attributes.panelTitle), panelIcon(props));
+  }
+
   function panelIcon(props) {
     return createElement('span', {
       className: 'accordion__icon'
@@ -819,7 +845,7 @@ function hdsIcons(name) {
         var parentAttributes = select('core/block-editor').getBlockAttributes(parentClientId);
         return createElement(Fragment, {}, createElement('div', useBlockProps.save({
           className: 'accordion__section'
-        }), panelTitle(props), panelContent(props, InnerBlocks.Content)));
+        }), panelTitleV1(props), panelContent(props, InnerBlocks.Content)));
       }
     }]
   });
@@ -863,6 +889,26 @@ function hdsIcons(name) {
       textAttribute: 'description',
       className: 'accordion-description'
     });
+  }
+
+  function accordionTitleV1(props) {
+    if (props.attributes.title != null && props.attributes.title != '') {
+      return createElement('h2', {
+        className: 'accordion__heading'
+      }, createElement(Fragment, {}, props.attributes.title ? props.attributes.title : ''));
+    }
+
+    return '';
+  }
+
+  function accordionDescriptionV1(props) {
+    if (props.attributes.description != null && props.attributes.description != '') {
+      return createElement('p', {
+        className: 'accordion-description'
+      }, createElement(Fragment, {}, props.attributes.description ? props.attributes.description : ''));
+    }
+
+    return '';
   }
 
   function accordionControls(props) {
@@ -981,7 +1027,7 @@ function hdsIcons(name) {
       save: function save(props) {
         return createElement(Fragment, {}, createElement('div', useBlockProps.save({
           className: 'accordion-wrapper'
-        }), accordionTitle(props), accordionDescription(props), createElement('div', {
+        }), accordionTitleV1(props), accordionDescriptionV1(props), createElement('div', {
           className: 'accordion'
         }, createElement(InnerBlocks.Content))));
       }
