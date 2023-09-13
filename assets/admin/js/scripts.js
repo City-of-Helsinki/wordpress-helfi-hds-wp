@@ -713,6 +713,36 @@ function hdsIcons(name) {
           openPanel(event.currentTarget, panel);
         }
       }
+    }, //createElement(Fragment, {}, props.attributes.panelTitle),
+    hdsContentTextRich(props, {
+      placeholder: __('Accordion heading', 'hds-wp'),
+      textAttribute: 'panelTitle'
+    }), panelIcon(props));
+  }
+
+  function panelTitleV1(props) {
+    return createElement(props.attributes.headingLevel, {
+      className: 'accordion__title'
+    }, panelToggleV1(props));
+  }
+
+  function panelToggleV1(props) {
+    return createElement('button', {
+      id: 'panel-toggle-' + props.attributes.blockId,
+      className: 'accordion__toggle',
+      type: 'button',
+      'aria-controls': 'panel-' + props.attributes.blockId,
+      'aria-expanded': 'false',
+      onClick: function onClick(event) {
+        //closeCurrent(event.currentTarget);
+        var panel = togglePanel(event.currentTarget);
+
+        if (isOpen(event.currentTarget)) {
+          closePanel(event.currentTarget, panel);
+        } else {
+          openPanel(event.currentTarget, panel);
+        }
+      }
     }, createElement(Fragment, {}, props.attributes.panelTitle), panelIcon(props));
   }
 
@@ -738,7 +768,7 @@ function hdsIcons(name) {
 
   function panelClose(props) {
     return createElement('button', {
-      className: 'accordion__close',
+      className: 'accordion__close hds-button hds-button--supplementary',
       type: 'button',
       onClick: function onClick(event) {
         event.preventDefault();
@@ -763,7 +793,7 @@ function hdsIcons(name) {
           return block.attributes;
         })
       });
-      return createElement(Fragment, {}, panelControls(props), createElement('div', useBlockProps({
+      return createElement(Fragment, {}, createElement('div', useBlockProps({
         className: 'accordion__section'
       }), panelTitle(props), panelContent(props, InnerBlocks)));
     };
@@ -815,7 +845,7 @@ function hdsIcons(name) {
         var parentAttributes = select('core/block-editor').getBlockAttributes(parentClientId);
         return createElement(Fragment, {}, createElement('div', useBlockProps.save({
           className: 'accordion__section'
-        }), panelTitle(props), panelContent(props, InnerBlocks.Content)));
+        }), panelTitleV1(props), panelContent(props, InnerBlocks.Content)));
       }
     }]
   });
@@ -846,6 +876,22 @@ function hdsIcons(name) {
       useSelect = _wp$data2.useSelect;
 
   function accordionTitle(props) {
+    return hdsContentTitleRich(props, {
+      placeholder: __('This is the title', 'hds-wp'),
+      titleAttribute: 'title',
+      className: 'accordion__heading'
+    });
+  }
+
+  function accordionDescription(props) {
+    return hdsContentTextRich(props, {
+      placeholder: __('This is the excerpt.', 'hds-wp'),
+      textAttribute: 'description',
+      className: 'accordion-description'
+    });
+  }
+
+  function accordionTitleV1(props) {
     if (props.attributes.title != null && props.attributes.title != '') {
       return createElement('h2', {
         className: 'accordion__heading'
@@ -855,7 +901,7 @@ function hdsIcons(name) {
     return '';
   }
 
-  function accordionDescription(props) {
+  function accordionDescriptionV1(props) {
     if (props.attributes.description != null && props.attributes.description != '') {
       return createElement('p', {
         className: 'accordion-description'
@@ -918,7 +964,7 @@ function hdsIcons(name) {
       });
 
       if (props.isSelected || isParentOfSelectedBlock) {
-        content = createElement(Fragment, {}, accordionControls(props), createElement('div', {
+        content = createElement(Fragment, {}, createElement('div', {
           className: 'accordion-wrapper'
         }, accordionTitle(props), accordionDescription(props), createElement('div', {
           className: 'accordion'
@@ -981,7 +1027,7 @@ function hdsIcons(name) {
       save: function save(props) {
         return createElement(Fragment, {}, createElement('div', useBlockProps.save({
           className: 'accordion-wrapper'
-        }), accordionTitle(props), accordionDescription(props), createElement('div', {
+        }), accordionTitleV1(props), accordionDescriptionV1(props), createElement('div', {
           className: 'accordion'
         }, createElement(InnerBlocks.Content))));
       }
@@ -3954,13 +4000,6 @@ function hdsIcons(name) {
 })(window.wp);
 
 wp.domReady(function () {
-  /* Disable default formats */
-  wp.richText.unregisterFormatType('core/image');
-  wp.richText.unregisterFormatType('core/text-color');
-  wp.richText.unregisterFormatType('core/keyboard');
-  wp.richText.unregisterFormatType('core/code');
-});
-wp.domReady(function () {
   /**
     * Buttons
     */
@@ -4139,6 +4178,14 @@ wp.domReady(function () {
   }, 'tableEditorWrapperExtraClass');
   wp.hooks.addFilter('editor.BlockListBlock', 'table/custom-editor-wrapper-class', tableEditorWrapperExtraClass);
 })(window.wp);
+
+wp.domReady(function () {
+  /* Disable default formats */
+  wp.richText.unregisterFormatType('core/image');
+  wp.richText.unregisterFormatType('core/text-color');
+  wp.richText.unregisterFormatType('core/keyboard');
+  wp.richText.unregisterFormatType('core/code');
+});
 
 (function (wp) {
   /* inspired from https://github.com/Yoast/wpseo-woocommerce/blob/trunk/js/src/yoastseo-woo-replacevars.js */
