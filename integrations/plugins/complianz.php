@@ -56,3 +56,8 @@ function helsinki_wp_complianz_document_language() {
   }
   return substr( get_locale(), 0, 2 );
 }
+
+add_filter('cmplz_accept_cookies_blocked_content', 'helsinki_wp_complianz_cookies_blocked_content', 10, 1);
+function helsinki_wp_complianz_cookies_blocked_content( $placeholdertext ) {
+  return '<div class="cmplz-blocked-content-wrapper">' . $placeholdertext . '</div>';
+}
