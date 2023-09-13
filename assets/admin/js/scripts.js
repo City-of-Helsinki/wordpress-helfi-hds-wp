@@ -1872,9 +1872,9 @@ function hdsIcons(name) {
 
   function contentButton(props) {
     return hdsContentButton(props, {
-      className: 'content__link hds-button',
+      className: 'content__link hds-button hds-button--primary',
       href: props.attributes.buttonUrl
-    }, props.attributes.isExternalUrl ? hdsExternalLinkIcon() : hdsArrowIcon());
+    });
   }
 
   function deprecatedContentButton(props) {
@@ -1892,31 +1892,54 @@ function hdsIcons(name) {
         });
       }
 
-      return createElement(Fragment, {}, toolbar(props), hdsInspectorControls({
-        title: wp.i18n.__('Content', 'hds-wp'),
+      var content = null;
+      content = createElement(Fragment, {}, toolbar(props), hdsInspectorControls({
+        title: __('Content', 'hds-wp'),
         initialOpen: false
-      }, hdsContentTitleControl(props), hdsContentTextControl(props), hdsButtonTextControl(props), hdsButtonUrlControl(props), hdsExternalUrlControl(props)), createElement('div', useBlockProps({
-        className: classNamesString(props)
-      }), hdsSingleImage(imageConfig(props)), hdsContent(props, createElement('div', {
+      }, hdsButtonTextControl(props), hdsButtonUrlControl(props), hdsTargetBlankControl(props, {
+        help: wp.element.createElement('p', {}, wp.i18n.__('I have made sure that the description of this link clearly states that it opens in a new tab. ', 'hds-wp'), wp.element.createElement('a', {
+          href: 'https://www.w3.org/WAI/WCAG21/Techniques/general/G200.html',
+          target: '_blank'
+        }, wp.i18n.__('Check WCGA 3.2.5 accessibility requirements (the link opens in a new tab).', 'hds-wp')))
+      })), createElement('div', {
+        className: 'image-banner--wrapper'
+      }, hdsSingleImage(imageConfig(props)), hdsContent(props, createElement('div', {
         className: 'content__inner'
-      }, hdsContentTitle(props), hdsContentText(props), contentButton(props)))));
+      }, hdsContentTitleRich(props, {
+        placeholder: __('This is the title', 'hds-wp')
+      }), hdsContentTextRich(props, {
+        placeholder: __('This is the excerpt.', 'hds-wp')
+      }), contentButton(props)))));
+      var SSRContent = createElement(wp.serverSideRender, {
+        block: 'hds-wp/image-banner',
+        attributes: props.attributes,
+        httpMethod: 'POST'
+      });
+
+      if (props.isSelected) {
+        return createElement('div', useBlockProps({
+          className: classNamesString(props)
+        }), content);
+      } else {
+        return createElement('div', useBlockProps({
+          className: classNamesString(props)
+        }), SSRContent);
+      }
     };
   }
 
   function save() {
     return function (props) {
-      return createElement('div', useBlockProps.save({
-        className: classNamesString(props)
-      }), hdsSingleImage(imageConfig(props)), hdsContent(props, createElement('div', {
-        className: 'content__inner'
-      }, hdsContentTitle(props), hdsContentText(props), contentButton(props))));
+      return createElement(Fragment, {}, createElement(InnerBlocks.Content));
     };
   }
 
+  function classNamesStringV1(props) {
+    var classNames = ['align-' + props.attributes.alignment, props.attributes.mediaId ? 'has-image' : 'has-placeholder'];
+    return classNames.join(' ');
+  }
+
   var v1 = {
-    supports: {
-      anchor: true
-    },
     attributes: {
       alignment: {
         type: 'string',
@@ -1965,18 +1988,20 @@ function hdsIcons(name) {
       isExternalUrl: {
         type: 'boolean',
         default: false
-      },
-      preview: {
-        type: 'string',
-        default: ''
       }
     },
+    supports: {
+      color: true,
+      anchor: true
+    },
     save: function save(props) {
-      return createElement('div', useBlockProps.save({
-        className: classNamesString(props)
-      }), hdsSingleImage(imageConfig(props)), hdsContent(props, createElement('div', {
-        className: 'content__inner'
-      }, hdsContentTitle(props), hdsContentText(props), deprecatedContentButton(props))));
+      return function (props) {
+        return createElement('div', useBlockProps.save({
+          className: classNamesStringV1(props)
+        }), hdsSingleImage(imageConfig(props)), hdsContent(props, createElement('div', {
+          className: 'content__inner'
+        }, hdsContentTitle(props), hdsContentText(props), deprecatedContentButton(props))));
+      };
     }
   };
   registerBlockType('hds-wp/image-banner', {
@@ -2027,13 +2052,13 @@ function hdsIcons(name) {
       },
       buttonText: {
         type: 'string',
-        default: ''
+        default: __('Button Text', 'hds-wp')
       },
       buttonUrl: {
         type: 'string',
         default: ''
       },
-      isExternalUrl: {
+      targetBlank: {
         type: 'boolean',
         default: false
       },
