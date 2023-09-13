@@ -1,0 +1,52 @@
+.cmplz-optin {
+
+    .cmplz-blocked-content-container {
+
+        .cmplz-blocked-content-notice {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            transform: initial;
+            width: 100%;
+            max-width: unset;
+            height: 100%;
+            background-color: #f2f2f2;
+            cursor: initial;
+            text-align: left;
+
+            .cmplz-blocked-content-wrapper {
+                display: block;
+                background-color: $white;
+                color: $black;
+                padding: spacing('s');
+                margin: spacing('s');
+                font-size: 16px;
+
+                button {
+                    @extend %hds-button;
+                }
+
+                .cmplz-links { 
+
+                    a {
+                        color: $black;
+                    }
+                    
+                }
+
+                @include breakpoint('l') {
+                    padding: spacing('l');
+                    margin: spacing('4-xl');
+                }
+            }
+        }
+
+    }
+
+}
+
