@@ -713,6 +713,36 @@ function hdsIcons(name) {
           openPanel(event.currentTarget, panel);
         }
       }
+    }, //createElement(Fragment, {}, props.attributes.panelTitle),
+    hdsContentTextRich(props, {
+      placeholder: __('Accordion heading', 'hds-wp'),
+      textAttribute: 'panelTitle'
+    }), panelIcon(props));
+  }
+
+  function panelTitleV1(props) {
+    return createElement(props.attributes.headingLevel, {
+      className: 'accordion__title'
+    }, panelToggleV1(props));
+  }
+
+  function panelToggleV1(props) {
+    return createElement('button', {
+      id: 'panel-toggle-' + props.attributes.blockId,
+      className: 'accordion__toggle',
+      type: 'button',
+      'aria-controls': 'panel-' + props.attributes.blockId,
+      'aria-expanded': 'false',
+      onClick: function onClick(event) {
+        //closeCurrent(event.currentTarget);
+        var panel = togglePanel(event.currentTarget);
+
+        if (isOpen(event.currentTarget)) {
+          closePanel(event.currentTarget, panel);
+        } else {
+          openPanel(event.currentTarget, panel);
+        }
+      }
     }, createElement(Fragment, {}, props.attributes.panelTitle), panelIcon(props));
   }
 
@@ -738,7 +768,7 @@ function hdsIcons(name) {
 
   function panelClose(props) {
     return createElement('button', {
-      className: 'accordion__close',
+      className: 'accordion__close hds-button hds-button--supplementary',
       type: 'button',
       onClick: function onClick(event) {
         event.preventDefault();
@@ -763,7 +793,7 @@ function hdsIcons(name) {
           return block.attributes;
         })
       });
-      return createElement(Fragment, {}, panelControls(props), createElement('div', useBlockProps({
+      return createElement(Fragment, {}, createElement('div', useBlockProps({
         className: 'accordion__section'
       }), panelTitle(props), panelContent(props, InnerBlocks)));
     };
@@ -815,7 +845,7 @@ function hdsIcons(name) {
         var parentAttributes = select('core/block-editor').getBlockAttributes(parentClientId);
         return createElement(Fragment, {}, createElement('div', useBlockProps.save({
           className: 'accordion__section'
-        }), panelTitle(props), panelContent(props, InnerBlocks.Content)));
+        }), panelTitleV1(props), panelContent(props, InnerBlocks.Content)));
       }
     }]
   });
@@ -846,6 +876,22 @@ function hdsIcons(name) {
       useSelect = _wp$data2.useSelect;
 
   function accordionTitle(props) {
+    return hdsContentTitleRich(props, {
+      placeholder: __('This is the title', 'hds-wp'),
+      titleAttribute: 'title',
+      className: 'accordion__heading'
+    });
+  }
+
+  function accordionDescription(props) {
+    return hdsContentTextRich(props, {
+      placeholder: __('This is the excerpt.', 'hds-wp'),
+      textAttribute: 'description',
+      className: 'accordion-description'
+    });
+  }
+
+  function accordionTitleV1(props) {
     if (props.attributes.title != null && props.attributes.title != '') {
       return createElement('h2', {
         className: 'accordion__heading'
@@ -855,7 +901,7 @@ function hdsIcons(name) {
     return '';
   }
 
-  function accordionDescription(props) {
+  function accordionDescriptionV1(props) {
     if (props.attributes.description != null && props.attributes.description != '') {
       return createElement('p', {
         className: 'accordion-description'
@@ -918,7 +964,7 @@ function hdsIcons(name) {
       });
 
       if (props.isSelected || isParentOfSelectedBlock) {
-        content = createElement(Fragment, {}, accordionControls(props), createElement('div', {
+        content = createElement(Fragment, {}, createElement('div', {
           className: 'accordion-wrapper'
         }, accordionTitle(props), accordionDescription(props), createElement('div', {
           className: 'accordion'
@@ -981,7 +1027,7 @@ function hdsIcons(name) {
       save: function save(props) {
         return createElement(Fragment, {}, createElement('div', useBlockProps.save({
           className: 'accordion-wrapper'
-        }), accordionTitle(props), accordionDescription(props), createElement('div', {
+        }), accordionTitleV1(props), accordionDescriptionV1(props), createElement('div', {
           className: 'accordion'
         }, createElement(InnerBlocks.Content))));
       }
@@ -1826,9 +1872,9 @@ function hdsIcons(name) {
 
   function contentButton(props) {
     return hdsContentButton(props, {
-      className: 'content__link hds-button',
+      className: 'content__link hds-button hds-button--primary',
       href: props.attributes.buttonUrl
-    }, props.attributes.isExternalUrl ? hdsExternalLinkIcon() : hdsArrowIcon());
+    });
   }
 
   function deprecatedContentButton(props) {
@@ -1846,31 +1892,54 @@ function hdsIcons(name) {
         });
       }
 
-      return createElement(Fragment, {}, toolbar(props), hdsInspectorControls({
-        title: wp.i18n.__('Content', 'hds-wp'),
+      var content = null;
+      content = createElement(Fragment, {}, toolbar(props), hdsInspectorControls({
+        title: __('Content', 'hds-wp'),
         initialOpen: false
-      }, hdsContentTitleControl(props), hdsContentTextControl(props), hdsButtonTextControl(props), hdsButtonUrlControl(props), hdsExternalUrlControl(props)), createElement('div', useBlockProps({
-        className: classNamesString(props)
-      }), hdsSingleImage(imageConfig(props)), hdsContent(props, createElement('div', {
+      }, hdsButtonTextControl(props), hdsButtonUrlControl(props), hdsTargetBlankControl(props, {
+        help: wp.element.createElement('p', {}, wp.i18n.__('I have made sure that the description of this link clearly states that it opens in a new tab. ', 'hds-wp'), wp.element.createElement('a', {
+          href: 'https://www.w3.org/WAI/WCAG21/Techniques/general/G200.html',
+          target: '_blank'
+        }, wp.i18n.__('Check WCGA 3.2.5 accessibility requirements (the link opens in a new tab).', 'hds-wp')))
+      })), createElement('div', {
+        className: 'image-banner--wrapper'
+      }, hdsSingleImage(imageConfig(props)), hdsContent(props, createElement('div', {
         className: 'content__inner'
-      }, hdsContentTitle(props), hdsContentText(props), contentButton(props)))));
+      }, hdsContentTitleRich(props, {
+        placeholder: __('This is the title', 'hds-wp')
+      }), hdsContentTextRich(props, {
+        placeholder: __('This is the excerpt.', 'hds-wp')
+      }), contentButton(props)))));
+      var SSRContent = createElement(wp.serverSideRender, {
+        block: 'hds-wp/image-banner',
+        attributes: props.attributes,
+        httpMethod: 'POST'
+      });
+
+      if (props.isSelected) {
+        return createElement('div', useBlockProps({
+          className: classNamesString(props)
+        }), content);
+      } else {
+        return createElement('div', useBlockProps({
+          className: classNamesString(props)
+        }), SSRContent);
+      }
     };
   }
 
   function save() {
     return function (props) {
-      return createElement('div', useBlockProps.save({
-        className: classNamesString(props)
-      }), hdsSingleImage(imageConfig(props)), hdsContent(props, createElement('div', {
-        className: 'content__inner'
-      }, hdsContentTitle(props), hdsContentText(props), contentButton(props))));
+      return createElement(Fragment, {}, createElement(InnerBlocks.Content));
     };
   }
 
+  function classNamesStringV1(props) {
+    var classNames = ['align-' + props.attributes.alignment, props.attributes.mediaId ? 'has-image' : 'has-placeholder'];
+    return classNames.join(' ');
+  }
+
   var v1 = {
-    supports: {
-      anchor: true
-    },
     attributes: {
       alignment: {
         type: 'string',
@@ -1919,18 +1988,20 @@ function hdsIcons(name) {
       isExternalUrl: {
         type: 'boolean',
         default: false
-      },
-      preview: {
-        type: 'string',
-        default: ''
       }
     },
+    supports: {
+      color: true,
+      anchor: true
+    },
     save: function save(props) {
-      return createElement('div', useBlockProps.save({
-        className: classNamesString(props)
-      }), hdsSingleImage(imageConfig(props)), hdsContent(props, createElement('div', {
-        className: 'content__inner'
-      }, hdsContentTitle(props), hdsContentText(props), deprecatedContentButton(props))));
+      return function (props) {
+        return createElement('div', useBlockProps.save({
+          className: classNamesStringV1(props)
+        }), hdsSingleImage(imageConfig(props)), hdsContent(props, createElement('div', {
+          className: 'content__inner'
+        }, hdsContentTitle(props), hdsContentText(props), deprecatedContentButton(props))));
+      };
     }
   };
   registerBlockType('hds-wp/image-banner', {
@@ -1981,13 +2052,13 @@ function hdsIcons(name) {
       },
       buttonText: {
         type: 'string',
-        default: ''
+        default: __('Button Text', 'hds-wp')
       },
       buttonUrl: {
         type: 'string',
         default: ''
       },
-      isExternalUrl: {
+      targetBlank: {
         type: 'boolean',
         default: false
       },
@@ -4113,61 +4184,6 @@ wp.domReady(function () {
     };
   }, 'tableEditorWrapperExtraClass');
   wp.hooks.addFilter('editor.BlockListBlock', 'table/custom-editor-wrapper-class', tableEditorWrapperExtraClass);
-})(window.wp); //remove error notices when block is removed
-
-
-(function () {
-  var _wp$data13 = wp.data,
-      select = _wp$data13.select,
-      subscribe = _wp$data13.subscribe,
-      dispatch = _wp$data13.dispatch;
-  var store = wp.notices.store;
-
-  var getBlocks = function getBlocks() {
-    return select('core/block-editor').getBlocks();
-  };
-
-  Array.prototype.diff = function (a) {
-    return this.filter(function (i) {
-      return a.indexOf(i) < 0;
-    });
-  };
-
-  var blocksState = getBlocks();
-  subscribe(_.debounce(function () {
-    var notices = select(store).getNotices();
-    var newBlocksState = getBlocks(); // Lock saving if notices contain error notices
-
-    var errorNotices = notices.filter(function (notice) {
-      return notice.status === 'error';
-    });
-
-    if (errorNotices.length > 0) {
-      dispatch('core/editor').lockPostSaving('requiredValueLock');
-    } else {
-      if (select('core/editor').isPostSavingLocked()) {
-        dispatch('core/editor').unlockPostSaving('requiredValueLock');
-      }
-    } // When very last block is removed, it's replaced with a new paragraph block.
-    // This is a workaround to remove the error notice.
-
-
-    if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
-      // remove newBlocksState from blocksState
-      var removedBlock = blocksState.diff(newBlocksState);
-
-      if (removedBlock.length === 1 || removedBlock.length > 0 && removedBlock[0].name === 'core/paragraph') {
-        var noticesToRemove = notices.filter(function (notice) {
-          return notice.id.includes(removedBlock[0].clientId);
-        });
-        noticesToRemove.forEach(function (notice) {
-          dispatch('core/notices').removeNotice(notice.id);
-        });
-      }
-    }
-
-    blocksState = newBlocksState;
-  }, 300));
 })(window.wp);
 
 (function (wp) {
@@ -4349,4 +4365,59 @@ wp.domReady(function () {
   }
 
   initializeReplacevarPlugin();
+})(window.wp); //remove error notices when block is removed
+
+
+(function () {
+  var _wp$data13 = wp.data,
+      select = _wp$data13.select,
+      subscribe = _wp$data13.subscribe,
+      dispatch = _wp$data13.dispatch;
+  var store = wp.notices.store;
+
+  var getBlocks = function getBlocks() {
+    return select('core/block-editor').getBlocks();
+  };
+
+  Array.prototype.diff = function (a) {
+    return this.filter(function (i) {
+      return a.indexOf(i) < 0;
+    });
+  };
+
+  var blocksState = getBlocks();
+  subscribe(_.debounce(function () {
+    var notices = select(store).getNotices();
+    var newBlocksState = getBlocks(); // Lock saving if notices contain error notices
+
+    var errorNotices = notices.filter(function (notice) {
+      return notice.status === 'error';
+    });
+
+    if (errorNotices.length > 0) {
+      dispatch('core/editor').lockPostSaving('requiredValueLock');
+    } else {
+      if (select('core/editor').isPostSavingLocked()) {
+        dispatch('core/editor').unlockPostSaving('requiredValueLock');
+      }
+    } // When very last block is removed, it's replaced with a new paragraph block.
+    // This is a workaround to remove the error notice.
+
+
+    if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
+      // remove newBlocksState from blocksState
+      var removedBlock = blocksState.diff(newBlocksState);
+
+      if (removedBlock.length === 1 || removedBlock.length > 0 && removedBlock[0].name === 'core/paragraph') {
+        var noticesToRemove = notices.filter(function (notice) {
+          return notice.id.includes(removedBlock[0].clientId);
+        });
+        noticesToRemove.forEach(function (notice) {
+          dispatch('core/notices').removeNotice(notice.id);
+        });
+      }
+    }
+
+    blocksState = newBlocksState;
+  }, 300));
 })(window.wp);

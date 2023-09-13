@@ -176,8 +176,8 @@ function hds_wp_query_block_post_id( int $post ) {
 		$description = '';
 		if ( ! empty( $attributes['description'] ) ) {
 			$description = sprintf(
-				'<p class="accordion-description">%s</p>',
-				esc_html( $attributes['description'] )
+				'<div class="accordion-description">%s</div>',
+				wpautop($attributes['description'] , false)
 			);
 		}
 
@@ -231,7 +231,7 @@ function hds_wp_query_block_post_id( int $post ) {
 		$panel = sprintf(
 			'<div id="panel-%1$s" class="accordion__panel" aria-labelledby="panel-toggle-%1$s" role="region" hidden="true">
 				<div class="accordion__content">%2$s</div>
-				<button class="accordion__close" type="button">
+				<button class="accordion__close hds-button hds-button--supplementary" type="button">
 					<span>%3$s</span>
 					%4$s
 				</button>
@@ -695,6 +695,82 @@ function hds_wp_render_image_text($attributes) {
 	return sprintf(
 		'<div %s class="%s">
 			<div class="image-text--wrapper">
+				%s
+				%s
+			</div>
+		</div>',
+		$id,
+		implode( ' ', $wrapClasses ),
+		$image,
+		$content
+	);
+
+}
+
+/**
+ * Image & Banner
+ */
+
+ function hds_wp_render_image_banner($attributes) {
+
+	$wrapClasses = array( 'wp-block-hds-wp-image-banner' );
+
+	if ($attributes['alignment'] === 'right') {
+		$wrapClasses[] = 'align-right';
+	} else {
+		$wrapClasses[] = 'align-left';
+	}
+
+	if (!empty($attributes['className'])) {
+		$wrapClasses[] = esc_attr($attributes['className']);
+	}
+
+	$id = '';
+	if (!empty($attributes['anchor'])) {
+		$id = 'id="'.esc_attr($attributes['anchor']).'"';
+	}
+
+	$imageConfig = array(
+		'alt' => $attributes['mediaAlt'],
+		'width' => $attributes['mediaWidth'],
+		'height' => $attributes['mediaHeight'],
+		'src' => $attributes['mediaUrl'],
+		'srcset' => $attributes['mediaSrcset'],
+		'id' => $attributes['mediaId'],
+	);
+
+	$image = '';
+	if (!empty($attributes['mediaId'])) {
+		$image = sprintf(
+			'<div class="image">%s</div>',
+			wp_get_attachment_image($attributes['mediaId'], 'full', false, $imageConfig)
+		);
+		$wrapClasses[] = 'has-image';
+	}
+	else {
+		$image = '<div class="image"><div class="placeholder"></div></div>';
+		$wrapClasses[] = 'has-placeholder';
+	}
+
+	$content = '';
+	if (!empty($attributes['contentTitle']) || !empty($attributes['contentText']) || !empty($attributes['buttonText'])) {
+		$content = sprintf(
+			'<div class="content">
+			 	<div class="content__inner">
+					%s
+					%s
+					%s
+				</div>
+			</div>',
+			!empty($attributes['contentTitle']) ? sprintf('<h2 class="content__heading">%s</h2>', $attributes['contentTitle']) : '',
+			!empty($attributes['contentText']) ? sprintf('<p class="content__text">%s</p>', $attributes['contentText']) : '',
+			!empty($attributes['buttonText']) && !empty($attributes['buttonUrl']) ? sprintf('<a class="content__link hds-button hds-button--primary" href="%s" %s>%s</a>', $attributes['buttonUrl'], $attributes['targetBlank'] ? 'target="_blank"' : '', $attributes['buttonText']) : ''
+		);
+	}
+
+	return sprintf(
+		'<div %s class="%s">
+		  <div class="image-banner--wrapper">
 				%s
 				%s
 			</div>
