@@ -1,8 +1,21 @@
 .cmplz-optin {
 
     .cmplz-blocked-content-container {
+        background-image: none !important;
+        background-color:#f2f2f2;
 
-        .cmplz-blocked-content-notice {
+        button {
+            @extend %hds-button;
+        }
+
+        .cmplz-blocked-content-notice
+        {
+            width: max-content;
+            max-width: calc(100% - 32px);
+        }
+
+        //consent per service blocker styles
+        div.cmplz-blocked-content-notice {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -26,10 +39,6 @@
                 padding: spacing('s');
                 margin: spacing('s');
                 font-size: 16px;
-
-                button {
-                    @extend %hds-button;
-                }
 
                 .cmplz-links { 
 
