@@ -37,6 +37,21 @@
 
             input {
                 @extend .hds-checkbox__input;
+
+                &:focus {
+
+                    ~.wpcf7-list-item-label {
+    
+                        &:before {
+                            box-shadow: none !important;
+                            outline-offset: 2px;
+                            outline: 3px solid $black;
+                        }
+    
+                    }
+    
+                }
+    
             }
 
             .wpcf7-list-item-label {
@@ -44,6 +59,7 @@
                 line-height: 22px;
                 font-weight: normal;
             }
+
         }
 
         .wpcf7-radio {
@@ -52,13 +68,35 @@
 
             input {
                 @extend .hds-radio-button__input;
+
+                &:focus {
+
+                     ~.wpcf7-list-item-label {
+    
+                        &:before {
+                            box-shadow: none !important;
+                            outline-offset: 2px;
+                            outline: 3px solid $black;
+                        }
+    
+                    }
+    
+                }
+    
             }
 
             .wpcf7-list-item-label {
                 @extend .hds-radio-button__label;
                 line-height: 22px;
                 font-weight: normal;
+                box-shadow: none !important;
+                outline-offset: 2px;
+
+                &:focus {
+                    outline: 3px solid $black;
+                }
             }
+
         }
 
         .wpcf7-select {
@@ -152,11 +190,10 @@
 
                 .icon {
                     @extend .hds-icon;
-                    fill: var(--notification-icon-color);
+                    background-color: var(--notification-icon-color);
                     display: none;
                     transform: none !important;
                     margin: 0;
-                    background-color: unset;
                     width: 24px;
                     height: 24px;
                 }

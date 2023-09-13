@@ -9,25 +9,42 @@
     .timeline {
         position: relative;
 		margin: 0;
-
-        .timeline-line {
-            position: absolute;
-            width: 2px;
-            background: $black;
-            left: 40px;
-            top: 45px;
-            bottom: 0;
-            z-index: 1;
-        }
     }
 
     .wp-block-hds-wp-timeline-card {
         background-color: var(--secondary-color);
         color: var(--secondary-content-color);
         margin-bottom: spacing('s');
+        position: relative;
+        list-style: none;
+
+        --step-size: 16px;
+        --step-numbered-size: 48px;
+        --step-top: 40px;
+        --step-numbered-top: 24px;
+        --step-left: 33px;
+        --step-numbered-left: 17px;
+
+        &:before {
+            background-color: #000;
+            height: calc(100% + var(--spacing-l));
+            transform: translateX(-50%) translateX(calc(-.5 * var(--circle-size)));
+            width: 2px;
+            z-index: 1;
+            box-sizing: border-box;
+            content: "";
+            display: block;
+            left: calc(var(--step-left) + var(--step-size) / 2 - 1px);
+            position: absolute;
+            top: calc(var(--step-top) + 3px);
+        }
 
         &:last-child {
             margin-bottom: 0;
+
+            &:before {
+                content: none;
+            }
         }
 
         .content {
@@ -39,25 +56,25 @@
             &__inner {
 
                 &--step {
-                    width: 16px;
-                    height: 16px;
-                    left: 33px;
+                    width: var(--step-size);
+                    height: var(--step-size);
+                    left: var(--step-left);
                     background: white;
                     border-radius: 999px;
                     border: 3px solid $black;
                     position: absolute;
                     margin-top: 3px;
-                    top: 40px;
+                    top: var(--step-top);
                     box-sizing: border-box;
                     z-index: 2;
 
                     &.numbered {
-                        width: 48px;
-                        height: 48px;
-                        left: 17px;
+                        width: var(--step-numbered-size);
+                        height: var(--step-numbered-size);
+                        left: var(--step-numbered-left);
                         text-align: center;
                         line-height: 48px;
-                        top: 24px;
+                        top: var(--step-numbered-top);
                         font-weight: $global-font-weight-medium;
                         font-size: 24px;
                         border-width: 2px;
@@ -115,33 +132,16 @@
             }
 
             &__link svg {
-                fill: var(--primary-content-secondary-color);
+                background-color: var(--primary-content-secondary-color);
             }
 
             &__link:hover svg {
-                fill: var(--secondary-content-color);
+                background-color: var(--secondary-content-color);
             }
 
             @include breakpoint('m') {
                 padding: spacing('l') spacing('l') spacing('l') spacing('2-xl');
                 flex-flow: row;
-
-                &__inner {
-
-                    &--step {
-                        top: 33px;
-
-                        &.numbered {
-                            top: 16px;
-                        }
-                    }
-
-                    &--text {
-                    }
-
-                    &--button {
-                    }
-                }
             }
 
             @include breakpoint('l') {
@@ -152,22 +152,6 @@
                     margin-bottom: spacing('l');
                 }
 
-                &__inner {
-
-                    &--step {
-                        top: 48px;
-
-                        &.numbered {
-                            top: 33px;
-                        }
-                    }
-
-                    &--text {
-                    }
-
-                    &--button {
-                    }
-                }
             }
 
             @include breakpoint('xl') {
@@ -178,23 +162,23 @@
                     margin-bottom: spacing('s');
                 }
 
-                &__inner {
-
-                    &--step {
-                        top: 41px;
-
-                        &.numbered {
-                            top: 23px;
-                        }
-                    }
-
-                    &--text {
-                    }
-
-                    &--button {
-                    }
-                }
             }
         }
+
+        @include breakpoint('m') {
+            --step-top: 33px;
+            --step-numbered-top: 16px;
+        }
+    
+        @include breakpoint('l') {
+            --step-top: 48px;
+            --step-numbered-top: 33px;
+        }
+    
+        @include breakpoint('xl') {
+            --step-top: 41px;
+            --step-numbered-top: 23px;
+        }
+    
     }
 }

@@ -1,3 +1,11 @@
+button {
+  outline-offset: 2px;
+
+  &:focus {
+    outline: 3px solid $black;
+  }
+}
+
 .button,
 .hds-button,
 %hds-button {
@@ -17,12 +25,18 @@
   position: relative;
   text-decoration: none;
   transition: $default-transition;
+  outline-offset: 2px;
 
   svg {
 		fill: $white;
     margin-left: 1rem !important;
     margin-top: 0 !important;
     flex-shrink: 0;
+
+    &.mask-icon {
+      background-color: $white;
+    }
+
 	}
 
   &:hover {
@@ -31,12 +45,15 @@
 
     svg {
   		fill: $black;
+
+      &.mask-icon {
+        background-color: $black;
+      }  
   	}
   }
 
   &:focus {
-    border-color: $white;
-    outline: 2px solid $black;
+    outline: 3px solid $black;
   }
 
   &:disabled,
@@ -49,6 +66,11 @@
 
     svg {
   		fill: $medium-gray;
+
+      &.mask-icon {
+        background-color: $medium-gray;
+      }
+  
   	}
 
     &:focus {
@@ -62,6 +84,11 @@
 
     svg {
   		fill: $black;
+
+      &.mask-icon {
+        background-color: $black;
+      }
+  
   	}
 
     &:hover {
@@ -70,12 +97,16 @@
 
       svg {
     		fill: $white;
+
+        &.mask-icon {
+          background-color: $white;
+        }
+    
     	}
     }
 
     &:focus {
-      border-color: $black;
-      outline: 2px solid $black;
+      outline: 3px solid $black;
     }
 
     &:disabled,
@@ -87,6 +118,11 @@
 
       svg {
     		fill: $medium-gray;
+
+        &.mask-icon {
+          background-color: $medium-gray;
+        }
+    
     	}
 
       &:hover,
@@ -105,6 +141,11 @@
 
     svg {
       fill: $black;
+
+      &.mask-icon {
+        background-color: $black;
+      }
+  
     }
 
     &:hover {
@@ -113,7 +154,7 @@
     }
 
     &:focus {
-      outline: 2px solid $black;
+      outline: 3px solid $black;
     }
 
     &:disabled,
@@ -126,6 +167,11 @@
 
       svg {
         fill: $medium-gray;
+
+        &.mask-icon {
+          background-color: $medium-gray;
+        }
+    
       }
 
       &:hover,
@@ -154,6 +200,11 @@
 
   svg {
     fill: $black;
+
+    &.mask-icon {
+      background-color: $black;
+    }
+
   }
 
   &:hover {
@@ -162,12 +213,16 @@
 
     svg {
       fill: $white;
+
+      &.mask-icon {
+        background-color: $white;
+      }
+  
     }
   }
 
   &:focus {
-    border-color: $black;
-    outline: 2px solid $black;
+    outline: 3px solid $black;
   }
 
   &:disabled,
@@ -179,6 +234,11 @@
 
     svg {
       fill: $medium-gray;
+
+      &.mask-icon {
+        background-color: $medium-gray;
+      }
+  
     }
 
     &:hover,
@@ -201,18 +261,31 @@
 
 	.icon {
 		fill: $black;
+
+    &.mask-icon {
+      background-color: $black;
+    }
+
 	}
 
-	&:focus,
+
 	&:hover {
 		background-color: transparent;
-		border-color: $white;
 		color: $white;
 
 		.icon {
 			fill: $white;
+
+      &.mask-icon {
+        background-color: $white;
+      }
+  
 		}
 	}
+
+  &:focus {
+    outline-color: $white;
+  }
 
 	&.hds-button--secondary {
 		background-color: transparent;
@@ -221,17 +294,30 @@
 
 		.icon {
 			fill: $white;
+
+      &.mask-icon {
+        background-color: $white;
+      }
+  
 		}
 
-		&:focus,
 		&:hover {
 			background-color: $white;
-			border-color: $white;
 			color: $black;
 
 			.icon {
 				fill: $black;
+
+        &.mask-icon {
+          background-color: $black;
+        }
+    
 			}
 		}
+
+    &:focus {
+      outline-color: $white;
+    }
+
 	}
 }

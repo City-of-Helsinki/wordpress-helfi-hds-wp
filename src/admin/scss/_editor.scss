@@ -92,6 +92,10 @@
 
   .icon {
     fill: $white;
+
+    &.mask-icon {
+      background-color: $white;
+    }
   }
 
   &:hover {
@@ -99,6 +103,10 @@
 
     .icon {
       fill: $black;
+
+      &.mask-icon {
+        background-color: $black;
+      }
     }
   }
 
@@ -107,6 +115,10 @@
 
     .icon {
       fill: $black;
+
+      &.mask-icon {
+        background-color: $black;
+      }
     }
 
     &:hover {
@@ -114,6 +126,10 @@
 
       .icon {
         fill: $white;
+
+        &.mask-icon {
+          background-color: $white;
+        }
       }
     }
   }
@@ -121,7 +137,6 @@
 
 .content__link {
   > .icon--arrow-right {
-    transform: rotate(180deg);
     margin: 5px 0 0 5px;
   }
 }

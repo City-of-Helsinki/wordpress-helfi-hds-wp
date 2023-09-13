@@ -72,6 +72,17 @@
     });
   }
 
+  function deprecatedContentButton(props) {
+    return hdsContentButton(
+      props,
+      {
+        className: 'content__link hds-button',
+        href: props.attributes.buttonUrl,
+      },
+      props.attributes.isExternalUrl ? hdsDeprecatedExternalLinkIcon() : hdsDeprecatedArrowIcon()
+    );
+  }
+
   function edit() {
     return function (props) {
       if (props.attributes.preview) {
@@ -240,7 +251,7 @@
               {className: 'content__inner'},
               hdsContentTitle(props),
               hdsContentText(props),
-              contentButton(props)
+              deprecatedContentButton(props)
             )
           )
         );

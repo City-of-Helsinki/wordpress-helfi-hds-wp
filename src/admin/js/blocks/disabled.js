@@ -2,7 +2,7 @@
 
     const __ = wp.i18n.__;
     const { unregisterBlockType, unregisterBlockVariation, getBlockType, getBlockVariations } = wp.blocks;
-    const allowedEmbedBlocks = ['youtube'];
+    const allowedEmbedBlocks = [];
 
     wp.domReady( function() {
         if (getBlockType('core/pullquote')) {
@@ -22,7 +22,8 @@
                 if (-1 === allowedEmbedBlocks.indexOf(blockVariation.name)) {
                   wp.blocks.unregisterBlockVariation('core/embed', blockVariation.name);
                 }
-            });       
+            });
+            unregisterBlockType( 'core/embed' );
         }
         if(getBlockType('core/html')) {
             unregisterBlockType( 'core/html' );
@@ -44,6 +45,12 @@
         }
         if(getBlockType('core/freeform')) {
             unregisterBlockType( 'core/freeform' );
+        }
+        if(getBlockType('core/details')) {
+            unregisterBlockType( 'core/details' );
+        }
+        if(getBlockType('core/footnotes')) {
+            unregisterBlockType( 'core/footnotes' );
         }
 
         //Disable theme blocks
@@ -172,7 +179,11 @@
         if(getBlockType('yoast/how-to-block')) {
             unregisterBlockType( 'yoast/how-to-block' );
         }
-        
+
+        //Disable Complianz blocks
+        if(getBlockType('complianz/consent-area')) {
+            unregisterBlockType( 'complianz/consent-area' );
+        }
 
         //Disable blocks for posts
         if (document.querySelector('body').classList.contains('post-type-post')) {

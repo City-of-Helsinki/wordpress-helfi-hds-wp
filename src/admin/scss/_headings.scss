@@ -17,6 +17,7 @@ h6 {
   &.has-background {
     padding: 0;
   }
+
 }
 
 h3 {
@@ -39,11 +40,11 @@ h4 {
 }
 
 h5 {
-  font-weight: $global-font-weight-bold;
+  font-weight: $global-font-weight-medium;
   line-height: 1.5;
 
   @include breakpoint('l') {
-    font-weight: $global-font-weight-medium;
+
   }
 }
 

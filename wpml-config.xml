@@ -43,5 +43,14 @@
     <gutenberg-block type="hds-wp/timeline-card" translate="1">
       <key name="contentTitle" />
     </gutenberg-block>
+    <gutenberg-block type="hds-wp/links" translate="1">
+      <key name="title" />
+      <key name="contentText" />
+    </gutenberg-block>
+    <gutenberg-block type="hds-wp/link" translate="1">
+      <key name="linkTitle" />
+      <key name="linkExcerpt" />
+      <key name="linkUrl" />
+    </gutenberg-block>
   </gutenberg-blocks>
 </wpml-config>

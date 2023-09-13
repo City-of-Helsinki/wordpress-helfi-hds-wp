@@ -77,19 +77,27 @@
             color: $black;
 
             svg {
-              fill: $black;
+              fill : $black;
+  
+              &.mask-icon {
+                background-color: $black;
+              }
             }
           }
-
+  
           svg {
             fill: $white;
+  
+            &.mask-icon {
+              background-color: $white;
+            }
+  
           }
         }
       }
-
+  
       .wp-block-button {
         margin-top: 0.5rem;
-
         .wp-block-button__link {
           border-radius: 0;
         }

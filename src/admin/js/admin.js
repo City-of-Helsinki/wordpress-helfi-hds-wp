@@ -163,7 +163,7 @@ function hdsContentText(props) {
 function hdsContentTextRich(props, config) {
 	return wp.element.createElement(
 		wp.blockEditor.RichText, {
-			tagName: 'p',
+			tagName: 'div',
 			className: config.className ? config.className : 'content__text',
 			value: config.textAttribute ? props.attributes[config.textAttribute] : props.attributes.contentText,
 			onChange: function (value) {
@@ -340,7 +340,8 @@ function hdsSelectControl(config, props) {
 	);
 }
 
-function hdsContentIcon(props) {
+//deprecated icon functions are used to identify block migrations
+function hdsDeprecatedContentIcon(props) {
 	return props.attributes.contentIcon ? wp.element.createElement(
 		'svg',
 		{
@@ -355,7 +356,32 @@ function hdsContentIcon(props) {
 	) : '';
 }
 
+function hdsContentIcon(props) {
+	return props.attributes.contentIcon ? wp.element.createElement(
+		'svg',
+		{
+			className: 'icon mask-icon icon--' + props.attributes.contentIcon + ' hds-icon--' + props.attributes.contentIcon,
+			viewBox: '0 0 24 24',
+			'aria-hidden': 'true',
+			tabindex: '-1',
+		},
+	) : '';
+}
+
+
 function hdsAngleIcon() {
+	return wp.element.createElement(
+		'svg',
+		{
+			className: 'icon mask-icon icon--angle-up hds-icon--angle-up',
+			viewBox: '0 0 24 24',
+			'aria-hidden': 'true',
+			tabindex: '-1',
+		},
+	);
+}
+
+function hdsDeprecatedAngleIcon() {
 	return wp.element.createElement(
 		'svg',
 		{
@@ -370,7 +396,8 @@ function hdsAngleIcon() {
 	);
 }
 
-function hdsExternalLinkIcon() {
+
+function hdsDeprecatedExternalLinkIcon() {
 	return wp.element.createElement(
 		'svg',
 		{
@@ -385,7 +412,32 @@ function hdsExternalLinkIcon() {
 	);
 }
 
+function hdsExternalLinkIcon() {
+	return wp.element.createElement(
+		'svg',
+		{
+			className: 'icon mask-icon icon--link-external hds-icon--link-external',
+			viewBox: '0 0 24 24',
+			'aria-hidden': 'true',
+			tabindex: '-1',
+		},
+	);
+}
+
+
 function hdsArrowIcon() {
+	return wp.element.createElement(
+		'svg',
+		{
+			className: 'icon mask-icon icon--arrow-right hds-icon--arrow-right',
+			viewBox: '0 0 24 24',
+			'aria-hidden': 'true',
+			tabindex: '-1',
+		},
+	);
+}
+
+function hdsDeprecatedArrowIcon() {
 	return wp.element.createElement(
 		'svg',
 		{
@@ -399,6 +451,7 @@ function hdsArrowIcon() {
 		})
 	);
 }
+
 
 function hdsWithPostTypeSelectControl() {
   return wp.compose.compose(
@@ -473,6 +526,8 @@ function hdsWithSearchPosts(control) {
                 'status=publish',
                 'per_page=100',
                 'search=' + searchInput,
+				'orderby=relevance',
+				'search_columns=post_title',
               ];
 
 			  return wp.apiFetch({
