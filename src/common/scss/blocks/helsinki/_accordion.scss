@@ -29,21 +29,31 @@
 		}
 	}
 
+	.accordion-description {
+		 &.block-editor-rich-text__editable {
+			margin-bottom: spacing('l');
+		 }
+	}
+
 	.accordion__toggle {
 		background-color: transparent;
 		border: none;
 		display: flex;
 		padding: spacing('s') 0;
-		line-height: 24px;
+		line-height: 26px;
+		font-weight: $global-font-weight-medium;
 		margin: 0;
 		text-align: left;
 		width: 100%;
+		align-items: center;
 
 		.accordion__icon {
 			margin-left: auto;
 
 			.icon {
 				transform: rotate(180deg);
+				width: 30px;
+				height: 30px;
 			}
 		}
 
@@ -55,23 +65,13 @@
 			}
 		}
 
-		@include breakpoint('m') {
-			line-height: 42px;
+		@include breakpoint('l') {
+			line-height: 28px;
 			padding-top: spacing('m');
 			padding-bottom: spacing('m');
 
 			.icon {
-				width: 42px;
-			}
-		}
-
-		@include breakpoint('l') {
-			line-height: 50px;
-			padding-top: spacing('l');
-			padding-bottom: spacing('l');
-
-			.icon {
-				width: 50px;
+				width: 32px;
 			}
 		}
 	}
@@ -90,13 +90,12 @@
 	}
 
 	.accordion__close {
-		background-color: transparent;
-		border: none;
 		display: flex;
 		align-items: center;
 		font-size: rem-calc(16);
-		padding: 0;
+		padding: 0 8px;
 		margin: spacing('m') 0 0 auto;
+		min-height: 44px;
 
 		> span {
 			line-height: 22px;

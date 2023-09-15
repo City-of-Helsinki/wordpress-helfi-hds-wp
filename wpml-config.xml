@@ -26,6 +26,13 @@
       <key name="buttonUrl" />
       <key name="mediaAlt" />
     </gutenberg-block>
+    <gutenberg-block type="hds-wp/image-banner" translate="1">
+      <key name="contentTitle" />
+      <key name="contentText" />
+      <key name="buttonText" />
+      <key name="buttonUrl" />
+      <key name="mediaAlt" />
+    </gutenberg-block>
     <gutenberg-block type="hds-wp/rss-feed" translate="1">
       <key name="title" />
     </gutenberg-block>
@@ -44,6 +51,13 @@
       <key name="linkTitle" />
       <key name="linkExcerpt" />
       <key name="linkUrl" />
+    </gutenberg-block>
+    <gutenberg-block type="hds-wp/accordion" translate="1">
+      <key name="title" />
+      <key name="description" />
+    </gutenberg-block>
+    <gutenberg-block type="hds-wp/accordion-panel" translate="1">
+      <key name="panelTitle" />
     </gutenberg-block>
   </gutenberg-blocks>
 </wpml-config>

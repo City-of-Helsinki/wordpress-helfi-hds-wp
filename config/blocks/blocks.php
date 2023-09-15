@@ -168,7 +168,7 @@ return array(
 	            'type'    => 'string',
 	            'default' => '',
 	        ),
-			'contentText' => array(
+				'contentText' => array(
 	            'type'    => 'string',
 	            'default' => '',
 	        ),
@@ -184,7 +184,7 @@ return array(
 	            'type'    => 'string',
 	            'default' => '',
 	        ),
-			'targetBlank' => array(
+					'targetBlank' => array(
 	            'type'    => 'boolean',
 	            'default' => false,
 	        ),
@@ -192,7 +192,7 @@ return array(
 	            'type'    => 'boolean',
 	            'default' => true,
 	        ),
-			'anchor' => array(
+					'anchor' => array(
 	            'type'    => 'string',
 	            'default' => '',
 			)
@@ -256,14 +256,18 @@ return array(
 	            'type'    => 'string',
 	            'default' => '',
 	        ),
-			'isExternalUrl' => array(
+			'targetBlank' => array(
 	            'type'    => 'boolean',
-	            'default' => true,
+	            'default' => false,
 	        ),
-			'preview' => array(
+			'anchor' => array(
 	            'type'    => 'string',
 	            'default' => '',
-	        ),
+			),
+			'preview' => array(
+							'type'    => 'string',
+							'default' => '',
+			)
 		)
 	),
 	'image-text' => array(
@@ -336,7 +340,6 @@ return array(
 							'default' => '',
 			)
 		)
-
 	),
 	'content-cards' => array(
 		'title' => __( 'Helsinki - Content Cards', 'hds-wp' ),

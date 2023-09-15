@@ -308,9 +308,10 @@ function hdsSelectControl(config, props) {
     },
     options: config.options
   }));
-}
+} //deprecated icon functions are used to identify block migrations
 
-function hdsContentIcon(props) {
+
+function hdsDeprecatedContentIcon(props) {
   return props.attributes.contentIcon ? wp.element.createElement('svg', {
     className: 'icon icon--' + props.attributes.contentIcon,
     viewBox: '0 0 24 24',
@@ -321,7 +322,25 @@ function hdsContentIcon(props) {
   })) : '';
 }
 
+function hdsContentIcon(props) {
+  return props.attributes.contentIcon ? wp.element.createElement('svg', {
+    className: 'icon mask-icon icon--' + props.attributes.contentIcon + ' hds-icon--' + props.attributes.contentIcon,
+    viewBox: '0 0 24 24',
+    'aria-hidden': 'true',
+    tabindex: '-1'
+  }) : '';
+}
+
 function hdsAngleIcon() {
+  return wp.element.createElement('svg', {
+    className: 'icon mask-icon icon--angle-up hds-icon--angle-up',
+    viewBox: '0 0 24 24',
+    'aria-hidden': 'true',
+    tabindex: '-1'
+  });
+}
+
+function hdsDeprecatedAngleIcon() {
   return wp.element.createElement('svg', {
     className: 'icon icon--angle-up',
     viewBox: '0 0 24 24',
@@ -332,7 +351,7 @@ function hdsAngleIcon() {
   }));
 }
 
-function hdsExternalLinkIcon() {
+function hdsDeprecatedExternalLinkIcon() {
   return wp.element.createElement('svg', {
     className: 'icon icon--link-external',
     viewBox: '0 0 24 24',
@@ -343,7 +362,25 @@ function hdsExternalLinkIcon() {
   }));
 }
 
+function hdsExternalLinkIcon() {
+  return wp.element.createElement('svg', {
+    className: 'icon mask-icon icon--link-external hds-icon--link-external',
+    viewBox: '0 0 24 24',
+    'aria-hidden': 'true',
+    tabindex: '-1'
+  });
+}
+
 function hdsArrowIcon() {
+  return wp.element.createElement('svg', {
+    className: 'icon mask-icon icon--arrow-right hds-icon--arrow-right',
+    viewBox: '0 0 24 24',
+    'aria-hidden': 'true',
+    tabindex: '-1'
+  });
+}
+
+function hdsDeprecatedArrowIcon() {
   return wp.element.createElement('svg', {
     className: 'icon icon--arrow-right',
     viewBox: '0 0 24 24',
@@ -534,7 +571,8 @@ function hdsRemovePostControl(config, props) {
       });
     }
   }));
-}
+} //deprecated icons paths; kept for possible block migrations
+
 
 function hdsIcons(name) {
   var icons = {
@@ -675,6 +713,36 @@ function hdsIcons(name) {
           openPanel(event.currentTarget, panel);
         }
       }
+    }, //createElement(Fragment, {}, props.attributes.panelTitle),
+    hdsContentTextRich(props, {
+      placeholder: __('Accordion heading', 'hds-wp'),
+      textAttribute: 'panelTitle'
+    }), panelIcon(props));
+  }
+
+  function panelTitleV1(props) {
+    return createElement(props.attributes.headingLevel, {
+      className: 'accordion__title'
+    }, panelToggleV1(props));
+  }
+
+  function panelToggleV1(props) {
+    return createElement('button', {
+      id: 'panel-toggle-' + props.attributes.blockId,
+      className: 'accordion__toggle',
+      type: 'button',
+      'aria-controls': 'panel-' + props.attributes.blockId,
+      'aria-expanded': 'false',
+      onClick: function onClick(event) {
+        //closeCurrent(event.currentTarget);
+        var panel = togglePanel(event.currentTarget);
+
+        if (isOpen(event.currentTarget)) {
+          closePanel(event.currentTarget, panel);
+        } else {
+          openPanel(event.currentTarget, panel);
+        }
+      }
     }, createElement(Fragment, {}, props.attributes.panelTitle), panelIcon(props));
   }
 
@@ -700,7 +768,7 @@ function hdsIcons(name) {
 
   function panelClose(props) {
     return createElement('button', {
-      className: 'accordion__close',
+      className: 'accordion__close hds-button hds-button--supplementary',
       type: 'button',
       onClick: function onClick(event) {
         event.preventDefault();
@@ -725,7 +793,7 @@ function hdsIcons(name) {
           return block.attributes;
         })
       });
-      return createElement(Fragment, {}, panelControls(props), createElement('div', useBlockProps({
+      return createElement(Fragment, {}, createElement('div', useBlockProps({
         className: 'accordion__section'
       }), panelTitle(props), panelContent(props, InnerBlocks)));
     };
@@ -777,7 +845,7 @@ function hdsIcons(name) {
         var parentAttributes = select('core/block-editor').getBlockAttributes(parentClientId);
         return createElement(Fragment, {}, createElement('div', useBlockProps.save({
           className: 'accordion__section'
-        }), panelTitle(props), panelContent(props, InnerBlocks.Content)));
+        }), panelTitleV1(props), panelContent(props, InnerBlocks.Content)));
       }
     }]
   });
@@ -808,6 +876,22 @@ function hdsIcons(name) {
       useSelect = _wp$data2.useSelect;
 
   function accordionTitle(props) {
+    return hdsContentTitleRich(props, {
+      placeholder: __('This is the title', 'hds-wp'),
+      titleAttribute: 'title',
+      className: 'accordion__heading'
+    });
+  }
+
+  function accordionDescription(props) {
+    return hdsContentTextRich(props, {
+      placeholder: __('This is the excerpt.', 'hds-wp'),
+      textAttribute: 'description',
+      className: 'accordion-description'
+    });
+  }
+
+  function accordionTitleV1(props) {
     if (props.attributes.title != null && props.attributes.title != '') {
       return createElement('h2', {
         className: 'accordion__heading'
@@ -817,7 +901,7 @@ function hdsIcons(name) {
     return '';
   }
 
-  function accordionDescription(props) {
+  function accordionDescriptionV1(props) {
     if (props.attributes.description != null && props.attributes.description != '') {
       return createElement('p', {
         className: 'accordion-description'
@@ -880,7 +964,7 @@ function hdsIcons(name) {
       });
 
       if (props.isSelected || isParentOfSelectedBlock) {
-        content = createElement(Fragment, {}, accordionControls(props), createElement('div', {
+        content = createElement(Fragment, {}, createElement('div', {
           className: 'accordion-wrapper'
         }, accordionTitle(props), accordionDescription(props), createElement('div', {
           className: 'accordion'
@@ -943,7 +1027,7 @@ function hdsIcons(name) {
       save: function save(props) {
         return createElement(Fragment, {}, createElement('div', useBlockProps.save({
           className: 'accordion-wrapper'
-        }), accordionTitle(props), accordionDescription(props), createElement('div', {
+        }), accordionTitleV1(props), accordionDescriptionV1(props), createElement('div', {
           className: 'accordion'
         }, createElement(InnerBlocks.Content))));
       }
@@ -1415,7 +1499,7 @@ function hdsIcons(name) {
       unregisterBlockVariation = _wp$blocks5.unregisterBlockVariation,
       getBlockType = _wp$blocks5.getBlockType,
       getBlockVariations = _wp$blocks5.getBlockVariations;
-  var allowedEmbedBlocks = ['youtube'];
+  var allowedEmbedBlocks = [];
   wp.domReady(function () {
     if (getBlockType('core/pullquote')) {
       unregisterBlockType('core/pullquote');
@@ -1439,6 +1523,7 @@ function hdsIcons(name) {
           wp.blocks.unregisterBlockVariation('core/embed', blockVariation.name);
         }
       });
+      unregisterBlockType('core/embed');
     }
 
     if (getBlockType('core/html')) {
@@ -1641,6 +1726,11 @@ function hdsIcons(name) {
 
     if (getBlockType('yoast/how-to-block')) {
       unregisterBlockType('yoast/how-to-block');
+    } //Disable Complianz blocks
+
+
+    if (getBlockType('complianz/consent-area')) {
+      unregisterBlockType('complianz/consent-area');
     } //Disable blocks for posts
 
 
@@ -1782,9 +1872,16 @@ function hdsIcons(name) {
 
   function contentButton(props) {
     return hdsContentButton(props, {
+      className: 'content__link hds-button hds-button--primary',
+      href: props.attributes.buttonUrl
+    });
+  }
+
+  function deprecatedContentButton(props) {
+    return hdsContentButton(props, {
       className: 'content__link hds-button',
       href: props.attributes.buttonUrl
-    }, props.attributes.isExternalUrl ? hdsExternalLinkIcon() : hdsArrowIcon());
+    }, props.attributes.isExternalUrl ? hdsDeprecatedExternalLinkIcon() : hdsDeprecatedArrowIcon());
   }
 
   function edit() {
@@ -1795,36 +1892,54 @@ function hdsIcons(name) {
         });
       }
 
-      return createElement(Fragment, {}, toolbar(props), hdsInspectorControls({
-        title: wp.i18n.__('Content', 'hds-wp'),
+      var content = null;
+      content = createElement(Fragment, {}, toolbar(props), hdsInspectorControls({
+        title: __('Content', 'hds-wp'),
         initialOpen: false
-      }, hdsContentTitleControl(props), hdsContentTextControl(props), hdsButtonTextControl(props), hdsButtonUrlControl(props), hdsExternalUrlControl(props)), createElement('div', useBlockProps({
-        className: classNamesString(props)
-      }), hdsSingleImage(imageConfig(props)), hdsContent(props, createElement('div', {
+      }, hdsButtonTextControl(props), hdsButtonUrlControl(props), hdsTargetBlankControl(props, {
+        help: wp.element.createElement('p', {}, wp.i18n.__('I have made sure that the description of this link clearly states that it opens in a new tab. ', 'hds-wp'), wp.element.createElement('a', {
+          href: 'https://www.w3.org/WAI/WCAG21/Techniques/general/G200.html',
+          target: '_blank'
+        }, wp.i18n.__('Check WCGA 3.2.5 accessibility requirements (the link opens in a new tab).', 'hds-wp')))
+      })), createElement('div', {
+        className: 'image-banner--wrapper'
+      }, hdsSingleImage(imageConfig(props)), hdsContent(props, createElement('div', {
         className: 'content__inner'
-      }, hdsContentTitle(props), hdsContentText(props), contentButton(props)))));
+      }, hdsContentTitleRich(props, {
+        placeholder: __('This is the title', 'hds-wp')
+      }), hdsContentTextRich(props, {
+        placeholder: __('This is the excerpt.', 'hds-wp')
+      }), contentButton(props)))));
+      var SSRContent = createElement(wp.serverSideRender, {
+        block: 'hds-wp/image-banner',
+        attributes: props.attributes,
+        httpMethod: 'POST'
+      });
+
+      if (props.isSelected) {
+        return createElement('div', useBlockProps({
+          className: classNamesString(props)
+        }), content);
+      } else {
+        return createElement('div', useBlockProps({
+          className: classNamesString(props)
+        }), SSRContent);
+      }
     };
   }
 
   function save() {
     return function (props) {
-      return createElement('div', useBlockProps.save({
-        className: classNamesString(props)
-      }), hdsSingleImage(imageConfig(props)), hdsContent(props, createElement('div', {
-        className: 'content__inner'
-      }, hdsContentTitle(props), hdsContentText(props), contentButton(props))));
+      return createElement(Fragment, {}, createElement(InnerBlocks.Content));
     };
   }
 
-  registerBlockType('hds-wp/image-banner', {
-    apiVersion: 2,
-    title: __('Helsinki - Image Banner', 'hds-wp'),
-    category: 'hds-wp',
-    icon: 'format-gallery',
-    keywords: ['Helsinki - Kuvabanneri'],
-    supports: {
-      anchor: true
-    },
+  function classNamesStringV1(props) {
+    var classNames = ['align-' + props.attributes.alignment, props.attributes.mediaId ? 'has-image' : 'has-placeholder'];
+    return classNames.join(' ');
+  }
+
+  var v1 = {
     attributes: {
       alignment: {
         type: 'string',
@@ -1873,6 +1988,79 @@ function hdsIcons(name) {
       isExternalUrl: {
         type: 'boolean',
         default: false
+      }
+    },
+    supports: {
+      color: true,
+      anchor: true
+    },
+    save: function save(props) {
+      return function (props) {
+        return createElement('div', useBlockProps.save({
+          className: classNamesStringV1(props)
+        }), hdsSingleImage(imageConfig(props)), hdsContent(props, createElement('div', {
+          className: 'content__inner'
+        }, hdsContentTitle(props), hdsContentText(props), deprecatedContentButton(props))));
+      };
+    }
+  };
+  registerBlockType('hds-wp/image-banner', {
+    apiVersion: 2,
+    title: __('Helsinki - Image Banner', 'hds-wp'),
+    category: 'hds-wp',
+    icon: 'format-gallery',
+    keywords: ['Helsinki - Kuvabanneri'],
+    supports: {
+      anchor: true
+    },
+    attributes: {
+      alignment: {
+        type: 'string',
+        default: 'right'
+      },
+      mediaId: {
+        type: 'number',
+        default: 0
+      },
+      mediaUrl: {
+        type: 'string',
+        default: ''
+      },
+      mediaWidth: {
+        type: 'number',
+        default: 0
+      },
+      mediaHeight: {
+        type: 'number',
+        default: 0
+      },
+      mediaAlt: {
+        type: 'string',
+        default: ''
+      },
+      mediaSrcset: {
+        type: 'string',
+        default: ''
+      },
+      contentTitle: {
+        type: 'string',
+        default: ''
+      },
+      contentText: {
+        type: 'string',
+        default: ''
+      },
+      buttonText: {
+        type: 'string',
+        default: __('Button Text', 'hds-wp')
+      },
+      buttonUrl: {
+        type: 'string',
+        default: ''
+      },
+      targetBlank: {
+        type: 'boolean',
+        default: false
       },
       preview: {
         type: 'string',
@@ -1881,6 +2069,7 @@ function hdsIcons(name) {
     },
     edit: edit(),
     save: save(),
+    deprecated: [v1],
     example: {
       attributes: {
         preview: hds_wp.blocksUrl + '/previews/image-banner.png'
@@ -2071,7 +2260,7 @@ function hdsIcons(name) {
       }), hdsSingleImage(imageConfig(props)), hdsContent(props, hdsContentTitle(props), hdsContentText(props), hdsContentButton(props, {
         className: 'content__link hds-button hds-button--secondary',
         href: props.attributes.buttonUrl
-      }, props.attributes.isExternalUrl ? hdsExternalLinkIcon() : hdsArrowIcon())));
+      }, props.attributes.isExternalUrl ? hdsDeprecatedExternalLinkIcon() : hdsDeprecatedArrowIcon())));
     }
   };
   registerBlockType('hds-wp/image-text', {
