@@ -210,6 +210,61 @@ return array(
 			'wp-editor',
 			'wp-data',
 		),
+		'render_callback' => 'hds_wp_render_image_banner',
+		'attributes' => array(
+			'alignment' => array(
+	            'type'    => 'string',
+	            'default' => 'right',
+	        ),
+			'mediaId' => array(
+	            'type'    => 'integer',
+	            'default' => 0,
+	        ),
+			'mediaUrl' => array(
+	            'type'    => 'string',
+	            'default' => '',
+	        ),
+			'mediaWidth' => array(
+	            'type'    => 'integer',
+	            'default' => 0,
+	        ),
+			'mediaHeight' => array(
+	            'type'    => 'integer',
+	            'default' => 0,
+	        ),
+			'mediaAlt' => array(
+	            'type'    => 'string',
+	            'default' => '',
+	        ),
+			'mediaSrcset' => array(
+	            'type'    => 'string',
+	            'default' => '',
+	        ),
+			'contentTitle' => array(
+	            'type'    => 'string',
+	            'default' => '',
+	        ),
+			'contentText' => array(
+	            'type'    => 'string',
+	            'default' => '',
+	        ),
+			'buttonText' => array(
+	            'type'    => 'string',
+	            'default' => __('Button Text', 'hds-wp'),
+	        ),
+			'buttonUrl' => array(
+	            'type'    => 'string',
+	            'default' => '',
+	        ),
+			'isExternalUrl' => array(
+	            'type'    => 'boolean',
+	            'default' => true,
+	        ),
+			'preview' => array(
+	            'type'    => 'string',
+	            'default' => '',
+	        ),
+		)
 	),
 	'image-text' => array(
 		'title' => __( 'Helsinki - Image & Text', 'hds-wp' ),
