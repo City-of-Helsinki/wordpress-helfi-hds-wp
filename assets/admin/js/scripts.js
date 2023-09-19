@@ -3263,6 +3263,7 @@ function hdsIcons(name) {
   registerBlockType('hds-wp/map', {
     apiVersion: 2,
     title: __('Helsinki - Map', 'hds-wp'),
+    description: __('Upota kartta Palvelukartasta tai Karttapalvelusta.', 'hds-wp'),
     icon: 'location-alt',
     category: 'hds-wp',
     style: 'hds-map',
@@ -4119,6 +4120,7 @@ function hdsIcons(name) {
   registerBlockType('hds-wp/video', {
     apiVersion: 2,
     title: __('Helsinki - Video', 'hds-wp'),
+    description: __('Upota video Helsinki-kanavasta tai YouTubesta.', 'hds-wp'),
     icon: 'video-alt3',
     category: 'hds-wp',
     style: 'hds-video',
@@ -4392,6 +4394,186 @@ function hdsIcons(name) {
 })(window.wp);
 
 wp.domReady(function () {
+  /**
+    * Buttons
+    */
+  wp.blocks.unregisterBlockStyle('core/button', 'default');
+  wp.blocks.unregisterBlockStyle('core/button', 'outline');
+  wp.blocks.unregisterBlockStyle('core/button', 'fill');
+  wp.blocks.registerBlockStyle('core/button', [{
+    name: 'default',
+    label: wp.i18n.__('Primary', 'hds-wp'),
+    isDefault: true
+  }, {
+    name: 'secondary',
+    label: wp.i18n.__('Secondary', 'hds-wp')
+  }, {
+    name: 'supplementary',
+    label: wp.i18n.__('Supplementary', 'hds-wp')
+  }]);
+  /**
+    * Text
+    */
+
+  var withBackgroundStyle = ['core/group', 'core/paragraph'];
+
+  for (var i = 0; i < withBackgroundStyle.length; i++) {
+    wp.blocks.registerBlockStyle(withBackgroundStyle[i], [{
+      name: 'light-gray-background',
+      label: wp.i18n.__('Light Gray Background', 'hds-wp')
+    }]);
+  }
+  /**
+   * Image
+   */
+
+
+  wp.blocks.unregisterBlockStyle('core/image', 'rounded');
+  /**
+   * Quote
+   */
+
+  wp.blocks.unregisterBlockStyle('core/quote', 'plain');
+});
+
+(function (wp) {
+  function addColumnAttributes(settings, name) {
+    if (typeof settings.attributes !== 'undefined') {
+      if (name == 'core/column') {
+        settings.attributes = Object.assign(settings.attributes, {
+          allowedBlocks: {
+            type: 'array',
+            default: ['core/heading', 'core/paragraph', 'core/quote', 'core/table', 'core/list', 'core/freeform', 'core/image', 'core/video', 'core/audio', 'core/file', 'core/buttons', 'core/embed']
+          }
+        });
+      } else if (name == 'core/columns') {
+        settings.transforms.from[0].isMatch = function (attr, block) {
+          if (block[0].name.startsWith('hds-wp') || block[0].name.startsWith('helsinki')) {
+            return false;
+          }
+
+          return true;
+        };
+      }
+    }
+
+    return settings;
+  }
+
+  wp.hooks.addFilter('blocks.registerBlockType', 'column/custom-attributes', addColumnAttributes);
+})(window.wp);
+
+(function (wp) {
+  function addGroupAttributes(settings, name) {
+    if (typeof settings.attributes !== 'undefined') {
+      if (name == 'core/group') {
+        settings.transforms.from[0].isMatch = function (attr, block) {
+          if (block[0].name.startsWith('hds-wp') || block[0].name.startsWith('helsinki')) {
+            return false;
+          }
+
+          return true;
+        };
+      }
+    }
+
+    return settings;
+  }
+
+  wp.hooks.addFilter('blocks.registerBlockType', 'group/custom-attributes', addGroupAttributes);
+})(window.wp);
+
+(function (wp) {
+  function addTableAttributes(settings, name) {
+    if (typeof settings.attributes !== 'undefined') {
+      if (name == 'core/table') {
+        settings.attributes = Object.assign(settings.attributes, {
+          verticalHeader: {
+            type: 'boolean'
+          },
+          title: {
+            type: 'string'
+          }
+        });
+      }
+    }
+
+    return settings;
+  }
+
+  wp.hooks.addFilter('blocks.registerBlockType', 'table/custom-attributes', addTableAttributes);
+  var tableAdvancedControls = wp.compose.createHigherOrderComponent(function (BlockEdit) {
+    return function (props) {
+      var __ = wp.i18n.__;
+      var _wp$element18 = wp.element,
+          Fragment = _wp$element18.Fragment,
+          createElement = _wp$element18.createElement;
+      var _wp$components17 = wp.components,
+          ToggleControl = _wp$components17.ToggleControl,
+          Panel = _wp$components17.Panel,
+          PanelBody = _wp$components17.PanelBody,
+          TextControl = _wp$components17.TextControl;
+      var _wp$blockEditor18 = wp.blockEditor,
+          InspectorControls = _wp$blockEditor18.InspectorControls,
+          BlockControls = _wp$blockEditor18.BlockControls,
+          useBlockProps = _wp$blockEditor18.useBlockProps;
+      var attributes = props.attributes,
+          setAttributes = props.setAttributes,
+          isSelected = props.isSelected;
+      return /*#__PURE__*/React.createElement(Fragment, null, /*#__PURE__*/React.createElement(BlockEdit, props), isSelected && props.name == 'core/table' && /*#__PURE__*/React.createElement(InspectorControls, null, /*#__PURE__*/React.createElement(PanelBody, {
+        title: __('Advanced table settings', 'hds-wp')
+      }, /*#__PURE__*/React.createElement(TextControl, {
+        label: __('Title', 'hds-wp'),
+        value: attributes.title,
+        onChange: function onChange(value) {
+          return setAttributes({
+            title: value
+          });
+        }
+      }), /*#__PURE__*/React.createElement(ToggleControl, {
+        label: __('Vertical header', 'hds-wp'),
+        checked: attributes.verticalHeader,
+        onChange: function onChange(value) {
+          return setAttributes({
+            verticalHeader: value
+          });
+        }
+      }))));
+    };
+  }, 'tableAdvancedControls');
+  wp.hooks.addFilter('editor.BlockEdit', 'table/custom-control', tableAdvancedControls);
+
+  function tableApplyExtraClass(extraProps, blockType, attributes) {
+    var verticalHeader = attributes.verticalHeader;
+
+    if (typeof verticalHeader !== 'undefined' && verticalHeader) {
+      extraProps.className = extraProps.className + ' has-vertical-header';
+    }
+
+    return extraProps;
+  }
+
+  wp.hooks.addFilter('blocks.getSaveContent.extraProps', 'table/custom-apply-class', tableApplyExtraClass);
+  var tableEditorWrapperExtraClass = wp.compose.createHigherOrderComponent(function (BlockListBlock) {
+    return function (props) {
+      var name = props.name,
+          attributes = props.attributes;
+
+      if (name != 'core/table') {
+        return /*#__PURE__*/React.createElement(BlockListBlock, props);
+      }
+
+      var verticalHeader = attributes.verticalHeader;
+      var customClass = verticalHeader ? 'has-vertical-header' : '';
+      return /*#__PURE__*/React.createElement(BlockListBlock, _extends({}, props, {
+        className: customClass
+      }));
+    };
+  }, 'tableEditorWrapperExtraClass');
+  wp.hooks.addFilter('editor.BlockListBlock', 'table/custom-editor-wrapper-class', tableEditorWrapperExtraClass);
+})(window.wp);
+
+wp.domReady(function () {
   /* Disable default formats */
   wp.richText.unregisterFormatType('core/image');
   wp.richText.unregisterFormatType('core/text-color');
@@ -4578,186 +4760,6 @@ wp.domReady(function () {
   }
 
   initializeReplacevarPlugin();
-})(window.wp);
-
-wp.domReady(function () {
-  /**
-    * Buttons
-    */
-  wp.blocks.unregisterBlockStyle('core/button', 'default');
-  wp.blocks.unregisterBlockStyle('core/button', 'outline');
-  wp.blocks.unregisterBlockStyle('core/button', 'fill');
-  wp.blocks.registerBlockStyle('core/button', [{
-    name: 'default',
-    label: wp.i18n.__('Primary', 'hds-wp'),
-    isDefault: true
-  }, {
-    name: 'secondary',
-    label: wp.i18n.__('Secondary', 'hds-wp')
-  }, {
-    name: 'supplementary',
-    label: wp.i18n.__('Supplementary', 'hds-wp')
-  }]);
-  /**
-    * Text
-    */
-
-  var withBackgroundStyle = ['core/group', 'core/paragraph'];
-
-  for (var i = 0; i < withBackgroundStyle.length; i++) {
-    wp.blocks.registerBlockStyle(withBackgroundStyle[i], [{
-      name: 'light-gray-background',
-      label: wp.i18n.__('Light Gray Background', 'hds-wp')
-    }]);
-  }
-  /**
-   * Image
-   */
-
-
-  wp.blocks.unregisterBlockStyle('core/image', 'rounded');
-  /**
-   * Quote
-   */
-
-  wp.blocks.unregisterBlockStyle('core/quote', 'plain');
-});
-
-(function (wp) {
-  function addColumnAttributes(settings, name) {
-    if (typeof settings.attributes !== 'undefined') {
-      if (name == 'core/column') {
-        settings.attributes = Object.assign(settings.attributes, {
-          allowedBlocks: {
-            type: 'array',
-            default: ['core/heading', 'core/paragraph', 'core/quote', 'core/table', 'core/list', 'core/freeform', 'core/image', 'core/video', 'core/audio', 'core/file', 'core/buttons', 'core/embed']
-          }
-        });
-      } else if (name == 'core/columns') {
-        settings.transforms.from[0].isMatch = function (attr, block) {
-          if (block[0].name.startsWith('hds-wp') || block[0].name.startsWith('helsinki')) {
-            return false;
-          }
-
-          return true;
-        };
-      }
-    }
-
-    return settings;
-  }
-
-  wp.hooks.addFilter('blocks.registerBlockType', 'column/custom-attributes', addColumnAttributes);
-})(window.wp);
-
-(function (wp) {
-  function addGroupAttributes(settings, name) {
-    if (typeof settings.attributes !== 'undefined') {
-      if (name == 'core/group') {
-        settings.transforms.from[0].isMatch = function (attr, block) {
-          if (block[0].name.startsWith('hds-wp') || block[0].name.startsWith('helsinki')) {
-            return false;
-          }
-
-          return true;
-        };
-      }
-    }
-
-    return settings;
-  }
-
-  wp.hooks.addFilter('blocks.registerBlockType', 'group/custom-attributes', addGroupAttributes);
-})(window.wp);
-
-(function (wp) {
-  function addTableAttributes(settings, name) {
-    if (typeof settings.attributes !== 'undefined') {
-      if (name == 'core/table') {
-        settings.attributes = Object.assign(settings.attributes, {
-          verticalHeader: {
-            type: 'boolean'
-          },
-          title: {
-            type: 'string'
-          }
-        });
-      }
-    }
-
-    return settings;
-  }
-
-  wp.hooks.addFilter('blocks.registerBlockType', 'table/custom-attributes', addTableAttributes);
-  var tableAdvancedControls = wp.compose.createHigherOrderComponent(function (BlockEdit) {
-    return function (props) {
-      var __ = wp.i18n.__;
-      var _wp$element18 = wp.element,
-          Fragment = _wp$element18.Fragment,
-          createElement = _wp$element18.createElement;
-      var _wp$components17 = wp.components,
-          ToggleControl = _wp$components17.ToggleControl,
-          Panel = _wp$components17.Panel,
-          PanelBody = _wp$components17.PanelBody,
-          TextControl = _wp$components17.TextControl;
-      var _wp$blockEditor18 = wp.blockEditor,
-          InspectorControls = _wp$blockEditor18.InspectorControls,
-          BlockControls = _wp$blockEditor18.BlockControls,
-          useBlockProps = _wp$blockEditor18.useBlockProps;
-      var attributes = props.attributes,
-          setAttributes = props.setAttributes,
-          isSelected = props.isSelected;
-      return /*#__PURE__*/React.createElement(Fragment, null, /*#__PURE__*/React.createElement(BlockEdit, props), isSelected && props.name == 'core/table' && /*#__PURE__*/React.createElement(InspectorControls, null, /*#__PURE__*/React.createElement(PanelBody, {
-        title: __('Advanced table settings', 'hds-wp')
-      }, /*#__PURE__*/React.createElement(TextControl, {
-        label: __('Title', 'hds-wp'),
-        value: attributes.title,
-        onChange: function onChange(value) {
-          return setAttributes({
-            title: value
-          });
-        }
-      }), /*#__PURE__*/React.createElement(ToggleControl, {
-        label: __('Vertical header', 'hds-wp'),
-        checked: attributes.verticalHeader,
-        onChange: function onChange(value) {
-          return setAttributes({
-            verticalHeader: value
-          });
-        }
-      }))));
-    };
-  }, 'tableAdvancedControls');
-  wp.hooks.addFilter('editor.BlockEdit', 'table/custom-control', tableAdvancedControls);
-
-  function tableApplyExtraClass(extraProps, blockType, attributes) {
-    var verticalHeader = attributes.verticalHeader;
-
-    if (typeof verticalHeader !== 'undefined' && verticalHeader) {
-      extraProps.className = extraProps.className + ' has-vertical-header';
-    }
-
-    return extraProps;
-  }
-
-  wp.hooks.addFilter('blocks.getSaveContent.extraProps', 'table/custom-apply-class', tableApplyExtraClass);
-  var tableEditorWrapperExtraClass = wp.compose.createHigherOrderComponent(function (BlockListBlock) {
-    return function (props) {
-      var name = props.name,
-          attributes = props.attributes;
-
-      if (name != 'core/table') {
-        return /*#__PURE__*/React.createElement(BlockListBlock, props);
-      }
-
-      var verticalHeader = attributes.verticalHeader;
-      var customClass = verticalHeader ? 'has-vertical-header' : '';
-      return /*#__PURE__*/React.createElement(BlockListBlock, _extends({}, props, {
-        className: customClass
-      }));
-    };
-  }, 'tableEditorWrapperExtraClass');
-  wp.hooks.addFilter('editor.BlockListBlock', 'table/custom-editor-wrapper-class', tableEditorWrapperExtraClass);
 })(window.wp); //remove error notices when block is removed
 
 
