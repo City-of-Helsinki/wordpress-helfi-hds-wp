@@ -6,8 +6,9 @@
 	}
 
 	.image-text-caption {
+		font-size: $caption-font-size;
 		margin-top: spacing('s');
-		text-align: left;
+		text-align: right;
 		display: none;
 
 		&--mobile {
@@ -149,7 +150,7 @@
 	&.align-right {
 
 		.image-text-caption {
-			text-align: right;
+			text-align: left;
 
 			&--mobile {
 				text-align: left;
