@@ -53,7 +53,7 @@
     figcaption, .wp-caption-text {
         background: none !important;
         color: $black !important;
-        font-size: 16px !important;
+        font-size: $caption-font-size !important;
         font-style: normal !important;
         text-align: left !important;
         padding: 1rem 0 0 !important;

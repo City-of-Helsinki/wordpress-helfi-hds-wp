@@ -21,7 +21,7 @@
               mediaWidth: media.sizes.full.width,
               mediaHeight: media.sizes.full.height,
               mediaAlt: media.alt,
-              mediaSrcset: media.sizes.full.srcset,
+              mediaSrcset: media.sizes.full && media.sizes.full.srcset ? media.sizes.full.srcset : '',
             });
           },
           function (mediaUpload) {
@@ -70,17 +70,6 @@
       className: 'content__link hds-button hds-button--primary',
       href: props.attributes.buttonUrl,
     });
-  }
-
-  function deprecatedContentButton(props) {
-    return hdsContentButton(
-      props,
-      {
-        className: 'content__link hds-button',
-        href: props.attributes.buttonUrl,
-      },
-      props.attributes.isExternalUrl ? hdsDeprecatedExternalLinkIcon() : hdsDeprecatedArrowIcon()
-    );
   }
 
   function deprecatedContentButton(props) {
@@ -193,9 +182,6 @@
   }
 
   const v1 = {
-    supports: {
-      anchor: true,
-    },
     attributes: {
       alignment: {
         type: 'string',
@@ -245,10 +231,10 @@
         type: 'boolean',
         default: false,
       },
-      preview: {
-        type: 'string',
-        default: '',
-      },
+    },
+    supports: {
+      color: true,
+      anchor: true,
     },
     save: function (props) {
       return createElement(
@@ -266,10 +252,10 @@
             hdsContentText(props),
             deprecatedContentButton(props)
           )
-        )
+        ),
       );
     },
-  }
+  };
 
   registerBlockType('hds-wp/image-banner', {
     apiVersion: 2,

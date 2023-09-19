@@ -626,14 +626,6 @@ function hdsIcons(name) {
   return name ? icons[name] : icons;
 }
 
-wp.domReady(function () {
-  /* Disable default formats */
-  wp.richText.unregisterFormatType('core/image');
-  wp.richText.unregisterFormatType('core/text-color');
-  wp.richText.unregisterFormatType('core/keyboard');
-  wp.richText.unregisterFormatType('core/code');
-});
-
 (function (wp) {
   var __ = wp.i18n.__;
   var _wp$blocks = wp.blocks,
@@ -2237,7 +2229,7 @@ wp.domReady(function () {
         mediaWidth: media.sizes.full.width,
         mediaHeight: media.sizes.full.height,
         mediaAlt: media.alt,
-        mediaSrcset: media.sizes.full.srcset
+        mediaSrcset: media.sizes.full && media.sizes.full.srcset ? media.sizes.full.srcset : ''
       });
     }, function (mediaUpload) {
       return createElement(Button, {
@@ -2277,13 +2269,6 @@ wp.domReady(function () {
       className: 'content__link hds-button hds-button--primary',
       href: props.attributes.buttonUrl
     });
-  }
-
-  function deprecatedContentButton(props) {
-    return hdsContentButton(props, {
-      className: 'content__link hds-button',
-      href: props.attributes.buttonUrl
-    }, props.attributes.isExternalUrl ? hdsDeprecatedExternalLinkIcon() : hdsDeprecatedArrowIcon());
   }
 
   function deprecatedContentButton(props) {
@@ -2349,9 +2334,6 @@ wp.domReady(function () {
   }
 
   var v1 = {
-    supports: {
-      anchor: true
-    },
     attributes: {
       alignment: {
         type: 'string',
@@ -2400,11 +2382,11 @@ wp.domReady(function () {
       isExternalUrl: {
         type: 'boolean',
         default: false
-      },
-      preview: {
-        type: 'string',
-        default: ''
       }
+    },
+    supports: {
+      color: true,
+      anchor: true
     },
     save: function save(props) {
       return createElement('div', useBlockProps.save({
@@ -2516,7 +2498,7 @@ wp.domReady(function () {
         mediaWidth: media.sizes.large ? media.sizes.large.width : media.sizes.full.width,
         mediaHeight: media.sizes.large ? media.sizes.large.height : media.sizes.full.height,
         mediaAlt: media.alt,
-        mediaSrcset: media.sizes.large ? media.sizes.large.srcset : media.sizes.full.srcset
+        mediaSrcset: media.sizes.large && media.sizes.large.srcset ? media.sizes.large.srcset : media.sizes.full && media.sizes.full.srcset ? media.sizes.full.srcset : ''
       });
     }, function (mediaUpload) {
       return createElement(Button, {
@@ -4407,242 +4389,15 @@ wp.domReady(function () {
       className: "inspector-errornotice"
     }, __('Please enter assistive technology title', 'hds-wp')))));
   }
-})(window.wp); //remove error notices when block is removed
-
-
-(function () {
-  var _wp$data15 = wp.data,
-      select = _wp$data15.select,
-      subscribe = _wp$data15.subscribe,
-      dispatch = _wp$data15.dispatch;
-  var store = wp.notices.store;
-
-  var getBlocks = function getBlocks() {
-    return select('core/block-editor').getBlocks();
-  };
-
-  Array.prototype.diff = function (a) {
-    return this.filter(function (i) {
-      return a.indexOf(i) < 0;
-    });
-  };
-
-  var blocksState = getBlocks();
-  subscribe(_.debounce(function () {
-    var notices = select(store).getNotices();
-    var newBlocksState = getBlocks(); // Lock saving if notices contain error notices
-
-    var errorNotices = notices.filter(function (notice) {
-      return notice.status === 'error';
-    });
-
-    if (errorNotices.length > 0) {
-      dispatch('core/editor').lockPostSaving('requiredValueLock');
-    } else {
-      if (select('core/editor').isPostSavingLocked()) {
-        dispatch('core/editor').unlockPostSaving('requiredValueLock');
-      }
-    } // When very last block is removed, it's replaced with a new paragraph block.
-    // This is a workaround to remove the error notice.
-
-
-    if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
-      // remove newBlocksState from blocksState
-      var removedBlock = blocksState.diff(newBlocksState);
-
-      if (removedBlock.length === 1 || removedBlock.length > 0 && removedBlock[0].name === 'core/paragraph') {
-        var noticesToRemove = notices.filter(function (notice) {
-          return notice.id.includes(removedBlock[0].clientId);
-        });
-        noticesToRemove.forEach(function (notice) {
-          dispatch('core/notices').removeNotice(notice.id);
-        });
-      }
-    }
-
-    blocksState = newBlocksState;
-  }, 300));
 })(window.wp);
 
 wp.domReady(function () {
-  /**
-    * Buttons
-    */
-  wp.blocks.unregisterBlockStyle('core/button', 'default');
-  wp.blocks.unregisterBlockStyle('core/button', 'outline');
-  wp.blocks.unregisterBlockStyle('core/button', 'fill');
-  wp.blocks.registerBlockStyle('core/button', [{
-    name: 'default',
-    label: wp.i18n.__('Primary', 'hds-wp'),
-    isDefault: true
-  }, {
-    name: 'secondary',
-    label: wp.i18n.__('Secondary', 'hds-wp')
-  }, {
-    name: 'supplementary',
-    label: wp.i18n.__('Supplementary', 'hds-wp')
-  }]);
-  /**
-    * Text
-    */
-
-  var withBackgroundStyle = ['core/group', 'core/paragraph'];
-
-  for (var i = 0; i < withBackgroundStyle.length; i++) {
-    wp.blocks.registerBlockStyle(withBackgroundStyle[i], [{
-      name: 'light-gray-background',
-      label: wp.i18n.__('Light Gray Background', 'hds-wp')
-    }]);
-  }
-  /**
-   * Image
-   */
-
-
-  wp.blocks.unregisterBlockStyle('core/image', 'rounded');
-  /**
-   * Quote
-   */
-
-  wp.blocks.unregisterBlockStyle('core/quote', 'plain');
+  /* Disable default formats */
+  wp.richText.unregisterFormatType('core/image');
+  wp.richText.unregisterFormatType('core/text-color');
+  wp.richText.unregisterFormatType('core/keyboard');
+  wp.richText.unregisterFormatType('core/code');
 });
-
-(function (wp) {
-  function addColumnAttributes(settings, name) {
-    if (typeof settings.attributes !== 'undefined') {
-      if (name == 'core/column') {
-        settings.attributes = Object.assign(settings.attributes, {
-          allowedBlocks: {
-            type: 'array',
-            default: ['core/heading', 'core/paragraph', 'core/quote', 'core/table', 'core/list', 'core/freeform', 'core/image', 'core/video', 'core/audio', 'core/file', 'core/buttons', 'core/embed']
-          }
-        });
-      } else if (name == 'core/columns') {
-        settings.transforms.from[0].isMatch = function (attr, block) {
-          if (block[0].name.startsWith('hds-wp') || block[0].name.startsWith('helsinki')) {
-            return false;
-          }
-
-          return true;
-        };
-      }
-    }
-
-    return settings;
-  }
-
-  wp.hooks.addFilter('blocks.registerBlockType', 'column/custom-attributes', addColumnAttributes);
-})(window.wp);
-
-(function (wp) {
-  function addGroupAttributes(settings, name) {
-    if (typeof settings.attributes !== 'undefined') {
-      if (name == 'core/group') {
-        settings.transforms.from[0].isMatch = function (attr, block) {
-          if (block[0].name.startsWith('hds-wp') || block[0].name.startsWith('helsinki')) {
-            return false;
-          }
-
-          return true;
-        };
-      }
-    }
-
-    return settings;
-  }
-
-  wp.hooks.addFilter('blocks.registerBlockType', 'group/custom-attributes', addGroupAttributes);
-})(window.wp);
-
-(function (wp) {
-  function addTableAttributes(settings, name) {
-    if (typeof settings.attributes !== 'undefined') {
-      if (name == 'core/table') {
-        settings.attributes = Object.assign(settings.attributes, {
-          verticalHeader: {
-            type: 'boolean'
-          },
-          title: {
-            type: 'string'
-          }
-        });
-      }
-    }
-
-    return settings;
-  }
-
-  wp.hooks.addFilter('blocks.registerBlockType', 'table/custom-attributes', addTableAttributes);
-  var tableAdvancedControls = wp.compose.createHigherOrderComponent(function (BlockEdit) {
-    return function (props) {
-      var __ = wp.i18n.__;
-      var _wp$element18 = wp.element,
-          Fragment = _wp$element18.Fragment,
-          createElement = _wp$element18.createElement;
-      var _wp$components17 = wp.components,
-          ToggleControl = _wp$components17.ToggleControl,
-          Panel = _wp$components17.Panel,
-          PanelBody = _wp$components17.PanelBody,
-          TextControl = _wp$components17.TextControl;
-      var _wp$blockEditor18 = wp.blockEditor,
-          InspectorControls = _wp$blockEditor18.InspectorControls,
-          BlockControls = _wp$blockEditor18.BlockControls,
-          useBlockProps = _wp$blockEditor18.useBlockProps;
-      var attributes = props.attributes,
-          setAttributes = props.setAttributes,
-          isSelected = props.isSelected;
-      return /*#__PURE__*/React.createElement(Fragment, null, /*#__PURE__*/React.createElement(BlockEdit, props), isSelected && props.name == 'core/table' && /*#__PURE__*/React.createElement(InspectorControls, null, /*#__PURE__*/React.createElement(PanelBody, {
-        title: __('Advanced table settings', 'hds-wp')
-      }, /*#__PURE__*/React.createElement(TextControl, {
-        label: __('Title', 'hds-wp'),
-        value: attributes.title,
-        onChange: function onChange(value) {
-          return setAttributes({
-            title: value
-          });
-        }
-      }), /*#__PURE__*/React.createElement(ToggleControl, {
-        label: __('Vertical header', 'hds-wp'),
-        checked: attributes.verticalHeader,
-        onChange: function onChange(value) {
-          return setAttributes({
-            verticalHeader: value
-          });
-        }
-      }))));
-    };
-  }, 'tableAdvancedControls');
-  wp.hooks.addFilter('editor.BlockEdit', 'table/custom-control', tableAdvancedControls);
-
-  function tableApplyExtraClass(extraProps, blockType, attributes) {
-    var verticalHeader = attributes.verticalHeader;
-
-    if (typeof verticalHeader !== 'undefined' && verticalHeader) {
-      extraProps.className = extraProps.className + ' has-vertical-header';
-    }
-
-    return extraProps;
-  }
-
-  wp.hooks.addFilter('blocks.getSaveContent.extraProps', 'table/custom-apply-class', tableApplyExtraClass);
-  var tableEditorWrapperExtraClass = wp.compose.createHigherOrderComponent(function (BlockListBlock) {
-    return function (props) {
-      var name = props.name,
-          attributes = props.attributes;
-
-      if (name != 'core/table') {
-        return /*#__PURE__*/React.createElement(BlockListBlock, props);
-      }
-
-      var verticalHeader = attributes.verticalHeader;
-      var customClass = verticalHeader ? 'has-vertical-header' : '';
-      return /*#__PURE__*/React.createElement(BlockListBlock, _extends({}, props, {
-        className: customClass
-      }));
-    };
-  }, 'tableEditorWrapperExtraClass');
-  wp.hooks.addFilter('editor.BlockListBlock', 'table/custom-editor-wrapper-class', tableEditorWrapperExtraClass);
-})(window.wp);
 
 (function (wp) {
   /* inspired from https://github.com/Yoast/wpseo-woocommerce/blob/trunk/js/src/yoastseo-woo-replacevars.js */
@@ -4823,4 +4578,239 @@ wp.domReady(function () {
   }
 
   initializeReplacevarPlugin();
+})(window.wp);
+
+wp.domReady(function () {
+  /**
+    * Buttons
+    */
+  wp.blocks.unregisterBlockStyle('core/button', 'default');
+  wp.blocks.unregisterBlockStyle('core/button', 'outline');
+  wp.blocks.unregisterBlockStyle('core/button', 'fill');
+  wp.blocks.registerBlockStyle('core/button', [{
+    name: 'default',
+    label: wp.i18n.__('Primary', 'hds-wp'),
+    isDefault: true
+  }, {
+    name: 'secondary',
+    label: wp.i18n.__('Secondary', 'hds-wp')
+  }, {
+    name: 'supplementary',
+    label: wp.i18n.__('Supplementary', 'hds-wp')
+  }]);
+  /**
+    * Text
+    */
+
+  var withBackgroundStyle = ['core/group', 'core/paragraph'];
+
+  for (var i = 0; i < withBackgroundStyle.length; i++) {
+    wp.blocks.registerBlockStyle(withBackgroundStyle[i], [{
+      name: 'light-gray-background',
+      label: wp.i18n.__('Light Gray Background', 'hds-wp')
+    }]);
+  }
+  /**
+   * Image
+   */
+
+
+  wp.blocks.unregisterBlockStyle('core/image', 'rounded');
+  /**
+   * Quote
+   */
+
+  wp.blocks.unregisterBlockStyle('core/quote', 'plain');
+});
+
+(function (wp) {
+  function addColumnAttributes(settings, name) {
+    if (typeof settings.attributes !== 'undefined') {
+      if (name == 'core/column') {
+        settings.attributes = Object.assign(settings.attributes, {
+          allowedBlocks: {
+            type: 'array',
+            default: ['core/heading', 'core/paragraph', 'core/quote', 'core/table', 'core/list', 'core/freeform', 'core/image', 'core/video', 'core/audio', 'core/file', 'core/buttons', 'core/embed']
+          }
+        });
+      } else if (name == 'core/columns') {
+        settings.transforms.from[0].isMatch = function (attr, block) {
+          if (block[0].name.startsWith('hds-wp') || block[0].name.startsWith('helsinki')) {
+            return false;
+          }
+
+          return true;
+        };
+      }
+    }
+
+    return settings;
+  }
+
+  wp.hooks.addFilter('blocks.registerBlockType', 'column/custom-attributes', addColumnAttributes);
+})(window.wp);
+
+(function (wp) {
+  function addGroupAttributes(settings, name) {
+    if (typeof settings.attributes !== 'undefined') {
+      if (name == 'core/group') {
+        settings.transforms.from[0].isMatch = function (attr, block) {
+          if (block[0].name.startsWith('hds-wp') || block[0].name.startsWith('helsinki')) {
+            return false;
+          }
+
+          return true;
+        };
+      }
+    }
+
+    return settings;
+  }
+
+  wp.hooks.addFilter('blocks.registerBlockType', 'group/custom-attributes', addGroupAttributes);
+})(window.wp);
+
+(function (wp) {
+  function addTableAttributes(settings, name) {
+    if (typeof settings.attributes !== 'undefined') {
+      if (name == 'core/table') {
+        settings.attributes = Object.assign(settings.attributes, {
+          verticalHeader: {
+            type: 'boolean'
+          },
+          title: {
+            type: 'string'
+          }
+        });
+      }
+    }
+
+    return settings;
+  }
+
+  wp.hooks.addFilter('blocks.registerBlockType', 'table/custom-attributes', addTableAttributes);
+  var tableAdvancedControls = wp.compose.createHigherOrderComponent(function (BlockEdit) {
+    return function (props) {
+      var __ = wp.i18n.__;
+      var _wp$element18 = wp.element,
+          Fragment = _wp$element18.Fragment,
+          createElement = _wp$element18.createElement;
+      var _wp$components17 = wp.components,
+          ToggleControl = _wp$components17.ToggleControl,
+          Panel = _wp$components17.Panel,
+          PanelBody = _wp$components17.PanelBody,
+          TextControl = _wp$components17.TextControl;
+      var _wp$blockEditor18 = wp.blockEditor,
+          InspectorControls = _wp$blockEditor18.InspectorControls,
+          BlockControls = _wp$blockEditor18.BlockControls,
+          useBlockProps = _wp$blockEditor18.useBlockProps;
+      var attributes = props.attributes,
+          setAttributes = props.setAttributes,
+          isSelected = props.isSelected;
+      return /*#__PURE__*/React.createElement(Fragment, null, /*#__PURE__*/React.createElement(BlockEdit, props), isSelected && props.name == 'core/table' && /*#__PURE__*/React.createElement(InspectorControls, null, /*#__PURE__*/React.createElement(PanelBody, {
+        title: __('Advanced table settings', 'hds-wp')
+      }, /*#__PURE__*/React.createElement(TextControl, {
+        label: __('Title', 'hds-wp'),
+        value: attributes.title,
+        onChange: function onChange(value) {
+          return setAttributes({
+            title: value
+          });
+        }
+      }), /*#__PURE__*/React.createElement(ToggleControl, {
+        label: __('Vertical header', 'hds-wp'),
+        checked: attributes.verticalHeader,
+        onChange: function onChange(value) {
+          return setAttributes({
+            verticalHeader: value
+          });
+        }
+      }))));
+    };
+  }, 'tableAdvancedControls');
+  wp.hooks.addFilter('editor.BlockEdit', 'table/custom-control', tableAdvancedControls);
+
+  function tableApplyExtraClass(extraProps, blockType, attributes) {
+    var verticalHeader = attributes.verticalHeader;
+
+    if (typeof verticalHeader !== 'undefined' && verticalHeader) {
+      extraProps.className = extraProps.className + ' has-vertical-header';
+    }
+
+    return extraProps;
+  }
+
+  wp.hooks.addFilter('blocks.getSaveContent.extraProps', 'table/custom-apply-class', tableApplyExtraClass);
+  var tableEditorWrapperExtraClass = wp.compose.createHigherOrderComponent(function (BlockListBlock) {
+    return function (props) {
+      var name = props.name,
+          attributes = props.attributes;
+
+      if (name != 'core/table') {
+        return /*#__PURE__*/React.createElement(BlockListBlock, props);
+      }
+
+      var verticalHeader = attributes.verticalHeader;
+      var customClass = verticalHeader ? 'has-vertical-header' : '';
+      return /*#__PURE__*/React.createElement(BlockListBlock, _extends({}, props, {
+        className: customClass
+      }));
+    };
+  }, 'tableEditorWrapperExtraClass');
+  wp.hooks.addFilter('editor.BlockListBlock', 'table/custom-editor-wrapper-class', tableEditorWrapperExtraClass);
+})(window.wp); //remove error notices when block is removed
+
+
+(function () {
+  var _wp$data15 = wp.data,
+      select = _wp$data15.select,
+      subscribe = _wp$data15.subscribe,
+      dispatch = _wp$data15.dispatch;
+  var store = wp.notices.store;
+
+  var getBlocks = function getBlocks() {
+    return select('core/block-editor').getBlocks();
+  };
+
+  Array.prototype.diff = function (a) {
+    return this.filter(function (i) {
+      return a.indexOf(i) < 0;
+    });
+  };
+
+  var blocksState = getBlocks();
+  subscribe(_.debounce(function () {
+    var notices = select(store).getNotices();
+    var newBlocksState = getBlocks(); // Lock saving if notices contain error notices
+
+    var errorNotices = notices.filter(function (notice) {
+      return notice.status === 'error';
+    });
+
+    if (errorNotices.length > 0) {
+      dispatch('core/editor').lockPostSaving('requiredValueLock');
+    } else {
+      if (select('core/editor').isPostSavingLocked()) {
+        dispatch('core/editor').unlockPostSaving('requiredValueLock');
+      }
+    } // When very last block is removed, it's replaced with a new paragraph block.
+    // This is a workaround to remove the error notice.
+
+
+    if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
+      // remove newBlocksState from blocksState
+      var removedBlock = blocksState.diff(newBlocksState);
+
+      if (removedBlock.length === 1 || removedBlock.length > 0 && removedBlock[0].name === 'core/paragraph') {
+        var noticesToRemove = notices.filter(function (notice) {
+          return notice.id.includes(removedBlock[0].clientId);
+        });
+        noticesToRemove.forEach(function (notice) {
+          dispatch('core/notices').removeNotice(notice.id);
+        });
+      }
+    }
+
+    blocksState = newBlocksState;
+  }, 300));
 })(window.wp);
