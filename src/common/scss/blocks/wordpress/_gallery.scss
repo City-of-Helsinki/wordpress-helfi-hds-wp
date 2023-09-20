@@ -45,9 +45,11 @@
         height: unset !important;
     }
 
-    img {
-        display: block;
-        height: auto !important;
+    &:not(.wp-block-image) {
+        img {
+            display: block;
+            height: auto !important;
+        }
     }
 
     figcaption, .wp-caption-text {
