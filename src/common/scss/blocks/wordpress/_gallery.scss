@@ -27,7 +27,7 @@
         gap: var(--gallery-block--gutter-size,16px) !important;
     }
 
-    .has-nested-images {
+    &.has-nested-images {
         figure.wp-block-image {
             img {
                 aspect-ratio: unset !important;
