@@ -26,6 +26,16 @@
         --wp--style--unstable-gallery-gap: var(--gallery-block--gutter-size,16px) !important;
         gap: var(--gallery-block--gutter-size,16px) !important;
     }
+
+    .has-nested-images {
+        figure.wp-block-image {
+            img {
+                aspect-ratio: unset !important;
+                width: unset !important;
+                height: unset !important;
+            }
+        }
+    }
 }
 
 .blocks-gallery-image,
