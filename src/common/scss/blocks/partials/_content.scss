@@ -4,11 +4,7 @@
 		background-color: transparent;
 		display: block;
 		transition: $default-transition;
-		width: 24px;
-
-		&--link-external {
-			width: 16px;
-		}
+		width: calc(var(--line-height)*1em);	
 	}
 
 	.content__link {

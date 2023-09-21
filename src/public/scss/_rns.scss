@@ -19,10 +19,12 @@
 
                     .rns-header-text {
                         font-weight: $global-font-weight-medium;
+                        --line-height: 1.5;
                         line-height: 1.5;
                         font-size: map-get( $heading-font-sizes, 'h4' );
 
                         @include breakpoint('l') {
+                            --line-height: 1.3;
                             line-height: 1.3;
                             font-size: map-get(map-get( $heading-responsive-font-sizes, 'l' ), 'h4');
                         }
@@ -93,6 +95,7 @@
                         .rns-input-header {
 
                             font-weight: $global-font-weight-bold;
+                            --line-height: 1.5;
                             line-height: 1.5;
                             font-size: map-get( $heading-font-sizes, 'h5' );
 
@@ -105,6 +108,7 @@
 
                         .rns-input-description {
                             font-size: inherit;
+                            --line-height: #{$global-line-height};
                             line-height: $global-line-height;
                         }
 
@@ -137,6 +141,7 @@
 
                 .rns-header {
                     font-weight: $global-font-weight-bold;
+                    --line-height: 1.5;
                     line-height: 1.5;
                     font-size: map-get( $heading-font-sizes, 'h5' );
 
@@ -169,6 +174,7 @@
 
                             .rns-label {
                                 font-size: $global-font-size;
+                                --line-height: #{$global-line-height};
                                 line-height: $global-line-height;
                             }
 
