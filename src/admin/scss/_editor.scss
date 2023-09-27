@@ -40,6 +40,20 @@
   }
 }
 
+.wp-block-gallery {
+  //disable aspect and custom size options for images within gallery
+  &.has-nested-images {
+    figure.wp-block-image {
+        > div {
+            aspect-ratio: unset !important;
+            width: unset !important;
+            height: unset !important;
+            display: flex !important;
+        }
+    }
+  }
+}
+
 .wp-block-buttons {
   display: flex;
   flex-wrap: wrap;
