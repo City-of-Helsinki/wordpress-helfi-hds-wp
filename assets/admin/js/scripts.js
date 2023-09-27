@@ -1835,7 +1835,7 @@ function hdsIcons(name) {
         mediaWidth: media.sizes.full.width,
         mediaHeight: media.sizes.full.height,
         mediaAlt: media.alt,
-        mediaSrcset: media.sizes.full.srcset
+        mediaSrcset: media.sizes.full && media.sizes.full.srcset ? media.sizes.full.srcset : ''
       });
     }, function (mediaUpload) {
       return createElement(Button, {
@@ -2100,13 +2100,14 @@ function hdsIcons(name) {
     return createElement(BlockControls, {
       key: 'controls'
     }, createElement(ToolbarGroup, {}, hdsMediaUpload(props.attributes.mediaId, function (media) {
+      console.log(media);
       props.setAttributes({
         mediaId: media.id,
         mediaUrl: media.sizes.large ? media.sizes.large.url : media.sizes.full.url,
         mediaWidth: media.sizes.large ? media.sizes.large.width : media.sizes.full.width,
         mediaHeight: media.sizes.large ? media.sizes.large.height : media.sizes.full.height,
         mediaAlt: media.alt,
-        mediaSrcset: media.sizes.large ? media.sizes.large.srcset : media.sizes.full.srcset
+        mediaSrcset: media.sizes.large && media.sizes.large.srcset ? media.sizes.large.srcset : media.sizes.full && media.sizes.full.srcset ? media.sizes.full.srcset : ''
       });
     }, function (mediaUpload) {
       return createElement(Button, {
@@ -4177,6 +4178,61 @@ wp.domReady(function () {
     };
   }, 'tableEditorWrapperExtraClass');
   wp.hooks.addFilter('editor.BlockListBlock', 'table/custom-editor-wrapper-class', tableEditorWrapperExtraClass);
+})(window.wp); //remove error notices when block is removed
+
+
+(function () {
+  var _wp$data13 = wp.data,
+      select = _wp$data13.select,
+      subscribe = _wp$data13.subscribe,
+      dispatch = _wp$data13.dispatch;
+  var store = wp.notices.store;
+
+  var getBlocks = function getBlocks() {
+    return select('core/block-editor').getBlocks();
+  };
+
+  Array.prototype.diff = function (a) {
+    return this.filter(function (i) {
+      return a.indexOf(i) < 0;
+    });
+  };
+
+  var blocksState = getBlocks();
+  subscribe(_.debounce(function () {
+    var notices = select(store).getNotices();
+    var newBlocksState = getBlocks(); // Lock saving if notices contain error notices
+
+    var errorNotices = notices.filter(function (notice) {
+      return notice.status === 'error';
+    });
+
+    if (errorNotices.length > 0) {
+      dispatch('core/editor').lockPostSaving('requiredValueLock');
+    } else {
+      if (select('core/editor').isPostSavingLocked()) {
+        dispatch('core/editor').unlockPostSaving('requiredValueLock');
+      }
+    } // When very last block is removed, it's replaced with a new paragraph block.
+    // This is a workaround to remove the error notice.
+
+
+    if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
+      // remove newBlocksState from blocksState
+      var removedBlock = blocksState.diff(newBlocksState);
+
+      if (removedBlock.length === 1 || removedBlock.length > 0 && removedBlock[0].name === 'core/paragraph') {
+        var noticesToRemove = notices.filter(function (notice) {
+          return notice.id.includes(removedBlock[0].clientId);
+        });
+        noticesToRemove.forEach(function (notice) {
+          dispatch('core/notices').removeNotice(notice.id);
+        });
+      }
+    }
+
+    blocksState = newBlocksState;
+  }, 300));
 })(window.wp);
 
 wp.domReady(function () {
@@ -4366,59 +4422,4 @@ wp.domReady(function () {
   }
 
   initializeReplacevarPlugin();
-})(window.wp); //remove error notices when block is removed
-
-
-(function () {
-  var _wp$data13 = wp.data,
-      select = _wp$data13.select,
-      subscribe = _wp$data13.subscribe,
-      dispatch = _wp$data13.dispatch;
-  var store = wp.notices.store;
-
-  var getBlocks = function getBlocks() {
-    return select('core/block-editor').getBlocks();
-  };
-
-  Array.prototype.diff = function (a) {
-    return this.filter(function (i) {
-      return a.indexOf(i) < 0;
-    });
-  };
-
-  var blocksState = getBlocks();
-  subscribe(_.debounce(function () {
-    var notices = select(store).getNotices();
-    var newBlocksState = getBlocks(); // Lock saving if notices contain error notices
-
-    var errorNotices = notices.filter(function (notice) {
-      return notice.status === 'error';
-    });
-
-    if (errorNotices.length > 0) {
-      dispatch('core/editor').lockPostSaving('requiredValueLock');
-    } else {
-      if (select('core/editor').isPostSavingLocked()) {
-        dispatch('core/editor').unlockPostSaving('requiredValueLock');
-      }
-    } // When very last block is removed, it's replaced with a new paragraph block.
-    // This is a workaround to remove the error notice.
-
-
-    if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
-      // remove newBlocksState from blocksState
-      var removedBlock = blocksState.diff(newBlocksState);
-
-      if (removedBlock.length === 1 || removedBlock.length > 0 && removedBlock[0].name === 'core/paragraph') {
-        var noticesToRemove = notices.filter(function (notice) {
-          return notice.id.includes(removedBlock[0].clientId);
-        });
-        noticesToRemove.forEach(function (notice) {
-          dispatch('core/notices').removeNotice(notice.id);
-        });
-      }
-    }
-
-    blocksState = newBlocksState;
-  }, 300));
 })(window.wp);

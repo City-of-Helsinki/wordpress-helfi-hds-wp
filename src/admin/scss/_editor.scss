@@ -2,12 +2,6 @@
   font-weight: $heading-font-weight;
 }
 
-.wp-block-hds-wp-image-banner {
-  .image-banner--wrapper {
-    @include alignFull();
-  }
-}
-
 .wp-block-embed {
   .wp-block-embed__wrapper {
     &:before {
