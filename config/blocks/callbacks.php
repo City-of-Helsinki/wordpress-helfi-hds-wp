@@ -665,11 +665,33 @@ function hds_wp_render_image_text($attributes) {
 		'id' => $attributes['mediaId'],
 	);
 
+	$image_caption = '';
+	$image_caption_mobile = '';
+	$image_caption_id = hds_wp_get_random_id();
+	if (!empty($attributes['mediaId'])) {
+		$credit = hds_wp_render_credit_text($attributes['mediaId']);
+		if ($credit) {
+			$image_caption = sprintf(
+				'<div class="wp-caption-text image-text-caption" aria-hidden="true">%s</div>',
+				hds_wp_render_credit_text($attributes['mediaId'])
+			);
+			$image_caption_mobile = sprintf(
+				'<div class="wp-caption-text image-text-caption image-text-caption--mobile" aria-hidden="true">%s</div>',
+				hds_wp_render_credit_text($attributes['mediaId'])
+			);
+		}
+	}
+
 	$image = '';
 	if (!empty($attributes['mediaId'])) {
+		$credit = hds_wp_render_credit_text($attributes['mediaId']);
 		$image = sprintf(
-			'<div class="image">%s</div>',
-			wp_get_attachment_image($attributes['mediaId'], 'full', false, $imageConfig)
+			'<figure class="image">
+				%s
+				<figcaption class="screen-reader-text">%s</figcaption>
+			</figure>',
+			wp_get_attachment_image($attributes['mediaId'], 'full', false, $imageConfig),
+			$credit ? $credit : ''
 		);
 		$wrapClasses[] = 'has-image';
 	}
@@ -694,17 +716,28 @@ function hds_wp_render_image_text($attributes) {
 
 	return sprintf(
 		'<div %s class="%s">
+			%s
 			<div class="image-text--wrapper">
 				%s
 				%s
 			</div>
+			%s
 		</div>',
 		$id,
 		implode( ' ', $wrapClasses ),
+		$image_caption_mobile,
 		$image,
-		$content
+		$content,
+		$image_caption
 	);
 
+}
+
+function hds_wp_render_credit_text( $postId ) {
+	if (function_exists('helsinki_base_image_credit')) {
+		return helsinki_base_image_credit($postId);
+	}
+	return '';
 }
 
 /**
@@ -739,11 +772,32 @@ function hds_wp_render_image_text($attributes) {
 		'id' => $attributes['mediaId'],
 	);
 
+	$image_caption = '';
+	$image_caption_mobile = '';
+	if (!empty($attributes['mediaId'])) {
+		$credit = hds_wp_render_credit_text($attributes['mediaId']);
+		if ($credit) {
+			$image_caption = sprintf(
+				'<div class="wp-caption-text image-banner-caption" aria-hidden="true">%s</div>',
+				hds_wp_render_credit_text($attributes['mediaId'])
+			);
+			$image_caption_mobile = sprintf(
+				'<div class="wp-caption-text image-banner-caption image-banner-caption--mobile" aria-hidden="true">%s</div>',
+				hds_wp_render_credit_text($attributes['mediaId'])
+			);
+
+		}
+	}
+
 	$image = '';
 	if (!empty($attributes['mediaId'])) {
+		$credit = hds_wp_render_credit_text($attributes['mediaId']);
 		$image = sprintf(
-			'<div class="image">%s</div>',
-			wp_get_attachment_image($attributes['mediaId'], 'full', false, $imageConfig)
+			'<figure class="image">%s
+				<figcaption class="screen-reader-text">%s</figcaption>
+			</figure>',
+			wp_get_attachment_image($attributes['mediaId'], 'full', false, $imageConfig),
+			$credit ? $credit : ''
 		);
 		$wrapClasses[] = 'has-image';
 	}
@@ -770,15 +824,19 @@ function hds_wp_render_image_text($attributes) {
 
 	return sprintf(
 		'<div %s class="%s">
-		  <div class="image-banner--wrapper">
+			%s
+			<div class="image-banner--wrapper">
 				%s
 				%s
 			</div>
+			%s
 		</div>',
 		$id,
 		implode( ' ', $wrapClasses ),
+		$image_caption_mobile,
 		$image,
-		$content
+		$content,
+		$image_caption
 	);
 
 }
@@ -1302,10 +1360,9 @@ function hds_wp_render_map( $attributes ) {
 	);
 
 	$externalLink = sprintf(
-		'<a href="%s" target="_blank" class="block-embed-external-link" rel="noopener">%s %s</a>',
+		'<a href="%s" target="_blank" class="block-embed-external-link" rel="noopener">%s</a>',
 		$linkUrl,
-		__('Open map in new window', 'hds-wp'),
-		hds_wp_render_link_icon( true )
+		__('Open map in new window', 'hds-wp')
 	);
 
 	return sprintf(
@@ -1339,10 +1396,14 @@ function hds_wp_render_map( $attributes ) {
 	$id = 'hds-video-' . $attributes['blockId'];
 	$title = $attributes['title'];
 	$description = $attributes['description'];
-	$url = $attributes['iframeUrl'];
 	$linkUrl = $attributes['url'];
-
 	$assistive_title = $attributes['assistive_title'];
+
+	if (strpos($attributes['iframeUrl'], 'youtube') !== false) {
+		$url = $attributes['iframeUrl'] . '?rel=0';
+	} else {
+		$url = $attributes['iframeUrl'];
+	}
 
 	$beforeVideoSkipLink = sprintf(
 		'<a href="#%s-after" id="%s-before" class="focusable skip-link skip-link--video--before">%s</a>',
@@ -1359,10 +1420,9 @@ function hds_wp_render_map( $attributes ) {
 	);
 
 	$externalLink = sprintf(
-		'<a href="%s" target="_blank" class="block-embed-external-link" rel="noopener">%s %s</a>',
+		'<a href="%s" target="_blank" class="block-embed-external-link" rel="noopener">%s</a>',
 		$linkUrl,
-		__('Open video in new window', 'hds-wp'),
-		hds_wp_render_link_icon( true )
+		__('Open video in new window', 'hds-wp')
 	);
 
 	$iframe = sprintf(
@@ -1396,3 +1456,11 @@ function hds_wp_render_map( $attributes ) {
 		$iframe,
 	);
 }
+
+/**
+ * Utilities
+ */
+
+ function hds_wp_get_random_id() {
+	return substr( md5( uniqid( rand(), true ) ), 0, 20 );
+ }

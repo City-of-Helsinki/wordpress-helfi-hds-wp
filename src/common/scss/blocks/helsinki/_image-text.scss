@@ -1,14 +1,36 @@
 .wp-block-hds-wp-image-text {
+	margin-bottom: $paragraph-margin-bottom-small;
+	
+	@include breakpoint('m') {
+		margin-bottom: $paragraph-margin-bottom-big;
+	}
+
+	.image-text-caption {
+		font-size: $caption-font-size;
+		margin-top: spacing('s');
+		text-align: right;
+		display: none;
+
+		&--mobile {
+			margin-top: 0;
+			margin-bottom: spacing('s');
+			text-align: right;
+			display: block;
+		}
+
+		@include breakpoint('l') {
+			display: block;
+
+			&--mobile {
+				display: none;
+			}
+		}
+	}
 
 	.image-text--wrapper {
 		background-color: transparent !important;
 		position: relative;
 		padding: 0 !important;
-		margin-bottom: $paragraph-margin-bottom-small;
-	
-		@include breakpoint('m') {
-			margin-bottom: $paragraph-margin-bottom-big;
-		}
 	
 		@include breakpoint('l') {
 			display: flex;
@@ -18,6 +40,7 @@
 		.image {
 			background-color: $white;
 			position: relative;
+			margin: 0;
 			padding-top: 64%;
 			overflow: hidden;
 			transition: $default-transition;
@@ -125,6 +148,15 @@
 	}
 
 	&.align-right {
+
+		.image-text-caption {
+			text-align: left;
+
+			&--mobile {
+				text-align: left;
+			}
+		}
+
 		.image {
 			margin-right: auto;
 		}

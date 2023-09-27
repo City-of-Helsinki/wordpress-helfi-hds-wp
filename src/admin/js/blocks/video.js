@@ -11,6 +11,10 @@
   registerBlockType('hds-wp/video', {
     apiVersion: 2,
     title: __('Helsinki - Video', 'hds-wp'),
+    description: __(
+      'Embed a video from the Helsinki-kanava or YouTube.',
+      'hds-wp'
+    ),
     icon: 'video-alt3',
     category: 'hds-wp',
     style: 'hds-video',
