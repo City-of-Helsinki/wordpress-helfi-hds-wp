@@ -2,23 +2,6 @@
   font-weight: $heading-font-weight;
 }
 
-.wp-block-hds-wp-image-banner {
-  margin-left: calc(50% - 50vw) !important;
-  margin-right: calc(50% - 50vw) !important;
-  max-width: 100vw;
-  width: 100vw;
-
-  @include breakpoint('m') {
-    .image {
-      img {
-        height: auto !important;
-        max-width: 100% !important;
-        width: 100% !important;
-      }
-    }
-  }
-}
-
 .wp-block-embed {
   .wp-block-embed__wrapper {
     &:before {
@@ -53,6 +36,20 @@
 
     &:after {
       content: '';
+    }
+  }
+}
+
+.wp-block-gallery {
+  //disable aspect and custom size options for images within gallery
+  &.has-nested-images {
+    figure.wp-block-image {
+        > div {
+            aspect-ratio: unset !important;
+            width: unset !important;
+            height: unset !important;
+            display: flex !important;
+        }
     }
   }
 }
@@ -103,6 +100,10 @@
 
   .icon {
     fill: $white;
+
+    &.mask-icon {
+      background-color: $white;
+    }
   }
 
   &:hover {
@@ -110,6 +111,10 @@
 
     .icon {
       fill: $black;
+
+      &.mask-icon {
+        background-color: $black;
+      }
     }
   }
 
@@ -118,6 +123,10 @@
 
     .icon {
       fill: $black;
+
+      &.mask-icon {
+        background-color: $black;
+      }
     }
 
     &:hover {
@@ -125,6 +134,34 @@
 
       .icon {
         fill: $white;
+
+        &.mask-icon {
+          background-color: $white;
+        }
+      }
+    }
+  }
+
+  &.hds-button--supplementary {
+    color: $black;
+
+    .icon {
+      fill: $black;
+
+      &.mask-icon {
+        background-color: $black;
+      }
+    }
+
+    &:hover {
+      color: $black;
+
+      .icon {
+        fill: $black;
+
+        &.mask-icon {
+          background-color: $black;
+        }
       }
     }
   }
@@ -132,7 +169,6 @@
 
 .content__link {
   > .icon--arrow-right {
-    transform: rotate(180deg);
     margin: 5px 0 0 5px;
   }
 }

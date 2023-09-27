@@ -93,6 +93,8 @@
 
         .link__title_link {
             display: inline-block;
+            word-break: break-word;
+            hyphens: auto;
             &:after {
                 bottom: 0;
                 content: "";
