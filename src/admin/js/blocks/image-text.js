@@ -28,9 +28,11 @@
                 ? media.sizes.large.height
                 : media.sizes.full.height,
               mediaAlt: media.alt,
-              mediaSrcset: media.sizes.large
+              mediaSrcset: media.sizes.large && media.sizes.large.srcset
                 ? media.sizes.large.srcset
-                : media.sizes.full.srcset,
+                : media.sizes.full && media.sizes.full.srcset
+                ? media.sizes.full.srcset
+                : '',
             });
           },
           function (mediaUpload) {
