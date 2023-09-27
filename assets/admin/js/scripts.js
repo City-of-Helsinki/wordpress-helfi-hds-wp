@@ -4188,6 +4188,7 @@ wp.domReady(function () {
   wp.richText.unregisterFormatType('core/text-color');
   wp.richText.unregisterFormatType('core/keyboard');
   wp.richText.unregisterFormatType('core/code');
+
 }); //remove error notices when block is removed
 
 (function () {

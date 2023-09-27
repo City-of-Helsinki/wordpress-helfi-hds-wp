@@ -22,6 +22,7 @@
       const errorNotices = notices.filter(
         (notice) => notice.status === 'error'
       );
+
       if (errorNotices.length > 0) {
         dispatch('core/editor').lockPostSaving('requiredValueLock');
       } else {
