@@ -21,7 +21,7 @@
               mediaWidth: media.sizes.full.width,
               mediaHeight: media.sizes.full.height,
               mediaAlt: media.alt,
-              mediaSrcset: media.sizes.full.srcset,
+              mediaSrcset: media.sizes.full && media.sizes.full.srcset ? media.sizes.full.srcset : '',
             });
           },
           function (mediaUpload) {
