@@ -3053,6 +3053,7 @@ wp.domReady(function () {
   registerBlockType('hds-wp/map', {
     apiVersion: 2,
     title: __('Helsinki - Map', 'hds-wp'),
+    description: __('Embed the map from Palvelukartasta or Karttapalvelusta.', 'hds-wp'),
     icon: 'location-alt',
     category: 'hds-wp',
     style: 'hds-map',
@@ -3909,6 +3910,7 @@ wp.domReady(function () {
   registerBlockType('hds-wp/video', {
     apiVersion: 2,
     title: __('Helsinki - Video', 'hds-wp'),
+    description: __('Embed a video from the Helsinki-kanava or YouTube.', 'hds-wp'),
     icon: 'video-alt3',
     category: 'hds-wp',
     style: 'hds-video',
@@ -4371,6 +4373,14 @@ wp.domReady(function () {
     blocksState = newBlocksState;
   }, 300));
 })(window.wp);
+
+wp.domReady(function () {
+  /* Disable default formats */
+  wp.richText.unregisterFormatType('core/image');
+  wp.richText.unregisterFormatType('core/text-color');
+  wp.richText.unregisterFormatType('core/keyboard');
+  wp.richText.unregisterFormatType('core/code');
+});
 
 (function (wp) {
   /* inspired from https://github.com/Yoast/wpseo-woocommerce/blob/trunk/js/src/yoastseo-woo-replacevars.js */

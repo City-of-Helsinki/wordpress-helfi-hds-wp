@@ -23,6 +23,10 @@
   registerBlockType('hds-wp/map', {
     apiVersion: 2,
     title: __('Helsinki - Map', 'hds-wp'),
+    description: __(
+      'Embed the map from Palvelukartasta or Karttapalvelusta.',
+      'hds-wp'
+    ),
     icon: 'location-alt',
     category: 'hds-wp',
     style: 'hds-map',
