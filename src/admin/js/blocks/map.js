@@ -24,7 +24,7 @@
     apiVersion: 2,
     title: __('Helsinki - Map', 'hds-wp'),
     description: __(
-      'Upota kartta Palvelukartasta tai Karttapalvelusta.',
+      'Embed the map from Palvelukartasta or Karttapalvelusta.',
       'hds-wp'
     ),
     icon: 'location-alt',
