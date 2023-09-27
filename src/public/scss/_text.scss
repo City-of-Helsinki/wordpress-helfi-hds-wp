@@ -5,6 +5,7 @@ body {
 
 p {
     font-size: $global-font-size-m;
+    --line-height: #{$global-line-height};
     line-height: $global-line-height;
 
     @include breakpoint('l') {
