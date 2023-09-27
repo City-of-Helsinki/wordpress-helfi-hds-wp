@@ -627,13 +627,7 @@ function hdsIcons(name) {
 }
 
 wp.domReady(function () {
-  /* Disable default formats */
-  wp.richText.unregisterFormatType('core/image');
-  wp.richText.unregisterFormatType('core/text-color');
-  wp.richText.unregisterFormatType('core/keyboard');
-  wp.richText.unregisterFormatType('core/code');
-});
-wp.domReady(function () {
+
   /**
     * Buttons
     */
@@ -900,6 +894,36 @@ wp.domReady(function () {
           openPanel(event.currentTarget, panel);
         }
       }
+    }, //createElement(Fragment, {}, props.attributes.panelTitle),
+    hdsContentTextRich(props, {
+      placeholder: __('Accordion heading', 'hds-wp'),
+      textAttribute: 'panelTitle'
+    }), panelIcon(props));
+  }
+
+  function panelTitleV1(props) {
+    return createElement(props.attributes.headingLevel, {
+      className: 'accordion__title'
+    }, panelToggleV1(props));
+  }
+
+  function panelToggleV1(props) {
+    return createElement('button', {
+      id: 'panel-toggle-' + props.attributes.blockId,
+      className: 'accordion__toggle',
+      type: 'button',
+      'aria-controls': 'panel-' + props.attributes.blockId,
+      'aria-expanded': 'false',
+      onClick: function onClick(event) {
+        //closeCurrent(event.currentTarget);
+        var panel = togglePanel(event.currentTarget);
+
+        if (isOpen(event.currentTarget)) {
+          closePanel(event.currentTarget, panel);
+        } else {
+          openPanel(event.currentTarget, panel);
+        }
+      }
     }, createElement(Fragment, {}, props.attributes.panelTitle), panelIcon(props));
   }
 
@@ -925,7 +949,7 @@ wp.domReady(function () {
 
   function panelClose(props) {
     return createElement('button', {
-      className: 'accordion__close',
+      className: 'accordion__close hds-button hds-button--supplementary',
       type: 'button',
       onClick: function onClick(event) {
         event.preventDefault();
@@ -950,7 +974,7 @@ wp.domReady(function () {
           return block.attributes;
         })
       });
-      return createElement(Fragment, {}, panelControls(props), createElement('div', useBlockProps({
+      return createElement(Fragment, {}, createElement('div', useBlockProps({
         className: 'accordion__section'
       }), panelTitle(props), panelContent(props, InnerBlocks)));
     };
@@ -1002,7 +1026,7 @@ wp.domReady(function () {
         var parentAttributes = select('core/block-editor').getBlockAttributes(parentClientId);
         return createElement(Fragment, {}, createElement('div', useBlockProps.save({
           className: 'accordion__section'
-        }), panelTitle(props), panelContent(props, InnerBlocks.Content)));
+        }), panelTitleV1(props), panelContent(props, InnerBlocks.Content)));
       }
     }]
   });
@@ -1033,6 +1057,22 @@ wp.domReady(function () {
       useSelect = _wp$data2.useSelect;
 
   function accordionTitle(props) {
+    return hdsContentTitleRich(props, {
+      placeholder: __('This is the title', 'hds-wp'),
+      titleAttribute: 'title',
+      className: 'accordion__heading'
+    });
+  }
+
+  function accordionDescription(props) {
+    return hdsContentTextRich(props, {
+      placeholder: __('This is the excerpt.', 'hds-wp'),
+      textAttribute: 'description',
+      className: 'accordion-description'
+    });
+  }
+
+  function accordionTitleV1(props) {
     if (props.attributes.title != null && props.attributes.title != '') {
       return createElement('h2', {
         className: 'accordion__heading'
@@ -1042,7 +1082,7 @@ wp.domReady(function () {
     return '';
   }
 
-  function accordionDescription(props) {
+  function accordionDescriptionV1(props) {
     if (props.attributes.description != null && props.attributes.description != '') {
       return createElement('p', {
         className: 'accordion-description'
@@ -1105,7 +1145,7 @@ wp.domReady(function () {
       });
 
       if (props.isSelected || isParentOfSelectedBlock) {
-        content = createElement(Fragment, {}, accordionControls(props), createElement('div', {
+        content = createElement(Fragment, {}, createElement('div', {
           className: 'accordion-wrapper'
         }, accordionTitle(props), accordionDescription(props), createElement('div', {
           className: 'accordion'
@@ -1168,7 +1208,7 @@ wp.domReady(function () {
       save: function save(props) {
         return createElement(Fragment, {}, createElement('div', useBlockProps.save({
           className: 'accordion-wrapper'
-        }), accordionTitle(props), accordionDescription(props), createElement('div', {
+        }), accordionTitleV1(props), accordionDescriptionV1(props), createElement('div', {
           className: 'accordion'
         }, createElement(InnerBlocks.Content))));
       }
@@ -1976,7 +2016,7 @@ wp.domReady(function () {
         mediaWidth: media.sizes.full.width,
         mediaHeight: media.sizes.full.height,
         mediaAlt: media.alt,
-        mediaSrcset: media.sizes.full.srcset
+        mediaSrcset: media.sizes.full && media.sizes.full.srcset ? media.sizes.full.srcset : ''
       });
     }, function (mediaUpload) {
       return createElement(Button, {
@@ -2013,9 +2053,9 @@ wp.domReady(function () {
 
   function contentButton(props) {
     return hdsContentButton(props, {
-      className: 'content__link hds-button',
+      className: 'content__link hds-button hds-button--primary',
       href: props.attributes.buttonUrl
-    }, props.attributes.isExternalUrl ? hdsExternalLinkIcon() : hdsArrowIcon());
+    });
   }
 
   function deprecatedContentButton(props) {
@@ -2033,31 +2073,54 @@ wp.domReady(function () {
         });
       }
 
-      return createElement(Fragment, {}, toolbar(props), hdsInspectorControls({
-        title: wp.i18n.__('Content', 'hds-wp'),
+      var content = null;
+      content = createElement(Fragment, {}, toolbar(props), hdsInspectorControls({
+        title: __('Content', 'hds-wp'),
         initialOpen: false
-      }, hdsContentTitleControl(props), hdsContentTextControl(props), hdsButtonTextControl(props), hdsButtonUrlControl(props), hdsExternalUrlControl(props)), createElement('div', useBlockProps({
-        className: classNamesString(props)
-      }), hdsSingleImage(imageConfig(props)), hdsContent(props, createElement('div', {
+      }, hdsButtonTextControl(props), hdsButtonUrlControl(props), hdsTargetBlankControl(props, {
+        help: wp.element.createElement('p', {}, wp.i18n.__('I have made sure that the description of this link clearly states that it opens in a new tab. ', 'hds-wp'), wp.element.createElement('a', {
+          href: 'https://www.w3.org/WAI/WCAG21/Techniques/general/G200.html',
+          target: '_blank'
+        }, wp.i18n.__('Check WCGA 3.2.5 accessibility requirements (the link opens in a new tab).', 'hds-wp')))
+      })), createElement('div', {
+        className: 'image-banner--wrapper'
+      }, hdsSingleImage(imageConfig(props)), hdsContent(props, createElement('div', {
         className: 'content__inner'
-      }, hdsContentTitle(props), hdsContentText(props), contentButton(props)))));
+      }, hdsContentTitleRich(props, {
+        placeholder: __('This is the title', 'hds-wp')
+      }), hdsContentTextRich(props, {
+        placeholder: __('This is the excerpt.', 'hds-wp')
+      }), contentButton(props)))));
+      var SSRContent = createElement(wp.serverSideRender, {
+        block: 'hds-wp/image-banner',
+        attributes: props.attributes,
+        httpMethod: 'POST'
+      });
+
+      if (props.isSelected) {
+        return createElement('div', useBlockProps({
+          className: classNamesString(props)
+        }), content);
+      } else {
+        return createElement('div', useBlockProps({
+          className: classNamesString(props)
+        }), SSRContent);
+      }
     };
   }
 
   function save() {
     return function (props) {
-      return createElement('div', useBlockProps.save({
-        className: classNamesString(props)
-      }), hdsSingleImage(imageConfig(props)), hdsContent(props, createElement('div', {
-        className: 'content__inner'
-      }, hdsContentTitle(props), hdsContentText(props), contentButton(props))));
+      return createElement(Fragment, {}, createElement(InnerBlocks.Content));
     };
   }
 
+  function classNamesStringV1(props) {
+    var classNames = ['align-' + props.attributes.alignment, props.attributes.mediaId ? 'has-image' : 'has-placeholder'];
+    return classNames.join(' ');
+  }
+
   var v1 = {
-    supports: {
-      anchor: true
-    },
     attributes: {
       alignment: {
         type: 'string',
@@ -2106,18 +2169,20 @@ wp.domReady(function () {
       isExternalUrl: {
         type: 'boolean',
         default: false
-      },
-      preview: {
-        type: 'string',
-        default: ''
       }
     },
+    supports: {
+      color: true,
+      anchor: true
+    },
     save: function save(props) {
-      return createElement('div', useBlockProps.save({
-        className: classNamesString(props)
-      }), hdsSingleImage(imageConfig(props)), hdsContent(props, createElement('div', {
-        className: 'content__inner'
-      }, hdsContentTitle(props), hdsContentText(props), deprecatedContentButton(props))));
+      return function (props) {
+        return createElement('div', useBlockProps.save({
+          className: classNamesStringV1(props)
+        }), hdsSingleImage(imageConfig(props)), hdsContent(props, createElement('div', {
+          className: 'content__inner'
+        }, hdsContentTitle(props), hdsContentText(props), deprecatedContentButton(props))));
+      };
     }
   };
   registerBlockType('hds-wp/image-banner', {
@@ -2168,13 +2233,13 @@ wp.domReady(function () {
       },
       buttonText: {
         type: 'string',
-        default: ''
+        default: __('Button Text', 'hds-wp')
       },
       buttonUrl: {
         type: 'string',
         default: ''
       },
-      isExternalUrl: {
+      targetBlank: {
         type: 'boolean',
         default: false
       },
@@ -2216,13 +2281,14 @@ wp.domReady(function () {
     return createElement(BlockControls, {
       key: 'controls'
     }, createElement(ToolbarGroup, {}, hdsMediaUpload(props.attributes.mediaId, function (media) {
+      console.log(media);
       props.setAttributes({
         mediaId: media.id,
         mediaUrl: media.sizes.large ? media.sizes.large.url : media.sizes.full.url,
         mediaWidth: media.sizes.large ? media.sizes.large.width : media.sizes.full.width,
         mediaHeight: media.sizes.large ? media.sizes.large.height : media.sizes.full.height,
         mediaAlt: media.alt,
-        mediaSrcset: media.sizes.large ? media.sizes.large.srcset : media.sizes.full.srcset
+        mediaSrcset: media.sizes.large && media.sizes.large.srcset ? media.sizes.large.srcset : media.sizes.full && media.sizes.full.srcset ? media.sizes.full.srcset : ''
       });
     }, function (mediaUpload) {
       return createElement(Button, {
@@ -4113,6 +4179,141 @@ wp.domReady(function () {
       className: "inspector-errornotice"
     }, __('Please enter assistive technology title', 'hds-wp')))));
   }
+
+})(window.wp);
+
+wp.domReady(function () {
+  /* Disable default formats */
+  wp.richText.unregisterFormatType('core/image');
+  wp.richText.unregisterFormatType('core/text-color');
+  wp.richText.unregisterFormatType('core/keyboard');
+  wp.richText.unregisterFormatType('core/code');
+}); //remove error notices when block is removed
+
+(function () {
+  var _wp$data13 = wp.data,
+      select = _wp$data13.select,
+      subscribe = _wp$data13.subscribe,
+      dispatch = _wp$data13.dispatch;
+  var store = wp.notices.store;
+
+  var getBlocks = function getBlocks() {
+    return select('core/block-editor').getBlocks();
+  };
+
+  Array.prototype.diff = function (a) {
+    return this.filter(function (i) {
+      return a.indexOf(i) < 0;
+    });
+  };
+
+  var blocksState = getBlocks();
+  subscribe(_.debounce(function () {
+    var notices = select(store).getNotices();
+    var newBlocksState = getBlocks(); // Lock saving if notices contain error notices
+
+    var errorNotices = notices.filter(function (notice) {
+      return notice.status === 'error';
+    });
+
+    if (errorNotices.length > 0) {
+      dispatch('core/editor').lockPostSaving('requiredValueLock');
+    } else {
+      if (select('core/editor').isPostSavingLocked()) {
+        dispatch('core/editor').unlockPostSaving('requiredValueLock');
+      }
+    } // When very last block is removed, it's replaced with a new paragraph block.
+    // This is a workaround to remove the error notice.
+
+
+    if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
+      // remove newBlocksState from blocksState
+      var removedBlock = blocksState.diff(newBlocksState);
+
+      if (removedBlock.length === 1 || removedBlock.length > 0 && removedBlock[0].name === 'core/paragraph') {
+        var noticesToRemove = notices.filter(function (notice) {
+          return notice.id.includes(removedBlock[0].clientId);
+        });
+        noticesToRemove.forEach(function (notice) {
+          dispatch('core/notices').removeNotice(notice.id);
+        });
+      }
+    }
+
+    return settings;
+  }
+
+  wp.hooks.addFilter('blocks.registerBlockType', 'table/custom-attributes', addTableAttributes);
+  var tableAdvancedControls = wp.compose.createHigherOrderComponent(function (BlockEdit) {
+    return function (props) {
+      var __ = wp.i18n.__;
+      var _wp$element16 = wp.element,
+          Fragment = _wp$element16.Fragment,
+          createElement = _wp$element16.createElement;
+      var _wp$components15 = wp.components,
+          ToggleControl = _wp$components15.ToggleControl,
+          Panel = _wp$components15.Panel,
+          PanelBody = _wp$components15.PanelBody,
+          TextControl = _wp$components15.TextControl;
+      var _wp$blockEditor16 = wp.blockEditor,
+          InspectorControls = _wp$blockEditor16.InspectorControls,
+          BlockControls = _wp$blockEditor16.BlockControls,
+          useBlockProps = _wp$blockEditor16.useBlockProps;
+      var attributes = props.attributes,
+          setAttributes = props.setAttributes,
+          isSelected = props.isSelected;
+      return /*#__PURE__*/React.createElement(Fragment, null, /*#__PURE__*/React.createElement(BlockEdit, props), isSelected && props.name == 'core/table' && /*#__PURE__*/React.createElement(InspectorControls, null, /*#__PURE__*/React.createElement(PanelBody, {
+        title: __('Advanced table settings', 'hds-wp')
+      }, /*#__PURE__*/React.createElement(TextControl, {
+        label: __('Title', 'hds-wp'),
+        value: attributes.title,
+        onChange: function onChange(value) {
+          return setAttributes({
+            title: value
+          });
+        }
+      }), /*#__PURE__*/React.createElement(ToggleControl, {
+        label: __('Vertical header', 'hds-wp'),
+        checked: attributes.verticalHeader,
+        onChange: function onChange(value) {
+          return setAttributes({
+            verticalHeader: value
+          });
+        }
+      }))));
+    };
+  }, 'tableAdvancedControls');
+  wp.hooks.addFilter('editor.BlockEdit', 'table/custom-control', tableAdvancedControls);
+
+  function tableApplyExtraClass(extraProps, blockType, attributes) {
+    var verticalHeader = attributes.verticalHeader;
+
+    if (typeof verticalHeader !== 'undefined' && verticalHeader) {
+      extraProps.className = extraProps.className + ' has-vertical-header';
+    }
+
+    return extraProps;
+  }
+
+  wp.hooks.addFilter('blocks.getSaveContent.extraProps', 'table/custom-apply-class', tableApplyExtraClass);
+  var tableEditorWrapperExtraClass = wp.compose.createHigherOrderComponent(function (BlockListBlock) {
+    return function (props) {
+      var name = props.name,
+          attributes = props.attributes;
+
+      if (name != 'core/table') {
+        return /*#__PURE__*/React.createElement(BlockListBlock, props);
+      }
+
+      var verticalHeader = attributes.verticalHeader;
+      var customClass = verticalHeader ? 'has-vertical-header' : '';
+      return /*#__PURE__*/React.createElement(BlockListBlock, _extends({}, props, {
+        className: customClass
+      }));
+    };
+  }, 'tableEditorWrapperExtraClass');
+  wp.hooks.addFilter('editor.BlockListBlock', 'table/custom-editor-wrapper-class', tableEditorWrapperExtraClass);
+
 })(window.wp); //remove error notices when block is removed
 
 

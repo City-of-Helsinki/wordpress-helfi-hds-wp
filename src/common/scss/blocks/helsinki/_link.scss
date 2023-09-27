@@ -93,6 +93,8 @@
 
         .link__title_link {
             display: inline-block;
+            word-break: break-word;
+            hyphens: auto;
             &:after {
                 bottom: 0;
                 content: "";
@@ -105,6 +107,7 @@
 
         .link__title_link {
             font-size: rem-calc(20);
+            --line-height: 24px;
             line-height: 24px;
             margin: 0;
 

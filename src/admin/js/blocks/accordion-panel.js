@@ -84,10 +84,48 @@
           }
         },
       },
+      //createElement(Fragment, {}, props.attributes.panelTitle),
+      hdsContentTextRich(props, {
+        placeholder: __('Accordion heading', 'hds-wp'),
+        textAttribute: 'panelTitle',
+      }),
+      panelIcon(props)
+    );
+  }
+
+  function panelTitleV1(props) {
+    return createElement(
+      props.attributes.headingLevel,
+      {className: 'accordion__title'},
+      panelToggleV1(props)
+    );
+  }
+
+  function panelToggleV1(props) {
+    return createElement(
+      'button',
+      {
+        id: 'panel-toggle-' + props.attributes.blockId,
+        className: 'accordion__toggle',
+        type: 'button',
+        'aria-controls': 'panel-' + props.attributes.blockId,
+        'aria-expanded': 'false',
+        onClick: function (event) {
+          //closeCurrent(event.currentTarget);
+
+          var panel = togglePanel(event.currentTarget);
+          if (isOpen(event.currentTarget)) {
+            closePanel(event.currentTarget, panel);
+          } else {
+            openPanel(event.currentTarget, panel);
+          }
+        },
+      },
       createElement(Fragment, {}, props.attributes.panelTitle),
       panelIcon(props)
     );
   }
+
 
   function panelIcon(props) {
     return createElement(
@@ -134,7 +172,7 @@
     return createElement(
       'button',
       {
-        className: 'accordion__close',
+        className: 'accordion__close hds-button hds-button--supplementary',
         type: 'button',
         onClick: function (event) {
           event.preventDefault();
@@ -175,7 +213,6 @@
       return createElement(
         Fragment,
         {},
-        panelControls(props),
         createElement(
           'div',
           useBlockProps({
@@ -249,7 +286,7 @@
               useBlockProps.save({
                 className: 'accordion__section',
               }),
-              panelTitle(props),
+              panelTitleV1(props),
               panelContent(props, InnerBlocks.Content)
             )
           );

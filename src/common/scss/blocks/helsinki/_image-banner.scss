@@ -1,197 +1,252 @@
 .wp-block-hds-wp-image-banner {
-	position: relative;
-	margin-bottom: $paragraph-margin-bottom-small;
+  margin-bottom: $paragraph-margin-bottom-small;
 
-	@include breakpoint('m') {
-		margin-bottom: $paragraph-margin-bottom-big;
-	}
+  @include breakpoint('m') {
+    margin-bottom: $paragraph-margin-bottom-big;
+  }
 
-	&.has-image {
-	}
+	.image-banner-caption {
+    font-size: $caption-font-size;
+		margin-top: spacing('s');
+		text-align: right;
+		display: none;
 
-	&.has-placeholder {
-		background-color: $light-gray;
-	}
-
-	.image {
-		overflow: hidden;
-		position: relative;
-		padding-top: 56.25%;
-		width: 100%;
-
-		img {
+		&--mobile {
+			margin-top: 0;
+			margin-bottom: spacing('s');
+			text-align: right;
 			display: block;
-			@include absoluteCenter();
-			width: 100%;
-			height: auto;
-		}
-
-		.placeholder {
-			background-color: $light-gray;
-			@include absoluteCenter();
-			width: 100%;
-			height: 100%;
-		}
-	}
-
-	.content {
-		width: 100%;
-		max-width: 1200px;
-		margin-left: auto;
-		margin-right: auto;
-
-		&__inner {
-			background-color: $white;
-			display: flex;
-			align-items: flex-start;
-			flex-direction: column;
-			justify-content: center;
-			position: relative;
-			padding-top: $global-padding;
-			padding-bottom: $global-padding;
-
-			* {
-				margin: 0 0 1rem;
-			}
-
-			:last-child {
-				margin-bottom: 0;
-			}
-		}
-
-		&__heading {
-			font-size: rem-calc(22);
-		}
-
-		&__text {
-			font-size: rem-calc(16);
-		}
-
-		&__link {
-			//force correct button styling on outdated saved markup...
-			&.hds-button--supplementary {
-				background-color: $black;
-				border-color: $black;
-				color: $white;
-
-				&:hover {
-					background-color: transparent;
-					color: $black;
-
-					svg {
-						fill : $black;
-
-						&.mask-icon {
-							background-color: $black;
-						}
-					}
-				}
-
-				svg {
-					fill: $white;
-
-					&.mask-icon {
-						background-color: $white;
-					}
-
-				}
-			}
-		}
-
-		.wp-block-button {
-			margin-top: .5rem;
-
-			.wp-block-button__link {
-				border-radius: 0;
-			}
-		}
-	}
-
-	@include breakpoint('m') {
-		display: flex;
-		align-items: center;
-		min-height: rem-calc(540);
-
-		.image {
-			position: absolute;
-			top: 0;
-			left: 0;
-			overflow: hidden;
-			height: 100%;
-			width: 100%;
-			padding-top: 0;
-
-			img {
-				width: auto;
-				height: 100%;
-				max-width: unset;
-			}
-		}
-
-		.content {
-			&__inner {
-				margin-top: spacing('layout-l');
-				margin-bottom: spacing('layout-l');
-				min-height: 400px;
-				max-width: percentage( math.div(5, 12) );
-				padding: $global-padding;
-			}
-
-			&__heading {
-				font-size: rem-calc(28);
-			}
-
-			&__text {
-				font-size: rem-calc(18);
-			}
-		}
-
-		&.align-left {
-			.content__inner {
-			}
-		}
-
-		&.align-right {
-			.content__inner {
-				margin-left: auto;
-			}
-		}
-	}
-
-	@include breakpoint('l') {
-		.content {
-			&__heading {
-				font-size: rem-calc(36);
-			}
-
-			&__text {
-				font-size: rem-calc(20);
-			}
-		}
-	}
-}
-
-body:not(.has-sidebar) {
-	.wp-block-hds-wp-image-banner {
-		@include alignFull();
-
-		@include breakpointMax('m') {
-			.content {
-				&__inner {
-					padding-left: spacing('s');
-					padding-right: spacing('s');
-				}
-			}
 		}
 
 		@include breakpoint('m') {
-			.image {
-				img {
-					height: auto;
-					max-width: 100%;
-					width: 100%;
-				}
+			display: block;
+
+			&--mobile {
+				display: none;
 			}
 		}
 	}
+
+
+  .image-banner--wrapper {
+    position: relative;
+
+    &.has-placeholder {
+      background-color: $light-gray;
+    }
+
+    .image {
+      overflow: hidden;
+      position: relative;
+      padding-top: 56.25%;
+      width: 100%;
+
+      img {
+        display: block;
+        @include absoluteCenter();
+        width: 100%;
+        height: auto;
+      }
+
+      .placeholder {
+        background-color: $light-gray;
+        @include absoluteCenter();
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .content {
+      width: 100%;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+
+      &__inner {
+        background-color: $white;
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        padding-top: $global-padding;
+        padding-bottom: $global-padding;
+
+        * {
+          margin: 0 0 1rem;
+        }
+
+        :last-child {
+          margin-bottom: 0;
+        }
+      }
+
+      &__heading {
+        font-size: rem-calc(22);
+      }
+
+      &__text {
+        font-size: rem-calc(16);
+      }
+
+      &__link {
+        //force correct button styling on outdated saved markup...
+        &.hds-button--supplementary {
+          background-color: $black;
+          border-color: $black;
+          color: $white;
+
+          &:hover {
+            background-color: transparent;
+            color: $black;
+
+            svg {
+              fill : $black;
+  
+              &.mask-icon {
+                background-color: $black;
+              }
+            }
+          }
+  
+          svg {
+            fill: $white;
+  
+            &.mask-icon {
+              background-color: $white;
+            }
+  
+          }
+        }
+      }
+  
+      .wp-block-button {
+        margin-top: 0.5rem;
+        .wp-block-button__link {
+          border-radius: 0;
+        }
+      }
+    }
+
+    @include breakpoint('m') {
+      display: flex;
+      align-items: center;
+      min-height: rem-calc(540);
+
+      .image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        overflow: hidden;
+        height: 100%;
+        width: 100%;
+        padding-top: 0;
+
+        img {
+          width: auto;
+          max-width: unset;
+        }
+      }
+
+      .content {
+        &__inner {
+          margin-top: spacing('layout-l');
+          margin-bottom: spacing('layout-l');
+          min-height: 400px;
+          max-width: percentage(math.div(5, 12));
+          padding: $global-padding;
+        }
+
+        &__heading {
+          font-size: rem-calc(28);
+        }
+
+        &__text {
+          font-size: rem-calc(18);
+        }
+      }
+    }
+  }
+
+  &.align-left {
+    .content__inner {
+    }
+  }
+
+  &.align-right {
+
+    .image-banner-caption {
+			text-align: left;
+
+			&--mobile {
+				text-align: right;
+			}
+		}
+
+    .content__inner {
+      margin-left: auto;
+    }
+  }
+
+  @include breakpoint('l') {
+    .content {
+      &__heading {
+        font-size: rem-calc(36);
+      }
+
+      &__text {
+        font-size: rem-calc(20);
+      }
+    }
+  }
+}
+
+body:not(.has-sidebar) {
+  .wp-block-hds-wp-image-banner {
+  
+    .image-banner-caption {
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
+      padding-right: spacing('s');
+      padding-left: 0;
+
+    }
+
+    .image-banner--wrapper {
+      @include alignFull();
+
+      @include breakpointMax('m') {
+        .content {
+          &__inner {
+            padding-left: spacing('s');
+            padding-right: spacing('s');
+          }
+        }
+      }
+
+      @include breakpoint('m') {
+        .image {
+          img {
+            height: auto;
+            max-width: 100%;
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    &.align-right {
+
+      .image-banner-caption {
+        padding-left: spacing('s');
+        padding-right: 0;
+  
+        &--mobile {
+          padding-left: 0;
+          padding-right: spacing('s');
+        }
+      }
+    }
+  
+  }
 }
