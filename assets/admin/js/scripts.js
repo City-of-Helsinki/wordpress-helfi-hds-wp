@@ -627,6 +627,7 @@ function hdsIcons(name) {
 }
 
 wp.domReady(function () {
+
   /**
     * Buttons
     */
@@ -4178,6 +4179,7 @@ wp.domReady(function () {
       className: "inspector-errornotice"
     }, __('Please enter assistive technology title', 'hds-wp')))));
   }
+
 })(window.wp);
 
 wp.domReady(function () {
@@ -4311,6 +4313,7 @@ wp.domReady(function () {
     };
   }, 'tableEditorWrapperExtraClass');
   wp.hooks.addFilter('editor.BlockListBlock', 'table/custom-editor-wrapper-class', tableEditorWrapperExtraClass);
+
 })(window.wp); //remove error notices when block is removed
 
 
