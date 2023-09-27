@@ -3,7 +3,7 @@
 	.icon {
 		display: block;
 		transition: $default-transition;
-		width: 24px;
+		width: calc(var(--line-height)*1em);	
 	}
 
 	.content__link {

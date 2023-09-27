@@ -2,12 +2,6 @@
   font-weight: $heading-font-weight;
 }
 
-.wp-block-hds-wp-image-banner {
-  .image-banner--wrapper {
-    @include alignFull();
-  }
-}
-
 .wp-block-embed {
   .wp-block-embed__wrapper {
     &:before {
@@ -42,6 +36,20 @@
 
     &:after {
       content: '';
+    }
+  }
+}
+
+.wp-block-gallery {
+  //disable aspect and custom size options for images within gallery
+  &.has-nested-images {
+    figure.wp-block-image {
+        > div {
+            aspect-ratio: unset !important;
+            width: unset !important;
+            height: unset !important;
+            display: flex !important;
+        }
     }
   }
 }

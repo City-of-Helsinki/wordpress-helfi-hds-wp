@@ -26,6 +26,16 @@
         --wp--style--unstable-gallery-gap: var(--gallery-block--gutter-size,16px) !important;
         gap: var(--gallery-block--gutter-size,16px) !important;
     }
+
+    &.has-nested-images {
+        figure.wp-block-image {
+            img {
+                aspect-ratio: unset !important;
+                width: unset !important;
+                height: unset !important;
+            }
+        }
+    }
 }
 
 .blocks-gallery-image,
@@ -45,15 +55,17 @@
         height: unset !important;
     }
 
-    img {
-        display: block;
-        height: auto !important;
+    &:not(.wp-block-image) {
+        img {
+            display: block;
+            height: auto !important;
+        }
     }
 
     figcaption, .wp-caption-text {
         background: none !important;
         color: $black !important;
-        font-size: 16px !important;
+        font-size: $caption-font-size !important;
         font-style: normal !important;
         text-align: left !important;
         padding: 1rem 0 0 !important;
