@@ -1,0 +1,93 @@
+.wp-block-hds-wp-link-list-cards {
+
+    .hds-links-list-cards__title {
+        margin-bottom: spacing('2-xl');
+    }
+
+    .hds-links-list-cards__cards {
+
+        @include breakpoint('m') {
+            display: flex;
+            flex-wrap: wrap;
+            margin-left: -12px;
+            margin-right: -12px;
+        }
+
+        .block-editor-inner-blocks {
+            width: 100%;
+
+            .block-editor-block-list__layout {
+                display: flex;
+                flex-wrap: wrap;
+                width: 100%;
+            }
+
+        }
+
+        .wp-block-hds-wp-link-list-card {
+
+            background-color: $light-gray;
+            margin-bottom: spacing('m');
+            padding-bottom: spacing('l');
+            padding-left: spacing('m');
+            padding-right: spacing('m');
+            padding-top: spacing('m');
+
+            @include breakpoint('m') {
+                margin-left: spacing('xs');
+                margin-right: spacing('xs');
+                width: calc(50% - #{spacing('m')});
+            }
+
+            .hds-links-list-card__title {
+                font-weight: $global-font-weight-medium;
+                font-size: 20px;
+                margin-top: 0;
+
+                @include breakpoint('m') {
+                    font-size: 24px;
+                    margin-bottom: 24px;
+                }
+            }
+
+            .hds-links-list-card__links {
+                display: flex;
+                flex-direction: column;
+                flex-wrap: wrap;
+
+                .block-editor-inner-blocks {
+
+                    .block-editor-block-list__layout {
+                        flex-direction: column;
+                    }
+
+                }
+
+                .wp-block-hds-wp-link-list-card-link {
+                    margin-bottom: spacing('s');
+                    --line-height: 1.5;
+                    line-height: var(--line-height);
+                    padding-left: calc(var(--line-height)*1em + 8px);
+                    font-size: 20px;
+                    font-weight: $global-font-weight-medium;
+                    text-decoration: underline;
+
+                    &:before {
+                        content: '';
+                        display: inline-block;
+                        line-height: var(--line-height);
+                        margin-right: 8px;
+                        margin-left: calc(var(--line-height)*-1em - 8px);
+                        width: calc(var(--line-height)*1em);
+                        height: calc(var(--line-height)*1em);
+                        vertical-align: bottom;
+                        background-color: black;
+                        @extend .hds-icon--arrow-right;
+                    }
+                }
+
+            }
+
+        }
+    }
+}

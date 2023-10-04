@@ -3,11 +3,35 @@
 (() => {
   const {select, subscribe, dispatch} = wp.data;
   const {store} = wp.notices;
-  const getBlocks = () => select('core/block-editor').getBlocks();
+  const getBlocks = () => {
+    const blocks = [];
+    const rootBlocks = select('core/block-editor').getBlocks();
 
+    function getChildren(block) {
+      const children = [];
+      if (block.innerBlocks) {
+        block.innerBlocks.forEach((innerBlock) => {
+          children.push(innerBlock);
+        });
+      }
+      if (children.length > 0) {
+        children.forEach((child) => {
+          blocks.push(child);
+          getChildren(child);
+        });
+      }
+    }
+
+    rootBlocks.forEach((block) => {
+      blocks.push(block);
+      getChildren(block);
+    });
+
+    return blocks;
+  };
   Array.prototype.diff = function (a) {
     return this.filter(function (i) {
-      return a.indexOf(i) < 0;
+      return !a.some((item) => item.clientId === i.clientId);
     });
   };
 
@@ -39,13 +63,32 @@
       ) {
         // remove newBlocksState from blocksState
         const removedBlock = blocksState.diff(newBlocksState);
-
         if (
-          removedBlock.length === 1 ||
-          (removedBlock.length > 0 && removedBlock[0].name === 'core/paragraph')
+          removedBlock.length > 0 ||
+          (removedBlock[0].name === 'core/paragraph')
         ) {
+          var clientIds = [];
+          function getChildren(block) {
+            const children = [];
+            if (block.innerBlocks) {
+              block.innerBlocks.forEach((innerBlock) => {
+                children.push(innerBlock);
+              });
+            }
+            if (children.length > 0) {
+              children.forEach((child) => {
+                clientIds.push(child.clientId);
+                getChildren(child.clientId);
+              });
+            }
+          }
+          removedBlock.forEach((block) => {
+            clientIds.push(block.clientId);
+            getChildren(block);
+          });
+
           const noticesToRemove = notices.filter((notice) =>
-            notice.id.includes(removedBlock[0].clientId)
+            clientIds.some((clientId) => notice.id.includes(clientId))
           );
           noticesToRemove.forEach((notice) => {
             dispatch('core/notices').removeNotice(notice.id);
