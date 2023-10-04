@@ -2795,7 +2795,7 @@ function hdsIcons(name) {
   registerBlockType('hds-wp/link-list-card-link', {
     apiVersion: 2,
     title: __('Helsinki - Link List Card Link', 'hds-wp'),
-    icon: 'location-alt',
+    icon: 'screenoptions',
     category: 'hds-wp',
     style: 'hds-map',
     parent: ['hds-wp/link-list-card'],
@@ -2971,7 +2971,7 @@ function hdsIcons(name) {
   registerBlockType('hds-wp/link-list-card', {
     apiVersion: 2,
     title: __('Helsinki - Link List Card', 'hds-wp'),
-    icon: 'location-alt',
+    icon: 'screenoptions',
     category: 'hds-wp',
     style: 'hds-map',
     parent: ['hds-wp/link-list-cards'],
@@ -3190,7 +3190,7 @@ function hdsIcons(name) {
   registerBlockType('hds-wp/link-list-cards', {
     apiVersion: 2,
     title: __('Helsinki - Link List Cards', 'hds-wp'),
-    icon: 'location-alt',
+    icon: 'screenoptions',
     category: 'hds-wp',
     style: 'hds-map',
     attributes: {

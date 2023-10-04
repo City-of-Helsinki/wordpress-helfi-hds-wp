@@ -23,7 +23,7 @@
     registerBlockType('hds-wp/link-list-cards', {
       apiVersion: 2,
       title: __('Helsinki - Link List Cards', 'hds-wp'),
-      icon: 'location-alt',
+      icon: 'screenoptions',
       category: 'hds-wp',
       style: 'hds-map',
       attributes: {
