@@ -226,6 +226,15 @@
             if (getBlockType('hds-wp/timeline')) {
                 unregisterBlockType( 'hds-wp/timeline' );
             }
+            if (getBlockType('hds-wp/link-list-cards')) {
+                unregisterBlockType( 'hds-wp/link-list-cards' );
+            }
+            if (getBlockType('hds-wp/link-list-card')) {
+                unregisterBlockType( 'hds-wp/link-list-card' );
+            }
+            if (getBlockType('hds-wp/link-list-card-link')) {
+                unregisterBlockType( 'hds-wp/link-list-card-link' );
+            }
             if (getBlockType('core/columns')) {
                 unregisterBlockType( 'core/columns' );
             }    

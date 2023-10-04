@@ -692,4 +692,61 @@ return array(
 			),
 		),
 	),
+
+	'link-list-cards' => array(
+		'title' => __('Helsinki - Link List Cards', 'hds-wp'),
+		'category' => 'hds-wp',
+		'dependencies' => array(
+			'wp-blocks',
+			'wp-i18n',
+			'wp-element',
+			'wp-components',
+			'wp-editor',
+			'wp-data',
+			'wp-server-side-render',
+		),
+		'render_callback' => 'hds_wp_render_link_list_cards',
+		'attributes' => array(
+			'title' => array(
+				'type'    => 'string',
+				'default' => '',
+			),
+			'cards' => array(
+				'type' => 'array',
+				'default' => array(),
+			),
+			'preview' => array(
+				'type'    => 'string',
+				'default' => '',
+			),
+		),
+	),
+
+	'link-list-card' => array(
+		'title' => __('Helsinki - Link List Card', 'hds-wp'),
+		'category' => 'hds-wp',
+		'dependencies' => array(
+			'wp-blocks',
+			'wp-i18n',
+			'wp-element',
+			'wp-components',
+			'wp-editor',
+			'wp-data',
+			'wp-server-side-render',
+		),
+	),
+
+	'link-list-card-link' => array(
+		'title' => __('Helsinki - Link List Card Link', 'hds-wp'),
+		'category' => 'hds-wp',
+		'dependencies' => array(
+			'wp-blocks',
+			'wp-i18n',
+			'wp-element',
+			'wp-components',
+			'wp-editor',
+			'wp-data',
+			'wp-server-side-render',
+		),
+	),
 );
