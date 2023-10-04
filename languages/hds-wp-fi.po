@@ -5,7 +5,7 @@ msgstr ""
 "Language: fi\n"
 "Language-Team: Suomi\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"PO-Revision-Date: 2023-10-04 11:22+0000\n"
+"PO-Revision-Date: 2023-10-04 11:24+0000\n"
 "X-Generator: Loco https://localise.biz/"
 
 #: assets/admin/js/scripts.js:923 src/admin/js/blocks/accordion-panel.js:89
