@@ -1,9 +1,5 @@
 .content-cards {
-    padding-bottom: 1px;
-
-    @include breakpoint('m') {
-        padding-bottom: $paragraph-margin-bottom-small;
-    }
+	@extend %helsinki-block-spacing;
 
     .content-cards__koros {
         background-color: $white;
@@ -25,14 +21,11 @@
     }
 
     .content-cards__title {
-        margin-bottom: spacing('layout-s');
-
-        @include breakpoint('l') {
-            margin-bottom: spacing('layout-m');
-        }
     }
 
     .content-cards__cards {
+
+        @extend %helsinki-block-content-spacing;
 
         .content-cards__card {
             margin-bottom: spacing('l');

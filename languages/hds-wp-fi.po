@@ -6,8 +6,13 @@ msgstr ""
 "Language: fi\n"
 "Language-Team: Suomi\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"PO-Revision-Date: 2023-09-27 07:03+0000\n"
-"X-Generator: Loco https://localise.biz/"
+"PO-Revision-Date: 2023-10-09 08:46+0000\n"
+"X-Generator: Loco https://localise.biz/\n"
+"Last-Translator: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Loco-Version: 2.6.0; wp-6.3.1"
 
 #: assets/admin/js/scripts.js:718 src/admin/js/blocks/accordion-panel.js:89
 msgid "Accordion heading"
@@ -690,7 +695,7 @@ msgstr "Otsikko"
 #: assets/admin/js/scripts.js:2686 src/admin/js/blocks/links.js:13
 #| msgid "Title & Excerpt"
 msgid "Title & excerpt"
-msgstr "Otsikko & oteteksti"
+msgstr "Otsikko & kuvaus"
 
 #: assets/admin/js/scripts.js:3647 src/admin/js/blocks/rss-feed.js:34
 msgid "URL"

@@ -6,9 +6,14 @@
     padding-bottom: $paragraph-margin-bottom-big;
     padding-top: $paragraph-margin-bottom-big;
   }
+	@extend %helsinki-block-spacing;
 
   h2 {
     margin-top: 1rem;
+  }
+
+  p {
+    margin: 0;
   }
 
   &.has-background {
@@ -54,6 +59,7 @@
 
   &__container {
     position: relative;
+    @extend %helsinki-block-content-spacing;
   }
 
   .skip-link {

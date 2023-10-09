@@ -1,10 +1,5 @@
 .recent-posts {
-
-	margin-bottom: $paragraph-margin-bottom-small;
-
-	@include breakpoint('m') {
-		margin-bottom: $paragraph-margin-bottom-big;
-	}
+	@extend %helsinki-block-spacing;
 
     .posts-page {
 
