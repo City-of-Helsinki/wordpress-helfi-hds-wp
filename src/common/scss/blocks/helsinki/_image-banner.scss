@@ -1,9 +1,5 @@
 .wp-block-hds-wp-image-banner {
-  margin-bottom: $paragraph-margin-bottom-small;
-
-  @include breakpoint('m') {
-    margin-bottom: $paragraph-margin-bottom-big;
-  }
+	@extend %helsinki-block-spacing;
 
 	.image-banner-caption {
     font-size: $caption-font-size;

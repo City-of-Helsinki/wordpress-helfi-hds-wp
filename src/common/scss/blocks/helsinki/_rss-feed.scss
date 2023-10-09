@@ -1,10 +1,5 @@
 .feed-posts {
-
-	margin-bottom: $paragraph-margin-bottom-small;
-
-	@include breakpoint('m') {
-		margin-bottom: $paragraph-margin-bottom-big;
-	}
+	@extend %helsinki-block-spacing;
 
     .feed-source {
         margin-bottom: spacing('xl');
@@ -19,6 +14,7 @@
         display: flex;
         flex-wrap: wrap;
         padding-left: 0 !important;
+        row-gap: spacing('m');
 
         li {
             width: 100%;
@@ -32,7 +28,6 @@
                 border-left: 4px $default-border-style var(--accent-color);
                 padding: 0;
                 padding-left: spacing('s');
-                margin-bottom: spacing('m');
 
                 @include breakpoint('s') {
                     padding-right: spacing('s');
