@@ -29,6 +29,13 @@
 		 &.block-editor-rich-text__editable {
 			margin-bottom: spacing('l');
 		 }
+
+		 p {
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+
 	}
 
 	.accordion {
