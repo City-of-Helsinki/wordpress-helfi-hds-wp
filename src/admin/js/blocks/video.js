@@ -229,7 +229,7 @@
                 ]}
               />
               {attributes.iframeUrl && (
-                <>
+                <div class="hds-video__container">
                   <figure class="wp-block-embed wp-has-aspect-ratio wp-embed-aspect-16-9">
                     <div class="wp-block-embed__wrapper">
                       <iframe
@@ -248,7 +248,7 @@
                     {__('Open video in new window', 'hds-wp')}{' '}
                     {hdsExternalLinkIcon()}
                   </a>
-                </>
+                </div>
               )}
             </div>
           </div>

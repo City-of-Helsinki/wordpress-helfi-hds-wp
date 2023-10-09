@@ -3060,7 +3060,9 @@ function hdsIcons(name) {
       },
       placeholder: __('Map description*', 'hds-wp'),
       allowedFormats: ['core/bold', 'core/italic', 'core/link', 'core/paragraph']
-    }), attributes.url && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("iframe", {
+    }), attributes.url && /*#__PURE__*/React.createElement("div", {
+      class: "hds-map__container"
+    }, /*#__PURE__*/React.createElement("iframe", {
       src: attributes.url,
       title: attributes.assistive_title || attributes.title,
       scrolling: "no"
@@ -3924,7 +3926,9 @@ function hdsIcons(name) {
       },
       placeholder: __('Video description*', 'hds-wp'),
       allowedFormats: ['core/bold', 'core/italic', 'core/link', 'core/paragraph']
-    }), attributes.iframeUrl && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("figure", {
+    }), attributes.iframeUrl && /*#__PURE__*/React.createElement("div", {
+      class: "hds-video__container"
+    }, /*#__PURE__*/React.createElement("figure", {
       class: "wp-block-embed wp-has-aspect-ratio wp-embed-aspect-16-9"
     }, /*#__PURE__*/React.createElement("div", {
       class: "wp-block-embed__wrapper"
@@ -4001,13 +4005,6 @@ function hdsIcons(name) {
   }
 })(window.wp);
 
-wp.domReady(function () {
-  /* Disable default formats */
-  wp.richText.unregisterFormatType('core/image');
-  wp.richText.unregisterFormatType('core/text-color');
-  wp.richText.unregisterFormatType('core/keyboard');
-  wp.richText.unregisterFormatType('core/code');
-});
 wp.domReady(function () {
   /**
     * Buttons
@@ -4186,62 +4183,15 @@ wp.domReady(function () {
     };
   }, 'tableEditorWrapperExtraClass');
   wp.hooks.addFilter('editor.BlockListBlock', 'table/custom-editor-wrapper-class', tableEditorWrapperExtraClass);
-})(window.wp); //remove error notices when block is removed
-
-
-(function () {
-  var _wp$data13 = wp.data,
-      select = _wp$data13.select,
-      subscribe = _wp$data13.subscribe,
-      dispatch = _wp$data13.dispatch;
-  var store = wp.notices.store;
-
-  var getBlocks = function getBlocks() {
-    return select('core/block-editor').getBlocks();
-  };
-
-  Array.prototype.diff = function (a) {
-    return this.filter(function (i) {
-      return a.indexOf(i) < 0;
-    });
-  };
-
-  var blocksState = getBlocks();
-  subscribe(_.debounce(function () {
-    var notices = select(store).getNotices();
-    var newBlocksState = getBlocks(); // Lock saving if notices contain error notices
-
-    var errorNotices = notices.filter(function (notice) {
-      return notice.status === 'error';
-    });
-
-    if (errorNotices.length > 0) {
-      dispatch('core/editor').lockPostSaving('requiredValueLock');
-    } else {
-      if (select('core/editor').isPostSavingLocked()) {
-        dispatch('core/editor').unlockPostSaving('requiredValueLock');
-      }
-    } // When very last block is removed, it's replaced with a new paragraph block.
-    // This is a workaround to remove the error notice.
-
-
-    if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
-      // remove newBlocksState from blocksState
-      var removedBlock = blocksState.diff(newBlocksState);
-
-      if (removedBlock.length === 1 || removedBlock.length > 0 && removedBlock[0].name === 'core/paragraph') {
-        var noticesToRemove = notices.filter(function (notice) {
-          return notice.id.includes(removedBlock[0].clientId);
-        });
-        noticesToRemove.forEach(function (notice) {
-          dispatch('core/notices').removeNotice(notice.id);
-        });
-      }
-    }
-
-    blocksState = newBlocksState;
-  }, 300));
 })(window.wp);
+
+wp.domReady(function () {
+  /* Disable default formats */
+  wp.richText.unregisterFormatType('core/image');
+  wp.richText.unregisterFormatType('core/text-color');
+  wp.richText.unregisterFormatType('core/keyboard');
+  wp.richText.unregisterFormatType('core/code');
+});
 
 (function (wp) {
   /* inspired from https://github.com/Yoast/wpseo-woocommerce/blob/trunk/js/src/yoastseo-woo-replacevars.js */
@@ -4422,4 +4372,59 @@ wp.domReady(function () {
   }
 
   initializeReplacevarPlugin();
+})(window.wp); //remove error notices when block is removed
+
+
+(function () {
+  var _wp$data13 = wp.data,
+      select = _wp$data13.select,
+      subscribe = _wp$data13.subscribe,
+      dispatch = _wp$data13.dispatch;
+  var store = wp.notices.store;
+
+  var getBlocks = function getBlocks() {
+    return select('core/block-editor').getBlocks();
+  };
+
+  Array.prototype.diff = function (a) {
+    return this.filter(function (i) {
+      return a.indexOf(i) < 0;
+    });
+  };
+
+  var blocksState = getBlocks();
+  subscribe(_.debounce(function () {
+    var notices = select(store).getNotices();
+    var newBlocksState = getBlocks(); // Lock saving if notices contain error notices
+
+    var errorNotices = notices.filter(function (notice) {
+      return notice.status === 'error';
+    });
+
+    if (errorNotices.length > 0) {
+      dispatch('core/editor').lockPostSaving('requiredValueLock');
+    } else {
+      if (select('core/editor').isPostSavingLocked()) {
+        dispatch('core/editor').unlockPostSaving('requiredValueLock');
+      }
+    } // When very last block is removed, it's replaced with a new paragraph block.
+    // This is a workaround to remove the error notice.
+
+
+    if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
+      // remove newBlocksState from blocksState
+      var removedBlock = blocksState.diff(newBlocksState);
+
+      if (removedBlock.length === 1 || removedBlock.length > 0 && removedBlock[0].name === 'core/paragraph') {
+        var noticesToRemove = notices.filter(function (notice) {
+          return notice.id.includes(removedBlock[0].clientId);
+        });
+        noticesToRemove.forEach(function (notice) {
+          dispatch('core/notices').removeNotice(notice.id);
+        });
+      }
+    }
+
+    blocksState = newBlocksState;
+  }, 300));
 })(window.wp);

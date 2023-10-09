@@ -235,7 +235,7 @@
                 ]}
               />
               {attributes.url && (
-                <>
+                <div class="hds-map__container">
                   <iframe
                     src={attributes.url}
                     title={attributes.assistive_title || attributes.title}
@@ -250,7 +250,7 @@
                     {__('Open map in new window', 'hds-wp')}{' '}
                     {hdsExternalLinkIcon()}
                   </a>
-                </>
+                </div>
               )}
             </div>
           </div>
