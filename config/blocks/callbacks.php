@@ -992,7 +992,7 @@ function hds_wp_render_recent_posts( $attributes ) {
 		<div id="%s" class="recent-posts %s">
 			
 			<div class="hds-container">
-				<h2 class="container__heading">%s</h2>
+				<h2>%s</h2>
 				%s
 				%s
 			</div>
@@ -1193,7 +1193,7 @@ function hds_wp_render_rss_feed( $attributes ) {
 			<div id="%s" class="feed-posts %s">
 				
 				<div class="hds-container">
-					<h2 class="container__heading">%s</h2>
+					<h2>%s</h2>
 					%s
 					%s
 				</div>
