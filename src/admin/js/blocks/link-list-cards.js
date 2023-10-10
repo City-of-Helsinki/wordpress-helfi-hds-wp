@@ -148,27 +148,25 @@
       return (
         <Fragment>
           <div {...blockProps}>
-            <div className="hds-container">
-              <RichText
-                tagName="h2"
-                className="hds-links-list-cards__title"
-                value={attributes.title}
-                onChange={(value) => (
-                  setAttributes({title: value}),
-                  setTitleError(value ? false : true)
-                )}
-                placeholder={__('This is the title*', 'hds-wp')}
-                allowedFormats={[]}
+            <RichText
+              tagName="h2"
+              className="hds-links-list-cards__title"
+              value={attributes.title}
+              onChange={(value) => (
+                setAttributes({title: value}),
+                setTitleError(value ? false : true)
+              )}
+              placeholder={__('This is the title*', 'hds-wp')}
+              allowedFormats={[]}
+            />
+            <div className="hds-links-list-cards__cards">
+              <InnerBlocks
+                  template={[
+                      ['hds-wp/link-list-card'],
+                  ]}
+                  templateLock={false}
+                  allowedBlocks={['hds-wp/link-list-card']}
               />
-              <div className="hds-links-list-cards__cards">
-                <InnerBlocks
-                    template={[
-                        ['hds-wp/link-list-card'],
-                    ]}
-                    templateLock={false}
-                    allowedBlocks={['hds-wp/link-list-card']}
-                />
-              </div>
             </div>
           </div>
         </Fragment>
