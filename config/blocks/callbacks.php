@@ -1426,11 +1426,9 @@ function hds_wp_render_map( $attributes ) {
 
 	return sprintf(
 		'<div class="wp-block-hds-wp-link-list-cards">
-			<div class="hds-container">
+			%s
+			<div class="hds-links-list-cards__cards">
 				%s
-				<div class="hds-links-list-cards__cards">
-					%s
-				</div>
 			</div>
 		</div>',
 		$title,
