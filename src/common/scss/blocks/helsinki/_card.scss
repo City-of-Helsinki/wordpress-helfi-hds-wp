@@ -1,265 +1,260 @@
 .content-cards {
-    padding-bottom: 1px;
+  padding-bottom: 1px;
 
-    @include breakpoint('m') {
-        padding-bottom: $paragraph-margin-bottom-small;
+  @include breakpoint('m') {
+    padding-bottom: $paragraph-margin-bottom-small;
+  }
+
+  .content-cards__koros {
+    background-color: $white;
+    height: 42px;
+    margin-bottom: spacing('xl');
+
+    @include breakpoint('l') {
+      margin-bottom: spacing('3-xl');
     }
 
-    .content-cards__koros {
-        background-color: $white;
-        height: 42px;
-        margin-bottom: spacing('xl');
-
-        @include breakpoint('l') {
-            margin-bottom: spacing('3-xl');
-        }
-
-        svg {
-            fill: $light-gray;
-        }
+    svg {
+      fill: $light-gray;
     }
+  }
 
-    .hds-container {
-        margin-left: auto;
-        margin-right: auto;
+  .hds-container {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .content-cards__title {
+    margin-bottom: spacing('layout-s');
+
+    @include breakpoint('l') {
+      margin-bottom: spacing('layout-m');
     }
+  }
 
-    .content-cards__title {
-        margin-bottom: spacing('layout-s');
-
-        @include breakpoint('l') {
-            margin-bottom: spacing('layout-m');
-        }
-    }
-
-    .content-cards__cards {
-
-        .content-cards__card {
-            margin-bottom: spacing('l');
-        }
-
-        @include breakpoint('l') {
-            display: flex;
-            column-gap: 24px;
-            flex-wrap: wrap;
-            justify-content: left;
-
-            &--2 {
-                .content-cards__card {
-                    flex: 0 0 calc(50% - 12px);
-                }
-            }
-
-            &--3 {
-                .content-cards__card {
-                    flex: 0 0 calc(33% - 14px);
-                }
-            }
-
-            &--4 {
-                .content-cards__card {
-                    flex: 0 0 calc(25% - 18px);
-                }
-            }
-        }
-    }
-
+  .content-cards__cards {
     .content-cards__card {
-        position: relative;
+      margin-bottom: spacing('l');
+    }
 
-        .card__link {
+    @include breakpoint('l') {
+      display: flex;
+      column-gap: 24px;
+      flex-wrap: wrap;
+      justify-content: left;
 
-            .card__title_link {
-                text-decoration: none;
-
-                &:after {
-                    bottom: 0;
-                    content: "";
-                    left: 0;
-                    position: absolute;
-                    right: 0;
-                    top: 0;
-                }
-            }
-
-            .card__title {
-                text-decoration: none;
-            }
-
-            &:focus,
-            &:hover {
-                .card__title {
-                    text-decoration: underline;
-                }
-
-                .card__more {
-                    .icon {
-                        margin-left: spacing('s');
-                    }
-                }
-            }
+      &--2 {
+        .content-cards__card {
+          flex: 0 0 calc(50% - 12px);
         }
+      }
 
-        .card__image {
-            position: relative;
-            overflow: hidden;
-            padding-top: 64.68%;
-            margin-bottom: spacing('m');
-
-            img {
-                @include absoluteCenter();
-                display: block;
-                min-height: 100%;
-                min-width: 100%;
-                max-width: 100%;
-                object-fit: cover;
-            }
-
-            &.has-placeholder {
-                background-color: var(--primary-color);
-            }
-
-            .icon {
-                @include absoluteCenter();
-                max-width: 180px;
-                width: 30%;
-
-                path {
-                    fill: $black;
-                }
-            }
-
-            &.has-invert-color {
-                .icon {
-                    path {
-                        fill: $white;
-                    }
-                }
-            }
+      &--3 {
+        .content-cards__card {
+          flex: 0 0 calc(33% - 14px);
         }
+      }
 
-        .card__content {
-            display: flex;
-            flex-direction: column;
+      &--4 {
+        .content-cards__card {
+          flex: 0 0 calc(25% - 18px);
         }
+      }
+    }
+  }
 
+  .content-cards__card {
+    position: relative;
+
+    .card__link {
+      .card__title_link {
+        text-decoration: none;
+
+        &:after {
+          bottom: 0;
+          content: '';
+          left: 0;
+          position: absolute;
+          right: 0;
+          top: 0;
+        }
+      }
+
+      .card__title {
+        text-decoration: none;
+      }
+
+      &:focus,
+      &:hover {
         .card__title {
-            font-size: rem-calc(24);
-            margin: 0;
-        }
-
-        .card__excerpt {
-            font-size: rem-calc(16);
-            color: $dark-gray;
-            margin-top: spacing('m');
-            margin-bottom: 0;
-
-            @include breakpoint('m') {
-                font-size: rem-calc(18);
-            }
-        }
-
-        .card__date {
-            color: $dark-gray;
-            font-size: rem-calc(14);
-            margin: spacing('m') 0 0;
+          text-decoration: underline;
         }
 
         .card__more {
-            margin-top: auto;
-
-            .icon {
-                transition: $default-transition-time;
-                margin-left: -8px;
-                width: 48px;
-                pointer-events: none;
-
-                &:focus {
-                    outline: none;
-                }
-            }
+          .icon {
+            margin-left: spacing('s');
+          }
         }
+      }
     }
 
-    &.has-background {
-        background-color: $light-gray;
-        margin-left: calc(50% - 50vw);
-        margin-right: calc(50% - 50vw);
-        max-width: 100vw;
-        width: 100vw;
-        margin-bottom: spacing('l');
+    .card__image {
+      position: relative;
+      overflow: hidden;
+      padding-top: 64.68%;
+      margin-bottom: spacing('m');
 
-        @include breakpoint('l') {
-            margin-bottom: spacing('4-xl');
+      img {
+        @include absoluteCenter();
+        display: block;
+        min-height: 100%;
+        min-width: 100%;
+        max-width: 100%;
+        object-fit: cover;
+      }
+
+      &.has-placeholder {
+        background-color: var(--primary-color);
+      }
+
+      .icon {
+        @include absoluteCenter();
+        max-width: 180px;
+        width: 30%;
+
+        path {
+          fill: $black;
         }
+      }
 
-        .content-cards__title {
-            margin-top: 0;
+      &.has-invert-color {
+        .icon {
+          path {
+            fill: $white;
+          }
         }
-
-        .content-cards__card {
-
-            .card__link {
-                display: flex;
-                flex-direction: column;
-                height: 100%;
-            }
-
-            .card__content {
-                height: 100%;
-            }
-
-            .card__title_link {
-                &:after {
-                    bottom: 0;
-                    content: "";
-                    left: 0;
-                    position: absolute;
-                    right: 0;
-                    top: 0;
-                }
-            }
-
-            .card__image {
-                margin-bottom: 0;
-            }
-
-            .card__content {
-                background-color: $white;
-                padding: spacing('s') spacing('s') spacing('m');
-            }
-        }
+      }
     }
 
-    &:not(.has-background) {
-
-        .hds-container {
-            padding: 0;
-        }
+    .card__content {
+      display: flex;
+      flex-direction: column;
     }
 
+    .card__title {
+      font-size: rem-calc(24);
+      margin: 0;
+    }
+
+    .card__excerpt {
+      font-size: rem-calc(16);
+      color: $dark-gray;
+      margin-top: spacing('m');
+      margin-bottom: 0;
+
+      @include breakpoint('m') {
+        font-size: rem-calc(18);
+      }
+    }
+
+    .card__date {
+      color: $dark-gray;
+      font-size: rem-calc(14);
+      margin: spacing('m') 0 0;
+    }
+
+    .card__more {
+      margin-top: auto;
+
+      .icon {
+        transition: $default-transition-time;
+        margin-left: -8px;
+        width: 48px;
+        pointer-events: none;
+
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+  }
+
+  &.has-background {
+    background-color: $light-gray;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    max-width: 100vw;
+    width: 100vw;
+    margin-bottom: spacing('l');
+
+    @include breakpoint('l') {
+      margin-bottom: spacing('4-xl');
+    }
+
+    .content-cards__title {
+      margin-top: 0;
+    }
+
+    .content-cards__card {
+      .card__link {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      .card__content {
+        height: 100%;
+      }
+
+      .card__title_link {
+        &:after {
+          bottom: 0;
+          content: '';
+          left: 0;
+          position: absolute;
+          right: 0;
+          top: 0;
+        }
+      }
+
+      .card__image {
+        margin-bottom: 0;
+      }
+
+      .card__content {
+        background-color: $white;
+        padding: spacing('s') spacing('s') spacing('m');
+      }
+    }
+  }
+
+  &:not(.has-background) {
+    .hds-container {
+      padding: 0;
+    }
+  }
 }
 
 .has-sidebar:not(.home) {
-    .content-cards {
-        .content-cards__koros {
-            display: none;
-        }
-
-        .hds-container {
-            padding: 0;
-        }
-
-        &.has-background {
-            margin-left: 0;
-            margin-right: 0;
-            max-width: unset;
-            width: unset;
-            padding: spacing('l');
-
-            @include breakpointMax('l') {
-                padding: spacing('l') spacing('s');
-            }
-        }
+  .content-cards {
+    .content-cards__koros {
+      display: none;
     }
+
+    .hds-container {
+      padding: 0;
+    }
+
+    &.has-background {
+      margin-left: 0;
+      margin-right: 0;
+      max-width: unset;
+      width: unset;
+      padding: spacing('l');
+
+      @include breakpointMax('l') {
+        padding: spacing('l') spacing('s');
+      }
+    }
+  }
 }
