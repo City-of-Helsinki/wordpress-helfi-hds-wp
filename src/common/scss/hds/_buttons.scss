@@ -33,6 +33,11 @@ button {
     margin-top: 0 !important;
     flex-shrink: 0;
 
+
+    &.icon {
+      width: 24px !important;
+    }
+
     &.mask-icon {
       background-color: $white;
     }

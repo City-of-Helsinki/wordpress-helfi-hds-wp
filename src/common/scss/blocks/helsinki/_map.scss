@@ -169,5 +169,15 @@
       overflow: hidden;
       pointer-events: none;
     }
+    @media screen and (max-width: 1670px) {
+      &.has-background {
+        background-color: $light-gray;
+        margin-left: 0;
+        margin-right: 0;
+        max-width: 100vw;
+        width: 100% !important;
+        padding: spacing('l') spacing('s');
+      }
+    }
   }
 }
