@@ -6,7 +6,7 @@ msgstr ""
 "Language: fi\n"
 "Language-Team: Suomi\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"PO-Revision-Date: 2023-09-27 07:03+0000\n"
+"PO-Revision-Date: 2023-10-16 06:20+0000\n"
 "X-Generator: Loco https://localise.biz/"
 
 #: assets/admin/js/scripts.js:718 src/admin/js/blocks/accordion-panel.js:89
@@ -397,11 +397,11 @@ msgstr "Ikoni"
 
 #: assets/admin/js/scripts.js:1350 src/admin/js/blocks/content-cards.js:12
 msgid "Image & Title"
-msgstr "Kuvallinen"
+msgstr "Kuva ja otsikko"
 
 #: assets/admin/js/scripts.js:1353 src/admin/js/blocks/content-cards.js:14
 msgid "Image, Title & Excerpt"
-msgstr ""
+msgstr "Kuva, otsikko ja kuvaus"
 
 #: class/Integrations.php:63
 msgid "Integrations"
