@@ -10,13 +10,15 @@
         padding-right: 0;
     }
 
+    .entries {
+        @extend %helsinki-block-content-spacing;
+    }
+
     .posts {
         display: flex;
         flex-wrap: wrap;
         padding-left: 0 !important;
         row-gap: spacing('m');
-
-        @extend %helsinki-block-content-spacing;
 
         li {
             width: 100%;
