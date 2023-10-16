@@ -5,7 +5,7 @@ msgstr ""
 "Language: fi\n"
 "Language-Team: Suomi\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"PO-Revision-Date: 2023-10-09 10:30+0000\n"
+"PO-Revision-Date: 2023-10-16 06:47+0000\n"
 "X-Generator: Loco https://localise.biz/"
 
 #: assets/admin/js/scripts.js:923 src/admin/js/blocks/accordion-panel.js:89
@@ -126,7 +126,7 @@ msgstr "Painikkeen url"
 
 #: assets/admin/js/scripts.js:1116 src/admin/js/blocks/accordion-wc.js:56
 msgid "Card"
-msgstr ""
+msgstr "Kortti"
 
 #: assets/admin/js/scripts.js:458 src/admin/js/admin.js:508
 msgid "Category"
@@ -434,11 +434,11 @@ msgstr "Ikoni"
 
 #: assets/admin/js/scripts.js:1744 src/admin/js/blocks/content-cards.js:12
 msgid "Image & Title"
-msgstr "Kuvallinen"
+msgstr "Kuva ja otsikko"
 
 #: assets/admin/js/scripts.js:1747 src/admin/js/blocks/content-cards.js:14
 msgid "Image, Title & Excerpt"
-msgstr ""
+msgstr "Kuva, otsikko ja kuvaus"
 
 #: class/Integrations.php:63
 msgid "Integrations"

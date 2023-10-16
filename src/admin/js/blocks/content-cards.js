@@ -31,17 +31,9 @@
         title: __('Settings', 'hds-wp'),
         initialOpen: false,
       },
-      hdsTextControl(
-        {
-          label: __('Title', 'hds-wp'),
-          value: props.attributes.title,
-          attribute: 'title',
-        },
-        props
-      ),
       hdsSelectControl(
         {
-          label: __('Link type', 'hds-wp'),
+          label: __('Style', 'hds-wp'),
           value: props.attributes.linkType,
           attribute: 'linkType',
           options: linkTypeOptions(),
@@ -97,17 +89,33 @@
 
       if (props.isSelected || isParentOfSelectedBlock) {
         content = createElement(
-          Fragment,
-          {},
-          title(props),
-          createElement(InnerBlocks, {
-            allowedBlocks: ['hds-wp/content-card'],
-            template: [
-              ['hds-wp/content-card', {}],
-              ['hds-wp/content-card', {}],
-              ['hds-wp/content-card', {}],
-            ],
-          })
+          'div',
+          {
+            className:
+              'content-card ' + props.attributes.hasBackground
+                ? 'has-background'
+                : '',
+          },
+          hdsContent(
+            props,
+
+            hdsContentTitleRich(props, {
+              placeholder: __('This is the title', 'hds-wp'),
+              titleAttribute: 'title',
+            }),
+            hdsContentTextRich(props, {
+              placeholder: __('This is the excerpt.', 'hds-wp'),
+              textAttribute: 'description',
+            }),
+            createElement(InnerBlocks, {
+              allowedBlocks: ['hds-wp/content-card'],
+              template: [
+                ['hds-wp/content-card', {}],
+                ['hds-wp/content-card', {}],
+                ['hds-wp/content-card', {}],
+              ],
+            })
+          )
         );
       } else {
         var blockAttributes = props.attributes;
@@ -140,14 +148,7 @@
     };
   }
 
-  registerBlockType('hds-wp/content-cards', {
-    apiVersion: 2,
-    title: __('Helsinki - Content Cards', 'hds-wp'),
-    category: 'hds-wp',
-    icon: 'images-alt',
-    supports: {
-      anchor: true,
-    },
+  const v1 = {
     attributes: {
       columns: {
         type: 'number',
@@ -178,8 +179,105 @@
         default: '',
       },
     },
+    edit: function (props) {
+      if (props.attributes.preview) {
+        return <img src={props.attributes.preview} />;
+      }
+      props.attributes.columns = parseInt(props.attributes.columns);
+      var content = null;
+
+      const isParentOfSelectedBlock = useSelect(function (selectFrom) {
+        return select('core/block-editor').hasSelectedInnerBlock(
+          props.clientId,
+          true
+        );
+      });
+
+      if (props.isSelected || isParentOfSelectedBlock) {
+        content = createElement(
+          Fragment,
+          {},
+          title(),
+          createElement(InnerBlocks, {
+            allowedBlocks: ['hds-wp/content-card'],
+            template: [
+              ['hds-wp/content-card', {}],
+              ['hds-wp/content-card', {}],
+              ['hds-wp/content-card', {}],
+            ],
+          })
+        );
+      } else {
+        var blockAttributes = props.attributes;
+
+        blockAttributes.cards = select('core/block-editor')
+          .getBlocks(props.clientId)
+          .map(function (block) {
+            return block.attributes.postId;
+          });
+
+        content = createElement(wp.serverSideRender, {
+          block: 'hds-wp/content-cards',
+          attributes: blockAttributes,
+          httpMethod: 'POST',
+        });
+      }
+
+      return createElement(
+        Fragment,
+        {},
+        inspectorControls(props),
+        createElement('div', useBlockProps(), content)
+      );
+    },
+    save: save(),
+  };
+
+  registerBlockType('hds-wp/content-cards', {
+    apiVersion: 2,
+    title: __('Helsinki - Content Cards', 'hds-wp'),
+    category: 'hds-wp',
+    icon: 'images-alt',
+    supports: {
+      anchor: true,
+    },
+    attributes: {
+      columns: {
+        type: 'number',
+        default: 3,
+      },
+      hasBackground: {
+        type: 'boolean',
+        default: false,
+      },
+      title: {
+        type: 'string',
+        default: '',
+      },
+      description: {
+        type: 'string',
+        default: '',
+      },
+      linkType: {
+        type: 'string',
+        default: 'image-title',
+      },
+      cards: {
+        type: 'array',
+        default: [],
+      },
+      anchor: {
+        type: 'string',
+        default: '',
+      },
+      preview: {
+        type: 'string',
+        default: '',
+      },
+    },
     edit: edit(),
     save: save(),
+    deprecated: [v1],
     example: {
       attributes: {
         preview: hds_wp.blocksUrl + '/previews/content-cards.png',
