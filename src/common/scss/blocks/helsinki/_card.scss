@@ -1,5 +1,6 @@
 .content-cards {
-  //@extend %helsinki-block-spacing;
+  
+	@extend %helsinki-block-spacing;
 
   .content-cards__koros {
     background-color: $white;
@@ -24,7 +25,7 @@
   }
 
   .content-cards__cards {
-    //@extend %helsinki-block-content-spacing;
+    @extend %helsinki-block-content-spacing;
 
     .content-cards__card {
       margin-bottom: spacing('l');

@@ -1,11 +1,7 @@
 .wp-block-hds-wp-banner {
 	background-color: var(--primary-color);
 	color: var(--primary-content-color);
-	margin-bottom: $paragraph-margin-bottom-small;
-
-	@include breakpoint('m') {
-		margin-bottom: $paragraph-margin-bottom-big;
-	}
+	@extend %helsinki-block-spacing;
 
 	.content {
 		display: flex;

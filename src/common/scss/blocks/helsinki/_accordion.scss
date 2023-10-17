@@ -1,9 +1,5 @@
 .wp-block-hds-wp-accordion {
-	margin-bottom: $paragraph-margin-bottom-small;
-
-	@include breakpoint('m') {
-		margin-bottom: $paragraph-margin-bottom-big;
-	}
+	@extend %helsinki-block-spacing;
 
 	.accordion__section {
 		margin: 0;
@@ -33,6 +29,17 @@
 		 &.block-editor-rich-text__editable {
 			margin-bottom: spacing('l');
 		 }
+
+		 p {
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+	}
+
+	.accordion {
+		@extend %helsinki-block-content-spacing;
 	}
 
 	.accordion__toggle {

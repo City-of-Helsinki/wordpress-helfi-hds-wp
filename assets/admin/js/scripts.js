@@ -3722,7 +3722,9 @@ function hdsIcons(name) {
       },
       placeholder: __('Map description*', 'hds-wp'),
       allowedFormats: ['core/bold', 'core/italic', 'core/link', 'core/paragraph']
-    }), attributes.url && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("iframe", {
+    }), attributes.url && /*#__PURE__*/React.createElement("div", {
+      class: "hds-map__container"
+    }, /*#__PURE__*/React.createElement("iframe", {
       src: attributes.url,
       title: attributes.assistive_title || attributes.title,
       scrolling: "no"
@@ -4586,7 +4588,9 @@ function hdsIcons(name) {
       },
       placeholder: __('Video description*', 'hds-wp'),
       allowedFormats: ['core/bold', 'core/italic', 'core/link', 'core/paragraph']
-    }), attributes.iframeUrl && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("figure", {
+    }), attributes.iframeUrl && /*#__PURE__*/React.createElement("div", {
+      class: "hds-video__container"
+    }, /*#__PURE__*/React.createElement("figure", {
       class: "wp-block-embed wp-has-aspect-ratio wp-embed-aspect-16-9"
     }, /*#__PURE__*/React.createElement("div", {
       class: "wp-block-embed__wrapper"

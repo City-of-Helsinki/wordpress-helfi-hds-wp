@@ -6,7 +6,7 @@ msgstr ""
 "Language: fi\n"
 "Language-Team: Suomi\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"PO-Revision-Date: 2023-10-16 12:28+0000\n"
+"PO-Revision-Date: 2023-10-17 05:43+0000\n"
 "X-Generator: Loco https://localise.biz/"
 
 #: assets/admin/js/scripts.js:718 src/admin/js/blocks/accordion-panel.js:89
@@ -766,7 +766,7 @@ msgstr "Otsikko"
 #: assets/admin/js/scripts.js:3348 src/admin/js/blocks/links.js:13
 #| msgid "Title & Excerpt"
 msgid "Title & excerpt"
-msgstr "Otsikko & oteteksti"
+msgstr "Otsikko & kuvaus"
 
 #: assets/admin/js/scripts.js:4309 src/admin/js/blocks/rss-feed.js:34
 msgid "URL"
