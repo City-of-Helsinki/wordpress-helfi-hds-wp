@@ -103,6 +103,7 @@
 
         .link__title_link {
             font-size: rem-calc(20);
+            font-weight: $global-font-weight-medium;
             --line-height: 24px;
             line-height: 24px;
             margin: 0;
@@ -276,13 +277,14 @@
         }
 
         @include breakpoint('m') {
-            column-gap: 24px;
+            display: flex;
+            column-gap: 48px;
             flex-wrap: wrap;
             justify-content: left;
             flex-direction: row;
 
             .links-list__item {
-                flex: 0 0 calc(50% - 14px);
+                flex: 0 0 calc(50% - 24px);
             }
         }
 
@@ -293,13 +295,13 @@
         @include breakpoint('l') {
             &--3 {
                 .links-list__item {
-                    flex: 0 0 calc(33% - 16px);
+                    flex: 0 0 calc(33% - 30px);
                 }
             }
 
             &--4 {
                 .links-list__item {
-                    flex: 0 0 calc(25% - 18px);
+                    flex: 0 0 calc(25% - 36px);
                 }
             }
         }
