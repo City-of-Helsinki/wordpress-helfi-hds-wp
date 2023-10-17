@@ -3,41 +3,42 @@
 use ArtCloud\Helsinki\Plugin\HDS\Svg;
 
 /**
-  * Helsinki - Content cards
-  */
-function hds_wp_render_block_content_cards( $attributes ) {
+ * Helsinki - Content cards
+ */
+function hds_wp_render_block_content_cards($attributes)
+{
 	if (
-		empty( $attributes['cards'] ) ||
-		! is_array( $attributes['cards'] )
+		empty($attributes['cards']) ||
+		!is_array($attributes['cards'])
 	) {
 		return;
 	}
 
-	$posts = hds_wp_query_block_post_ids( $attributes['cards'] );
-	if ( ! $posts ) {
+	$posts = hds_wp_query_block_post_ids($attributes['cards']);
+	if (!$posts) {
 		return;
 	}
 
-	$wrapClasses = array( 'content-cards' );
+	$wrapClasses = array('content-cards');
 	$koros = '';
-	if ( ! empty( $attributes['hasBackground'] ) ) {
+	if (!empty($attributes['hasBackground'])) {
 		$wrapClasses[] = 'has-background';
 		$koros = sprintf(
 			'<div class="content-cards__koros">%s</div>',
 			Svg::koros(
-				apply_filters( 'hds_wp_content_cards_koros', 'basic' ),
-				md5( time() . implode( '', $attributes['cards'] ) )
+				apply_filters('hds_wp_content_cards_koros', 'basic'),
+				md5(time() . implode('', $attributes['cards']))
 			)
 		);
 	}
-	
+
 	if (!empty($attributes['className'])) {
 		$wrapClasses[] = esc_attr($attributes['className']);
 	}
 
 	$id = '';
 	if (!empty($attributes['anchor'])) {
-		$id = 'id="'.esc_attr($attributes['anchor']).'"';
+		$id = 'id="' . esc_attr($attributes['anchor']) . '"';
 	}
 
 	$gridClasses = array(
@@ -46,10 +47,18 @@ function hds_wp_render_block_content_cards( $attributes ) {
 	);
 
 	$title = '';
-	if ( ! empty( $attributes['title'] ) ) {
+	if (!empty($attributes['title'])) {
 		$title = sprintf(
 			'<h2 class="content-cards__title">%s</h2>',
-			esc_html( $attributes['title'] )
+			esc_html($attributes['title'])
+		);
+	}
+
+	$description = '';
+	if (!empty($attributes['description'])) {
+		$description = sprintf(
+			'<div class="content-cards__description">%s</div>',
+			wpautop($attributes['description'], false)
 		);
 	}
 
@@ -57,24 +66,27 @@ function hds_wp_render_block_content_cards( $attributes ) {
 		'<div %s class="%s">%s
 			<div class="hds-container">
 				%s
+				%s
 				<div class="%s">%s</div>
 			</div>
 		</div>',
 		$id,
-		implode( ' ', $wrapClasses ),
+		implode(' ', $wrapClasses),
 		$koros,
 		$title,
-		implode( ' ', $gridClasses ),
-		implode( '', array_map( function($post) use ($attributes) {
+		$description,
+		implode(' ', $gridClasses),
+		implode('', array_map(function ($post) use ($attributes) {
 			return hds_wp_content_card_html($post, $attributes);
-		}, $posts ) )
+		}, $posts))
 	);
 }
 
-function hds_wp_content_card_html( WP_Post $post, $attributes) {
-	$image = get_the_post_thumbnail( $post, 'medium', array( 'alt' => '' ) );
+function hds_wp_content_card_html(WP_Post $post, $attributes)
+{
+	$image = get_the_post_thumbnail($post, 'medium', array('alt' => ''));
 	$has_placeholder = false;
-	if ( ! $image ) {
+	if (!$image) {
 		$has_placeholder = true;
 		$image = apply_filters(
 			'hds_wp_content_card_placeholder',
@@ -96,16 +108,17 @@ function hds_wp_content_card_html( WP_Post $post, $attributes) {
 	if (isset($attributes['linkType']) && $attributes['linkType'] == 'image-title-excerpt' && !empty($post->post_excerpt)) {
 		$excerpt = sprintf(
 			'<p class="card__excerpt">%s</p>',
-			$post->post_excerpt );
+			$post->post_excerpt
+		);
 	}
 
 	$date = 'post' === $post->post_type ? sprintf(
-			'<span class="screen-reader-text">%s</span>
+		'<span class="screen-reader-text">%s</span>
 			<time datetime="%s" class="card__date">%s</time>',
-			__('Published:', 'hds-wp'),
-			esc_attr( get_the_date( 'c', $post ) ),
-			get_the_date( '', $post )
-		) : '';
+		__('Published:', 'hds-wp'),
+		esc_attr(get_the_date('c', $post)),
+		get_the_date('', $post)
+	) : '';
 
 	$parts = array(
 		'image' => sprintf(
@@ -114,10 +127,10 @@ function hds_wp_content_card_html( WP_Post $post, $attributes) {
 			$image
 		),
 		'content_open' => '<div class="card__content">',
-		'title' => '<a class="card__title_link" href="' . esc_url( get_permalink( $post ) ) . '"><h3 class="card__title">' . esc_html( $post->post_title ) . '</h3></a>',
+		'title' => '<a class="card__title_link" href="' . esc_url(get_permalink($post)) . '"><h3 class="card__title">' . esc_html($post->post_title) . '</h3></a>',
 		'excerpt' => $excerpt,
 		'date' => $date,
-		'more' => '<div class="card__more">' . Svg::icon( 'arrows-operators', 'arrow-right' ) . '</div>',
+		'more' => '<div class="card__more">' . Svg::icon('arrows-operators', 'arrow-right') . '</div>',
 		'content_close' => '</div>',
 	);
 
@@ -125,34 +138,36 @@ function hds_wp_content_card_html( WP_Post $post, $attributes) {
 		'<article class="content-cards__card card">
 			<div class="card__link">%s</div>
 		</article>',
-		implode( '', $parts )
+		implode('', $parts)
 	);
 }
 
-function hds_wp_query_block_post_ids( array $posts ) {
-	$query = new WP_Query( array(
+function hds_wp_query_block_post_ids(array $posts)
+{
+	$query = new WP_Query(array(
 		'post_status' => 'publish',
-		'post_type' => array( 'post', 'page' ),
+		'post_type' => array('post', 'page'),
 		'post__in' => $posts,
 		'no_found_rows' => true,
 		'update_post_term_cache' => false,
 		'ignore_sticky_posts' => 1,
 		'orderby' => 'post__in',
 		'posts_per_page' => -1,
-	) );
+	));
 	return $query->posts;
 }
 
-function hds_wp_query_block_post_id( int $post ) {
-	$query = new WP_Query( array(
+function hds_wp_query_block_post_id(int $post)
+{
+	$query = new WP_Query(array(
 		'post_status' => 'publish',
-		'post_type' => array( 'post', 'page' ),
+		'post_type' => array('post', 'page'),
 		'p' => $post,
 		'no_found_rows' => true,
 		'update_post_term_cache' => false,
 		'ignore_sticky_posts' => 1,
 		'orderby' => 'post__in'
-	) );
+	));
 	return $query;
 }
 
@@ -160,123 +175,125 @@ function hds_wp_query_block_post_id( int $post ) {
  * Helsinki - Accordion
  */
 
-	function hds_wp_render_block_accordion($attributes, $content) {
-		//var_dump($attributes); 
-		if (!isset($attributes['blockVersion']) || $attributes['blockVersion'] <= 1) {
-			return $content;
-		}
-		$title = '';
-		if ( ! empty( $attributes['title'] ) ) {
-			$title = sprintf(
-				'<h2 class="accordion_heading">%s</h2>',
-				esc_html( $attributes['title'] )
-			);
-		}
-		
-		$description = '';
-		if ( ! empty( $attributes['description'] ) ) {
-			$description = sprintf(
-				'<div class="accordion-description">%s</div>',
-				wpautop($attributes['description'] , false)
-			);
-		}
+function hds_wp_render_block_accordion($attributes, $content)
+{
+	//var_dump($attributes); 
+	if (!isset($attributes['blockVersion']) || $attributes['blockVersion'] <= 1) {
+		return $content;
+	}
+	$title = '';
+	if (!empty($attributes['title'])) {
+		$title = sprintf(
+			'<h2 class="accordion_heading">%s</h2>',
+			esc_html($attributes['title'])
+		);
+	}
 
-		$id = '';
-		if (!empty($attributes['anchor'])) {
-			$id = 'id="'.esc_attr($attributes['anchor']).'"';
-		}	
+	$description = '';
+	if (!empty($attributes['description'])) {
+		$description = sprintf(
+			'<div class="accordion-description">%s</div>',
+			wpautop($attributes['description'], false)
+		);
+	}
 
-		$wrapClasses = array( 'wp-block-hds-wp-accordion', 'accordion-wrapper' );
-		if (!empty($attributes['className'])) {
-			$wrapClasses[] = esc_attr($attributes['className']);
-		}
-	
-		$panels = array();
-		if ( !empty( $attributes['panels'] ) || is_array( $attributes['panels'] )) {
-			$panels = array_map(
-				'hds_wp_render_block_accordion_panel',
-				$attributes['panels']
-			);
-		}
+	$id = '';
+	if (!empty($attributes['anchor'])) {
+		$id = 'id="' . esc_attr($attributes['anchor']) . '"';
+	}
 
-		return sprintf(
-			'<div %s class="%s">
+	$wrapClasses = array('wp-block-hds-wp-accordion', 'accordion-wrapper');
+	if (!empty($attributes['className'])) {
+		$wrapClasses[] = esc_attr($attributes['className']);
+	}
+
+	$panels = array();
+	if (!empty($attributes['panels']) || is_array($attributes['panels'])) {
+		$panels = array_map(
+			'hds_wp_render_block_accordion_panel',
+			$attributes['panels']
+		);
+	}
+
+	return sprintf(
+		'<div %s class="%s">
 					%s
 					%s
 					<div class="accordion">%s</div>
 			</div>',
-			$id,
-			implode( ' ', $wrapClasses ),
-			$title,
-			$description,
-			implode(' ' , $panels )
-		);
-	
-	}
+		$id,
+		implode(' ', $wrapClasses),
+		$title,
+		$description,
+		implode(' ', $panels)
+	);
+}
 
-	function hds_wp_render_block_accordion_panel($attributes) {
-		$title = sprintf(
-			'<%1$s class="accordion__title">
+function hds_wp_render_block_accordion_panel($attributes)
+{
+	$title = sprintf(
+		'<%1$s class="accordion__title">
 				<button id="panel-toggle-%2$s" class="accordion__toggle" type="button" aria-controls="panel-%2$s" aria-expanded="false">
 					%3$s
 					<span class="accordion__icon">%4$s</span>
 				</button>
 			</%1$s>',
-			isset($attributes['headingLevel']) ? $attributes['headingLevel'] : 'h2',
-			$attributes['blockId'],
-			isset($attributes['panelTitle']) ? esc_html( $attributes['panelTitle'] ) : '',
-			Svg::icon( 'arrows-operators', 'angle-up' )
-		);
+		isset($attributes['headingLevel']) ? $attributes['headingLevel'] : 'h2',
+		$attributes['blockId'],
+		isset($attributes['panelTitle']) ? esc_html($attributes['panelTitle']) : '',
+		Svg::icon('arrows-operators', 'angle-up')
+	);
 
-		$panel = sprintf(
-			'<div id="panel-%1$s" class="accordion__panel" aria-labelledby="panel-toggle-%1$s" role="region" hidden="true">
+	$panel = sprintf(
+		'<div id="panel-%1$s" class="accordion__panel" aria-labelledby="panel-toggle-%1$s" role="region" hidden="true">
 				<div class="accordion__content">%2$s</div>
 				<button class="accordion__close hds-button hds-button--supplementary" type="button">
 					<span>%3$s</span>
 					%4$s
 				</button>
 			</div>',
-			$attributes['blockId'],
-			apply_filters('the_content', isset($attributes['innerContent']) ? $attributes['innerContent'] : ''),
-			__('Close', 'hds-wp'),
-			Svg::icon( 'arrows-operators', 'angle-up' )
-		);
+		$attributes['blockId'],
+		apply_filters('the_content', isset($attributes['innerContent']) ? $attributes['innerContent'] : ''),
+		__('Close', 'hds-wp'),
+		Svg::icon('arrows-operators', 'angle-up')
+	);
 
-		$id = '';
-		if (!empty($attributes['anchor'])) {
-			$id = 'id="'.esc_attr($attributes['anchor']).'"';
-		}	
+	$id = '';
+	if (!empty($attributes['anchor'])) {
+		$id = 'id="' . esc_attr($attributes['anchor']) . '"';
+	}
 
-		$wrapClasses = array( 'wp-block-hds-wp-accordion-panel', 'accordion__section' );
-		if (!empty($attributes['className'])) {
-			$wrapClasses[] = esc_attr($attributes['className']);
-		}
+	$wrapClasses = array('wp-block-hds-wp-accordion-panel', 'accordion__section');
+	if (!empty($attributes['className'])) {
+		$wrapClasses[] = esc_attr($attributes['className']);
+	}
 
-		return sprintf(
-			'<div %s class="%s">
+	return sprintf(
+		'<div %s class="%s">
 				%s
 				%s
 			</div>',
-			$id,
-			implode( ' ', $wrapClasses ),
-			$title,
-			$panel
-		);
-	}
+		$id,
+		implode(' ', $wrapClasses),
+		$title,
+		$panel
+	);
+}
 
 /**
-  * Helsinki - Links
-  */
-function hds_wp_render_block_links_list( $attributes ) {
+ * Helsinki - Links
+ */
+function hds_wp_render_block_links_list($attributes)
+{
 	if (
-		empty( $attributes['links'] ) ||
-		! is_array( $attributes['links'] )
+		empty($attributes['links']) ||
+		!is_array($attributes['links'])
 	) {
 		return;
 	}
 
-	$linkType = ! empty( $attributes['linkType'] ) ? $attributes['linkType'] : 'title';
-	switch ( $linkType ) {
+	$linkType = !empty($attributes['linkType']) ? $attributes['linkType'] : 'title';
+	switch ($linkType) {
 		case 'title-excerpt':
 			$links = array_map(
 				'hds_wp_render_link_with_title_excerpt',
@@ -299,46 +316,45 @@ function hds_wp_render_block_links_list( $attributes ) {
 			break;
 	}
 
-	$links = array_filter( $links );
-	if ( ! $links ) {
+	$links = array_filter($links);
+	if (!$links) {
 		return;
 	}
 
 	$id = '';
 	if (!empty($attributes['anchor'])) {
-		$id = 'id="'.esc_attr($attributes['anchor']).'"';
+		$id = 'id="' . esc_attr($attributes['anchor']) . '"';
 	}
 
-	$wrapClasses = array( 'links-list' );
+	$wrapClasses = array('links-list');
 	$koros = '';
-	if ( ! empty( $attributes['hasBackground'] ) ) {
+	if (!empty($attributes['hasBackground'])) {
 		$wrapClasses[] = 'has-background';
 		$koros = sprintf(
 			'<div class="links-list__koros">%s</div>',
 			Svg::koros(
-				apply_filters( 'hds_wp_links_list_koros', 'basic' ),
-				md5( time() . implode( '', $links ) )
+				apply_filters('hds_wp_links_list_koros', 'basic'),
+				md5(time() . implode('', $links))
 			)
 		);
-
 	}
 	if (!empty($attributes['className'])) {
 		$wrapClasses[] = esc_attr($attributes['className']);
 	}
 
 	$title = '';
-	if ( ! empty( $attributes['title'] ) ) {
+	if (!empty($attributes['title'])) {
 		$title = sprintf(
 			'<h2 class="links-list__title"><span>%s</span></h2>',
-			esc_html( $attributes['title'] )
+			esc_html($attributes['title'])
 		);
 	}
 
 	$description = '';
-	if ( ! empty( $attributes['contentText'] ) ) {
+	if (!empty($attributes['contentText'])) {
 		$description = sprintf(
 			'<p class="links-list__description">%s</p>',
-			esc_html( $attributes['contentText'] )
+			esc_html($attributes['contentText'])
 		);
 	}
 
@@ -357,21 +373,22 @@ function hds_wp_render_block_links_list( $attributes ) {
 			</div>
 		</div>',
 		$id,
-		implode( ' ', $wrapClasses ),
+		implode(' ', $wrapClasses),
 		$koros,
 		$title,
 		$description,
-		implode( ' ', $gridClasses ),
-		implode( '', $links )
+		implode(' ', $gridClasses),
+		implode('', $links)
 	);
 }
 
-function hds_wp_links_list_link_posts( array $links ) {
+function hds_wp_links_list_link_posts(array $links)
+{
 	$post_links = array();
 	$post_ids = array();
 
-	foreach ( $links as $link ) {
-		if ( empty( $link['postId'] ) ) {
+	foreach ($links as $link) {
+		if (empty($link['postId'])) {
 			continue;
 		}
 		$link['linkUrl'] = '';
@@ -379,12 +396,12 @@ function hds_wp_links_list_link_posts( array $links ) {
 		$post_ids[] = $link['postId'];
 	}
 
-	$posts = hds_wp_query_block_post_ids( $post_ids );
-	if ( $posts ) {
-		foreach ( $posts as $post ) {
+	$posts = hds_wp_query_block_post_ids($post_ids);
+	if ($posts) {
+		foreach ($posts as $post) {
 			$post_links[$post->ID]['linkTitle'] = $post->post_title;
-			$post_links[$post->ID]['linkUrl'] = get_permalink( $post );
-			$post_links[$post->ID]['thumbnail'] = get_the_post_thumbnail( $post, 'medium' );
+			$post_links[$post->ID]['linkUrl'] = get_permalink($post);
+			$post_links[$post->ID]['thumbnail'] = get_the_post_thumbnail($post, 'medium');
 		}
 
 		return array_map(
@@ -396,43 +413,46 @@ function hds_wp_links_list_link_posts( array $links ) {
 	return array();
 }
 
-function hds_wp_render_links_list_item( string $link ) {
+function hds_wp_render_links_list_item(string $link)
+{
 	return '<li class="links-list__item">' . $link . '</li>';
 }
 
-function hds_link_is_external( string $url ) {
+function hds_link_is_external(string $url)
+{
 	$home_url = get_option('home'); // get the site url from options, because plugins can change it from get_home_url()
-    $home_url = preg_replace('/^https?:\/\//', '', $home_url);
+	$home_url = preg_replace('/^https?:\/\//', '', $home_url);
 
-	if (!str_contains(preg_replace('/^https?:\/\//', '', $url), $home_url) && !str_starts_with( $url, '#' ) && !str_starts_with( $url, '/' )) {
+	if (!str_contains(preg_replace('/^https?:\/\//', '', $url), $home_url) && !str_starts_with($url, '#') && !str_starts_with($url, '/')) {
 		return true;
 	}
 	return false;
 }
 
-function hds_wp_render_link_icon( bool $external ) {
-	if ( $external ) {
-		return Svg::icon( 'forms-data', 'link-external' );
+function hds_wp_render_link_icon(bool $external)
+{
+	if ($external) {
+		return Svg::icon('forms-data', 'link-external');
 	} else {
-		return Svg::icon( 'arrows-operators', 'arrow-right' );
+		return Svg::icon('arrows-operators', 'arrow-right');
 	}
 }
 
-function hds_wp_render_link_with_title( array $link ) {
+function hds_wp_render_link_with_title(array $link)
+{
 	if (isset($link['postId']) && $link['postId'] != 0 && isset($link['linkDir']) && $link['linkDir'] == 'internal') {
-		$posts = hds_wp_query_block_post_id( $link['postId'] );
+		$posts = hds_wp_query_block_post_id($link['postId']);
 		if ($posts->have_posts()) {
 			$post = $posts->posts[0];
 			$link['linkTitle'] = $post->post_title;
-			$link['linkUrl'] = get_permalink( $post );
+			$link['linkUrl'] = get_permalink($post);
 			$link['targetBlank'] = false;
-		}
-		else {
+		} else {
 			return;
 		}
 	}
 
-	if ( empty( $link['linkTitle'] ) || empty( $link['linkUrl'] ) ) {
+	if (empty($link['linkTitle']) || empty($link['linkUrl'])) {
 		return;
 	}
 
@@ -441,35 +461,35 @@ function hds_wp_render_link_with_title( array $link ) {
 			'<div class="link">
 				<a %s><span>%s</span>%s</a>
 			</div>',
-			hds_links_list_link_attributes( $link ),
-			esc_html( $link['linkTitle'] ),
-			!hds_link_is_external( $link['linkUrl'] ) ? hds_wp_render_link_icon( false ) : '',
+			hds_links_list_link_attributes($link),
+			esc_html($link['linkTitle']),
+			!hds_link_is_external($link['linkUrl']) ? hds_wp_render_link_icon(false) : '',
 		)
 	);
 }
 
-function hds_wp_render_link_with_title_excerpt( array $link ) {
+function hds_wp_render_link_with_title_excerpt(array $link)
+{
 	if (isset($link['postId']) && $link['postId'] != 0 && isset($link['linkDir']) && $link['linkDir'] == 'internal') {
-		$posts = hds_wp_query_block_post_id( $link['postId'] );
+		$posts = hds_wp_query_block_post_id($link['postId']);
 		if ($posts->have_posts()) {
 			$post = $posts->posts[0];
 			$link['linkTitle'] = $post->post_title;
 			$link['linkExcerpt'] = $post->post_excerpt;
-			$link['linkUrl'] = get_permalink( $post );
+			$link['linkUrl'] = get_permalink($post);
 			$link['targetBlank'] = false;
-		}
-		else {
+		} else {
 			return;
 		}
 	}
 
-	if ( empty( $link['linkTitle'] ) || empty( $link['linkUrl'] ) ) {
+	if (empty($link['linkTitle']) || empty($link['linkUrl'])) {
 		return;
 	}
 
-	$excerpt = ! empty( $link['linkExcerpt'] ) ? sprintf(
+	$excerpt = !empty($link['linkExcerpt']) ? sprintf(
 		'<p class="link__excerpt">%s</p>',
-		esc_html( $link['linkExcerpt'] )
+		esc_html($link['linkExcerpt'])
 	) : '';
 
 	return hds_wp_render_links_list_item(
@@ -478,35 +498,35 @@ function hds_wp_render_link_with_title_excerpt( array $link ) {
 				<a %s><span>%s</span>%s</a>
 				%s
 			</div>',
-			hds_links_list_link_attributes( $link ),
-			esc_html( $link['linkTitle'] ),
-			!hds_link_is_external( $link['linkUrl'] ) ? hds_wp_render_link_icon( false ) : '',
+			hds_links_list_link_attributes($link),
+			esc_html($link['linkTitle']),
+			!hds_link_is_external($link['linkUrl']) ? hds_wp_render_link_icon(false) : '',
 			$excerpt
 		)
 	);
 }
 
-function hds_wp_render_link_with_image_title( array $link ) {
+function hds_wp_render_link_with_image_title(array $link)
+{
 	if (isset($link['postId']) && $link['postId'] != 0 && isset($link['linkDir']) && $link['linkDir'] == 'internal') {
-		$posts = hds_wp_query_block_post_id( $link['postId'] );
+		$posts = hds_wp_query_block_post_id($link['postId']);
 		if ($posts->have_posts()) {
 			$post = $posts->posts[0];
 			$link['linkTitle'] = $post->post_title;
 			$link['linkExcerpt'] = $post->post_excerpt;
 			$link['mediaId'] = get_post_thumbnail_id($post);
-			$link['linkUrl'] = get_permalink( $post );
+			$link['linkUrl'] = get_permalink($post);
 			$link['targetBlank'] = false;
-		}
-		else {
+		} else {
 			return;
 		}
 	}
 
-	if ( empty( $link['linkTitle'] ) || empty( $link['linkUrl'] ) ) {
+	if (empty($link['linkTitle']) || empty($link['linkUrl'])) {
 		return;
 	}
 
-	$has_placeholder = empty( $link['mediaId'] );
+	$has_placeholder = empty($link['mediaId']);
 	return hds_wp_render_links_list_item(
 		sprintf(
 			'<div class="link">
@@ -514,41 +534,43 @@ function hds_wp_render_link_with_image_title( array $link ) {
 				<a %s><span>%s</span>%s</a>
 			</div>',
 			$has_placeholder ? ' has-placeholder' : '',
-			$link['mediaId'] ? wp_get_attachment_image($link['mediaId'], 'medium_large', false, array( 'alt' => '' ) ) : Svg::placeholder(
+			$link['mediaId'] ? wp_get_attachment_image($link['mediaId'], 'medium_large', false, array('alt' => '')) : Svg::placeholder(
 				apply_filters(
 					'hds_wp_links_list_item_placeholder_icon',
 					'abstract-3'
 				)
 			),
-			hds_links_list_link_attributes( $link ),
-			esc_html( $link['linkTitle'] ),
-			!hds_link_is_external( $link['linkUrl'] ) ? hds_wp_render_link_icon( false ) : '',
+			hds_links_list_link_attributes($link),
+			esc_html($link['linkTitle']),
+			!hds_link_is_external($link['linkUrl']) ? hds_wp_render_link_icon(false) : '',
 		)
 	);
 }
 
-function hds_links_list_link_attributes( array $link ) {
+function hds_links_list_link_attributes(array $link)
+{
 	$attributes = array(
-		'href="' . esc_url( $link['linkUrl'] ) . '"'
+		'href="' . esc_url($link['linkUrl']) . '"'
 	);
 
 	$attributes[] = 'class="link__title_link"';
 
-	if ( ! empty( $link['targetBlank'] ) ) {
+	if (!empty($link['targetBlank'])) {
 		$attributes[] = 'target="_blank"';
 	}
 
-	return implode( ' ', $attributes );
+	return implode(' ', $attributes);
 }
 
 /**
  * Banner
  */
 
-function hds_wp_render_banner($attributes) {
+function hds_wp_render_banner($attributes)
+{
 	$icon = '';
 
-	if (! empty($attributes['contentIcon']) && $attributes['contentIcon'] !== '(empty)') {
+	if (!empty($attributes['contentIcon']) && $attributes['contentIcon'] !== '(empty)') {
 		$icon = sprintf(
 			'<div class="content__inner content__inner--icon">%s</div>',
 			Svg::icon(
@@ -569,7 +591,7 @@ function hds_wp_render_banner($attributes) {
 	);
 
 	$button = '';
-	if ( ! empty( $attributes['buttonUrl'] ) && ! empty( $attributes['buttonText'] ) ) {
+	if (!empty($attributes['buttonUrl']) && !empty($attributes['buttonText'])) {
 		$button = sprintf(
 			'<div class="content__inner content__inner--button">
 				<a class="content__link hds-button" href="%s" %s rel="noopener">
@@ -583,7 +605,7 @@ function hds_wp_render_banner($attributes) {
 	}
 
 
-	$wrapClasses = array( 'wp-block-hds-wp-banner' );
+	$wrapClasses = array('wp-block-hds-wp-banner');
 
 	if (!empty($attributes['className'])) {
 		$wrapClasses[] = esc_attr($attributes['className']);
@@ -592,7 +614,7 @@ function hds_wp_render_banner($attributes) {
 			$icon = '';
 		}
 	}
-	
+
 	if (empty($icon)) {
 		$wrapClasses[] = 'no-icon';
 	}
@@ -604,7 +626,7 @@ function hds_wp_render_banner($attributes) {
 
 	$id = '';
 	if (!empty($attributes['anchor'])) {
-		$id = 'id="'.esc_attr($attributes['anchor']).'"';
+		$id = 'id="' . esc_attr($attributes['anchor']) . '"';
 	}
 
 	return sprintf(
@@ -618,21 +640,21 @@ function hds_wp_render_banner($attributes) {
 			</div>
 		</div>',
 		$id,
-		implode( ' ', $wrapClasses ),
+		implode(' ', $wrapClasses),
 		$icon,
 		$text,
 		$button
 	);
-
 }
 
 /**
  * Image & Text
  */
 
-function hds_wp_render_image_text($attributes) {
+function hds_wp_render_image_text($attributes)
+{
 
-	$wrapClasses = array( 'wp-block-hds-wp-image-text' );
+	$wrapClasses = array('wp-block-hds-wp-image-text');
 
 	if ($attributes['alignment'] === 'right') {
 		$wrapClasses[] = 'align-right';
@@ -641,7 +663,7 @@ function hds_wp_render_image_text($attributes) {
 	}
 
 	if (function_exists('helsinki_scheme_has_invert_color')) {
-		if(	helsinki_scheme_has_invert_color()	) {
+		if (helsinki_scheme_has_invert_color()) {
 			$wrapClasses[] = 'has-invert-color';
 		}
 	}
@@ -653,7 +675,7 @@ function hds_wp_render_image_text($attributes) {
 
 	$id = '';
 	if (!empty($attributes['anchor'])) {
-		$id = 'id="'.esc_attr($attributes['anchor']).'"';
+		$id = 'id="' . esc_attr($attributes['anchor']) . '"';
 	}
 
 	$imageConfig = array(
@@ -694,8 +716,7 @@ function hds_wp_render_image_text($attributes) {
 			$credit ? $credit : ''
 		);
 		$wrapClasses[] = 'has-image';
-	}
-	else {
+	} else {
 		$image = '<div class="image"><div class="placeholder"></div></div>';
 		$wrapClasses[] = 'has-placeholder';
 	}
@@ -724,16 +745,16 @@ function hds_wp_render_image_text($attributes) {
 			%s
 		</div>',
 		$id,
-		implode( ' ', $wrapClasses ),
+		implode(' ', $wrapClasses),
 		$image_caption_mobile,
 		$image,
 		$content,
 		$image_caption
 	);
-
 }
 
-function hds_wp_render_credit_text( $postId ) {
+function hds_wp_render_credit_text($postId)
+{
 	if (function_exists('helsinki_base_image_credit')) {
 		return helsinki_base_image_credit($postId);
 	}
@@ -744,9 +765,10 @@ function hds_wp_render_credit_text( $postId ) {
  * Image & Banner
  */
 
- function hds_wp_render_image_banner($attributes) {
+function hds_wp_render_image_banner($attributes)
+{
 
-	$wrapClasses = array( 'wp-block-hds-wp-image-banner' );
+	$wrapClasses = array('wp-block-hds-wp-image-banner');
 
 	if ($attributes['alignment'] === 'right') {
 		$wrapClasses[] = 'align-right';
@@ -760,7 +782,7 @@ function hds_wp_render_credit_text( $postId ) {
 
 	$id = '';
 	if (!empty($attributes['anchor'])) {
-		$id = 'id="'.esc_attr($attributes['anchor']).'"';
+		$id = 'id="' . esc_attr($attributes['anchor']) . '"';
 	}
 
 	$imageConfig = array(
@@ -785,7 +807,6 @@ function hds_wp_render_credit_text( $postId ) {
 				'<div class="wp-caption-text image-banner-caption image-banner-caption--mobile" aria-hidden="true">%s</div>',
 				hds_wp_render_credit_text($attributes['mediaId'])
 			);
-
 		}
 	}
 
@@ -800,8 +821,7 @@ function hds_wp_render_credit_text( $postId ) {
 			$credit ? $credit : ''
 		);
 		$wrapClasses[] = 'has-image';
-	}
-	else {
+	} else {
 		$image = '<div class="image"><div class="placeholder"></div></div>';
 		$wrapClasses[] = 'has-placeholder';
 	}
@@ -832,20 +852,20 @@ function hds_wp_render_credit_text( $postId ) {
 			%s
 		</div>',
 		$id,
-		implode( ' ', $wrapClasses ),
+		implode(' ', $wrapClasses),
 		$image_caption_mobile,
 		$image,
 		$content,
 		$image_caption
 	);
-
 }
 
 /**
  * Timeline
  */
 
- function hds_wp_render_timeline($attributes, $content) { 
+function hds_wp_render_timeline($attributes, $content)
+{
 	if (!isset($attributes['blockVersion']) || $attributes['blockVersion'] <= 1) {
 		return $content;
 	}
@@ -866,18 +886,18 @@ function hds_wp_render_credit_text( $postId ) {
 		);
 	}
 
-	$wrapClasses = array( 'wp-block-hds-wp-timeline' );
+	$wrapClasses = array('wp-block-hds-wp-timeline');
 	if (!empty($attributes['className'])) {
 		$wrapClasses[] = esc_attr($attributes['className']);
 	}
 
 	$id = '';
 	if (!empty($attributes['anchor'])) {
-		$id = 'id="'.esc_attr($attributes['anchor']).'"';
+		$id = 'id="' . esc_attr($attributes['anchor']) . '"';
 	}
 
 	$cards = array();
-	if (!empty($attributes['cards']) || is_array( $attributes['cards'] )) {
+	if (!empty($attributes['cards']) || is_array($attributes['cards'])) {
 		$cards = array_map(
 			'hds_wp_render_timeline_card',
 			$attributes['cards']
@@ -892,8 +912,7 @@ function hds_wp_render_credit_text( $postId ) {
 			</ul>',
 			do_blocks(implode(' ', $cards))
 		);
-	}
-	else if ($attributes['style'] == 'numbered') {
+	} else if ($attributes['style'] == 'numbered') {
 		$timeline = sprintf(
 			'<ol class="timeline">
 				%s
@@ -910,19 +929,20 @@ function hds_wp_render_credit_text( $postId ) {
 			%s
 		</div>',
 		$id,
-		implode( ' ', $wrapClasses ),
+		implode(' ', $wrapClasses),
 		$title,
 		$description,
 		$timeline
 	);
- }
+}
 
 
 /**
  * Timeline Card
  */
 
-function hds_wp_render_timeline_card($attributes, $content = null) {
+function hds_wp_render_timeline_card($attributes, $content = null)
+{
 	$step = '';
 
 	$step = sprintf(
@@ -941,15 +961,15 @@ function hds_wp_render_timeline_card($attributes, $content = null) {
 		$content ? $content : $attributes['innerContent']
 	);
 
-	$wrapClasses = array( 'wp-block-hds-wp-timeline-card' );
-	
+	$wrapClasses = array('wp-block-hds-wp-timeline-card');
+
 	if (!empty($attributes['className'])) {
 		$wrapClasses[] = esc_attr($attributes['className']);
 	}
 
 	$id = '';
 	if (!empty($attributes['anchor'])) {
-		$id = 'id="'.esc_attr($attributes['anchor']).'"';
+		$id = 'id="' . esc_attr($attributes['anchor']) . '"';
 	}
 
 	return sprintf(
@@ -962,11 +982,10 @@ function hds_wp_render_timeline_card($attributes, $content = null) {
 			</div>
 		</li>',
 		$id,
-		implode( ' ', $wrapClasses ),
+		implode(' ', $wrapClasses),
 		$step,
 		$text,
 	);
-
 }
 
 
@@ -974,25 +993,26 @@ function hds_wp_render_timeline_card($attributes, $content = null) {
  * Recent Posts
  */
 
-function hds_wp_render_recent_posts( $attributes ) {
+function hds_wp_render_recent_posts($attributes)
+{
 	//migrate old options
 	$count = $attributes['articles'];
-	if ( $count === 3 ) {
+	if ($count === 3) {
 		$attributes['articles'] = 4;
-	}
-	else if ( $count === 6 ) {
+	} else if ($count === 6) {
 		$attributes['articles'] = 8;
 	}
 
-	if ( isset($attributes['isEditRender'] ) && $attributes['isEditRender'] ) {
-		return hds_wp_render_recent_posts_articles( $attributes );
+	if (isset($attributes['isEditRender']) && $attributes['isEditRender']) {
+		return hds_wp_render_recent_posts_articles($attributes);
 	}
 
-	$content = sprintf('
+	$content = sprintf(
+		'
 		<div id="%s" class="recent-posts %s">
 			
 			<div class="hds-container">
-				<h2 class="container__heading">%s</h2>
+				<h2>%s</h2>
 				%s
 				%s
 			</div>
@@ -1002,8 +1022,8 @@ function hds_wp_render_recent_posts( $attributes ) {
 		isset($attributes['anchor']) ? $attributes['anchor'] : '',
 		isset($attributes['className']) ? $attributes['className'] : '',
 		$attributes['title'],
-		hds_wp_recent_posts_grid( hds_wp_recent_posts_data( $attributes ) ),
-		hds_wp_recent_posts_more( hds_wp_recent_posts_data( $attributes ) )
+		hds_wp_recent_posts_grid(hds_wp_recent_posts_data($attributes)),
+		hds_wp_recent_posts_more(hds_wp_recent_posts_data($attributes))
 	);
 
 	return $content;
@@ -1011,21 +1031,23 @@ function hds_wp_render_recent_posts( $attributes ) {
 
 
 //only render articles section; use in editor
-function hds_wp_render_recent_posts_articles( $attributes ) {
+function hds_wp_render_recent_posts_articles($attributes)
+{
 
-	$content = sprintf('
+	$content = sprintf(
+		'
 		%s
 		%s
 		',
-		hds_wp_recent_posts_grid( hds_wp_recent_posts_data( $attributes ) ),
-		hds_wp_recent_posts_more( hds_wp_recent_posts_data( $attributes ) )
+		hds_wp_recent_posts_grid(hds_wp_recent_posts_data($attributes)),
+		hds_wp_recent_posts_more(hds_wp_recent_posts_data($attributes))
 	);
 
 	return $content;
-
 }
 
-function hds_wp_recent_posts_data( $attributes ) {
+function hds_wp_recent_posts_data($attributes)
+{
 	return array(
 		'query' => hds_wp_recent_posts_query(array(
 			'cat' => $attributes != null ? $attributes['category'] : 0,
@@ -1036,38 +1058,39 @@ function hds_wp_recent_posts_data( $attributes ) {
 	);
 }
 
-function hds_wp_recent_posts_query( array $args ) {
+function hds_wp_recent_posts_query(array $args)
+{
 	return new WP_Query(
-		  apply_filters(
-			  'hds_wp_recent_posts_query_args',
-			  wp_parse_args(
-				  $args,
-				  array(
-					  'post_type' => 'post',
-					  'post_status' => 'publish',
-					  'posts_per_page' => 3,
-					  'cat' => 0,
-				  )
-			  ),
-			  $args
-		  )
-	  );
-  }
-  
-  
-function hds_wp_recent_posts_grid($args = array()) {
+		apply_filters(
+			'hds_wp_recent_posts_query_args',
+			wp_parse_args(
+				$args,
+				array(
+					'post_type' => 'post',
+					'post_status' => 'publish',
+					'posts_per_page' => 3,
+					'cat' => 0,
+				)
+			),
+			$args
+		)
+	);
+}
+
+
+function hds_wp_recent_posts_grid($args = array())
+{
 	$content = '';
 	if (function_exists('helsinki_grid_entry')) {
 		ob_start();
-		while ( $args['query']->have_posts() ) {
+		while ($args['query']->have_posts()) {
 			$args['query']->the_post();
 			helsinki_grid_entry($args);
 		}
 		$content = ob_get_clean();
 		wp_reset_postdata();
-	}
-	else {
-		while ( $args['query']->have_posts() ) {
+	} else {
+		while ($args['query']->have_posts()) {
 			$args['query']->the_post();
 			$content .= hds_wp_recent_posts_grid_entry($args);
 		}
@@ -1083,7 +1106,8 @@ function hds_wp_recent_posts_grid($args = array()) {
 	);
 }
 
-function hds_wp_recent_posts_grid_entry($args = array()) {
+function hds_wp_recent_posts_grid_entry($args = array())
+{
 
 	$classes = array(
 		'entry--grid',
@@ -1092,20 +1116,21 @@ function hds_wp_recent_posts_grid_entry($args = array()) {
 	);
 
 	$image = '';
-	if ( has_post_thumbnail() ) {
-		$image = sprintf('
+	if (has_post_thumbnail()) {
+		$image = sprintf(
+			'
 			<div class="entry__thumbnail">
 				<div class="image-wrap image-wrap--fixed-size">
 					%s
 				</div>
 			</div>,
 			',
-			get_the_post_thumbnail( null, 'post-thumbnail' )
+			get_the_post_thumbnail(null, 'post-thumbnail')
 		);
 		$classes[] = 'has-thumbnail';
-	}
-	else {
-		$image = sprintf('
+	} else {
+		$image = sprintf(
+			'
 			<div class="entry__thumbnail has-icon %s">
 				<div class="image-wrap image-wrap--fixed-size">
 					%s
@@ -1122,7 +1147,8 @@ function hds_wp_recent_posts_grid_entry($args = array()) {
 		);
 	}
 
-	return sprintf('
+	return sprintf(
+		'
 		<div class="grid__column">
 			<article id="post-%s" class="%s">
 				<div>
@@ -1141,19 +1167,20 @@ function hds_wp_recent_posts_grid_entry($args = array()) {
 			</article>
 		</div>',
 		get_the_ID(),
-		implode( ' ', $classes ),
+		implode(' ', $classes),
 		$image,
 		get_permalink(),
 		get_the_title(),
-		esc_attr( get_the_date( 'c' ) ),
-		esc_html__( 'Published:', 'hds-wp' ),
-		esc_html( get_the_date() ),
-		Svg::icon( 'arrows-operators', 'arrow-right' )
+		esc_attr(get_the_date('c')),
+		esc_html__('Published:', 'hds-wp'),
+		esc_html(get_the_date()),
+		Svg::icon('arrows-operators', 'arrow-right')
 	);
 }
-  
-  function hds_wp_recent_posts_more($args = array()) {
-	if ( isset($args['page_for_posts']) && !empty($args['page_for_posts']) ) {
+
+function hds_wp_recent_posts_more($args = array())
+{
+	if (isset($args['page_for_posts']) && !empty($args['page_for_posts'])) {
 		$link = '';
 		if ($args['attributes']['category'] != 0) {
 			$link = get_category_link($args['attributes']['category']);
@@ -1161,7 +1188,8 @@ function hds_wp_recent_posts_grid_entry($args = array()) {
 			$link = get_permalink($args['page_for_posts']);
 		}
 
-		return sprintf('
+		return sprintf(
+			'
 			<p class="posts-page">
 				<span class="link-wrap">
 					<a class="has-icon has-icon--after hds-button" href="%s">
@@ -1172,28 +1200,30 @@ function hds_wp_recent_posts_grid_entry($args = array()) {
 			</p>',
 			$link,
 			esc_html__('See all articles', 'hds-wp'),
-			Svg::icon( 'arrows-operators', 'arrow-right' )
+			Svg::icon('arrows-operators', 'arrow-right')
 		);
 	}
 	return '';
-  }
-  
+}
+
 
 /**
  * RSS Feed
  */
 
-function hds_wp_render_rss_feed( $attributes ) {
+function hds_wp_render_rss_feed($attributes)
+{
 
-	if ( function_exists( 'helsinki_front_page_section' ) ) {
-		add_filter( 'wp_feed_cache_transient_lifetime', function( $lifetime, $url ) use ( $attributes ) {
+	if (function_exists('helsinki_front_page_section')) {
+		add_filter('wp_feed_cache_transient_lifetime', function ($lifetime, $url) use ($attributes) {
 			return hds_wp_rss_feed_lifetime(1, $url, $attributes);
-		}, 10, 2 );
-		$content = sprintf('
+		}, 10, 2);
+		$content = sprintf(
+			'
 			<div id="%s" class="feed-posts %s">
 				
 				<div class="hds-container">
-					<h2 class="container__heading">%s</h2>
+					<h2>%s</h2>
 					%s
 					%s
 				</div>
@@ -1203,82 +1233,91 @@ function hds_wp_render_rss_feed( $attributes ) {
 			isset($attributes['anchor']) ? $attributes['anchor'] : '',
 			isset($attributes['className']) ? $attributes['className'] : '',
 			$attributes['title'],
-			hds_wp_feed_posts_source_text( $attributes ),
-			hds_wp_feed_posts( hds_wp_feed_posts_data( $attributes ) )
+			hds_wp_feed_posts_source_text($attributes),
+			hds_wp_feed_posts(hds_wp_feed_posts_data($attributes))
 		);
-		remove_filter( 'wp_feed_cache_transient_lifetime', function(){}, 10);
+		remove_filter('wp_feed_cache_transient_lifetime', function () {
+		}, 10);
 		return $content;
 	}
 	return;
-
 }
 
-function hds_wp_rss_feed_lifetime($lifetime, $url, $attributes) {
+function hds_wp_rss_feed_lifetime($lifetime, $url, $attributes)
+{
 	return $attributes['lifespan'] > 0 ? HOUR_IN_SECONDS * $attributes['lifespan'] : HOUR_IN_SECONDS * 12;
 }
 
-function hds_wp_feed_posts_data( $attributes ) {
+function hds_wp_feed_posts_data($attributes)
+{
 	$count = $attributes['amount'];
 	$url = hds_wp_feed_posts_url($attributes);
 	return array(
 		'feed_posts' => hds_wp_feed_rss($url, $count),
 		'feed_url' => $url,
 		'feed_posts_count' => $count,
-		'date_format' => get_option( 'date_format' ),
-		'time_format' => get_option( 'time_format' ),
+		'date_format' => get_option('date_format'),
+		'time_format' => get_option('time_format'),
 		'attributes' => $attributes,
 	);
 }
 
-function hds_wp_feed_posts_url($attributes = null) {
+function hds_wp_feed_posts_url($attributes = null)
+{
 	return $attributes['url'];
 }
 
-function hds_wp_feed_posts_source_text($attributes = array()) {
+function hds_wp_feed_posts_source_text($attributes = array())
+{
 	$url = hds_wp_feed_posts_url($attributes);
-	if ( $url ) {
+	if ($url) {
 		return sprintf(
 			'<p class="feed-source">%s</p>',
 			sprintf(
-				esc_html_x( 'Contents are automatically fetched from %s.', 'RSS feed source(s)', 'hds-wp' ),
+				esc_html_x('Contents are automatically fetched from %s.', 'RSS feed source(s)', 'hds-wp'),
 				sprintf(
-					_x( '%s', 'from RSS feed source', 'hds-wp' ),
-					parse_url( $url, PHP_URL_HOST )
+					_x('%s', 'from RSS feed source', 'hds-wp'),
+					parse_url($url, PHP_URL_HOST)
 				)
 			)
 		);
 	}
 }
 
-function hds_wp_feed_rss(string $url = '', int $count = 10) {
-	if ( ! $url ) {
+function hds_wp_feed_rss(string $url = '', int $count = 10)
+{
+	if (!$url) {
 		return array();
 	}
-	$feed = fetch_feed( $url );
-	if ( is_wp_error( $feed ) ) {
+	$feed = fetch_feed($url);
+	if (is_wp_error($feed)) {
 		return array();
 	}
 	return $feed->get_items(
 		0,
-		$feed->get_item_quantity( $count )
+		$feed->get_item_quantity($count)
 	);
 }
 
-function hds_wp_feed_posts($args = array()) {
-	if ( empty( $args['feed_posts'] ) ) {
+function hds_wp_feed_posts($args = array())
+{
+	if (empty($args['feed_posts'])) {
 		return;
 	}
 
 	$items = array_map(
-		function($post) use ($args) {
+		function ($post) use ($args) {
 			return hds_wp_feed_list_item(array(
 				'item' => $post,
 				'date_format' => $args['date_format'],
-				'time_format' => $args['time_format'],));
-		}, $args['feed_posts']
+				'time_format' => $args['time_format'],
+			));
+		},
+		$args['feed_posts']
 	);
 
-	return sprintf('
+	return sprintf(
+		'
 		<div class="entries l-up-2">
 			<div>
 				<ul class="posts">
@@ -1290,8 +1329,10 @@ function hds_wp_feed_posts($args = array()) {
 	);
 }
 
-function hds_wp_feed_list_item($args = array()) {
-	return sprintf('
+function hds_wp_feed_list_item($args = array())
+{
+	return sprintf(
+		'
 			<li>
 			<article class="entry entry--feed entry--post">
 				<div>
@@ -1307,11 +1348,11 @@ function hds_wp_feed_list_item($args = array()) {
 				</div>
 			</article>
 		</li>',
-		esc_url( $args['item']->get_permalink() ),
-		esc_html( $args['item']->get_title() ),
+		esc_url($args['item']->get_permalink()),
+		esc_html($args['item']->get_title()),
 		esc_html('Published:', 'hds-wp'),
-		esc_attr( $args['item']->get_date('c') ),
-		esc_html( $args['item']->get_date( $args['date_format'] . ' ' . $args['time_format'] ) )
+		esc_attr($args['item']->get_date('c')),
+		esc_html($args['item']->get_date($args['date_format'] . ' ' . $args['time_format']))
 	);
 }
 
@@ -1319,8 +1360,9 @@ function hds_wp_feed_list_item($args = array()) {
 /**
  * Map Block
  */
- 
-function hds_wp_render_map( $attributes ) {
+
+function hds_wp_render_map($attributes)
+{
 
 	$id = 'hds-map-' . $attributes['blockId'];
 	$title = $attributes['title'];
@@ -1391,7 +1433,8 @@ function hds_wp_render_map( $attributes ) {
  * Video block
  */
 
- function hds_wp_render_video( $attributes ) {
+function hds_wp_render_video($attributes)
+{
 
 	$id = 'hds-video-' . $attributes['blockId'];
 	$title = $attributes['title'];
@@ -1458,9 +1501,119 @@ function hds_wp_render_map( $attributes ) {
 }
 
 /**
+ * Link List Cards
+ */
+
+ function hds_wp_render_link_list_cards( $attributes ) {
+	if (
+		empty( $attributes['cards'] ) ||
+		! is_array( $attributes['cards'] )
+	) {
+		return;
+	}
+
+	$cards = array_map(
+		function ( $card ) {
+			return hds_wp_render_link_list_card( $card );
+		},
+		$attributes['cards']
+	);
+
+	$title = '';
+	if ( ! empty( $attributes['title'] ) ) {
+		$title = sprintf(
+			'<h2 class="hds-links-list-cards__title">%s</h2>',
+			$attributes['title']
+		);
+	}
+
+	return sprintf(
+		'<div class="wp-block-hds-wp-link-list-cards">
+			%s
+			<div class="hds-links-list-cards__cards">
+				%s
+			</div>
+		</div>',
+		$title,
+		implode( '', $cards )
+	);
+
+}
+
+function hds_wp_render_link_list_card( $attributes ) {
+
+	$title = $attributes['title'];
+	$links = $attributes['links'];
+
+	$links = array_map(
+		function ( $link ) {
+			return hds_wp_render_link_list_card_link( $link );
+		},
+		$links
+	);
+
+	return sprintf(
+		'<div class="wp-block-hds-wp-link-list-card">
+			<h3 class="hds-links-list-card__title">%s</h3>
+			<div class="hds-links-list-card__links">
+				%s
+			</div>
+		</div>',
+		$title,
+		implode( '', $links )
+	);
+
+}
+
+function hds_wp_render_link_list_card_link( $attributes ) {
+
+	$postId = $attributes['postId'];
+	$linkTitle = $attributes['linkTitle'];
+	$postTitle = $attributes['postTitle'];
+	$linkUrl = $attributes['linkUrl'];
+	$linkDir = $attributes['linkDir'];
+	$targetBlank = $attributes['targetBlank'];
+
+	if (
+		( $linkDir === 'external' && ( empty( $linkTitle ) || empty( $linkUrl ) ) ) ||
+		( $linkDir === 'internal' && empty( $postId ) )
+	) {
+		return;
+	}
+
+	$target = '';
+	if ( $targetBlank ) {
+		$target = 'target="_blank" rel="noopener"';
+	}
+
+	$href = '';
+	if ( $linkDir === 'internal' ) {
+		$href = get_permalink( $postId );
+	} else {
+		$href = $linkUrl;
+	}
+
+	$title = '';
+	if ( $linkDir === 'internal' ) {
+		$title = $postTitle;
+	} else {
+		$title = $linkTitle;
+	}
+
+	return sprintf(
+		'<a href="%s" class="wp-block-hds-wp-link-list-card-link link" %s>%s</a>',
+		$href,
+		$target,
+		$title
+	);
+
+}
+
+/**
  * Utilities
  */
 
- function hds_wp_get_random_id() {
-	return substr( md5( uniqid( rand(), true ) ), 0, 20 );
- }
+function hds_wp_get_random_id()
+{
+	return substr(md5(uniqid(rand(), true)), 0, 20);
+}

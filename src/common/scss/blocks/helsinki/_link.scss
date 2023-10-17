@@ -1,9 +1,5 @@
 .links-list {
-    padding-bottom: $paragraph-margin-bottom-extra-small;
-
-    @include breakpoint('m') {
-        padding-bottom: $paragraph-margin-bottom-small;
-    }
+	@extend %helsinki-block-spacing;
 
     .links-list__koros {
         background-color: $white;
@@ -47,16 +43,16 @@
     }
 
     .links-list__title {
-        margin-bottom: spacing('layout-s');
         position: relative;
 
         span {
             position: relative;
         }
 
-        @include breakpoint('l') {
-            margin-bottom: spacing('layout-m');
-        }
+    }
+
+    .links-list__description {
+        margin: 0;
     }
 
     .link {
@@ -107,6 +103,7 @@
 
         .link__title_link {
             font-size: rem-calc(20);
+            font-weight: $global-font-weight-medium;
             --line-height: 24px;
             line-height: 24px;
             margin: 0;
@@ -166,20 +163,19 @@
 
     .links-list__links {
         list-style: none;
-        margin: 0;
+        margin-left: 0;
+        margin-bottom: 0;
         padding: 0;
         position: relative;
         max-width: none;
         display: flex;
         flex-direction: column;
+        row-gap: spacing('l');
+
+        @extend %helsinki-block-content-spacing;
 
         .links-list__item {
             margin-top: 0;
-            margin-bottom: spacing('l');
-
-            @include breakpoint('l') {
-                margin-bottom: spacing('3-xl');
-            }
         }
 
         &--title,
@@ -282,26 +278,30 @@
 
         @include breakpoint('m') {
             display: flex;
-            column-gap: 24px;
+            column-gap: 48px;
             flex-wrap: wrap;
             justify-content: left;
             flex-direction: row;
 
             .links-list__item {
-                flex: 0 0 calc(50% - 14px);
+                flex: 0 0 calc(50% - 24px);
             }
+        }
+
+        @include breakpoint('l') {
+            row-gap: spacing('3-xl');
         }
 
         @include breakpoint('l') {
             &--3 {
                 .links-list__item {
-                    flex: 0 0 calc(33% - 16px);
+                    flex: 0 0 calc(33% - 30px);
                 }
             }
 
             &--4 {
                 .links-list__item {
-                    flex: 0 0 calc(25% - 18px);
+                    flex: 0 0 calc(25% - 36px);
                 }
             }
         }
@@ -323,6 +323,14 @@
 
         .links-list__title {
             margin-top: 0;
+        }
+
+        .links-list__links {
+            padding-bottom: spacing('l');
+
+            @include breakpoint('l') {
+                padding-bottom: spacing('3-xl');
+            }
         }
     }
 

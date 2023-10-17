@@ -1,7 +1,5 @@
 "use strict";
 
-function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -17,6 +15,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -626,24 +626,204 @@ function hdsIcons(name) {
   return name ? icons[name] : icons;
 }
 
+wp.domReady(function () {
+  /**
+    * Buttons
+    */
+  wp.blocks.unregisterBlockStyle('core/button', 'default');
+  wp.blocks.unregisterBlockStyle('core/button', 'outline');
+  wp.blocks.unregisterBlockStyle('core/button', 'fill');
+  wp.blocks.registerBlockStyle('core/button', [{
+    name: 'default',
+    label: wp.i18n.__('Primary', 'hds-wp'),
+    isDefault: true
+  }, {
+    name: 'secondary',
+    label: wp.i18n.__('Secondary', 'hds-wp')
+  }, {
+    name: 'supplementary',
+    label: wp.i18n.__('Supplementary', 'hds-wp')
+  }]);
+  /**
+    * Text
+    */
+
+  var withBackgroundStyle = ['core/group', 'core/paragraph'];
+
+  for (var i = 0; i < withBackgroundStyle.length; i++) {
+    wp.blocks.registerBlockStyle(withBackgroundStyle[i], [{
+      name: 'light-gray-background',
+      label: wp.i18n.__('Light Gray Background', 'hds-wp')
+    }]);
+  }
+  /**
+   * Image
+   */
+
+
+  wp.blocks.unregisterBlockStyle('core/image', 'rounded');
+  /**
+   * Quote
+   */
+
+  wp.blocks.unregisterBlockStyle('core/quote', 'plain');
+});
+
+(function (wp) {
+  function addColumnAttributes(settings, name) {
+    if (typeof settings.attributes !== 'undefined') {
+      if (name == 'core/column') {
+        settings.attributes = Object.assign(settings.attributes, {
+          allowedBlocks: {
+            type: 'array',
+            default: ['core/heading', 'core/paragraph', 'core/quote', 'core/table', 'core/list', 'core/freeform', 'core/image', 'core/video', 'core/audio', 'core/file', 'core/buttons', 'core/embed']
+          }
+        });
+      } else if (name == 'core/columns') {
+        settings.transforms.from[0].isMatch = function (attr, block) {
+          if (block[0].name.startsWith('hds-wp') || block[0].name.startsWith('helsinki')) {
+            return false;
+          }
+
+          return true;
+        };
+      }
+    }
+
+    return settings;
+  }
+
+  wp.hooks.addFilter('blocks.registerBlockType', 'column/custom-attributes', addColumnAttributes);
+})(window.wp);
+
+(function (wp) {
+  function addGroupAttributes(settings, name) {
+    if (typeof settings.attributes !== 'undefined') {
+      if (name == 'core/group') {
+        settings.transforms.from[0].isMatch = function (attr, block) {
+          if (block[0].name.startsWith('hds-wp') || block[0].name.startsWith('helsinki')) {
+            return false;
+          }
+
+          return true;
+        };
+      }
+    }
+
+    return settings;
+  }
+
+  wp.hooks.addFilter('blocks.registerBlockType', 'group/custom-attributes', addGroupAttributes);
+})(window.wp);
+
+(function (wp) {
+  function addTableAttributes(settings, name) {
+    if (typeof settings.attributes !== 'undefined') {
+      if (name == 'core/table') {
+        settings.attributes = Object.assign(settings.attributes, {
+          verticalHeader: {
+            type: 'boolean'
+          },
+          title: {
+            type: 'string'
+          }
+        });
+      }
+    }
+
+    return settings;
+  }
+
+  wp.hooks.addFilter('blocks.registerBlockType', 'table/custom-attributes', addTableAttributes);
+  var tableAdvancedControls = wp.compose.createHigherOrderComponent(function (BlockEdit) {
+    return function (props) {
+      var __ = wp.i18n.__;
+      var _wp$element = wp.element,
+          Fragment = _wp$element.Fragment,
+          createElement = _wp$element.createElement;
+      var _wp$components = wp.components,
+          ToggleControl = _wp$components.ToggleControl,
+          Panel = _wp$components.Panel,
+          PanelBody = _wp$components.PanelBody,
+          TextControl = _wp$components.TextControl;
+      var _wp$blockEditor = wp.blockEditor,
+          InspectorControls = _wp$blockEditor.InspectorControls,
+          BlockControls = _wp$blockEditor.BlockControls,
+          useBlockProps = _wp$blockEditor.useBlockProps;
+      var attributes = props.attributes,
+          setAttributes = props.setAttributes,
+          isSelected = props.isSelected;
+      return /*#__PURE__*/React.createElement(Fragment, null, /*#__PURE__*/React.createElement(BlockEdit, props), isSelected && props.name == 'core/table' && /*#__PURE__*/React.createElement(InspectorControls, null, /*#__PURE__*/React.createElement(PanelBody, {
+        title: __('Advanced table settings', 'hds-wp')
+      }, /*#__PURE__*/React.createElement(TextControl, {
+        label: __('Title', 'hds-wp'),
+        value: attributes.title,
+        onChange: function onChange(value) {
+          return setAttributes({
+            title: value
+          });
+        }
+      }), /*#__PURE__*/React.createElement(ToggleControl, {
+        label: __('Vertical header', 'hds-wp'),
+        checked: attributes.verticalHeader,
+        onChange: function onChange(value) {
+          return setAttributes({
+            verticalHeader: value
+          });
+        }
+      }))));
+    };
+  }, 'tableAdvancedControls');
+  wp.hooks.addFilter('editor.BlockEdit', 'table/custom-control', tableAdvancedControls);
+
+  function tableApplyExtraClass(extraProps, blockType, attributes) {
+    var verticalHeader = attributes.verticalHeader;
+
+    if (typeof verticalHeader !== 'undefined' && verticalHeader) {
+      extraProps.className = extraProps.className + ' has-vertical-header';
+    }
+
+    return extraProps;
+  }
+
+  wp.hooks.addFilter('blocks.getSaveContent.extraProps', 'table/custom-apply-class', tableApplyExtraClass);
+  var tableEditorWrapperExtraClass = wp.compose.createHigherOrderComponent(function (BlockListBlock) {
+    return function (props) {
+      var name = props.name,
+          attributes = props.attributes;
+
+      if (name != 'core/table') {
+        return /*#__PURE__*/React.createElement(BlockListBlock, props);
+      }
+
+      var verticalHeader = attributes.verticalHeader;
+      var customClass = verticalHeader ? 'has-vertical-header' : '';
+      return /*#__PURE__*/React.createElement(BlockListBlock, _extends({}, props, {
+        className: customClass
+      }));
+    };
+  }, 'tableEditorWrapperExtraClass');
+  wp.hooks.addFilter('editor.BlockListBlock', 'table/custom-editor-wrapper-class', tableEditorWrapperExtraClass);
+})(window.wp);
+
 (function (wp) {
   var __ = wp.i18n.__;
   var _wp$blocks = wp.blocks,
       registerBlockType = _wp$blocks.registerBlockType,
       getBlockContent = _wp$blocks.getBlockContent;
-  var _wp$element = wp.element,
-      Fragment = _wp$element.Fragment,
-      createElement = _wp$element.createElement;
-  var _wp$blockEditor = wp.blockEditor,
-      useBlockProps = _wp$blockEditor.useBlockProps,
-      BlockControls = _wp$blockEditor.BlockControls,
-      InnerBlocks = _wp$blockEditor.InnerBlocks;
+  var _wp$element2 = wp.element,
+      Fragment = _wp$element2.Fragment,
+      createElement = _wp$element2.createElement;
+  var _wp$blockEditor2 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor2.useBlockProps,
+      BlockControls = _wp$blockEditor2.BlockControls,
+      InnerBlocks = _wp$blockEditor2.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$components = wp.components,
-      ToolbarGroup = _wp$components.ToolbarGroup,
-      ToolbarButton = _wp$components.ToolbarButton,
-      Button = _wp$components.Button,
-      ToggleControl = _wp$components.ToggleControl;
+  var _wp$components2 = wp.components,
+      ToolbarGroup = _wp$components2.ToolbarGroup,
+      ToolbarButton = _wp$components2.ToolbarButton,
+      Button = _wp$components2.Button,
+      ToggleControl = _wp$components2.ToggleControl;
   var _wp$data = wp.data,
       select = _wp$data.select,
       dispatch = _wp$data.dispatch;
@@ -857,19 +1037,19 @@ function hdsIcons(name) {
       registerBlockType = _wp$blocks2.registerBlockType,
       getBlockContent = _wp$blocks2.getBlockContent,
       hasChildBlocks = _wp$blocks2.hasChildBlocks;
-  var _wp$element2 = wp.element,
-      Fragment = _wp$element2.Fragment,
-      createElement = _wp$element2.createElement;
-  var _wp$blockEditor2 = wp.blockEditor,
-      useBlockProps = _wp$blockEditor2.useBlockProps,
-      BlockControls = _wp$blockEditor2.BlockControls,
-      InnerBlocks = _wp$blockEditor2.InnerBlocks;
+  var _wp$element3 = wp.element,
+      Fragment = _wp$element3.Fragment,
+      createElement = _wp$element3.createElement;
+  var _wp$blockEditor3 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor3.useBlockProps,
+      BlockControls = _wp$blockEditor3.BlockControls,
+      InnerBlocks = _wp$blockEditor3.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$components2 = wp.components,
-      ToolbarGroup = _wp$components2.ToolbarGroup,
-      ToolbarButton = _wp$components2.ToolbarButton,
-      Button = _wp$components2.Button,
-      ToggleControl = _wp$components2.ToggleControl;
+  var _wp$components3 = wp.components,
+      ToolbarGroup = _wp$components3.ToolbarGroup,
+      ToolbarButton = _wp$components3.ToolbarButton,
+      Button = _wp$components3.Button,
+      ToggleControl = _wp$components3.ToggleControl;
   var _wp$data2 = wp.data,
       select = _wp$data2.select,
       dispatch = _wp$data2.dispatch,
@@ -1046,18 +1226,18 @@ function hdsIcons(name) {
       registerBlockType = _wp$blocks3.registerBlockType,
       registerBlockStyle = _wp$blocks3.registerBlockStyle,
       unregisterBlockStyle = _wp$blocks3.unregisterBlockStyle;
-  var _wp$element3 = wp.element,
-      Fragment = _wp$element3.Fragment,
-      createElement = _wp$element3.createElement;
-  var _wp$blockEditor3 = wp.blockEditor,
-      useBlockProps = _wp$blockEditor3.useBlockProps,
-      BlockControls = _wp$blockEditor3.BlockControls,
-      InnerBlocks = _wp$blockEditor3.InnerBlocks,
-      RichText = _wp$blockEditor3.RichText;
-  var _wp$components3 = wp.components,
-      ToolbarGroup = _wp$components3.ToolbarGroup,
-      ToolbarButton = _wp$components3.ToolbarButton,
-      Button = _wp$components3.Button;
+  var _wp$element4 = wp.element,
+      Fragment = _wp$element4.Fragment,
+      createElement = _wp$element4.createElement;
+  var _wp$blockEditor4 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor4.useBlockProps,
+      BlockControls = _wp$blockEditor4.BlockControls,
+      InnerBlocks = _wp$blockEditor4.InnerBlocks,
+      RichText = _wp$blockEditor4.RichText;
+  var _wp$components4 = wp.components,
+      ToolbarGroup = _wp$components4.ToolbarGroup,
+      ToolbarButton = _wp$components4.ToolbarButton,
+      Button = _wp$components4.Button;
 
   function contentButton(props) {
     return hdsContentButton(props, {
@@ -1233,18 +1413,18 @@ function hdsIcons(name) {
 (function (wp) {
   var __ = wp.i18n.__;
   var registerBlockType = wp.blocks.registerBlockType;
-  var _wp$element4 = wp.element,
-      Fragment = _wp$element4.Fragment,
-      createElement = _wp$element4.createElement;
-  var _wp$blockEditor4 = wp.blockEditor,
-      useBlockProps = _wp$blockEditor4.useBlockProps,
-      BlockControls = _wp$blockEditor4.BlockControls,
-      InnerBlocks = _wp$blockEditor4.InnerBlocks;
+  var _wp$element5 = wp.element,
+      Fragment = _wp$element5.Fragment,
+      createElement = _wp$element5.createElement;
+  var _wp$blockEditor5 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor5.useBlockProps,
+      BlockControls = _wp$blockEditor5.BlockControls,
+      InnerBlocks = _wp$blockEditor5.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$components4 = wp.components,
-      Button = _wp$components4.Button,
-      TextControl = _wp$components4.TextControl,
-      SelectControl = _wp$components4.SelectControl;
+  var _wp$components5 = wp.components,
+      Button = _wp$components5.Button,
+      TextControl = _wp$components5.TextControl,
+      SelectControl = _wp$components5.SelectControl;
   var _wp$data3 = wp.data,
       withSelect = _wp$data3.withSelect,
       select = _wp$data3.select,
@@ -1327,23 +1507,23 @@ function hdsIcons(name) {
   var _wp$blocks4 = wp.blocks,
       registerBlockType = _wp$blocks4.registerBlockType,
       getBlockContent = _wp$blocks4.getBlockContent;
-  var _wp$element5 = wp.element,
-      Fragment = _wp$element5.Fragment,
-      createElement = _wp$element5.createElement,
-      useState = _wp$element5.useState;
-  var _wp$blockEditor5 = wp.blockEditor,
-      useBlockProps = _wp$blockEditor5.useBlockProps,
-      BlockControls = _wp$blockEditor5.BlockControls,
-      InnerBlocks = _wp$blockEditor5.InnerBlocks;
+  var _wp$element6 = wp.element,
+      Fragment = _wp$element6.Fragment,
+      createElement = _wp$element6.createElement,
+      useState = _wp$element6.useState;
+  var _wp$blockEditor6 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor6.useBlockProps,
+      BlockControls = _wp$blockEditor6.BlockControls,
+      InnerBlocks = _wp$blockEditor6.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
   var _wp$data4 = wp.data,
       select = _wp$data4.select,
       useSelect = _wp$data4.useSelect;
-  var _wp$components5 = wp.components,
-      ToolbarGroup = _wp$components5.ToolbarGroup,
-      ToolbarButton = _wp$components5.ToolbarButton,
-      Button = _wp$components5.Button,
-      ToggleControl = _wp$components5.ToggleControl;
+  var _wp$components6 = wp.components,
+      ToolbarGroup = _wp$components6.ToolbarGroup,
+      ToolbarButton = _wp$components6.ToolbarButton,
+      Button = _wp$components6.Button,
+      ToggleControl = _wp$components6.ToggleControl;
 
   function linkTypeOptions() {
     return [{
@@ -1372,12 +1552,8 @@ function hdsIcons(name) {
     return hdsInspectorControls({
       title: __('Settings', 'hds-wp'),
       initialOpen: false
-    }, hdsTextControl({
-      label: __('Title', 'hds-wp'),
-      value: props.attributes.title,
-      attribute: 'title'
-    }, props), hdsSelectControl({
-      label: __('Link type', 'hds-wp'),
+    }, hdsSelectControl({
+      label: __('Style', 'hds-wp'),
       value: props.attributes.linkType,
       attribute: 'linkType',
       options: linkTypeOptions()
@@ -1418,10 +1594,18 @@ function hdsIcons(name) {
       });
 
       if (props.isSelected || isParentOfSelectedBlock) {
-        content = createElement(Fragment, {}, title(props), createElement(InnerBlocks, {
+        content = createElement('div', {
+          className: 'content-card ' + props.attributes.hasBackground ? 'has-background' : ''
+        }, hdsContent(props, hdsContentTitleRich(props, {
+          placeholder: __('This is the title', 'hds-wp'),
+          titleAttribute: 'title'
+        }), hdsContentTextRich(props, {
+          placeholder: __('This is the excerpt.', 'hds-wp'),
+          textAttribute: 'description'
+        }), createElement(InnerBlocks, {
           allowedBlocks: ['hds-wp/content-card'],
           template: [['hds-wp/content-card', {}], ['hds-wp/content-card', {}], ['hds-wp/content-card', {}]]
-        }));
+        })));
       } else {
         var blockAttributes = props.attributes;
         blockAttributes.cards = select('core/block-editor').getBlocks(props.clientId).map(function (block) {
@@ -1444,14 +1628,7 @@ function hdsIcons(name) {
     };
   }
 
-  registerBlockType('hds-wp/content-cards', {
-    apiVersion: 2,
-    title: __('Helsinki - Content Cards', 'hds-wp'),
-    category: 'hds-wp',
-    icon: 'images-alt',
-    supports: {
-      anchor: true
-    },
+  var v1 = {
     attributes: {
       columns: {
         type: 'number',
@@ -1482,8 +1659,85 @@ function hdsIcons(name) {
         default: ''
       }
     },
+    edit: function edit(props) {
+      if (props.attributes.preview) {
+        return /*#__PURE__*/React.createElement("img", {
+          src: props.attributes.preview
+        });
+      }
+
+      props.attributes.columns = parseInt(props.attributes.columns);
+      var content = null;
+      var isParentOfSelectedBlock = useSelect(function (selectFrom) {
+        return select('core/block-editor').hasSelectedInnerBlock(props.clientId, true);
+      });
+
+      if (props.isSelected || isParentOfSelectedBlock) {
+        content = createElement(Fragment, {}, title(), createElement(InnerBlocks, {
+          allowedBlocks: ['hds-wp/content-card'],
+          template: [['hds-wp/content-card', {}], ['hds-wp/content-card', {}], ['hds-wp/content-card', {}]]
+        }));
+      } else {
+        var blockAttributes = props.attributes;
+        blockAttributes.cards = select('core/block-editor').getBlocks(props.clientId).map(function (block) {
+          return block.attributes.postId;
+        });
+        content = createElement(wp.serverSideRender, {
+          block: 'hds-wp/content-cards',
+          attributes: blockAttributes,
+          httpMethod: 'POST'
+        });
+      }
+
+      return createElement(Fragment, {}, inspectorControls(props), createElement('div', useBlockProps(), content));
+    },
+    save: save()
+  };
+  registerBlockType('hds-wp/content-cards', {
+    apiVersion: 2,
+    title: __('Helsinki - Content Cards', 'hds-wp'),
+    category: 'hds-wp',
+    icon: 'images-alt',
+    supports: {
+      anchor: true
+    },
+    attributes: {
+      columns: {
+        type: 'number',
+        default: 3
+      },
+      hasBackground: {
+        type: 'boolean',
+        default: false
+      },
+      title: {
+        type: 'string',
+        default: ''
+      },
+      description: {
+        type: 'string',
+        default: ''
+      },
+      linkType: {
+        type: 'string',
+        default: 'image-title'
+      },
+      cards: {
+        type: 'array',
+        default: []
+      },
+      anchor: {
+        type: 'string',
+        default: ''
+      },
+      preview: {
+        type: 'string',
+        default: ''
+      }
+    },
     edit: edit(),
     save: save(),
+    deprecated: [v1],
     example: {
       attributes: {
         preview: hds_wp.blocksUrl + '/previews/content-cards.png'
@@ -1787,6 +2041,18 @@ function hdsIcons(name) {
         unregisterBlockType('hds-wp/timeline');
       }
 
+      if (getBlockType('hds-wp/link-list-cards')) {
+        unregisterBlockType('hds-wp/link-list-cards');
+      }
+
+      if (getBlockType('hds-wp/link-list-card')) {
+        unregisterBlockType('hds-wp/link-list-card');
+      }
+
+      if (getBlockType('hds-wp/link-list-card-link')) {
+        unregisterBlockType('hds-wp/link-list-card-link');
+      }
+
       if (getBlockType('core/columns')) {
         unregisterBlockType('core/columns');
       }
@@ -1813,17 +2079,17 @@ function hdsIcons(name) {
 (function (wp) {
   var __ = wp.i18n.__;
   var registerBlockType = wp.blocks.registerBlockType;
-  var _wp$element6 = wp.element,
-      Fragment = _wp$element6.Fragment,
-      createElement = _wp$element6.createElement;
-  var _wp$blockEditor6 = wp.blockEditor,
-      useBlockProps = _wp$blockEditor6.useBlockProps,
-      BlockControls = _wp$blockEditor6.BlockControls,
-      InnerBlocks = _wp$blockEditor6.InnerBlocks;
-  var _wp$components6 = wp.components,
-      ToolbarGroup = _wp$components6.ToolbarGroup,
-      ToolbarButton = _wp$components6.ToolbarButton,
-      Button = _wp$components6.Button;
+  var _wp$element7 = wp.element,
+      Fragment = _wp$element7.Fragment,
+      createElement = _wp$element7.createElement;
+  var _wp$blockEditor7 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor7.useBlockProps,
+      BlockControls = _wp$blockEditor7.BlockControls,
+      InnerBlocks = _wp$blockEditor7.InnerBlocks;
+  var _wp$components7 = wp.components,
+      ToolbarGroup = _wp$components7.ToolbarGroup,
+      ToolbarButton = _wp$components7.ToolbarButton,
+      Button = _wp$components7.Button;
 
   function toolbar(props) {
     return createElement(BlockControls, {
@@ -2084,17 +2350,17 @@ function hdsIcons(name) {
       registerBlockType = _wp$blocks6.registerBlockType,
       registerBlockStyle = _wp$blocks6.registerBlockStyle,
       unregisterBlockStyle = _wp$blocks6.unregisterBlockStyle;
-  var _wp$element7 = wp.element,
-      Fragment = _wp$element7.Fragment,
-      createElement = _wp$element7.createElement;
-  var _wp$blockEditor7 = wp.blockEditor,
-      useBlockProps = _wp$blockEditor7.useBlockProps,
-      BlockControls = _wp$blockEditor7.BlockControls,
-      InnerBlocks = _wp$blockEditor7.InnerBlocks;
-  var _wp$components7 = wp.components,
-      ToolbarGroup = _wp$components7.ToolbarGroup,
-      ToolbarButton = _wp$components7.ToolbarButton,
-      Button = _wp$components7.Button;
+  var _wp$element8 = wp.element,
+      Fragment = _wp$element8.Fragment,
+      createElement = _wp$element8.createElement;
+  var _wp$blockEditor8 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor8.useBlockProps,
+      BlockControls = _wp$blockEditor8.BlockControls,
+      InnerBlocks = _wp$blockEditor8.InnerBlocks;
+  var _wp$components8 = wp.components,
+      ToolbarGroup = _wp$components8.ToolbarGroup,
+      ToolbarButton = _wp$components8.ToolbarButton,
+      Button = _wp$components8.Button;
 
   function toolbar(props) {
     return createElement(BlockControls, {
@@ -2355,26 +2621,602 @@ function hdsIcons(name) {
 (function (wp) {
   var __ = wp.i18n.__;
   var registerBlockType = wp.blocks.registerBlockType;
-  var _wp$element8 = wp.element,
-      Fragment = _wp$element8.Fragment,
-      createElement = _wp$element8.createElement;
-  var _wp$blockEditor8 = wp.blockEditor,
-      useBlockProps = _wp$blockEditor8.useBlockProps,
-      BlockControls = _wp$blockEditor8.BlockControls,
-      InnerBlocks = _wp$blockEditor8.InnerBlocks;
-  var InspectorControls = wp.editor.InspectorControls;
+  var _wp$element9 = wp.element,
+      Fragment = _wp$element9.Fragment,
+      createElement = _wp$element9.createElement,
+      useState = _wp$element9.useState,
+      useEffect = _wp$element9.useEffect;
+  var _wp$blockEditor9 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor9.useBlockProps,
+      BlockControls = _wp$blockEditor9.BlockControls,
+      InnerBlocks = _wp$blockEditor9.InnerBlocks,
+      RichText = _wp$blockEditor9.RichText,
+      InspectorControls = _wp$blockEditor9.InspectorControls;
   var _wp$data5 = wp.data,
-      withSelect = _wp$data5.withSelect,
       select = _wp$data5.select,
-      dispatch = _wp$data5.dispatch;
+      useSelect = _wp$data5.useSelect,
+      useDispatch = _wp$data5.useDispatch,
+      dispatch = _wp$data5.dispatch,
+      subscribe = _wp$data5.subscribe;
+  var _wp$components9 = wp.components,
+      ToolbarGroup = _wp$components9.ToolbarGroup,
+      ToolbarButton = _wp$components9.ToolbarButton,
+      Button = _wp$components9.Button,
+      ToggleControl = _wp$components9.ToggleControl,
+      TextControl = _wp$components9.TextControl,
+      Notice = _wp$components9.Notice;
+  var store = wp.notices.store;
+  var PostSearch = hdsSearchPostsTextControl();
+
+  function removePostButton(props) {
+    return hdsRemovePostControl({
+      text: wp.i18n.__('Detach post', 'hds-wp')
+    }, props);
+  }
+
+  registerBlockType('hds-wp/link-list-card-link', {
+    apiVersion: 2,
+    title: __('Helsinki - Link List Card Link', 'hds-wp'),
+    icon: 'screenoptions',
+    category: 'hds-wp',
+    style: 'hds-map',
+    parent: ['hds-wp/link-list-card'],
+    attributes: {
+      postId: {
+        type: 'number',
+        default: 0
+      },
+      linkTitle: {
+        type: 'string',
+        default: ''
+      },
+      postTitle: {
+        type: 'string',
+        default: ''
+      },
+      linkUrl: {
+        type: 'string',
+        default: ''
+      },
+      linkDir: {
+        type: 'string',
+        default: 'internal'
+      },
+      targetBlank: {
+        type: 'boolean',
+        default: false
+      },
+      search: {
+        type: 'string',
+        default: ''
+      }
+    },
+    edit: edit,
+    example: {
+      attributes: {
+        title: __('This is the link\'s title', 'hds-wp')
+      }
+    }
+  });
+
+  function linkDirectionControl(props) {
+    return hdsRadioControl({
+      label: wp.i18n.__('Link type', 'hds-wp'),
+      selected: props.attributes.linkDir,
+      attribute: 'linkDir',
+      options: [{
+        label: __('Post', 'hds-wp'),
+        value: 'internal'
+      }, {
+        label: __('Link', 'hds-wp'),
+        value: 'external'
+      }]
+    }, props);
+  }
+
+  function titleText(props) {
+    return hdsTextControl({
+      label: wp.i18n.__('Link text', 'hds-wp'),
+      value: props.attributes.linkTitle,
+      attribute: 'linkTitle'
+    }, props);
+  }
+
+  function urlText(props) {
+    return hdsTextControl({
+      label: wp.i18n.__('Link URL', 'hds-wp'),
+      value: props.attributes.linkUrl,
+      attribute: 'linkUrl'
+    }, props);
+  }
+
+  function panelControls(props) {
+    var controls = [];
+    controls.push(linkDirectionControl);
+
+    if (props.attributes.linkDir == 'internal') {
+      controls.push(PostSearch);
+
+      if (props.attributes.postId != 0) {
+        controls.push(removePostButton);
+      }
+    } else {
+      controls.push(titleText);
+      controls.push(urlText);
+      controls.push(hdsTargetBlankControl);
+    }
+
+    return hdsInspectorControls({
+      title: __('Settings', 'hds-wp'),
+      initialOpen: false
+    }, controls.map(function (control) {
+      return hdsPanelRow({}, createElement(control, props));
+    }));
+  }
+
+  function placeholder(props) {
+    var title = props.attributes.linkTitle ? props.attributes.linkTitle : __('Helsinki - Link', 'hds-wp');
+
+    if (props.attributes.linkDir == 'internal' && props.attributes.postId != 0) {
+      title = props.attributes.postTitle ? props.attributes.postTitle : __('Helsinki - Link', 'hds-wp');
+    }
+
+    return /*#__PURE__*/React.createElement("a", useBlockProps({
+      className: 'link'
+    }), title);
+  }
+
+  function updateParentAttributes(clientId) {
+    //update parent "links" and grandparent "cards" attributes
+    var parentClientId = select('core/block-editor').getBlockParentsByBlockName(clientId, 'hds-wp/link-list-card')[0];
+    var grandParentClientId = select('core/block-editor').getBlockParentsByBlockName(parentClientId, 'hds-wp/link-list-cards')[0];
+    dispatch('core/block-editor').updateBlockAttributes(parentClientId, {
+      links: select('core/block-editor').getBlocks(parentClientId).map(function (block) {
+        return block.attributes;
+      })
+    });
+    dispatch('core/block-editor').updateBlockAttributes(grandParentClientId, {
+      cards: select('core/block-editor').getBlocks(grandParentClientId).map(function (block) {
+        return block.attributes;
+      })
+    });
+  }
+
+  function edit(props) {
+    var blockProps = useBlockProps({});
+
+    var _useDispatch = useDispatch(store),
+        createErrorNotice = _useDispatch.createErrorNotice,
+        removeNotice = _useDispatch.removeNotice; //limit linkTitle to 128 characters by updating the attribute
+
+
+    useEffect(function () {
+      if (props.attributes.linkTitle.length > 128) {
+        props.setAttributes({
+          linkTitle: props.attributes.linkTitle.substring(0, 128)
+        });
+      }
+    }, [props.attributes.linkTitle]);
+    updateParentAttributes(props.clientId);
+    return /*#__PURE__*/React.createElement(Fragment, null, placeholder(props), panelControls(props));
+  }
+})(window.wp);
+
+(function (wp) {
+  var __ = wp.i18n.__;
+  var registerBlockType = wp.blocks.registerBlockType;
+  var _wp$element10 = wp.element,
+      Fragment = _wp$element10.Fragment,
+      createElement = _wp$element10.createElement,
+      useState = _wp$element10.useState,
+      useEffect = _wp$element10.useEffect;
+  var _wp$blockEditor10 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor10.useBlockProps,
+      BlockControls = _wp$blockEditor10.BlockControls,
+      InnerBlocks = _wp$blockEditor10.InnerBlocks,
+      RichText = _wp$blockEditor10.RichText,
+      InspectorControls = _wp$blockEditor10.InspectorControls;
+  var _wp$data6 = wp.data,
+      select = _wp$data6.select,
+      useSelect = _wp$data6.useSelect,
+      useDispatch = _wp$data6.useDispatch,
+      dispatch = _wp$data6.dispatch,
+      subscribe = _wp$data6.subscribe;
+  var _wp$components10 = wp.components,
+      ToolbarGroup = _wp$components10.ToolbarGroup,
+      ToolbarButton = _wp$components10.ToolbarButton,
+      Button = _wp$components10.Button,
+      ToggleControl = _wp$components10.ToggleControl,
+      TextControl = _wp$components10.TextControl,
+      Notice = _wp$components10.Notice;
+  var store = wp.notices.store;
+  registerBlockType('hds-wp/link-list-card', {
+    apiVersion: 2,
+    title: __('Helsinki - Link List Card', 'hds-wp'),
+    icon: 'screenoptions',
+    category: 'hds-wp',
+    style: 'hds-map',
+    parent: ['hds-wp/link-list-cards'],
+    attributes: {
+      title: {
+        type: 'string',
+        default: ''
+      },
+      links: {
+        type: 'array',
+        //defaults required to ensure that error is not raised on block creation!
+        default: [{
+          linkTitle: '',
+          linkUrl: '',
+          linkDir: 'external',
+          targetBlank: false
+        }, {
+          linkTitle: '',
+          linkUrl: '',
+          linkDir: 'external',
+          targetBlank: false
+        }, {
+          linkTitle: '',
+          linkUrl: '',
+          linkDir: 'external',
+          targetBlank: false
+        }]
+      }
+    },
+    edit: edit,
+    save: save,
+    example: {
+      attributes: {
+        title: __('This is the card\'s title', 'hds-wp')
+      }
+    }
+  });
+
+  function updateParentAttributes(clientId) {
+    var parent = select('core/block-editor').getBlocksByClientId(select('core/block-editor').getBlockHierarchyRootClientId(clientId))[0];
+    dispatch('core/block-editor').updateBlockAttributes(parent.clientId, {
+      cards: select('core/block-editor').getBlocks(parent.clientId).map(function (block) {
+        return block.attributes;
+      })
+    });
+  }
+
+  function edit(_ref3) {
+    var attributes = _ref3.attributes,
+        setAttributes = _ref3.setAttributes,
+        clientId = _ref3.clientId,
+        isSelected = _ref3.isSelected;
+    var blockProps = useBlockProps({});
+
+    var _useState = useState(attributes.title ? false : true),
+        _useState2 = _slicedToArray(_useState, 2),
+        titleError = _useState2[0],
+        setTitleError = _useState2[1];
+
+    var _useState3 = useState(attributes.title.length < 65 ? false : true),
+        _useState4 = _slicedToArray(_useState3, 2),
+        titleLengthError = _useState4[0],
+        setTitleLengthError = _useState4[1];
+
+    var _useState5 = useState( //there must be at least one link and three links maximum
+    attributes.links.length > 0 && attributes.links.length < 4 ? false : true),
+        _useState6 = _slicedToArray(_useState5, 2),
+        linksError = _useState6[0],
+        setLinksError = _useState6[1];
+
+    var isParentOfSelectedBlock = useSelect(function (selectFrom) {
+      return select('core/block-editor').hasSelectedInnerBlock(clientId, true);
+    });
+
+    var _useDispatch2 = useDispatch(store),
+        createErrorNotice = _useDispatch2.createErrorNotice,
+        removeNotice = _useDispatch2.removeNotice;
+
+    updateParentAttributes(clientId); // Check if title is set, if not, show error notice
+
+    useEffect(function () {
+      var title = attributes.title;
+
+      if (!title) {
+        createErrorNotice(__('Helsinki - Link List Card', 'hds-wp') + ': ' + __('Please enter a title', 'hds-wp'), {
+          type: 'default',
+          id: 'titleError-' + clientId,
+          isDismissible: false,
+          actions: [{
+            label: __('Select', 'hds-wp'),
+            onClick: function onClick() {
+              document.getElementById("block-".concat(clientId)).scrollIntoView({
+                behavior: 'smooth'
+              });
+              dispatch('core/block-editor').selectBlock(clientId);
+            }
+          }]
+        });
+      } else {
+        dispatch('core/notices').removeNotice('titleError-' + clientId);
+      }
+    }, [titleError]); // Check if title is too long, if so, show error notice
+
+    useEffect(function () {
+      var title = attributes.title;
+
+      if (title.length > 64) {
+        createErrorNotice(__('Helsinki - Link List Card', 'hds-wp') + ': ' + __('Please limit the title to 64 characters', 'hds-wp'), {
+          type: 'default',
+          id: 'titleLengthError-' + clientId,
+          isDismissible: false,
+          actions: [{
+            label: __('Select', 'hds-wp'),
+            onClick: function onClick() {
+              document.getElementById("block-".concat(clientId)).scrollIntoView({
+                behavior: 'smooth'
+              });
+              dispatch('core/block-editor').selectBlock(clientId);
+            }
+          }]
+        });
+      } else {
+        dispatch('core/notices').removeNotice('titleLengthError-' + clientId);
+      }
+    }, [titleLengthError]); // Check if the amount of links is in the allowed range
+
+    useEffect(function () {
+      var links = attributes.links;
+
+      if (links.length < 1 || links.length > 3) {
+        createErrorNotice(__('Helsinki - Link List Card', 'hds-wp') + ': ' + __('Please add between 1 and 3 links', 'hds-wp'), {
+          type: 'default',
+          id: 'linksError-' + clientId,
+          isDismissible: false,
+          actions: [{
+            label: __('Select', 'hds-wp'),
+            onClick: function onClick() {
+              document.getElementById("block-".concat(clientId)).scrollIntoView({
+                behavior: 'smooth'
+              });
+              dispatch('core/block-editor').selectBlock(clientId);
+            }
+          }]
+        });
+      } else {
+        dispatch('core/notices').removeNotice('linksError-' + clientId);
+      }
+    }, [linksError]); //if block or it's innerblock is not selected, map innerblocks attributes to links
+
+    useEffect(function () {
+      var innerBlocks = select('core/block-editor').getBlocksByClientId(clientId)[0].innerBlocks;
+      var links = innerBlocks.map(function (block) {
+        return block.attributes;
+      });
+      setAttributes({
+        links: links
+      });
+    }, [isSelected, isParentOfSelectedBlock]); //if links are updated, check if the amount of links is in the allowed range
+
+    useEffect(function () {
+      setLinksError(attributes.links.length > 0 && attributes.links.length < 4 ? false : true);
+    }, [attributes]);
+    return /*#__PURE__*/React.createElement(Fragment, null, /*#__PURE__*/React.createElement("div", blockProps, /*#__PURE__*/React.createElement(RichText, {
+      tagName: "h3",
+      className: "hds-links-list-card__title",
+      value: attributes.title,
+      onChange: function onChange(value) {
+        return setAttributes({
+          title: value
+        }), setTitleError(value ? false : true), setTitleLengthError(value.length < 65 ? false : true);
+      },
+      placeholder: __('This is the title*', 'hds-wp'),
+      allowedFormats: []
+    }), /*#__PURE__*/React.createElement("div", {
+      className: "hds-links-list-card__links"
+    }, /*#__PURE__*/React.createElement(InnerBlocks, {
+      template: [['hds-wp/link-list-card-link'], ['hds-wp/link-list-card-link'], ['hds-wp/link-list-card-link']],
+      allowedBlocks: ['hds-wp/link-list-card-link'],
+      templateLock: false
+    }))));
+  }
+
+  function save() {
+    return /*#__PURE__*/React.createElement(Fragment, null, /*#__PURE__*/React.createElement(InnerBlocks.Content, null));
+  }
+})(window.wp);
+
+(function (wp) {
+  var __ = wp.i18n.__;
+  var registerBlockType = wp.blocks.registerBlockType;
+  var _wp$element11 = wp.element,
+      Fragment = _wp$element11.Fragment,
+      createElement = _wp$element11.createElement,
+      useState = _wp$element11.useState,
+      useEffect = _wp$element11.useEffect;
+  var _wp$blockEditor11 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor11.useBlockProps,
+      BlockControls = _wp$blockEditor11.BlockControls,
+      InnerBlocks = _wp$blockEditor11.InnerBlocks,
+      RichText = _wp$blockEditor11.RichText,
+      InspectorControls = _wp$blockEditor11.InspectorControls;
+  var _wp$data7 = wp.data,
+      select = _wp$data7.select,
+      useSelect = _wp$data7.useSelect,
+      useDispatch = _wp$data7.useDispatch,
+      dispatch = _wp$data7.dispatch,
+      subscribe = _wp$data7.subscribe;
+  var _wp$components11 = wp.components,
+      ToolbarGroup = _wp$components11.ToolbarGroup,
+      ToolbarButton = _wp$components11.ToolbarButton,
+      Button = _wp$components11.Button,
+      ToggleControl = _wp$components11.ToggleControl,
+      TextControl = _wp$components11.TextControl,
+      Notice = _wp$components11.Notice;
+  var store = wp.notices.store;
+  registerBlockType('hds-wp/link-list-cards', {
+    apiVersion: 2,
+    title: __('Helsinki - Link List Cards', 'hds-wp'),
+    icon: 'screenoptions',
+    category: 'hds-wp',
+    style: 'hds-map',
+    attributes: {
+      title: {
+        type: 'string',
+        default: ''
+      },
+      cards: {
+        type: 'array',
+        default: []
+      },
+      preview: {
+        type: 'string',
+        default: ''
+      }
+    },
+    edit: edit,
+    save: save,
+    example: {
+      attributes: {
+        preview: hds_wp.blocksUrl + '/previews/link-list-cards.png'
+      }
+    }
+  });
+
+  function edit(_ref4) {
+    var attributes = _ref4.attributes,
+        setAttributes = _ref4.setAttributes,
+        clientId = _ref4.clientId,
+        isSelected = _ref4.isSelected;
+    var blockProps = useBlockProps({});
+
+    var _useState7 = useState(attributes.title ? false : true),
+        _useState8 = _slicedToArray(_useState7, 2),
+        titleError = _useState8[0],
+        setTitleError = _useState8[1];
+
+    var _useState9 = useState( //there must be at least one card and four cards maximum
+    attributes.cards.length > 0 && attributes.cards.length < 5 ? false : true),
+        _useState10 = _slicedToArray(_useState9, 2),
+        cardsError = _useState10[0],
+        setCardsError = _useState10[1];
+
+    var isParentOfSelectedBlock = useSelect(function (selectFrom) {
+      return select('core/block-editor').hasSelectedInnerBlock(clientId, true);
+    });
+
+    var _useDispatch3 = useDispatch(store),
+        createErrorNotice = _useDispatch3.createErrorNotice,
+        removeNotice = _useDispatch3.removeNotice;
+
+    if (attributes.preview) {
+      return /*#__PURE__*/React.createElement("img", {
+        src: attributes.preview
+      });
+    } // Check if title is set, if not, show error notice
+
+
+    useEffect(function () {
+      var title = attributes.title;
+
+      if (!title) {
+        createErrorNotice(__('Helsinki - Link List Cards', 'hds-wp') + ': ' + __('Please enter a title', 'hds-wp'), {
+          type: 'default',
+          id: 'titleError-' + clientId,
+          isDismissible: false,
+          actions: [{
+            label: __('Select', 'hds-wp'),
+            onClick: function onClick() {
+              document.getElementById("block-".concat(clientId)).scrollIntoView({
+                behavior: 'smooth'
+              });
+              dispatch('core/block-editor').selectBlock(clientId);
+            }
+          }]
+        });
+      } else {
+        dispatch('core/notices').removeNotice('titleError-' + clientId);
+      }
+    }, [titleError]); // Check if the amount of cards is in the allowed range
+
+    useEffect(function () {
+      var cards = attributes.cards;
+
+      if (cards.length < 1 || cards.length > 4) {
+        createErrorNotice(__('Helsinki - Link List Cards', 'hds-wp') + ': ' + __('Please add between 1 and 4 cards', 'hds-wp'), {
+          type: 'default',
+          id: 'cardsError-' + clientId,
+          isDismissible: false,
+          actions: [{
+            label: __('Select', 'hds-wp'),
+            onClick: function onClick() {
+              document.getElementById("block-".concat(clientId)).scrollIntoView({
+                behavior: 'smooth'
+              });
+              dispatch('core/block-editor').selectBlock(clientId);
+            }
+          }]
+        });
+      } else {
+        dispatch('core/notices').removeNotice('cardsError-' + clientId);
+      }
+    }, [cardsError]); //if block or it's innerblock is not selected, map innerblocks attributes to cards
+
+    useEffect(function () {
+      var innerBlocks = select('core/block-editor').getBlocksByClientId(clientId)[0].innerBlocks;
+      var cards = innerBlocks.map(function (block) {
+        return block.attributes;
+      });
+      setAttributes({
+        cards: cards
+      });
+    }, [isSelected, isParentOfSelectedBlock]);
+    useEffect(function () {
+      setCardsError(attributes.cards.length > 0 && attributes.cards.length < 5 ? false : true);
+    }, [attributes]);
+    return /*#__PURE__*/React.createElement(Fragment, null, /*#__PURE__*/React.createElement("div", blockProps, /*#__PURE__*/React.createElement(RichText, {
+      tagName: "h2",
+      className: "hds-links-list-cards__title",
+      value: attributes.title,
+      onChange: function onChange(value) {
+        return setAttributes({
+          title: value
+        }), setTitleError(value ? false : true);
+      },
+      placeholder: __('This is the title*', 'hds-wp'),
+      allowedFormats: []
+    }), /*#__PURE__*/React.createElement("div", {
+      className: "hds-links-list-cards__cards"
+    }, /*#__PURE__*/React.createElement(InnerBlocks, {
+      template: [['hds-wp/link-list-card']],
+      templateLock: false,
+      allowedBlocks: ['hds-wp/link-list-card']
+    }))));
+  }
+
+  function save() {
+    return /*#__PURE__*/React.createElement(Fragment, null, /*#__PURE__*/React.createElement(InnerBlocks.Content, null));
+  }
+})(window.wp);
+
+(function (wp) {
+  var __ = wp.i18n.__;
+  var registerBlockType = wp.blocks.registerBlockType;
+  var _wp$element12 = wp.element,
+      Fragment = _wp$element12.Fragment,
+      createElement = _wp$element12.createElement;
+  var _wp$blockEditor12 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor12.useBlockProps,
+      BlockControls = _wp$blockEditor12.BlockControls,
+      InnerBlocks = _wp$blockEditor12.InnerBlocks;
+  var InspectorControls = wp.editor.InspectorControls;
+  var _wp$data8 = wp.data,
+      withSelect = _wp$data8.withSelect,
+      select = _wp$data8.select,
+      dispatch = _wp$data8.dispatch;
   var compose = wp.compose.compose;
   var apiFetch = wp.apiFetch;
-  var _wp$components8 = wp.components,
-      Button = _wp$components8.Button,
-      TextControl = _wp$components8.TextControl,
-      SelectControl = _wp$components8.SelectControl,
-      ToolbarGroup = _wp$components8.ToolbarGroup,
-      ToolbarButton = _wp$components8.ToolbarButton;
+  var _wp$components12 = wp.components,
+      Button = _wp$components12.Button,
+      TextControl = _wp$components12.TextControl,
+      SelectControl = _wp$components12.SelectControl,
+      ToolbarGroup = _wp$components12.ToolbarGroup,
+      ToolbarButton = _wp$components12.ToolbarButton;
   var PostTypeSelect = hdsWithPostTypeSelectControl();
   var PostSearch = hdsSearchPostsTextControl();
 
@@ -2660,23 +3502,23 @@ function hdsIcons(name) {
   var _wp$blocks7 = wp.blocks,
       registerBlockType = _wp$blocks7.registerBlockType,
       getBlockContent = _wp$blocks7.getBlockContent;
-  var _wp$element9 = wp.element,
-      Fragment = _wp$element9.Fragment,
-      createElement = _wp$element9.createElement,
-      useState = _wp$element9.useState;
-  var _wp$blockEditor9 = wp.blockEditor,
-      useBlockProps = _wp$blockEditor9.useBlockProps,
-      BlockControls = _wp$blockEditor9.BlockControls,
-      InnerBlocks = _wp$blockEditor9.InnerBlocks;
+  var _wp$element13 = wp.element,
+      Fragment = _wp$element13.Fragment,
+      createElement = _wp$element13.createElement,
+      useState = _wp$element13.useState;
+  var _wp$blockEditor13 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor13.useBlockProps,
+      BlockControls = _wp$blockEditor13.BlockControls,
+      InnerBlocks = _wp$blockEditor13.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data6 = wp.data,
-      select = _wp$data6.select,
-      useSelect = _wp$data6.useSelect;
-  var _wp$components9 = wp.components,
-      ToolbarGroup = _wp$components9.ToolbarGroup,
-      ToolbarButton = _wp$components9.ToolbarButton,
-      Button = _wp$components9.Button,
-      ToggleControl = _wp$components9.ToggleControl;
+  var _wp$data9 = wp.data,
+      select = _wp$data9.select,
+      useSelect = _wp$data9.useSelect;
+  var _wp$components13 = wp.components,
+      ToolbarGroup = _wp$components13.ToolbarGroup,
+      ToolbarButton = _wp$components13.ToolbarButton,
+      Button = _wp$components13.Button,
+      ToggleControl = _wp$components13.ToggleControl;
 
   function linkTypeOptions() {
     return [{
@@ -2843,30 +3685,30 @@ function hdsIcons(name) {
 (function (wp) {
   var __ = wp.i18n.__;
   var registerBlockType = wp.blocks.registerBlockType;
-  var _wp$element10 = wp.element,
-      Fragment = _wp$element10.Fragment,
-      createElement = _wp$element10.createElement,
-      useState = _wp$element10.useState,
-      useEffect = _wp$element10.useEffect;
-  var _wp$blockEditor10 = wp.blockEditor,
-      useBlockProps = _wp$blockEditor10.useBlockProps,
-      BlockControls = _wp$blockEditor10.BlockControls,
-      InnerBlocks = _wp$blockEditor10.InnerBlocks,
-      RichText = _wp$blockEditor10.RichText,
-      InspectorControls = _wp$blockEditor10.InspectorControls;
-  var _wp$data7 = wp.data,
-      select = _wp$data7.select,
-      useSelect = _wp$data7.useSelect,
-      useDispatch = _wp$data7.useDispatch,
-      dispatch = _wp$data7.dispatch,
-      subscribe = _wp$data7.subscribe;
-  var _wp$components10 = wp.components,
-      ToolbarGroup = _wp$components10.ToolbarGroup,
-      ToolbarButton = _wp$components10.ToolbarButton,
-      Button = _wp$components10.Button,
-      ToggleControl = _wp$components10.ToggleControl,
-      TextControl = _wp$components10.TextControl,
-      Notice = _wp$components10.Notice;
+  var _wp$element14 = wp.element,
+      Fragment = _wp$element14.Fragment,
+      createElement = _wp$element14.createElement,
+      useState = _wp$element14.useState,
+      useEffect = _wp$element14.useEffect;
+  var _wp$blockEditor14 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor14.useBlockProps,
+      BlockControls = _wp$blockEditor14.BlockControls,
+      InnerBlocks = _wp$blockEditor14.InnerBlocks,
+      RichText = _wp$blockEditor14.RichText,
+      InspectorControls = _wp$blockEditor14.InspectorControls;
+  var _wp$data10 = wp.data,
+      select = _wp$data10.select,
+      useSelect = _wp$data10.useSelect,
+      useDispatch = _wp$data10.useDispatch,
+      dispatch = _wp$data10.dispatch,
+      subscribe = _wp$data10.subscribe;
+  var _wp$components14 = wp.components,
+      ToolbarGroup = _wp$components14.ToolbarGroup,
+      ToolbarButton = _wp$components14.ToolbarButton,
+      Button = _wp$components14.Button,
+      ToggleControl = _wp$components14.ToggleControl,
+      TextControl = _wp$components14.TextControl,
+      Notice = _wp$components14.Notice;
   var store = wp.notices.store;
   registerBlockType('hds-wp/map', {
     apiVersion: 2,
@@ -2906,35 +3748,35 @@ function hdsIcons(name) {
     }
   });
 
-  function edit(_ref3) {
-    var attributes = _ref3.attributes,
-        setAttributes = _ref3.setAttributes,
-        clientId = _ref3.clientId;
+  function edit(_ref5) {
+    var attributes = _ref5.attributes,
+        setAttributes = _ref5.setAttributes,
+        clientId = _ref5.clientId;
     var blockProps = useBlockProps({});
 
-    var _useState = useState(attributes.title ? false : true),
-        _useState2 = _slicedToArray(_useState, 2),
-        titleError = _useState2[0],
-        setTitleError = _useState2[1];
+    var _useState11 = useState(attributes.title ? false : true),
+        _useState12 = _slicedToArray(_useState11, 2),
+        titleError = _useState12[0],
+        setTitleError = _useState12[1];
 
-    var _useState3 = useState(attributes.description ? false : true),
-        _useState4 = _slicedToArray(_useState3, 2),
-        descriptionError = _useState4[0],
-        setDescriptionError = _useState4[1];
+    var _useState13 = useState(attributes.description ? false : true),
+        _useState14 = _slicedToArray(_useState13, 2),
+        descriptionError = _useState14[0],
+        setDescriptionError = _useState14[1];
 
-    var _useState5 = useState(attributes.url ? false : true),
-        _useState6 = _slicedToArray(_useState5, 2),
-        urlError = _useState6[0],
-        setUrlError = _useState6[1];
+    var _useState15 = useState(attributes.url ? false : true),
+        _useState16 = _slicedToArray(_useState15, 2),
+        urlError = _useState16[0],
+        setUrlError = _useState16[1];
 
-    var _useState7 = useState(attributes.assistive_title ? false : true),
-        _useState8 = _slicedToArray(_useState7, 2),
-        assistiveTitleError = _useState8[0],
-        setAssistiveTitleError = _useState8[1];
+    var _useState17 = useState(attributes.assistive_title ? false : true),
+        _useState18 = _slicedToArray(_useState17, 2),
+        assistiveTitleError = _useState18[0],
+        setAssistiveTitleError = _useState18[1];
 
-    var _useDispatch = useDispatch(store),
-        createErrorNotice = _useDispatch.createErrorNotice,
-        removeNotice = _useDispatch.removeNotice; // Set unique block id, needed for skip link
+    var _useDispatch4 = useDispatch(store),
+        createErrorNotice = _useDispatch4.createErrorNotice,
+        removeNotice = _useDispatch4.removeNotice; // Set unique block id, needed for skip link
 
 
     useEffect(function () {
@@ -3060,7 +3902,9 @@ function hdsIcons(name) {
       },
       placeholder: __('Map description*', 'hds-wp'),
       allowedFormats: ['core/bold', 'core/italic', 'core/link', 'core/paragraph']
-    }), attributes.url && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("iframe", {
+    }), attributes.url && /*#__PURE__*/React.createElement("div", {
+      class: "hds-map__container"
+    }, /*#__PURE__*/React.createElement("iframe", {
       src: attributes.url,
       title: attributes.assistive_title || attributes.title,
       scrolling: "no"
@@ -3131,20 +3975,20 @@ function hdsIcons(name) {
   var _wp$blocks8 = wp.blocks,
       registerBlockType = _wp$blocks8.registerBlockType,
       getBlockContent = _wp$blocks8.getBlockContent;
-  var _wp$element11 = wp.element,
-      Fragment = _wp$element11.Fragment,
-      createElement = _wp$element11.createElement;
-  var _wp$blockEditor11 = wp.blockEditor,
-      useBlockProps = _wp$blockEditor11.useBlockProps,
-      BlockControls = _wp$blockEditor11.BlockControls,
-      InnerBlocks = _wp$blockEditor11.InnerBlocks;
-  var _wp$components11 = wp.components,
-      ToolbarGroup = _wp$components11.ToolbarGroup,
-      ToolbarButton = _wp$components11.ToolbarButton,
-      Button = _wp$components11.Button;
-  var _wp$data8 = wp.data,
-      select = _wp$data8.select,
-      useSelect = _wp$data8.useSelect;
+  var _wp$element15 = wp.element,
+      Fragment = _wp$element15.Fragment,
+      createElement = _wp$element15.createElement;
+  var _wp$blockEditor15 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor15.useBlockProps,
+      BlockControls = _wp$blockEditor15.BlockControls,
+      InnerBlocks = _wp$blockEditor15.InnerBlocks;
+  var _wp$components15 = wp.components,
+      ToolbarGroup = _wp$components15.ToolbarGroup,
+      ToolbarButton = _wp$components15.ToolbarButton,
+      Button = _wp$components15.Button;
+  var _wp$data11 = wp.data,
+      select = _wp$data11.select,
+      useSelect = _wp$data11.useSelect;
 
   function edit() {
     return function (props) {
@@ -3227,23 +4071,23 @@ function hdsIcons(name) {
   var _wp$blocks9 = wp.blocks,
       registerBlockType = _wp$blocks9.registerBlockType,
       getBlockContent = _wp$blocks9.getBlockContent;
-  var _wp$element12 = wp.element,
-      Fragment = _wp$element12.Fragment,
-      createElement = _wp$element12.createElement;
-  var _wp$blockEditor12 = wp.blockEditor,
-      useBlockProps = _wp$blockEditor12.useBlockProps,
-      BlockControls = _wp$blockEditor12.BlockControls,
-      InnerBlocks = _wp$blockEditor12.InnerBlocks;
+  var _wp$element16 = wp.element,
+      Fragment = _wp$element16.Fragment,
+      createElement = _wp$element16.createElement;
+  var _wp$blockEditor16 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor16.useBlockProps,
+      BlockControls = _wp$blockEditor16.BlockControls,
+      InnerBlocks = _wp$blockEditor16.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$components12 = wp.components,
-      ToolbarGroup = _wp$components12.ToolbarGroup,
-      ToolbarButton = _wp$components12.ToolbarButton,
-      Button = _wp$components12.Button,
-      ToggleControl = _wp$components12.ToggleControl;
-  var _wp$data9 = wp.data,
-      select = _wp$data9.select,
-      dispatch = _wp$data9.dispatch,
-      useSelect = _wp$data9.useSelect;
+  var _wp$components16 = wp.components,
+      ToolbarGroup = _wp$components16.ToolbarGroup,
+      ToolbarButton = _wp$components16.ToolbarButton,
+      Button = _wp$components16.Button,
+      ToggleControl = _wp$components16.ToggleControl;
+  var _wp$data12 = wp.data,
+      select = _wp$data12.select,
+      dispatch = _wp$data12.dispatch,
+      useSelect = _wp$data12.useSelect;
 
   function timelineTitle(props) {
     if (props.attributes.title != null && props.attributes.title != '') {
@@ -3436,23 +4280,23 @@ function hdsIcons(name) {
       registerBlockStyle = _wp$blocks10.registerBlockStyle,
       unregisterBlockStyle = _wp$blocks10.unregisterBlockStyle,
       getBlockContent = _wp$blocks10.getBlockContent;
-  var _wp$element13 = wp.element,
-      Fragment = _wp$element13.Fragment,
-      createElement = _wp$element13.createElement,
-      useState = _wp$element13.useState;
-  var _wp$blockEditor13 = wp.blockEditor,
-      useBlockProps = _wp$blockEditor13.useBlockProps,
-      BlockControls = _wp$blockEditor13.BlockControls,
-      InnerBlocks = _wp$blockEditor13.InnerBlocks;
+  var _wp$element17 = wp.element,
+      Fragment = _wp$element17.Fragment,
+      createElement = _wp$element17.createElement,
+      useState = _wp$element17.useState;
+  var _wp$blockEditor17 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor17.useBlockProps,
+      BlockControls = _wp$blockEditor17.BlockControls,
+      InnerBlocks = _wp$blockEditor17.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data10 = wp.data,
-      select = _wp$data10.select,
-      useSelect = _wp$data10.useSelect;
-  var _wp$components13 = wp.components,
-      ToolbarGroup = _wp$components13.ToolbarGroup,
-      ToolbarButton = _wp$components13.ToolbarButton,
-      Button = _wp$components13.Button,
-      ToggleControl = _wp$components13.ToggleControl;
+  var _wp$data13 = wp.data,
+      select = _wp$data13.select,
+      useSelect = _wp$data13.useSelect;
+  var _wp$components17 = wp.components,
+      ToolbarGroup = _wp$components17.ToolbarGroup,
+      ToolbarButton = _wp$components17.ToolbarButton,
+      Button = _wp$components17.Button,
+      ToggleControl = _wp$components17.ToggleControl;
   var PostCategorySelect = hdsWithPostCategorySelectControl();
 
   function articleCountOptions() {
@@ -3604,23 +4448,23 @@ function hdsIcons(name) {
   var _wp$blocks11 = wp.blocks,
       registerBlockType = _wp$blocks11.registerBlockType,
       getBlockContent = _wp$blocks11.getBlockContent;
-  var _wp$element14 = wp.element,
-      Fragment = _wp$element14.Fragment,
-      createElement = _wp$element14.createElement,
-      useState = _wp$element14.useState;
-  var _wp$blockEditor14 = wp.blockEditor,
-      useBlockProps = _wp$blockEditor14.useBlockProps,
-      BlockControls = _wp$blockEditor14.BlockControls,
-      InnerBlocks = _wp$blockEditor14.InnerBlocks;
+  var _wp$element18 = wp.element,
+      Fragment = _wp$element18.Fragment,
+      createElement = _wp$element18.createElement,
+      useState = _wp$element18.useState;
+  var _wp$blockEditor18 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor18.useBlockProps,
+      BlockControls = _wp$blockEditor18.BlockControls,
+      InnerBlocks = _wp$blockEditor18.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data11 = wp.data,
-      select = _wp$data11.select,
-      useSelect = _wp$data11.useSelect;
-  var _wp$components14 = wp.components,
-      ToolbarGroup = _wp$components14.ToolbarGroup,
-      ToolbarButton = _wp$components14.ToolbarButton,
-      Button = _wp$components14.Button,
-      ToggleControl = _wp$components14.ToggleControl;
+  var _wp$data14 = wp.data,
+      select = _wp$data14.select,
+      useSelect = _wp$data14.useSelect;
+  var _wp$components18 = wp.components,
+      ToolbarGroup = _wp$components18.ToolbarGroup,
+      ToolbarButton = _wp$components18.ToolbarButton,
+      Button = _wp$components18.Button,
+      ToggleControl = _wp$components18.ToggleControl;
 
   function articleCountOptions() {
     return [{
@@ -3711,18 +4555,18 @@ function hdsIcons(name) {
 (function (wp) {
   var __ = wp.i18n.__;
   var registerBlockType = wp.blocks.registerBlockType;
-  var _wp$element15 = wp.element,
-      Fragment = _wp$element15.Fragment,
-      useState = _wp$element15.useState,
-      useEffect = _wp$element15.useEffect;
-  var _wp$blockEditor15 = wp.blockEditor,
-      useBlockProps = _wp$blockEditor15.useBlockProps,
-      RichText = _wp$blockEditor15.RichText;
+  var _wp$element19 = wp.element,
+      Fragment = _wp$element19.Fragment,
+      useState = _wp$element19.useState,
+      useEffect = _wp$element19.useEffect;
+  var _wp$blockEditor19 = wp.blockEditor,
+      useBlockProps = _wp$blockEditor19.useBlockProps,
+      RichText = _wp$blockEditor19.RichText;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data12 = wp.data,
-      useDispatch = _wp$data12.useDispatch,
-      dispatch = _wp$data12.dispatch,
-      subscribe = _wp$data12.subscribe;
+  var _wp$data15 = wp.data,
+      useDispatch = _wp$data15.useDispatch,
+      dispatch = _wp$data15.dispatch,
+      subscribe = _wp$data15.subscribe;
   var TextControl = wp.components.TextControl;
   var store = wp.notices.store;
   registerBlockType('hds-wp/video', {
@@ -3768,35 +4612,35 @@ function hdsIcons(name) {
     }
   });
 
-  function edit(_ref4) {
-    var attributes = _ref4.attributes,
-        setAttributes = _ref4.setAttributes,
-        clientId = _ref4.clientId;
+  function edit(_ref6) {
+    var attributes = _ref6.attributes,
+        setAttributes = _ref6.setAttributes,
+        clientId = _ref6.clientId;
     var blockProps = useBlockProps({});
 
-    var _useState9 = useState(attributes.title ? false : true),
-        _useState10 = _slicedToArray(_useState9, 2),
-        titleError = _useState10[0],
-        setTitleError = _useState10[1];
+    var _useState19 = useState(attributes.title ? false : true),
+        _useState20 = _slicedToArray(_useState19, 2),
+        titleError = _useState20[0],
+        setTitleError = _useState20[1];
 
-    var _useState11 = useState(attributes.description ? false : true),
-        _useState12 = _slicedToArray(_useState11, 2),
-        descriptionError = _useState12[0],
-        setDescriptionError = _useState12[1];
+    var _useState21 = useState(attributes.description ? false : true),
+        _useState22 = _slicedToArray(_useState21, 2),
+        descriptionError = _useState22[0],
+        setDescriptionError = _useState22[1];
 
-    var _useState13 = useState(attributes.url ? false : true),
-        _useState14 = _slicedToArray(_useState13, 2),
-        urlError = _useState14[0],
-        setUrlError = _useState14[1];
+    var _useState23 = useState(attributes.url ? false : true),
+        _useState24 = _slicedToArray(_useState23, 2),
+        urlError = _useState24[0],
+        setUrlError = _useState24[1];
 
-    var _useState15 = useState(attributes.assistive_title ? false : true),
-        _useState16 = _slicedToArray(_useState15, 2),
-        assistiveTitleError = _useState16[0],
-        setAssistiveTitleError = _useState16[1];
+    var _useState25 = useState(attributes.assistive_title ? false : true),
+        _useState26 = _slicedToArray(_useState25, 2),
+        assistiveTitleError = _useState26[0],
+        setAssistiveTitleError = _useState26[1];
 
-    var _useDispatch2 = useDispatch(store),
-        createErrorNotice = _useDispatch2.createErrorNotice,
-        removeNotice = _useDispatch2.removeNotice; // Set unique block id, needed for skip link
+    var _useDispatch5 = useDispatch(store),
+        createErrorNotice = _useDispatch5.createErrorNotice,
+        removeNotice = _useDispatch5.removeNotice; // Set unique block id, needed for skip link
 
 
     useEffect(function () {
@@ -3924,7 +4768,9 @@ function hdsIcons(name) {
       },
       placeholder: __('Video description*', 'hds-wp'),
       allowedFormats: ['core/bold', 'core/italic', 'core/link', 'core/paragraph']
-    }), attributes.iframeUrl && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("figure", {
+    }), attributes.iframeUrl && /*#__PURE__*/React.createElement("div", {
+      class: "hds-video__container"
+    }, /*#__PURE__*/React.createElement("figure", {
       class: "wp-block-embed wp-has-aspect-ratio wp-embed-aspect-16-9"
     }, /*#__PURE__*/React.createElement("div", {
       class: "wp-block-embed__wrapper"
@@ -4002,192 +4848,116 @@ function hdsIcons(name) {
 })(window.wp);
 
 wp.domReady(function () {
-  /**
-    * Buttons
-    */
-  wp.blocks.unregisterBlockStyle('core/button', 'default');
-  wp.blocks.unregisterBlockStyle('core/button', 'outline');
-  wp.blocks.unregisterBlockStyle('core/button', 'fill');
-  wp.blocks.registerBlockStyle('core/button', [{
-    name: 'default',
-    label: wp.i18n.__('Primary', 'hds-wp'),
-    isDefault: true
-  }, {
-    name: 'secondary',
-    label: wp.i18n.__('Secondary', 'hds-wp')
-  }, {
-    name: 'supplementary',
-    label: wp.i18n.__('Supplementary', 'hds-wp')
-  }]);
-  /**
-    * Text
-    */
-
-  var withBackgroundStyle = ['core/group', 'core/paragraph'];
-
-  for (var i = 0; i < withBackgroundStyle.length; i++) {
-    wp.blocks.registerBlockStyle(withBackgroundStyle[i], [{
-      name: 'light-gray-background',
-      label: wp.i18n.__('Light Gray Background', 'hds-wp')
-    }]);
-  }
-  /**
-   * Image
-   */
-
-
-  wp.blocks.unregisterBlockStyle('core/image', 'rounded');
-  /**
-   * Quote
-   */
-
-  wp.blocks.unregisterBlockStyle('core/quote', 'plain');
-});
-
-(function (wp) {
-  function addColumnAttributes(settings, name) {
-    if (typeof settings.attributes !== 'undefined') {
-      if (name == 'core/column') {
-        settings.attributes = Object.assign(settings.attributes, {
-          allowedBlocks: {
-            type: 'array',
-            default: ['core/heading', 'core/paragraph', 'core/quote', 'core/table', 'core/list', 'core/freeform', 'core/image', 'core/video', 'core/audio', 'core/file', 'core/buttons', 'core/embed']
-          }
-        });
-      } else if (name == 'core/columns') {
-        settings.transforms.from[0].isMatch = function (attr, block) {
-          if (block[0].name.startsWith('hds-wp') || block[0].name.startsWith('helsinki')) {
-            return false;
-          }
-
-          return true;
-        };
-      }
-    }
-
-    return settings;
-  }
-
-  wp.hooks.addFilter('blocks.registerBlockType', 'column/custom-attributes', addColumnAttributes);
-})(window.wp);
-
-(function (wp) {
-  function addGroupAttributes(settings, name) {
-    if (typeof settings.attributes !== 'undefined') {
-      if (name == 'core/group') {
-        settings.transforms.from[0].isMatch = function (attr, block) {
-          if (block[0].name.startsWith('hds-wp') || block[0].name.startsWith('helsinki')) {
-            return false;
-          }
-
-          return true;
-        };
-      }
-    }
-
-    return settings;
-  }
-
-  wp.hooks.addFilter('blocks.registerBlockType', 'group/custom-attributes', addGroupAttributes);
-})(window.wp);
-
-(function (wp) {
-  function addTableAttributes(settings, name) {
-    if (typeof settings.attributes !== 'undefined') {
-      if (name == 'core/table') {
-        settings.attributes = Object.assign(settings.attributes, {
-          verticalHeader: {
-            type: 'boolean'
-          },
-          title: {
-            type: 'string'
-          }
-        });
-      }
-    }
-
-    return settings;
-  }
-
-  wp.hooks.addFilter('blocks.registerBlockType', 'table/custom-attributes', addTableAttributes);
-  var tableAdvancedControls = wp.compose.createHigherOrderComponent(function (BlockEdit) {
-    return function (props) {
-      var __ = wp.i18n.__;
-      var _wp$element16 = wp.element,
-          Fragment = _wp$element16.Fragment,
-          createElement = _wp$element16.createElement;
-      var _wp$components15 = wp.components,
-          ToggleControl = _wp$components15.ToggleControl,
-          Panel = _wp$components15.Panel,
-          PanelBody = _wp$components15.PanelBody,
-          TextControl = _wp$components15.TextControl;
-      var _wp$blockEditor16 = wp.blockEditor,
-          InspectorControls = _wp$blockEditor16.InspectorControls,
-          BlockControls = _wp$blockEditor16.BlockControls,
-          useBlockProps = _wp$blockEditor16.useBlockProps;
-      var attributes = props.attributes,
-          setAttributes = props.setAttributes,
-          isSelected = props.isSelected;
-      return /*#__PURE__*/React.createElement(Fragment, null, /*#__PURE__*/React.createElement(BlockEdit, props), isSelected && props.name == 'core/table' && /*#__PURE__*/React.createElement(InspectorControls, null, /*#__PURE__*/React.createElement(PanelBody, {
-        title: __('Advanced table settings', 'hds-wp')
-      }, /*#__PURE__*/React.createElement(TextControl, {
-        label: __('Title', 'hds-wp'),
-        value: attributes.title,
-        onChange: function onChange(value) {
-          return setAttributes({
-            title: value
-          });
-        }
-      }), /*#__PURE__*/React.createElement(ToggleControl, {
-        label: __('Vertical header', 'hds-wp'),
-        checked: attributes.verticalHeader,
-        onChange: function onChange(value) {
-          return setAttributes({
-            verticalHeader: value
-          });
-        }
-      }))));
-    };
-  }, 'tableAdvancedControls');
-  wp.hooks.addFilter('editor.BlockEdit', 'table/custom-control', tableAdvancedControls);
-
-  function tableApplyExtraClass(extraProps, blockType, attributes) {
-    var verticalHeader = attributes.verticalHeader;
-
-    if (typeof verticalHeader !== 'undefined' && verticalHeader) {
-      extraProps.className = extraProps.className + ' has-vertical-header';
-    }
-
-    return extraProps;
-  }
-
-  wp.hooks.addFilter('blocks.getSaveContent.extraProps', 'table/custom-apply-class', tableApplyExtraClass);
-  var tableEditorWrapperExtraClass = wp.compose.createHigherOrderComponent(function (BlockListBlock) {
-    return function (props) {
-      var name = props.name,
-          attributes = props.attributes;
-
-      if (name != 'core/table') {
-        return /*#__PURE__*/React.createElement(BlockListBlock, props);
-      }
-
-      var verticalHeader = attributes.verticalHeader;
-      var customClass = verticalHeader ? 'has-vertical-header' : '';
-      return /*#__PURE__*/React.createElement(BlockListBlock, _extends({}, props, {
-        className: customClass
-      }));
-    };
-  }, 'tableEditorWrapperExtraClass');
-  wp.hooks.addFilter('editor.BlockListBlock', 'table/custom-editor-wrapper-class', tableEditorWrapperExtraClass);
-})(window.wp);
-
-wp.domReady(function () {
   /* Disable default formats */
   wp.richText.unregisterFormatType('core/image');
   wp.richText.unregisterFormatType('core/text-color');
   wp.richText.unregisterFormatType('core/keyboard');
   wp.richText.unregisterFormatType('core/code');
-});
+}); //remove error notices when block is removed
+
+(function () {
+  var _wp$data16 = wp.data,
+      select = _wp$data16.select,
+      subscribe = _wp$data16.subscribe,
+      dispatch = _wp$data16.dispatch;
+  var store = wp.notices.store;
+
+  var getBlocks = function getBlocks() {
+    var blocks = [];
+    var rootBlocks = select('core/block-editor').getBlocks();
+
+    function getChildren(block) {
+      var children = [];
+
+      if (block.innerBlocks) {
+        block.innerBlocks.forEach(function (innerBlock) {
+          children.push(innerBlock);
+        });
+      }
+
+      if (children.length > 0) {
+        children.forEach(function (child) {
+          blocks.push(child);
+          getChildren(child);
+        });
+      }
+    }
+
+    rootBlocks.forEach(function (block) {
+      blocks.push(block);
+      getChildren(block);
+    });
+    return blocks;
+  };
+
+  Array.prototype.diff = function (a) {
+    return this.filter(function (i) {
+      return !a.some(function (item) {
+        return item.clientId === i.clientId;
+      });
+    });
+  };
+
+  var blocksState = getBlocks();
+  subscribe(_.debounce(function () {
+    var notices = select(store).getNotices();
+    var newBlocksState = getBlocks(); // Lock saving if notices contain error notices
+
+    var errorNotices = notices.filter(function (notice) {
+      return notice.status === 'error';
+    });
+
+    if (errorNotices.length > 0) {
+      dispatch('core/editor').lockPostSaving('requiredValueLock');
+    } else {
+      if (select('core/editor').isPostSavingLocked()) {
+        dispatch('core/editor').unlockPostSaving('requiredValueLock');
+      }
+    } // When very last block is removed, it's replaced with a new paragraph block.
+    // This is a workaround to remove the error notice.
+
+
+    if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
+      // remove newBlocksState from blocksState
+      var removedBlock = blocksState.diff(newBlocksState);
+
+      if (removedBlock.length > 0 || removedBlock[0].name === 'core/paragraph') {
+        var getChildren = function getChildren(block) {
+          var children = [];
+
+          if (block.innerBlocks) {
+            block.innerBlocks.forEach(function (innerBlock) {
+              children.push(innerBlock);
+            });
+          }
+
+          if (children.length > 0) {
+            children.forEach(function (child) {
+              clientIds.push(child.clientId);
+              getChildren(child.clientId);
+            });
+          }
+        };
+
+        var clientIds = [];
+        removedBlock.forEach(function (block) {
+          clientIds.push(block.clientId);
+          getChildren(block);
+        });
+        var noticesToRemove = notices.filter(function (notice) {
+          return clientIds.some(function (clientId) {
+            return notice.id.includes(clientId);
+          });
+        });
+        noticesToRemove.forEach(function (notice) {
+          dispatch('core/notices').removeNotice(notice.id);
+        });
+      }
+    }
+
+    blocksState = newBlocksState;
+  }, 300));
+})(window.wp);
 
 (function (wp) {
   /* inspired from https://github.com/Yoast/wpseo-woocommerce/blob/trunk/js/src/yoastseo-woo-replacevars.js */
@@ -4368,59 +5138,4 @@ wp.domReady(function () {
   }
 
   initializeReplacevarPlugin();
-})(window.wp); //remove error notices when block is removed
-
-
-(function () {
-  var _wp$data13 = wp.data,
-      select = _wp$data13.select,
-      subscribe = _wp$data13.subscribe,
-      dispatch = _wp$data13.dispatch;
-  var store = wp.notices.store;
-
-  var getBlocks = function getBlocks() {
-    return select('core/block-editor').getBlocks();
-  };
-
-  Array.prototype.diff = function (a) {
-    return this.filter(function (i) {
-      return a.indexOf(i) < 0;
-    });
-  };
-
-  var blocksState = getBlocks();
-  subscribe(_.debounce(function () {
-    var notices = select(store).getNotices();
-    var newBlocksState = getBlocks(); // Lock saving if notices contain error notices
-
-    var errorNotices = notices.filter(function (notice) {
-      return notice.status === 'error';
-    });
-
-    if (errorNotices.length > 0) {
-      dispatch('core/editor').lockPostSaving('requiredValueLock');
-    } else {
-      if (select('core/editor').isPostSavingLocked()) {
-        dispatch('core/editor').unlockPostSaving('requiredValueLock');
-      }
-    } // When very last block is removed, it's replaced with a new paragraph block.
-    // This is a workaround to remove the error notice.
-
-
-    if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
-      // remove newBlocksState from blocksState
-      var removedBlock = blocksState.diff(newBlocksState);
-
-      if (removedBlock.length === 1 || removedBlock.length > 0 && removedBlock[0].name === 'core/paragraph') {
-        var noticesToRemove = notices.filter(function (notice) {
-          return notice.id.includes(removedBlock[0].clientId);
-        });
-        noticesToRemove.forEach(function (notice) {
-          dispatch('core/notices').removeNotice(notice.id);
-        });
-      }
-    }
-
-    blocksState = newBlocksState;
-  }, 300));
 })(window.wp);

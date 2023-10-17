@@ -1,14 +1,16 @@
 .wp-block-hds-wp-timeline {
     position: relative;
-    margin-bottom: spacing('l');
+	@extend %helsinki-block-spacing;
 
-    @include breakpoint('m') {
-        margin-bottom: spacing('4-xl');
+    .excerpt {
+        margin: 0;
     }
 
     .timeline {
         position: relative;
-		margin: 0;
+		margin-left: 0;
+        margin-bottom: 0;
+        @extend %helsinki-block-content-spacing;
     }
 
     .wp-block-hds-wp-timeline-card {

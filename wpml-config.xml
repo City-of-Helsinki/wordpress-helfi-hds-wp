@@ -59,5 +59,20 @@
     <gutenberg-block type="hds-wp/accordion-panel" translate="1">
       <key name="panelTitle" />
     </gutenberg-block>
+    <gutenberg-block type="hds-wp/link-list-cards" translate="1">
+      <key name="title" />
+    </gutenberg-block>
+    <gutenberg-block type="hds-wp/link-list-card" translate="1">
+      <key name="title" />
+    </gutenberg-block>
+    <gutenberg-block type="hds-wp/link-list-card-link" translate="1">
+      <key name="linkTitle" />
+      <key name="linkExcerpt" />
+      <key name="linkUrl" />
+    </gutenberg-block>
+    <gutenberg-block type="hds-wp/content-cards" translate="1">
+      <key name="title" />
+      <key name="description" />
+    </gutenberg-block>
   </gutenberg-blocks>
 </wpml-config>
