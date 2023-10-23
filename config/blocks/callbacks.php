@@ -1576,15 +1576,6 @@ function hds_wp_render_video($attributes)
 }
 
 /**
- * Utilities
- */
-
-function hds_wp_get_random_id()
-{
-	return substr(md5(uniqid(rand(), true)), 0, 20);
-}
-
-/*
  * Link List Cards
  */
 
@@ -1691,4 +1682,13 @@ function hds_wp_render_link_list_card_link($attributes)
 		$target,
 		$title
 	);
+}
+
+/**
+ * Utilities
+ */
+
+function hds_wp_get_random_id()
+{
+	return substr(md5(uniqid(rand(), true)), 0, 20);
 }
