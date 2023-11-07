@@ -137,13 +137,14 @@
 
     .card__title {
       font-size: rem-calc(24);
+      font-weight: $global-font-weight-medium;
       margin: 0;
     }
 
     .card__excerpt {
       font-size: rem-calc(16);
       color: $dark-gray;
-      margin-top: spacing('m');
+      margin-top: spacing('2-xs');
       margin-bottom: 0;
 
       @include breakpoint('m') {
@@ -154,7 +155,7 @@
     .card__date {
       color: $dark-gray;
       font-size: rem-calc(14);
-      margin: spacing('m') 0 0;
+      margin: spacing('2-xs') 0 0;
     }
 
     .card__more {
@@ -180,6 +181,7 @@
     max-width: 100vw;
     width: 100vw;
     margin-bottom: spacing('l');
+    padding-bottom: spacing('l');
 
     @include breakpoint('l') {
       margin-bottom: spacing('4-xl');
