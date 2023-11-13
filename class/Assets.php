@@ -94,7 +94,7 @@ class Assets extends Module {
 		return $this->config->value('debug') ? filemtime( $path ) : $this->config->value('version');
 	}
 
-	public function adminScripts( string $hook ) {
+	public function adminScripts() {
 		wp_enqueue_script(
 			'helsinki-wp-admin-scripts',
 			$this->assetUrl('admin', 'scripts', $this->minified, 'js'),
@@ -115,10 +115,10 @@ class Assets extends Module {
 			'hasInvertedColor' => function_exists('helsinki_scheme_has_invert_color') ? helsinki_scheme_has_invert_color() : false,
 			'blocksUrl' => $pluginUrl,
 		));
-	
+
 	}
 
-	public function adminStyles( string $hook ) {
+	public function adminStyles() {
 		wp_enqueue_style(
 			'helsinki-wp-admin-styles',
 			$this->assetUrl('admin', 'styles', $this->minified, 'css'),
@@ -130,7 +130,7 @@ class Assets extends Module {
 			$current_scheme = helsinki_theme_mod('helsinki_general_style', 'scheme');
 			if (function_exists('helsinki_default_scheme')) {
 				$current_scheme = $current_scheme ?: helsinki_default_scheme();
-			}		
+			}
 			ob_start();
 			helsinki_scheme_root_styles($current_scheme);
 			$inlineStyle = ob_get_clean();
