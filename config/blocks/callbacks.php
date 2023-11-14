@@ -712,7 +712,7 @@ function hds_wp_render_image_text($attributes)
 				%s
 				<figcaption class="screen-reader-text">%s</figcaption>
 			</figure>',
-			wp_get_attachment_image($attributes['mediaId'], 'full', false, $imageConfig),
+			$attributes['mediaId'] > 0 ? wp_get_attachment_image($attributes['mediaId'], 'full', false, $imageConfig) : sprintf('<img src="%s" alt="%s" width="%s" height="%s" />', $attributes['mediaUrl'], $attributes['mediaAlt'], $attributes['mediaWidth'], $attributes['mediaHeight']),
 			$credit ? $credit : ''
 		);
 		$wrapClasses[] = 'has-image';
