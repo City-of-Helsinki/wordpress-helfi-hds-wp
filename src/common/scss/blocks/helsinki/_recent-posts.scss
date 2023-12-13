@@ -36,9 +36,17 @@
 
 }
 
+.recent-posts.is-style-without-image, .wp-block-hds-wp-recent-posts.is-style-without-image {
+    @extend .feed-posts;
+
+    .posts {
+        margin-bottom: spacing('m');
+    }
+}
+
 .has-sidebar {
 	
-    .recent-posts {
+    .recent-posts:not(.is-style-without-image) {
 
         .grid {
             @include breakpoint('l') {
