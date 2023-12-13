@@ -66,6 +66,7 @@
 .wp-block-button {
   .wp-block-button__link {
     @extend .hds-button;
+    display: inline-block !important;
   }
 
   &.is-style-secondary {
