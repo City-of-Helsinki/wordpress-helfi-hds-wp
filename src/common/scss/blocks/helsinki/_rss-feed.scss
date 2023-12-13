@@ -20,6 +20,10 @@
         padding-left: 0 !important;
         row-gap: spacing('m');
 
+        @include breakpoint('l') {
+            row-gap: spacing('l');
+        }
+
         li {
             width: 100%;
 
