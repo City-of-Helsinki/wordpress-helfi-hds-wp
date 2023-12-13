@@ -1085,18 +1085,42 @@ function hds_wp_recent_posts_grid($args = array())
 		ob_start();
 		while ($args['query']->have_posts()) {
 			$args['query']->the_post();
-			helsinki_grid_entry($args);
+
+			if (strpos($args['attributes']['className'], 'is-style-without-image') !== false) {
+				echo hds_wp_feed_list_item();
+			}
+			else {
+				helsinki_grid_entry($args);
+			}
 		}
 		$content = ob_get_clean();
 		wp_reset_postdata();
 	} else {
 		while ($args['query']->have_posts()) {
 			$args['query']->the_post();
-			$content .= hds_wp_recent_posts_grid_entry($args);
+
+			if (strpos($args['attributes']['className'], 'is-style-without-image') !== false) {
+				$content .= hds_wp_feed_list_item();
+			}
+			else {
+				$content .= hds_wp_recent_posts_grid_entry($args);
+			}
 		}
 		wp_reset_postdata();
 	}
 
+	if (strpos($args['attributes']['className'], 'is-style-without-image') !== false) {
+		return sprintf(
+			'<div class="entries l-up-2">
+				<div>
+					<ul class="posts">
+						%s
+					</ul>
+				</div>
+			</div>',
+			$content
+		);
+	}
 
 	return sprintf(
 		'<div class="grid entries m-up-2 l-up-4">
@@ -1348,11 +1372,11 @@ function hds_wp_feed_list_item($args = array())
 				</div>
 			</article>
 		</li>',
-		esc_url($args['item']->get_permalink()),
-		esc_html($args['item']->get_title()),
+		esc_url(isset($args['item']) ? $args['item']->get_permalink() : get_permalink()),
+		esc_html(isset($args['item']) ? $args['item']->get_title() : get_the_title()),
 		esc_html('Published:', 'hds-wp'),
-		esc_attr($args['item']->get_date('c')),
-		esc_html($args['item']->get_date($args['date_format'] . ' ' . $args['time_format']))
+		esc_attr(isset($args['item']) ? $args['item']->get_date('c') : get_the_date('c')),
+		esc_html(isset($args['item']) ? $args['item']->get_date($args['date_format'] . ' ' . $args['time_format']) : get_the_date('d.m.Y H:i'))
 	);
 }
 
