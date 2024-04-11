@@ -30,7 +30,12 @@ class Blocks extends Module {
 
 	public function disallowedBlocks(): void
 	{
-		$disallowed = json_encode( $this->config->value( 'disallowed-blocks' ) );
+		$disallowed = apply_filters(
+			'helsinki_wp_disallowed_blocks',
+			$this->config->value( 'disallowed-blocks' )
+		);
+
+		$disallowed = json_encode( $disallowed );
 
 		wp_add_inline_script(
 			'helsinki-wp-admin-scripts',
