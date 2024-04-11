@@ -115,7 +115,12 @@ class Blocks extends Module {
 			function( $name ) {
 				return '<li>' . esc_html( $name ) . '</li>';
 			},
-			array_keys( $items )
+			array_keys( array_filter(
+				$items,
+				function( $item ) {
+					return empty( $item );
+				}
+			) )
 		);
 
 		printf(
