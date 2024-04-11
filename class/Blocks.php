@@ -9,6 +9,7 @@ class Blocks extends Module {
 
 	public function init() {
 		add_filter( 'hds_wp_settings_tabs', array( $this, 'settingsTab' ) );
+		add_filter( 'hds_wp_settings_tab_panel', array( $this, 'settingsTabPanel' ) );
 		add_filter( 'block_categories_all', array( $this, 'category' ), 10, 2 );
 		add_filter( 'hds_wp_admin_scripts_dependencies', array( $this, 'dependencies' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'disallowedBlocks' ) );
@@ -30,12 +31,7 @@ class Blocks extends Module {
 
 	public function disallowedBlocks(): void
 	{
-		$disallowed = apply_filters(
-			'helsinki_wp_disallowed_blocks',
-			$this->config->value( 'disallowed-blocks' )
-		);
-
-		$disallowed = json_encode( $disallowed );
+		$disallowed = json_encode( $this->disallowedBlocksConfig() );
 
 		wp_add_inline_script(
 			'helsinki-wp-admin-scripts',
@@ -82,4 +78,61 @@ class Blocks extends Module {
 		);
 	}
 
+	public function settingsTabPanel( $tab ): void
+	{
+		if ( 'blocks' !== $tab ) {
+			return;
+		}
+
+		$disallowed = $this->disallowedBlocksConfig();
+
+		echo '<h2>' . esc_html__('Disallowed blocks', 'hds-wp') . '</h2>';
+		echo '<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));">';
+
+		if ( ! empty( $disallowed['common'] ) ) {
+			$this->renderBlocksList( __('Common', 'hds-wp'), $disallowed['common'] );
+		}
+
+		if ( ! empty( $disallowed['vendors'] ) ) {
+			$this->renderBlocksList( __('3rd party', 'hds-wp'), $disallowed['vendors'] );
+		}
+
+		if ( ! empty( $disallowed['post_types'] ) ) {
+			foreach ( $disallowed['post_types'] as $post_type => $blocks ) {
+				$this->renderBlocksList(
+					sprintf( '%s: %s', __('Post type', 'hds-wp'), $post_type ),
+					$blocks
+				);
+			}
+		}
+
+		echo '</div>';
+	}
+
+	protected function renderBlocksList( string $title, array $items ): void
+	{
+		$names = array_map(
+			function( $name ) {
+				return '<li>' . esc_html( $name ) . '</li>';
+			},
+			array_keys( $items )
+		);
+
+		printf(
+			'<div class="disallowed-blocks">
+				<h3>%s</h3>
+				<ul>%s</ul>
+			</div>',
+			esc_html( $title ),
+			implode( '', $names )
+		);
+	}
+
+	protected function disallowedBlocksConfig(): array
+	{
+		return apply_filters(
+			'helsinki_wp_disallowed_blocks',
+			$this->config->value( 'disallowed-blocks' )
+		);
+	}
 }
