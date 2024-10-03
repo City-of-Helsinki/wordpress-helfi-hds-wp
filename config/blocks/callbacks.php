@@ -177,7 +177,6 @@ function hds_wp_query_block_post_id(int $post)
 
 function hds_wp_render_block_accordion($attributes, $content)
 {
-	//var_dump($attributes); 
 	if (!isset($attributes['blockVersion']) || $attributes['blockVersion'] <= 1) {
 		return $content;
 	}
@@ -1010,13 +1009,13 @@ function hds_wp_render_recent_posts($attributes)
 	$content = sprintf(
 		'
 		<div id="%s" class="recent-posts %s">
-			
+
 			<div class="hds-container">
 				<h2>%s</h2>
 				%s
 				%s
 			</div>
-				
+
 		</div>
 		',
 		isset($attributes['anchor']) ? $attributes['anchor'] : '',
@@ -1078,56 +1077,50 @@ function hds_wp_recent_posts_query(array $args)
 }
 
 
-function hds_wp_recent_posts_grid($args = array())
-{
+function hds_wp_recent_posts_grid( $args = array() ): string {
+	$is_style_without_image = ! empty( $args['attributes']['className'] )
+		&& strpos( $args['attributes']['className'], 'is-style-without-image' ) !== false;
+
 	$content = '';
-	if (function_exists('helsinki_grid_entry')) {
+
+	if ( did_action( 'helsinki_theme_setup_ready' ) ) {
 		ob_start();
-		while ($args['query']->have_posts()) {
+
+		while ( $args['query']->have_posts() ) {
 			$args['query']->the_post();
 
-			if (strpos($args['attributes']['className'], 'is-style-without-image') !== false) {
-				echo hds_wp_feed_list_item();
-			}
-			else {
-				helsinki_grid_entry($args);
+			if ( $is_style_without_image ) {
+				do_action( 'helsinki_wp_recent_posts_feed_entry', $args );
+			} else {
+				do_action( 'helsinki_wp_recent_posts_grid_entry', $args );
 			}
 		}
+
 		$content = ob_get_clean();
+
 		wp_reset_postdata();
 	} else {
-		while ($args['query']->have_posts()) {
+		while ( $args['query']->have_posts() ) {
 			$args['query']->the_post();
 
-			if (strpos($args['attributes']['className'], 'is-style-without-image') !== false) {
+			if ( $is_style_without_image ) {
 				$content .= hds_wp_feed_list_item();
-			}
-			else {
+			} else {
 				$content .= hds_wp_recent_posts_grid_entry($args);
 			}
 		}
+
 		wp_reset_postdata();
 	}
 
-	if (strpos($args['attributes']['className'], 'is-style-without-image') !== false) {
-		return sprintf(
-			'<div class="entries l-up-2">
-				<div>
-					<ul class="posts">
-						%s
-					</ul>
-				</div>
-			</div>',
-			$content
-		);
+	$wrap_classes = 'grid entries m-up-2 l-up-4';
+
+	if ( $is_style_without_image ) {
+		$wrap_classes = 'entries l-up-2';
+		$content = sprintf( '<div><ul class="posts">%s</ul></div>', $content );
 	}
 
-	return sprintf(
-		'<div class="grid entries m-up-2 l-up-4">
-			%s
-		</div>',
-		$content
-	);
+	return sprintf( '<div class="%s">%s</div>', $wrap_classes, $content );
 }
 
 function hds_wp_recent_posts_grid_entry($args = array())
@@ -1245,13 +1238,13 @@ function hds_wp_render_rss_feed($attributes)
 		$content = sprintf(
 			'
 			<div id="%s" class="feed-posts %s">
-				
+
 				<div class="hds-container">
 					<h2>%s</h2>
 					%s
 					%s
 				</div>
-					
+
 			</div>
 			',
 			isset($attributes['anchor']) ? $attributes['anchor'] : '',
@@ -1493,8 +1486,8 @@ function hds_wp_render_video($attributes)
 	);
 
 	$iframe = sprintf(
-		'<figure class="wp-block-embed wp-has-aspect-ratio wp-embed-aspect-16-9">	
-			%s	
+		'<figure class="wp-block-embed wp-has-aspect-ratio wp-embed-aspect-16-9">
+			%s
 			<div class="wp-block-embed__wrapper">
 				<iframe src="%s" title="%s" width="1000" height="563" scrolling="no" allowfullscreen="true" sandbox="allow-scripts allow-presentation allow-same-origin"></iframe>
 			</div>
