@@ -1,68 +1,201 @@
 "use strict";
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 function hdsAccordion() {
   'use strict';
 
-  function _open(toggle, panel) {
-    if (toggle) {
-      toggle.setAttribute('aria-expanded', 'true');
-    }
-    if (panel) {
-      panel.removeAttribute('hidden');
-    }
-  }
-  function _isOpen(toggle) {
-    return 'true' === toggle.getAttribute('aria-expanded');
-  }
-  function _close(toggle, panel) {
-    if (toggle) {
-      toggle.setAttribute('aria-expanded', 'false');
-    }
-    if (panel) {
-      panel.setAttribute('hidden', 'true');
-    }
-  }
-  function _init(accordion) {
-    var _triggers = accordion.querySelectorAll('.accordion__toggle'),
-      _closeButtons = accordion.querySelectorAll('.accordion__close');
-    for (var i = 0; i < _triggers.length; i++) {
-      _triggers[i].addEventListener('click', function (event) {
-        var _currentToggle = event.currentTarget;
-        var _currentPanel = _currentToggle.parentElement.nextElementSibling;
-        if (_isOpen(_currentToggle)) {
-          _close(_currentToggle, _currentPanel);
+  function SessionHandler() {
+    var _panelsKey = 'helsinkiAccordionOpenPanels';
+    var _exitPanelKey = 'helsinkiAccordionExitPanel';
+    function _thisSave(key, data) {
+      try {
+        if (typeof data === 'string') {
+          sessionStorage.setItem(key, data);
         } else {
-          _open(_currentToggle, _currentPanel);
+          sessionStorage.setItem(key, JSON.stringify(data));
         }
+        return true;
+      } catch (error) {
+        return false;
+      }
+    }
+    function _thisLoad(key) {
+      var data = sessionStorage.getItem(key);
+      try {
+        return data ? JSON.parse(data) : null;
+      } catch (error) {
+        return data;
+      }
+    }
+    function _openPanels(data) {
+      return data ? _thisSave(_panelsKey, data) : _thisLoad(_panelsKey);
+    }
+    function _exitPanel(id) {
+      return id ? _thisSave(_exitPanelKey, id) : _thisLoad(_exitPanelKey);
+    }
+    return {
+      openPanels: _openPanels,
+      exitPanel: _exitPanel
+    };
+  }
+  function Accordion(element, session) {
+    var _panels = [];
+    element.querySelectorAll('.accordion__section').forEach(function (section) {
+      var panel = AccordionPanel(section, session);
+      if (panel) {
+        _panels.push(panel);
+      }
+    });
+    function _thisFind(id) {
+      id = _formatId(id);
+      return id ? _panels.find(function (panel) {
+        return panel.id() === id;
+      }) : false;
+    }
+    function _thisOpen(id) {
+      var _panel = _thisFind(id);
+      if (_panel) {
+        _panel.open();
+      }
+    }
+    function _thisClose(id) {
+      var _panel = _thisFind(id);
+      if (_panel) {
+        _panel.close();
+      }
+    }
+    function _thisFocus(id) {
+      var _panel = _thisFind(id);
+      if (_panel) {
+        _panel.open();
+        _panel.toView();
+        _panel.focus();
+      }
+    }
+    function _formatId(id) {
+      return typeof id === 'string' && id.startsWith('#') ? id.substring(1) : id;
+    }
+    return {
+      panels: function panels() {
+        return _panels;
+      },
+      open: _thisOpen,
+      close: _thisClose,
+      focus: _thisFocus
+    };
+  }
+  function AccordionPanel(section, session) {
+    var _panelTitle = section.querySelector('.accordion__title');
+    var _panelToggle = section.querySelector('.accordion__toggle');
+    var _panelContent = section.querySelector('.accordion__panel');
+    var _panelClose = section.querySelector('.accordion__close');
+    if (!_panelToggle || !_panelContent) {
+      return;
+    }
+    var _id = _determineId();
+    var _isOpen = _determineOpenStatus();
+    _panelToggle.addEventListener('click', function (event) {
+      return _isOpen ? _thisClose() : _thisOpen();
+    });
+    _panelContent.addEventListener('click', _sessionLinkExitPanel);
+    if (_panelClose) {
+      _panelClose.addEventListener('click', function (event) {
+        return _thisClose() && _thisFocus();
       });
     }
-    for (var i = 0; i < _closeButtons.length; i++) {
-      _closeButtons[i].addEventListener('click', function (event) {
-        var _section = event.currentTarget.closest('.accordion__section'),
-          _toggle = _section.querySelector('.accordion__toggle'),
-          _panel = _toggle.parentElement.nextElementSibling;
-        _close(_toggle, _panel);
-        _toggle.focus();
+    function _determineId() {
+      return [_panelTitle.id, section.id, _panelToggle.id].find(function (candidateId) {
+        return candidateId && candidateId !== '';
+      });
+    }
+    function _determineOpenStatus() {
+      return 'true' === _panelToggle.getAttribute('aria-expanded');
+    }
+    function _thisId() {
+      return _id;
+    }
+    function _thisIsOpen() {
+      return _isOpen;
+    }
+    function _sessionLinkExitPanel(event) {
+      if (event.target.tagName.toLowerCase() === 'a') {
+        session.exitPanel(_thisId());
+      }
+    }
+    function _appendToSession() {
+      if (_thisId()) {
+        var openPanels = session.openPanels();
+        if (Array.isArray(openPanels)) {
+          session.openPanels(Array.from(new Set([].concat(_toConsumableArray(openPanels), [_thisId()]))));
+        } else {
+          session.openPanels([_thisId()]);
+        }
+      }
+    }
+    function _removeFromSession() {
+      if (_thisId()) {
+        var openPanels = session.openPanels();
+        if (Array.isArray(openPanels)) {
+          session.openPanels(openPanels.filter(function (panelId) {
+            return panelId !== _thisId();
+          }));
+        }
+      }
+    }
+    function _thisOpen() {
+      _panelToggle.setAttribute('aria-expanded', 'true');
+      _panelContent.removeAttribute('hidden');
+      _isOpen = true;
+      _appendToSession();
+    }
+    function _thisClose() {
+      _panelToggle.setAttribute('aria-expanded', 'false');
+      _panelContent.setAttribute('hidden', 'true');
+      _isOpen = false;
+      _removeFromSession();
+    }
+    function _thisFocus() {
+      _panelToggle.focus();
+    }
+    function _thisToView() {
+      _panelTitle.scrollIntoView();
+    }
+    return {
+      id: _thisId,
+      isOpen: _thisIsOpen,
+      open: _thisOpen,
+      close: _thisClose,
+      focus: _thisFocus,
+      toView: _thisToView
+    };
+  }
+  var session = SessionHandler();
+  function _init(element) {
+    var accordion = Accordion(element, session);
+    var openPanels = session.openPanels();
+    if (Array.isArray(openPanels)) {
+      openPanels.forEach(function (panelId) {
+        return accordion.open(panelId);
       });
     }
     if (window.location.hash) {
-      var _hash = window.location.hash;
-      var _anchor = accordion.querySelector(_hash);
-      if (_anchor) {
-        var _section = _anchor.closest('.accordion__section'),
-          _toggle = _section.querySelector('.accordion__toggle'),
-          _panel = _toggle.parentElement.nextElementSibling;
-        _open(_toggle, _panel);
-        _anchor.scrollIntoView();
-        _anchor.focus();
-      }
+      accordion.focus(window.location.hash);
+    }
+    var exitPanel = session.exitPanel();
+    if (exitPanel) {
+      accordion.focus(exitPanel);
     }
   }
   return {
     init: function init(accordions) {
-      for (var i = 0; i < accordions.length; i++) {
-        _init(accordions[i]);
-      }
+      return accordions.forEach(function (element) {
+        return _init(element);
+      });
     }
   };
 }
