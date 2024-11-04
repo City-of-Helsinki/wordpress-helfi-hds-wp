@@ -193,9 +193,9 @@ function hdsAccordion() {
   }
   return {
     init: function init(accordions) {
-      for (var i = 0; i < accordions.length; i++) {
-        _init(accordions[i]);
-      }
+      return accordions.forEach(function (element) {
+        return _init(element);
+      });
     }
   };
 }
