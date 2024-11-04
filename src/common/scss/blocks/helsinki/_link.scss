@@ -207,14 +207,7 @@
             }
         }
 
-        &--title-excerpt {
-            .links-list__item {
-
-                @include breakpoint('l') {
-                    margin-bottom: spacing('5-xl');
-                }
-            }
-        }
+        &--title-excerpt {}
 
         &--image-title {
             .links-list__item {
@@ -290,6 +283,10 @@
 
         @include breakpoint('l') {
             row-gap: spacing('3-xl');
+
+            &--title-excerpt {
+              row-gap: spacing('l');
+            }
         }
 
         @include breakpoint('l') {
