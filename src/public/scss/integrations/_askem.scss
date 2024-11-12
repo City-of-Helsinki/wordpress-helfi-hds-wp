@@ -33,7 +33,7 @@
                             line-height: 1.3;
                             font-size: map-get(map-get( $heading-responsive-font-sizes, 'l' ), 'h4');
                         }
-                    
+
                     }
 
                 }
@@ -63,14 +63,14 @@
                         &.selected {
 
                             .rns-reaction-button {
-                                
+
                                 background-color: $black;
                                 color: $white;
-                          
+
                                 svg {
                                     background-color: $white;
                                 }
-                        
+
                             }
 
                         }
@@ -79,7 +79,7 @@
 
                 }
 
-            }
+            } // .rns-reactions
 
             .rns-inputs {
                 margin-left: -5px;
@@ -108,7 +108,7 @@
                             font-weight: $global-font-weight-medium;
                             font-size: map-get(map-get( $heading-responsive-font-sizes, 'l' ), 'h5');
                             }
-                        
+
                         }
 
                         .rns-input-description {
@@ -136,7 +136,7 @@
 
                 }
 
-            }
+            } // .rns-inputs
 
             .rns-shares {
 
@@ -184,7 +184,7 @@
                             }
 
                             &:hover {
-                                
+
                                 .rns-label {
                                     text-decoration: underline;
                                     font-weight: $global-font-weight-medium;
@@ -197,10 +197,10 @@
 
                 }
 
-            }
+            } // .rns-shares
 
-        }
-    }
+        } // .rns-plugin
+    } // .rns
 
     &:last-child {
         margin-bottom: 0;
