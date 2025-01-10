@@ -6,7 +6,7 @@ msgstr ""
 "Language: \n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"POT-Creation-Date: 2024-04-11 17:41+0000\n"
+"POT-Creation-Date: 2025-01-10 15:35+0000\n"
 "X-Generator: Loco https://localise.biz/"
 
 #: class/Blocks.php:97
@@ -41,7 +41,7 @@ msgstr ""
 msgid "Adds Helsinki styles, scripts and fonts to the site."
 msgstr ""
 
-#: assets/admin/js/scripts.js:4203 src/admin/js/filters/table.js:36
+#: assets/admin/js/scripts.js:4210 src/admin/js/filters/table.js:36
 msgid "Advanced table settings"
 msgstr ""
 
@@ -138,12 +138,12 @@ msgid ""
 "Check WCGA 3.2.5 accessibility requirements (the link opens in a new tab)."
 msgstr ""
 
-#: integrations/plugins/yoast-seo.php:107 assets/admin/js/scripts.js:4373
+#: integrations/plugins/yoast-seo.php:107 assets/admin/js/scripts.js:4374
 #: src/admin/js/integrations/yoast.js:38
 msgid "City of Helsinki"
 msgstr ""
 
-#: config/blocks/callbacks.php:257 assets/admin/js/scripts.js:694
+#: config/blocks/callbacks.php:256 assets/admin/js/scripts.js:694
 #: src/admin/js/blocks/accordion-panel.js:182
 msgid "Close"
 msgstr ""
@@ -258,7 +258,7 @@ msgstr ""
 msgid "Frequently Asked Questions"
 msgstr ""
 
-#: config/blocks/callbacks.php:1303
+#: config/blocks/callbacks.php:1296
 #, php-format
 msgctxt "from RSS feed source"
 msgid "%s"
@@ -449,7 +449,7 @@ msgstr ""
 msgid "Latest news"
 msgstr ""
 
-#: assets/admin/js/scripts.js:4114 src/admin/js/filters/block-styles.js:33
+#: assets/admin/js/scripts.js:4121 src/admin/js/filters/block-styles.js:33
 msgid "Light Gray Background"
 msgstr ""
 
@@ -496,15 +496,19 @@ msgstr ""
 msgid "Map URL"
 msgstr ""
 
-#: config/blocks/callbacks.php:1412 config/blocks/callbacks.php:1419
+#: config/blocks/callbacks.php:1412
 msgid "Move above the map"
 msgstr ""
 
-#: config/blocks/callbacks.php:1486
+#: config/blocks/callbacks.php:1479
 msgid "Move above the video"
 msgstr ""
 
-#: config/blocks/callbacks.php:1479
+#: config/blocks/callbacks.php:1405
+msgid "Move below the map"
+msgstr ""
+
+#: config/blocks/callbacks.php:1472
 msgid "Move below the video"
 msgstr ""
 
@@ -525,12 +529,12 @@ msgstr ""
 msgid "Open in new window"
 msgstr ""
 
-#: config/blocks/callbacks.php:1431 assets/admin/js/scripts.js:3207
+#: config/blocks/callbacks.php:1424 assets/admin/js/scripts.js:3207
 #: src/admin/js/blocks/map.js:250
 msgid "Open map in new window"
 msgstr ""
 
-#: config/blocks/callbacks.php:1492 assets/admin/js/scripts.js:4027
+#: config/blocks/callbacks.php:1485 assets/admin/js/scripts.js:4027
 #: src/admin/js/blocks/video.js:248
 msgid "Open video in new window"
 msgstr ""
@@ -599,7 +603,7 @@ msgstr ""
 msgid "Post Types"
 msgstr ""
 
-#: assets/admin/js/scripts.js:4097 src/admin/js/filters/block-styles.js:13
+#: assets/admin/js/scripts.js:4104 src/admin/js/filters/block-styles.js:13
 msgid "Primary"
 msgstr ""
 
@@ -613,7 +617,7 @@ msgid ""
 "Helsinki APIs and various plugins."
 msgstr ""
 
-#: config/blocks/callbacks.php:118 config/blocks/callbacks.php:1199
+#: config/blocks/callbacks.php:118 config/blocks/callbacks.php:1192
 msgid "Published:"
 msgstr ""
 
@@ -625,7 +629,7 @@ msgstr ""
 msgid "Remove image"
 msgstr ""
 
-#: config/blocks/callbacks.php:1301
+#: config/blocks/callbacks.php:1294
 #, php-format
 msgctxt "RSS feed source(s)"
 msgid "Contents are automatically fetched from %s."
@@ -639,7 +643,7 @@ msgstr ""
 msgid "Search posts"
 msgstr ""
 
-#: assets/admin/js/scripts.js:4101 src/admin/js/filters/block-styles.js:18
+#: assets/admin/js/scripts.js:4108 src/admin/js/filters/block-styles.js:18
 msgid "Secondary"
 msgstr ""
 
@@ -647,7 +651,7 @@ msgstr ""
 msgid "Secondary color"
 msgstr ""
 
-#: config/blocks/callbacks.php:1226
+#: config/blocks/callbacks.php:1219
 msgid "See all articles"
 msgstr ""
 
@@ -695,7 +699,7 @@ msgstr ""
 msgid "Style"
 msgstr ""
 
-#: assets/admin/js/scripts.js:4104 src/admin/js/filters/block-styles.js:22
+#: assets/admin/js/scripts.js:4111 src/admin/js/filters/block-styles.js:22
 msgid "Supplementary"
 msgstr ""
 
@@ -753,7 +757,7 @@ msgstr ""
 
 #: assets/admin/js/scripts.js:101 assets/admin/js/scripts.js:122
 #: assets/admin/js/scripts.js:824 assets/admin/js/scripts.js:3737
-#: assets/admin/js/scripts.js:4205 src/admin/js/admin.js:117
+#: assets/admin/js/scripts.js:4212 src/admin/js/admin.js:117
 #: src/admin/js/admin.js:141 src/admin/js/blocks/accordion.js:68
 #: src/admin/js/blocks/rss-feed.js:26 src/admin/js/filters/table.js:38
 msgid "Title"
@@ -771,7 +775,7 @@ msgstr ""
 msgid "Use Helsinki settings with plugins and enable available Helsinki APIs."
 msgstr ""
 
-#: assets/admin/js/scripts.js:4213 src/admin/js/filters/table.js:43
+#: assets/admin/js/scripts.js:4220 src/admin/js/filters/table.js:43
 msgid "Vertical header"
 msgstr ""
 
