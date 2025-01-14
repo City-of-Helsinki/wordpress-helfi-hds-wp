@@ -55,11 +55,6 @@
 		width: 100%;
 		align-items: center;
 
-    &:focus,
-    &:focus-visible {
-      outline: $black solid 3px;
-    }
-
 		.accordion__icon {
 			margin-left: auto;
 
