@@ -6,6 +6,13 @@ button {
   }
 }
 
+button:focus-visible,
+[type="button"]:focus-visible,
+[type="reset"]:focus-visible,
+[type="submit"]:focus-visible {
+  outline: 3px solid $black;
+}
+
 .button,
 .hds-button,
 %hds-button {
@@ -53,7 +60,7 @@ button {
 
       &.mask-icon {
         background-color: $black;
-      }  
+      }
   	}
   }
 
@@ -75,7 +82,7 @@ button {
       &.mask-icon {
         background-color: $medium-gray;
       }
-  
+
   	}
 
     &:focus {
@@ -93,7 +100,7 @@ button {
       &.mask-icon {
         background-color: $black;
       }
-  
+
   	}
 
     &:hover {
@@ -106,7 +113,7 @@ button {
         &.mask-icon {
           background-color: $white;
         }
-    
+
     	}
     }
 
@@ -127,7 +134,7 @@ button {
         &.mask-icon {
           background-color: $medium-gray;
         }
-    
+
     	}
 
       &:hover,
@@ -150,7 +157,7 @@ button {
       &.mask-icon {
         background-color: $black;
       }
-  
+
     }
 
     &:hover {
@@ -176,7 +183,7 @@ button {
         &.mask-icon {
           background-color: $medium-gray;
         }
-    
+
       }
 
       &:hover,
@@ -222,7 +229,7 @@ button {
       &.mask-icon {
         background-color: $white;
       }
-  
+
     }
   }
 
@@ -243,7 +250,7 @@ button {
       &.mask-icon {
         background-color: $medium-gray;
       }
-  
+
     }
 
     &:hover,
@@ -284,7 +291,7 @@ button {
       &.mask-icon {
         background-color: $white;
       }
-  
+
 		}
 	}
 
@@ -303,7 +310,7 @@ button {
       &.mask-icon {
         background-color: $white;
       }
-  
+
 		}
 
 		&:hover {
@@ -316,7 +323,7 @@ button {
         &.mask-icon {
           background-color: $black;
         }
-    
+
 			}
 		}
 
