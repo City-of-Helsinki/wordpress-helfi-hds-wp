@@ -45,6 +45,7 @@
 	.accordion__toggle {
 		background-color: transparent;
 		border: none;
+    color: currentColor;
 		display: flex;
 		padding: spacing('s') 0;
 		--line-height: 26px;
