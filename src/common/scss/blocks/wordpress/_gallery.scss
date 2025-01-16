@@ -29,10 +29,14 @@
 
     &.has-nested-images {
         figure.wp-block-image {
-            img {
-                aspect-ratio: unset !important;
-                width: unset !important;
-                height: unset !important;
+            &:has(figcaption) {
+              figcaption {
+                text-shadow: none;
+              }
+
+              &::before {
+                content: none;
+              }
             }
         }
     }
@@ -85,7 +89,7 @@
 	&:not(.alignfull) {
 		display: table !important;
 	}
-	
+
 }
 
 .wp-caption {

@@ -4,7 +4,7 @@ namespace ArtCloud\Helsinki\Plugin\HDS;
 /**
   * Plugin Name: WordPress Helsinki
   * Description: Provides common Helsinki styles, assets and blocks, and integrations to Helsinki APIs and various plugins.
-  * Version: 1.34.0
+  * Version: 1.35.0
   * License: GPLv3
   * Requires at least: 5.7
   * Requires PHP:      7.1
@@ -18,11 +18,21 @@ if ( ! defined( 'ABSPATH' ) ) {
   exit;
 }
 
-define( __NAMESPACE__ . '\\PLUGIN_VERSION', '1.34.0' );
-define( __NAMESPACE__ . '\\PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
-define( __NAMESPACE__ . '\\PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-define( __NAMESPACE__ . '\\PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+define_constants( __FILE__ );
 textdomain();
+
+function define_constants( string $file ): void {
+    if ( ! function_exists('get_plugin_data') ) {
+		require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+	}
+
+    $plugin_data = get_plugin_data( $file, false, false );
+
+    define( __NAMESPACE__ . '\\PLUGIN_VERSION', $plugin_data['Version'] );
+    define( __NAMESPACE__ . '\\PLUGIN_PATH', plugin_dir_path( $file ) );
+    define( __NAMESPACE__ . '\\PLUGIN_URL', plugin_dir_url( $file ) );
+    define( __NAMESPACE__ . '\\PLUGIN_BASENAME', plugin_basename( $file ) );
+}
 
 function plugin_path() {
 	return untrailingslashit( PLUGIN_PATH ) . DIRECTORY_SEPARATOR;

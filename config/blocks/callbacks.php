@@ -1402,14 +1402,14 @@ function hds_wp_render_map($attributes)
 		'<a href="#%s-after" id="%s-before" class="focusable skip-link skip-link--map--before">%s</a>',
 		$id,
 		$id,
-		__('Move above the map', 'hds-wp'),
+		esc_html__('Move below the map', 'hds-wp'),
 	);
 
 	$afterMapSkipLink = sprintf(
 		'<a href="#%s-before" id="%s-after" class="focusable skip-link skip-link--map--after">%s</a>',
 		$id,
 		$id,
-		__('Move above the map', 'hds-wp'),
+		esc_html__('Move above the map', 'hds-wp'),
 	);
 
 	$iframe = sprintf(
@@ -1421,7 +1421,7 @@ function hds_wp_render_map($attributes)
 	$externalLink = sprintf(
 		'<a href="%s" target="_blank" class="block-embed-external-link" rel="noopener">%s</a>',
 		$linkUrl,
-		__('Open map in new window', 'hds-wp')
+		esc_html__('Open map in new window', 'hds-wp')
 	);
 
 	return sprintf(

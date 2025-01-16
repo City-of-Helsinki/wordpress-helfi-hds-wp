@@ -6,7 +6,7 @@ msgstr ""
 "Language: fi\n"
 "Language-Team: Suomi\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"PO-Revision-Date: 2024-04-11 17:42+0000\n"
+"PO-Revision-Date: 2025-01-10 15:36+0000\n"
 "X-Generator: Loco https://localise.biz/"
 
 #: class/Blocks.php:97
@@ -41,7 +41,7 @@ msgstr "Syötä videon URL-osoite osoitteesta: "
 msgid "Adds Helsinki styles, scripts and fonts to the site."
 msgstr "Lisää Helsinki-tyylit, komentosarjat ja fontit sivustolle."
 
-#: assets/admin/js/scripts.js:4203 src/admin/js/filters/table.js:36
+#: assets/admin/js/scripts.js:4210 src/admin/js/filters/table.js:36
 msgid "Advanced table settings"
 msgstr "Taulukon lisäasetukset"
 
@@ -140,12 +140,12 @@ msgstr ""
 "Katso WCAG 3.2.5 saavutettavuusvaatimukset (linkki avautuu uuteen "
 "välilehteen)."
 
-#: integrations/plugins/yoast-seo.php:107 assets/admin/js/scripts.js:4373
+#: integrations/plugins/yoast-seo.php:107 assets/admin/js/scripts.js:4374
 #: src/admin/js/integrations/yoast.js:38
 msgid "City of Helsinki"
 msgstr "Helsingin kaupunki"
 
-#: config/blocks/callbacks.php:257 assets/admin/js/scripts.js:694
+#: config/blocks/callbacks.php:256 assets/admin/js/scripts.js:694
 #: src/admin/js/blocks/accordion-panel.js:182
 msgid "Close"
 msgstr "Sulje"
@@ -264,7 +264,7 @@ msgstr "Seuraa Facebookissa"
 msgid "Frequently Asked Questions"
 msgstr "Usein kysytyt kysymykset"
 
-#: config/blocks/callbacks.php:1303
+#: config/blocks/callbacks.php:1296
 #, php-format
 msgctxt "from RSS feed source"
 msgid "%s"
@@ -457,7 +457,7 @@ msgstr "Ulkoinen linkki"
 msgid "Latest news"
 msgstr "Uusimmat uutiset"
 
-#: assets/admin/js/scripts.js:4114 src/admin/js/filters/block-styles.js:33
+#: assets/admin/js/scripts.js:4121 src/admin/js/filters/block-styles.js:33
 msgid "Light Gray Background"
 msgstr ""
 
@@ -504,15 +504,19 @@ msgstr "Kartan otsikko*"
 msgid "Map URL"
 msgstr "Kartan URL-osoite"
 
-#: config/blocks/callbacks.php:1412 config/blocks/callbacks.php:1419
+#: config/blocks/callbacks.php:1412
 msgid "Move above the map"
 msgstr "Siirry kartan yläpuolelle"
 
-#: config/blocks/callbacks.php:1486
+#: config/blocks/callbacks.php:1479
 msgid "Move above the video"
 msgstr "Siirry videon yläpuolelle"
 
-#: config/blocks/callbacks.php:1479
+#: config/blocks/callbacks.php:1405
+msgid "Move below the map"
+msgstr "Siirry kartan alapuolelle"
+
+#: config/blocks/callbacks.php:1472
 msgid "Move below the video"
 msgstr "Siirry videon alapuolelle"
 
@@ -533,12 +537,12 @@ msgstr "Numeroimaton"
 msgid "Open in new window"
 msgstr "Avaa linkki uuteen välilehteen"
 
-#: config/blocks/callbacks.php:1431 assets/admin/js/scripts.js:3207
+#: config/blocks/callbacks.php:1424 assets/admin/js/scripts.js:3207
 #: src/admin/js/blocks/map.js:250
 msgid "Open map in new window"
 msgstr "Avaa kartta uudessa ikkunassa"
 
-#: config/blocks/callbacks.php:1492 assets/admin/js/scripts.js:4027
+#: config/blocks/callbacks.php:1485 assets/admin/js/scripts.js:4027
 #: src/admin/js/blocks/video.js:248
 msgid "Open video in new window"
 msgstr "Avaa video uuteen ikkunaan"
@@ -607,7 +611,7 @@ msgstr "Julkaisun tyyppi"
 msgid "Post Types"
 msgstr "Sisältötyypit"
 
-#: assets/admin/js/scripts.js:4097 src/admin/js/filters/block-styles.js:13
+#: assets/admin/js/scripts.js:4104 src/admin/js/filters/block-styles.js:13
 msgid "Primary"
 msgstr "Ensisijainen"
 
@@ -626,7 +630,7 @@ msgstr ""
 "Mahdollistaa yleiset Helsinki-tyylit, resurssit ja lohkot, sekä integraation "
 "Helsingin rajapintoihin ja eri lisäosiin."
 
-#: config/blocks/callbacks.php:118 config/blocks/callbacks.php:1199
+#: config/blocks/callbacks.php:118 config/blocks/callbacks.php:1192
 msgid "Published:"
 msgstr "Julkaistu:"
 
@@ -638,7 +642,7 @@ msgstr "Poista"
 msgid "Remove image"
 msgstr "Poista kuva"
 
-#: config/blocks/callbacks.php:1301
+#: config/blocks/callbacks.php:1294
 #, php-format
 msgctxt "RSS feed source(s)"
 msgid "Contents are automatically fetched from %s."
@@ -652,7 +656,7 @@ msgstr "Tallenna asetukset"
 msgid "Search posts"
 msgstr "Hae julkaisuja"
 
-#: assets/admin/js/scripts.js:4101 src/admin/js/filters/block-styles.js:18
+#: assets/admin/js/scripts.js:4108 src/admin/js/filters/block-styles.js:18
 msgid "Secondary"
 msgstr "Toissijainen"
 
@@ -660,7 +664,7 @@ msgstr "Toissijainen"
 msgid "Secondary color"
 msgstr "Toissijainen väri"
 
-#: config/blocks/callbacks.php:1226
+#: config/blocks/callbacks.php:1219
 msgid "See all articles"
 msgstr "Katso kaikki artikkelit"
 
@@ -708,7 +712,7 @@ msgstr "Asetukset"
 msgid "Style"
 msgstr "Tyyli"
 
-#: assets/admin/js/scripts.js:4104 src/admin/js/filters/block-styles.js:22
+#: assets/admin/js/scripts.js:4111 src/admin/js/filters/block-styles.js:22
 msgid "Supplementary"
 msgstr "Täydentävä"
 
@@ -770,7 +774,7 @@ msgstr "Tämä on otsikko*"
 
 #: assets/admin/js/scripts.js:101 assets/admin/js/scripts.js:122
 #: assets/admin/js/scripts.js:824 assets/admin/js/scripts.js:3737
-#: assets/admin/js/scripts.js:4205 src/admin/js/admin.js:117
+#: assets/admin/js/scripts.js:4212 src/admin/js/admin.js:117
 #: src/admin/js/admin.js:141 src/admin/js/blocks/accordion.js:68
 #: src/admin/js/blocks/rss-feed.js:26 src/admin/js/filters/table.js:38
 msgid "Title"
@@ -790,7 +794,7 @@ msgid "Use Helsinki settings with plugins and enable available Helsinki APIs."
 msgstr ""
 "Käytä Helsinki-asetuksia lisäosissa ja ota käyttöön Helsinki-rajapinnat."
 
-#: assets/admin/js/scripts.js:4213 src/admin/js/filters/table.js:43
+#: assets/admin/js/scripts.js:4220 src/admin/js/filters/table.js:43
 msgid "Vertical header"
 msgstr "Vertikaalinen otsikkorivi"
 
