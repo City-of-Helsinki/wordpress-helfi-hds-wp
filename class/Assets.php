@@ -136,17 +136,11 @@ class Assets extends Module {
 			$this->assetVersion( $this->assetPath('admin', 'styles', $this->minified, 'css') ),
 			'all'
 		);
-		if (function_exists('helsinki_theme_mod') && function_exists('helsinki_scheme_root_styles')) {
-			$current_scheme = helsinki_theme_mod('helsinki_general_style', 'scheme');
-			if (function_exists('helsinki_default_scheme')) {
-				$current_scheme = $current_scheme ?: helsinki_default_scheme();
-			}
-			ob_start();
-			helsinki_scheme_root_styles($current_scheme);
-			$inlineStyle = ob_get_clean();
-			wp_add_inline_style('helsinki-wp-admin-styles', $inlineStyle);
-		}
 
+		$inline_styles = apply_filters( 'helsinki_wp_admin_inline_styles', '' );
+		if ( $inline_styles ) {
+			wp_add_inline_style( 'helsinki-wp-admin-styles', $inline_styles );
+		}
 	}
 
 	public function publicScripts() {
