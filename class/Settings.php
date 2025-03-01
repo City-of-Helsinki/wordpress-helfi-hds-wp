@@ -5,15 +5,14 @@ class Settings extends Module {
 
 	const PAGE_SLUG = 'helsinki-wp-settings';
 
-	protected $tabs = array();
-
 	public function init() {
 		add_action( 'admin_init', array( $this, 'tabSettings' ) );
 		add_action( 'admin_menu', array( $this, 'page' ) );
 		add_action( 'hds_wp_settings_tab_panel', array( $this, 'renderTabPanel' ) );
 	}
 
-	public function page() {
+	public function page(): void
+	{
 		add_menu_page(
 			__('Helsinki WP', 'hds-wp'),
 			__('Helsinki WP', 'hds-wp'),
@@ -28,18 +27,36 @@ class Settings extends Module {
 		);
 	}
 
-	public function renderPage() {
-		$tabs = $this->tabs;
-		$footer_links = apply_filters(
-			'hds_wp_settings_footer_links',
-			$this->config->value('links')
-		);
+	public function renderPage(): void
+	{
+		$tabs = $this->settingsPageTabs();
+		$footer_links = $this->footer_links();
 
 		include_once $this->config->value('path') . 'page.php';
 	}
 
-	public function renderTabPanel( string $tab ) {
-		$tabs = $this->tabs;
+	protected function footer_links(): array
+	{
+		return \apply_filters(
+			'hds_wp_settings_footer_links',
+			array(
+				array(
+					'title' => __( 'Helsinki WordPress portal', 'hds-wp' ),
+					'url' => 'https://wordpress.hel.fi/',
+					'target' => '_blank',
+				),
+				array(
+					'title' => __( 'WordPress User Guides', 'hds-wp' ),
+					'url' => 'https://wordpressohjeet.hel.fi/',
+					'target' => '_blank',
+				),
+			)
+		);
+	}
+
+	public function renderTabPanel( string $tab ): void
+	{
+		$tabs = $this->settingsPageTabs();
 		if ( ! isset( $tabs[$tab] ) ) {
 			return;
 		}
@@ -49,26 +66,17 @@ class Settings extends Module {
 		$section = $settingsConfig['section'];
 		unset( $settingsConfig );
 
-		switch ( $tab ) {
-			// case 'general':
-			// 	break;
+		if ( $this->config->value('compatibility')->supports( $tab ) ) {
+			echo $this->themeCompatibilityNotice( $tabs[$tab]['title'] );
+		}
 
-			// case 'integrations':
-			// 	break;
-
-			default:
-				if ( $this->config->value('compatibility')->supports( $tab ) ) {
-					echo $this->themeCompatibilityNotice( $tabs[$tab]['title'] );
-				}
-
-				if ( $this->config->value('compatibility')->useSettings( $tab ) ) {
-					include_once $this->config->value('path') . 'form.php';
-				}
-				break;
+		if ( $this->config->value('compatibility')->useSettings( $tab ) ) {
+			include_once $this->config->value('path') . 'form.php';
 		}
 	}
 
-	public function themeCompatibilityNotice( string $title ) {
+	public function themeCompatibilityNotice( string $title ): string
+	{
 		return sprintf(
 			'<div class="notice notice-success">
 				<p>%s</p>
@@ -80,21 +88,19 @@ class Settings extends Module {
 		);
 	}
 
-	function settingsConfig( string $tab ) {
+	function settingsConfig( string $tab ): array
+	{
 		return array(
 			'page' => 'helsinki-wp-settings-' . $tab,
 			'section' => 'hds_wp_settings_' . $tab,
 		);
 	}
 
-	public function tabSettings() {
-		$this->tabs = apply_filters(
-			'hds_wp_settings_tabs',
-			$this->config->value('tabs')
-		);
+	public function tabSettings(): void
+	{
 		$settings = $this->config->value('compatibility')->settings();
 
-		foreach ( $this->tabs as $tab => $config ) {
+		foreach ( $this->settingsPageTabs() as $tab => $config ) {
 			if ( ! isset( $settings[$tab] ) ) {
 				continue;
 			}
@@ -171,7 +177,17 @@ class Settings extends Module {
 		}
 	}
 
-	public function enabledSetting( array $args ) {
+	protected function settingsPageTabs(): array
+	{
+		return apply_filters( 'hds_wp_settings_tabs', array(
+			'general' => array(
+				'title' => __('General', 'hds-wp'),
+			),
+		) );
+	}
+
+	public function enabledSetting( array $args ): void
+	{
 		printf(
 			'<label>
 				<input class="code" type="checkbox" name="%s[enabled]" value="1" %s>
@@ -179,9 +195,10 @@ class Settings extends Module {
 			esc_attr( $args['section'] ),
 			checked( '1', $args['value'] ?? '0', false )
 		);
-  }
+	}
 
-	public function sanitizeSettings( $option ) {
+	public function sanitizeSettings( $option ): mixed
+	{
 		if ( is_array( $option ) ) {
 			$out = array();
 			foreach ($option as $key => $value) {

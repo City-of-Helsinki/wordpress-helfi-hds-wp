@@ -26,4 +26,10 @@ return array(
 			'description' => __( 'Default configuration meta titles and descriptions, and custom meta variables.', 'hds-wp' ),
 		),
 	),
+	'themes' => array(
+		'helsinkiteema' => array(
+			'title' => __( 'Helsinkiteema #1', 'hds-wp' ),
+			'description' => __( 'A multipurpose WordPress theme of City of Helsinki.', 'hds-wp' ),
+		),
+	),
 );

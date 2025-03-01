@@ -1140,7 +1140,7 @@ function hds_wp_recent_posts_grid_entry($args = array())
 				<div class="image-wrap image-wrap--fixed-size">
 					%s
 				</div>
-			</div>,
+			</div>
 			',
 			get_the_post_thumbnail(null, 'post-thumbnail')
 		);
@@ -1152,7 +1152,7 @@ function hds_wp_recent_posts_grid_entry($args = array())
 				<div class="image-wrap image-wrap--fixed-size">
 					%s
 				</div>
-			</div>,
+			</div>
 			',
 			function_exists('helsinki_scheme_has_invert_color') && helsinki_scheme_has_invert_color() ? 'has-invert-color' : '',
 			Svg::placeholder(

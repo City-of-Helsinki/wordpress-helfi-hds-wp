@@ -34,12 +34,12 @@ return array(
     {{used_cookies}}
     {{manage_consent}}
     <h2>Registerbeskrivning och den registrerades rättigheter</h2>
-    <p>Vi följer lagen om tillhandahållande av digitala tjänster. <a href="https://www.hel.fi/helsinki/sv/stad-och-forvaltning/information/dataskydd">Mer information om behandlingen av dina personuppgifter.</a></p>
+    <p>Vi följer lagen om tillhandahållande av digitala tjänster. <a href="https://www.hel.fi/dataskydd">Mer information om behandlingen av dina personuppgifter.</a></p>
     <h2>Mer information om tillgänglighet</h2>
     <p>Mer information om tillgänglighet finns i <a href="https://www.hel.fi/tillganglighet">tillgänglighetsutlåtandet för webbplatsen hel.fi</a>.&nbsp;</p>
     <h2>Textinnehållet licensierat med Creative Commons</h2>
     <p>Textinnehållet på webbplatsen hel.fi är licensierat med&nbsp;<a href="https://creativecommons.org/licenses/by/4.0/deed.fi">Creative Commons BY 4.0-licensen</a>. Bilderna på webbplatsen får inte användas annanstans utan tillstånd.</p>',
-  
+
   'en' => '<h2>Cookies</h2>
     <p>We use cookies on our website. The purpose of cookies is to improve the content and performance of the website. With the feedback gained from cookies, we are able to develop the website and offer information that meets the needs of the city\'s residents better.</p>
     <p>In the cookie settings, you can find more information on the cookies used and accept or reject their use. You can also change the cookie settings whenever you wish.</p>
@@ -53,10 +53,10 @@ return array(
     {{used_cookies}}
     {{manage_consent}}
     <h2>Register description and the rights of data subjects</h2>
-    <p>For more information on the processing of your personal data, please see more about <a href="https://www.hel.fi/helsinki/en/administration/information/data-protection">data protection</a>.&nbsp;</p>
+    <p>For more information on the processing of your personal data, please see more about <a href="https://www.hel.fi/data-protection">data protection</a>.&nbsp;</p>
     <h2>More information on accessibility</h2>
     <p>For more information on accessibility, please see <a href="https://www.hel.fi/accessibility">the accessibility statement for hel.fi</a>.&nbsp;</p>
     <h2>Text licenced under Creative Commons</h2>
     <p>The text content of the hel.fi website is licensed under a&nbsp;<a href="https://creativecommons.org/licenses/by/4.0/deed.fi">Creative Commons BY 4.0 licence</a>. The images on the website may not be used elsewhere without permission.</p>',
-  
+
 );
