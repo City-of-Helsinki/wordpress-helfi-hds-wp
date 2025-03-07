@@ -13,10 +13,6 @@ return array(
 			'title' => __( 'Contact Form 7', 'hds-wp' ),
 			'description' => __( 'Add Helsinki styling to contact forms.', 'hds-wp' ),
 		),
-		'wp-piwik' => array(
-			'title' => __( 'WP-Matomo Integration', 'hds-wp' ),
-			'description' => __( 'Default configuration for WP-Matomo plugin.', 'hds-wp' ),
-		),
 		'wp-rss-aggregator' => array(
 			'title' => __( 'WP RSS Aggregator', 'hds-wp' ),
 			'description' => __( 'Enable custom default template for Helsinki theme.', 'hds-wp' ),

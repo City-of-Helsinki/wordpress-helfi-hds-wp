@@ -15,7 +15,6 @@ Recommended to be used with [Helsinki Theme](https://github.com/City-of-Helsinki
 ## Integrations
 - [Complianz – GDPR/CCPA Cookie Consent](https://wordpress.org/plugins/complianz-gdpr/): Overrides Cookiebanner templates.
 - [Contact Form 7](https://wordpress.org/plugins/contact-form-7/): Filters form output to apply HDS styles and behaviour, and loads custom scripts to extend form behaviour.
-- [WP-Matomo Integration](https://wordpress.org/plugins/wp-piwik/): Filters returns for some functions.
 - [WP RSS Aggregator](https://wordpress.org/plugins/wp-rss-aggregator/)
 - [Yoast SEO](https://wordpress.org/plugins/wordpress-seo/)
 
@@ -63,4 +62,3 @@ This plugin is licensed under GPLv3. See [LICENSE](https://github.com/City-of-He
 ### Helsinki Grotesk Font License
 
 The Helsinki Grotesk font license is domain specific. All subdomains of hel.fi are licensed to use the font. If you will be using this plugin on a site that is not a subdomain of hel.fi, you will need to purchase a license for the font. See [Camelot Typefaces](https://camelot-typefaces.com/helsinki-grotesk) for more information.
-
