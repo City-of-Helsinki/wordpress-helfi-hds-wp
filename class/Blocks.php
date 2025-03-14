@@ -3,15 +3,12 @@ namespace ArtCloud\Helsinki\Plugin\HDS;
 
 use WP_Block_Editor_Context;
 
-class Blocks extends Module {
-
-	protected $dependencies = array();
-
+class Blocks extends Module
+{
 	public function init() {
 		add_filter( 'hds_wp_settings_tabs', array( $this, 'settingsTab' ) );
 		add_filter( 'hds_wp_settings_tab_panel', array( $this, 'settingsTabPanel' ) );
 		add_filter( 'block_categories_all', array( $this, 'category' ), 10, 2 );
-		add_filter( 'hds_wp_admin_scripts_dependencies', array( $this, 'dependencies' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'disallowedBlocks' ) );
 		add_action( 'init', array( $this, 'register' ) );
 	}
@@ -58,16 +55,6 @@ class Blocks extends Module {
 			"const HelsinkiDisallowedBlocks = {$disallowed};",
 			'before'
 		);
-	}
-
-	public function dependencies( $dependencies ) {
-		return $this->dependencies ? array_merge(
-			$dependencies,
-			array_unique(
-				$this->dependencies,
-				SORT_STRING
-			)
-		) : $dependencies;
 	}
 
 	public function category( $block_categories, $block_editor_context ) {
