@@ -148,48 +148,7 @@
   }
 
   registerBlockType('hds-wp/links', {
-    apiVersion: 2,
     title: __('Helsinki - Links', 'hds-wp'),
-    category: 'hds-wp',
-    icon: 'screenoptions',
-    keywords: ['Helsinki - Linkit'],
-    supports: {
-      anchor: true,
-    },
-    attributes: {
-      columns: {
-        type: 'number',
-        default: 3,
-      },
-      hasBackground: {
-        type: 'boolean',
-        default: false,
-      },
-      linkType: {
-        type: 'string',
-        default: 'title',
-      },
-      title: {
-        type: 'string',
-        default: '',
-      },
-      contentText: {
-        type: 'string',
-        default: '',
-      }, 
-      links: {
-        type: 'array',
-        default: [],
-      },
-      anchor: {
-        type: 'string',
-        default: '',
-      },
-      preview: {
-        type: 'string',
-        default: '',
-      },
-    },
     edit: edit(),
     save: save(),
     example: {
