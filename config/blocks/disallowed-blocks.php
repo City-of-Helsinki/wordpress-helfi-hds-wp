@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	die();
+}
+
 return array(
 	'common' => array(
 		'core/pullquote' => false,
