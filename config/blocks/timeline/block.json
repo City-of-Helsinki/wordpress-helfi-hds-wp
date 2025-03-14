@@ -1,0 +1,41 @@
+{
+    "apiVersion": 2,
+    "title": "Helsinki - Phasing",
+    "name": "hds-wp/timeline",
+    "icon": "format-gallery",
+    "textdomain": "hds-wp",
+    "category": "hds-wp",
+    "supports": {
+      "anchor": true
+    },
+    "attributes": {
+        "title": {
+            "type": "string",
+            "default": ""
+        },
+        "description": {
+            "type": "string",
+            "default": ""
+        },
+        "style": {
+            "type": "string",
+            "default": "numberless"
+        },
+        "cards": {
+            "type": "array",
+            "default": []
+        },
+        "blockVersion": {
+            "type": "integer"
+        },
+        "anchor": {
+            "type": "string",
+            "default": ""
+        },
+        "preview": {
+            "type": "string",
+            "default": ""
+        }
+    },
+    "render_callback": "hds_wp_render_timeline"
+}
