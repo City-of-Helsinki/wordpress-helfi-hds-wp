@@ -215,13 +215,13 @@ function hdsTargetBlankControl(props, config) {
 	}, props);
 }
 
-function hdsContentButton(props, config, icon) {
-	return props.attributes.buttonText && props.attributes.buttonUrl ? wp.element.createElement(
+function hdsContentButton({buttonText, buttonUrl}, config, icon) {
+	return buttonText && buttonUrl ? wp.element.createElement(
 		'a',
 		config,
 		wp.element.createElement(
 			wp.element.Fragment, {},
-			props.attributes.buttonText,
+			buttonText,
 			icon ? icon : null
 		)
 	) : '';
