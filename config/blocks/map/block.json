@@ -1,0 +1,32 @@
+{
+    "apiVersion": 2,
+    "title": "Helsinki - Map",
+    "description": "Embed the map from Palvelukartasta or Karttapalvelusta.",
+    "name": "hds-wp/map",
+    "icon": "location-alt",
+    "style": "hds-map",
+    "textdomain": "hds-wp",
+    "category": "hds-wp",
+    "attributes": {
+        "blockId": {
+            "type": "string"
+        },
+        "title": {
+            "type": "string",
+            "default": ""
+        },
+        "description": {
+            "type": "string",
+            "default": ""
+        },
+        "url": {
+            "type": "string",
+            "default": "https://palvelukartta.hel.fi/fi/embed/unit/1915?city=helsinki,espoo,vantaa,kauniainen,kirkkonummi&bbox=60.22464068641878,24.932012557983402,60.23254640738538,24.962611198425297"
+        },
+        "assistive_title": {
+            "type": "string",
+            "default": ""
+        }
+    },
+    "render_callback": "hds_wp_render_map"
+}
