@@ -66,15 +66,20 @@
   }
 
   function contentButton(props) {
-    return hdsContentButton(props, {
+    return hdsContentButton({
+        buttonText: props.attributes.buttonText,
+        buttonUrl: props.attributes.buttonUrl
+      }, {
       className: 'content__link hds-button hds-button--primary',
       href: props.attributes.buttonUrl,
     });
   }
 
   function deprecatedContentButton(props) {
-    return hdsContentButton(
-      props,
+    return hdsContentButton({
+        buttonText: props.attributes.buttonText,
+        buttonUrl: props.attributes.buttonUrl
+      },
       {
         className: 'content__link hds-button',
         href: props.attributes.buttonUrl,
