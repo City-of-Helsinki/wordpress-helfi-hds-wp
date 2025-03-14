@@ -13,6 +13,10 @@ return array(
 			'title' => __( 'Contact Form 7', 'hds-wp' ),
 			'description' => __( 'Add Helsinki styling to contact forms.', 'hds-wp' ),
 		),
+		'polylang' => array(
+			'title' => __( 'Polylang', 'hds-wp' ),
+			'description' => __( 'Use Polylang language information.', 'hds-wp' ),
+		),
 		'wp-rss-aggregator' => array(
 			'title' => __( 'WP RSS Aggregator', 'hds-wp' ),
 			'description' => __( 'Enable custom default template for Helsinki theme.', 'hds-wp' ),
