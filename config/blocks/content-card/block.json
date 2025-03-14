@@ -1,0 +1,30 @@
+{
+    "apiVersion": 2,
+    "title": "Helsinki - Content Card",
+    "name": "hds-wp/content-card",
+    "icon": "cover-image",
+    "textdomain": "hds-wp",
+    "category": "hds-wp",
+    "supports": {},
+    "parent": [
+      "hds-wp/content-cards"
+    ],
+    "attributes": {
+        "postId": {
+            "type": "integer",
+            "default": 0
+        },
+        "postTitle": {
+            "type": "string",
+            "default": ""
+        },
+        "postType": {
+            "type": "string",
+            "default": "post"
+        },
+        "search": {
+            "type": "string",
+            "default": ""
+        }
+    }
+}
