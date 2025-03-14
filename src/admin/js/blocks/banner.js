@@ -7,7 +7,10 @@
   const {ToolbarGroup, ToolbarButton, Button} = wp.components;
 
   function contentButton(props) {
-    return hdsContentButton(props, {
+    return hdsContentButton({
+        buttonText: props.attributes.buttonText,
+        buttonUrl: props.attributes.buttonUrl
+      }, {
       className: 'content__link hds-button',
       href: props.attributes.buttonUrl,
       target: '_blank',
