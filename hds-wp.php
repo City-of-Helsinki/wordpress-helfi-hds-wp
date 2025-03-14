@@ -88,7 +88,7 @@ function prepare() {
 				'path' => plugin_path() . 'integrations' . DIRECTORY_SEPARATOR,
 				'config' => plugin_path() . 'config' . DIRECTORY_SEPARATOR,
 			),
-			array('types')
+			array()
 		)
 	);
 
