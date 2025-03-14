@@ -152,6 +152,19 @@ function init() {
 	$assets->init();
 
 	/**
+	  * HDS React
+	  */
+	$hds_react = ModuleFactory::module(
+		'HDSReact',
+		array(
+			'url' => plugin_url() . 'assets',
+			'version' => PLUGIN_VERSION,
+			'debug' => defined('WP_DEBUG') && WP_DEBUG,
+		)
+	);
+	$hds_react->init();
+
+	/**
 	  * Blocks
 	  */
 	if ( $compatibility->blocks() ) {
@@ -193,6 +206,13 @@ function init() {
 			)
 		)
 	);
+}
+
+add_filter( 'helsinki_wp_current_language', __NAMESPACE__ . '\\provide_current_language', 5 );
+function provide_current_language( string $language ): string {
+	$locale = explode( '_', get_locale() );
+
+	return $locale ? array_shift( $locale ) : $language;
 }
 
 add_action( 'init', __NAMESPACE__ . '\\textdomain' );
