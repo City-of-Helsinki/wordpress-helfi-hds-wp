@@ -157,7 +157,11 @@ function init() {
 	if ( $compatibility->blocks() ) {
 		$blocks = ModuleFactory::module(
 			'Blocks',
-			array(),
+			array(
+				'path' => plugin_path() . 'config/blocks',
+				'version' => PLUGIN_VERSION,
+				'debug' => defined('WP_DEBUG') && WP_DEBUG,
+			),
 			array(
 				'blocks',
 				'disallowed-blocks'
