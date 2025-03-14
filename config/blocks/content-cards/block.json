@@ -1,0 +1,45 @@
+{
+    "apiVersion": 2,
+    "title": "Helsinki - Content Cards",
+    "name": "hds-wp/content-cards",
+    "icon": "images-alt",
+    "textdomain": "hds-wp",
+    "category": "hds-wp",
+    "supports": {
+      "anchor": true
+    },
+    "attributes": {
+        "columns": {
+            "type": "integer",
+            "default": 3
+        },
+        "hasBackground": {
+            "type": "boolean",
+            "default": false
+        },
+        "title": {
+            "type": "string",
+            "default": ""
+        },
+        "description": {
+            "type": "string",
+            "default": ""
+        },
+        "linkType": {
+            "type": "string",
+            "default": "image-title"
+        },
+        "cards": {
+            "type": "array",
+            "default": []
+        },
+        "anchor": {
+            "type": "string",
+            "default": ""
+        },
+        "preview": {
+            "type": "string"
+        }
+    },
+    "render_callback": "hds_wp_render_block_content_cards"
+}
