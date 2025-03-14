@@ -51,7 +51,7 @@
         },
         "buttonText": {
             "type": "string",
-            "default": "Button Text"
+            "default": ""
         },
         "buttonUrl": {
             "type": "string",
