@@ -260,68 +260,7 @@
   };
 
   registerBlockType('hds-wp/image-banner', {
-    apiVersion: 2,
     title: __('Helsinki - Image Banner', 'hds-wp'),
-    category: 'hds-wp',
-    icon: 'format-gallery',
-    keywords: ['Helsinki - Kuvabanneri'],
-    supports: {
-      anchor: true,
-    },
-    attributes: {
-      alignment: {
-        type: 'string',
-        default: 'right',
-      },
-      mediaId: {
-        type: 'number',
-        default: 0,
-      },
-      mediaUrl: {
-        type: 'string',
-        default: '',
-      },
-      mediaWidth: {
-        type: 'number',
-        default: 0,
-      },
-      mediaHeight: {
-        type: 'number',
-        default: 0,
-      },
-      mediaAlt: {
-        type: 'string',
-        default: '',
-      },
-      mediaSrcset: {
-        type: 'string',
-        default: '',
-      },
-      contentTitle: {
-        type: 'string',
-        default: '',
-      },
-      contentText: {
-        type: 'string',
-        default: '',
-      },
-      buttonText: {
-        type: 'string',
-        default: __('Button Text', 'hds-wp'),
-      },
-      buttonUrl: {
-        type: 'string',
-        default: '',
-      },
-      targetBlank: {
-        type: 'boolean',
-        default: false,
-      },
-      preview: {
-        type: 'string',
-        default: '',
-      },
-    },
     edit: edit(),
     save: save(),
     deprecated: [v1],
