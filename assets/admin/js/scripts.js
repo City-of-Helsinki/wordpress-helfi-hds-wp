@@ -185,8 +185,10 @@ function hdsTargetBlankControl(props, config) {
     helpVisibility: 'toggled'
   }, props);
 }
-function hdsContentButton(props, config, icon) {
-  return props.attributes.buttonText && props.attributes.buttonUrl ? wp.element.createElement('a', config, wp.element.createElement(wp.element.Fragment, {}, props.attributes.buttonText, icon ? icon : null)) : '';
+function hdsContentButton(_ref3, config, icon) {
+  var buttonText = _ref3.buttonText,
+    buttonUrl = _ref3.buttonUrl;
+  return buttonText && buttonUrl ? wp.element.createElement('a', config, wp.element.createElement(wp.element.Fragment, {}, buttonText, icon ? icon : null)) : '';
 }
 function hdsTextControl(config, props) {
   var attributeKey = config['attribute'];
@@ -902,7 +904,10 @@ function hdsIcons(name) {
     ToolbarButton = _wp$components3.ToolbarButton,
     Button = _wp$components3.Button;
   function contentButton(props) {
-    return hdsContentButton(props, {
+    return hdsContentButton({
+      buttonText: props.attributes.buttonText,
+      buttonUrl: props.attributes.buttonUrl
+    }, {
       className: 'content__link hds-button',
       href: props.attributes.buttonUrl,
       target: '_blank',
@@ -1281,10 +1286,10 @@ function hdsIcons(name) {
       var currentPostType = select('core/editor').getCurrentPostType();
       if (!postTypeFound && currentPostType) {
         postTypeFound = true;
-        var _ref3 = HelsinkiDisallowedBlocks || {},
-          common = _ref3.common,
-          vendors = _ref3.vendors,
-          post_types = _ref3.post_types;
+        var _ref4 = HelsinkiDisallowedBlocks || {},
+          common = _ref4.common,
+          vendors = _ref4.vendors,
+          post_types = _ref4.post_types;
         disableBlocks(common);
         disableBlocks(vendors);
         if (post_types && post_types[currentPostType]) {
@@ -1373,13 +1378,19 @@ function hdsIcons(name) {
     return classNames.join(' ');
   }
   function contentButton(props) {
-    return hdsContentButton(props, {
+    return hdsContentButton({
+      buttonText: props.attributes.buttonText,
+      buttonUrl: props.attributes.buttonUrl
+    }, {
       className: 'content__link hds-button hds-button--primary',
       href: props.attributes.buttonUrl
     });
   }
   function deprecatedContentButton(props) {
-    return hdsContentButton(props, {
+    return hdsContentButton({
+      buttonText: props.attributes.buttonText,
+      buttonUrl: props.attributes.buttonUrl
+    }, {
       className: 'content__link hds-button',
       href: props.attributes.buttonUrl
     }, props.attributes.isExternalUrl ? hdsDeprecatedExternalLinkIcon() : hdsDeprecatedArrowIcon());
@@ -1571,7 +1582,10 @@ function hdsIcons(name) {
     return classNames.join(' ');
   }
   function contentButton(props) {
-    return hdsContentButton(props, {
+    return hdsContentButton({
+      buttonText: props.attributes.buttonText,
+      buttonUrl: props.attributes.buttonUrl
+    }, {
       className: 'content__link hds-button hds-button--primary',
       href: props.attributes.buttonUrl
     });
@@ -1679,7 +1693,10 @@ function hdsIcons(name) {
     save: function save(props) {
       return createElement('div', useBlockProps.save({
         className: classNamesStringV1(props)
-      }), hdsSingleImage(imageConfig(props)), hdsContent(props, hdsContentTitle(props), hdsContentText(props), hdsContentButton(props, {
+      }), hdsSingleImage(imageConfig(props)), hdsContent(props, hdsContentTitle(props), hdsContentText(props), hdsContentButton({
+        buttonText: props.attributes.buttonText,
+        buttonUrl: props.attributes.buttonUrl
+      }, {
         className: 'content__link hds-button hds-button--secondary',
         href: props.attributes.buttonUrl
       }, props.attributes.isExternalUrl ? hdsDeprecatedExternalLinkIcon() : hdsDeprecatedArrowIcon())));
@@ -1886,11 +1903,11 @@ function hdsIcons(name) {
       })
     });
   }
-  function edit(_ref4) {
-    var attributes = _ref4.attributes,
-      setAttributes = _ref4.setAttributes,
-      clientId = _ref4.clientId,
-      isSelected = _ref4.isSelected;
+  function edit(_ref5) {
+    var attributes = _ref5.attributes,
+      setAttributes = _ref5.setAttributes,
+      clientId = _ref5.clientId,
+      isSelected = _ref5.isSelected;
     var blockProps = useBlockProps({});
     var _useState = useState(attributes.title ? false : true),
       _useState2 = _slicedToArray(_useState, 2),
@@ -2059,11 +2076,11 @@ function hdsIcons(name) {
       }
     }
   });
-  function edit(_ref5) {
-    var attributes = _ref5.attributes,
-      setAttributes = _ref5.setAttributes,
-      clientId = _ref5.clientId,
-      isSelected = _ref5.isSelected;
+  function edit(_ref6) {
+    var attributes = _ref6.attributes,
+      setAttributes = _ref6.setAttributes,
+      clientId = _ref6.clientId,
+      isSelected = _ref6.isSelected;
     var blockProps = useBlockProps({});
     var _useState7 = useState(attributes.title ? false : true),
       _useState8 = _slicedToArray(_useState7, 2),
@@ -2542,10 +2559,10 @@ function hdsIcons(name) {
       }
     }
   });
-  function edit(_ref6) {
-    var attributes = _ref6.attributes,
-      setAttributes = _ref6.setAttributes,
-      clientId = _ref6.clientId;
+  function edit(_ref7) {
+    var attributes = _ref7.attributes,
+      setAttributes = _ref7.setAttributes,
+      clientId = _ref7.clientId;
     var blockProps = useBlockProps({});
     var _useState11 = useState(attributes.title ? false : true),
       _useState12 = _slicedToArray(_useState11, 2),
@@ -3205,10 +3222,10 @@ function hdsIcons(name) {
       }
     }
   });
-  function edit(_ref7) {
-    var attributes = _ref7.attributes,
-      setAttributes = _ref7.setAttributes,
-      clientId = _ref7.clientId;
+  function edit(_ref8) {
+    var attributes = _ref8.attributes,
+      setAttributes = _ref8.setAttributes,
+      clientId = _ref8.clientId;
     var blockProps = useBlockProps({});
     var _useState19 = useState(attributes.title ? false : true),
       _useState20 = _slicedToArray(_useState19, 2),
@@ -3599,6 +3616,99 @@ wp.domReady(function () {
   wp.richText.unregisterFormatType('core/keyboard');
   wp.richText.unregisterFormatType('core/code');
 });
+//remove error notices when block is removed
+
+(function () {
+  var _wp$data16 = wp.data,
+    select = _wp$data16.select,
+    subscribe = _wp$data16.subscribe,
+    dispatch = _wp$data16.dispatch;
+  var store = wp.notices.store;
+  var getBlocks = function getBlocks() {
+    var blocks = [];
+    var rootBlocks = select('core/block-editor').getBlocks();
+    function getChildren(block) {
+      var children = [];
+      if (block.innerBlocks) {
+        block.innerBlocks.forEach(function (innerBlock) {
+          children.push(innerBlock);
+        });
+      }
+      if (children.length > 0) {
+        children.forEach(function (child) {
+          blocks.push(child);
+          getChildren(child);
+        });
+      }
+    }
+    rootBlocks.forEach(function (block) {
+      blocks.push(block);
+      getChildren(block);
+    });
+    return blocks;
+  };
+  Array.prototype.diff = function (a) {
+    return this.filter(function (i) {
+      return !a.some(function (item) {
+        return item.clientId === i.clientId;
+      });
+    });
+  };
+  var blocksState = getBlocks();
+  subscribe(_.debounce(function () {
+    var notices = select(store).getNotices();
+    var newBlocksState = getBlocks();
+
+    // Lock saving if notices contain error notices
+    var errorNotices = notices.filter(function (notice) {
+      return notice.status === 'error';
+    });
+    if (errorNotices.length > 0) {
+      dispatch('core/editor').lockPostSaving('requiredValueLock');
+    } else {
+      if (select('core/editor').isPostSavingLocked()) {
+        dispatch('core/editor').unlockPostSaving('requiredValueLock');
+      }
+    }
+
+    // When very last block is removed, it's replaced with a new paragraph block.
+    // This is a workaround to remove the error notice.
+    if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
+      // remove newBlocksState from blocksState
+      var removedBlock = blocksState.diff(newBlocksState);
+      if (removedBlock.length > 0 || removedBlock[0].name === 'core/paragraph') {
+        var getChildren = function getChildren(block) {
+          var children = [];
+          if (block.innerBlocks) {
+            block.innerBlocks.forEach(function (innerBlock) {
+              children.push(innerBlock);
+            });
+          }
+          if (children.length > 0) {
+            children.forEach(function (child) {
+              clientIds.push(child.clientId);
+              getChildren(child.clientId);
+            });
+          }
+        };
+        var clientIds = [];
+        removedBlock.forEach(function (block) {
+          clientIds.push(block.clientId);
+          getChildren(block);
+        });
+        var noticesToRemove = notices.filter(function (notice) {
+          return clientIds.some(function (clientId) {
+            return notice.id.includes(clientId);
+          });
+        });
+        noticesToRemove.forEach(function (notice) {
+          dispatch('core/notices').removeNotice(notice.id);
+        });
+      }
+    }
+    blocksState = newBlocksState;
+  }, 300));
+})(window.wp);
 (function (wp) {
   /* inspired from https://github.com/Yoast/wpseo-woocommerce/blob/trunk/js/src/yoastseo-woo-replacevars.js */
   /* global jQuery, YoastSEO, app, globals YoastACFAnalysisConfig */
@@ -3755,98 +3865,4 @@ wp.domReady(function () {
   }
 
   initializeReplacevarPlugin();
-})(window.wp);
-
-//remove error notices when block is removed
-
-(function () {
-  var _wp$data16 = wp.data,
-    select = _wp$data16.select,
-    subscribe = _wp$data16.subscribe,
-    dispatch = _wp$data16.dispatch;
-  var store = wp.notices.store;
-  var getBlocks = function getBlocks() {
-    var blocks = [];
-    var rootBlocks = select('core/block-editor').getBlocks();
-    function getChildren(block) {
-      var children = [];
-      if (block.innerBlocks) {
-        block.innerBlocks.forEach(function (innerBlock) {
-          children.push(innerBlock);
-        });
-      }
-      if (children.length > 0) {
-        children.forEach(function (child) {
-          blocks.push(child);
-          getChildren(child);
-        });
-      }
-    }
-    rootBlocks.forEach(function (block) {
-      blocks.push(block);
-      getChildren(block);
-    });
-    return blocks;
-  };
-  Array.prototype.diff = function (a) {
-    return this.filter(function (i) {
-      return !a.some(function (item) {
-        return item.clientId === i.clientId;
-      });
-    });
-  };
-  var blocksState = getBlocks();
-  subscribe(_.debounce(function () {
-    var notices = select(store).getNotices();
-    var newBlocksState = getBlocks();
-
-    // Lock saving if notices contain error notices
-    var errorNotices = notices.filter(function (notice) {
-      return notice.status === 'error';
-    });
-    if (errorNotices.length > 0) {
-      dispatch('core/editor').lockPostSaving('requiredValueLock');
-    } else {
-      if (select('core/editor').isPostSavingLocked()) {
-        dispatch('core/editor').unlockPostSaving('requiredValueLock');
-      }
-    }
-
-    // When very last block is removed, it's replaced with a new paragraph block.
-    // This is a workaround to remove the error notice.
-    if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
-      // remove newBlocksState from blocksState
-      var removedBlock = blocksState.diff(newBlocksState);
-      if (removedBlock.length > 0 || removedBlock[0].name === 'core/paragraph') {
-        var getChildren = function getChildren(block) {
-          var children = [];
-          if (block.innerBlocks) {
-            block.innerBlocks.forEach(function (innerBlock) {
-              children.push(innerBlock);
-            });
-          }
-          if (children.length > 0) {
-            children.forEach(function (child) {
-              clientIds.push(child.clientId);
-              getChildren(child.clientId);
-            });
-          }
-        };
-        var clientIds = [];
-        removedBlock.forEach(function (block) {
-          clientIds.push(block.clientId);
-          getChildren(block);
-        });
-        var noticesToRemove = notices.filter(function (notice) {
-          return clientIds.some(function (clientId) {
-            return notice.id.includes(clientId);
-          });
-        });
-        noticesToRemove.forEach(function (notice) {
-          dispatch('core/notices').removeNotice(notice.id);
-        });
-      }
-    }
-    blocksState = newBlocksState;
-  }, 300));
 })(window.wp);
