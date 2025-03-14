@@ -238,35 +238,7 @@
   }
 
   registerBlockType('hds-wp/accordion-panel', {
-    apiVersion: 2,
     title: __('Helsinki - Accordion Panel', 'hds-wp'),
-    category: 'hds-wp',
-    icon: 'format-gallery',
-    supports: {
-      anchor: true,
-    },
-    parent: ['hds-wp/accordion'],
-    attributes: {
-      panelTitle: {
-        type: 'string',
-        default: __('Panel', 'hds-wp'),
-      },
-      blockId: {
-        type: 'string',
-      },
-      headingLevel: {
-        type: 'string',
-        default: 'h2',
-      },
-      innerContent: {
-        type: 'string',
-        default: '',
-      },
-      anchor: {
-        type: 'string',
-        default: '',
-      },
-    },
     edit: edit(),
     save: save(),
     deprecated: [
