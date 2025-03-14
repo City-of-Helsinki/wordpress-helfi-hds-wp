@@ -78,7 +78,10 @@
   }
 
   function contentButton(props) {
-    return hdsContentButton(props, {
+    return hdsContentButton({
+        buttonText: props.attributes.buttonText,
+        buttonUrl: props.attributes.buttonUrl
+      }, {
       className: 'content__link hds-button hds-button--primary',
       href: props.attributes.buttonUrl,
     });
@@ -238,8 +241,10 @@
           props,
           hdsContentTitle(props),
           hdsContentText(props),
-          hdsContentButton(
-            props,
+          hdsContentButton({
+              buttonText: props.attributes.buttonText,
+              buttonUrl: props.attributes.buttonUrl
+            },
             {
               className: 'content__link hds-button hds-button--secondary',
               href: props.attributes.buttonUrl,
