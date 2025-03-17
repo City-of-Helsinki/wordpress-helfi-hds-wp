@@ -4,7 +4,7 @@ import babel from '@rollup/plugin-babel';
 import replace from '@rollup/plugin-replace';
 
 export default {
-  input: 'src/react/date-picker.js',
+  input: 'src/react/components.js',
   output: {
     dir: 'assets/react',
     format: 'iife',
