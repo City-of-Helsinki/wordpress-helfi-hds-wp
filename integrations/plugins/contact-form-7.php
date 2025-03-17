@@ -66,7 +66,7 @@ function helsinki_wp_validate_cf7_date( $tag ): void {
 	}
 
 	$max_date = helsinki_wp_cf7_string_to_datetime( $tag->get_date_option( 'max' ) );
-	if ( $max_date && $date > $min_date ) {
+	if ( $max_date && $date > $max_date ) {
 		throw new \Exception( wpcf7_get_message( 'date_too_late' ) );
 	}
 }
