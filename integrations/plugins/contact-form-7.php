@@ -4,24 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-add_filter( 'wpcf7_is_date', 'custom_email_confirmation_validation_filter', 10, 2 );
-
-function custom_email_confirmation_validation_filter( $result, $text ) {
-	$result = preg_match(
-  	  '/^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{4})$/',
-  	  $text,
-  	  $matches
-    );
-
-    if ( $result ) {
-  	  $result = checkdate( $matches[2], $matches[1], $matches[3] );
-    }
-
-    return $result;
-}
-
 add_action( 'wpcf7_init', 'helsinki_wp_replace_cf7_date_with_hds_date', 11, 0 );
-
 function helsinki_wp_replace_cf7_date_with_hds_date() {
 	wpcf7_remove_form_tag( 'date*' );
 	wpcf7_remove_form_tag( 'date' );
@@ -35,6 +18,21 @@ function helsinki_wp_replace_cf7_date_with_hds_date() {
 	add_filter( 'wpcf7_validate_date', 'helsinki_wp_validate_cf7_field_date', 20, 2 );
 	add_filter( 'wpcf7_validate_date*', 'helsinki_wp_validate_cf7_field_date', 20, 2 );
 	add_filter( 'wpcf7_swv_available_rules', 'helsinki_wp_disable_cf7_default_date_rule' );
+	add_filter( 'wpcf7_is_date', 'helsinki_wp_cf7_date_format_validation', 10, 2 );
+}
+
+function helsinki_wp_cf7_date_format_validation( $result, $text ) {
+	$result = preg_match(
+  	  '/^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{4})$/',
+  	  $text,
+  	  $matches
+    );
+
+    if ( $result ) {
+  	  $result = checkdate( $matches[2], $matches[1], $matches[3] );
+    }
+
+    return $result;
 }
 
 function helsinki_wp_disable_cf7_default_date_rule( array $rules ): array {
