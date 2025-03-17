@@ -34,8 +34,15 @@ function helsinki_wp_replace_cf7_date_with_hds_date() {
 
 	add_filter( 'wpcf7_validate_date', 'helsinki_wp_validate_cf7_field_date', 20, 2 );
 	add_filter( 'wpcf7_validate_date*', 'helsinki_wp_validate_cf7_field_date', 20, 2 );
+	add_filter( 'wpcf7_swv_available_rules', 'helsinki_wp_disable_cf7_default_date_rule' );
+}
 
-	add_action( 'wp_enqueue_scripts', 'helsinki_wp_register_hds_react_scripts', 5 );
+function helsinki_wp_disable_cf7_default_date_rule( array $rules ): array {
+	if ( isset( $rules['date'] ) ) {
+		unset( $rules['date'] );
+	}
+
+	return $rules;
 }
 
 function helsinki_wp_validate_cf7_field_date( $result, $tag ) {
@@ -71,24 +78,12 @@ function helsinki_wp_cf7_string_to_datetime( string $date ): ?DateTime {
 		return null;
 	}
 
-	$date = date_create( $date );
+	$date = date_create( $date ) ?: null;
 	if ( ! $date ) {
-		throw new \Exception( _x( 'Use format D.M.YYYY.', 'CF7 date validation error', 'hds-wp' ) );
+		throw new \Exception( _x( 'Please enter a date in D.M.YYYY format.', 'CF7 date validation error', 'hds-wp' ) );
 	}
 
 	return $date;
-}
-
-function helsinki_wp_register_hds_react_scripts(): void {
-	wp_register_script(
-        'hds-react-date-picker',
-        \ArtCloud\Helsinki\Plugin\HDS\plugin_url() . 'assets/react/date-picker.js',
-        array(),
-        time(),
-        array( 'strategy' => 'defer', 'in_footer' => true )
-    );
-
-	do_action( 'helsinki_wp_add_hds_react_dependency', 'hds-react-date-picker' );
 }
 
 function hds_react_date_form_tag_handler( $tag ) {
