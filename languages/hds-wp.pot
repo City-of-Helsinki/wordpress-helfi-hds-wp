@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-03-14T23:13:32+00:00\n"
+"POT-Creation-Date: 2025-03-17T14:07:40+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0-alpha-87ce690\n"
 "X-Domain: hds-wp\n"
@@ -51,27 +51,27 @@ msgstr ""
 msgid "Follow on Facebook"
 msgstr ""
 
-#: class/Blocks.php:83
+#: class/Blocks.php:70
 msgid "Helsinki"
 msgstr ""
 
-#: class/Blocks.php:95
+#: class/Blocks.php:82
 msgid "Blocks"
 msgstr ""
 
-#: class/Blocks.php:109
+#: class/Blocks.php:96
 msgid "Disallowed blocks"
 msgstr ""
 
-#: class/Blocks.php:113
+#: class/Blocks.php:100
 msgid "Common"
 msgstr ""
 
-#: class/Blocks.php:117
+#: class/Blocks.php:104
 msgid "3rd party"
 msgstr ""
 
-#: class/Blocks.php:123
+#: class/Blocks.php:110
 #: assets/admin/js/scripts.js:370
 #: src/admin/js/admin.js:484
 msgid "Post type"
@@ -81,12 +81,56 @@ msgstr ""
 msgid "Post Types"
 msgstr ""
 
-#: class/Integrations.php:63
+#: class/Integrations.php:68
 msgid "Integrations"
 msgstr ""
 
-#: class/Integrations.php:64
+#: class/Integrations.php:69
 msgid "Use Helsinki settings with plugins and enable available Helsinki APIs."
+msgstr ""
+
+#: class/Integrations.php:113
+msgid "Complianz GDPR"
+msgstr ""
+
+#: class/Integrations.php:114
+msgid "Add Helsinki styling to cookie notice."
+msgstr ""
+
+#: class/Integrations.php:120
+msgid "Contact Form 7"
+msgstr ""
+
+#: class/Integrations.php:123
+msgid "Add Helsinki styling to contact forms."
+msgstr ""
+
+#: class/Integrations.php:124
+msgid "Replaces date field with HDS DateInput."
+msgstr ""
+
+#: class/Integrations.php:128
+msgid "WP RSS Aggregator"
+msgstr ""
+
+#: class/Integrations.php:129
+msgid "Enable custom default template for Helsinki theme."
+msgstr ""
+
+#: class/Integrations.php:132
+msgid "Yoast SEO"
+msgstr ""
+
+#: class/Integrations.php:133
+msgid "Default configuration meta titles and descriptions, and custom meta variables."
+msgstr ""
+
+#: class/Integrations.php:138
+msgid "Helsinkiteema #1"
+msgstr ""
+
+#: class/Integrations.php:139
+msgid "A multipurpose WordPress theme of City of Helsinki."
 msgstr ""
 
 #: class/Settings.php:17
@@ -218,46 +262,6 @@ msgstr ""
 msgid "FAQ"
 msgstr ""
 
-#: config/integrations/types.php:6
-msgid "Complianz GDPR"
-msgstr ""
-
-#: config/integrations/types.php:7
-msgid "Add Helsinki styling to cookie notice."
-msgstr ""
-
-#: config/integrations/types.php:13
-msgid "Contact Form 7"
-msgstr ""
-
-#: config/integrations/types.php:14
-msgid "Add Helsinki styling to contact forms."
-msgstr ""
-
-#: config/integrations/types.php:17
-msgid "WP RSS Aggregator"
-msgstr ""
-
-#: config/integrations/types.php:18
-msgid "Enable custom default template for Helsinki theme."
-msgstr ""
-
-#: config/integrations/types.php:21
-msgid "Yoast SEO"
-msgstr ""
-
-#: config/integrations/types.php:22
-msgid "Default configuration meta titles and descriptions, and custom meta variables."
-msgstr ""
-
-#: config/integrations/types.php:27
-msgid "Helsinkiteema #1"
-msgstr ""
-
-#: config/integrations/types.php:28
-msgid "A multipurpose WordPress theme of City of Helsinki."
-msgstr ""
-
 #: integrations/plugins/complianz.php:21
 msgctxt "Complianz used cookies title"
 msgid "Used cookies"
@@ -268,7 +272,22 @@ msgctxt "Complianz manage cookie consent title"
 msgid "Manage your preferences"
 msgstr ""
 
-#: integrations/plugins/contact-form-7.php:18
+#: integrations/plugins/contact-form-7.php:81
+msgctxt "CF7 date validation error"
+msgid "Please enter a date in D.M.YYYY format."
+msgstr ""
+
+#: integrations/plugins/contact-form-7.php:105
+msgctxt "HDS React DateInput helper text"
+msgid "Use format D.M.YYYY"
+msgstr ""
+
+#: integrations/plugins/contact-form-7.php:110
+msgctxt "HDS React DateInput label"
+msgid "Choose a date"
+msgstr ""
+
+#: integrations/plugins/contact-form-7.php:186
 msgid "Add file"
 msgstr ""
 
@@ -325,17 +344,7 @@ msgid "Excerpt"
 msgstr ""
 
 #: assets/admin/js/scripts.js:156
-#: assets/admin/js/scripts.js:908
-#: assets/admin/js/scripts.js:1382
-#: assets/admin/js/scripts.js:1391
-#: assets/admin/js/scripts.js:1586
-#: assets/admin/js/scripts.js:1697
 #: src/admin/js/admin.js:185
-#: src/admin/js/blocks/banner.js:11
-#: src/admin/js/blocks/image-banner.js:70
-#: src/admin/js/blocks/image-banner.js:80
-#: src/admin/js/blocks/image-text.js:82
-#: src/admin/js/blocks/image-text.js:245
 msgid "Button Text"
 msgstr ""
 

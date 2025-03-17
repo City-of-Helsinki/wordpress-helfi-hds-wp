@@ -6,7 +6,7 @@ msgstr ""
 "Language: sv_SE\n"
 "Language-Team: Swedish\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"PO-Revision-Date: 2025-03-17 07:54+0000\n"
+"PO-Revision-Date: 2025-03-17 14:07+0000\n"
 "X-Generator: Loco https://localise.biz/\n"
 "Last-Translator: \n"
 "MIME-Version: 1.0\n"
@@ -14,11 +14,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Loco-Version: 2.6.0; wp-6.3"
 
-#: class/Blocks.php:117
+#: class/Blocks.php:104
 msgid "3rd party"
 msgstr ""
 
-#: config/integrations/types.php:28
+#: class/Integrations.php:139
 msgid "A multipurpose WordPress theme of City of Helsinki."
 msgstr ""
 
@@ -26,15 +26,15 @@ msgstr ""
 msgid "Accordion heading"
 msgstr ""
 
-#: integrations/plugins/contact-form-7.php:18
+#: integrations/plugins/contact-form-7.php:186
 msgid "Add file"
 msgstr ""
 
-#: config/integrations/types.php:14
+#: class/Integrations.php:123
 msgid "Add Helsinki styling to contact forms."
 msgstr ""
 
-#: config/integrations/types.php:7
+#: class/Integrations.php:114
 msgid "Add Helsinki styling to cookie notice."
 msgstr ""
 
@@ -259,17 +259,11 @@ msgctxt "block title"
 msgid "Helsinki - Web Component Accordion Panel"
 msgstr ""
 
-#: class/Blocks.php:95
+#: class/Blocks.php:82
 msgid "Blocks"
 msgstr ""
 
-#: assets/admin/js/scripts.js:156 assets/admin/js/scripts.js:908
-#: assets/admin/js/scripts.js:1382 assets/admin/js/scripts.js:1391
-#: assets/admin/js/scripts.js:1586 assets/admin/js/scripts.js:1697
-#: src/admin/js/admin.js:185 src/admin/js/blocks/banner.js:11
-#: src/admin/js/blocks/image-banner.js:70
-#: src/admin/js/blocks/image-banner.js:80 src/admin/js/blocks/image-text.js:82
-#: src/admin/js/blocks/image-text.js:245
+#: assets/admin/js/scripts.js:156 src/admin/js/admin.js:185
 msgid "Button Text"
 msgstr ""
 
@@ -280,6 +274,11 @@ msgstr ""
 #: assets/admin/js/scripts.js:406 src/admin/js/admin.js:514
 msgid "Category"
 msgstr ""
+
+#: integrations/plugins/contact-form-7.php:81
+msgctxt "CF7 date validation error"
+msgid "Please enter a date in D.M.YYYY format."
+msgstr "Vänligen ange ett datum i formatet D.M.ÅÅÅÅ."
 
 #: assets/admin/js/scripts.js:184 assets/admin/js/scripts.js:974
 #: assets/admin/js/scripts.js:1413 assets/admin/js/scripts.js:1609
@@ -315,11 +314,11 @@ msgstr ""
 msgid "Columns"
 msgstr ""
 
-#: class/Blocks.php:113
+#: class/Blocks.php:100
 msgid "Common"
 msgstr ""
 
-#: config/integrations/types.php:6
+#: class/Integrations.php:113
 msgid "Complianz GDPR"
 msgstr ""
 
@@ -333,7 +332,7 @@ msgctxt "Complianz used cookies title"
 msgid "Used cookies"
 msgstr "Använda kakor"
 
-#: config/integrations/types.php:13
+#: class/Integrations.php:120
 msgid "Contact Form 7"
 msgstr "Contact Form 7"
 
@@ -348,7 +347,7 @@ msgstr ""
 msgid "Count"
 msgstr ""
 
-#: config/integrations/types.php:22
+#: class/Integrations.php:133
 msgid ""
 "Default configuration meta titles and descriptions, and custom meta "
 "variables."
@@ -364,11 +363,11 @@ msgstr ""
 msgid "Detach post"
 msgstr ""
 
-#: class/Blocks.php:109
+#: class/Blocks.php:96
 msgid "Disallowed blocks"
 msgstr ""
 
-#: config/integrations/types.php:18
+#: class/Integrations.php:129
 msgid "Enable custom default template for Helsinki theme."
 msgstr ""
 
@@ -418,7 +417,17 @@ msgstr ""
 msgid "Has background"
 msgstr ""
 
-#: class/Blocks.php:83
+#: integrations/plugins/contact-form-7.php:105
+msgctxt "HDS React DateInput helper text"
+msgid "Use format D.M.YYYY"
+msgstr "Använd format D.M.ÅÅÅÅ"
+
+#: integrations/plugins/contact-form-7.php:110
+msgctxt "HDS React DateInput label"
+msgid "Choose a date"
+msgstr ""
+
+#: class/Blocks.php:70
 msgid "Helsinki"
 msgstr "Helsingfors"
 
@@ -527,7 +536,7 @@ msgstr ""
 msgid "Helsinki WP"
 msgstr "Helsingfors WP"
 
-#: config/integrations/types.php:27
+#: class/Integrations.php:138
 msgid "Helsinkiteema #1"
 msgstr ""
 
@@ -557,7 +566,7 @@ msgstr ""
 msgid "Image, Title & Excerpt"
 msgstr ""
 
-#: class/Integrations.php:63
+#: class/Integrations.php:68
 msgid "Integrations"
 msgstr ""
 
@@ -706,7 +715,7 @@ msgstr ""
 msgid "Post"
 msgstr ""
 
-#: class/Blocks.php:123 assets/admin/js/scripts.js:370
+#: class/Blocks.php:110 assets/admin/js/scripts.js:370
 #: src/admin/js/admin.js:484
 msgid "Post type"
 msgstr ""
@@ -741,6 +750,10 @@ msgstr ""
 
 #: assets/admin/js/scripts.js:33 src/admin/js/admin.js:28
 msgid "Remove image"
+msgstr ""
+
+#: class/Integrations.php:124
+msgid "Replaces date field with HDS DateInput."
 msgstr ""
 
 #: config/blocks/rss-feed/render.php:70
@@ -877,7 +890,7 @@ msgstr ""
 msgid "URL"
 msgstr ""
 
-#: class/Integrations.php:64
+#: class/Integrations.php:69
 msgid "Use Helsinki settings with plugins and enable available Helsinki APIs."
 msgstr ""
 
@@ -934,13 +947,13 @@ msgstr "WordPress Helsingfors"
 msgid "WordPress User Guides"
 msgstr ""
 
-#: config/integrations/types.php:17
+#: class/Integrations.php:128
 msgid "WP RSS Aggregator"
-msgstr ""
+msgstr "WP RSS Aggregator"
 
-#: config/integrations/types.php:21
+#: class/Integrations.php:132
 msgid "Yoast SEO"
-msgstr ""
+msgstr "Yoast SEO"
 
 #: config/blocks/filters.php:90
 msgid "Your browser does not support the <code>audio</code> element."

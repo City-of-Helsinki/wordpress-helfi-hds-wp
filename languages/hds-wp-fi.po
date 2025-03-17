@@ -6,7 +6,7 @@ msgstr ""
 "Language: fi\n"
 "Language-Team: Suomi\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"PO-Revision-Date: 2025-03-14 23:19+0000\n"
+"PO-Revision-Date: 2025-03-17 14:08+0000\n"
 "X-Generator: Loco https://localise.biz/\n"
 "Last-Translator: \n"
 "MIME-Version: 1.0\n"
@@ -14,11 +14,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Loco-Version: 2.7.1; wp-6.7.1"
 
-#: class/Blocks.php:117
+#: class/Blocks.php:104
 msgid "3rd party"
 msgstr "3. taho"
 
-#: config/integrations/types.php:28
+#: class/Integrations.php:139
 msgid "A multipurpose WordPress theme of City of Helsinki."
 msgstr "Monikäyttöinen WordPress-teema Helsingin kaupunkia varten."
 
@@ -26,15 +26,15 @@ msgstr "Monikäyttöinen WordPress-teema Helsingin kaupunkia varten."
 msgid "Accordion heading"
 msgstr "Haitarin otsikko"
 
-#: integrations/plugins/contact-form-7.php:18
+#: integrations/plugins/contact-form-7.php:186
 msgid "Add file"
 msgstr "Lisää tiedosto"
 
-#: config/integrations/types.php:14
+#: class/Integrations.php:123
 msgid "Add Helsinki styling to contact forms."
 msgstr "Lisää Helsinki-tyylit yhteydenottolomakkeisiin."
 
-#: config/integrations/types.php:7
+#: class/Integrations.php:114
 msgid "Add Helsinki styling to cookie notice."
 msgstr "Lisää Helsinki-tyylit evästeilmoitukseen."
 
@@ -259,17 +259,11 @@ msgctxt "block title"
 msgid "Helsinki - Web Component Accordion Panel"
 msgstr "Helsinki - Haitaripaneeli (web-komponentti)"
 
-#: class/Blocks.php:95
+#: class/Blocks.php:82
 msgid "Blocks"
 msgstr "Lohkot"
 
-#: assets/admin/js/scripts.js:156 assets/admin/js/scripts.js:908
-#: assets/admin/js/scripts.js:1382 assets/admin/js/scripts.js:1391
-#: assets/admin/js/scripts.js:1586 assets/admin/js/scripts.js:1697
-#: src/admin/js/admin.js:185 src/admin/js/blocks/banner.js:11
-#: src/admin/js/blocks/image-banner.js:70
-#: src/admin/js/blocks/image-banner.js:80 src/admin/js/blocks/image-text.js:82
-#: src/admin/js/blocks/image-text.js:245
+#: assets/admin/js/scripts.js:156 src/admin/js/admin.js:185
 msgid "Button Text"
 msgstr "Painikkeen teksti"
 
@@ -280,6 +274,11 @@ msgstr "Painikkeen url"
 #: assets/admin/js/scripts.js:406 src/admin/js/admin.js:514
 msgid "Category"
 msgstr "Kategoria"
+
+#: integrations/plugins/contact-form-7.php:81
+msgctxt "CF7 date validation error"
+msgid "Please enter a date in D.M.YYYY format."
+msgstr "Anna päivämäärä muodossa P.K.VVVV."
 
 #: assets/admin/js/scripts.js:184 assets/admin/js/scripts.js:974
 #: assets/admin/js/scripts.js:1413 assets/admin/js/scripts.js:1609
@@ -317,11 +316,11 @@ msgstr "Kolumnien määrä"
 msgid "Columns"
 msgstr "Kolumnia"
 
-#: class/Blocks.php:113
+#: class/Blocks.php:100
 msgid "Common"
 msgstr "Yleinen"
 
-#: config/integrations/types.php:6
+#: class/Integrations.php:113
 msgid "Complianz GDPR"
 msgstr "Complianz GDPR"
 
@@ -335,7 +334,7 @@ msgctxt "Complianz used cookies title"
 msgid "Used cookies"
 msgstr "Käytössä olevat evästeet"
 
-#: config/integrations/types.php:13
+#: class/Integrations.php:120
 msgid "Contact Form 7"
 msgstr "Contact Form 7"
 
@@ -350,7 +349,7 @@ msgstr "Sisältö"
 msgid "Count"
 msgstr "Määrä"
 
-#: config/integrations/types.php:22
+#: class/Integrations.php:133
 #| msgid ""
 #| "Default configuration meta titles and descriptions, andd custom meta "
 #| "variables."
@@ -370,11 +369,11 @@ msgstr "Kuvausteksti"
 msgid "Detach post"
 msgstr "Irrota julkaisu"
 
-#: class/Blocks.php:109
+#: class/Blocks.php:96
 msgid "Disallowed blocks"
 msgstr "Estetyt lohkot"
 
-#: config/integrations/types.php:18
+#: class/Integrations.php:129
 msgid "Enable custom default template for Helsinki theme."
 msgstr "Käytä räätälöityä oletusteemaa Helsinkiteeman kanssa."
 
@@ -426,7 +425,17 @@ msgstr "Yleinen"
 msgid "Has background"
 msgstr "Taustaväri"
 
-#: class/Blocks.php:83
+#: integrations/plugins/contact-form-7.php:105
+msgctxt "HDS React DateInput helper text"
+msgid "Use format D.M.YYYY"
+msgstr "Käytä muotoa P.K.VVVV"
+
+#: integrations/plugins/contact-form-7.php:110
+msgctxt "HDS React DateInput label"
+msgid "Choose a date"
+msgstr "Valitse päivämäärä"
+
+#: class/Blocks.php:70
 msgid "Helsinki"
 msgstr "Helsinki"
 
@@ -535,7 +544,7 @@ msgstr "Helsingin WordPress-portaali"
 msgid "Helsinki WP"
 msgstr "Helsinki WP"
 
-#: config/integrations/types.php:27
+#: class/Integrations.php:138
 msgid "Helsinkiteema #1"
 msgstr "Helsinkiteema #1"
 
@@ -567,7 +576,7 @@ msgstr "Kuva ja otsikko"
 msgid "Image, Title & Excerpt"
 msgstr "Kuva, otsikko ja kuvaus"
 
-#: class/Integrations.php:63
+#: class/Integrations.php:68
 msgid "Integrations"
 msgstr "Integraatiot"
 
@@ -716,7 +725,7 @@ msgstr "Rajaa otsikko 64:n kirjainmerkkiin"
 msgid "Post"
 msgstr "Julkaisu"
 
-#: class/Blocks.php:123 assets/admin/js/scripts.js:370
+#: class/Blocks.php:110 assets/admin/js/scripts.js:370
 #: src/admin/js/admin.js:484
 msgid "Post type"
 msgstr "Julkaisun tyyppi"
@@ -757,6 +766,10 @@ msgstr "Poista"
 #: assets/admin/js/scripts.js:33 src/admin/js/admin.js:28
 msgid "Remove image"
 msgstr "Poista kuva"
+
+#: class/Integrations.php:124
+msgid "Replaces date field with HDS DateInput."
+msgstr "Korvaa päivämääräkentän HDS DateInput:lla."
 
 #: config/blocks/rss-feed/render.php:70
 msgctxt "RSS feed source(s)"
@@ -895,7 +908,7 @@ msgstr "Otsikko & kuvaus"
 msgid "URL"
 msgstr "URL"
 
-#: class/Integrations.php:64
+#: class/Integrations.php:69
 msgid "Use Helsinki settings with plugins and enable available Helsinki APIs."
 msgstr ""
 "Käytä Helsinki-asetuksia lisäosissa ja ota käyttöön Helsinki-rajapinnat."
@@ -953,11 +966,11 @@ msgstr "WordPress Helsinki"
 msgid "WordPress User Guides"
 msgstr "WordPress-käyttöohjeet"
 
-#: config/integrations/types.php:17
+#: class/Integrations.php:128
 msgid "WP RSS Aggregator"
 msgstr "WP RSS Aggregator"
 
-#: config/integrations/types.php:21
+#: class/Integrations.php:132
 msgid "Yoast SEO"
 msgstr "Yoast SEO"
 
