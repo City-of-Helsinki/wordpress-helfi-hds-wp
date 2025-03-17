@@ -94,7 +94,7 @@ function hds_react_date_form_tag_handler( $tag ) {
 	$atts = helsinki_wp_map_cf7_date_input_config($tag);
 
     return sprintf(
-        '<span class="wpcf7-form-control-wrap" data-hds-react="DatePicker" data-hds-component="%1$s"></span>',
+        '<span class="wpcf7-form-control-wrap" data-hds-react="DateInput" data-hds-component="%1$s"></span>',
         htmlspecialchars(json_encode($atts), ENT_QUOTES, 'UTF-8')
     );
 }
