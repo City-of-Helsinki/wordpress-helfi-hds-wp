@@ -20,23 +20,66 @@ function custom_email_confirmation_validation_filter( $result, $text ) {
     return $result;
 }
 
-add_action( 'wpcf7_init', 'dasafsdafsdasfdafsd', 11, 0 );
+add_action( 'wpcf7_init', 'helsinki_wp_replace_cf7_date_with_hds_date', 11, 0 );
 
-function dasafsdafsdasfdafsd() {
+function helsinki_wp_replace_cf7_date_with_hds_date() {
 	wpcf7_remove_form_tag( 'date*' );
 	wpcf7_remove_form_tag( 'date' );
 
-	wpcf7_add_form_tag( array( 'date', 'date*' ),
+	wpcf7_add_form_tag(
+		array( 'date', 'date*' ),
 		'hds_react_date_form_tag_handler',
-		array(
-			'name-attr' => true,
-		)
+		array( 'name-attr' => true )
 	);
 
-	\add_action( 'wp_enqueue_scripts', 'sadfafsafsdasdf', 5 );
+	add_filter( 'wpcf7_validate_date', 'helsinki_wp_validate_cf7_field_date', 20, 2 );
+	add_filter( 'wpcf7_validate_date*', 'helsinki_wp_validate_cf7_field_date', 20, 2 );
+
+	add_action( 'wp_enqueue_scripts', 'helsinki_wp_register_hds_react_scripts', 5 );
 }
 
-function sadfafsafsdasdf() {
+function helsinki_wp_validate_cf7_field_date( $result, $tag ) {
+	try {
+		helsinki_wp_validate_cf7_date( $tag );
+	} catch (\Exception $e) {
+		$result->invalidate( $tag, $e->getMessage() );
+	}
+
+	return $result;
+}
+
+function helsinki_wp_validate_cf7_date( $tag ): void {
+	$date = helsinki_wp_cf7_string_to_datetime( $_POST[$tag->name] ?? '' );
+
+	if ( $tag->is_required() && empty( $date ) ) {
+		throw new \Exception( wpcf7_get_message( 'invalid_required' ) );
+	}
+
+	$min_date = helsinki_wp_cf7_string_to_datetime( $tag->get_date_option( 'min' ) );
+	if ( $min_date && $date < $min_date ) {
+		throw new \Exception( wpcf7_get_message( 'date_too_early' ) );
+	}
+
+	$max_date = helsinki_wp_cf7_string_to_datetime( $tag->get_date_option( 'max' ) );
+	if ( $max_date && $date > $min_date ) {
+		throw new \Exception( wpcf7_get_message( 'date_too_late' ) );
+	}
+}
+
+function helsinki_wp_cf7_string_to_datetime( string $date ): ?DateTime {
+	if ( ! $date ) {
+		return null;
+	}
+
+	$date = date_create( $date );
+	if ( ! $date ) {
+		throw new \Exception( _x( 'Use format D.M.YYYY.', 'CF7 date validation error', 'hds-wp' ) );
+	}
+
+	return $date;
+}
+
+function helsinki_wp_register_hds_react_scripts(): void {
 	wp_register_script(
         'hds-react-date-picker',
         \ArtCloud\Helsinki\Plugin\HDS\plugin_url() . 'assets/react/date-picker.js',
@@ -67,9 +110,16 @@ function hds_react_date_form_tag_handler( $tag ) {
 function helsinki_wp_map_cf7_date_input_config( $tag ): array {
 	return array(
 		'config' => array(
-	        'submitEvent' => 'wpcf7submit',
 	        'value' => helsinki_wp_format_cf7_date_input_value( $tag ),
+			'handler' => 'contactForm7',
 	    ),
+		'events' => array(
+			'formInvalid' => 'wpcf7invalid',
+			'formSpam' => 'wpcf7spam',
+			'formSent' => 'wpcf7mailsent',
+			'formFailed' => 'wpcf7mailfailed',
+			'formSubmit' => 'wpcf7submit',
+		),
 	    'input' => array(
 	        // Input
 	        'autocomplete' => $tag->get_option( 'autocomplete', '[-0-9a-zA-Z]+', true ),
