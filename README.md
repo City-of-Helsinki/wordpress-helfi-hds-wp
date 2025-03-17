@@ -3,6 +3,26 @@ Imports [Helsinki Design System](https://hds.hel.fi/) styles, assets and blocks 
 
 Recommended to be used with [Helsinki Theme](https://github.com/City-of-Helsinki/wordpress-helfi-helsinkiteema).
 
+## Features
+
+### HDS React
+
+The plugin **registers** `helsinki-wp-hds-react` script handle with `react`, `react-dom` and `lodash` dependencies. Currently the only supported component is [HDS DateInput](https://hds.hel.fi/components/date-input/).
+
+Additional dependencies can be attached to the script with `helsinki_wp_add_hds_react_dependency` action.
+
+``do_action( 'helsinki_wp_add_hds_react_dependency', '{handle}' )``
+
+The registered script is **enqueued** by executing `helsinki_wp_enqueue_hds_react` action.
+
+``do_action( 'helsinki_wp_enqueue_hds_react' )``
+
+The HDS React components are loaded by adding `data-hds-react="{Component Name}"` attribute to a HTML element. Configuration for the component is provided with `data-hds-component="{JSON}"` attribute containing JSON.
+
+``sprintf(
+    '<span class="wpcf7-form-control-wrap" data-hds-react="DatePicker" data-hds-component="%1$s"></span>',
+    htmlspecialchars( json_encode( array( 'key' => 'value' ) ), ENT_QUOTES, 'UTF-8' )
+  )``
 
 ## Dependencies
 
@@ -14,7 +34,9 @@ Recommended to be used with [Helsinki Theme](https://github.com/City-of-Helsinki
 
 ## Integrations
 - [Complianz – GDPR/CCPA Cookie Consent](https://wordpress.org/plugins/complianz-gdpr/): Overrides Cookiebanner templates.
-- [Contact Form 7](https://wordpress.org/plugins/contact-form-7/): Filters form output to apply HDS styles and behaviour, and loads custom scripts to extend form behaviour.
+- [Contact Form 7](https://wordpress.org/plugins/contact-form-7/)
+  - Filters form output to apply HDS styles and behaviour, and loads custom scripts to extend form behaviour.
+  - Replaces `date` and `date*` fields with [HDS DateInput](https://hds.hel.fi/components/date-input/).
 - [WP RSS Aggregator](https://wordpress.org/plugins/wp-rss-aggregator/)
 - [Yoast SEO](https://wordpress.org/plugins/wordpress-seo/)
 
