@@ -9,8 +9,6 @@ var fs = require('fs'),
 	concat = require('gulp-concat'),
 	uglify = require('gulp-uglify'),
 	babel = require('gulp-babel');
-// var = rollup = require('rollup'),
-  // nodeResolve = require('@rollup/plugin-node-resolve');
 
 const ASSETS = 'assets';
 const SOURCE = 'src';
@@ -67,20 +65,6 @@ gulp.task('styles', function () {
 			.pipe(gulp.dest(ASSETS));
 	});
 });
-
-// gulp.task('rollup', () => {
-//   return rollup
-//     .rollup({
-//       input: './src/react/index.js',
-//       plugins: [nodeResolve()],
-//     })
-//     .then(bundle => bundle.write({
-//       file: './assets/react/date-picker.js',
-//       format: 'iife',
-//       name: 'library',
-//       sourcemap: false
-//     }));
-// });
 
 gulp.task('watch', function () {
   gulp.watch(SOURCE, gulp.parallel('styles'));
