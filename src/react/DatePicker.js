@@ -2,7 +2,13 @@ import { DateInput } from 'hds-react';
 import { useEffect, useState } from 'react';
 
 function handleContactForm7Events({form, inputName, events, updateValue, setErrorText}) {
-  const {formInvalid, formSpam, formSent, formFailed, formSubmit} = events || {};
+  const {
+    formInvalid,
+    // formSpam,
+    formSent,
+    // formFailed,
+    // formSubmit
+  } = events || {};
 
   if (formInvalid) {
     form.addEventListener(formInvalid, (e) => {
@@ -45,12 +51,8 @@ export default function createDatePicker() {
     const [errorText, setErrorText] = useState(null);
 
     const updateValue = (value) => {
-      try {
-        setErrorText(null);
-        setCurrentDate(value);
-      } catch ({name, message}) {
-        setErrorText(message);
-      }
+      setErrorText(null);
+      setCurrentDate(value);
     };
 
     const partsToDate = ({year, month, day}) => {
