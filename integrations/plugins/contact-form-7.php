@@ -94,13 +94,22 @@ function hds_react_date_form_tag_handler( $tag ) {
 	$atts = helsinki_wp_map_cf7_date_input_config($tag);
 
     return sprintf(
-        '<span class="wpcf7-form-control-wrap" data-hds-react="DatePicker" data-hds-component="%2$s"></span>',
-		esc_attr( $tag->name ),
+        '<span class="wpcf7-form-control-wrap" data-hds-react="DatePicker" data-hds-component="%1$s"></span>',
         htmlspecialchars(json_encode($atts), ENT_QUOTES, 'UTF-8')
     );
 }
 
 function helsinki_wp_map_cf7_date_input_config( $tag ): array {
+	$helper_text = apply_filters(
+		'helsinki_wp_hds_react_dateinput_text',
+		_x( 'Use format D.M.YYYY', 'HDS React DateInput helper text', 'hds-wp' )
+	);
+
+	$label_text = apply_filters(
+		'helsinki_wp_hds_react_dateinput_helper_text',
+		_x( 'Choose a date', 'HDS React DateInput label', 'hds-wp' )
+	);
+
 	return array(
 		'config' => array(
 	        'value' => helsinki_wp_format_cf7_date_input_value( $tag ),
@@ -117,20 +126,20 @@ function helsinki_wp_map_cf7_date_input_config( $tag ): array {
 	        // Input
 	        'autocomplete' => $tag->get_option( 'autocomplete', '[-0-9a-zA-Z]+', true ),
 	        'className' => 'hds-react-component hds-react-component__date-input',
-	        'id' => $tag->get_id_option(),
-	        'name' => $tag->name,
+	        'id' => esc_attr( $tag->get_id_option() ),
+	        'name' => esc_attr( $tag->name ),
 	        'readonly' => $tag->has_option( 'readonly' ),
 	        'required' => $tag->is_required(),
 	        'tabindex' => $tag->get_option( 'tabindex', 'signed_int', true ),
 
 	        // Date input
-	        'helperText' => esc_html_x( 'Use format D.M.YYYY', 'DateInput helperText', 'hds-wp' ),
+	        'helperText' => esc_attr( $helper_text ),
 	        'errorText' => '',
 	        'successText' => '',
 	        'infoText' => '',
 	        'initialMonth' => '',
-	        'label' => esc_html_x( 'Choose a date', 'DateInput label', 'hds-wp' ),
-	        'language' => apply_filters( 'helsinki_wp_current_language', 'en' ),
+	        'label' => esc_attr( $label_text ),
+	        'language' => esc_attr( apply_filters( 'helsinki_wp_current_language', 'en' ) ),
 	        'minDate' => $tag->get_date_option( 'min' ),
 	        'maxDate' => $tag->get_date_option( 'max' ),
 	        'initialMonth' => '',
