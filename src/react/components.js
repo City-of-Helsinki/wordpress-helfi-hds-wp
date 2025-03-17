@@ -1,8 +1,8 @@
-import createDatePicker from './DatePicker.js';
+import createDateInput from './DateInput.js';
 
 document.addEventListener('DOMContentLoaded', event => {
   const components = {
-    DatePicker: createDatePicker(),
+    DateInput: createDateInput(),
   };
 
   document.querySelectorAll('[data-hds-react]').forEach(setupComponent);
