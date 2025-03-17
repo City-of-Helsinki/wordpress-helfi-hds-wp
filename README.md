@@ -15,14 +15,14 @@ Additional dependencies can be attached to the script with `helsinki_wp_add_hds_
 
 The registered script is **enqueued** by executing `helsinki_wp_enqueue_hds_react` action.
 
-``do_action( 'helsinki_wp_enqueue_hds_react' )``
+  do_action( 'helsinki_wp_enqueue_hds_react' )
 
 The HDS React components are loaded by adding `data-hds-react="{Component Name}"` attribute to a HTML element. Configuration for the component is provided with `data-hds-component="{JSON}"` attribute containing JSON.
 
-``sprintf(
+  sprintf(
     '<span class="wpcf7-form-control-wrap" data-hds-react="DatePicker" data-hds-component="%1$s"></span>',
     htmlspecialchars( json_encode( array( 'key' => 'value' ) ), ENT_QUOTES, 'UTF-8' )
-  )``
+  )
 
 ## Dependencies
 
