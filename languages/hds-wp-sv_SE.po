@@ -6,7 +6,7 @@ msgstr ""
 "Language: sv_SE\n"
 "Language-Team: Swedish\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"PO-Revision-Date: 2025-01-10 15:37+0000\n"
+"PO-Revision-Date: 2025-03-11 09:33+0000\n"
 "X-Generator: Loco https://localise.biz/\n"
 "Last-Translator: \n"
 "MIME-Version: 1.0\n"
@@ -18,11 +18,15 @@ msgstr ""
 msgid "3rd party"
 msgstr ""
 
+#: config/integrations/types.php:28
+msgid "A multipurpose WordPress theme of City of Helsinki."
+msgstr ""
+
 #: assets/admin/js/scripts.js:640 src/admin/js/blocks/accordion-panel.js:89
 msgid "Accordion heading"
 msgstr ""
 
-#: integrations/plugins/contact-form-7.php:18
+#: integrations/plugins/contact-form-7.php:209
 msgid "Add file"
 msgstr ""
 
@@ -201,11 +205,17 @@ msgstr ""
 msgid "Count"
 msgstr ""
 
-#: config/integrations/types.php:18
-msgid "Default configuration for WP-Matomo plugin."
-msgstr ""
+#: integrations/plugins/contact-form-7.php:159
+msgctxt "DateInput helperText"
+msgid "Use format D.M.YYYY"
+msgstr "Använd ett format D.M.ÅÅÅÅ"
 
-#: config/integrations/types.php:26
+#: integrations/plugins/contact-form-7.php:164
+msgctxt "DateInput label"
+msgid "Choose a date"
+msgstr "Välj ett datum"
+
+#: config/integrations/types.php:22
 msgid ""
 "Default configuration meta titles and descriptions, and custom meta "
 "variables."
@@ -233,7 +243,7 @@ msgstr ""
 msgid "Embed the map from Palvelukartasta or Karttapalvelusta."
 msgstr ""
 
-#: config/integrations/types.php:22
+#: config/integrations/types.php:18
 msgid "Enable custom default template for Helsinki theme."
 msgstr ""
 
@@ -255,7 +265,7 @@ msgstr ""
 msgid "Feedback"
 msgstr ""
 
-#: class/Assets.php:169
+#: class/Assets.php:163
 msgid "Follow on Facebook"
 msgstr "Följ på Facebook"
 
@@ -269,7 +279,7 @@ msgctxt "from RSS feed source"
 msgid "%s"
 msgstr "%s"
 
-#: config/settings/tabs.php:4
+#: class/Settings.php:184
 msgid "General"
 msgstr ""
 
@@ -408,13 +418,17 @@ msgstr ""
 msgid "Helsinki - Web Component Accordion Panel"
 msgstr ""
 
-#: config/settings/links.php:4
+#: class/Settings.php:44
 msgid "Helsinki WordPress portal"
 msgstr ""
 
-#: class/Settings.php:18 class/Settings.php:19
+#: class/Settings.php:17 class/Settings.php:18
 msgid "Helsinki WP"
 msgstr "Helsingfors WP"
+
+#: config/integrations/types.php:27
+msgid "Helsinkiteema #1"
+msgstr ""
 
 #. Author URI of the plugin
 msgid "https://www.artcloud.fi"
@@ -626,7 +640,7 @@ msgstr ""
 msgid "Published:"
 msgstr "Publicerad:"
 
-#: class/Assets.php:164
+#: class/Assets.php:158
 msgid "Remove"
 msgstr ""
 
@@ -684,7 +698,7 @@ msgstr ""
 msgid "Select image"
 msgstr ""
 
-#: class/Settings.php:128 assets/admin/js/scripts.js:607
+#: class/Settings.php:134 assets/admin/js/scripts.js:607
 #: assets/admin/js/scripts.js:821 assets/admin/js/scripts.js:1147
 #: assets/admin/js/scripts.js:1243 assets/admin/js/scripts.js:2113
 #: assets/admin/js/scripts.js:2647 assets/admin/js/scripts.js:2858
@@ -708,7 +722,7 @@ msgstr ""
 msgid "Supplementary"
 msgstr ""
 
-#: class/Settings.php:77
+#: class/Settings.php:85
 #, php-format
 msgid ""
 "The \"%s\" feature is automatically enabled as the current theme declares "
@@ -829,19 +843,15 @@ msgstr ""
 msgid "WordPress Helsinki"
 msgstr "WordPress Helsingfors"
 
-#: config/settings/links.php:9
+#: class/Settings.php:49
 msgid "WordPress User Guides"
 msgstr ""
 
-#: config/integrations/types.php:21
+#: config/integrations/types.php:17
 msgid "WP RSS Aggregator"
 msgstr ""
 
-#: config/integrations/types.php:17
-msgid "WP-Matomo Integration"
-msgstr ""
-
-#: config/integrations/types.php:25
+#: config/integrations/types.php:21
 msgid "Yoast SEO"
 msgstr ""
 
