@@ -5,6 +5,14 @@ Recommended to be used with [Helsinki Theme](https://github.com/City-of-Helsinki
 
 ## Features
 
+### Blocks
+
+The plugin provides various custom blocks styled according to Helsinki Design System.
+
+The blocks are configured with `block.json` files found in `config/blocks` and loaded by `class/Block.php` module.
+
+The plugin disables certain native, 3rd party, and custom blocks in certain contexts. These are configured in `config/blocks/disallowed-blocks.php`. The list of disabled blocks is filterable with `helsinki_wp_disallowed_blocks`;
+
 ### HDS React
 
 The plugin **registers** `helsinki-wp-hds-react` script handle with `react`, `react-dom` and `lodash` dependencies. Currently the only supported component is [HDS DateInput](https://hds.hel.fi/components/date-input/).
