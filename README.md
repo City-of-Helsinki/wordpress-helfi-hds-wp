@@ -23,7 +23,7 @@ The HDS React components are loaded by adding `data-hds-react="{Component Name}"
 
 ```
 sprintf(
-  '<span class="wpcf7-form-control-wrap" data-hds-react="DateInput" data-hds-component="%1$s"></span>',
+  '<span data-hds-react="DateInput" data-hds-component="%1$s"></span>',
   htmlspecialchars( json_encode( array( 'key' => 'value' ) ), ENT_QUOTES, 'UTF-8' )
 )
 ```
