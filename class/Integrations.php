@@ -118,7 +118,11 @@ class Integrations extends Module {
 				),
 				'contact-form-7' => array(
 					'title' => __( 'Contact Form 7', 'hds-wp' ),
-					'description' => __( 'Add Helsinki styling to contact forms.', 'hds-wp' ),
+					'description' => sprintf(
+						'%s %s',
+						__( 'Add Helsinki styling to contact forms.', 'hds-wp' ),
+						__( 'Replaces date field with HDS DateInput.', 'hds-wp' )
+					),
 				),
 				'wp-rss-aggregator' => array(
 					'title' => __( 'WP RSS Aggregator', 'hds-wp' ),
