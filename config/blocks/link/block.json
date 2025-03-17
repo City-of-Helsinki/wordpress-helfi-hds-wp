@@ -1,0 +1,76 @@
+{
+    "apiVersion": 2,
+    "title": "Helsinki - Link",
+    "name": "hds-wp/link",
+    "icon": "links",
+    "textdomain": "hds-wp",
+    "category": "hds-wp",
+    "parent": [
+      "hds-wp/links"
+    ],
+    "attributes": {
+        "postId": {
+            "type": "integer",
+            "default": 0
+        },
+        "linkTitle": {
+            "type": "string",
+            "default": ""
+        },
+        "postTitle": {
+            "type": "string",
+            "default": ""
+        },
+        "linkExcerpt": {
+            "type": "string",
+            "default": ""
+        },
+        "postExcerpt": {
+            "type": "string",
+            "default": ""
+        },
+        "linkUrl": {
+            "type": "string",
+            "default": ""
+        },
+        "linkDir": {
+            "type": "string",
+            "default": ""
+        },
+        "targetBlank": {
+            "type": "boolean",
+            "default": false
+        },
+        "isExternalUrl": {
+            "type": "boolean"
+        },
+        "mediaId": {
+            "type": "integer",
+            "default": 0
+        },
+        "mediaUrl": {
+            "type": "string",
+            "default": ""
+        },
+        "mediaWidth": {
+            "type": "integer",
+            "default": 0
+        },
+        "mediaHeight": {
+            "type": "integer",
+            "default": 0
+        },
+        "mediaAlt": {
+            "type": "string",
+            "default": ""
+        },
+        "mediaSrcset": {
+            "type": "string",
+            "default": ""
+        },
+        "search": {
+            "type": "string",
+            "default": ""
+        }
+    }
+}

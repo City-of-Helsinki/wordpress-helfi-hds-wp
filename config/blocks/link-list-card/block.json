@@ -1,0 +1,41 @@
+{
+    "apiVersion": 2,
+    "title": "Helsinki - Link List Card",
+    "name": "hds-wp/link-list-card",
+    "icon": "screenoptions",
+    "textdomain": "hds-wp",
+    "category": "hds-wp",
+    "style": "hds-map",
+    "parent": [
+      "hds-wp/link-list-cards"
+    ],
+    "attributes": {
+        "title": {
+            "type": "string",
+            "default": ""
+        },
+        "links": {
+            "type": "array",
+            "default": [
+              {
+                "linkTitle": "",
+                "linkUrl": "",
+                "linkDir": "external",
+                "targetBlank": false
+              },
+              {
+                "linkTitle": "",
+                "linkUrl": "",
+                "linkDir": "external",
+                "targetBlank": false
+              },
+              {
+                "linkTitle": "",
+                "linkUrl": "",
+                "linkDir": "external",
+                "targetBlank": false
+              }
+            ]
+        }
+    }
+}

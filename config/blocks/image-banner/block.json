@@ -1,0 +1,73 @@
+{
+    "apiVersion": 2,
+    "title": "Helsinki - Image Banner",
+    "name": "hds-wp/image-banner",
+    "icon": "format-gallery",
+    "textdomain": "hds-wp",
+    "category": "hds-wp",
+    "keywords": [
+      "Helsinki - Kuvabanneri"
+    ],
+    "supports": {
+      "anchor": true
+    },
+    "attributes": {
+        "alignment": {
+            "type": "string",
+            "default": "right"
+        },
+        "mediaId": {
+            "type": "integer",
+            "default": 0
+        },
+        "mediaUrl": {
+            "type": "string",
+            "default": ""
+        },
+        "mediaWidth": {
+            "type": "integer",
+            "default": 0
+        },
+        "mediaHeight": {
+            "type": "integer",
+            "default": 0
+        },
+        "mediaAlt": {
+            "type": "string",
+            "default": ""
+        },
+        "mediaSrcset": {
+            "type": "string",
+            "default": ""
+        },
+        "contentTitle": {
+            "type": "string",
+            "default": ""
+        },
+        "contentText": {
+            "type": "string",
+            "default": ""
+        },
+        "buttonText": {
+            "type": "string",
+            "default": ""
+        },
+        "buttonUrl": {
+            "type": "string",
+            "default": ""
+        },
+        "targetBlank": {
+            "type": "boolean",
+            "default": false
+        },
+        "anchor": {
+            "type": "string",
+            "default": ""
+        },
+        "preview": {
+            "type": "string",
+            "default": ""
+        }
+    },
+    "render_callback": "hds_wp_render_image_banner"
+}

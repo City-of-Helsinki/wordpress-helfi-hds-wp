@@ -1,0 +1,36 @@
+{
+    "apiVersion": 2,
+    "title": "Helsinki - Video",
+    "description": "Embed a video from the Helsinki-kanava or YouTube.",
+    "name": "hds-wp/video",
+    "icon": "video-alt3",
+    "textdomain": "hds-wp",
+    "category": "hds-wp",
+    "style": "hds-video",
+    "attributes": {
+        "blockId": {
+            "type": "string"
+        },
+        "title": {
+            "type": "string",
+            "default": ""
+        },
+        "description": {
+            "type": "string",
+            "default": ""
+        },
+        "url": {
+            "type": "string",
+            "default": ""
+        },
+        "iframeUrl": {
+            "type": "string",
+            "default": ""
+        },
+        "assistive_title": {
+            "type": "string",
+            "default": ""
+        }
+    },
+    "render_callback": "hds_wp_render_video"
+}

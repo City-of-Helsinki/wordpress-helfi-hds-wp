@@ -47,7 +47,7 @@
 			const {
 				clientId
 			} = props;
-		
+
 			var parent = select('core/block-editor').getBlocksByClientId(select('core/block-editor').getBlockHierarchyRootClientId( clientId ))[0];
 			dispatch('core/block-editor').updateBlockAttributes(parent.clientId, {
 				cards: select('core/block-editor')
@@ -66,30 +66,7 @@
 	}
 
 	registerBlockType('hds-wp/content-card', {
-		apiVersion: 2,
 		title: __( 'Helsinki - Content Card', 'hds-wp' ),
-		category: 'hds-wp',
-		icon: 'cover-image',
-		supports: {},
-		parent: [ 'hds-wp/content-cards' ],
-		attributes: {
-			postId: {
-				type: 'number',
-				default: 0
-			},
-			postTitle: {
-				type: 'string',
-				default: ''
-			},
-			postType: {
-				type: 'string',
-				default: 'post'
-			},
-      search: {
-        type: 'string',
-				default: ''
-      },
-		},
 		edit: edit(),
 	});
 

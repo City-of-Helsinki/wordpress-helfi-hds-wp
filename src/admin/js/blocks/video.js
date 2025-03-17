@@ -9,39 +9,7 @@
   const {store} = wp.notices;
 
   registerBlockType('hds-wp/video', {
-    apiVersion: 2,
     title: __('Helsinki - Video', 'hds-wp'),
-    description: __(
-      'Embed a video from the Helsinki-kanava or YouTube.',
-      'hds-wp'
-    ),
-    icon: 'video-alt3',
-    category: 'hds-wp',
-    style: 'hds-video',
-    attributes: {
-      blockId: {
-        type: 'string',
-      },
-      title: {
-        type: 'string',
-        default: '',
-      },
-      description: {
-        type: 'string',
-        default: '',
-      },
-      iframeUrl: {
-        type: 'string',
-        default: '',
-      },
-      url: {
-        type: 'string',
-        default: '',
-      },
-      assistive_title: {
-        type: 'string',
-      },
-    },
     edit: edit,
     example: {
       attributes: {

@@ -1,0 +1,39 @@
+{
+    "apiVersion": 2,
+    "title": "Helsinki - Web Component Accordion",
+    "name": "hds-wp/accordion-wc",
+    "textdomain": "hds-wp",
+    "category": "hds-wp",
+    "attributes": {
+        "title": {
+            "type": "string"
+        },
+        "description": {
+            "type": "string"
+        },
+        "hasCard": {
+            "type": "boolean",
+            "default": false
+        },
+        "hasBorder": {
+            "type": "boolean",
+            "default": false
+        },
+        "size": {
+            "type": "string",
+            "default": "m"
+        },
+        "panels": {
+            "type": "array",
+            "default": []
+        },
+        "blockVersion": {
+            "type": "integer"
+        },
+        "anchor": {
+            "type": "string",
+            "default": ""
+        }
+    },
+    "render_callback": "hds_wp_render_block_accordion_wc"
+}

@@ -1,0 +1,36 @@
+{
+    "apiVersion": 2,
+    "title": "Helsinki - Phasing Card",
+    "name": "hds-wp/timeline-card",
+    "icon": "format-gallery",
+    "textdomain": "hds-wp",
+    "category": "hds-wp",
+    "parent": [
+      "hds-wp/timeline"
+    ],
+    "supports": {
+      "anchor": true
+    },
+    "attributes": {
+        "contentTitle": {
+            "type": "string",
+            "default": ""
+        },
+        "style": {
+            "type": "string",
+            "default": "numberless"
+        },
+        "order": {
+            "type": "integer"
+        },
+        "innerContent": {
+            "type": "string",
+            "default": ""
+        },
+        "anchor": {
+            "type": "string",
+            "default": ""
+        }
+    },
+    "render_callback": "hds_wp_render_timeline_card"
+}
