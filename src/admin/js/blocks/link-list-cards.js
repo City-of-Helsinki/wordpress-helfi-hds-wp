@@ -19,27 +19,9 @@
       Notice,
     } = wp.components;
     const {store} = wp.notices;
-  
+
     registerBlockType('hds-wp/link-list-cards', {
-      apiVersion: 2,
       title: __('Helsinki - Link List Cards', 'hds-wp'),
-      icon: 'screenoptions',
-      category: 'hds-wp',
-      style: 'hds-map',
-      attributes: {
-        title: {
-          type: 'string',
-          default: '',
-        },
-        cards: {
-            type: 'array',
-            default: [],
-        },
-        preview: {
-          type: 'string',
-          default: '',
-        },
-      },
       edit: edit,
       save: save,
       example: {
@@ -48,7 +30,7 @@
         },
       },
     });
-  
+
     function edit({attributes, setAttributes, clientId, isSelected}) {
       const blockProps = useBlockProps({});
       const [titleError, setTitleError] = useState(
@@ -66,10 +48,10 @@
       });
 
       const {createErrorNotice, removeNotice} = useDispatch(store);
-    
+
       if (attributes.preview) {
         return (<img src={attributes.preview} />);
-      }      
+      }
 
       // Check if title is set, if not, show error notice
       useEffect(() => {
@@ -100,7 +82,7 @@
           dispatch('core/notices').removeNotice('titleError-' + clientId);
         }
       }, [titleError]);
-      
+
       // Check if the amount of cards is in the allowed range
       useEffect(() => {
         const cards = attributes.cards;
@@ -132,7 +114,7 @@
     }, [cardsError]);
 
     //if block or it's innerblock is not selected, map innerblocks attributes to cards
-    useEffect(() => {  
+    useEffect(() => {
         const innerBlocks = select('core/block-editor').getBlocksByClientId(clientId)[0].innerBlocks;
         const cards = innerBlocks.map((block) => {
             return block.attributes;
@@ -179,7 +161,6 @@
             <InnerBlocks.Content />
           </Fragment>
       );
-    }  
+    }
 
   })(window.wp);
-  

@@ -91,6 +91,7 @@
               placeholder: __('This is the title', 'hds-wp'),
               titleAttribute: 'title',
               className: 'container__heading',
+              defaultValue: __('Latest News', 'hds-wp'),
             }),
             cachedArticles
           )
@@ -120,44 +121,7 @@
   }
 
   registerBlockType('hds-wp/recent-posts', {
-    apiVersion: 2,
     title: __('Helsinki - Posts', 'hds-wp'),
-    category: 'hds-wp',
-    icon: 'images-alt',
-    keywords: [
-      __('Helsinki - Recent Posts', 'hds-wp'),
-      __('news', 'hds-wp'),
-      __('blog', 'hds-wp'),
-    ],
-    supports: {
-      anchor: true,
-    },
-    attributes: {
-      articles: {
-        type: 'number',
-        default: 4,
-      },
-      title: {
-        type: 'string',
-        default: __('Latest news', 'hds-wp'),
-      },
-      category: {
-        type: 'number',
-        default: 0,
-      },
-      anchor: {
-        type: 'string',
-        default: '',
-      },
-      isEditRender: {
-        type: 'boolean',
-        default: false,
-      },
-      preview: {
-        type: 'string',
-        default: '',
-      },
-    },
     edit: edit(),
     example: {
       attributes: {

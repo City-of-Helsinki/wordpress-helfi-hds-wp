@@ -21,35 +21,7 @@
   const {store} = wp.notices;
 
   registerBlockType('hds-wp/map', {
-    apiVersion: 2,
     title: __('Helsinki - Map', 'hds-wp'),
-    description: __(
-      'Embed the map from Palvelukartasta or Karttapalvelusta.',
-      'hds-wp'
-    ),
-    icon: 'location-alt',
-    category: 'hds-wp',
-    style: 'hds-map',
-    attributes: {
-      blockId: {
-        type: 'string',
-      },
-      title: {
-        type: 'string',
-        default: '',
-      },
-      description: {
-        type: 'string',
-        default: '',
-      },
-      url: {
-        type: 'string',
-        default: '',
-      },
-      assistive_title: {
-        type: 'string',
-      },
-    },
     edit: edit,
     example: {
       attributes: {

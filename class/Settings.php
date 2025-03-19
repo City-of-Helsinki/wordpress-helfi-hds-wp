@@ -82,7 +82,7 @@ class Settings extends Module {
 				<p>%s</p>
 			</div>',
 			sprintf(
-				esc_html__( 'The "%s" feature is automatically enabled as the current theme declares compatibility with it.', 'hds-wp' ),
+				esc_html_x( 'The "%s" feature is automatically enabled as the current theme declares compatibility with it.', 'Feature title', 'hds-wp' ),
 				$title
 			)
 		);

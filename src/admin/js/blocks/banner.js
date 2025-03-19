@@ -7,7 +7,10 @@
   const {ToolbarGroup, ToolbarButton, Button} = wp.components;
 
   function contentButton(props) {
-    return hdsContentButton(props, {
+    return hdsContentButton({
+        buttonText: props.attributes.buttonText,
+        buttonUrl: props.attributes.buttonUrl
+      }, {
       className: 'content__link hds-button',
       href: props.attributes.buttonUrl,
       target: '_blank',
@@ -159,47 +162,7 @@
   }
 
   registerBlockType('hds-wp/banner', {
-    apiVersion: 2,
     title: __('Helsinki - Banner', 'hds-wp'),
-    category: 'hds-wp',
-    icon: 'format-gallery',
-    supports: {
-      anchor: true,
-    },
-    attributes: {
-      contentTitle: {
-        type: 'string',
-        default: '',
-      },
-      contentText: {
-        type: 'string',
-        default: '',
-      },
-      contentIcon: {
-        type: 'string',
-        default: '',
-      },
-      buttonText: {
-        type: 'string',
-        default: __('Button Text', 'hds-wp'),
-      },
-      buttonUrl: {
-        type: 'string',
-        default: '',
-      },
-      targetBlank: {
-        type: 'boolean',
-        default: false,
-      },
-      isExternalUrl: {
-        type: 'boolean',
-        default: true,
-      },
-      anchor: {
-        type: 'string',
-        default: '',
-      },
-    },
     edit: edit(),
     example: {
       attributes: {

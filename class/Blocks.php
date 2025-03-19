@@ -3,30 +3,47 @@ namespace ArtCloud\Helsinki\Plugin\HDS;
 
 use WP_Block_Editor_Context;
 
-class Blocks extends Module {
-
-	protected $dependencies = array();
-
+class Blocks extends Module
+{
 	public function init() {
 		add_filter( 'hds_wp_settings_tabs', array( $this, 'settingsTab' ) );
 		add_filter( 'hds_wp_settings_tab_panel', array( $this, 'settingsTabPanel' ) );
 		add_filter( 'block_categories_all', array( $this, 'category' ), 10, 2 );
-		add_filter( 'hds_wp_admin_scripts_dependencies', array( $this, 'dependencies' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'disallowedBlocks' ) );
 		add_action( 'init', array( $this, 'register' ) );
 	}
 
 	public function register() {
-		foreach ( $this->config->value('blocks') as $block => $config ) {
-			if ( ! empty( $config['dependencies'] ) ) {
-				$this->dependencies = array_merge(
-					$this->dependencies,
-					$config['dependencies']
-				);
-				unset( $config['dependencies'] );
+		$commons = array(
+			'version' => $this->config->value( 'debug' )
+				? (string) time()
+				: $this->config->value( 'version' ),
+		);
+
+		foreach ( $this->config->value('blocks') as $block => $args ) {
+			if ( ! empty( $args['render_callback'] ) ) {
+				$this->require_block_renderer( $block );
 			}
-			register_block_type( "hds-wp/{$block}", $config );
+
+			register_block_type(
+				$this->block_json_path( $block ),
+				array_merge( $commons, $args )
+			);
 		}
+	}
+
+	private function require_block_renderer( string $name ): void
+	{
+		$path = $this->config->value( 'path' ) . "/{$name}/render.php";
+
+		if ( file_exists( $path ) ) {
+			require_once $path;
+		}
+	}
+
+	private function block_json_path( string $name ): string
+	{
+		return $this->config->value( 'path' ) . "/{$name}/block.json";
 	}
 
 	public function disallowedBlocks(): void
@@ -38,16 +55,6 @@ class Blocks extends Module {
 			"const HelsinkiDisallowedBlocks = {$disallowed};",
 			'before'
 		);
-	}
-
-	public function dependencies( $dependencies ) {
-		return $this->dependencies ? array_merge(
-			$dependencies,
-			array_unique(
-				$this->dependencies,
-				SORT_STRING
-			)
-		) : $dependencies;
 	}
 
 	public function category( $block_categories, $block_editor_context ) {

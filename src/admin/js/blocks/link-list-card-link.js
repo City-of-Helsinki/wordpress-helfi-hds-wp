@@ -26,46 +26,10 @@
       return hdsRemovePostControl({
         text: wp.i18n.__( 'Detach post', 'hds-wp' )
       }, props);
-    }  
-  
+    }
+
     registerBlockType('hds-wp/link-list-card-link', {
-      apiVersion: 2,
       title: __('Helsinki - Link List Card Link', 'hds-wp'),
-      icon: 'screenoptions',
-      category: 'hds-wp',
-      style: 'hds-map',
-      parent: ['hds-wp/link-list-card'],
-      attributes: {
-        postId: {
-          type: 'number',
-          default: 0
-        },
-        linkTitle: {
-          type: 'string',
-          default: ''
-        },
-        postTitle: {
-          type: 'string',
-          default: ''
-        },
-        linkUrl: {
-          type: 'string',
-          default: ''
-        },
-        linkDir: {
-          type: 'string',
-          default: 'internal'
-        },
-        targetBlank: {
-          type: 'boolean',
-          default: false
-        },
-        search: {
-          type: 'string',
-              default: ''
-        },
-  
-      },
       edit: edit,
       example: {
         attributes: {
@@ -73,7 +37,7 @@
         },
       },
     });
-  
+
     function linkDirectionControl(props) {
       return hdsRadioControl({
         label: wp.i18n.__( 'Link type', 'hds-wp' ),
@@ -84,7 +48,7 @@
           {label: __('Link', 'hds-wp'), value: 'external'},
         ]
       }, props);
-    }    
+    }
 
     function titleText(props) {
       return hdsTextControl({
@@ -93,7 +57,7 @@
         attribute: 'linkTitle',
       }, props);
     }
-    
+
     function urlText(props) {
       return hdsTextControl({
         label: wp.i18n.__( 'Link URL', 'hds-wp' ),
@@ -101,7 +65,7 @@
         attribute: 'linkUrl',
       }, props);
     }
-  
+
 
     function panelControls(props) {
       var controls = [];
@@ -117,7 +81,7 @@
         controls.push(urlText);
         controls.push(hdsTargetBlankControl);
       }
-  
+
       return hdsInspectorControls(
         { title: __( 'Settings', 'hds-wp' ), initialOpen: false },
         controls.map(function(control){
@@ -125,16 +89,16 @@
         })
       );
     }
-  
+
     function placeholder(props) {
       var title = props.attributes.linkTitle ? props.attributes.linkTitle : __( 'Helsinki - Link', 'hds-wp' );
-  
+
       if (props.attributes.linkDir == 'internal' && props.attributes.postId != 0) {
         title = props.attributes.postTitle ? props.attributes.postTitle : __( 'Helsinki - Link', 'hds-wp' );
       }
       return (<a { ...useBlockProps({className: 'link'}) }>{title}</a>);
     }
-  
+
     function updateParentAttributes(clientId) {
 
       //update parent "links" and grandparent "cards" attributes
@@ -148,7 +112,7 @@
 				  return block.attributes;
 				})
 			});
-      
+
       dispatch('core/block-editor').updateBlockAttributes(grandParentClientId, {
         cards: select('core/block-editor')
         .getBlocks(grandParentClientId)
@@ -172,13 +136,12 @@
       }, [props.attributes.linkTitle]);
 
       updateParentAttributes(props.clientId);
-        
+
       return (
         <Fragment>
             {placeholder(props)}
-          {panelControls(props)}  
+          {panelControls(props)}
         </Fragment>
       );
     }
   })(window.wp);
-  

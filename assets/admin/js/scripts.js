@@ -109,10 +109,14 @@ function hdsContentTitle(props) {
   }, props.attributes.contentTitle) : '';
 }
 function hdsContentTitleRich(props, config) {
+  var value = config.titleAttribute ? props.attributes[config.titleAttribute] : props.attributes.contentTitle;
+  if (!value && config.defaultValue) {
+    value = config.defaultValue;
+  }
   return wp.element.createElement(wp.blockEditor.RichText, {
     tagName: 'h2',
     className: config.className ? config.className : 'content__heading',
-    value: config.titleAttribute ? props.attributes[config.titleAttribute] : props.attributes.contentTitle,
+    value: value,
     onChange: function onChange(value) {
       props.setAttributes(config.titleAttribute ? _defineProperty({}, config.titleAttribute, value) : {
         contentTitle: value
@@ -181,8 +185,10 @@ function hdsTargetBlankControl(props, config) {
     helpVisibility: 'toggled'
   }, props);
 }
-function hdsContentButton(props, config, icon) {
-  return props.attributes.buttonText && props.attributes.buttonUrl ? wp.element.createElement('a', config, wp.element.createElement(wp.element.Fragment, {}, props.attributes.buttonText, icon ? icon : null)) : '';
+function hdsContentButton(_ref3, config, icon) {
+  var buttonText = _ref3.buttonText,
+    buttonUrl = _ref3.buttonUrl;
+  return buttonText && buttonUrl ? wp.element.createElement('a', config, wp.element.createElement(wp.element.Fragment, {}, buttonText, icon ? icon : null)) : '';
 }
 function hdsTextControl(config, props) {
   var attributeKey = config['attribute'];
@@ -721,35 +727,7 @@ function hdsIcons(name) {
     };
   }
   registerBlockType('hds-wp/accordion-panel', {
-    apiVersion: 2,
     title: __('Helsinki - Accordion Panel', 'hds-wp'),
-    category: 'hds-wp',
-    icon: 'format-gallery',
-    supports: {
-      anchor: true
-    },
-    parent: ['hds-wp/accordion'],
-    attributes: {
-      panelTitle: {
-        type: 'string',
-        default: __('Panel', 'hds-wp')
-      },
-      blockId: {
-        type: 'string'
-      },
-      headingLevel: {
-        type: 'string',
-        default: 'h2'
-      },
-      innerContent: {
-        type: 'string',
-        default: ''
-      },
-      anchor: {
-        type: 'string',
-        default: ''
-      }
-    },
     edit: edit(),
     save: save(),
     deprecated: [{
@@ -888,36 +866,7 @@ function hdsIcons(name) {
     };
   }
   registerBlockType('hds-wp/accordion', {
-    apiVersion: 2,
     title: __('Helsinki - Accordion', 'hds-wp'),
-    category: 'hds-wp',
-    icon: 'format-gallery',
-    supports: {
-      anchor: true
-    },
-    attributes: {
-      title: {
-        type: 'string'
-      },
-      description: {
-        type: 'string'
-      },
-      panels: {
-        type: 'array',
-        default: []
-      },
-      blockVersion: {
-        type: 'number'
-      },
-      anchor: {
-        type: 'string',
-        default: ''
-      },
-      preview: {
-        type: 'string',
-        default: ''
-      }
-    },
     edit: edit(),
     save: save(),
     deprecated: [{
@@ -955,7 +904,10 @@ function hdsIcons(name) {
     ToolbarButton = _wp$components3.ToolbarButton,
     Button = _wp$components3.Button;
   function contentButton(props) {
-    return hdsContentButton(props, {
+    return hdsContentButton({
+      buttonText: props.attributes.buttonText,
+      buttonUrl: props.attributes.buttonUrl
+    }, {
       className: 'content__link hds-button',
       href: props.attributes.buttonUrl,
       target: '_blank',
@@ -1037,47 +989,7 @@ function hdsIcons(name) {
     };
   }
   registerBlockType('hds-wp/banner', {
-    apiVersion: 2,
     title: __('Helsinki - Banner', 'hds-wp'),
-    category: 'hds-wp',
-    icon: 'format-gallery',
-    supports: {
-      anchor: true
-    },
-    attributes: {
-      contentTitle: {
-        type: 'string',
-        default: ''
-      },
-      contentText: {
-        type: 'string',
-        default: ''
-      },
-      contentIcon: {
-        type: 'string',
-        default: ''
-      },
-      buttonText: {
-        type: 'string',
-        default: __('Button Text', 'hds-wp')
-      },
-      buttonUrl: {
-        type: 'string',
-        default: ''
-      },
-      targetBlank: {
-        type: 'boolean',
-        default: false
-      },
-      isExternalUrl: {
-        type: 'boolean',
-        default: true
-      },
-      anchor: {
-        type: 'string',
-        default: ''
-      }
-    },
     edit: edit(),
     example: {
       attributes: {
@@ -1168,30 +1080,7 @@ function hdsIcons(name) {
     };
   }
   registerBlockType('hds-wp/content-card', {
-    apiVersion: 2,
     title: __('Helsinki - Content Card', 'hds-wp'),
-    category: 'hds-wp',
-    icon: 'cover-image',
-    supports: {},
-    parent: ['hds-wp/content-cards'],
-    attributes: {
-      postId: {
-        type: 'number',
-        default: 0
-      },
-      postTitle: {
-        type: 'string',
-        default: ''
-      },
-      postType: {
-        type: 'string',
-        default: 'post'
-      },
-      search: {
-        type: 'string',
-        default: ''
-      }
-    },
     edit: edit()
   });
 })(window.wp);
@@ -1373,47 +1262,7 @@ function hdsIcons(name) {
     save: save()
   };
   registerBlockType('hds-wp/content-cards', {
-    apiVersion: 2,
     title: __('Helsinki - Content Cards', 'hds-wp'),
-    category: 'hds-wp',
-    icon: 'images-alt',
-    supports: {
-      anchor: true
-    },
-    attributes: {
-      columns: {
-        type: 'number',
-        default: 3
-      },
-      hasBackground: {
-        type: 'boolean',
-        default: false
-      },
-      title: {
-        type: 'string',
-        default: ''
-      },
-      description: {
-        type: 'string',
-        default: ''
-      },
-      linkType: {
-        type: 'string',
-        default: 'image-title'
-      },
-      cards: {
-        type: 'array',
-        default: []
-      },
-      anchor: {
-        type: 'string',
-        default: ''
-      },
-      preview: {
-        type: 'string',
-        default: ''
-      }
-    },
     edit: edit(),
     save: save(),
     deprecated: [v1],
@@ -1437,10 +1286,10 @@ function hdsIcons(name) {
       var currentPostType = select('core/editor').getCurrentPostType();
       if (!postTypeFound && currentPostType) {
         postTypeFound = true;
-        var _ref3 = HelsinkiDisallowedBlocks || {},
-          common = _ref3.common,
-          vendors = _ref3.vendors,
-          post_types = _ref3.post_types;
+        var _ref4 = HelsinkiDisallowedBlocks || {},
+          common = _ref4.common,
+          vendors = _ref4.vendors,
+          post_types = _ref4.post_types;
         disableBlocks(common);
         disableBlocks(vendors);
         if (post_types && post_types[currentPostType]) {
@@ -1529,13 +1378,19 @@ function hdsIcons(name) {
     return classNames.join(' ');
   }
   function contentButton(props) {
-    return hdsContentButton(props, {
+    return hdsContentButton({
+      buttonText: props.attributes.buttonText,
+      buttonUrl: props.attributes.buttonUrl
+    }, {
       className: 'content__link hds-button hds-button--primary',
       href: props.attributes.buttonUrl
     });
   }
   function deprecatedContentButton(props) {
-    return hdsContentButton(props, {
+    return hdsContentButton({
+      buttonText: props.attributes.buttonText,
+      buttonUrl: props.attributes.buttonUrl
+    }, {
       className: 'content__link hds-button',
       href: props.attributes.buttonUrl
     }, props.attributes.isExternalUrl ? hdsDeprecatedExternalLinkIcon() : hdsDeprecatedArrowIcon());
@@ -1656,68 +1511,7 @@ function hdsIcons(name) {
     }
   };
   registerBlockType('hds-wp/image-banner', {
-    apiVersion: 2,
     title: __('Helsinki - Image Banner', 'hds-wp'),
-    category: 'hds-wp',
-    icon: 'format-gallery',
-    keywords: ['Helsinki - Kuvabanneri'],
-    supports: {
-      anchor: true
-    },
-    attributes: {
-      alignment: {
-        type: 'string',
-        default: 'right'
-      },
-      mediaId: {
-        type: 'number',
-        default: 0
-      },
-      mediaUrl: {
-        type: 'string',
-        default: ''
-      },
-      mediaWidth: {
-        type: 'number',
-        default: 0
-      },
-      mediaHeight: {
-        type: 'number',
-        default: 0
-      },
-      mediaAlt: {
-        type: 'string',
-        default: ''
-      },
-      mediaSrcset: {
-        type: 'string',
-        default: ''
-      },
-      contentTitle: {
-        type: 'string',
-        default: ''
-      },
-      contentText: {
-        type: 'string',
-        default: ''
-      },
-      buttonText: {
-        type: 'string',
-        default: __('Button Text', 'hds-wp')
-      },
-      buttonUrl: {
-        type: 'string',
-        default: ''
-      },
-      targetBlank: {
-        type: 'boolean',
-        default: false
-      },
-      preview: {
-        type: 'string',
-        default: ''
-      }
-    },
     edit: edit(),
     save: save(),
     deprecated: [v1],
@@ -1788,7 +1582,10 @@ function hdsIcons(name) {
     return classNames.join(' ');
   }
   function contentButton(props) {
-    return hdsContentButton(props, {
+    return hdsContentButton({
+      buttonText: props.attributes.buttonText,
+      buttonUrl: props.attributes.buttonUrl
+    }, {
       className: 'content__link hds-button hds-button--primary',
       href: props.attributes.buttonUrl
     });
@@ -1896,80 +1693,17 @@ function hdsIcons(name) {
     save: function save(props) {
       return createElement('div', useBlockProps.save({
         className: classNamesStringV1(props)
-      }), hdsSingleImage(imageConfig(props)), hdsContent(props, hdsContentTitle(props), hdsContentText(props), hdsContentButton(props, {
+      }), hdsSingleImage(imageConfig(props)), hdsContent(props, hdsContentTitle(props), hdsContentText(props), hdsContentButton({
+        buttonText: props.attributes.buttonText,
+        buttonUrl: props.attributes.buttonUrl
+      }, {
         className: 'content__link hds-button hds-button--secondary',
         href: props.attributes.buttonUrl
       }, props.attributes.isExternalUrl ? hdsDeprecatedExternalLinkIcon() : hdsDeprecatedArrowIcon())));
     }
   };
   registerBlockType('hds-wp/image-text', {
-    apiVersion: 2,
     title: __('Helsinki - Image & Text', 'hds-wp'),
-    category: 'hds-wp',
-    icon: 'format-gallery',
-    keywords: ['Helsinki - Kuva & teksti'],
-    supports: {
-      color: true,
-      anchor: true
-    },
-    attributes: {
-      alignment: {
-        type: 'string',
-        default: 'right'
-      },
-      mediaId: {
-        type: 'number',
-        default: 0
-      },
-      mediaUrl: {
-        type: 'string',
-        default: ''
-      },
-      mediaWidth: {
-        type: 'number',
-        default: 0
-      },
-      mediaHeight: {
-        type: 'number',
-        default: 0
-      },
-      mediaAlt: {
-        type: 'string',
-        default: ''
-      },
-      mediaSrcset: {
-        type: 'string',
-        default: ''
-      },
-      contentTitle: {
-        type: 'string',
-        default: ''
-      },
-      contentText: {
-        type: 'string',
-        default: ''
-      },
-      buttonText: {
-        type: 'string',
-        default: __('Button Text', 'hds-wp')
-      },
-      buttonUrl: {
-        type: 'string',
-        default: ''
-      },
-      targetBlank: {
-        type: 'boolean',
-        default: false
-      },
-      anchor: {
-        type: 'string',
-        default: ''
-      },
-      preview: {
-        type: 'string',
-        default: ''
-      }
-    },
     edit: edit(),
     save: save(),
     deprecated: [v1],
@@ -2025,42 +1759,7 @@ function hdsIcons(name) {
     }, props);
   }
   registerBlockType('hds-wp/link-list-card-link', {
-    apiVersion: 2,
     title: __('Helsinki - Link List Card Link', 'hds-wp'),
-    icon: 'screenoptions',
-    category: 'hds-wp',
-    style: 'hds-map',
-    parent: ['hds-wp/link-list-card'],
-    attributes: {
-      postId: {
-        type: 'number',
-        default: 0
-      },
-      linkTitle: {
-        type: 'string',
-        default: ''
-      },
-      postTitle: {
-        type: 'string',
-        default: ''
-      },
-      linkUrl: {
-        type: 'string',
-        default: ''
-      },
-      linkDir: {
-        type: 'string',
-        default: 'internal'
-      },
-      targetBlank: {
-        type: 'boolean',
-        default: false
-      },
-      search: {
-        type: 'string',
-        default: ''
-      }
-    },
     edit: edit,
     example: {
       attributes: {
@@ -2187,38 +1886,7 @@ function hdsIcons(name) {
     Notice = _wp$components9.Notice;
   var store = wp.notices.store;
   registerBlockType('hds-wp/link-list-card', {
-    apiVersion: 2,
     title: __('Helsinki - Link List Card', 'hds-wp'),
-    icon: 'screenoptions',
-    category: 'hds-wp',
-    style: 'hds-map',
-    parent: ['hds-wp/link-list-cards'],
-    attributes: {
-      title: {
-        type: 'string',
-        default: ''
-      },
-      links: {
-        type: 'array',
-        //defaults required to ensure that error is not raised on block creation!
-        default: [{
-          linkTitle: '',
-          linkUrl: '',
-          linkDir: 'external',
-          targetBlank: false
-        }, {
-          linkTitle: '',
-          linkUrl: '',
-          linkDir: 'external',
-          targetBlank: false
-        }, {
-          linkTitle: '',
-          linkUrl: '',
-          linkDir: 'external',
-          targetBlank: false
-        }]
-      }
-    },
     edit: edit,
     save: save,
     example: {
@@ -2235,11 +1903,11 @@ function hdsIcons(name) {
       })
     });
   }
-  function edit(_ref4) {
-    var attributes = _ref4.attributes,
-      setAttributes = _ref4.setAttributes,
-      clientId = _ref4.clientId,
-      isSelected = _ref4.isSelected;
+  function edit(_ref5) {
+    var attributes = _ref5.attributes,
+      setAttributes = _ref5.setAttributes,
+      clientId = _ref5.clientId,
+      isSelected = _ref5.isSelected;
     var blockProps = useBlockProps({});
     var _useState = useState(attributes.title ? false : true),
       _useState2 = _slicedToArray(_useState, 2),
@@ -2399,25 +2067,7 @@ function hdsIcons(name) {
     Notice = _wp$components10.Notice;
   var store = wp.notices.store;
   registerBlockType('hds-wp/link-list-cards', {
-    apiVersion: 2,
     title: __('Helsinki - Link List Cards', 'hds-wp'),
-    icon: 'screenoptions',
-    category: 'hds-wp',
-    style: 'hds-map',
-    attributes: {
-      title: {
-        type: 'string',
-        default: ''
-      },
-      cards: {
-        type: 'array',
-        default: []
-      },
-      preview: {
-        type: 'string',
-        default: ''
-      }
-    },
     edit: edit,
     save: save,
     example: {
@@ -2426,11 +2076,11 @@ function hdsIcons(name) {
       }
     }
   });
-  function edit(_ref5) {
-    var attributes = _ref5.attributes,
-      setAttributes = _ref5.setAttributes,
-      clientId = _ref5.clientId,
-      isSelected = _ref5.isSelected;
+  function edit(_ref6) {
+    var attributes = _ref6.attributes,
+      setAttributes = _ref6.setAttributes,
+      clientId = _ref6.clientId,
+      isSelected = _ref6.isSelected;
     var blockProps = useBlockProps({});
     var _useState7 = useState(attributes.title ? false : true),
       _useState8 = _slicedToArray(_useState7, 2),
@@ -2734,76 +2384,7 @@ function hdsIcons(name) {
     };
   }
   registerBlockType('hds-wp/link', {
-    apiVersion: 2,
     title: __('Helsinki - Link', 'hds-wp'),
-    category: 'hds-wp',
-    icon: 'links',
-    supports: {},
-    parent: ['hds-wp/links'],
-    attributes: {
-      postId: {
-        type: 'number',
-        default: 0
-      },
-      linkTitle: {
-        type: 'string',
-        default: ''
-      },
-      postTitle: {
-        type: 'string',
-        default: ''
-      },
-      linkExcerpt: {
-        type: 'string',
-        default: ''
-      },
-      postExcerpt: {
-        type: 'string',
-        default: ''
-      },
-      linkUrl: {
-        type: 'string',
-        default: ''
-      },
-      linkDir: {
-        type: 'string'
-      },
-      targetBlank: {
-        type: 'boolean',
-        default: false
-      },
-      isExternalUrl: {
-        type: 'boolean'
-      },
-      mediaId: {
-        type: 'number',
-        default: 0
-      },
-      mediaUrl: {
-        type: 'string',
-        default: ''
-      },
-      mediaWidth: {
-        type: 'number',
-        default: 0
-      },
-      mediaHeight: {
-        type: 'number',
-        default: 0
-      },
-      mediaAlt: {
-        type: 'string',
-        default: ''
-      },
-      mediaSrcset: {
-        type: 'string',
-        default: ''
-      },
-      search: {
-        type: 'string',
-        default: ''
-      }
-    },
     edit: edit()
   });
 })(window.wp);
@@ -2928,48 +2509,7 @@ function hdsIcons(name) {
     };
   }
   registerBlockType('hds-wp/links', {
-    apiVersion: 2,
     title: __('Helsinki - Links', 'hds-wp'),
-    category: 'hds-wp',
-    icon: 'screenoptions',
-    keywords: ['Helsinki - Linkit'],
-    supports: {
-      anchor: true
-    },
-    attributes: {
-      columns: {
-        type: 'number',
-        default: 3
-      },
-      hasBackground: {
-        type: 'boolean',
-        default: false
-      },
-      linkType: {
-        type: 'string',
-        default: 'title'
-      },
-      title: {
-        type: 'string',
-        default: ''
-      },
-      contentText: {
-        type: 'string',
-        default: ''
-      },
-      links: {
-        type: 'array',
-        default: []
-      },
-      anchor: {
-        type: 'string',
-        default: ''
-      },
-      preview: {
-        type: 'string',
-        default: ''
-      }
-    },
     edit: edit(),
     save: save(),
     example: {
@@ -3008,32 +2548,7 @@ function hdsIcons(name) {
     Notice = _wp$components13.Notice;
   var store = wp.notices.store;
   registerBlockType('hds-wp/map', {
-    apiVersion: 2,
     title: __('Helsinki - Map', 'hds-wp'),
-    description: __('Embed the map from Palvelukartasta or Karttapalvelusta.', 'hds-wp'),
-    icon: 'location-alt',
-    category: 'hds-wp',
-    style: 'hds-map',
-    attributes: {
-      blockId: {
-        type: 'string'
-      },
-      title: {
-        type: 'string',
-        default: ''
-      },
-      description: {
-        type: 'string',
-        default: ''
-      },
-      url: {
-        type: 'string',
-        default: ''
-      },
-      assistive_title: {
-        type: 'string'
-      }
-    },
     edit: edit,
     example: {
       attributes: {
@@ -3044,10 +2559,10 @@ function hdsIcons(name) {
       }
     }
   });
-  function edit(_ref6) {
-    var attributes = _ref6.attributes,
-      setAttributes = _ref6.setAttributes,
-      clientId = _ref6.clientId;
+  function edit(_ref7) {
+    var attributes = _ref7.attributes,
+      setAttributes = _ref7.setAttributes,
+      clientId = _ref7.clientId;
     var blockProps = useBlockProps({});
     var _useState11 = useState(attributes.title ? false : true),
       _useState12 = _slicedToArray(_useState11, 2),
@@ -3315,35 +2830,7 @@ function hdsIcons(name) {
     };
   }
   registerBlockType('hds-wp/timeline-card', {
-    apiVersion: 2,
     title: __('Helsinki - Phasing Card', 'hds-wp'),
-    category: 'hds-wp',
-    icon: 'format-gallery',
-    supports: {
-      anchor: true
-    },
-    parent: ['hds-wp/timeline'],
-    attributes: {
-      contentTitle: {
-        type: 'string',
-        default: ''
-      },
-      style: {
-        type: 'string',
-        default: 'numberless'
-      },
-      order: {
-        type: 'number'
-      },
-      innerContent: {
-        type: 'string',
-        default: ''
-      },
-      anchor: {
-        type: 'string',
-        default: ''
-      }
-    },
     edit: edit(),
     save: save()
   });
@@ -3469,40 +2956,7 @@ function hdsIcons(name) {
     };
   }
   registerBlockType('hds-wp/timeline', {
-    apiVersion: 2,
     title: __('Helsinki - Phasing', 'hds-wp'),
-    category: 'hds-wp',
-    icon: 'format-gallery',
-    supports: {
-      anchor: true
-    },
-    attributes: {
-      title: {
-        type: 'string'
-      },
-      description: {
-        type: 'string'
-      },
-      style: {
-        type: 'string',
-        default: 'numberless'
-      },
-      cards: {
-        type: 'array',
-        default: []
-      },
-      blockVersion: {
-        type: 'number'
-      },
-      anchor: {
-        type: 'string',
-        default: ''
-      },
-      preview: {
-        type: 'string',
-        default: ''
-      }
-    },
     edit: edit(),
     save: save(),
     deprecated: [{
@@ -3624,7 +3078,8 @@ function hdsIcons(name) {
         }, hdsContentTitleRich(props, {
           placeholder: __('This is the title', 'hds-wp'),
           titleAttribute: 'title',
-          className: 'container__heading'
+          className: 'container__heading',
+          defaultValue: __('Latest News', 'hds-wp')
         }), cachedArticles));
       } else {
         content = createElement(wp.serverSideRender, {
@@ -3643,40 +3098,7 @@ function hdsIcons(name) {
     };
   }
   registerBlockType('hds-wp/recent-posts', {
-    apiVersion: 2,
     title: __('Helsinki - Posts', 'hds-wp'),
-    category: 'hds-wp',
-    icon: 'images-alt',
-    keywords: [__('Helsinki - Recent Posts', 'hds-wp'), __('news', 'hds-wp'), __('blog', 'hds-wp')],
-    supports: {
-      anchor: true
-    },
-    attributes: {
-      articles: {
-        type: 'number',
-        default: 4
-      },
-      title: {
-        type: 'string',
-        default: __('Latest news', 'hds-wp')
-      },
-      category: {
-        type: 'number',
-        default: 0
-      },
-      anchor: {
-        type: 'string',
-        default: ''
-      },
-      isEditRender: {
-        type: 'boolean',
-        default: false
-      },
-      preview: {
-        type: 'string',
-        default: ''
-      }
-    },
     edit: edit(),
     example: {
       attributes: {
@@ -3763,36 +3185,7 @@ function hdsIcons(name) {
     };
   }
   registerBlockType('hds-wp/rss-feed', {
-    apiVersion: 2,
     title: __('Helsinki - RSS-feed', 'hds-wp'),
-    category: 'hds-wp',
-    icon: 'images-alt',
-    keywords: [__('Helsinki - RSS', 'hds-wp'), __('news', 'hds-wp')],
-    supports: {
-      anchor: true
-    },
-    attributes: {
-      title: {
-        type: 'string',
-        default: 'Helsingin kaupungin uutiset'
-      },
-      url: {
-        type: 'string',
-        default: 'https://www.hel.fi/fi/uutiset/rss'
-      },
-      lifespan: {
-        type: 'number',
-        default: 1
-      },
-      amount: {
-        type: 'number',
-        default: 6
-      },
-      anchor: {
-        type: 'string',
-        default: ''
-      }
-    },
     edit: edit(),
     example: {
       viewportWidth: 1200
@@ -3817,36 +3210,7 @@ function hdsIcons(name) {
   var TextControl = wp.components.TextControl;
   var store = wp.notices.store;
   registerBlockType('hds-wp/video', {
-    apiVersion: 2,
     title: __('Helsinki - Video', 'hds-wp'),
-    description: __('Embed a video from the Helsinki-kanava or YouTube.', 'hds-wp'),
-    icon: 'video-alt3',
-    category: 'hds-wp',
-    style: 'hds-video',
-    attributes: {
-      blockId: {
-        type: 'string'
-      },
-      title: {
-        type: 'string',
-        default: ''
-      },
-      description: {
-        type: 'string',
-        default: ''
-      },
-      iframeUrl: {
-        type: 'string',
-        default: ''
-      },
-      url: {
-        type: 'string',
-        default: ''
-      },
-      assistive_title: {
-        type: 'string'
-      }
-    },
     edit: edit,
     example: {
       attributes: {
@@ -3858,10 +3222,10 @@ function hdsIcons(name) {
       }
     }
   });
-  function edit(_ref7) {
-    var attributes = _ref7.attributes,
-      setAttributes = _ref7.setAttributes,
-      clientId = _ref7.clientId;
+  function edit(_ref8) {
+    var attributes = _ref8.attributes,
+      setAttributes = _ref8.setAttributes,
+      clientId = _ref8.clientId;
     var blockProps = useBlockProps({});
     var _useState19 = useState(attributes.title ? false : true),
       _useState20 = _slicedToArray(_useState19, 2),
@@ -4086,13 +3450,6 @@ function hdsIcons(name) {
   }
 })(window.wp);
 wp.domReady(function () {
-  /* Disable default formats */
-  wp.richText.unregisterFormatType('core/image');
-  wp.richText.unregisterFormatType('core/text-color');
-  wp.richText.unregisterFormatType('core/keyboard');
-  wp.richText.unregisterFormatType('core/code');
-});
-wp.domReady(function () {
   /**
     * Buttons
     */
@@ -4252,7 +3609,13 @@ wp.domReady(function () {
   }, 'tableEditorWrapperExtraClass');
   wp.hooks.addFilter('editor.BlockListBlock', 'table/custom-editor-wrapper-class', tableEditorWrapperExtraClass);
 })(window.wp);
-
+wp.domReady(function () {
+  /* Disable default formats */
+  wp.richText.unregisterFormatType('core/image');
+  wp.richText.unregisterFormatType('core/text-color');
+  wp.richText.unregisterFormatType('core/keyboard');
+  wp.richText.unregisterFormatType('core/code');
+});
 //remove error notices when block is removed
 
 (function () {

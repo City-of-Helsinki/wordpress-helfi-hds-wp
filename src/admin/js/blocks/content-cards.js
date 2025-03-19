@@ -234,47 +234,7 @@
   };
 
   registerBlockType('hds-wp/content-cards', {
-    apiVersion: 2,
     title: __('Helsinki - Content Cards', 'hds-wp'),
-    category: 'hds-wp',
-    icon: 'images-alt',
-    supports: {
-      anchor: true,
-    },
-    attributes: {
-      columns: {
-        type: 'number',
-        default: 3,
-      },
-      hasBackground: {
-        type: 'boolean',
-        default: false,
-      },
-      title: {
-        type: 'string',
-        default: '',
-      },
-      description: {
-        type: 'string',
-        default: '',
-      },
-      linkType: {
-        type: 'string',
-        default: 'image-title',
-      },
-      cards: {
-        type: 'array',
-        default: [],
-      },
-      anchor: {
-        type: 'string',
-        default: '',
-      },
-      preview: {
-        type: 'string',
-        default: '',
-      },
-    },
     edit: edit(),
     save: save(),
     deprecated: [v1],

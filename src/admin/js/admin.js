@@ -129,11 +129,17 @@ function hdsContentTitle(props) {
 }
 
 function hdsContentTitleRich(props, config) {
+  let value = config.titleAttribute ? props.attributes[config.titleAttribute] : props.attributes.contentTitle;
+
+  if (! value && config.defaultValue) {
+    value = config.defaultValue;
+  }
+
 	return wp.element.createElement(
 		wp.blockEditor.RichText, {
 			tagName: 'h2',
 			className: config.className ? config.className : 'content__heading',
-			value: config.titleAttribute ? props.attributes[config.titleAttribute] : props.attributes.contentTitle,
+			value: value,
 			onChange: function (value) {
 				props.setAttributes(config.titleAttribute ? {[config.titleAttribute]: value} : {contentTitle: value});
 			},
@@ -209,13 +215,13 @@ function hdsTargetBlankControl(props, config) {
 	}, props);
 }
 
-function hdsContentButton(props, config, icon) {
-	return props.attributes.buttonText && props.attributes.buttonUrl ? wp.element.createElement(
+function hdsContentButton({buttonText, buttonUrl}, config, icon) {
+	return buttonText && buttonUrl ? wp.element.createElement(
 		'a',
 		config,
 		wp.element.createElement(
 			wp.element.Fragment, {},
-			props.attributes.buttonText,
+			buttonText,
 			icon ? icon : null
 		)
 	) : '';
@@ -503,7 +509,7 @@ function hdsWithPostCategorySelectControl() {
 		} else {
 		  options = [{label: '--', value: ''}]
 		}
-	
+
 		return wp.element.createElement( wp.components.SelectControl, {
 		  label: wp.i18n.__( 'Category', 'hds-wp' ),
 				value: props.attributes.category,
@@ -512,9 +518,9 @@ function hdsWithPostCategorySelectControl() {
 					props.setAttributes({category: selected});
 				}
 		});
-	
+
 	  });
-	
+
 }
 
 function hdsWithSearchPosts(control) {

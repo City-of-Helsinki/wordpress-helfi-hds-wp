@@ -180,36 +180,7 @@
   }
 
   registerBlockType('hds-wp/accordion', {
-    apiVersion: 2,
     title: __('Helsinki - Accordion', 'hds-wp'),
-    category: 'hds-wp',
-    icon: 'format-gallery',
-    supports: {
-      anchor: true,
-    },
-    attributes: {
-      title: {
-        type: 'string',
-      },
-      description: {
-        type: 'string',
-      },
-      panels: {
-        type: 'array',
-        default: [],
-      },
-      blockVersion: {
-        type: 'number',
-      },
-      anchor: {
-        type: 'string',
-        default: '',
-      },
-      preview: {
-        type: 'string',
-        default: '',
-      },
-    },
     edit: edit(),
     save: save(),
     deprecated: [
