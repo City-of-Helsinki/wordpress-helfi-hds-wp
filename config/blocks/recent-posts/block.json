@@ -1,0 +1,43 @@
+{
+    "apiVersion": 2,
+    "title": "Helsinki - Recent Posts",
+    "name": "hds-wp/recent-posts",
+    "icon": "images-alt",
+    "textdomain": "hds-wp",
+    "category": "hds-wp",
+    "keywords": [
+      "Helsinki - Recent Posts",
+      "news",
+      "blog"
+    ],
+    "supports": {
+      "anchor": true
+    },
+    "attributes": {
+        "articles": {
+            "type": "integer",
+            "default": 4
+        },
+        "title": {
+            "type": "string",
+            "default": ""
+        },
+        "category": {
+            "type": "integer",
+            "default": 0
+        },
+        "anchor": {
+            "type": "string",
+            "default": ""
+        },
+        "isEditRender": {
+            "type": "boolean",
+            "default": false
+        },
+        "preview": {
+            "type": "string",
+            "default": ""
+        }
+    },
+    "render_callback": "hds_wp_render_recent_posts"
+}

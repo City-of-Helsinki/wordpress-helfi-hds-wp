@@ -189,7 +189,7 @@
 			const {
 				clientId
 			} = props;
-		
+
 			var parent = select('core/block-editor').getBlocksByClientId(select('core/block-editor').getBlockHierarchyRootClientId( clientId ))[0];
 			dispatch('core/block-editor').updateBlockAttributes(parent.clientId, {
 				links: select('core/block-editor')
@@ -198,7 +198,7 @@
 				  return block.attributes;
 				})
 			});
-	
+
       parent = getParentBlock(props.clientId);
 			if (props.attributes.hasOwnProperty('isExternalUrl') && props.attributes.isExternalUrl != null) {
 				if (props.attributes.isExternalUrl) {
@@ -223,76 +223,7 @@
 	}
 
 	registerBlockType('hds-wp/link', {
-		apiVersion: 2,
 		title: __( 'Helsinki - Link', 'hds-wp' ),
-		category: 'hds-wp',
-		icon: 'links',
-		supports: {},
-		parent: [ 'hds-wp/links' ],
-		attributes: {
-			postId: {
-				type: 'number',
-				default: 0
-			},
-			linkTitle: {
-				type: 'string',
-				default: ''
-			},
-			postTitle: {
-				type: 'string',
-				default: ''
-			},
-			linkExcerpt: {
-				type: 'string',
-				default: ''
-			},
-			postExcerpt: {
-				type: 'string',
-				default: ''
-			},
-			linkUrl: {
-				type: 'string',
-				default: ''
-			},
-			linkDir: {
-				type: 'string',
-			},
-			targetBlank: {
-				type: 'boolean',
-				default: false
-			},
-			isExternalUrl: {
-				type: 'boolean',
-			},
-			mediaId: {
-				type: 'number',
-				default: 0
-			},
-			mediaUrl: {
-				type: 'string',
-				default: '',
-			},
-			mediaWidth: {
-				type: 'number',
-				default: 0
-			},
-			mediaHeight: {
-				type: 'number',
-				default: 0
-			},
-			mediaAlt: {
-				type: 'string',
-				default: '',
-			},
-			mediaSrcset: {
-				type: 'string',
-				default: '',
-			},
-			search: {
-				type: 'string',
-						default: ''
-			},
-		},
 		edit: edit(),
 	});
 

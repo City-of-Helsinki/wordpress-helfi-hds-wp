@@ -19,44 +19,9 @@
       Notice,
     } = wp.components;
     const {store} = wp.notices;
-  
+
     registerBlockType('hds-wp/link-list-card', {
-      apiVersion: 2,
       title: __('Helsinki - Link List Card', 'hds-wp'),
-      icon: 'screenoptions',
-      category: 'hds-wp',
-      style: 'hds-map',
-      parent: ['hds-wp/link-list-cards'],
-      attributes: {
-        title: {
-          type: 'string',
-          default: '',
-        },
-        links: {
-          type: 'array',
-          //defaults required to ensure that error is not raised on block creation!
-          default: [
-            {
-                linkTitle: '',
-                linkUrl: '',
-                linkDir: 'external',
-                targetBlank: false,
-            },
-            {
-                linkTitle: '',
-                linkUrl: '',
-                linkDir: 'external',
-                targetBlank: false,
-            },
-            {
-                linkTitle: '',
-                linkUrl: '',
-                linkDir: 'external',
-                targetBlank: false,
-            }
-          ],
-        }
-      },
       edit: edit,
       save: save,
       example: {
@@ -65,7 +30,7 @@
         },
       },
     });
-  
+
     function updateParentAttributes(clientId) {
 
 			var parent = select('core/block-editor').getBlocksByClientId(select('core/block-editor').getBlockHierarchyRootClientId( clientId ))[0];
@@ -101,7 +66,7 @@
       const {createErrorNotice, removeNotice} = useDispatch(store);
 
       updateParentAttributes(clientId);
-    
+
       // Check if title is set, if not, show error notice
       useEffect(() => {
         const title = attributes.title;
@@ -131,7 +96,7 @@
           dispatch('core/notices').removeNotice('titleError-' + clientId);
         }
       }, [titleError]);
-      
+
       // Check if title is too long, if so, show error notice
       useEffect(() => {
         const title = attributes.title;
@@ -206,7 +171,7 @@
         useEffect(() => {
           setLinksError(attributes.links.length > 0 && attributes.links.length < 4 ? false : true);
         }, [attributes]);
-          
+
 
       return (
         <Fragment>
@@ -218,7 +183,7 @@
               onChange={(value) => (
                 setAttributes({title: value}),
                 setTitleError(value ? false : true),
-                setTitleLengthError(value.length < 65 ? false : true)        
+                setTitleLengthError(value.length < 65 ? false : true)
               )}
               placeholder={__('This is the title*', 'hds-wp')}
               allowedFormats={[]}
@@ -246,8 +211,5 @@
           </Fragment>
       );
     }
-  
+
   })(window.wp);
-
-
-  

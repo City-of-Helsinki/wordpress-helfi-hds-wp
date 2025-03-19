@@ -46,7 +46,7 @@
           {label: __( 'Numbered', 'hds-wp' ), value: 'numbered'},
         ];
       }
-    
+
 
 	function timelineControls(props) {
 		return hdsInspectorControls(
@@ -163,40 +163,7 @@
   }
 
   registerBlockType('hds-wp/timeline', {
-    apiVersion: 2,
     title: __('Helsinki - Phasing', 'hds-wp'),
-    category: 'hds-wp',
-    icon: 'format-gallery',
-    supports: {
-      anchor: true,
-    },
-    attributes: {
-      title: {
-        type: 'string',
-      },
-      description: {
-        type: 'string',
-      },
-      style: {
-        type: 'string',
-        default: 'numberless',
-      },
-      cards: {
-        type: 'array',
-        default: [],
-      },
-      blockVersion: {
-        type: 'number',
-      },
-      anchor: {
-        type: 'string',
-        default: '',
-      },
-      preview: {
-        type: 'string',
-        default: '',
-      },
-    },
     edit: edit(),
     save: save(),
     deprecated: [

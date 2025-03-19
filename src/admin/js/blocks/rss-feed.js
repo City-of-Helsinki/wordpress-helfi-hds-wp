@@ -72,36 +72,7 @@
   }
 
   registerBlockType('hds-wp/rss-feed', {
-    apiVersion: 2,
     title: __('Helsinki - RSS-feed', 'hds-wp'),
-    category: 'hds-wp',
-    icon: 'images-alt',
-    keywords: [__('Helsinki - RSS', 'hds-wp'), __('news', 'hds-wp')],
-    supports: {
-      anchor: true,
-    },
-    attributes: {
-      title: {
-        type: 'string',
-        default: 'Helsingin kaupungin uutiset',
-      },
-      url: {
-        type: 'string',
-        default: 'https://www.hel.fi/fi/uutiset/rss',
-      },
-      lifespan: {
-        type: 'number',
-        default: 1,
-      },
-      amount: {
-        type: 'number',
-        default: 6,
-      },
-      anchor: {
-        type: 'string',
-        default: '',
-      },
-    },
     edit: edit(),
     example: {
       viewportWidth: 1200,

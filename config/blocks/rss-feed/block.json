@@ -1,0 +1,38 @@
+{
+    "apiVersion": 2,
+    "title": "Helsinki - RSS",
+    "name": "hds-wp/rss-feed",
+    "icon": "images-alt",
+    "textdomain": "hds-wp",
+    "category": "hds-wp",
+    "keywords": [
+      "Helsinki - RSS",
+      "news"
+    ],
+    "supports": {
+      "anchor": true
+    },
+    "attributes": {
+        "title": {
+            "type": "string",
+            "default": "Helsingin kaupungin uutiset"
+        },
+        "url": {
+            "type": "string",
+            "default": "https://www.hel.fi/fi/uutiset/rss"
+        },
+        "lifespan": {
+            "type": "integer",
+            "default": 1
+        },
+        "amount": {
+            "type": "integer",
+            "default": 6
+        },
+        "anchor": {
+            "type": "string",
+            "default": ""
+        }
+    },
+    "render_callback": "hds_wp_render_rss_feed"
+}

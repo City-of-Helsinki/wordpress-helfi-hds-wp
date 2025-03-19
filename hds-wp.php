@@ -4,7 +4,7 @@ namespace ArtCloud\Helsinki\Plugin\HDS;
 /**
   * Plugin Name: WordPress Helsinki
   * Description: Provides common Helsinki styles, assets and blocks, and integrations to Helsinki APIs and various plugins.
-  * Version: 1.36.0
+  * Version: 1.37.0
   * License: GPLv3
   * Requires at least: 5.7
   * Requires PHP:      7.1
@@ -88,7 +88,7 @@ function prepare() {
 				'path' => plugin_path() . 'integrations' . DIRECTORY_SEPARATOR,
 				'config' => plugin_path() . 'config' . DIRECTORY_SEPARATOR,
 			),
-			array('types')
+			array()
 		)
 	);
 
@@ -152,12 +152,29 @@ function init() {
 	$assets->init();
 
 	/**
+	  * HDS React
+	  */
+	$hds_react = ModuleFactory::module(
+		'HDSReact',
+		array(
+			'url' => plugin_url() . 'assets',
+			'version' => PLUGIN_VERSION,
+			'debug' => defined('WP_DEBUG') && WP_DEBUG,
+		)
+	);
+	$hds_react->init();
+
+	/**
 	  * Blocks
 	  */
 	if ( $compatibility->blocks() ) {
 		$blocks = ModuleFactory::module(
 			'Blocks',
-			array(),
+			array(
+				'path' => plugin_path() . 'config/blocks',
+				'version' => PLUGIN_VERSION,
+				'debug' => defined('WP_DEBUG') && WP_DEBUG,
+			),
 			array(
 				'blocks',
 				'disallowed-blocks'
@@ -193,6 +210,13 @@ function init() {
 			)
 		)
 	);
+}
+
+add_filter( 'helsinki_wp_current_language', __NAMESPACE__ . '\\provide_current_language', 5 );
+function provide_current_language( string $language ): string {
+	$locale = explode( '_', get_locale() );
+
+	return $locale ? array_shift( $locale ) : $language;
 }
 
 add_action( 'init', __NAMESPACE__ . '\\textdomain' );

@@ -1,0 +1,46 @@
+{
+    "apiVersion": 2,
+    "title": "Helsinki - Banner",
+    "name": "hds-wp/banner",
+    "icon": "format-gallery",
+    "textdomain": "hds-wp",
+    "category": "hds-wp",
+    "supports": {
+      "anchor": true
+    },
+    "attributes": {
+        "contentTitle": {
+            "type": "string",
+            "default": ""
+        },
+        "contentText": {
+            "type": "string",
+            "default": ""
+        },
+        "contentIcon": {
+            "type": "string",
+            "default": ""
+        },
+        "buttonText": {
+            "type": "string",
+            "default": ""
+        },
+        "buttonUrl": {
+            "type": "string",
+            "default": ""
+        },
+        "targetBlank": {
+            "type": "boolean",
+            "default": false
+        },
+        "isExternalUrl": {
+            "type": "boolean",
+            "default": true
+        },
+        "anchor": {
+            "type": "string",
+            "default": ""
+        }
+    },
+    "render_callback": "hds_wp_render_banner"
+}

@@ -1,0 +1,49 @@
+{
+    "apiVersion": 2,
+    "title": "Helsinki - Links",
+    "name": "hds-wp/links",
+    "icon": "screenoptions",
+    "textdomain": "hds-wp",
+    "category": "hds-wp",
+    "keywords": [
+      "Helsinki - Linkit"
+    ],
+    "supports": {
+      "anchor": true
+    },
+    "attributes": {
+        "columns": {
+            "type": "integer",
+            "default": 3
+        },
+        "hasBackground": {
+            "type": "boolean",
+            "default": false
+        },
+        "linkType": {
+            "type": "string",
+            "default": "title"
+        },
+        "title": {
+            "type": "string",
+            "default": ""
+        },
+        "contentText": {
+            "type": "string",
+            "default": ""
+        },
+        "links": {
+            "type": "array",
+            "default": []
+        },
+        "anchor": {
+            "type": "string",
+            "default": ""
+        },
+        "preview": {
+            "type": "string",
+            "default": ""
+        }
+    },
+    "render_callback": "hds_wp_render_block_links_list"
+}

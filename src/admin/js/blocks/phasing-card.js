@@ -43,7 +43,7 @@
                 const innerContent = getBlockContent( select('core/block-editor').getBlock(props.clientId));
                 const attributes = props.attributes;
                 attributes.innerContent = innerContent;
-                content = createElement('div', useBlockProps(), 
+                content = createElement('div', useBlockProps(),
                     createElement( wp.serverSideRender, {
                         block: 'hds-wp/timeline-card',
                         attributes: attributes,
@@ -66,37 +66,9 @@
 	}
 
 	registerBlockType('hds-wp/timeline-card', {
-		apiVersion: 2,
 		title: __( 'Helsinki - Phasing Card', 'hds-wp' ),
-		category: 'hds-wp',
-		icon: 'format-gallery',
-		supports: {
-			anchor: true,
-		},
-        parent: [ 'hds-wp/timeline' ],
-		attributes: {
-			contentTitle: {
-				type: 'string',
-				default: '',
-			},
-            style: {
-                type: 'string',
-                default: 'numberless',
-            },
-            order: {
-                type: 'number',
-            },
-            innerContent: {
-                type: 'string',
-                default: '',
-            },
-			anchor: {
-				type: 'string',
-				default: '',
-			},
-		},
 		edit: edit(),
-        save: save(),
+    save: save(),
 	});
 
 })(window.wp);
