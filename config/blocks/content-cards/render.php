@@ -21,16 +21,8 @@ function hds_wp_render_block_content_cards($attributes)
 	}
 
 	$wrapClasses = array('content-cards');
-	$koros = '';
 	if (!empty($attributes['hasBackground'])) {
 		$wrapClasses[] = 'has-background';
-		$koros = sprintf(
-			'<div class="content-cards__koros">%s</div>',
-			Svg::koros(
-				apply_filters('hds_wp_content_cards_koros', 'basic'),
-				md5(time() . implode('', $attributes['cards']))
-			)
-		);
 	}
 
 	if (!empty($attributes['className'])) {
@@ -64,7 +56,7 @@ function hds_wp_render_block_content_cards($attributes)
 	}
 
 	return sprintf(
-		'<div %s class="%s">%s
+		'<div %s class="%s">
 			<div class="hds-container">
 				%s
 				%s
@@ -73,7 +65,6 @@ function hds_wp_render_block_content_cards($attributes)
 		</div>',
 		$id,
 		implode(' ', $wrapClasses),
-		$koros,
 		$title,
 		$description,
 		implode(' ', $gridClasses),
