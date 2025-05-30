@@ -1,20 +1,6 @@
 .content-cards {
-  
+
 	@extend %helsinki-block-spacing;
-
-  .content-cards__koros {
-    background-color: $white;
-    height: 42px;
-    margin-bottom: spacing('xl');
-
-    @include breakpoint('l') {
-      margin-bottom: spacing('3-xl');
-    }
-
-    svg {
-      fill: $light-gray;
-    }
-  }
 
   .hds-container {
     margin-left: auto;
@@ -181,7 +167,7 @@
     max-width: 100vw;
     width: 100vw;
     margin-bottom: spacing('l');
-    padding-bottom: spacing('l');
+    padding: spacing('l');
 
     @include breakpoint('l') {
       margin-bottom: spacing('4-xl');
@@ -233,9 +219,6 @@
 
 .has-sidebar:not(.home) {
   .content-cards {
-    .content-cards__koros {
-      display: none;
-    }
 
     .hds-container {
       padding: 0;
