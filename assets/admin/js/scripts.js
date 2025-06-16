@@ -3616,99 +3616,6 @@ wp.domReady(function () {
   wp.richText.unregisterFormatType('core/keyboard');
   wp.richText.unregisterFormatType('core/code');
 });
-//remove error notices when block is removed
-
-(function () {
-  var _wp$data16 = wp.data,
-    select = _wp$data16.select,
-    subscribe = _wp$data16.subscribe,
-    dispatch = _wp$data16.dispatch;
-  var store = wp.notices.store;
-  var getBlocks = function getBlocks() {
-    var blocks = [];
-    var rootBlocks = select('core/block-editor').getBlocks();
-    function getChildren(block) {
-      var children = [];
-      if (block.innerBlocks) {
-        block.innerBlocks.forEach(function (innerBlock) {
-          children.push(innerBlock);
-        });
-      }
-      if (children.length > 0) {
-        children.forEach(function (child) {
-          blocks.push(child);
-          getChildren(child);
-        });
-      }
-    }
-    rootBlocks.forEach(function (block) {
-      blocks.push(block);
-      getChildren(block);
-    });
-    return blocks;
-  };
-  Array.prototype.diff = function (a) {
-    return this.filter(function (i) {
-      return !a.some(function (item) {
-        return item.clientId === i.clientId;
-      });
-    });
-  };
-  var blocksState = getBlocks();
-  subscribe(_.debounce(function () {
-    var notices = select(store).getNotices();
-    var newBlocksState = getBlocks();
-
-    // Lock saving if notices contain error notices
-    var errorNotices = notices.filter(function (notice) {
-      return notice.status === 'error';
-    });
-    if (errorNotices.length > 0) {
-      dispatch('core/editor').lockPostSaving('requiredValueLock');
-    } else {
-      if (select('core/editor').isPostSavingLocked()) {
-        dispatch('core/editor').unlockPostSaving('requiredValueLock');
-      }
-    }
-
-    // When very last block is removed, it's replaced with a new paragraph block.
-    // This is a workaround to remove the error notice.
-    if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
-      // remove newBlocksState from blocksState
-      var removedBlock = blocksState.diff(newBlocksState);
-      if (removedBlock.length > 0 || removedBlock[0].name === 'core/paragraph') {
-        var getChildren = function getChildren(block) {
-          var children = [];
-          if (block.innerBlocks) {
-            block.innerBlocks.forEach(function (innerBlock) {
-              children.push(innerBlock);
-            });
-          }
-          if (children.length > 0) {
-            children.forEach(function (child) {
-              clientIds.push(child.clientId);
-              getChildren(child.clientId);
-            });
-          }
-        };
-        var clientIds = [];
-        removedBlock.forEach(function (block) {
-          clientIds.push(block.clientId);
-          getChildren(block);
-        });
-        var noticesToRemove = notices.filter(function (notice) {
-          return clientIds.some(function (clientId) {
-            return notice.id.includes(clientId);
-          });
-        });
-        noticesToRemove.forEach(function (notice) {
-          dispatch('core/notices').removeNotice(notice.id);
-        });
-      }
-    }
-    blocksState = newBlocksState;
-  }, 300));
-})(window.wp);
 (function (wp) {
   /* inspired from https://github.com/Yoast/wpseo-woocommerce/blob/trunk/js/src/yoastseo-woo-replacevars.js */
   /* global jQuery, YoastSEO, app, globals YoastACFAnalysisConfig */
@@ -3865,4 +3772,98 @@ wp.domReady(function () {
   }
 
   initializeReplacevarPlugin();
+})(window.wp);
+
+//remove error notices when block is removed
+
+(function () {
+  var _wp$data16 = wp.data,
+    select = _wp$data16.select,
+    subscribe = _wp$data16.subscribe,
+    dispatch = _wp$data16.dispatch;
+  var store = wp.notices.store;
+  var getBlocks = function getBlocks() {
+    var blocks = [];
+    var rootBlocks = select('core/block-editor').getBlocks();
+    function getChildren(block) {
+      var children = [];
+      if (block.innerBlocks) {
+        block.innerBlocks.forEach(function (innerBlock) {
+          children.push(innerBlock);
+        });
+      }
+      if (children.length > 0) {
+        children.forEach(function (child) {
+          blocks.push(child);
+          getChildren(child);
+        });
+      }
+    }
+    rootBlocks.forEach(function (block) {
+      blocks.push(block);
+      getChildren(block);
+    });
+    return blocks;
+  };
+  Array.prototype.diff = function (a) {
+    return this.filter(function (i) {
+      return !a.some(function (item) {
+        return item.clientId === i.clientId;
+      });
+    });
+  };
+  var blocksState = getBlocks();
+  subscribe(_.debounce(function () {
+    var notices = select(store).getNotices();
+    var newBlocksState = getBlocks();
+
+    // Lock saving if notices contain error notices
+    var errorNotices = notices.filter(function (notice) {
+      return notice.status === 'error';
+    });
+    if (errorNotices.length > 0) {
+      dispatch('core/editor').lockPostSaving('requiredValueLock');
+    } else {
+      if (select('core/editor').isPostSavingLocked()) {
+        dispatch('core/editor').unlockPostSaving('requiredValueLock');
+      }
+    }
+
+    // When very last block is removed, it's replaced with a new paragraph block.
+    // This is a workaround to remove the error notice.
+    if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
+      // remove newBlocksState from blocksState
+      var removedBlock = blocksState.diff(newBlocksState);
+      if (removedBlock.length > 0 || removedBlock[0].name === 'core/paragraph') {
+        var getChildren = function getChildren(block) {
+          var children = [];
+          if (block.innerBlocks) {
+            block.innerBlocks.forEach(function (innerBlock) {
+              children.push(innerBlock);
+            });
+          }
+          if (children.length > 0) {
+            children.forEach(function (child) {
+              clientIds.push(child.clientId);
+              getChildren(child.clientId);
+            });
+          }
+        };
+        var clientIds = [];
+        removedBlock.forEach(function (block) {
+          clientIds.push(block.clientId);
+          getChildren(block);
+        });
+        var noticesToRemove = notices.filter(function (notice) {
+          return clientIds.some(function (clientId) {
+            return notice.id.includes(clientId);
+          });
+        });
+        noticesToRemove.forEach(function (notice) {
+          dispatch('core/notices').removeNotice(notice.id);
+        });
+      }
+    }
+    blocksState = newBlocksState;
+  }, 300));
 })(window.wp);
