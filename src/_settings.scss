@@ -82,37 +82,37 @@ $button-font-weight: $global-font-weight-bold !default;
 /* ===== HEADINGS ===== */
 $heading-config: (
   "h1": (
-    "font-size": rem-calc(40),
+    "font-size": $fontsize-heading-xl-mobile,
     "font-weight": $global-font-weight-normal,
     "letter-spacing": -0.8px,
-    "--line-height": rem-calc(40),
+    "--line-height": $fontsize-heading-xl-mobile,
   ),
   "h2": (
-    "font-size": rem-calc(32),
+    "font-size": $fontsize-heading-l,
     "font-weight": $global-font-weight-normal,
     "letter-spacing": -0.4px,
     "--line-height": rem-calc(38),
   ),
   "h3": (
-    "font-size": rem-calc(24),
+    "font-size": $fontsize-heading-m,
     "font-weight": $global-font-weight-medium,
     "letter-spacing": -0.2px,
     "--line-height": rem-calc(32),
   ),
   "h4": (
-    "font-size": rem-calc(20),
+    "font-size": $fontsize-heading-s,
     "font-weight": $global-font-weight-medium,
     "letter-spacing": 0,
     "--line-height": rem-calc(30),
   ),
   "h5": (
-    "font-size": rem-calc(18),
+    "font-size": $fontsize-heading-xs,
     "font-weight": $global-font-weight-bold,
     "letter-spacing": 0,
     "--line-height": rem-calc(28),
   ),
   "h6": (
-    "font-size": rem-calc(16),
+    "font-size": $fontsize-heading-xxs,
     "font-weight": $global-font-weight-bold,
     "letter-spacing": 0.2px,
     "--line-height": rem-calc(24),
@@ -122,37 +122,37 @@ $heading-config: (
 $heading-responsive-config: (
   "l": (
     "h1": (
-      "font-size": rem-calc(64),
+      "font-size": $fontsize-heading-xxl,
       "font-weight": $global-font-weight-normal,
       "letter-spacing": -1.2px,
-      "--line-height": rem-calc(64),
+      "--line-height": $fontsize-heading-xxl,
     ),
     "h2": (
-      "font-size": rem-calc(48),
+      "font-size": $fontsize-heading-xl,
       "font-weight": $global-font-weight-normal,
       "letter-spacing": -1px,
-      "--line-height": rem-calc(48),
+      "--line-height": $fontsize-heading-xl,
     ),
     "h3": (
-      "font-size": rem-calc(32),
+      "font-size": $fontsize-heading-l,
       "font-weight": $global-font-weight-normal,
       "letter-spacing": -0.4px,
       "--line-height": rem-calc(38),
     ),
     "h4": (
-      "font-size": rem-calc(24),
+      "font-size": $fontsize-heading-m,
       "font-weight": $global-font-weight-medium,
       "letter-spacing": -0.2px,
       "--line-height": rem-calc(32),
     ),
     "h5": (
-      "font-size": rem-calc(20),
+      "font-size": $fontsize-heading-s,
       "font-weight": $global-font-weight-medium,
       "letter-spacing": 0,
       "--line-height": rem-calc(30),
     ),
     "h6": (
-      "font-size": rem-calc(18),
+      "font-size": $fontsize-heading-xs,
       "letter-spacing": 0,
       "--line-height": rem-calc(28),
     ),
