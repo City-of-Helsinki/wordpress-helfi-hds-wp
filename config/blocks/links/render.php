@@ -229,7 +229,10 @@ function hds_wp_render_link_with_image_title(array $link)
 				: apply_filters(
 					'hds_wp_svg_placeholder_html',
 					'',
-					apply_filters( 'hds_wp_links_list_item_placeholder_icon', 'abstract-3' )
+					apply_filters(
+						'hds_wp_links_list_item_placeholder_icon',
+						'abstract-3'
+					)
 				),
 			hds_links_list_link_attributes($link),
 			esc_html($link['linkTitle'])
