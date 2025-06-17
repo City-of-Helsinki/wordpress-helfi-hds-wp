@@ -6,7 +6,7 @@ namespace ArtCloud\Helsinki\Plugin\HDS;
   * Description: Provides common Helsinki styles, assets and blocks, and integrations to Helsinki APIs and various plugins.
   * Version: 1.37.0
   * License: GPLv3
-  * Requires at least: 5.7
+  * Requires at least: 5.9
   * Requires PHP:      7.1
   * Author: ArtCloud
   * Author URI: https://www.artcloud.fi
