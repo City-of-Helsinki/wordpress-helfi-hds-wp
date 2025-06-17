@@ -4,8 +4,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
 
-use ArtCloud\Helsinki\Plugin\HDS\Svg;
-
 function hds_wp_render_block_links_list($attributes)
 {
 	if (
@@ -132,26 +130,6 @@ function hds_wp_render_links_list_item(string $link)
 	return '<li class="links-list__item">' . $link . '</li>';
 }
 
-function hds_link_is_external(string $url)
-{
-	$home_url = get_option('home'); // get the site url from options, because plugins can change it from get_home_url()
-	$home_url = preg_replace('/^https?:\/\//', '', $home_url);
-
-	if (!str_contains(preg_replace('/^https?:\/\//', '', $url), $home_url) && !str_starts_with($url, '#') && !str_starts_with($url, '/')) {
-		return true;
-	}
-	return false;
-}
-
-function hds_wp_render_link_icon(bool $external)
-{
-	if ($external) {
-		return Svg::icon('forms-data', 'link-external');
-	} else {
-		return Svg::icon('arrows-operators', 'arrow-right');
-	}
-}
-
 function hds_wp_render_link_with_title(array $link)
 {
 	if (isset($link['postId']) && $link['postId'] != 0 && isset($link['linkDir']) && $link['linkDir'] == 'internal') {
@@ -173,11 +151,10 @@ function hds_wp_render_link_with_title(array $link)
 	return hds_wp_render_links_list_item(
 		sprintf(
 			'<div class="link">
-				<a %s><span>%s</span>%s</a>
+				<a %s><span>%s</span></a>
 			</div>',
 			hds_links_list_link_attributes($link),
-			esc_html($link['linkTitle']),
-			!hds_link_is_external($link['linkUrl']) ? hds_wp_render_link_icon(false) : '',
+			esc_html($link['linkTitle'])
 		)
 	);
 }
@@ -209,12 +186,11 @@ function hds_wp_render_link_with_title_excerpt(array $link)
 	return hds_wp_render_links_list_item(
 		sprintf(
 			'<div class="link">
-				<a %s><span>%s</span>%s</a>
+				<a %s><span>%s</span></a>
 				%s
 			</div>',
 			hds_links_list_link_attributes($link),
 			esc_html($link['linkTitle']),
-			!hds_link_is_external($link['linkUrl']) ? hds_wp_render_link_icon(false) : '',
 			$excerpt
 		)
 	);
@@ -245,18 +221,18 @@ function hds_wp_render_link_with_image_title(array $link)
 		sprintf(
 			'<div class="link">
 				<div class="link__thumbnail%s">%s</div>
-				<a %s><span>%s</span>%s</a>
+				<a %s><span>%s</span></a>
 			</div>',
 			$has_placeholder ? ' has-placeholder' : '',
-			$link['mediaId'] ? wp_get_attachment_image($link['mediaId'], 'medium_large', false, array('alt' => '')) : Svg::placeholder(
-				apply_filters(
-					'hds_wp_links_list_item_placeholder_icon',
-					'abstract-3'
-				)
-			),
+			$link['mediaId']
+				? wp_get_attachment_image($link['mediaId'], 'medium_large', false, array('alt' => ''))
+				: apply_filters(
+					'hds_wp_svg_placeholder_html',
+					'',
+					apply_filters( 'hds_wp_links_list_item_placeholder_icon', 'abstract-3' )
+				),
 			hds_links_list_link_attributes($link),
-			esc_html($link['linkTitle']),
-			!hds_link_is_external($link['linkUrl']) ? hds_wp_render_link_icon(false) : '',
+			esc_html($link['linkTitle'])
 		)
 	);
 }
