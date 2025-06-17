@@ -4,8 +4,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
 
-use ArtCloud\Helsinki\Plugin\HDS\Svg;
-
 function hds_wp_render_recent_posts($attributes)
 {
 	//migrate old options
