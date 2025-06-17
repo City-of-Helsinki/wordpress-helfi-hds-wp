@@ -210,6 +210,8 @@ function init() {
 			)
 		)
 	);
+
+	ModuleFactory::module( 'SvgProvider' )->init();
 }
 
 add_filter( 'helsinki_wp_current_language', __NAMESPACE__ . '\\provide_current_language', 5 );
