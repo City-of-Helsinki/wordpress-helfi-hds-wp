@@ -102,27 +102,10 @@
                 height: 24px;
                 width: 24px;
                 min-width: 24px;
-
-                &--link-external {
-                    width: 24px;
-                }
             }
 
             @include breakpoint('m') {
                 font-size: rem-calc(24);
-
-                span {
-                }
-
-                .icon {
-                    height: 48px;
-                    width: 48px;
-                    min-width: 48px;
-
-                    &--link-external {
-                        width: 24px;
-                    }
-                }
             }
         }
 
