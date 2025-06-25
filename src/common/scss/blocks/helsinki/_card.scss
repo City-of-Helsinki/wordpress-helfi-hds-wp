@@ -7,9 +7,6 @@
     margin-right: auto;
   }
 
-  .content-cards__title {
-  }
-
   .content-cards__cards {
 		--grid-columns: 1;
 		--grid-columns-gap: 0px;
@@ -233,5 +230,14 @@
         padding: spacing('l') spacing('s');
       }
     }
-  }
-}
+
+		.content-cards__cards {
+			&--3,
+			&--4 {
+	      @include breakpoint('l') {
+	        --grid-columns: 2;
+	      }
+			}
+		}
+  } // .content-cards
+} // .has-sidebar:not(.home)
