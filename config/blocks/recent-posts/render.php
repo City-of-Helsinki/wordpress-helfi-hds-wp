@@ -4,8 +4,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
 
-use ArtCloud\Helsinki\Plugin\HDS\Svg;
-
 function hds_wp_render_recent_posts($attributes)
 {
 	//migrate old options
@@ -138,48 +136,43 @@ function hds_wp_recent_posts_grid( $args = array() ): string {
 
 function hds_wp_recent_posts_grid_entry($args = array())
 {
-
 	$classes = array(
 		'entry--grid',
 		'entry',
 		'entry--' . get_post_type(),
 	);
 
-	$image = '';
 	if (has_post_thumbnail()) {
 		$image = sprintf(
-			'
-			<div class="entry__thumbnail">
+			'<div class="entry__thumbnail">
 				<div class="image-wrap image-wrap--fixed-size">
 					%s
 				</div>
-			</div>
-			',
+			</div>',
 			get_the_post_thumbnail(null, 'post-thumbnail')
 		);
 		$classes[] = 'has-thumbnail';
 	} else {
 		$image = sprintf(
-			'
-			<div class="entry__thumbnail has-icon %s">
+			'<div class="entry__thumbnail has-icon %s">
 				<div class="image-wrap image-wrap--fixed-size">
 					%s
 				</div>
-			</div>
-			',
+			</div>',
 			function_exists('helsinki_scheme_has_invert_color') && helsinki_scheme_has_invert_color() ? 'has-invert-color' : '',
-			Svg::placeholder(
+			apply_filters(
+				'hds_wp_svg_placeholder_html',
+				'',
 				apply_filters(
 					'hds_wp_recent_posts_placeholder_icon',
 					'abstract-3'
 				)
-			),
+			)
 		);
 	}
 
 	return sprintf(
-		'
-		<div class="grid__column">
+		'<div class="grid__column">
 			<article id="post-%s" class="%s">
 				<div>
 					%s
@@ -190,9 +183,6 @@ function hds_wp_recent_posts_grid_entry($args = array())
 							%s
 						</time>
 					</div>
-					<div class="entry__more">
-						%s
-					</div>
 				</div>
 			</article>
 		</div>',
@@ -201,17 +191,15 @@ function hds_wp_recent_posts_grid_entry($args = array())
 		$image,
 		get_permalink(),
 		get_the_title(),
-		esc_attr(get_the_date('c')),
-		esc_html__('Published:', 'hds-wp'),
-		esc_html(get_the_date()),
-		Svg::icon('arrows-operators', 'arrow-right')
+		esc_attr( get_the_date('c') ),
+		esc_html__( 'Published:', 'hds-wp' ),
+		esc_html( get_the_date() )
 	);
 }
 
 function hds_wp_recent_posts_more($args = array())
 {
-	if (isset($args['page_for_posts']) && !empty($args['page_for_posts'])) {
-		$link = '';
+	if ( ! empty( $args['page_for_posts'] ) ) {
 		if ($args['attributes']['category'] != 0) {
 			$link = get_category_link($args['attributes']['category']);
 		} else {
@@ -219,8 +207,7 @@ function hds_wp_recent_posts_more($args = array())
 		}
 
 		return sprintf(
-			'
-			<p class="posts-page">
+			'<p class="posts-page">
 				<span class="link-wrap">
 					<a class="has-icon has-icon--after hds-button" href="%s">
 						%s
@@ -230,7 +217,12 @@ function hds_wp_recent_posts_more($args = array())
 			</p>',
 			$link,
 			esc_html__('See all articles', 'hds-wp'),
-			Svg::icon('arrows-operators', 'arrow-right')
+			apply_filters(
+				'hds_wp_svg_icon_html',
+				'',
+				'arrow-right',
+				'arrows-operators'
+			)
 		);
 	}
 	return '';

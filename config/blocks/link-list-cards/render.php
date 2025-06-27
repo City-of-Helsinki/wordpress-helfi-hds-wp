@@ -12,13 +12,6 @@ function hds_wp_render_link_list_cards( $attributes ) {
 		return;
 	}
 
-	$cards = array_map(
-		function ( $card ) {
-			return hds_wp_render_link_list_card( $card );
-		},
-		$attributes['cards']
-	);
-
 	$title = '';
 	if ( ! empty( $attributes['title'] ) ) {
 		$title = sprintf(
@@ -35,76 +28,53 @@ function hds_wp_render_link_list_cards( $attributes ) {
 			</div>
 		</div>',
 		$title,
-		implode( '', $cards )
+		implode( '', array_map(
+			'hds_wp_render_link_list_card',
+			$attributes['cards']
+		) )
 	);
-
 }
 
 function hds_wp_render_link_list_card( $attributes ) {
-
-	$title = $attributes['title'];
-	$links = $attributes['links'];
-
-	$links = array_map(
-		function ( $link ) {
-			return hds_wp_render_link_list_card_link( $link );
-		},
-		$links
-	);
-
 	return sprintf(
 		'<div class="wp-block-hds-wp-link-list-card">
 			<h3 class="hds-links-list-card__title">%s</h3>
 			<div class="hds-links-list-card__links">
-				%s
+				<ul class="hds-links-list-card__list">%s</ul>
 			</div>
 		</div>',
-		$title,
-		implode( '', $links )
+		esc_html( $attributes['title'] ),
+		implode( '', array_map(
+			'hds_wp_render_link_list_card_link',
+			$attributes['links']
+		) )
 	);
-
 }
 
 function hds_wp_render_link_list_card_link( $attributes ) {
-
-	$postId = $attributes['postId'];
-	$linkTitle = $attributes['linkTitle'];
-	$postTitle = $attributes['postTitle'];
-	$linkUrl = $attributes['linkUrl'];
 	$linkDir = $attributes['linkDir'];
-	$targetBlank = $attributes['targetBlank'];
+	$isInternal = ($linkDir === 'internal');
 
 	if (
-		( $linkDir === 'external' && ( empty( $linkTitle ) || empty( $linkUrl ) ) ) ||
-		( $linkDir === 'internal' && empty( $postId ) )
+		( $linkDir === 'external' && ( empty( $attributes['linkTitle'] ) || empty( $attributes['linkUrl'] ) ) ) ||
+		( $isInternal && empty( $attributes['postId'] ) )
 	) {
 		return;
 	}
 
-	$target = '';
-	if ( $targetBlank ) {
-		$target = 'target="_blank" rel="noopener"';
-	}
-
-	$href = '';
-	if ( $linkDir === 'internal' ) {
-		$href = get_permalink( $postId );
-	} else {
-		$href = $linkUrl;
-	}
-
-	$title = '';
-	if ( $linkDir === 'internal' ) {
-		$title = $postTitle;
-	} else {
-		$title = $linkTitle;
-	}
-
 	return sprintf(
-		'<a href="%s" class="wp-block-hds-wp-link-list-card-link link" %s>%s</a>',
-		$href,
-		$target,
-		$title
+		'<li class="hds-links-list-card__list-item">
+			<a href="%s" class="wp-block-hds-wp-link-list-card-link link" %s>%s</a>
+		</li>',
+		$isInternal
+			? get_permalink( $attributes['postId'] )
+			: $attributes['linkUrl'],
+		! empty( $attributes['targetBlank'] )
+			? 'target="_blank" rel="noopener"'
+			: '',
+		$isInternal
+			? $attributes['postTitle']
+			: $attributes['linkTitle'],
 	);
 
 }

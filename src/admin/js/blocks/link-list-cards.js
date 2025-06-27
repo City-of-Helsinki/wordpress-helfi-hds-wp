@@ -4,6 +4,7 @@
     const {Fragment, createElement, useState, useEffect} = wp.element;
     const {
       useBlockProps,
+      useInnerBlocksProps,
       BlockControls,
       InnerBlocks,
       RichText,
@@ -33,6 +34,14 @@
 
     function edit({attributes, setAttributes, clientId, isSelected}) {
       const blockProps = useBlockProps({});
+      const innerBlocksProps = useInnerBlocksProps({
+        ...blockProps,
+        className: 'hds-links-list-cards__cards',
+        template: [ ['hds-wp/link-list-card'] ],
+        allowedBlocks: ['hds-wp/link-list-card'],
+        templateLock: false,
+      });
+
       const [titleError, setTitleError] = useState(
         attributes.title ? false : true
       );
@@ -141,15 +150,7 @@
               placeholder={__('This is the title*', 'hds-wp')}
               allowedFormats={[]}
             />
-            <div className="hds-links-list-cards__cards">
-              <InnerBlocks
-                  template={[
-                      ['hds-wp/link-list-card'],
-                  ]}
-                  templateLock={false}
-                  allowedBlocks={['hds-wp/link-list-card']}
-              />
-            </div>
+            <div {...innerBlocksProps} />
           </div>
         </Fragment>
       );

@@ -96,7 +96,7 @@
       if (props.attributes.linkDir == 'internal' && props.attributes.postId != 0) {
         title = props.attributes.postTitle ? props.attributes.postTitle : __( 'Helsinki - Link', 'hds-wp' );
       }
-      return (<a { ...useBlockProps({className: 'link'}) }>{title}</a>);
+      return (<li class="hds-links-list-card__list-item"><a { ...useBlockProps({className: 'link'}) }>{title}</a></li>);
     }
 
     function updateParentAttributes(clientId) {

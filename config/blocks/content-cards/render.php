@@ -4,8 +4,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
 
-use ArtCloud\Helsinki\Plugin\HDS\Svg;
-
 function hds_wp_render_block_content_cards($attributes)
 {
 	if (
@@ -82,7 +80,9 @@ function hds_wp_content_card_html(WP_Post $post, $attributes)
 		$has_placeholder = true;
 		$image = apply_filters(
 			'hds_wp_content_card_placeholder',
-			Svg::placeholder(
+			apply_filters(
+				'hds_wp_svg_placeholder_html',
+				'',
 				apply_filters(
 					'hds_wp_content_card_placeholder_icon',
 					'abstract-3'
@@ -119,10 +119,15 @@ function hds_wp_content_card_html(WP_Post $post, $attributes)
 			$image
 		),
 		'content_open' => '<div class="card__content">',
-		'title' => '<a class="card__title_link" href="' . esc_url(get_permalink($post)) . '"><h3 class="card__title">' . esc_html($post->post_title) . '</h3></a>',
+		'title' => sprintf(
+			'<a class="card__title_link" href="%s">
+				<h3 class="card__title">%s</h3>
+			</a>',
+			esc_url( get_permalink( $post ) ),
+			esc_html( $post->post_title )
+		),
 		'excerpt' => $excerpt,
 		'date' => $date,
-		'more' => '<div class="card__more">' . Svg::icon('arrows-operators', 'arrow-right') . '</div>',
 		'content_close' => '</div>',
 	);
 
