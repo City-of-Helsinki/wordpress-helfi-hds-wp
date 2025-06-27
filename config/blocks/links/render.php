@@ -50,16 +50,8 @@ function hds_wp_render_block_links_list($attributes)
 	}
 
 	$wrapClasses = array('links-list');
-	$koros = '';
 	if (!empty($attributes['hasBackground'])) {
 		$wrapClasses[] = 'has-background';
-		$koros = sprintf(
-			'<div class="links-list__koros">%s</div>',
-			Svg::koros(
-				apply_filters('hds_wp_links_list_koros', 'basic'),
-				md5(time() . implode('', $links))
-			)
-		);
 	}
 	if (!empty($attributes['className'])) {
 		$wrapClasses[] = esc_attr($attributes['className']);
@@ -88,7 +80,7 @@ function hds_wp_render_block_links_list($attributes)
 	);
 
 	return sprintf(
-		'<div %s class="%s">%s
+		'<div %s class="%s">
 			<div class="hds-container">
 				%s
 				%s
@@ -97,7 +89,6 @@ function hds_wp_render_block_links_list($attributes)
 		</div>',
 		$id,
 		implode(' ', $wrapClasses),
-		$koros,
 		$title,
 		$description,
 		implode(' ', $gridClasses),

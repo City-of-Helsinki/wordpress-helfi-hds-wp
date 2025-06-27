@@ -1,20 +1,6 @@
 .links-list {
 	@extend %helsinki-block-spacing;
 
-    .links-list__koros {
-        background-color: $white;
-        height: 42px;
-        margin-bottom: spacing('xl');
-
-        @include breakpoint('l') {
-            margin-bottom: spacing('3-xl');
-        }
-
-        svg {
-            fill: $light-gray;
-        }
-    }
-
     .hds-container {
         margin-left: auto;
         margin-right: auto;
@@ -310,11 +296,13 @@
         margin-left: calc(50% - 50vw);
         margin-right: calc(50% - 50vw);
         max-width: 100vw;
+        padding-top: spacing('l');
         padding-bottom: 0;
         width: 100vw;
         margin-bottom: spacing('l');
 
         @include breakpoint('l') {
+            padding-top: spacing('3-xl');
             margin-bottom: spacing('4-xl');
         }
 
@@ -360,10 +348,6 @@
 
 .has-sidebar:not(.home) {
     .links-list {
-
-        .links-list__koros {
-            display: none;
-        }
 
         .hds-container {
             padding: 0;
