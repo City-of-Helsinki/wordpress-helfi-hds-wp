@@ -4,13 +4,13 @@ h3,
 h4,
 h5,
 h6 {
+  --line-height: #{$heading-line-height};
+
   color: $heading-color;
   font-family: $heading-font-family;
   font-weight: $heading-font-weight;
   hyphens: auto;
-  --line-height: #{$heading-line-height};
-  line-height: $heading-line-height;
-  letter-spacing: $heading-letter-spacing;
+  line-height: var(--line-height);
   margin-top: $heading-margin-top;
   margin-bottom: $heading-margin-bottom;
   word-break: $heading-word-wrap;
@@ -20,41 +20,7 @@ h6 {
   }
 }
 
-h3 {
-  font-weight: $global-font-weight-medium;
-  --line-height: 1.3;
-  line-height: 1.3;
-
-  @include breakpoint('l') {
-    font-weight: $global-font-weight-normal;
-    --line-height: 1;
-    line-height: 1;
-  }
-}
-
-h4 {
-  font-weight: $global-font-weight-medium;
-  --line-height: 1.5;
-  line-height: 1.5;
-
-  @include breakpoint('l') {
-    --line-height: 1.3;
-    line-height: 1.3;
-  }
-}
-
-h5 {
-  font-weight: $global-font-weight-medium;
-  --line-height: 1.5;
-  line-height: 1.5;
-
-}
-
-h6 {
-  font-weight: $global-font-weight-bold;
-  --line-height: 1.5;
-	line-height: 1.5;
-}
+@include headingStyles();
 
 .content__body {
 	h1,
@@ -64,23 +30,5 @@ h6 {
 	h5,
 	h6 {
 		max-width: 860px;
-	}
-}
-
-@each $heading, $font-size in $heading-font-sizes {
-  #{$heading} {
-    font-size: $font-size;
-  }
-}
-
-@each $breakpoint, $size in $breakpoints {
-	@if ( map-has-key( $heading-responsive-font-sizes, $breakpoint ) ) {
-		@include breakpoint($breakpoint) {
-			@each $heading, $font-size in map-get( $heading-responsive-font-sizes, $breakpoint ) {
-				#{$heading} {
-				  font-size: $font-size;
-				}
-			}
-		}
 	}
 }

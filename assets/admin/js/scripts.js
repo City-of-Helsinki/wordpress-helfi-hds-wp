@@ -1,14 +1,17 @@
 "use strict";
 
+var _excluded = ["children"];
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function hdsSingleImage(attributes) {
   var imageOrPlaceholder = attributes.src ? wp.element.createElement('img', attributes) : wp.element.createElement('div', {
@@ -1820,9 +1823,11 @@ function hdsIcons(name) {
     if (props.attributes.linkDir == 'internal' && props.attributes.postId != 0) {
       title = props.attributes.postTitle ? props.attributes.postTitle : __('Helsinki - Link', 'hds-wp');
     }
-    return /*#__PURE__*/React.createElement("a", useBlockProps({
+    return /*#__PURE__*/React.createElement("li", {
+      class: "hds-links-list-card__list-item"
+    }, /*#__PURE__*/React.createElement("a", useBlockProps({
       className: 'link'
-    }), title);
+    }), title));
   }
   function updateParentAttributes(clientId) {
     //update parent "links" and grandparent "cards" attributes
@@ -1867,6 +1872,7 @@ function hdsIcons(name) {
     useEffect = _wp$element9.useEffect;
   var _wp$blockEditor9 = wp.blockEditor,
     useBlockProps = _wp$blockEditor9.useBlockProps,
+    useInnerBlocksProps = _wp$blockEditor9.useInnerBlocksProps,
     BlockControls = _wp$blockEditor9.BlockControls,
     InnerBlocks = _wp$blockEditor9.InnerBlocks,
     RichText = _wp$blockEditor9.RichText,
@@ -1909,6 +1915,14 @@ function hdsIcons(name) {
       clientId = _ref5.clientId,
       isSelected = _ref5.isSelected;
     var blockProps = useBlockProps({});
+    var _useInnerBlocksProps = useInnerBlocksProps(_objectSpread(_objectSpread({}, blockProps), {}, {
+        className: 'hds-links-list-card__list',
+        template: [['hds-wp/link-list-card-link'], ['hds-wp/link-list-card-link'], ['hds-wp/link-list-card-link']],
+        allowedBlocks: ['hds-wp/link-list-card-link'],
+        templateLock: false
+      })),
+      children = _useInnerBlocksProps.children,
+      innerBlocksProps = _objectWithoutProperties(_useInnerBlocksProps, _excluded);
     var _useState = useState(attributes.title ? false : true),
       _useState2 = _slicedToArray(_useState, 2),
       titleError = _useState2[0],
@@ -2028,11 +2042,7 @@ function hdsIcons(name) {
       allowedFormats: []
     }), /*#__PURE__*/React.createElement("div", {
       className: "hds-links-list-card__links"
-    }, /*#__PURE__*/React.createElement(InnerBlocks, {
-      template: [['hds-wp/link-list-card-link'], ['hds-wp/link-list-card-link'], ['hds-wp/link-list-card-link']],
-      allowedBlocks: ['hds-wp/link-list-card-link'],
-      templateLock: false
-    }))));
+    }, /*#__PURE__*/React.createElement("ul", innerBlocksProps, children))));
   }
   function save() {
     return /*#__PURE__*/React.createElement(Fragment, null, /*#__PURE__*/React.createElement(InnerBlocks.Content, null));
@@ -2048,6 +2058,7 @@ function hdsIcons(name) {
     useEffect = _wp$element10.useEffect;
   var _wp$blockEditor10 = wp.blockEditor,
     useBlockProps = _wp$blockEditor10.useBlockProps,
+    useInnerBlocksProps = _wp$blockEditor10.useInnerBlocksProps,
     BlockControls = _wp$blockEditor10.BlockControls,
     InnerBlocks = _wp$blockEditor10.InnerBlocks,
     RichText = _wp$blockEditor10.RichText,
@@ -2082,6 +2093,12 @@ function hdsIcons(name) {
       clientId = _ref6.clientId,
       isSelected = _ref6.isSelected;
     var blockProps = useBlockProps({});
+    var innerBlocksProps = useInnerBlocksProps(_objectSpread(_objectSpread({}, blockProps), {}, {
+      className: 'hds-links-list-cards__cards',
+      template: [['hds-wp/link-list-card']],
+      allowedBlocks: ['hds-wp/link-list-card'],
+      templateLock: false
+    }));
     var _useState7 = useState(attributes.title ? false : true),
       _useState8 = _slicedToArray(_useState7, 2),
       titleError = _useState8[0],
@@ -2174,13 +2191,7 @@ function hdsIcons(name) {
       },
       placeholder: __('This is the title*', 'hds-wp'),
       allowedFormats: []
-    }), /*#__PURE__*/React.createElement("div", {
-      className: "hds-links-list-cards__cards"
-    }, /*#__PURE__*/React.createElement(InnerBlocks, {
-      template: [['hds-wp/link-list-card']],
-      templateLock: false,
-      allowedBlocks: ['hds-wp/link-list-card']
-    }))));
+    }), /*#__PURE__*/React.createElement("div", innerBlocksProps)));
   }
   function save() {
     return /*#__PURE__*/React.createElement(Fragment, null, /*#__PURE__*/React.createElement(InnerBlocks.Content, null));
@@ -3616,99 +3627,6 @@ wp.domReady(function () {
   wp.richText.unregisterFormatType('core/keyboard');
   wp.richText.unregisterFormatType('core/code');
 });
-//remove error notices when block is removed
-
-(function () {
-  var _wp$data16 = wp.data,
-    select = _wp$data16.select,
-    subscribe = _wp$data16.subscribe,
-    dispatch = _wp$data16.dispatch;
-  var store = wp.notices.store;
-  var getBlocks = function getBlocks() {
-    var blocks = [];
-    var rootBlocks = select('core/block-editor').getBlocks();
-    function getChildren(block) {
-      var children = [];
-      if (block.innerBlocks) {
-        block.innerBlocks.forEach(function (innerBlock) {
-          children.push(innerBlock);
-        });
-      }
-      if (children.length > 0) {
-        children.forEach(function (child) {
-          blocks.push(child);
-          getChildren(child);
-        });
-      }
-    }
-    rootBlocks.forEach(function (block) {
-      blocks.push(block);
-      getChildren(block);
-    });
-    return blocks;
-  };
-  Array.prototype.diff = function (a) {
-    return this.filter(function (i) {
-      return !a.some(function (item) {
-        return item.clientId === i.clientId;
-      });
-    });
-  };
-  var blocksState = getBlocks();
-  subscribe(_.debounce(function () {
-    var notices = select(store).getNotices();
-    var newBlocksState = getBlocks();
-
-    // Lock saving if notices contain error notices
-    var errorNotices = notices.filter(function (notice) {
-      return notice.status === 'error';
-    });
-    if (errorNotices.length > 0) {
-      dispatch('core/editor').lockPostSaving('requiredValueLock');
-    } else {
-      if (select('core/editor').isPostSavingLocked()) {
-        dispatch('core/editor').unlockPostSaving('requiredValueLock');
-      }
-    }
-
-    // When very last block is removed, it's replaced with a new paragraph block.
-    // This is a workaround to remove the error notice.
-    if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
-      // remove newBlocksState from blocksState
-      var removedBlock = blocksState.diff(newBlocksState);
-      if (removedBlock.length > 0 || removedBlock[0].name === 'core/paragraph') {
-        var getChildren = function getChildren(block) {
-          var children = [];
-          if (block.innerBlocks) {
-            block.innerBlocks.forEach(function (innerBlock) {
-              children.push(innerBlock);
-            });
-          }
-          if (children.length > 0) {
-            children.forEach(function (child) {
-              clientIds.push(child.clientId);
-              getChildren(child.clientId);
-            });
-          }
-        };
-        var clientIds = [];
-        removedBlock.forEach(function (block) {
-          clientIds.push(block.clientId);
-          getChildren(block);
-        });
-        var noticesToRemove = notices.filter(function (notice) {
-          return clientIds.some(function (clientId) {
-            return notice.id.includes(clientId);
-          });
-        });
-        noticesToRemove.forEach(function (notice) {
-          dispatch('core/notices').removeNotice(notice.id);
-        });
-      }
-    }
-    blocksState = newBlocksState;
-  }, 300));
-})(window.wp);
 (function (wp) {
   /* inspired from https://github.com/Yoast/wpseo-woocommerce/blob/trunk/js/src/yoastseo-woo-replacevars.js */
   /* global jQuery, YoastSEO, app, globals YoastACFAnalysisConfig */
@@ -3865,4 +3783,98 @@ wp.domReady(function () {
   }
 
   initializeReplacevarPlugin();
+})(window.wp);
+
+//remove error notices when block is removed
+
+(function () {
+  var _wp$data16 = wp.data,
+    select = _wp$data16.select,
+    subscribe = _wp$data16.subscribe,
+    dispatch = _wp$data16.dispatch;
+  var store = wp.notices.store;
+  var getBlocks = function getBlocks() {
+    var blocks = [];
+    var rootBlocks = select('core/block-editor').getBlocks();
+    function getChildren(block) {
+      var children = [];
+      if (block.innerBlocks) {
+        block.innerBlocks.forEach(function (innerBlock) {
+          children.push(innerBlock);
+        });
+      }
+      if (children.length > 0) {
+        children.forEach(function (child) {
+          blocks.push(child);
+          getChildren(child);
+        });
+      }
+    }
+    rootBlocks.forEach(function (block) {
+      blocks.push(block);
+      getChildren(block);
+    });
+    return blocks;
+  };
+  Array.prototype.diff = function (a) {
+    return this.filter(function (i) {
+      return !a.some(function (item) {
+        return item.clientId === i.clientId;
+      });
+    });
+  };
+  var blocksState = getBlocks();
+  subscribe(_.debounce(function () {
+    var notices = select(store).getNotices();
+    var newBlocksState = getBlocks();
+
+    // Lock saving if notices contain error notices
+    var errorNotices = notices.filter(function (notice) {
+      return notice.status === 'error';
+    });
+    if (errorNotices.length > 0) {
+      dispatch('core/editor').lockPostSaving('requiredValueLock');
+    } else {
+      if (select('core/editor').isPostSavingLocked()) {
+        dispatch('core/editor').unlockPostSaving('requiredValueLock');
+      }
+    }
+
+    // When very last block is removed, it's replaced with a new paragraph block.
+    // This is a workaround to remove the error notice.
+    if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
+      // remove newBlocksState from blocksState
+      var removedBlock = blocksState.diff(newBlocksState);
+      if (removedBlock.length > 0 || removedBlock[0].name === 'core/paragraph') {
+        var getChildren = function getChildren(block) {
+          var children = [];
+          if (block.innerBlocks) {
+            block.innerBlocks.forEach(function (innerBlock) {
+              children.push(innerBlock);
+            });
+          }
+          if (children.length > 0) {
+            children.forEach(function (child) {
+              clientIds.push(child.clientId);
+              getChildren(child.clientId);
+            });
+          }
+        };
+        var clientIds = [];
+        removedBlock.forEach(function (block) {
+          clientIds.push(block.clientId);
+          getChildren(block);
+        });
+        var noticesToRemove = notices.filter(function (notice) {
+          return clientIds.some(function (clientId) {
+            return notice.id.includes(clientId);
+          });
+        });
+        noticesToRemove.forEach(function (notice) {
+          dispatch('core/notices').removeNotice(notice.id);
+        });
+      }
+    }
+    blocksState = newBlocksState;
+  }, 300));
 })(window.wp);

@@ -76,3 +76,27 @@
   max-width: 100vw;
   width: 100vw;
 }
+
+@mixin headingStyles() {
+  @each $heading, $config in $heading-config {
+    #{$heading} {
+      @each $property, $value in $config {
+        #{$property}: #{$value};
+      }
+    }
+  }
+
+  @each $breakpoint, $headings in $heading-responsive-config {
+    @if ( map-has-key( $breakpoints, $breakpoint ) ) {
+      @include breakpoint($breakpoint) {
+        @each $heading, $config in $headings {
+          #{$heading} {
+            @each $property, $value in $config {
+              #{$property}: #{$value};
+            }
+          }
+        }
+      }
+    }
+  }
+}
