@@ -18,7 +18,11 @@ var sassOptions = {
 };
 
 var cssOptions = {
-  level: 2,
+  level: {
+    2: {
+      mergeMedia: false,
+    }
+  },
   format: {
     semicolonAfterLastProperty: true
   }
