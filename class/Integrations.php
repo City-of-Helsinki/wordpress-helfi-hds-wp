@@ -109,13 +109,6 @@ class Integrations extends Module {
 		return array(
 			'api' => array(),
 			'plugins' => array(
-				'complianz' => array(
-					'title' => __( 'Complianz GDPR', 'hds-wp' ),
-					'description' => __( 'Add Helsinki styling to cookie notice.', 'hds-wp' ),
-					'data' => array(
-						'documents',
-					),
-				),
 				'contact-form-7' => array(
 					'title' => __( 'Contact Form 7', 'hds-wp' ),
 					'description' => sprintf(
