@@ -45,7 +45,6 @@ sprintf(
 - [Helsinki Theme](https://github.com/City-of-Helsinki/wordpress-helfi-helsinkiteema)
 
 ## Integrations
-- [Complianz – GDPR/CCPA Cookie Consent](https://wordpress.org/plugins/complianz-gdpr/): Overrides Cookiebanner templates.
 - [Contact Form 7](https://wordpress.org/plugins/contact-form-7/)
   - Filters form output to apply HDS styles and behaviour, and loads custom scripts to extend form behaviour.
   - Replaces `date` and `date*` fields with [HDS DateInput](https://hds.hel.fi/components/date-input/).
