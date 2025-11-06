@@ -125,6 +125,10 @@ class Integrations extends Module {
 					'title' => __( 'Yoast SEO', 'hds-wp' ),
 					'description' => __( 'Default configuration meta titles and descriptions, and custom meta variables.', 'hds-wp' ),
 				),
+				'wp-helfi-cookie-consent' => array(
+					'title' => __( 'WordPress Helsinki Cookie Consent', 'hds-wp' ),
+					'description' => __( 'Provides cookie information to the cookie consent banner.', 'hds-wp' ),
+				),
 			),
 			'themes' => array(
 				'helsinkiteema' => array(
