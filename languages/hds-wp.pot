@@ -11,11 +11,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-08-14 08:33+0000\n"
+"POT-Creation-Date: 2025-11-06 14:51+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Loco https://localise.biz/\n"
 "X-Domain: hds-wp\n"
-"\n"
 "Language: \n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;"
 
@@ -23,7 +22,7 @@ msgstr ""
 msgid "3rd party"
 msgstr ""
 
-#: class/Integrations.php:132
+#: class/Integrations.php:136
 msgid "A multipurpose WordPress theme of City of Helsinki."
 msgstr ""
 
@@ -379,7 +378,7 @@ msgstr ""
 msgid "Helsinki WP"
 msgstr ""
 
-#: class/Integrations.php:131
+#: class/Integrations.php:135
 msgid "Helsinkiteema #1"
 msgstr ""
 
@@ -578,6 +577,10 @@ msgstr ""
 msgid ""
 "Provides common Helsinki styles, assets and blocks, and integrations to "
 "Helsinki APIs and various plugins."
+msgstr ""
+
+#: class/Integrations.php:130
+msgid "Provides cookie information to the cookie consent banner."
 msgstr ""
 
 #: config/blocks/content-cards/render.php:110
@@ -783,6 +786,10 @@ msgstr ""
 #. Name of the plugin
 #: views/settings/page.php:10
 msgid "WordPress Helsinki"
+msgstr ""
+
+#: class/Integrations.php:129
+msgid "WordPress Helsinki Cookie Consent"
 msgstr ""
 
 #: class/Settings.php:49
