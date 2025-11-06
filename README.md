@@ -49,6 +49,7 @@ sprintf(
   - Filters form output to apply HDS styles and behaviour, and loads custom scripts to extend form behaviour.
   - Replaces `date` and `date*` fields with [HDS DateInput](https://hds.hel.fi/components/date-input/).
 - [WP RSS Aggregator](https://wordpress.org/plugins/wp-rss-aggregator/)
+- [WP Helsinki Cookie Consent](https://github.com/City-of-Helsinki/wordpress-helfi-cookie-consent/)
 - [Yoast SEO](https://wordpress.org/plugins/wordpress-seo/)
 
 Integrations can be found within `/integrations`. Script extending behaviour can be found within `/src`.
