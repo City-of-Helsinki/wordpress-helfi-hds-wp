@@ -6,7 +6,7 @@ msgstr ""
 "Language: fi\n"
 "Language-Team: Suomi\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"PO-Revision-Date: 2025-08-14 08:34+0000\n"
+"PO-Revision-Date: 2025-11-06 14:52+0000\n"
 "X-Generator: Loco https://localise.biz/\n"
 "Last-Translator: \n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 msgid "3rd party"
 msgstr "3. taho"
 
-#: class/Integrations.php:132
+#: class/Integrations.php:136
 msgid "A multipurpose WordPress theme of City of Helsinki."
 msgstr "Monikäyttöinen WordPress-teema Helsingin kaupunkia varten."
 
@@ -382,7 +382,7 @@ msgstr "Helsingin WordPress-portaali"
 msgid "Helsinki WP"
 msgstr "Helsinki WP"
 
-#: class/Integrations.php:131
+#: class/Integrations.php:135
 msgid "Helsinkiteema #1"
 msgstr "Helsinkiteema #1"
 
@@ -589,6 +589,10 @@ msgid ""
 msgstr ""
 "Mahdollistaa yleiset Helsinki-tyylit, resurssit ja lohkot, sekä integraation "
 "Helsingin rajapintoihin ja eri lisäosiin."
+
+#: class/Integrations.php:130
+msgid "Provides cookie information to the cookie consent banner."
+msgstr "Tarjoaa evästetietoja suostumusbannerille."
 
 #: config/blocks/content-cards/render.php:110
 #: config/blocks/recent-posts/render.php:195
@@ -798,6 +802,10 @@ msgstr "Ilman kuvaa"
 #: views/settings/page.php:10
 msgid "WordPress Helsinki"
 msgstr "WordPress Helsinki"
+
+#: class/Integrations.php:129
+msgid "WordPress Helsinki Cookie Consent"
+msgstr "WordPress Helsinki Evästehallinta"
 
 #: class/Settings.php:49
 msgid "WordPress User Guides"
