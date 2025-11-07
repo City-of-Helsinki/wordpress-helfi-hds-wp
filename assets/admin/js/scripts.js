@@ -1,18 +1,21 @@
 "use strict";
 
 var _excluded = ["children"];
-function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function hdsSingleImage(attributes) {
   var imageOrPlaceholder = attributes.src ? wp.element.createElement('img', attributes) : wp.element.createElement('div', {
     className: 'placeholder'
@@ -2051,31 +2054,31 @@ function hdsIcons(name) {
 (function (wp) {
   var __ = wp.i18n.__;
   var registerBlockType = wp.blocks.registerBlockType;
-  var _wp$element10 = wp.element,
-    Fragment = _wp$element10.Fragment,
-    createElement = _wp$element10.createElement,
-    useState = _wp$element10.useState,
-    useEffect = _wp$element10.useEffect;
-  var _wp$blockEditor10 = wp.blockEditor,
-    useBlockProps = _wp$blockEditor10.useBlockProps,
-    useInnerBlocksProps = _wp$blockEditor10.useInnerBlocksProps,
-    BlockControls = _wp$blockEditor10.BlockControls,
-    InnerBlocks = _wp$blockEditor10.InnerBlocks,
-    RichText = _wp$blockEditor10.RichText,
-    InspectorControls = _wp$blockEditor10.InspectorControls;
+  var _wp$element0 = wp.element,
+    Fragment = _wp$element0.Fragment,
+    createElement = _wp$element0.createElement,
+    useState = _wp$element0.useState,
+    useEffect = _wp$element0.useEffect;
+  var _wp$blockEditor0 = wp.blockEditor,
+    useBlockProps = _wp$blockEditor0.useBlockProps,
+    useInnerBlocksProps = _wp$blockEditor0.useInnerBlocksProps,
+    BlockControls = _wp$blockEditor0.BlockControls,
+    InnerBlocks = _wp$blockEditor0.InnerBlocks,
+    RichText = _wp$blockEditor0.RichText,
+    InspectorControls = _wp$blockEditor0.InspectorControls;
   var _wp$data7 = wp.data,
     select = _wp$data7.select,
     useSelect = _wp$data7.useSelect,
     useDispatch = _wp$data7.useDispatch,
     dispatch = _wp$data7.dispatch,
     subscribe = _wp$data7.subscribe;
-  var _wp$components10 = wp.components,
-    ToolbarGroup = _wp$components10.ToolbarGroup,
-    ToolbarButton = _wp$components10.ToolbarButton,
-    Button = _wp$components10.Button,
-    ToggleControl = _wp$components10.ToggleControl,
-    TextControl = _wp$components10.TextControl,
-    Notice = _wp$components10.Notice;
+  var _wp$components0 = wp.components,
+    ToolbarGroup = _wp$components0.ToolbarGroup,
+    ToolbarButton = _wp$components0.ToolbarButton,
+    Button = _wp$components0.Button,
+    ToggleControl = _wp$components0.ToggleControl,
+    TextControl = _wp$components0.TextControl,
+    Notice = _wp$components0.Notice;
   var store = wp.notices.store;
   registerBlockType('hds-wp/link-list-cards', {
     title: __('Helsinki - Link List Cards', 'hds-wp'),
@@ -2106,9 +2109,9 @@ function hdsIcons(name) {
     var _useState9 = useState(
       //there must be at least one card and four cards maximum
       attributes.cards.length > 0 && attributes.cards.length < 5 ? false : true),
-      _useState10 = _slicedToArray(_useState9, 2),
-      cardsError = _useState10[0],
-      setCardsError = _useState10[1];
+      _useState0 = _slicedToArray(_useState9, 2),
+      cardsError = _useState0[0],
+      setCardsError = _useState0[1];
     var isParentOfSelectedBlock = useSelect(function (selectFrom) {
       return select('core/block-editor').hasSelectedInnerBlock(clientId, true);
     });
@@ -2200,13 +2203,13 @@ function hdsIcons(name) {
 (function (wp) {
   var __ = wp.i18n.__;
   var registerBlockType = wp.blocks.registerBlockType;
-  var _wp$element11 = wp.element,
-    Fragment = _wp$element11.Fragment,
-    createElement = _wp$element11.createElement;
-  var _wp$blockEditor11 = wp.blockEditor,
-    useBlockProps = _wp$blockEditor11.useBlockProps,
-    BlockControls = _wp$blockEditor11.BlockControls,
-    InnerBlocks = _wp$blockEditor11.InnerBlocks;
+  var _wp$element1 = wp.element,
+    Fragment = _wp$element1.Fragment,
+    createElement = _wp$element1.createElement;
+  var _wp$blockEditor1 = wp.blockEditor,
+    useBlockProps = _wp$blockEditor1.useBlockProps,
+    BlockControls = _wp$blockEditor1.BlockControls,
+    InnerBlocks = _wp$blockEditor1.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
   var _wp$data8 = wp.data,
     withSelect = _wp$data8.withSelect,
@@ -2214,12 +2217,12 @@ function hdsIcons(name) {
     dispatch = _wp$data8.dispatch;
   var compose = wp.compose.compose;
   var apiFetch = wp.apiFetch;
-  var _wp$components11 = wp.components,
-    Button = _wp$components11.Button,
-    TextControl = _wp$components11.TextControl,
-    SelectControl = _wp$components11.SelectControl,
-    ToolbarGroup = _wp$components11.ToolbarGroup,
-    ToolbarButton = _wp$components11.ToolbarButton;
+  var _wp$components1 = wp.components,
+    Button = _wp$components1.Button,
+    TextControl = _wp$components1.TextControl,
+    SelectControl = _wp$components1.SelectControl,
+    ToolbarGroup = _wp$components1.ToolbarGroup,
+    ToolbarButton = _wp$components1.ToolbarButton;
   var PostTypeSelect = hdsWithPostTypeSelectControl();
   var PostSearch = hdsSearchPostsTextControl();
   function removePostButton(props) {
@@ -2404,23 +2407,23 @@ function hdsIcons(name) {
   var _wp$blocks7 = wp.blocks,
     registerBlockType = _wp$blocks7.registerBlockType,
     getBlockContent = _wp$blocks7.getBlockContent;
-  var _wp$element12 = wp.element,
-    Fragment = _wp$element12.Fragment,
-    createElement = _wp$element12.createElement,
-    useState = _wp$element12.useState;
-  var _wp$blockEditor12 = wp.blockEditor,
-    useBlockProps = _wp$blockEditor12.useBlockProps,
-    BlockControls = _wp$blockEditor12.BlockControls,
-    InnerBlocks = _wp$blockEditor12.InnerBlocks;
+  var _wp$element10 = wp.element,
+    Fragment = _wp$element10.Fragment,
+    createElement = _wp$element10.createElement,
+    useState = _wp$element10.useState;
+  var _wp$blockEditor10 = wp.blockEditor,
+    useBlockProps = _wp$blockEditor10.useBlockProps,
+    BlockControls = _wp$blockEditor10.BlockControls,
+    InnerBlocks = _wp$blockEditor10.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
   var _wp$data9 = wp.data,
     select = _wp$data9.select,
     useSelect = _wp$data9.useSelect;
-  var _wp$components12 = wp.components,
-    ToolbarGroup = _wp$components12.ToolbarGroup,
-    ToolbarButton = _wp$components12.ToolbarButton,
-    Button = _wp$components12.Button,
-    ToggleControl = _wp$components12.ToggleControl;
+  var _wp$components10 = wp.components,
+    ToolbarGroup = _wp$components10.ToolbarGroup,
+    ToolbarButton = _wp$components10.ToolbarButton,
+    Button = _wp$components10.Button,
+    ToggleControl = _wp$components10.ToggleControl;
   function linkTypeOptions() {
     return [{
       label: __('Without image', 'hds-wp'),
@@ -2533,30 +2536,30 @@ function hdsIcons(name) {
 (function (wp) {
   var __ = wp.i18n.__;
   var registerBlockType = wp.blocks.registerBlockType;
-  var _wp$element13 = wp.element,
-    Fragment = _wp$element13.Fragment,
-    createElement = _wp$element13.createElement,
-    useState = _wp$element13.useState,
-    useEffect = _wp$element13.useEffect;
-  var _wp$blockEditor13 = wp.blockEditor,
-    useBlockProps = _wp$blockEditor13.useBlockProps,
-    BlockControls = _wp$blockEditor13.BlockControls,
-    InnerBlocks = _wp$blockEditor13.InnerBlocks,
-    RichText = _wp$blockEditor13.RichText,
-    InspectorControls = _wp$blockEditor13.InspectorControls;
-  var _wp$data10 = wp.data,
-    select = _wp$data10.select,
-    useSelect = _wp$data10.useSelect,
-    useDispatch = _wp$data10.useDispatch,
-    dispatch = _wp$data10.dispatch,
-    subscribe = _wp$data10.subscribe;
-  var _wp$components13 = wp.components,
-    ToolbarGroup = _wp$components13.ToolbarGroup,
-    ToolbarButton = _wp$components13.ToolbarButton,
-    Button = _wp$components13.Button,
-    ToggleControl = _wp$components13.ToggleControl,
-    TextControl = _wp$components13.TextControl,
-    Notice = _wp$components13.Notice;
+  var _wp$element11 = wp.element,
+    Fragment = _wp$element11.Fragment,
+    createElement = _wp$element11.createElement,
+    useState = _wp$element11.useState,
+    useEffect = _wp$element11.useEffect;
+  var _wp$blockEditor11 = wp.blockEditor,
+    useBlockProps = _wp$blockEditor11.useBlockProps,
+    BlockControls = _wp$blockEditor11.BlockControls,
+    InnerBlocks = _wp$blockEditor11.InnerBlocks,
+    RichText = _wp$blockEditor11.RichText,
+    InspectorControls = _wp$blockEditor11.InspectorControls;
+  var _wp$data0 = wp.data,
+    select = _wp$data0.select,
+    useSelect = _wp$data0.useSelect,
+    useDispatch = _wp$data0.useDispatch,
+    dispatch = _wp$data0.dispatch,
+    subscribe = _wp$data0.subscribe;
+  var _wp$components11 = wp.components,
+    ToolbarGroup = _wp$components11.ToolbarGroup,
+    ToolbarButton = _wp$components11.ToolbarButton,
+    Button = _wp$components11.Button,
+    ToggleControl = _wp$components11.ToggleControl,
+    TextControl = _wp$components11.TextControl,
+    Notice = _wp$components11.Notice;
   var store = wp.notices.store;
   registerBlockType('hds-wp/map', {
     title: __('Helsinki - Map', 'hds-wp'),
@@ -2575,22 +2578,22 @@ function hdsIcons(name) {
       setAttributes = _ref7.setAttributes,
       clientId = _ref7.clientId;
     var blockProps = useBlockProps({});
-    var _useState11 = useState(attributes.title ? false : true),
+    var _useState1 = useState(attributes.title ? false : true),
+      _useState10 = _slicedToArray(_useState1, 2),
+      titleError = _useState10[0],
+      setTitleError = _useState10[1];
+    var _useState11 = useState(attributes.description ? false : true),
       _useState12 = _slicedToArray(_useState11, 2),
-      titleError = _useState12[0],
-      setTitleError = _useState12[1];
-    var _useState13 = useState(attributes.description ? false : true),
+      descriptionError = _useState12[0],
+      setDescriptionError = _useState12[1];
+    var _useState13 = useState(attributes.url ? false : true),
       _useState14 = _slicedToArray(_useState13, 2),
-      descriptionError = _useState14[0],
-      setDescriptionError = _useState14[1];
-    var _useState15 = useState(attributes.url ? false : true),
+      urlError = _useState14[0],
+      setUrlError = _useState14[1];
+    var _useState15 = useState(attributes.assistive_title ? false : true),
       _useState16 = _slicedToArray(_useState15, 2),
-      urlError = _useState16[0],
-      setUrlError = _useState16[1];
-    var _useState17 = useState(attributes.assistive_title ? false : true),
-      _useState18 = _slicedToArray(_useState17, 2),
-      assistiveTitleError = _useState18[0],
-      setAssistiveTitleError = _useState18[1];
+      assistiveTitleError = _useState16[0],
+      setAssistiveTitleError = _useState16[1];
     var _useDispatch4 = useDispatch(store),
       createErrorNotice = _useDispatch4.createErrorNotice,
       removeNotice = _useDispatch4.removeNotice;
@@ -2789,20 +2792,20 @@ function hdsIcons(name) {
   var _wp$blocks8 = wp.blocks,
     registerBlockType = _wp$blocks8.registerBlockType,
     getBlockContent = _wp$blocks8.getBlockContent;
-  var _wp$element14 = wp.element,
-    Fragment = _wp$element14.Fragment,
-    createElement = _wp$element14.createElement;
-  var _wp$blockEditor14 = wp.blockEditor,
-    useBlockProps = _wp$blockEditor14.useBlockProps,
-    BlockControls = _wp$blockEditor14.BlockControls,
-    InnerBlocks = _wp$blockEditor14.InnerBlocks;
-  var _wp$components14 = wp.components,
-    ToolbarGroup = _wp$components14.ToolbarGroup,
-    ToolbarButton = _wp$components14.ToolbarButton,
-    Button = _wp$components14.Button;
-  var _wp$data11 = wp.data,
-    select = _wp$data11.select,
-    useSelect = _wp$data11.useSelect;
+  var _wp$element12 = wp.element,
+    Fragment = _wp$element12.Fragment,
+    createElement = _wp$element12.createElement;
+  var _wp$blockEditor12 = wp.blockEditor,
+    useBlockProps = _wp$blockEditor12.useBlockProps,
+    BlockControls = _wp$blockEditor12.BlockControls,
+    InnerBlocks = _wp$blockEditor12.InnerBlocks;
+  var _wp$components12 = wp.components,
+    ToolbarGroup = _wp$components12.ToolbarGroup,
+    ToolbarButton = _wp$components12.ToolbarButton,
+    Button = _wp$components12.Button;
+  var _wp$data1 = wp.data,
+    select = _wp$data1.select,
+    useSelect = _wp$data1.useSelect;
   function edit() {
     return function (props) {
       var isParentOfSelectedBlock = useSelect(function (selectFrom) {
@@ -2851,23 +2854,23 @@ function hdsIcons(name) {
   var _wp$blocks9 = wp.blocks,
     registerBlockType = _wp$blocks9.registerBlockType,
     getBlockContent = _wp$blocks9.getBlockContent;
-  var _wp$element15 = wp.element,
-    Fragment = _wp$element15.Fragment,
-    createElement = _wp$element15.createElement;
-  var _wp$blockEditor15 = wp.blockEditor,
-    useBlockProps = _wp$blockEditor15.useBlockProps,
-    BlockControls = _wp$blockEditor15.BlockControls,
-    InnerBlocks = _wp$blockEditor15.InnerBlocks;
+  var _wp$element13 = wp.element,
+    Fragment = _wp$element13.Fragment,
+    createElement = _wp$element13.createElement;
+  var _wp$blockEditor13 = wp.blockEditor,
+    useBlockProps = _wp$blockEditor13.useBlockProps,
+    BlockControls = _wp$blockEditor13.BlockControls,
+    InnerBlocks = _wp$blockEditor13.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$components15 = wp.components,
-    ToolbarGroup = _wp$components15.ToolbarGroup,
-    ToolbarButton = _wp$components15.ToolbarButton,
-    Button = _wp$components15.Button,
-    ToggleControl = _wp$components15.ToggleControl;
-  var _wp$data12 = wp.data,
-    select = _wp$data12.select,
-    dispatch = _wp$data12.dispatch,
-    useSelect = _wp$data12.useSelect;
+  var _wp$components13 = wp.components,
+    ToolbarGroup = _wp$components13.ToolbarGroup,
+    ToolbarButton = _wp$components13.ToolbarButton,
+    Button = _wp$components13.Button,
+    ToggleControl = _wp$components13.ToggleControl;
+  var _wp$data10 = wp.data,
+    select = _wp$data10.select,
+    dispatch = _wp$data10.dispatch,
+    useSelect = _wp$data10.useSelect;
   function timelineTitle(props) {
     if (props.attributes.title != null && props.attributes.title != '') {
       return createElement('h2', {
@@ -3005,28 +3008,28 @@ function hdsIcons(name) {
 })(window.wp);
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks10 = wp.blocks,
-    registerBlockType = _wp$blocks10.registerBlockType,
-    registerBlockStyle = _wp$blocks10.registerBlockStyle,
-    unregisterBlockStyle = _wp$blocks10.unregisterBlockStyle,
-    getBlockContent = _wp$blocks10.getBlockContent;
-  var _wp$element16 = wp.element,
-    Fragment = _wp$element16.Fragment,
-    createElement = _wp$element16.createElement,
-    useState = _wp$element16.useState;
-  var _wp$blockEditor16 = wp.blockEditor,
-    useBlockProps = _wp$blockEditor16.useBlockProps,
-    BlockControls = _wp$blockEditor16.BlockControls,
-    InnerBlocks = _wp$blockEditor16.InnerBlocks;
+  var _wp$blocks0 = wp.blocks,
+    registerBlockType = _wp$blocks0.registerBlockType,
+    registerBlockStyle = _wp$blocks0.registerBlockStyle,
+    unregisterBlockStyle = _wp$blocks0.unregisterBlockStyle,
+    getBlockContent = _wp$blocks0.getBlockContent;
+  var _wp$element14 = wp.element,
+    Fragment = _wp$element14.Fragment,
+    createElement = _wp$element14.createElement,
+    useState = _wp$element14.useState;
+  var _wp$blockEditor14 = wp.blockEditor,
+    useBlockProps = _wp$blockEditor14.useBlockProps,
+    BlockControls = _wp$blockEditor14.BlockControls,
+    InnerBlocks = _wp$blockEditor14.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data13 = wp.data,
-    select = _wp$data13.select,
-    useSelect = _wp$data13.useSelect;
-  var _wp$components16 = wp.components,
-    ToolbarGroup = _wp$components16.ToolbarGroup,
-    ToolbarButton = _wp$components16.ToolbarButton,
-    Button = _wp$components16.Button,
-    ToggleControl = _wp$components16.ToggleControl;
+  var _wp$data11 = wp.data,
+    select = _wp$data11.select,
+    useSelect = _wp$data11.useSelect;
+  var _wp$components14 = wp.components,
+    ToolbarGroup = _wp$components14.ToolbarGroup,
+    ToolbarButton = _wp$components14.ToolbarButton,
+    Button = _wp$components14.Button,
+    ToggleControl = _wp$components14.ToggleControl;
   var PostCategorySelect = hdsWithPostCategorySelectControl();
   function articleCountOptions() {
     return [{
@@ -3130,26 +3133,26 @@ function hdsIcons(name) {
 })(window.wp);
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks11 = wp.blocks,
-    registerBlockType = _wp$blocks11.registerBlockType,
-    getBlockContent = _wp$blocks11.getBlockContent;
-  var _wp$element17 = wp.element,
-    Fragment = _wp$element17.Fragment,
-    createElement = _wp$element17.createElement,
-    useState = _wp$element17.useState;
-  var _wp$blockEditor17 = wp.blockEditor,
-    useBlockProps = _wp$blockEditor17.useBlockProps,
-    BlockControls = _wp$blockEditor17.BlockControls,
-    InnerBlocks = _wp$blockEditor17.InnerBlocks;
+  var _wp$blocks1 = wp.blocks,
+    registerBlockType = _wp$blocks1.registerBlockType,
+    getBlockContent = _wp$blocks1.getBlockContent;
+  var _wp$element15 = wp.element,
+    Fragment = _wp$element15.Fragment,
+    createElement = _wp$element15.createElement,
+    useState = _wp$element15.useState;
+  var _wp$blockEditor15 = wp.blockEditor,
+    useBlockProps = _wp$blockEditor15.useBlockProps,
+    BlockControls = _wp$blockEditor15.BlockControls,
+    InnerBlocks = _wp$blockEditor15.InnerBlocks;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data14 = wp.data,
-    select = _wp$data14.select,
-    useSelect = _wp$data14.useSelect;
-  var _wp$components17 = wp.components,
-    ToolbarGroup = _wp$components17.ToolbarGroup,
-    ToolbarButton = _wp$components17.ToolbarButton,
-    Button = _wp$components17.Button,
-    ToggleControl = _wp$components17.ToggleControl;
+  var _wp$data12 = wp.data,
+    select = _wp$data12.select,
+    useSelect = _wp$data12.useSelect;
+  var _wp$components15 = wp.components,
+    ToolbarGroup = _wp$components15.ToolbarGroup,
+    ToolbarButton = _wp$components15.ToolbarButton,
+    Button = _wp$components15.Button,
+    ToggleControl = _wp$components15.ToggleControl;
   function articleCountOptions() {
     return [{
       label: 4 + ' ' + __('articles', 'hds-wp'),
@@ -3206,18 +3209,18 @@ function hdsIcons(name) {
 (function (wp) {
   var __ = wp.i18n.__;
   var registerBlockType = wp.blocks.registerBlockType;
-  var _wp$element18 = wp.element,
-    Fragment = _wp$element18.Fragment,
-    useState = _wp$element18.useState,
-    useEffect = _wp$element18.useEffect;
-  var _wp$blockEditor18 = wp.blockEditor,
-    useBlockProps = _wp$blockEditor18.useBlockProps,
-    RichText = _wp$blockEditor18.RichText;
+  var _wp$element16 = wp.element,
+    Fragment = _wp$element16.Fragment,
+    useState = _wp$element16.useState,
+    useEffect = _wp$element16.useEffect;
+  var _wp$blockEditor16 = wp.blockEditor,
+    useBlockProps = _wp$blockEditor16.useBlockProps,
+    RichText = _wp$blockEditor16.RichText;
   var InspectorControls = wp.editor.InspectorControls;
-  var _wp$data15 = wp.data,
-    useDispatch = _wp$data15.useDispatch,
-    dispatch = _wp$data15.dispatch,
-    subscribe = _wp$data15.subscribe;
+  var _wp$data13 = wp.data,
+    useDispatch = _wp$data13.useDispatch,
+    dispatch = _wp$data13.dispatch,
+    subscribe = _wp$data13.subscribe;
   var TextControl = wp.components.TextControl;
   var store = wp.notices.store;
   registerBlockType('hds-wp/video', {
@@ -3238,22 +3241,22 @@ function hdsIcons(name) {
       setAttributes = _ref8.setAttributes,
       clientId = _ref8.clientId;
     var blockProps = useBlockProps({});
-    var _useState19 = useState(attributes.title ? false : true),
+    var _useState17 = useState(attributes.title ? false : true),
+      _useState18 = _slicedToArray(_useState17, 2),
+      titleError = _useState18[0],
+      setTitleError = _useState18[1];
+    var _useState19 = useState(attributes.description ? false : true),
       _useState20 = _slicedToArray(_useState19, 2),
-      titleError = _useState20[0],
-      setTitleError = _useState20[1];
-    var _useState21 = useState(attributes.description ? false : true),
+      descriptionError = _useState20[0],
+      setDescriptionError = _useState20[1];
+    var _useState21 = useState(attributes.url ? false : true),
       _useState22 = _slicedToArray(_useState21, 2),
-      descriptionError = _useState22[0],
-      setDescriptionError = _useState22[1];
-    var _useState23 = useState(attributes.url ? false : true),
+      urlError = _useState22[0],
+      setUrlError = _useState22[1];
+    var _useState23 = useState(attributes.assistive_title ? false : true),
       _useState24 = _slicedToArray(_useState23, 2),
-      urlError = _useState24[0],
-      setUrlError = _useState24[1];
-    var _useState25 = useState(attributes.assistive_title ? false : true),
-      _useState26 = _slicedToArray(_useState25, 2),
-      assistiveTitleError = _useState26[0],
-      setAssistiveTitleError = _useState26[1];
+      assistiveTitleError = _useState24[0],
+      setAssistiveTitleError = _useState24[1];
     var _useDispatch5 = useDispatch(store),
       createErrorNotice = _useDispatch5.createErrorNotice,
       removeNotice = _useDispatch5.removeNotice;
@@ -3559,18 +3562,18 @@ wp.domReady(function () {
   var tableAdvancedControls = wp.compose.createHigherOrderComponent(function (BlockEdit) {
     return function (props) {
       var __ = wp.i18n.__;
-      var _wp$element19 = wp.element,
-        Fragment = _wp$element19.Fragment,
-        createElement = _wp$element19.createElement;
-      var _wp$components18 = wp.components,
-        ToggleControl = _wp$components18.ToggleControl,
-        Panel = _wp$components18.Panel,
-        PanelBody = _wp$components18.PanelBody,
-        TextControl = _wp$components18.TextControl;
-      var _wp$blockEditor19 = wp.blockEditor,
-        InspectorControls = _wp$blockEditor19.InspectorControls,
-        BlockControls = _wp$blockEditor19.BlockControls,
-        useBlockProps = _wp$blockEditor19.useBlockProps;
+      var _wp$element17 = wp.element,
+        Fragment = _wp$element17.Fragment,
+        createElement = _wp$element17.createElement;
+      var _wp$components16 = wp.components,
+        ToggleControl = _wp$components16.ToggleControl,
+        Panel = _wp$components16.Panel,
+        PanelBody = _wp$components16.PanelBody,
+        TextControl = _wp$components16.TextControl;
+      var _wp$blockEditor17 = wp.blockEditor,
+        InspectorControls = _wp$blockEditor17.InspectorControls,
+        BlockControls = _wp$blockEditor17.BlockControls,
+        useBlockProps = _wp$blockEditor17.useBlockProps;
       var attributes = props.attributes,
         setAttributes = props.setAttributes,
         isSelected = props.isSelected;
@@ -3781,17 +3784,16 @@ wp.domReady(function () {
       new YoastReplaceVarPlugin(); // eslint-disable-line no-new
     });
   }
-
   initializeReplacevarPlugin();
 })(window.wp);
 
 //remove error notices when block is removed
 
 (function () {
-  var _wp$data16 = wp.data,
-    select = _wp$data16.select,
-    subscribe = _wp$data16.subscribe,
-    dispatch = _wp$data16.dispatch;
+  var _wp$data14 = wp.data,
+    select = _wp$data14.select,
+    subscribe = _wp$data14.subscribe,
+    dispatch = _wp$data14.dispatch;
   var store = wp.notices.store;
   var getBlocks = function getBlocks() {
     var blocks = [];
@@ -3846,7 +3848,7 @@ wp.domReady(function () {
       // remove newBlocksState from blocksState
       var removedBlock = blocksState.diff(newBlocksState);
       if (removedBlock.length > 0 || removedBlock[0].name === 'core/paragraph') {
-        var getChildren = function getChildren(block) {
+        var _getChildren = function getChildren(block) {
           var children = [];
           if (block.innerBlocks) {
             block.innerBlocks.forEach(function (innerBlock) {
@@ -3856,14 +3858,14 @@ wp.domReady(function () {
           if (children.length > 0) {
             children.forEach(function (child) {
               clientIds.push(child.clientId);
-              getChildren(child.clientId);
+              _getChildren(child.clientId);
             });
           }
         };
         var clientIds = [];
         removedBlock.forEach(function (block) {
           clientIds.push(block.clientId);
-          getChildren(block);
+          _getChildren(block);
         });
         var noticesToRemove = notices.filter(function (notice) {
           return clientIds.some(function (clientId) {
