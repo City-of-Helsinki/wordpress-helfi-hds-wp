@@ -1,5 +1,14 @@
 .wp-block-embed {
-    .wp-block-embed__wrapper {
-        height: auto;
+  .wp-block-embed__wrapper {
+    height: auto;
+    position: relative;
+  }
+
+  &.wp-has-aspect-ratio {
+    &.wp-embed-aspect-16-9 {
+      .wp-block-embed__wrapper {
+        padding-top: 56.25%;
+      }
     }
+  }
 }
