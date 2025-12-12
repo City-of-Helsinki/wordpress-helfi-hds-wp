@@ -35,10 +35,10 @@
     "gulp-sass": "^6.0.1",
     "gulp-uglify": "^3.0.2",
     "hds-core": "^2.16.0",
-    "hds-react": "^4.8.0",
     "hds-design-tokens": "^2.4.0",
-    "rollup": "^4.52.5",
-    "sass": "^1.93.3"
+    "hds-react": "^4.8.1",
+    "rollup": "^4.53.3",
+    "sass": "^1.96.0"
   },
   "browserslist": [
     "last 2 versions",
