@@ -4,8 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
 
-function hds_wp_render_recent_posts($attributes)
-{
+function hds_wp_render_recent_posts( $attributes ) {
 	//migrate old options
 	$count = $attributes['articles'];
 	if ($count === 3) {
@@ -14,23 +13,19 @@ function hds_wp_render_recent_posts($attributes)
 		$attributes['articles'] = 8;
 	}
 
-	if (isset($attributes['isEditRender']) && $attributes['isEditRender']) {
-		return hds_wp_render_recent_posts_articles($attributes);
-	}
+	return hds_wp_render_recent_posts_for_editor( $attributes )
+		? hds_wp_render_recent_posts_articles( $attributes )
+		: hds_wp_render_recent_posts_block( $attributes );
+}
 
-	$anchor = ! empty( $attributes['anchor'] )
-		? $attributes['anchor']
-		: '';
+function hds_wp_render_recent_posts_for_editor( $attr ) {
+	return isset( $attr['isEditRender'] ) && $attr['isEditRender'];
+}
 
-	$className = ! empty( $attributes['className'] )
-		? $attributes['className']
-		: '';
+function hds_wp_render_recent_posts_block( $attr ) {
+	$data = hds_wp_recent_posts_data( $attr );
 
-	$title = ! empty( $attributes['title'] )
-		? $attributes['title']
-		: __( 'Latest News', 'hds-wp' );
-
-	$content = sprintf(
+	return sprintf(
 		'<div id="%s" class="recent-posts %s">
 			<div class="hds-container">
 				<h2>%s</h2>
@@ -38,38 +33,46 @@ function hds_wp_render_recent_posts($attributes)
 				%s
 			</div>
 		</div>',
-		esc_attr( $anchor ),
-		esc_attr( $className ),
-		esc_html( $title ),
-		hds_wp_recent_posts_grid(hds_wp_recent_posts_data($attributes)),
-		hds_wp_recent_posts_more(hds_wp_recent_posts_data($attributes))
+		esc_attr( hds_wp_recent_posts_anchor( $attr ) ),
+		esc_attr( hds_wp_recent_posts_extra_class_names( $attr ) ),
+		esc_html( hds_wp_recent_posts_title( $attr ) ),
+		hds_wp_recent_posts_grid( $data ),
+		hds_wp_recent_posts_more( $data )
 	);
-
-	return $content;
 }
 
+function hds_wp_recent_posts_anchor( $attr ) {
+	return ! empty( $attr['anchor'] ) ? $attr['anchor'] : '';
+}
+
+function hds_wp_recent_posts_extra_class_names( $attr ) {
+	return ! empty( $attr['className'] ) ? $attr['className'] : '';
+}
+
+function hds_wp_recent_posts_title( $attr ) {
+	return ! empty( $attr['title'] ) ? $attr['title'] : __( 'Latest News', 'hds-wp' );
+}
 
 //only render articles section; use in editor
-function hds_wp_render_recent_posts_articles($attributes)
-{
-	return hds_wp_recent_posts_grid(hds_wp_recent_posts_data($attributes))
-		. hds_wp_recent_posts_more(hds_wp_recent_posts_data($attributes));
+function hds_wp_render_recent_posts_articles( $attributes ) {
+	$data = hds_wp_recent_posts_data( $attributes );
+
+	return hds_wp_recent_posts_grid( $data )
+		. hds_wp_recent_posts_more( $data );
 }
 
-function hds_wp_recent_posts_data($attributes)
-{
+function hds_wp_recent_posts_data( $attributes ) {
 	return array(
 		'query' => hds_wp_recent_posts_query(array(
 			'cat' => $attributes != null ? $attributes['category'] : 0,
-			'posts_per_page' => $attributes != null ? $attributes['articles'] : 3,
+			'posts_per_page' => $attributes != null ? $attributes['articles'] : 4,
 		)),
-		'page_for_posts' => get_option('page_for_posts'),
+		'page_for_posts' => get_option( 'page_for_posts', 0 ),
 		'attributes' => $attributes,
 	);
 }
 
-function hds_wp_recent_posts_query(array $args)
-{
+function hds_wp_recent_posts_query( $args ) {
 	return new WP_Query(
 		apply_filters(
 			'hds_wp_recent_posts_query_args',
@@ -78,7 +81,7 @@ function hds_wp_recent_posts_query(array $args)
 				array(
 					'post_type' => 'post',
 					'post_status' => 'publish',
-					'posts_per_page' => 3,
+					'posts_per_page' => 4,
 					'cat' => 0,
 				)
 			),
@@ -87,8 +90,7 @@ function hds_wp_recent_posts_query(array $args)
 	);
 }
 
-
-function hds_wp_recent_posts_grid( $args = array() ): string {
+function hds_wp_recent_posts_grid( $args = array() ) {
 	$is_style_without_image = ! empty( $args['attributes']['className'] )
 		&& strpos( $args['attributes']['className'], 'is-style-without-image' ) !== false;
 
@@ -134,8 +136,7 @@ function hds_wp_recent_posts_grid( $args = array() ): string {
 	return sprintf( '<div class="%s">%s</div>', $wrap_classes, $content );
 }
 
-function hds_wp_recent_posts_grid_entry($args = array())
-{
+function hds_wp_recent_posts_grid_entry( $args = array() ) {
 	$classes = array(
 		'entry--grid',
 		'entry',
@@ -197,8 +198,7 @@ function hds_wp_recent_posts_grid_entry($args = array())
 	);
 }
 
-function hds_wp_recent_posts_more($args = array())
-{
+function hds_wp_recent_posts_more( $args = array() ) {
 	if ( ! empty( $args['page_for_posts'] ) ) {
 		if ($args['attributes']['category'] != 0) {
 			$link = get_category_link($args['attributes']['category']);
