@@ -16,6 +16,12 @@
     margin: 0;
   }
 
+  figcaption {
+    span + span {
+      margin-inline-start: .25rem;
+    }
+  }
+
   &.has-background {
     background-color: $light-gray;
     margin-left: calc(50% - 50vw);
@@ -38,6 +44,7 @@
       padding: 0;
     }
   }
+
   iframe   {
     bottom: 0;
     height: 100%;
