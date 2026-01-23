@@ -202,8 +202,8 @@
   }
 
   function editVideoCredits({attributes, setAttributes}) {
-    return createElement('span', {style: {marginLeft: '.5rem'}},
-      createElement('span', {style: {marginRight: '.25rem'}}, __('Video:', 'hds-wp')),
+    return createElement('span', {},
+      createElement('span', {}, __('Video:', 'hds-wp')),
       createElement(RichText, {
         tagName: 'span',
         value: attributes.videoCredits,
