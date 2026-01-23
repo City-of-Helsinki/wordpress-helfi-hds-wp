@@ -492,35 +492,52 @@ function hdsWithPostTypeSelectControl() {
 }
 
 function hdsWithPostCategorySelectControl() {
-	return wp.compose.compose(
-		wp.data.withSelect(function(select, props){
-		  return {
-			categories: select('core').getEntityRecords('taxonomy', 'category')
-		  }
-		})
-	  )(function(props){
-		var options = [];
-		if ( props.categories ) {
-		  options = props.categories
-			.map(function(category){
-			  return {label: category.name, value: category.id};
-			});
-		  options.unshift({label: wp.i18n.__( 'All categories', 'hds-wp' ), value: 0});
-		} else {
-		  options = [{label: '--', value: ''}]
-		}
+  const {createElement, useEffect} = wp.element;
+  const {useSelect} = wp.data;
+  const {SelectControl} = wp.components;
+  const {__} = wp.i18n;
+  const apiFetch = wp.apiFetch;
+  const {addQueryArgs} = wp.url;
 
-		return wp.element.createElement( wp.components.SelectControl, {
-		  label: wp.i18n.__( 'Category', 'hds-wp' ),
-				value: props.attributes.category,
-		  options: options,
-				onChange: function(selected) {
-					props.setAttributes({category: selected});
-				}
-		});
+  const termsPerPage = 100;
+  var categoryOptions = [];
 
-	  });
+  const fetchCategories = (pageCount) => {
+    return Promise.all([...Array(pageCount).keys()].map(i => {
+      let params = {page: i + 1, per_page: termsPerPage};
 
+      return apiFetch({path: addQueryArgs('/wp/v2/categories', params)});
+    }));
+  };
+
+  const fetchedCategoriesToOptions = (pagedTerms) => {
+    let options = [{label: __( 'All categories', 'hds-wp' ), value: 0}];
+
+    pagedTerms.forEach(terms => terms.map(
+      ({id, name}) => options.push({label: name, value: id}))
+    );
+
+    categoryOptions = options;
+  };
+
+  return ({attributes, setAttributes}) => {
+    const totalPages = useSelect(select => {
+      return select('core').getEntityRecordsTotalPages('taxonomy', 'category', {per_page: termsPerPage});
+    }, []);
+
+    useEffect(() => {
+      if (! categoryOptions.length && Number.isInteger(totalPages)) {
+        fetchCategories(totalPages).then(fetchedCategoriesToOptions);
+      }
+    }, [totalPages]);
+
+    return createElement(SelectControl, {
+      label: __( 'Category', 'hds-wp' ),
+      value: attributes.category,
+      options: categoryOptions.length ? categoryOptions : [{label: '--', value: ''}],
+      onChange: selected => setAttributes({category: selected}),
+    });
+  };
 }
 
 function hdsWithSearchPosts(control) {
