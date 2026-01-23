@@ -3263,16 +3263,19 @@ function hdsIcons(name) {
   var _wp$element17 = wp.element,
     Fragment = _wp$element17.Fragment,
     useState = _wp$element17.useState,
-    useEffect = _wp$element17.useEffect;
+    useEffect = _wp$element17.useEffect,
+    createElement = _wp$element17.createElement;
   var _wp$blockEditor16 = wp.blockEditor,
     useBlockProps = _wp$blockEditor16.useBlockProps,
     RichText = _wp$blockEditor16.RichText;
   var InspectorControls = wp.editor.InspectorControls;
   var _wp$data13 = wp.data,
     useDispatch = _wp$data13.useDispatch,
-    dispatch = _wp$data13.dispatch,
-    subscribe = _wp$data13.subscribe;
-  var TextControl = wp.components.TextControl;
+    dispatch = _wp$data13.dispatch;
+  var _wp$components16 = wp.components,
+    TextControl = _wp$components16.TextControl,
+    Panel = _wp$components16.Panel,
+    PanelBody = _wp$components16.PanelBody;
   var store = wp.notices.store;
   registerBlockType('hds-wp/video', {
     title: __('Helsinki - Video', 'hds-wp'),
@@ -3287,27 +3290,218 @@ function hdsIcons(name) {
       }
     }
   });
-  function edit(_ref0) {
-    var attributes = _ref0.attributes,
-      setAttributes = _ref0.setAttributes,
-      clientId = _ref0.clientId;
+  function createControlsPanel(_ref0, children) {
+    var title = _ref0.title,
+      initialOpen = _ref0.initialOpen;
+    return createElement(Panel, {}, createElement(PanelBody, {
+      title: title,
+      initialOpen: initialOpen
+    }, children));
+  }
+  function inspectorControls(_ref1) {
+    var attributes = _ref1.attributes,
+      setAttributes = _ref1.setAttributes,
+      urlError = _ref1.urlError,
+      setUrlError = _ref1.setUrlError,
+      assistiveTitleError = _ref1.assistiveTitleError,
+      setAssistiveTitleError = _ref1.setAssistiveTitleError;
+    var assistive_title = attributes.assistive_title,
+      url = attributes.url;
+    var videoUrlHelp = function videoUrlHelp() {
+      return createElement('div', {
+        style: {
+          color: 'grey',
+          marginBottom: '1rem'
+        }
+      }, createElement('small', {}, __('Add video url from:', 'hds-wp'), createElement('br', {}), createElement('a', {
+        href: 'https://youtube.com',
+        target: '_blank'
+      }, 'youtube.com'), createElement('br', {}), createElement('a', {
+        href: 'https://helsinkikanava.fi',
+        target: '_blank'
+      }, 'helsinkikanava.fi')));
+    };
+    var isYouTube = function isYouTube(value) {
+      return value.includes('youtube.com');
+    };
+    var isHelsinkiKanava = function isHelsinkiKanava(value) {
+      return value.includes('helsinkikanava.fi');
+    };
+    var saveVideoUrl = function saveVideoUrl(value) {
+      setAttributes({
+        url: value
+      });
+      setUrlError(!isYouTube(value) && !isHelsinkiKanava(value));
+      if (isYouTube(value)) {
+        setAttributes({
+          iframeUrl: value.replace('watch?v=', 'embed/')
+        });
+      }
+      if (isHelsinkiKanava(value)) {
+        setAttributes({
+          iframeUrl: value.replace('player/vod', 'player/embed/vod')
+        });
+      }
+    };
+    var saveAssistiveTitle = function saveAssistiveTitle(value) {
+      setAttributes({
+        assistive_title: value
+      });
+      setAssistiveTitleError(value ? false : true);
+    };
+    var inspectorErrorNotice = function inspectorErrorNotice(enabled, text) {
+      if (enabled) {
+        return createElement('div', {
+          className: 'inspector-errornotice'
+        }, text);
+      }
+    };
+    return createElement(InspectorControls, {}, createControlsPanel({
+      title: __('Accessibility', 'hds-wp'),
+      initialOpen: true
+    }, [createElement(TextControl, {
+      className: 'is-required',
+      label: __('Assistive title', 'hds-wp'),
+      value: assistive_title,
+      onChange: saveAssistiveTitle,
+      required: true
+    }), inspectorErrorNotice(assistiveTitleError, __('Please enter assistive technology title', 'hds-wp'))]), createControlsPanel({
+      title: __('Source', 'hds-wp'),
+      initialOpen: true
+    }, [createElement(TextControl, {
+      className: 'is-required',
+      label: __('Video URL', 'hds-wp'),
+      value: url,
+      onChange: saveVideoUrl,
+      required: true
+    }), inspectorErrorNotice(urlError, __('Please enter a valid video URL', 'hds-wp')), videoUrlHelp()]));
+  }
+  function createRequiredError(handler, title, name, clientId) {
+    handler([__('Helsinki - Video', 'hds-wp'), title].join(': '), {
+      type: 'default',
+      id: [name, clientId].join('-'),
+      isDismissible: false,
+      actions: [{
+        label: __('Select', 'hds-wp'),
+        onClick: function onClick() {
+          document.getElementById("block-".concat(clientId)).scrollIntoView({
+            behavior: 'smooth'
+          });
+          dispatch('core/block-editor').selectBlock(clientId);
+        }
+      }]
+    });
+  }
+  function editBlockTitle(_ref10) {
+    var attributes = _ref10.attributes,
+      setAttributes = _ref10.setAttributes;
+    return createElement(RichText, {
+      tagName: 'h2',
+      value: attributes.title,
+      placeholder: __('Title', 'hds-wp'),
+      allowedFormats: [],
+      onChange: function onChange(value) {
+        return setAttributes({
+          title: value
+        });
+      }
+    });
+  }
+  function editBlockDescription(_ref11) {
+    var attributes = _ref11.attributes,
+      setAttributes = _ref11.setAttributes;
+    return createElement(RichText, {
+      tagName: 'p',
+      value: attributes.description,
+      placeholder: __('Description', 'hds-wp'),
+      allowedFormats: ['core/bold', 'core/italic', 'core/link', 'core/paragraph'],
+      onChange: function onChange(value) {
+        return setAttributes({
+          description: value
+        });
+      }
+    });
+  }
+  function editVideoTitle(_ref12) {
+    var attributes = _ref12.attributes,
+      setAttributes = _ref12.setAttributes;
+    return createElement(RichText, {
+      tagName: 'h3',
+      value: attributes.videoTitle,
+      placeholder: __('Video title', 'hds-wp'),
+      allowedFormats: [],
+      onChange: function onChange(value) {
+        return setAttributes({
+          videoTitle: value
+        });
+      }
+    });
+  }
+  function videoFigure(props) {
+    if (props.attributes.iframeUrl) {
+      return createElement('figure', {
+        className: 'wp-block-embed wp-has-aspect-ratio wp-embed-aspect-16-9'
+      }, videoEmbedPreview(props), editVideoCaption(props));
+    }
+  }
+  function videoEmbedPreview(_ref13) {
+    var attributes = _ref13.attributes;
+    return createElement('div', {
+      className: 'wp-block-embed__wrapper'
+    }, createElement('iframe', {
+      src: attributes.iframeUrl,
+      title: attributes.assistive_title || attributes.title,
+      scrolling: 'no'
+    }));
+  }
+  function editVideoCaption(props) {
+    return createElement('figcaption', {}, editVideoDescription(props), editVideoCredits(props));
+  }
+  function editVideoDescription(_ref14) {
+    var attributes = _ref14.attributes,
+      setAttributes = _ref14.setAttributes;
+    return createElement(RichText, {
+      tagName: 'span',
+      value: attributes.videoDescription,
+      placeholder: __('Video description', 'hds-wp'),
+      allowedFormats: [],
+      onChange: function onChange(value) {
+        return setAttributes({
+          videoDescription: value
+        });
+      }
+    });
+  }
+  function editVideoCredits(_ref15) {
+    var attributes = _ref15.attributes,
+      setAttributes = _ref15.setAttributes;
+    return createElement('span', {}, createElement('span', {}, __('Video:', 'hds-wp')), createElement(RichText, {
+      tagName: 'span',
+      value: attributes.videoCredits,
+      placeholder: __('Video credits', 'hds-wp'),
+      allowedFormats: [],
+      onChange: function onChange(value) {
+        return setAttributes({
+          videoCredits: value
+        });
+      }
+    }));
+  }
+  function edit(props) {
+    var attributes = props.attributes,
+      setAttributes = props.setAttributes,
+      clientId = props.clientId;
+    var assistive_title = attributes.assistive_title,
+      url = attributes.url;
     var blockProps = useBlockProps({});
-    var _useState19 = useState(attributes.title ? false : true),
+    var _useState19 = useState(url ? false : true),
       _useState20 = _slicedToArray(_useState19, 2),
-      titleError = _useState20[0],
-      setTitleError = _useState20[1];
-    var _useState21 = useState(attributes.description ? false : true),
+      urlError = _useState20[0],
+      setUrlError = _useState20[1];
+    var _useState21 = useState(assistive_title ? false : true),
       _useState22 = _slicedToArray(_useState21, 2),
-      descriptionError = _useState22[0],
-      setDescriptionError = _useState22[1];
-    var _useState23 = useState(attributes.url ? false : true),
-      _useState24 = _slicedToArray(_useState23, 2),
-      urlError = _useState24[0],
-      setUrlError = _useState24[1];
-    var _useState25 = useState(attributes.assistive_title ? false : true),
-      _useState26 = _slicedToArray(_useState25, 2),
-      assistiveTitleError = _useState26[0],
-      setAssistiveTitleError = _useState26[1];
+      assistiveTitleError = _useState22[0],
+      setAssistiveTitleError = _useState22[1];
     var _useDispatch5 = useDispatch(store),
       createErrorNotice = _useDispatch5.createErrorNotice,
       removeNotice = _useDispatch5.removeNotice;
@@ -3321,197 +3515,35 @@ function hdsIcons(name) {
       }
     }, []);
 
-    // Check if title is valid, if not, show error notice
-    useEffect(function () {
-      var title = attributes.title;
-      if (!title) {
-        createErrorNotice(__('Helsinki - Video', 'hds-wp') + ': ' + __('Please enter a title', 'hds-wp'), {
-          type: 'default',
-          id: 'titleError-' + clientId,
-          isDismissible: false,
-          actions: [{
-            label: __('Select', 'hds-wp'),
-            onClick: function onClick() {
-              document.getElementById("block-".concat(clientId)).scrollIntoView({
-                behavior: 'smooth'
-              });
-              dispatch('core/block-editor').selectBlock(clientId);
-            }
-          }]
-        });
-      } else {
-        dispatch('core/notices').removeNotice('titleError-' + clientId);
-      }
-    }, [titleError]);
-
-    // Check if description is valid, if not, show error notice
-    useEffect(function () {
-      var title = attributes.description;
-      if (!title) {
-        createErrorNotice(__('Helsinki - Video', 'hds-wp') + ': ' + __('Please enter a description', 'hds-wp'), {
-          type: 'default',
-          id: 'descriptionError-' + clientId,
-          isDismissible: false,
-          actions: [{
-            label: __('Select', 'hds-wp'),
-            onClick: function onClick() {
-              document.getElementById("block-".concat(clientId)).scrollIntoView({
-                behavior: 'smooth'
-              });
-              dispatch('core/block-editor').selectBlock(clientId);
-            }
-          }]
-        });
-      } else {
-        dispatch('core/notices').removeNotice('descriptionError-' + clientId);
-      }
-    }, [descriptionError]);
-
     // Check if url is valid, if not, show error notice
     useEffect(function () {
-      var url = attributes.url;
-      if (!url) {
-        createErrorNotice(__('Helsinki - Video', 'hds-wp') + ': ' + __('Please enter a valid video URL', 'hds-wp'), {
-          type: 'default',
-          id: 'urlError-' + clientId,
-          isDismissible: false,
-          actions: [{
-            label: __('Select', 'hds-wp'),
-            onClick: function onClick() {
-              document.getElementById("block-".concat(clientId)).scrollIntoView({
-                behavior: 'smooth'
-              });
-              dispatch('core/block-editor').selectBlock(clientId);
-            }
-          }]
-        });
-      } else {
+      if (url) {
         dispatch('core/notices').removeNotice('urlError-' + clientId);
+      } else {
+        createRequiredError(createErrorNotice, __('Please enter a valid video URL', 'hds-wp'), 'urlError', clientId);
       }
     }, [urlError]);
 
     // Check if assistive title is set, if not, show error notice
     useEffect(function () {
-      var assistiveTitle = attributes.assistive_title;
-      if (!assistiveTitle) {
-        createErrorNotice(__('Helsinki - Video', 'hds-wp') + ': ' + __('Please enter assistive technology title', 'hds-wp'), {
-          type: 'default',
-          isDismissible: false,
-          id: 'assistiveTitleError-' + clientId,
-          actions: [{
-            label: __('Select', 'hds-wp'),
-            onClick: function onClick() {
-              document.getElementById("block-".concat(clientId)).scrollIntoView({
-                behavior: 'smooth'
-              });
-              dispatch('core/block-editor').selectBlock(clientId);
-            }
-          }]
-        });
-      } else {
+      if (assistive_title) {
         dispatch('core/notices').removeNotice('assistiveTitleError-' + clientId);
+      } else {
+        createRequiredError(createErrorNotice, __('Please enter assistive technology title', 'hds-wp'), 'assistiveTitleError', clientId);
       }
     }, [assistiveTitleError]);
-    return /*#__PURE__*/React.createElement(Fragment, null, /*#__PURE__*/React.createElement("div", blockProps, /*#__PURE__*/React.createElement("div", {
-      className: "hds-video has-background"
-    }, /*#__PURE__*/React.createElement("div", {
-      className: "hds-container"
-    }, /*#__PURE__*/React.createElement(RichText, {
-      tagName: "h2",
-      value: attributes.title,
-      onChange: function onChange(value) {
-        setTitleError(value ? false : true);
-        setAttributes({
-          title: value
-        });
-      },
-      placeholder: __('Video title*', 'hds-wp'),
-      allowedFormats: []
-    }), /*#__PURE__*/React.createElement(RichText, {
-      tagName: "p",
-      value: attributes.description,
-      onChange: function onChange(value) {
-        setDescriptionError(value ? false : true);
-        setAttributes({
-          description: value
-        });
-      },
-      placeholder: __('Video description*', 'hds-wp'),
-      allowedFormats: ['core/bold', 'core/italic', 'core/link', 'core/paragraph']
-    }), attributes.iframeUrl && /*#__PURE__*/React.createElement("div", {
-      class: "hds-video__container"
-    }, /*#__PURE__*/React.createElement("figure", {
-      class: "wp-block-embed wp-has-aspect-ratio wp-embed-aspect-16-9"
-    }, /*#__PURE__*/React.createElement("div", {
-      class: "wp-block-embed__wrapper"
-    }, /*#__PURE__*/React.createElement("iframe", {
-      src: attributes.iframeUrl,
-      title: attributes.assistive_title || attributes.title,
-      scrolling: "no"
-    }))), /*#__PURE__*/React.createElement("a", {
-      href: attributes.url,
-      target: "_blank",
-      className: "block-embed-external-link",
-      rel: "noopener"
-    }, __('Open video in new window', 'hds-wp'), ' ', hdsExternalLinkIcon()))))), /*#__PURE__*/React.createElement(InspectorControls, null, /*#__PURE__*/React.createElement("div", {
-      style: {
-        padding: '1rem'
-      }
-    }, /*#__PURE__*/React.createElement(TextControl, {
-      label: __('Video URL', 'hds-wp'),
-      value: attributes.url,
-      onChange: function onChange(value) {
-        if (value.includes('youtube.com') || value.includes('helsinkikanava.fi')) {
-          setUrlError(false);
-          setAttributes({
-            url: value
-          });
-          if (value.includes('youtube.com')) {
-            setAttributes({
-              iframeUrl: value.replace('watch?v=', 'embed/')
-            });
-          }
-          if (value.includes('helsinkikanava.fi')) {
-            setAttributes({
-              iframeUrl: value.replace('player/vod', 'player/embed/vod')
-            });
-          }
-        } else {
-          setAttributes({
-            url: value
-          });
-          setUrlError(true);
-        }
-      },
-      className: "is-required",
-      required: true
-    }), urlError && /*#__PURE__*/React.createElement("div", {
-      className: "inspector-errornotice"
-    }, __('Please enter a valid video URL', 'hds-wp')), /*#__PURE__*/React.createElement("div", {
-      style: {
-        color: 'grey',
-        marginBottom: '1rem'
-      }
-    }, /*#__PURE__*/React.createElement("small", null, __('Add video url from:', 'hds-wp'), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("a", {
-      href: "https://youtube.com",
-      target: "_blank"
-    }, "youtube.com"), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("a", {
-      href: "https://helsinkikanava.fi",
-      target: "_blank"
-    }, "helsinkikanava.fi"))), /*#__PURE__*/React.createElement(TextControl, {
-      label: __('Assistive title', 'hds-wp'),
-      value: attributes.assistive_title,
-      onChange: function onChange(value) {
-        setAssistiveTitleError(value ? false : true);
-        setAttributes({
-          assistive_title: value
-        });
-      },
-      className: "is-required",
-      required: true
-    }), assistiveTitleError && /*#__PURE__*/React.createElement("div", {
-      className: "inspector-errornotice"
-    }, __('Please enter assistive technology title', 'hds-wp')))));
+    return createElement(Fragment, {}, inspectorControls({
+      attributes: attributes,
+      setAttributes: setAttributes,
+      urlError: urlError,
+      setUrlError: setUrlError,
+      assistiveTitleError: assistiveTitleError,
+      setAssistiveTitleError: setAssistiveTitleError
+    }), createElement('div', useBlockProps(), createElement('div', {
+      className: 'hds-video has-background'
+    }, createElement('div', {
+      className: 'hds-container'
+    }, editBlockTitle(props), editBlockDescription(props), editVideoTitle(props), videoFigure(props)))));
   }
 })(window.wp);
 wp.domReady(function () {
@@ -3616,11 +3648,11 @@ wp.domReady(function () {
       var _wp$element18 = wp.element,
         Fragment = _wp$element18.Fragment,
         createElement = _wp$element18.createElement;
-      var _wp$components16 = wp.components,
-        ToggleControl = _wp$components16.ToggleControl,
-        Panel = _wp$components16.Panel,
-        PanelBody = _wp$components16.PanelBody,
-        TextControl = _wp$components16.TextControl;
+      var _wp$components17 = wp.components,
+        ToggleControl = _wp$components17.ToggleControl,
+        Panel = _wp$components17.Panel,
+        PanelBody = _wp$components17.PanelBody,
+        TextControl = _wp$components17.TextControl;
       var _wp$blockEditor17 = wp.blockEditor,
         InspectorControls = _wp$blockEditor17.InspectorControls,
         BlockControls = _wp$blockEditor17.BlockControls,
