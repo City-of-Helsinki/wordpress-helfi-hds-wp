@@ -3,14 +3,14 @@
 var _excluded = ["children"];
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
-function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
 function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
@@ -391,7 +391,8 @@ function hdsWithPostTypeSelectControl() {
 function hdsWithPostCategorySelectControl() {
   var _wp$element = wp.element,
     createElement = _wp$element.createElement,
-    useEffect = _wp$element.useEffect;
+    useEffect = _wp$element.useEffect,
+    useState = _wp$element.useState;
   var useSelect = wp.data.useSelect;
   var SelectControl = wp.components.SelectControl;
   var __ = wp.i18n.__;
@@ -430,6 +431,10 @@ function hdsWithPostCategorySelectControl() {
   return function (_ref5) {
     var attributes = _ref5.attributes,
       setAttributes = _ref5.setAttributes;
+    var _useState = useState(categoryOptions),
+      _useState2 = _slicedToArray(_useState, 2),
+      selectOptions = _useState2[0],
+      setSelectOptions = _useState2[1];
     var totalPages = useSelect(function (select) {
       return select('core').getEntityRecordsTotalPages('taxonomy', 'category', {
         per_page: termsPerPage
@@ -437,16 +442,15 @@ function hdsWithPostCategorySelectControl() {
     }, []);
     useEffect(function () {
       if (!categoryOptions.length && Number.isInteger(totalPages)) {
-        fetchCategories(totalPages).then(fetchedCategoriesToOptions);
+        fetchCategories(totalPages).then(fetchedCategoriesToOptions).then(function () {
+          return setSelectOptions(categoryOptions);
+        });
       }
     }, [totalPages]);
     return createElement(SelectControl, {
       label: __('Category', 'hds-wp'),
       value: attributes.category,
-      options: categoryOptions.length ? categoryOptions : [{
-        label: '--',
-        value: ''
-      }],
+      options: selectOptions,
       onChange: function onChange(selected) {
         return setAttributes({
           category: selected
@@ -1961,20 +1965,20 @@ function hdsIcons(name) {
       })),
       children = _useInnerBlocksProps.children,
       innerBlocksProps = _objectWithoutProperties(_useInnerBlocksProps, _excluded);
-    var _useState = useState(attributes.title ? false : true),
-      _useState2 = _slicedToArray(_useState, 2),
-      titleError = _useState2[0],
-      setTitleError = _useState2[1];
-    var _useState3 = useState(attributes.title.length < 65 ? false : true),
+    var _useState3 = useState(attributes.title ? false : true),
       _useState4 = _slicedToArray(_useState3, 2),
-      titleLengthError = _useState4[0],
-      setTitleLengthError = _useState4[1];
-    var _useState5 = useState(
+      titleError = _useState4[0],
+      setTitleError = _useState4[1];
+    var _useState5 = useState(attributes.title.length < 65 ? false : true),
+      _useState6 = _slicedToArray(_useState5, 2),
+      titleLengthError = _useState6[0],
+      setTitleLengthError = _useState6[1];
+    var _useState7 = useState(
       //there must be at least one link and three links maximum
       attributes.links.length > 0 && attributes.links.length < 4 ? false : true),
-      _useState6 = _slicedToArray(_useState5, 2),
-      linksError = _useState6[0],
-      setLinksError = _useState6[1];
+      _useState8 = _slicedToArray(_useState7, 2),
+      linksError = _useState8[0],
+      setLinksError = _useState8[1];
     var isParentOfSelectedBlock = useSelect(function (selectFrom) {
       return select('core/block-editor').hasSelectedInnerBlock(clientId, true);
     });
@@ -2137,16 +2141,16 @@ function hdsIcons(name) {
       allowedBlocks: ['hds-wp/link-list-card'],
       templateLock: false
     }));
-    var _useState7 = useState(attributes.title ? false : true),
-      _useState8 = _slicedToArray(_useState7, 2),
-      titleError = _useState8[0],
-      setTitleError = _useState8[1];
-    var _useState9 = useState(
+    var _useState9 = useState(attributes.title ? false : true),
+      _useState0 = _slicedToArray(_useState9, 2),
+      titleError = _useState0[0],
+      setTitleError = _useState0[1];
+    var _useState1 = useState(
       //there must be at least one card and four cards maximum
       attributes.cards.length > 0 && attributes.cards.length < 5 ? false : true),
-      _useState0 = _slicedToArray(_useState9, 2),
-      cardsError = _useState0[0],
-      setCardsError = _useState0[1];
+      _useState10 = _slicedToArray(_useState1, 2),
+      cardsError = _useState10[0],
+      setCardsError = _useState10[1];
     var isParentOfSelectedBlock = useSelect(function (selectFrom) {
       return select('core/block-editor').hasSelectedInnerBlock(clientId, true);
     });
@@ -2613,22 +2617,22 @@ function hdsIcons(name) {
       setAttributes = _ref9.setAttributes,
       clientId = _ref9.clientId;
     var blockProps = useBlockProps({});
-    var _useState1 = useState(attributes.title ? false : true),
-      _useState10 = _slicedToArray(_useState1, 2),
-      titleError = _useState10[0],
-      setTitleError = _useState10[1];
-    var _useState11 = useState(attributes.description ? false : true),
+    var _useState11 = useState(attributes.title ? false : true),
       _useState12 = _slicedToArray(_useState11, 2),
-      descriptionError = _useState12[0],
-      setDescriptionError = _useState12[1];
-    var _useState13 = useState(attributes.url ? false : true),
+      titleError = _useState12[0],
+      setTitleError = _useState12[1];
+    var _useState13 = useState(attributes.description ? false : true),
       _useState14 = _slicedToArray(_useState13, 2),
-      urlError = _useState14[0],
-      setUrlError = _useState14[1];
-    var _useState15 = useState(attributes.assistive_title ? false : true),
+      descriptionError = _useState14[0],
+      setDescriptionError = _useState14[1];
+    var _useState15 = useState(attributes.url ? false : true),
       _useState16 = _slicedToArray(_useState15, 2),
-      assistiveTitleError = _useState16[0],
-      setAssistiveTitleError = _useState16[1];
+      urlError = _useState16[0],
+      setUrlError = _useState16[1];
+    var _useState17 = useState(attributes.assistive_title ? false : true),
+      _useState18 = _slicedToArray(_useState17, 2),
+      assistiveTitleError = _useState18[0],
+      setAssistiveTitleError = _useState18[1];
     var _useDispatch4 = useDispatch(store),
       createErrorNotice = _useDispatch4.createErrorNotice,
       removeNotice = _useDispatch4.removeNotice;
@@ -3288,22 +3292,22 @@ function hdsIcons(name) {
       setAttributes = _ref0.setAttributes,
       clientId = _ref0.clientId;
     var blockProps = useBlockProps({});
-    var _useState17 = useState(attributes.title ? false : true),
-      _useState18 = _slicedToArray(_useState17, 2),
-      titleError = _useState18[0],
-      setTitleError = _useState18[1];
-    var _useState19 = useState(attributes.description ? false : true),
+    var _useState19 = useState(attributes.title ? false : true),
       _useState20 = _slicedToArray(_useState19, 2),
-      descriptionError = _useState20[0],
-      setDescriptionError = _useState20[1];
-    var _useState21 = useState(attributes.url ? false : true),
+      titleError = _useState20[0],
+      setTitleError = _useState20[1];
+    var _useState21 = useState(attributes.description ? false : true),
       _useState22 = _slicedToArray(_useState21, 2),
-      urlError = _useState22[0],
-      setUrlError = _useState22[1];
-    var _useState23 = useState(attributes.assistive_title ? false : true),
+      descriptionError = _useState22[0],
+      setDescriptionError = _useState22[1];
+    var _useState23 = useState(attributes.url ? false : true),
       _useState24 = _slicedToArray(_useState23, 2),
-      assistiveTitleError = _useState24[0],
-      setAssistiveTitleError = _useState24[1];
+      urlError = _useState24[0],
+      setUrlError = _useState24[1];
+    var _useState25 = useState(attributes.assistive_title ? false : true),
+      _useState26 = _slicedToArray(_useState25, 2),
+      assistiveTitleError = _useState26[0],
+      setAssistiveTitleError = _useState26[1];
     var _useDispatch5 = useDispatch(store),
       createErrorNotice = _useDispatch5.createErrorNotice,
       removeNotice = _useDispatch5.removeNotice;
