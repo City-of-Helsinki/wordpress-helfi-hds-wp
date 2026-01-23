@@ -3475,15 +3475,7 @@ function hdsIcons(name) {
   function editVideoCredits(_ref15) {
     var attributes = _ref15.attributes,
       setAttributes = _ref15.setAttributes;
-    return createElement('span', {
-      style: {
-        marginLeft: '.5rem'
-      }
-    }, createElement('span', {
-      style: {
-        marginRight: '.25rem'
-      }
-    }, __('Video:', 'hds-wp')), createElement(RichText, {
+    return createElement('span', {}, createElement('span', {}, __('Video:', 'hds-wp')), createElement(RichText, {
       tagName: 'span',
       value: attributes.videoCredits,
       placeholder: __('Video credits', 'hds-wp'),
