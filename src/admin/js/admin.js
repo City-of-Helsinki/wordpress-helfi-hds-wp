@@ -492,7 +492,7 @@ function hdsWithPostTypeSelectControl() {
 }
 
 function hdsWithPostCategorySelectControl() {
-  const {createElement, useEffect} = wp.element;
+  const {createElement, useEffect, useState} = wp.element;
   const {useSelect} = wp.data;
   const {SelectControl} = wp.components;
   const {__} = wp.i18n;
@@ -521,20 +521,24 @@ function hdsWithPostCategorySelectControl() {
   };
 
   return ({attributes, setAttributes}) => {
+    const [selectOptions, setSelectOptions] = useState(categoryOptions);
+
     const totalPages = useSelect(select => {
       return select('core').getEntityRecordsTotalPages('taxonomy', 'category', {per_page: termsPerPage});
     }, []);
 
     useEffect(() => {
       if (! categoryOptions.length && Number.isInteger(totalPages)) {
-        fetchCategories(totalPages).then(fetchedCategoriesToOptions);
+        fetchCategories(totalPages)
+          .then(fetchedCategoriesToOptions)
+          .then(() => setSelectOptions(categoryOptions));
       }
     }, [totalPages]);
 
     return createElement(SelectControl, {
       label: __( 'Category', 'hds-wp' ),
       value: attributes.category,
-      options: categoryOptions.length ? categoryOptions : [{label: '--', value: ''}],
+      options: selectOptions,
       onChange: selected => setAttributes({category: selected}),
     });
   };
