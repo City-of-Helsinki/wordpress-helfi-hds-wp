@@ -22,6 +22,14 @@
     }
   }
 
+  h3  {
+    margin-top: var(--spacing-2-xl);
+
+    + .hds-video__container {
+      margin-top: 0;
+    }
+  }
+
   &.has-background {
     background-color: $light-gray;
     margin-left: calc(50% - 50vw);
