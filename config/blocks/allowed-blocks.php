@@ -25,16 +25,6 @@ return array(
 		'core/shortcode' => true,
 		'core/table' => true,
 		'core/video' => true,
-
-		// 'helsinki-linkedevents/grid' => true,
-		// 'helsinki-tpr/unit' => true,
-		// 'wordpress-helfi/logogallery-container' => true,
-		// 'wordpress-helfi/logogallery-item' => true,
-
-		// 'acf/person-list' => true, // testbed, sovittelutoiminta
-		// 'hds/highlight' => true, // testbed
-		// 'hds/icon-and-text' => true, // testbed
-		// 'acf/content-list' => true, // testbed
 	),
 
 	'vendors' => array(
