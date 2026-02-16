@@ -16,7 +16,7 @@ return array(
 		'core/image' => true,
 		'core/list' => true,
 		'core/list-item' => true,
-		'core/paragraph' => array( 'heading' ),
+		'core/paragraph' => array( 'paragraph' ),
 		'core/pattern' => true,
 		'core/quote' => true,
 		'core/shortcode' => true,
