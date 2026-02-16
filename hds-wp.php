@@ -177,7 +177,7 @@ function init() {
 			),
 			array(
 				'blocks',
-				'disallowed-blocks'
+				'allowed-blocks',
 			),
 			array(
 				'callbacks',
