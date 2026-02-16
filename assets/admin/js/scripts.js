@@ -3899,7 +3899,7 @@ wp.domReady(function () {
     if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
       // remove newBlocksState from blocksState
       var removedBlock = blocksState.diff(newBlocksState);
-      if (removedBlock.length > 0 || removedBlock[0].name === 'core/paragraph') {
+      if (removedBlock.length > 0 || removedBlock[0] && removedBlock[0].name === 'core/paragraph') {
         var _getChildren = function getChildren(block) {
           var children = [];
           if (block.innerBlocks) {
