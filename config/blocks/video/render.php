@@ -4,69 +4,78 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
 
-function hds_wp_render_video($attributes)
-{
+function hds_wp_render_video( $attributes ) {
+	$content = '';
 
-	$id = 'hds-video-' . $attributes['blockId'];
-	$title = $attributes['title'];
-	$description = $attributes['description'];
-	$linkUrl = $attributes['url'];
-	$assistive_title = $attributes['assistive_title'];
-
-	if (strpos($attributes['iframeUrl'], 'youtube') !== false) {
-		$url = $attributes['iframeUrl'] . '?rel=0';
-	} else {
-		$url = $attributes['iframeUrl'];
+	if ( $attributes['title'] ) {
+		$content .= sprintf(
+			'<h2>%s</h2>',
+			esc_html( $attributes['title'] )
+		);
 	}
 
-	$beforeVideoSkipLink = sprintf(
-		'<a href="#%s-after" id="%s-before" class="focusable skip-link skip-link--video--before">%s</a>',
-		$id,
-		$id,
-		__('Move below the video', 'hds-wp'),
-	);
+	if ( $attributes['description'] ) {
+		$content .= sprintf(
+			'<p>%s</p>',
+			wp_kses_post( $attributes['description'] )
+		);
+	}
 
-	$afterVideoSkipLink = sprintf(
-		'<a href="#%s-before" id="%s-after" class="focusable skip-link skip-link--video--after">%s</a>',
-		$id,
-		$id,
-		__('Move above the video', 'hds-wp'),
-	);
+	if ( $attributes['videoTitle'] ) {
+		$content .= sprintf(
+			'<h3>%s</h3>',
+			wp_kses_post( $attributes['videoTitle'] )
+		);
+	}
 
-	$externalLink = sprintf(
-		'<a href="%s" target="_blank" class="block-embed-external-link" rel="noopener">%s</a>',
-		$linkUrl,
-		__('Open video in new window', 'hds-wp')
-	);
+	$url = strpos($attributes['iframeUrl'], 'youtube') !== false
+		? $attributes['iframeUrl'] . '?rel=0'
+		: $attributes['iframeUrl'];
 
-	$iframe = sprintf(
-		'<figure class="wp-block-embed wp-has-aspect-ratio wp-embed-aspect-16-9">
-			%s
-			<div class="wp-block-embed__wrapper">
-				<iframe src="%s" title="%s" width="1000" height="563" scrolling="no" allowfullscreen="true" sandbox="allow-scripts allow-presentation allow-same-origin"></iframe>
-			</div>
-			%s
-			%s
-		</figure>',
-		$beforeVideoSkipLink,
-		$url,
-		$assistive_title,
-		$afterVideoSkipLink,
-		$externalLink
-	);
+	if ( $url ) {
+		$id = esc_attr( 'hds-video-' . $attributes['blockId'] );
 
-	return sprintf(
+		$caption = '';
+		if ( $attributes['videoDescription'] ) {
+			$caption = sprintf(
+				'<figcaption>%s</figcaption>',
+				esc_html( $attributes['videoDescription'] )
+			);
+		}
+
+		$content .= sprintf(
+			'<div class="hds-video__container">
+				<figure class="wp-block-embed wp-has-aspect-ratio wp-embed-aspect-16-9">
+					%1$s
+					<div class="wp-block-embed__wrapper">
+						<iframe src="%2$s" title="%3$s" width="1000" height="563" scrolling="no" allowfullscreen="true" sandbox="allow-scripts allow-presentation allow-same-origin"></iframe>
+					</div>
+					%4$s
+					%5$s
+				</figure>
+			</div>',
+			sprintf(
+				'<a href="#%1$s-after" id="%1$s-before" class="focusable skip-link skip-link--video--before">%2$s</a>',
+				$id,
+				esc_html__( 'Move below the video', 'hds-wp' ),
+			),
+			esc_url( $url ),
+			esc_attr( $attributes['assistive_title'] ),
+			sprintf(
+				'<a href="#%1$s-before" id="%1$s-after" class="focusable skip-link skip-link--video--after">%2$s</a>',
+				$id,
+				esc_html__( 'Move above the video', 'hds-wp' ),
+			),
+			$caption
+		);
+	}
+
+	return $content ? sprintf(
 		'<div class="hds-video has-background">
 			<div class="hds-container">
-				<h2>%s</h2>
-				<p>%s</p>
-				<div class="hds-video__container">
-					%s
-				</div>
+				%1$s
 			</div>
 		</div>',
-		$title,
-		$description,
-		$iframe,
-	);
+		$content
+	) : '';
 }
