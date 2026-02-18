@@ -4,7 +4,7 @@ namespace ArtCloud\Helsinki\Plugin\HDS;
 /**
   * Plugin Name: WordPress Helsinki
   * Description: Provides common Helsinki styles, assets and blocks, and integrations to Helsinki APIs and various plugins.
-  * Version: 1.42.1
+  * Version: 2.0.0
   * License: GPLv3
   * Requires at least: 5.9
   * Requires PHP:      7.1
