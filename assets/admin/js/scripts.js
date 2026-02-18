@@ -930,12 +930,29 @@ function hdsIcons(name) {
     }
   });
 })(window.wp);
+(function (wp, allowedVariations) {
+  wp.domReady(function () {
+    var _wp$blocks3 = wp.blocks,
+      unregisterBlockVariation = _wp$blocks3.unregisterBlockVariation,
+      getBlockVariations = _wp$blocks3.getBlockVariations;
+    var _loop = function _loop(block) {
+      getBlockVariations(block).forEach(function (variation) {
+        if (-1 === HelsinkiAllowedVariations[block].indexOf(variation.name)) {
+          unregisterBlockVariation(block, variation.name);
+        }
+      });
+    };
+    for (var block in HelsinkiAllowedVariations) {
+      _loop(block);
+    }
+  });
+})(window.wp);
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks3 = wp.blocks,
-    registerBlockType = _wp$blocks3.registerBlockType,
-    registerBlockStyle = _wp$blocks3.registerBlockStyle,
-    unregisterBlockStyle = _wp$blocks3.unregisterBlockStyle;
+  var _wp$blocks4 = wp.blocks,
+    registerBlockType = _wp$blocks4.registerBlockType,
+    registerBlockStyle = _wp$blocks4.registerBlockStyle,
+    unregisterBlockStyle = _wp$blocks4.unregisterBlockStyle;
   var _wp$element4 = wp.element,
     Fragment = _wp$element4.Fragment,
     createElement = _wp$element4.createElement;
@@ -1131,9 +1148,9 @@ function hdsIcons(name) {
 })(window.wp);
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks4 = wp.blocks,
-    registerBlockType = _wp$blocks4.registerBlockType,
-    getBlockContent = _wp$blocks4.getBlockContent;
+  var _wp$blocks5 = wp.blocks,
+    registerBlockType = _wp$blocks5.registerBlockType,
+    getBlockContent = _wp$blocks5.getBlockContent;
   var _wp$element6 = wp.element,
     Fragment = _wp$element6.Fragment,
     createElement = _wp$element6.createElement,
@@ -1314,54 +1331,6 @@ function hdsIcons(name) {
     example: {
       attributes: {
         preview: hds_wp.blocksUrl + '/previews/content-cards.png'
-      }
-    }
-  });
-})(window.wp);
-(function (wp) {
-  wp.domReady(function () {
-    var select = wp.data.select;
-    var _wp$blocks5 = wp.blocks,
-      unregisterBlockType = _wp$blocks5.unregisterBlockType,
-      unregisterBlockVariation = _wp$blocks5.unregisterBlockVariation,
-      getBlockType = _wp$blocks5.getBlockType,
-      getBlockVariations = _wp$blocks5.getBlockVariations;
-    var postTypeFound = false;
-    wp.data.subscribe(function () {
-      var currentPostType = select('core/editor').getCurrentPostType();
-      if (!postTypeFound && currentPostType) {
-        postTypeFound = true;
-        var _ref6 = HelsinkiDisallowedBlocks || {},
-          common = _ref6.common,
-          vendors = _ref6.vendors,
-          post_types = _ref6.post_types;
-        disableBlocks(common);
-        disableBlocks(vendors);
-        if (post_types && post_types[currentPostType]) {
-          disableBlocks(post_types[currentPostType]);
-        }
-      }
-    });
-    function disableBlocks(blocks) {
-      if (blocks) {
-        for (var blockName in blocks) {
-          disableBlock(blockName, blocks[blockName]);
-        }
-      }
-    }
-    function disableBlock(name, allowed) {
-      if (!getBlockType(name)) {
-        return;
-      }
-      if (Array.isArray(allowed)) {
-        getBlockVariations(name).forEach(function (blockVariation) {
-          if (-1 === allowed.indexOf(blockVariation.name)) {
-            unregisterBlockVariation(name, blockVariation.name);
-          }
-        });
-        unregisterBlockType(name);
-      } else if (!allowed) {
-        unregisterBlockType(name);
       }
     }
   });
@@ -1951,11 +1920,11 @@ function hdsIcons(name) {
       })
     });
   }
-  function edit(_ref7) {
-    var attributes = _ref7.attributes,
-      setAttributes = _ref7.setAttributes,
-      clientId = _ref7.clientId,
-      isSelected = _ref7.isSelected;
+  function edit(_ref6) {
+    var attributes = _ref6.attributes,
+      setAttributes = _ref6.setAttributes,
+      clientId = _ref6.clientId,
+      isSelected = _ref6.isSelected;
     var blockProps = useBlockProps({});
     var _useInnerBlocksProps = useInnerBlocksProps(_objectSpread(_objectSpread({}, blockProps), {}, {
         className: 'hds-links-list-card__list',
@@ -2129,11 +2098,11 @@ function hdsIcons(name) {
       }
     }
   });
-  function edit(_ref8) {
-    var attributes = _ref8.attributes,
-      setAttributes = _ref8.setAttributes,
-      clientId = _ref8.clientId,
-      isSelected = _ref8.isSelected;
+  function edit(_ref7) {
+    var attributes = _ref7.attributes,
+      setAttributes = _ref7.setAttributes,
+      clientId = _ref7.clientId,
+      isSelected = _ref7.isSelected;
     var blockProps = useBlockProps({});
     var innerBlocksProps = useInnerBlocksProps(_objectSpread(_objectSpread({}, blockProps), {}, {
       className: 'hds-links-list-cards__cards',
@@ -2612,10 +2581,10 @@ function hdsIcons(name) {
       }
     }
   });
-  function edit(_ref9) {
-    var attributes = _ref9.attributes,
-      setAttributes = _ref9.setAttributes,
-      clientId = _ref9.clientId;
+  function edit(_ref8) {
+    var attributes = _ref8.attributes,
+      setAttributes = _ref8.setAttributes,
+      clientId = _ref8.clientId;
     var blockProps = useBlockProps({});
     var _useState11 = useState(attributes.title ? false : true),
       _useState12 = _slicedToArray(_useState11, 2),
@@ -3290,21 +3259,21 @@ function hdsIcons(name) {
       }
     }
   });
-  function createControlsPanel(_ref0, children) {
-    var title = _ref0.title,
-      initialOpen = _ref0.initialOpen;
+  function createControlsPanel(_ref9, children) {
+    var title = _ref9.title,
+      initialOpen = _ref9.initialOpen;
     return createElement(Panel, {}, createElement(PanelBody, {
       title: title,
       initialOpen: initialOpen
     }, children));
   }
-  function inspectorControls(_ref1) {
-    var attributes = _ref1.attributes,
-      setAttributes = _ref1.setAttributes,
-      urlError = _ref1.urlError,
-      setUrlError = _ref1.setUrlError,
-      assistiveTitleError = _ref1.assistiveTitleError,
-      setAssistiveTitleError = _ref1.setAssistiveTitleError;
+  function inspectorControls(_ref0) {
+    var attributes = _ref0.attributes,
+      setAttributes = _ref0.setAttributes,
+      urlError = _ref0.urlError,
+      setUrlError = _ref0.setUrlError,
+      assistiveTitleError = _ref0.assistiveTitleError,
+      setAssistiveTitleError = _ref0.setAssistiveTitleError;
     var assistive_title = attributes.assistive_title,
       url = attributes.url;
     var videoUrlHelp = function videoUrlHelp() {
@@ -3392,9 +3361,9 @@ function hdsIcons(name) {
       }]
     });
   }
-  function editBlockTitle(_ref10) {
-    var attributes = _ref10.attributes,
-      setAttributes = _ref10.setAttributes;
+  function editBlockTitle(_ref1) {
+    var attributes = _ref1.attributes,
+      setAttributes = _ref1.setAttributes;
     return createElement(RichText, {
       tagName: 'h2',
       value: attributes.title,
@@ -3407,9 +3376,9 @@ function hdsIcons(name) {
       }
     });
   }
-  function editBlockDescription(_ref11) {
-    var attributes = _ref11.attributes,
-      setAttributes = _ref11.setAttributes;
+  function editBlockDescription(_ref10) {
+    var attributes = _ref10.attributes,
+      setAttributes = _ref10.setAttributes;
     return createElement(RichText, {
       tagName: 'p',
       value: attributes.description,
@@ -3422,9 +3391,9 @@ function hdsIcons(name) {
       }
     });
   }
-  function editVideoTitle(_ref12) {
-    var attributes = _ref12.attributes,
-      setAttributes = _ref12.setAttributes;
+  function editVideoTitle(_ref11) {
+    var attributes = _ref11.attributes,
+      setAttributes = _ref11.setAttributes;
     return createElement(RichText, {
       tagName: 'h3',
       value: attributes.videoTitle,
@@ -3444,8 +3413,8 @@ function hdsIcons(name) {
       }, videoEmbedPreview(props), editVideoCaption(props));
     }
   }
-  function videoEmbedPreview(_ref13) {
-    var attributes = _ref13.attributes;
+  function videoEmbedPreview(_ref12) {
+    var attributes = _ref12.attributes;
     return createElement('div', {
       className: 'wp-block-embed__wrapper'
     }, createElement('iframe', {
@@ -3457,9 +3426,9 @@ function hdsIcons(name) {
   function editVideoCaption(props) {
     return createElement('figcaption', {}, editVideoDescription(props), editVideoCredits(props));
   }
-  function editVideoDescription(_ref14) {
-    var attributes = _ref14.attributes,
-      setAttributes = _ref14.setAttributes;
+  function editVideoDescription(_ref13) {
+    var attributes = _ref13.attributes,
+      setAttributes = _ref13.setAttributes;
     return createElement(RichText, {
       tagName: 'span',
       value: attributes.videoDescription,
@@ -3472,9 +3441,9 @@ function hdsIcons(name) {
       }
     });
   }
-  function editVideoCredits(_ref15) {
-    var attributes = _ref15.attributes,
-      setAttributes = _ref15.setAttributes;
+  function editVideoCredits(_ref14) {
+    var attributes = _ref14.attributes,
+      setAttributes = _ref14.setAttributes;
     return createElement('span', {}, createElement('span', {}, __('Video:', 'hds-wp')), createElement(RichText, {
       tagName: 'span',
       value: attributes.videoCredits,
@@ -3930,7 +3899,7 @@ wp.domReady(function () {
     if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
       // remove newBlocksState from blocksState
       var removedBlock = blocksState.diff(newBlocksState);
-      if (removedBlock.length > 0 || removedBlock[0].name === 'core/paragraph') {
+      if (removedBlock.length > 0 || removedBlock[0] && removedBlock[0].name === 'core/paragraph') {
         var _getChildren = function getChildren(block) {
           var children = [];
           if (block.innerBlocks) {
