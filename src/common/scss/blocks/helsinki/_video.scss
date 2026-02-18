@@ -16,6 +16,24 @@
     margin: 0;
   }
 
+  figure {
+    margin: 0;
+  }
+
+  figcaption {
+    span + span {
+      margin-inline-start: .25rem;
+    }
+  }
+
+  h3  {
+    margin-top: var(--spacing-2-xl);
+
+    + .hds-video__container {
+      margin-top: 0;
+    }
+  }
+
   &.has-background {
     background-color: $light-gray;
     margin-left: calc(50% - 50vw);
@@ -38,6 +56,7 @@
       padding: 0;
     }
   }
+
   iframe   {
     bottom: 0;
     height: 100%;

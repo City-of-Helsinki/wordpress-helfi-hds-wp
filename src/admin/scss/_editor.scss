@@ -4,10 +4,10 @@
 
 .wp-block-embed {
   .wp-block-embed__wrapper {
-    &:before {
-      padding-top: 56.25%;
-      content: '';
-      display: block;
+    &::before {
+      padding-top: 0;
+      content: unset;
+      display: none;
     }
 
     iframe {

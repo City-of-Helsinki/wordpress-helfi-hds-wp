@@ -3,16 +3,20 @@
 var _excluded = ["children"];
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
-function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
-function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
 function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
@@ -385,40 +389,75 @@ function hdsWithPostTypeSelectControl() {
   });
 }
 function hdsWithPostCategorySelectControl() {
-  return wp.compose.compose(wp.data.withSelect(function (select, props) {
-    return {
-      categories: select('core').getEntityRecords('taxonomy', 'category')
-    };
-  }))(function (props) {
-    var options = [];
-    if (props.categories) {
-      options = props.categories.map(function (category) {
-        return {
-          label: category.name,
-          value: category.id
-        };
+  var _wp$element = wp.element,
+    createElement = _wp$element.createElement,
+    useEffect = _wp$element.useEffect,
+    useState = _wp$element.useState;
+  var useSelect = wp.data.useSelect;
+  var SelectControl = wp.components.SelectControl;
+  var __ = wp.i18n.__;
+  var apiFetch = wp.apiFetch;
+  var addQueryArgs = wp.url.addQueryArgs;
+  var termsPerPage = 100;
+  var categoryOptions = [];
+  var fetchCategories = function fetchCategories(pageCount) {
+    return Promise.all(_toConsumableArray(Array(pageCount).keys()).map(function (i) {
+      var params = {
+        page: i + 1,
+        per_page: termsPerPage
+      };
+      return apiFetch({
+        path: addQueryArgs('/wp/v2/categories', params)
       });
-      options.unshift({
-        label: wp.i18n.__('All categories', 'hds-wp'),
-        value: 0
+    }));
+  };
+  var fetchedCategoriesToOptions = function fetchedCategoriesToOptions(pagedTerms) {
+    var options = [{
+      label: __('All categories', 'hds-wp'),
+      value: 0
+    }];
+    pagedTerms.forEach(function (terms) {
+      return terms.map(function (_ref4) {
+        var id = _ref4.id,
+          name = _ref4.name;
+        return options.push({
+          label: name,
+          value: id
+        });
       });
-    } else {
-      options = [{
-        label: '--',
-        value: ''
-      }];
-    }
-    return wp.element.createElement(wp.components.SelectControl, {
-      label: wp.i18n.__('Category', 'hds-wp'),
-      value: props.attributes.category,
-      options: options,
+    });
+    categoryOptions = options;
+  };
+  return function (_ref5) {
+    var attributes = _ref5.attributes,
+      setAttributes = _ref5.setAttributes;
+    var _useState = useState(categoryOptions),
+      _useState2 = _slicedToArray(_useState, 2),
+      selectOptions = _useState2[0],
+      setSelectOptions = _useState2[1];
+    var totalPages = useSelect(function (select) {
+      return select('core').getEntityRecordsTotalPages('taxonomy', 'category', {
+        per_page: termsPerPage
+      });
+    }, []);
+    useEffect(function () {
+      if (!categoryOptions.length && Number.isInteger(totalPages)) {
+        fetchCategories(totalPages).then(fetchedCategoriesToOptions).then(function () {
+          return setSelectOptions(categoryOptions);
+        });
+      }
+    }, [totalPages]);
+    return createElement(SelectControl, {
+      label: __('Category', 'hds-wp'),
+      value: attributes.category,
+      options: selectOptions,
       onChange: function onChange(selected) {
-        props.setAttributes({
+        return setAttributes({
           category: selected
         });
       }
     });
-  });
+  };
 }
 function hdsWithSearchPosts(control) {
   return wp.compose.compose(wp.data.withSelect(function (select, props) {
@@ -574,9 +613,9 @@ function hdsIcons(name) {
   var _wp$blocks = wp.blocks,
     registerBlockType = _wp$blocks.registerBlockType,
     getBlockContent = _wp$blocks.getBlockContent;
-  var _wp$element = wp.element,
-    Fragment = _wp$element.Fragment,
-    createElement = _wp$element.createElement;
+  var _wp$element2 = wp.element,
+    Fragment = _wp$element2.Fragment,
+    createElement = _wp$element2.createElement;
   var _wp$blockEditor = wp.blockEditor,
     useBlockProps = _wp$blockEditor.useBlockProps,
     BlockControls = _wp$blockEditor.BlockControls,
@@ -753,9 +792,9 @@ function hdsIcons(name) {
     registerBlockType = _wp$blocks2.registerBlockType,
     getBlockContent = _wp$blocks2.getBlockContent,
     hasChildBlocks = _wp$blocks2.hasChildBlocks;
-  var _wp$element2 = wp.element,
-    Fragment = _wp$element2.Fragment,
-    createElement = _wp$element2.createElement;
+  var _wp$element3 = wp.element,
+    Fragment = _wp$element3.Fragment,
+    createElement = _wp$element3.createElement;
   var _wp$blockEditor2 = wp.blockEditor,
     useBlockProps = _wp$blockEditor2.useBlockProps,
     BlockControls = _wp$blockEditor2.BlockControls,
@@ -891,15 +930,32 @@ function hdsIcons(name) {
     }
   });
 })(window.wp);
+(function (wp, allowedVariations) {
+  wp.domReady(function () {
+    var _wp$blocks3 = wp.blocks,
+      unregisterBlockVariation = _wp$blocks3.unregisterBlockVariation,
+      getBlockVariations = _wp$blocks3.getBlockVariations;
+    var _loop = function _loop(block) {
+      getBlockVariations(block).forEach(function (variation) {
+        if (-1 === HelsinkiAllowedVariations[block].indexOf(variation.name)) {
+          unregisterBlockVariation(block, variation.name);
+        }
+      });
+    };
+    for (var block in HelsinkiAllowedVariations) {
+      _loop(block);
+    }
+  });
+})(window.wp);
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks3 = wp.blocks,
-    registerBlockType = _wp$blocks3.registerBlockType,
-    registerBlockStyle = _wp$blocks3.registerBlockStyle,
-    unregisterBlockStyle = _wp$blocks3.unregisterBlockStyle;
-  var _wp$element3 = wp.element,
-    Fragment = _wp$element3.Fragment,
-    createElement = _wp$element3.createElement;
+  var _wp$blocks4 = wp.blocks,
+    registerBlockType = _wp$blocks4.registerBlockType,
+    registerBlockStyle = _wp$blocks4.registerBlockStyle,
+    unregisterBlockStyle = _wp$blocks4.unregisterBlockStyle;
+  var _wp$element4 = wp.element,
+    Fragment = _wp$element4.Fragment,
+    createElement = _wp$element4.createElement;
   var _wp$blockEditor3 = wp.blockEditor,
     useBlockProps = _wp$blockEditor3.useBlockProps,
     BlockControls = _wp$blockEditor3.BlockControls,
@@ -1032,9 +1088,9 @@ function hdsIcons(name) {
 (function (wp) {
   var __ = wp.i18n.__;
   var registerBlockType = wp.blocks.registerBlockType;
-  var _wp$element4 = wp.element,
-    Fragment = _wp$element4.Fragment,
-    createElement = _wp$element4.createElement;
+  var _wp$element5 = wp.element,
+    Fragment = _wp$element5.Fragment,
+    createElement = _wp$element5.createElement;
   var _wp$blockEditor4 = wp.blockEditor,
     useBlockProps = _wp$blockEditor4.useBlockProps,
     BlockControls = _wp$blockEditor4.BlockControls,
@@ -1092,13 +1148,13 @@ function hdsIcons(name) {
 })(window.wp);
 (function (wp) {
   var __ = wp.i18n.__;
-  var _wp$blocks4 = wp.blocks,
-    registerBlockType = _wp$blocks4.registerBlockType,
-    getBlockContent = _wp$blocks4.getBlockContent;
-  var _wp$element5 = wp.element,
-    Fragment = _wp$element5.Fragment,
-    createElement = _wp$element5.createElement,
-    useState = _wp$element5.useState;
+  var _wp$blocks5 = wp.blocks,
+    registerBlockType = _wp$blocks5.registerBlockType,
+    getBlockContent = _wp$blocks5.getBlockContent;
+  var _wp$element6 = wp.element,
+    Fragment = _wp$element6.Fragment,
+    createElement = _wp$element6.createElement,
+    useState = _wp$element6.useState;
   var _wp$blockEditor5 = wp.blockEditor,
     useBlockProps = _wp$blockEditor5.useBlockProps,
     BlockControls = _wp$blockEditor5.BlockControls,
@@ -1280,59 +1336,11 @@ function hdsIcons(name) {
   });
 })(window.wp);
 (function (wp) {
-  wp.domReady(function () {
-    var select = wp.data.select;
-    var _wp$blocks5 = wp.blocks,
-      unregisterBlockType = _wp$blocks5.unregisterBlockType,
-      unregisterBlockVariation = _wp$blocks5.unregisterBlockVariation,
-      getBlockType = _wp$blocks5.getBlockType,
-      getBlockVariations = _wp$blocks5.getBlockVariations;
-    var postTypeFound = false;
-    wp.data.subscribe(function () {
-      var currentPostType = select('core/editor').getCurrentPostType();
-      if (!postTypeFound && currentPostType) {
-        postTypeFound = true;
-        var _ref4 = HelsinkiDisallowedBlocks || {},
-          common = _ref4.common,
-          vendors = _ref4.vendors,
-          post_types = _ref4.post_types;
-        disableBlocks(common);
-        disableBlocks(vendors);
-        if (post_types && post_types[currentPostType]) {
-          disableBlocks(post_types[currentPostType]);
-        }
-      }
-    });
-    function disableBlocks(blocks) {
-      if (blocks) {
-        for (var blockName in blocks) {
-          disableBlock(blockName, blocks[blockName]);
-        }
-      }
-    }
-    function disableBlock(name, allowed) {
-      if (!getBlockType(name)) {
-        return;
-      }
-      if (Array.isArray(allowed)) {
-        getBlockVariations(name).forEach(function (blockVariation) {
-          if (-1 === allowed.indexOf(blockVariation.name)) {
-            unregisterBlockVariation(name, blockVariation.name);
-          }
-        });
-        unregisterBlockType(name);
-      } else if (!allowed) {
-        unregisterBlockType(name);
-      }
-    }
-  });
-})(window.wp);
-(function (wp) {
   var __ = wp.i18n.__;
   var registerBlockType = wp.blocks.registerBlockType;
-  var _wp$element6 = wp.element,
-    Fragment = _wp$element6.Fragment,
-    createElement = _wp$element6.createElement;
+  var _wp$element7 = wp.element,
+    Fragment = _wp$element7.Fragment,
+    createElement = _wp$element7.createElement;
   var _wp$blockEditor6 = wp.blockEditor,
     useBlockProps = _wp$blockEditor6.useBlockProps,
     BlockControls = _wp$blockEditor6.BlockControls,
@@ -1534,9 +1542,9 @@ function hdsIcons(name) {
     registerBlockType = _wp$blocks6.registerBlockType,
     registerBlockStyle = _wp$blocks6.registerBlockStyle,
     unregisterBlockStyle = _wp$blocks6.unregisterBlockStyle;
-  var _wp$element7 = wp.element,
-    Fragment = _wp$element7.Fragment,
-    createElement = _wp$element7.createElement;
+  var _wp$element8 = wp.element,
+    Fragment = _wp$element8.Fragment,
+    createElement = _wp$element8.createElement;
   var _wp$blockEditor7 = wp.blockEditor,
     useBlockProps = _wp$blockEditor7.useBlockProps,
     BlockControls = _wp$blockEditor7.BlockControls,
@@ -1733,11 +1741,11 @@ function hdsIcons(name) {
 (function (wp) {
   var __ = wp.i18n.__;
   var registerBlockType = wp.blocks.registerBlockType;
-  var _wp$element8 = wp.element,
-    Fragment = _wp$element8.Fragment,
-    createElement = _wp$element8.createElement,
-    useState = _wp$element8.useState,
-    useEffect = _wp$element8.useEffect;
+  var _wp$element9 = wp.element,
+    Fragment = _wp$element9.Fragment,
+    createElement = _wp$element9.createElement,
+    useState = _wp$element9.useState,
+    useEffect = _wp$element9.useEffect;
   var _wp$blockEditor8 = wp.blockEditor,
     useBlockProps = _wp$blockEditor8.useBlockProps,
     BlockControls = _wp$blockEditor8.BlockControls,
@@ -1868,11 +1876,11 @@ function hdsIcons(name) {
 (function (wp) {
   var __ = wp.i18n.__;
   var registerBlockType = wp.blocks.registerBlockType;
-  var _wp$element9 = wp.element,
-    Fragment = _wp$element9.Fragment,
-    createElement = _wp$element9.createElement,
-    useState = _wp$element9.useState,
-    useEffect = _wp$element9.useEffect;
+  var _wp$element0 = wp.element,
+    Fragment = _wp$element0.Fragment,
+    createElement = _wp$element0.createElement,
+    useState = _wp$element0.useState,
+    useEffect = _wp$element0.useEffect;
   var _wp$blockEditor9 = wp.blockEditor,
     useBlockProps = _wp$blockEditor9.useBlockProps,
     useInnerBlocksProps = _wp$blockEditor9.useInnerBlocksProps,
@@ -1912,11 +1920,11 @@ function hdsIcons(name) {
       })
     });
   }
-  function edit(_ref5) {
-    var attributes = _ref5.attributes,
-      setAttributes = _ref5.setAttributes,
-      clientId = _ref5.clientId,
-      isSelected = _ref5.isSelected;
+  function edit(_ref6) {
+    var attributes = _ref6.attributes,
+      setAttributes = _ref6.setAttributes,
+      clientId = _ref6.clientId,
+      isSelected = _ref6.isSelected;
     var blockProps = useBlockProps({});
     var _useInnerBlocksProps = useInnerBlocksProps(_objectSpread(_objectSpread({}, blockProps), {}, {
         className: 'hds-links-list-card__list',
@@ -1926,20 +1934,20 @@ function hdsIcons(name) {
       })),
       children = _useInnerBlocksProps.children,
       innerBlocksProps = _objectWithoutProperties(_useInnerBlocksProps, _excluded);
-    var _useState = useState(attributes.title ? false : true),
-      _useState2 = _slicedToArray(_useState, 2),
-      titleError = _useState2[0],
-      setTitleError = _useState2[1];
-    var _useState3 = useState(attributes.title.length < 65 ? false : true),
+    var _useState3 = useState(attributes.title ? false : true),
       _useState4 = _slicedToArray(_useState3, 2),
-      titleLengthError = _useState4[0],
-      setTitleLengthError = _useState4[1];
-    var _useState5 = useState(
+      titleError = _useState4[0],
+      setTitleError = _useState4[1];
+    var _useState5 = useState(attributes.title.length < 65 ? false : true),
+      _useState6 = _slicedToArray(_useState5, 2),
+      titleLengthError = _useState6[0],
+      setTitleLengthError = _useState6[1];
+    var _useState7 = useState(
       //there must be at least one link and three links maximum
       attributes.links.length > 0 && attributes.links.length < 4 ? false : true),
-      _useState6 = _slicedToArray(_useState5, 2),
-      linksError = _useState6[0],
-      setLinksError = _useState6[1];
+      _useState8 = _slicedToArray(_useState7, 2),
+      linksError = _useState8[0],
+      setLinksError = _useState8[1];
     var isParentOfSelectedBlock = useSelect(function (selectFrom) {
       return select('core/block-editor').hasSelectedInnerBlock(clientId, true);
     });
@@ -2054,11 +2062,11 @@ function hdsIcons(name) {
 (function (wp) {
   var __ = wp.i18n.__;
   var registerBlockType = wp.blocks.registerBlockType;
-  var _wp$element0 = wp.element,
-    Fragment = _wp$element0.Fragment,
-    createElement = _wp$element0.createElement,
-    useState = _wp$element0.useState,
-    useEffect = _wp$element0.useEffect;
+  var _wp$element1 = wp.element,
+    Fragment = _wp$element1.Fragment,
+    createElement = _wp$element1.createElement,
+    useState = _wp$element1.useState,
+    useEffect = _wp$element1.useEffect;
   var _wp$blockEditor0 = wp.blockEditor,
     useBlockProps = _wp$blockEditor0.useBlockProps,
     useInnerBlocksProps = _wp$blockEditor0.useInnerBlocksProps,
@@ -2090,11 +2098,11 @@ function hdsIcons(name) {
       }
     }
   });
-  function edit(_ref6) {
-    var attributes = _ref6.attributes,
-      setAttributes = _ref6.setAttributes,
-      clientId = _ref6.clientId,
-      isSelected = _ref6.isSelected;
+  function edit(_ref7) {
+    var attributes = _ref7.attributes,
+      setAttributes = _ref7.setAttributes,
+      clientId = _ref7.clientId,
+      isSelected = _ref7.isSelected;
     var blockProps = useBlockProps({});
     var innerBlocksProps = useInnerBlocksProps(_objectSpread(_objectSpread({}, blockProps), {}, {
       className: 'hds-links-list-cards__cards',
@@ -2102,16 +2110,16 @@ function hdsIcons(name) {
       allowedBlocks: ['hds-wp/link-list-card'],
       templateLock: false
     }));
-    var _useState7 = useState(attributes.title ? false : true),
-      _useState8 = _slicedToArray(_useState7, 2),
-      titleError = _useState8[0],
-      setTitleError = _useState8[1];
-    var _useState9 = useState(
+    var _useState9 = useState(attributes.title ? false : true),
+      _useState0 = _slicedToArray(_useState9, 2),
+      titleError = _useState0[0],
+      setTitleError = _useState0[1];
+    var _useState1 = useState(
       //there must be at least one card and four cards maximum
       attributes.cards.length > 0 && attributes.cards.length < 5 ? false : true),
-      _useState0 = _slicedToArray(_useState9, 2),
-      cardsError = _useState0[0],
-      setCardsError = _useState0[1];
+      _useState10 = _slicedToArray(_useState1, 2),
+      cardsError = _useState10[0],
+      setCardsError = _useState10[1];
     var isParentOfSelectedBlock = useSelect(function (selectFrom) {
       return select('core/block-editor').hasSelectedInnerBlock(clientId, true);
     });
@@ -2203,9 +2211,9 @@ function hdsIcons(name) {
 (function (wp) {
   var __ = wp.i18n.__;
   var registerBlockType = wp.blocks.registerBlockType;
-  var _wp$element1 = wp.element,
-    Fragment = _wp$element1.Fragment,
-    createElement = _wp$element1.createElement;
+  var _wp$element10 = wp.element,
+    Fragment = _wp$element10.Fragment,
+    createElement = _wp$element10.createElement;
   var _wp$blockEditor1 = wp.blockEditor,
     useBlockProps = _wp$blockEditor1.useBlockProps,
     BlockControls = _wp$blockEditor1.BlockControls,
@@ -2407,10 +2415,10 @@ function hdsIcons(name) {
   var _wp$blocks7 = wp.blocks,
     registerBlockType = _wp$blocks7.registerBlockType,
     getBlockContent = _wp$blocks7.getBlockContent;
-  var _wp$element10 = wp.element,
-    Fragment = _wp$element10.Fragment,
-    createElement = _wp$element10.createElement,
-    useState = _wp$element10.useState;
+  var _wp$element11 = wp.element,
+    Fragment = _wp$element11.Fragment,
+    createElement = _wp$element11.createElement,
+    useState = _wp$element11.useState;
   var _wp$blockEditor10 = wp.blockEditor,
     useBlockProps = _wp$blockEditor10.useBlockProps,
     BlockControls = _wp$blockEditor10.BlockControls,
@@ -2536,11 +2544,11 @@ function hdsIcons(name) {
 (function (wp) {
   var __ = wp.i18n.__;
   var registerBlockType = wp.blocks.registerBlockType;
-  var _wp$element11 = wp.element,
-    Fragment = _wp$element11.Fragment,
-    createElement = _wp$element11.createElement,
-    useState = _wp$element11.useState,
-    useEffect = _wp$element11.useEffect;
+  var _wp$element12 = wp.element,
+    Fragment = _wp$element12.Fragment,
+    createElement = _wp$element12.createElement,
+    useState = _wp$element12.useState,
+    useEffect = _wp$element12.useEffect;
   var _wp$blockEditor11 = wp.blockEditor,
     useBlockProps = _wp$blockEditor11.useBlockProps,
     BlockControls = _wp$blockEditor11.BlockControls,
@@ -2573,27 +2581,27 @@ function hdsIcons(name) {
       }
     }
   });
-  function edit(_ref7) {
-    var attributes = _ref7.attributes,
-      setAttributes = _ref7.setAttributes,
-      clientId = _ref7.clientId;
+  function edit(_ref8) {
+    var attributes = _ref8.attributes,
+      setAttributes = _ref8.setAttributes,
+      clientId = _ref8.clientId;
     var blockProps = useBlockProps({});
-    var _useState1 = useState(attributes.title ? false : true),
-      _useState10 = _slicedToArray(_useState1, 2),
-      titleError = _useState10[0],
-      setTitleError = _useState10[1];
-    var _useState11 = useState(attributes.description ? false : true),
+    var _useState11 = useState(attributes.title ? false : true),
       _useState12 = _slicedToArray(_useState11, 2),
-      descriptionError = _useState12[0],
-      setDescriptionError = _useState12[1];
-    var _useState13 = useState(attributes.url ? false : true),
+      titleError = _useState12[0],
+      setTitleError = _useState12[1];
+    var _useState13 = useState(attributes.description ? false : true),
       _useState14 = _slicedToArray(_useState13, 2),
-      urlError = _useState14[0],
-      setUrlError = _useState14[1];
-    var _useState15 = useState(attributes.assistive_title ? false : true),
+      descriptionError = _useState14[0],
+      setDescriptionError = _useState14[1];
+    var _useState15 = useState(attributes.url ? false : true),
       _useState16 = _slicedToArray(_useState15, 2),
-      assistiveTitleError = _useState16[0],
-      setAssistiveTitleError = _useState16[1];
+      urlError = _useState16[0],
+      setUrlError = _useState16[1];
+    var _useState17 = useState(attributes.assistive_title ? false : true),
+      _useState18 = _slicedToArray(_useState17, 2),
+      assistiveTitleError = _useState18[0],
+      setAssistiveTitleError = _useState18[1];
     var _useDispatch4 = useDispatch(store),
       createErrorNotice = _useDispatch4.createErrorNotice,
       removeNotice = _useDispatch4.removeNotice;
@@ -2792,9 +2800,9 @@ function hdsIcons(name) {
   var _wp$blocks8 = wp.blocks,
     registerBlockType = _wp$blocks8.registerBlockType,
     getBlockContent = _wp$blocks8.getBlockContent;
-  var _wp$element12 = wp.element,
-    Fragment = _wp$element12.Fragment,
-    createElement = _wp$element12.createElement;
+  var _wp$element13 = wp.element,
+    Fragment = _wp$element13.Fragment,
+    createElement = _wp$element13.createElement;
   var _wp$blockEditor12 = wp.blockEditor,
     useBlockProps = _wp$blockEditor12.useBlockProps,
     BlockControls = _wp$blockEditor12.BlockControls,
@@ -2854,9 +2862,9 @@ function hdsIcons(name) {
   var _wp$blocks9 = wp.blocks,
     registerBlockType = _wp$blocks9.registerBlockType,
     getBlockContent = _wp$blocks9.getBlockContent;
-  var _wp$element13 = wp.element,
-    Fragment = _wp$element13.Fragment,
-    createElement = _wp$element13.createElement;
+  var _wp$element14 = wp.element,
+    Fragment = _wp$element14.Fragment,
+    createElement = _wp$element14.createElement;
   var _wp$blockEditor13 = wp.blockEditor,
     useBlockProps = _wp$blockEditor13.useBlockProps,
     BlockControls = _wp$blockEditor13.BlockControls,
@@ -3013,10 +3021,10 @@ function hdsIcons(name) {
     registerBlockStyle = _wp$blocks0.registerBlockStyle,
     unregisterBlockStyle = _wp$blocks0.unregisterBlockStyle,
     getBlockContent = _wp$blocks0.getBlockContent;
-  var _wp$element14 = wp.element,
-    Fragment = _wp$element14.Fragment,
-    createElement = _wp$element14.createElement,
-    useState = _wp$element14.useState;
+  var _wp$element15 = wp.element,
+    Fragment = _wp$element15.Fragment,
+    createElement = _wp$element15.createElement,
+    useState = _wp$element15.useState;
   var _wp$blockEditor14 = wp.blockEditor,
     useBlockProps = _wp$blockEditor14.useBlockProps,
     BlockControls = _wp$blockEditor14.BlockControls,
@@ -3038,6 +3046,18 @@ function hdsIcons(name) {
     }, {
       label: 8,
       value: 8
+    }, {
+      label: 12,
+      value: 12
+    }, {
+      label: 16,
+      value: 16
+    }, {
+      label: 20,
+      value: 20
+    }, {
+      label: 24,
+      value: 24
     }];
   }
   function inspectorControls(props) {
@@ -3136,10 +3156,10 @@ function hdsIcons(name) {
   var _wp$blocks1 = wp.blocks,
     registerBlockType = _wp$blocks1.registerBlockType,
     getBlockContent = _wp$blocks1.getBlockContent;
-  var _wp$element15 = wp.element,
-    Fragment = _wp$element15.Fragment,
-    createElement = _wp$element15.createElement,
-    useState = _wp$element15.useState;
+  var _wp$element16 = wp.element,
+    Fragment = _wp$element16.Fragment,
+    createElement = _wp$element16.createElement,
+    useState = _wp$element16.useState;
   var _wp$blockEditor15 = wp.blockEditor,
     useBlockProps = _wp$blockEditor15.useBlockProps,
     BlockControls = _wp$blockEditor15.BlockControls,
@@ -3209,19 +3229,22 @@ function hdsIcons(name) {
 (function (wp) {
   var __ = wp.i18n.__;
   var registerBlockType = wp.blocks.registerBlockType;
-  var _wp$element16 = wp.element,
-    Fragment = _wp$element16.Fragment,
-    useState = _wp$element16.useState,
-    useEffect = _wp$element16.useEffect;
+  var _wp$element17 = wp.element,
+    Fragment = _wp$element17.Fragment,
+    useState = _wp$element17.useState,
+    useEffect = _wp$element17.useEffect,
+    createElement = _wp$element17.createElement;
   var _wp$blockEditor16 = wp.blockEditor,
     useBlockProps = _wp$blockEditor16.useBlockProps,
     RichText = _wp$blockEditor16.RichText;
   var InspectorControls = wp.editor.InspectorControls;
   var _wp$data13 = wp.data,
     useDispatch = _wp$data13.useDispatch,
-    dispatch = _wp$data13.dispatch,
-    subscribe = _wp$data13.subscribe;
-  var TextControl = wp.components.TextControl;
+    dispatch = _wp$data13.dispatch;
+  var _wp$components16 = wp.components,
+    TextControl = _wp$components16.TextControl,
+    Panel = _wp$components16.Panel,
+    PanelBody = _wp$components16.PanelBody;
   var store = wp.notices.store;
   registerBlockType('hds-wp/video', {
     title: __('Helsinki - Video', 'hds-wp'),
@@ -3236,27 +3259,203 @@ function hdsIcons(name) {
       }
     }
   });
-  function edit(_ref8) {
-    var attributes = _ref8.attributes,
-      setAttributes = _ref8.setAttributes,
-      clientId = _ref8.clientId;
+  function createControlsPanel(_ref9, children) {
+    var title = _ref9.title,
+      initialOpen = _ref9.initialOpen;
+    return createElement(Panel, {}, createElement(PanelBody, {
+      title: title,
+      initialOpen: initialOpen
+    }, children));
+  }
+  function inspectorControls(_ref0) {
+    var attributes = _ref0.attributes,
+      setAttributes = _ref0.setAttributes,
+      urlError = _ref0.urlError,
+      setUrlError = _ref0.setUrlError,
+      assistiveTitleError = _ref0.assistiveTitleError,
+      setAssistiveTitleError = _ref0.setAssistiveTitleError;
+    var assistive_title = attributes.assistive_title,
+      url = attributes.url;
+    var videoUrlHelp = function videoUrlHelp() {
+      return createElement('div', {
+        style: {
+          color: 'grey',
+          marginBottom: '1rem'
+        }
+      }, createElement('small', {}, __('Add video url from:', 'hds-wp'), createElement('br', {}), createElement('a', {
+        href: 'https://youtube.com',
+        target: '_blank'
+      }, 'youtube.com'), createElement('br', {}), createElement('a', {
+        href: 'https://helsinkikanava.fi',
+        target: '_blank'
+      }, 'helsinkikanava.fi')));
+    };
+    var isYouTube = function isYouTube(value) {
+      return value.includes('youtube.com');
+    };
+    var isHelsinkiKanava = function isHelsinkiKanava(value) {
+      return value.includes('helsinkikanava.fi');
+    };
+    var saveVideoUrl = function saveVideoUrl(value) {
+      setAttributes({
+        url: value
+      });
+      setUrlError(!isYouTube(value) && !isHelsinkiKanava(value));
+      if (isYouTube(value)) {
+        setAttributes({
+          iframeUrl: value.replace('watch?v=', 'embed/')
+        });
+      }
+      if (isHelsinkiKanava(value)) {
+        setAttributes({
+          iframeUrl: value.replace('player/vod', 'player/embed/vod')
+        });
+      }
+    };
+    var saveAssistiveTitle = function saveAssistiveTitle(value) {
+      setAttributes({
+        assistive_title: value
+      });
+      setAssistiveTitleError(value ? false : true);
+    };
+    var inspectorErrorNotice = function inspectorErrorNotice(enabled, text) {
+      if (enabled) {
+        return createElement('div', {
+          className: 'inspector-errornotice'
+        }, text);
+      }
+    };
+    return createElement(InspectorControls, {}, createControlsPanel({
+      title: __('Accessibility', 'hds-wp'),
+      initialOpen: true
+    }, [createElement(TextControl, {
+      className: 'is-required',
+      label: __('Assistive title', 'hds-wp'),
+      value: assistive_title,
+      onChange: saveAssistiveTitle,
+      required: true
+    }), inspectorErrorNotice(assistiveTitleError, __('Please enter assistive technology title', 'hds-wp'))]), createControlsPanel({
+      title: __('Source', 'hds-wp'),
+      initialOpen: true
+    }, [createElement(TextControl, {
+      className: 'is-required',
+      label: __('Video URL', 'hds-wp'),
+      value: url,
+      onChange: saveVideoUrl,
+      required: true
+    }), inspectorErrorNotice(urlError, __('Please enter a valid video URL', 'hds-wp')), videoUrlHelp()]));
+  }
+  function createRequiredError(handler, title, name, clientId) {
+    handler([__('Helsinki - Video', 'hds-wp'), title].join(': '), {
+      type: 'default',
+      id: [name, clientId].join('-'),
+      isDismissible: false,
+      actions: [{
+        label: __('Select', 'hds-wp'),
+        onClick: function onClick() {
+          document.getElementById("block-".concat(clientId)).scrollIntoView({
+            behavior: 'smooth'
+          });
+          dispatch('core/block-editor').selectBlock(clientId);
+        }
+      }]
+    });
+  }
+  function editBlockTitle(_ref1) {
+    var attributes = _ref1.attributes,
+      setAttributes = _ref1.setAttributes;
+    return createElement(RichText, {
+      tagName: 'h2',
+      value: attributes.title,
+      placeholder: __('Title', 'hds-wp'),
+      allowedFormats: [],
+      onChange: function onChange(value) {
+        return setAttributes({
+          title: value
+        });
+      }
+    });
+  }
+  function editBlockDescription(_ref10) {
+    var attributes = _ref10.attributes,
+      setAttributes = _ref10.setAttributes;
+    return createElement(RichText, {
+      tagName: 'p',
+      value: attributes.description,
+      placeholder: __('Description', 'hds-wp'),
+      allowedFormats: ['core/bold', 'core/italic', 'core/link', 'core/paragraph'],
+      onChange: function onChange(value) {
+        return setAttributes({
+          description: value
+        });
+      }
+    });
+  }
+  function editVideoTitle(_ref11) {
+    var attributes = _ref11.attributes,
+      setAttributes = _ref11.setAttributes;
+    return createElement(RichText, {
+      tagName: 'h3',
+      value: attributes.videoTitle,
+      placeholder: __('Video title', 'hds-wp'),
+      allowedFormats: [],
+      onChange: function onChange(value) {
+        return setAttributes({
+          videoTitle: value
+        });
+      }
+    });
+  }
+  function videoFigure(props) {
+    if (props.attributes.iframeUrl) {
+      return createElement('figure', {
+        className: 'wp-block-embed wp-has-aspect-ratio wp-embed-aspect-16-9'
+      }, videoEmbedPreview(props), editVideoCaption(props));
+    }
+  }
+  function videoEmbedPreview(_ref12) {
+    var attributes = _ref12.attributes;
+    return createElement('div', {
+      className: 'wp-block-embed__wrapper'
+    }, createElement('iframe', {
+      src: attributes.iframeUrl,
+      title: attributes.assistive_title || attributes.title,
+      scrolling: 'no'
+    }));
+  }
+  function editVideoCaption(props) {
+    return createElement('figcaption', {}, editVideoDescription(props));
+  }
+  function editVideoDescription(_ref13) {
+    var attributes = _ref13.attributes,
+      setAttributes = _ref13.setAttributes;
+    return createElement(RichText, {
+      tagName: 'span',
+      value: attributes.videoDescription,
+      placeholder: __('Video description and credits', 'hds-wp'),
+      allowedFormats: [],
+      onChange: function onChange(value) {
+        return setAttributes({
+          videoDescription: value
+        });
+      }
+    });
+  }
+  function edit(props) {
+    var attributes = props.attributes,
+      setAttributes = props.setAttributes,
+      clientId = props.clientId;
+    var assistive_title = attributes.assistive_title,
+      url = attributes.url;
     var blockProps = useBlockProps({});
-    var _useState17 = useState(attributes.title ? false : true),
-      _useState18 = _slicedToArray(_useState17, 2),
-      titleError = _useState18[0],
-      setTitleError = _useState18[1];
-    var _useState19 = useState(attributes.description ? false : true),
+    var _useState19 = useState(url ? false : true),
       _useState20 = _slicedToArray(_useState19, 2),
-      descriptionError = _useState20[0],
-      setDescriptionError = _useState20[1];
-    var _useState21 = useState(attributes.url ? false : true),
+      urlError = _useState20[0],
+      setUrlError = _useState20[1];
+    var _useState21 = useState(assistive_title ? false : true),
       _useState22 = _slicedToArray(_useState21, 2),
-      urlError = _useState22[0],
-      setUrlError = _useState22[1];
-    var _useState23 = useState(attributes.assistive_title ? false : true),
-      _useState24 = _slicedToArray(_useState23, 2),
-      assistiveTitleError = _useState24[0],
-      setAssistiveTitleError = _useState24[1];
+      assistiveTitleError = _useState22[0],
+      setAssistiveTitleError = _useState22[1];
     var _useDispatch5 = useDispatch(store),
       createErrorNotice = _useDispatch5.createErrorNotice,
       removeNotice = _useDispatch5.removeNotice;
@@ -3270,197 +3469,35 @@ function hdsIcons(name) {
       }
     }, []);
 
-    // Check if title is valid, if not, show error notice
-    useEffect(function () {
-      var title = attributes.title;
-      if (!title) {
-        createErrorNotice(__('Helsinki - Video', 'hds-wp') + ': ' + __('Please enter a title', 'hds-wp'), {
-          type: 'default',
-          id: 'titleError-' + clientId,
-          isDismissible: false,
-          actions: [{
-            label: __('Select', 'hds-wp'),
-            onClick: function onClick() {
-              document.getElementById("block-".concat(clientId)).scrollIntoView({
-                behavior: 'smooth'
-              });
-              dispatch('core/block-editor').selectBlock(clientId);
-            }
-          }]
-        });
-      } else {
-        dispatch('core/notices').removeNotice('titleError-' + clientId);
-      }
-    }, [titleError]);
-
-    // Check if description is valid, if not, show error notice
-    useEffect(function () {
-      var title = attributes.description;
-      if (!title) {
-        createErrorNotice(__('Helsinki - Video', 'hds-wp') + ': ' + __('Please enter a description', 'hds-wp'), {
-          type: 'default',
-          id: 'descriptionError-' + clientId,
-          isDismissible: false,
-          actions: [{
-            label: __('Select', 'hds-wp'),
-            onClick: function onClick() {
-              document.getElementById("block-".concat(clientId)).scrollIntoView({
-                behavior: 'smooth'
-              });
-              dispatch('core/block-editor').selectBlock(clientId);
-            }
-          }]
-        });
-      } else {
-        dispatch('core/notices').removeNotice('descriptionError-' + clientId);
-      }
-    }, [descriptionError]);
-
     // Check if url is valid, if not, show error notice
     useEffect(function () {
-      var url = attributes.url;
-      if (!url) {
-        createErrorNotice(__('Helsinki - Video', 'hds-wp') + ': ' + __('Please enter a valid video URL', 'hds-wp'), {
-          type: 'default',
-          id: 'urlError-' + clientId,
-          isDismissible: false,
-          actions: [{
-            label: __('Select', 'hds-wp'),
-            onClick: function onClick() {
-              document.getElementById("block-".concat(clientId)).scrollIntoView({
-                behavior: 'smooth'
-              });
-              dispatch('core/block-editor').selectBlock(clientId);
-            }
-          }]
-        });
-      } else {
+      if (url) {
         dispatch('core/notices').removeNotice('urlError-' + clientId);
+      } else {
+        createRequiredError(createErrorNotice, __('Please enter a valid video URL', 'hds-wp'), 'urlError', clientId);
       }
     }, [urlError]);
 
     // Check if assistive title is set, if not, show error notice
     useEffect(function () {
-      var assistiveTitle = attributes.assistive_title;
-      if (!assistiveTitle) {
-        createErrorNotice(__('Helsinki - Video', 'hds-wp') + ': ' + __('Please enter assistive technology title', 'hds-wp'), {
-          type: 'default',
-          isDismissible: false,
-          id: 'assistiveTitleError-' + clientId,
-          actions: [{
-            label: __('Select', 'hds-wp'),
-            onClick: function onClick() {
-              document.getElementById("block-".concat(clientId)).scrollIntoView({
-                behavior: 'smooth'
-              });
-              dispatch('core/block-editor').selectBlock(clientId);
-            }
-          }]
-        });
-      } else {
+      if (assistive_title) {
         dispatch('core/notices').removeNotice('assistiveTitleError-' + clientId);
+      } else {
+        createRequiredError(createErrorNotice, __('Please enter assistive technology title', 'hds-wp'), 'assistiveTitleError', clientId);
       }
     }, [assistiveTitleError]);
-    return /*#__PURE__*/React.createElement(Fragment, null, /*#__PURE__*/React.createElement("div", blockProps, /*#__PURE__*/React.createElement("div", {
-      className: "hds-video has-background"
-    }, /*#__PURE__*/React.createElement("div", {
-      className: "hds-container"
-    }, /*#__PURE__*/React.createElement(RichText, {
-      tagName: "h2",
-      value: attributes.title,
-      onChange: function onChange(value) {
-        setTitleError(value ? false : true);
-        setAttributes({
-          title: value
-        });
-      },
-      placeholder: __('Video title*', 'hds-wp'),
-      allowedFormats: []
-    }), /*#__PURE__*/React.createElement(RichText, {
-      tagName: "p",
-      value: attributes.description,
-      onChange: function onChange(value) {
-        setDescriptionError(value ? false : true);
-        setAttributes({
-          description: value
-        });
-      },
-      placeholder: __('Video description*', 'hds-wp'),
-      allowedFormats: ['core/bold', 'core/italic', 'core/link', 'core/paragraph']
-    }), attributes.iframeUrl && /*#__PURE__*/React.createElement("div", {
-      class: "hds-video__container"
-    }, /*#__PURE__*/React.createElement("figure", {
-      class: "wp-block-embed wp-has-aspect-ratio wp-embed-aspect-16-9"
-    }, /*#__PURE__*/React.createElement("div", {
-      class: "wp-block-embed__wrapper"
-    }, /*#__PURE__*/React.createElement("iframe", {
-      src: attributes.iframeUrl,
-      title: attributes.assistive_title || attributes.title,
-      scrolling: "no"
-    }))), /*#__PURE__*/React.createElement("a", {
-      href: attributes.url,
-      target: "_blank",
-      className: "block-embed-external-link",
-      rel: "noopener"
-    }, __('Open video in new window', 'hds-wp'), ' ', hdsExternalLinkIcon()))))), /*#__PURE__*/React.createElement(InspectorControls, null, /*#__PURE__*/React.createElement("div", {
-      style: {
-        padding: '1rem'
-      }
-    }, /*#__PURE__*/React.createElement(TextControl, {
-      label: __('Video URL', 'hds-wp'),
-      value: attributes.url,
-      onChange: function onChange(value) {
-        if (value.includes('youtube.com') || value.includes('helsinkikanava.fi')) {
-          setUrlError(false);
-          setAttributes({
-            url: value
-          });
-          if (value.includes('youtube.com')) {
-            setAttributes({
-              iframeUrl: value.replace('watch?v=', 'embed/')
-            });
-          }
-          if (value.includes('helsinkikanava.fi')) {
-            setAttributes({
-              iframeUrl: value.replace('player/vod', 'player/embed/vod')
-            });
-          }
-        } else {
-          setAttributes({
-            url: value
-          });
-          setUrlError(true);
-        }
-      },
-      className: "is-required",
-      required: true
-    }), urlError && /*#__PURE__*/React.createElement("div", {
-      className: "inspector-errornotice"
-    }, __('Please enter a valid video URL', 'hds-wp')), /*#__PURE__*/React.createElement("div", {
-      style: {
-        color: 'grey',
-        marginBottom: '1rem'
-      }
-    }, /*#__PURE__*/React.createElement("small", null, __('Add video url from:', 'hds-wp'), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("a", {
-      href: "https://youtube.com",
-      target: "_blank"
-    }, "youtube.com"), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("a", {
-      href: "https://helsinkikanava.fi",
-      target: "_blank"
-    }, "helsinkikanava.fi"))), /*#__PURE__*/React.createElement(TextControl, {
-      label: __('Assistive title', 'hds-wp'),
-      value: attributes.assistive_title,
-      onChange: function onChange(value) {
-        setAssistiveTitleError(value ? false : true);
-        setAttributes({
-          assistive_title: value
-        });
-      },
-      className: "is-required",
-      required: true
-    }), assistiveTitleError && /*#__PURE__*/React.createElement("div", {
-      className: "inspector-errornotice"
-    }, __('Please enter assistive technology title', 'hds-wp')))));
+    return createElement(Fragment, {}, inspectorControls({
+      attributes: attributes,
+      setAttributes: setAttributes,
+      urlError: urlError,
+      setUrlError: setUrlError,
+      assistiveTitleError: assistiveTitleError,
+      setAssistiveTitleError: setAssistiveTitleError
+    }), createElement('div', useBlockProps(), createElement('div', {
+      className: 'hds-video has-background'
+    }, createElement('div', {
+      className: 'hds-container'
+    }, editBlockTitle(props), editBlockDescription(props), editVideoTitle(props), videoFigure(props)))));
   }
 })(window.wp);
 wp.domReady(function () {
@@ -3562,14 +3599,14 @@ wp.domReady(function () {
   var tableAdvancedControls = wp.compose.createHigherOrderComponent(function (BlockEdit) {
     return function (props) {
       var __ = wp.i18n.__;
-      var _wp$element17 = wp.element,
-        Fragment = _wp$element17.Fragment,
-        createElement = _wp$element17.createElement;
-      var _wp$components16 = wp.components,
-        ToggleControl = _wp$components16.ToggleControl,
-        Panel = _wp$components16.Panel,
-        PanelBody = _wp$components16.PanelBody,
-        TextControl = _wp$components16.TextControl;
+      var _wp$element18 = wp.element,
+        Fragment = _wp$element18.Fragment,
+        createElement = _wp$element18.createElement;
+      var _wp$components17 = wp.components,
+        ToggleControl = _wp$components17.ToggleControl,
+        Panel = _wp$components17.Panel,
+        PanelBody = _wp$components17.PanelBody,
+        TextControl = _wp$components17.TextControl;
       var _wp$blockEditor17 = wp.blockEditor,
         InspectorControls = _wp$blockEditor17.InspectorControls,
         BlockControls = _wp$blockEditor17.BlockControls,
@@ -3847,7 +3884,7 @@ wp.domReady(function () {
     if (blocksState.length > newBlocksState.length || newBlocksState.length === 1 && newBlocksState[0].name === 'core/paragraph') {
       // remove newBlocksState from blocksState
       var removedBlock = blocksState.diff(newBlocksState);
-      if (removedBlock.length > 0 || removedBlock[0].name === 'core/paragraph') {
+      if (removedBlock.length > 0 || removedBlock[0] && removedBlock[0].name === 'core/paragraph') {
         var _getChildren = function getChildren(block) {
           var children = [];
           if (block.innerBlocks) {

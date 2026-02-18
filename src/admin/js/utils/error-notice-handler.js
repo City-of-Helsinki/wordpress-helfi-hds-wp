@@ -66,7 +66,7 @@
         const removedBlock = blocksState.diff(newBlocksState);
         if (
           removedBlock.length > 0 ||
-          (removedBlock[0].name === 'core/paragraph')
+          (removedBlock[0] && removedBlock[0].name === 'core/paragraph')
         ) {
           var clientIds = [];
           function getChildren(block) {
