@@ -166,8 +166,13 @@ class Blocks extends Module
 
 		$allowed = $this->allowedBlocksConfig();
 
-		$enabled = array_merge( $enabled, $allowed['common'] );
-		$enabled = array_merge( $enabled, $allowed['vendors'] );
+		if ( ! empty( $allowed['common'] ) ) {
+			$enabled = array_merge( $enabled, $allowed['common'] );
+		}
+
+		if ( ! empty( $allowed['vendors'] ) ) {
+			$enabled = array_merge( $enabled, $allowed['vendors'] );
+		}
 
 		$post_type = $context?->post?->post_type ?: '';
 		if ( $post_type && isset( $allowed['post_types'][$post_type] ) ) {
