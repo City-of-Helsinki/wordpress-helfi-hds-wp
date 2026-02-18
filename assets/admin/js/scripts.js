@@ -3424,7 +3424,7 @@ function hdsIcons(name) {
     }));
   }
   function editVideoCaption(props) {
-    return createElement('figcaption', {}, editVideoDescription(props), editVideoCredits(props));
+    return createElement('figcaption', {}, editVideoDescription(props));
   }
   function editVideoDescription(_ref13) {
     var attributes = _ref13.attributes,
@@ -3432,7 +3432,7 @@ function hdsIcons(name) {
     return createElement(RichText, {
       tagName: 'span',
       value: attributes.videoDescription,
-      placeholder: __('Video description', 'hds-wp'),
+      placeholder: __('Video description and credits', 'hds-wp'),
       allowedFormats: [],
       onChange: function onChange(value) {
         return setAttributes({
@@ -3440,21 +3440,6 @@ function hdsIcons(name) {
         });
       }
     });
-  }
-  function editVideoCredits(_ref14) {
-    var attributes = _ref14.attributes,
-      setAttributes = _ref14.setAttributes;
-    return createElement('span', {}, createElement('span', {}, __('Video:', 'hds-wp')), createElement(RichText, {
-      tagName: 'span',
-      value: attributes.videoCredits,
-      placeholder: __('Video credits', 'hds-wp'),
-      allowedFormats: [],
-      onChange: function onChange(value) {
-        return setAttributes({
-          videoCredits: value
-        });
-      }
-    }));
   }
   function edit(props) {
     var attributes = props.attributes,

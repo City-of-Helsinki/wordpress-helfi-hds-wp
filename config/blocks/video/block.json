@@ -28,10 +28,6 @@
       "type": "string",
       "default": ""
     },
-    "videoCredits": {
-      "type": "string",
-      "default": ""
-    },
     "url": {
       "type": "string",
       "default": ""

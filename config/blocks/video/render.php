@@ -37,17 +37,9 @@ function hds_wp_render_video( $attributes ) {
 
 		$caption = '';
 		if ( $attributes['videoDescription'] ) {
-			$caption .= sprintf(
-				'<span>%s</span>',
+			$caption = sprintf(
+				'<figcaption>%s</figcaption>',
 				esc_html( $attributes['videoDescription'] )
-			);
-		}
-
-		if ( $attributes['videoCredits'] ) {
-			$caption .= sprintf(
-				'<span>%1$s %2$s</span>',
-				esc_html__( 'Video:', 'hds-wp' ),
-				esc_html( $attributes['videoCredits'] )
 			);
 		}
 
@@ -74,7 +66,7 @@ function hds_wp_render_video( $attributes ) {
 				$id,
 				esc_html__( 'Move above the video', 'hds-wp' ),
 			),
-			$caption ? sprintf( '<figcaption>%s</figcaption>', $caption ) : ''
+			$caption
 		);
 	}
 

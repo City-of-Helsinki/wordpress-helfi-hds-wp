@@ -187,7 +187,6 @@
   function editVideoCaption(props) {
     return createElement('figcaption', {},
       editVideoDescription(props),
-      editVideoCredits(props),
     );
   }
 
@@ -195,23 +194,10 @@
     return createElement(RichText, {
       tagName: 'span',
       value: attributes.videoDescription,
-      placeholder: __('Video description', 'hds-wp'),
+      placeholder: __('Video description and credits', 'hds-wp'),
       allowedFormats: [],
       onChange: value => setAttributes({videoDescription: value}),
     });
-  }
-
-  function editVideoCredits({attributes, setAttributes}) {
-    return createElement('span', {},
-      createElement('span', {}, __('Video:', 'hds-wp')),
-      createElement(RichText, {
-        tagName: 'span',
-        value: attributes.videoCredits,
-        placeholder: __('Video credits', 'hds-wp'),
-        allowedFormats: [],
-        onChange: value => setAttributes({videoCredits: value}),
-      })
-    );
   }
 
   function edit(props) {
