@@ -1,0 +1,40 @@
+{
+  "apiVersion": 3,
+  "title": "Helsinki - Diagram",
+  "description": "Embed a daigram from the Power BI.",
+  "name": "hds-wp/diagram",
+  "icon": "chart-area",
+  "textdomain": "hds-wp",
+  "category": "hds-wp",
+  "attributes": {
+    "blockId": {
+      "type": "string",
+      "default": ""
+    },
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "description": {
+      "type": "string",
+      "default": ""
+    },
+    "diagramTitle": {
+      "type": "string",
+      "default": ""
+    },
+    "diagramDescription": {
+      "type": "string",
+      "default": ""
+    },
+    "url": {
+      "type": "string",
+      "default": ""
+    },
+    "assistiveTitle": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "render_callback": "hds_wp_render_diagram"
+}
