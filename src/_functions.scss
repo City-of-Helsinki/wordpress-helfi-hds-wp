@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 @function root-var( $variable ) {
 	@return var( #{$variable} );
 }
