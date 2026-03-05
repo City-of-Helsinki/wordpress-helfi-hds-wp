@@ -73,6 +73,13 @@ spl_autoload_register( __NAMESPACE__ . '\\autoloader' );
 /**
   * Prepare plugin
   */
+
+// Load early to accomodate Complianz loading sequence
+add_action( 'plugins_loaded', __NAMESPACE__ . '\\complianz_integration', 5 );
+function complianz_integration(): void {
+	require_once \plugin_dir_path( __FILE__ ) . 'integrations/plugins/complianz-gdpr.php';
+}
+
 add_action( 'plugins_loaded', __NAMESPACE__ . '\\prepare', 11 );
 function prepare() {
 	ModuleFactory::instance(
