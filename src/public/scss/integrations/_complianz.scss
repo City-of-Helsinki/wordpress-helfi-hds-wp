@@ -8,7 +8,7 @@
   width: 100%;
 }
 
-.cmplz-placeholder-parent {
+.cmplz-blocked-content-container {
   background-color: color( 'black-10' );
   box-shadow: none;
   border: none;
@@ -19,7 +19,7 @@
   }
 }
 
-.cmplz-placeholder-parent.cmplz-blocked-content-container::after {
+figure .cmplz-blocked-content-container::after {
   background-color: color( 'white' );
   content: "";
   display: block;
