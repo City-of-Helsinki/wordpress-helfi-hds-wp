@@ -11,7 +11,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-03-09 10:13+0000\n"
+"POT-Creation-Date: 2026-03-09 11:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Loco https://localise.biz/\n"
 "X-Domain: hds-wp\n"
@@ -553,8 +553,8 @@ msgstr ""
 msgid "Panel Title"
 msgstr ""
 
-#: integrations/plugins/complianz-gdpr.php:38
-msgid "Please accepta \"{category}\" cookies to view this content."
+#: integrations/plugins/complianz-gdpr.php:39
+msgid "Please accepta \"{category}\" cookies to view this content"
 msgstr ""
 
 #: assets/admin/js/scripts.js:2266 src/admin/js/blocks/link-list-card.js:151
