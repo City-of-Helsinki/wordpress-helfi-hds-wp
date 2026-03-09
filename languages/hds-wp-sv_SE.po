@@ -6,7 +6,7 @@ msgstr ""
 "Language: sv_SE\n"
 "Language-Team: Swedish\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"PO-Revision-Date: 2026-03-09 10:14+0000\n"
+"PO-Revision-Date: 2026-03-09 11:54+0000\n"
 "X-Generator: Loco https://localise.biz/\n"
 "Last-Translator: \n"
 "MIME-Version: 1.0\n"
@@ -549,9 +549,10 @@ msgstr "Öppna kartan i nytt fönster"
 msgid "Panel Title"
 msgstr ""
 
-#: integrations/plugins/complianz-gdpr.php:38
-msgid "Please accepta \"{category}\" cookies to view this content."
-msgstr "Vänligen acceptera \"{category}\"-cookies för att visa detta innehåll."
+#: integrations/plugins/complianz-gdpr.php:39
+#| msgid "Please accepta \"{category}\" cookies to view this content."
+msgid "Please accepta \"{category}\" cookies to view this content"
+msgstr "Vänligen acceptera \"{category}\"-cookies för att visa detta innehåll"
 
 #: assets/admin/js/scripts.js:2266 src/admin/js/blocks/link-list-card.js:151
 msgid "Please add between 1 and 3 links"

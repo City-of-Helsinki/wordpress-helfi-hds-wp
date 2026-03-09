@@ -6,7 +6,7 @@ msgstr ""
 "Language: fi\n"
 "Language-Team: Suomi\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"PO-Revision-Date: 2026-03-09 10:14+0000\n"
+"PO-Revision-Date: 2026-03-09 11:54+0000\n"
 "X-Generator: Loco https://localise.biz/\n"
 "Last-Translator: \n"
 "MIME-Version: 1.0\n"
@@ -187,7 +187,7 @@ msgstr "Yleinen"
 
 #: class/Integrations.php:121
 msgid "Complianz GDPR"
-msgstr ""
+msgstr "Complianz GDPR"
 
 #: class/Integrations.php:113
 msgid "Contact Form 7"
@@ -560,9 +560,10 @@ msgstr "Avaa kartta uudessa ikkunassa"
 msgid "Panel Title"
 msgstr "Paneeliotsikko"
 
-#: integrations/plugins/complianz-gdpr.php:38
-msgid "Please accepta \"{category}\" cookies to view this content."
-msgstr "Hyväksy \"{category}\" -evästeet nähdäksesi tämän sisällön."
+#: integrations/plugins/complianz-gdpr.php:39
+#| msgid "Please accepta \"{category}\" cookies to view this content."
+msgid "Please accepta \"{category}\" cookies to view this content"
+msgstr "Hyväksy \"{category}\" -evästeet nähdäksesi tämän sisällön"
 
 #: assets/admin/js/scripts.js:2266 src/admin/js/blocks/link-list-card.js:151
 msgid "Please add between 1 and 3 links"
@@ -649,7 +650,7 @@ msgstr "Tarjoaa evästetietoja suostumusbannerille."
 
 #: class/Integrations.php:122
 msgid "Provides cookie information to the cookie scanner."
-msgstr ""
+msgstr "Tarjoaa evästetietoja evästeskannaukseen."
 
 #: config/blocks/content-cards/render.php:110
 #: config/blocks/recent-posts/render.php:196
