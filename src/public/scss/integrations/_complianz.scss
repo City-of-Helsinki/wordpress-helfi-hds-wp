@@ -16,6 +16,11 @@
 
   .cmplz-blocked-content-notice {
     max-width: min(300px, 70%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 98;
+    transform: translate(-50%,-50%);
   }
 }
 
