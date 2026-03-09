@@ -19,7 +19,7 @@
   }
 }
 
-.cmplz-placeholder-parent::after {
+.cmplz-placeholder-parent.cmplz-blocked-content-container::after {
   background-color: color( 'white' );
   content: "";
   display: block;
