@@ -52,6 +52,6 @@ final class Power_Bi_Iframe_Manifests_Extensions implements Known_Cookie_Data
 
 	public function category(): string
 	{
-		return 'statistics';
+		return 'preferences';
 	}
 }
