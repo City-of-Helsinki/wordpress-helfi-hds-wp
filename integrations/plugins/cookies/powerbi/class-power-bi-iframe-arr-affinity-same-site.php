@@ -52,6 +52,6 @@ final class Power_Bi_Iframe_Arr_Affinity_Same_Site implements Known_Cookie_Data
 
 	public function category(): string
 	{
-		return 'preferences';
+		return 'statistics';
 	}
 }

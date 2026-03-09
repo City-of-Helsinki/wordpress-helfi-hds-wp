@@ -52,6 +52,6 @@ final class Power_Bi_Iframe_Ai_Buffer_1 implements Known_Cookie_Data
 
 	public function category(): string
 	{
-		return 'preferences';
+		return 'statistics';
 	}
 }
