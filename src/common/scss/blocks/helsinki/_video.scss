@@ -58,6 +58,7 @@
   }
 
   iframe   {
+    border: none;
     bottom: 0;
     height: 100%;
     left: 0;
@@ -65,15 +66,6 @@
     right: 0;
     top: 0;
     width: 100%;
-  }
-
-  @include breakpointMax('s') {
-    iframe   {
-      width: 100%;
-      height: auto;
-      aspect-ratio: 1 / 1;
-      border: none;
-    }
   }
 
   &__container {

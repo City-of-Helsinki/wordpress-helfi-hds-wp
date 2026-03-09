@@ -48,7 +48,7 @@ function hds_wp_render_video( $attributes ) {
 				<figure class="wp-block-embed wp-has-aspect-ratio wp-embed-aspect-16-9">
 					%1$s
 					<div class="wp-block-embed__wrapper">
-						<iframe src="%2$s" title="%3$s" width="1000" height="563" scrolling="no" allowfullscreen="true" sandbox="allow-scripts allow-presentation allow-same-origin"></iframe>
+						<iframe src="%2$s" title="Video: %3$s" width="1000" height="563" scrolling="no" allowfullscreen="true" sandbox="allow-scripts allow-presentation allow-same-origin"></iframe>
 					</div>
 					%4$s
 					%5$s
