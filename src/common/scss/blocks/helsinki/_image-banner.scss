@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 .wp-block-hds-wp-image-banner {
 	@extend %helsinki-block-spacing;
 
@@ -99,24 +101,24 @@
 
             svg {
               fill : $black;
-  
+
               &.mask-icon {
                 background-color: $black;
               }
             }
           }
-  
+
           svg {
             fill: $white;
-  
+
             &.mask-icon {
               background-color: $white;
             }
-  
+
           }
         }
       }
-  
+
       .wp-block-button {
         margin-top: 0.5rem;
         .wp-block-button__link {
@@ -150,7 +152,7 @@
           margin-top: spacing('layout-l');
           margin-bottom: spacing('layout-l');
           min-height: 400px;
-          max-width: percentage(math.div(5, 12));
+          max-width: math.percentage(math.div(5, 12));
           padding: $global-padding;
         }
 
@@ -200,7 +202,7 @@
 
 body:not(.has-sidebar) {
   .wp-block-hds-wp-image-banner {
-  
+
     .image-banner-caption {
       margin-left: calc(50% - 50vw);
       margin-right: calc(50% - 50vw);
@@ -237,13 +239,13 @@ body:not(.has-sidebar) {
       .image-banner-caption {
         padding-left: spacing('s');
         padding-right: 0;
-  
+
         &--mobile {
           padding-left: 0;
           padding-right: spacing('s');
         }
       }
     }
-  
+
   }
 }
