@@ -11,7 +11,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-03-03 15:11+0000\n"
+"POT-Creation-Date: 2026-03-09 11:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Loco https://localise.biz/\n"
 "X-Domain: hds-wp\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "3rd party"
 msgstr ""
 
-#: class/Integrations.php:136
+#: class/Integrations.php:140
 msgid "A multipurpose WordPress theme of City of Helsinki."
 msgstr ""
 
@@ -186,6 +186,10 @@ msgstr ""
 msgid "Common"
 msgstr ""
 
+#: class/Integrations.php:121
+msgid "Complianz GDPR"
+msgstr ""
+
 #: class/Integrations.php:113
 msgid "Contact Form 7"
 msgstr ""
@@ -201,7 +205,7 @@ msgstr ""
 msgid "Count"
 msgstr ""
 
-#: class/Integrations.php:126
+#: class/Integrations.php:130
 msgid ""
 "Default configuration meta titles and descriptions, and custom meta "
 "variables."
@@ -238,7 +242,7 @@ msgstr ""
 msgid "Diagram URL"
 msgstr ""
 
-#: class/Integrations.php:122
+#: class/Integrations.php:126
 msgid "Enable custom default template for Helsinki theme."
 msgstr ""
 
@@ -415,7 +419,7 @@ msgstr ""
 msgid "Helsinki WP"
 msgstr ""
 
-#: class/Integrations.php:135
+#: class/Integrations.php:139
 msgid "Helsinkiteema #1"
 msgstr ""
 
@@ -549,6 +553,10 @@ msgstr ""
 msgid "Panel Title"
 msgstr ""
 
+#: integrations/plugins/complianz-gdpr.php:39
+msgid "Please accepta \"{category}\" cookies to view this content"
+msgstr ""
+
 #: assets/admin/js/scripts.js:2266 src/admin/js/blocks/link-list-card.js:151
 msgid "Please add between 1 and 3 links"
 msgstr ""
@@ -623,8 +631,12 @@ msgid ""
 "Helsinki APIs and various plugins."
 msgstr ""
 
-#: class/Integrations.php:130
+#: class/Integrations.php:134
 msgid "Provides cookie information to the cookie consent banner."
+msgstr ""
+
+#: class/Integrations.php:122
+msgid "Provides cookie information to the cookie scanner."
 msgstr ""
 
 #: config/blocks/content-cards/render.php:110
@@ -838,7 +850,7 @@ msgstr ""
 msgid "WordPress Helsinki"
 msgstr ""
 
-#: class/Integrations.php:129
+#: class/Integrations.php:133
 msgid "WordPress Helsinki Cookie Consent"
 msgstr ""
 
@@ -846,11 +858,11 @@ msgstr ""
 msgid "WordPress User Guides"
 msgstr ""
 
-#: class/Integrations.php:121
+#: class/Integrations.php:125
 msgid "WP RSS Aggregator"
 msgstr ""
 
-#: class/Integrations.php:125
+#: class/Integrations.php:129
 msgid "Yoast SEO"
 msgstr ""
 

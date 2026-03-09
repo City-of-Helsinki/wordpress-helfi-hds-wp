@@ -7,3 +7,26 @@
   top: 0;
   width: 100%;
 }
+
+.cmplz-blocked-content-container {
+  background-color: color( 'black-10' );
+  box-shadow: none;
+  border: none;
+  border-radius: 0;
+
+  .cmplz-blocked-content-notice {
+    max-width: min(300px, 70%);
+  }
+}
+
+figure .cmplz-blocked-content-container::after {
+  background-color: color( 'white' );
+  content: "";
+  display: block;
+  position: absolute;
+  width: 80%;
+  height: 80%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

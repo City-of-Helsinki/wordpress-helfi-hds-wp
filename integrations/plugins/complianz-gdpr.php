@@ -10,6 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 \add_filter( 'cmplz_integrations', __NAMESPACE__ . '\\provide_cmplz_integration' );
 \add_filter( 'cmplz_integration_path', __NAMESPACE__ . '\\provide_cmplz_integration_path', 10, 2 );
+\add_filter( 'cmplz_option_blocked_content_text', __NAMESPACE__ . '\\provide_blocked_content_text', 10 );
+\add_filter( 'cmplz_placeholder', __NAMESPACE__ . '\\provide_cmplz_placeholder', 10 );
 
 function cmplz_integration_name(): string {
 	return 'powerbi';
@@ -31,4 +33,12 @@ function provide_cmplz_integration_path( string $path, string $integration ): st
 	}
 
 	return $path;
+}
+
+function provide_blocked_content_text( string $text ): string {
+	return __( 'Please accepta "{category}" cookies to view this content', 'hds-wp' );
+}
+
+function provide_cmplz_placeholder( string $new_src ): string {
+	return '';
 }

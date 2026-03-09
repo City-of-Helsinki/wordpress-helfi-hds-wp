@@ -6,7 +6,7 @@ msgstr ""
 "Language: fi\n"
 "Language-Team: Suomi\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"PO-Revision-Date: 2026-03-03 15:13+0000\n"
+"PO-Revision-Date: 2026-03-09 11:54+0000\n"
 "X-Generator: Loco https://localise.biz/\n"
 "Last-Translator: \n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 msgid "3rd party"
 msgstr "3. taho"
 
-#: class/Integrations.php:136
+#: class/Integrations.php:140
 msgid "A multipurpose WordPress theme of City of Helsinki."
 msgstr "Monikäyttöinen WordPress-teema Helsingin kaupunkia varten."
 
@@ -185,6 +185,10 @@ msgstr "Kolumnia"
 msgid "Common"
 msgstr "Yleinen"
 
+#: class/Integrations.php:121
+msgid "Complianz GDPR"
+msgstr "Complianz GDPR"
+
 #: class/Integrations.php:113
 msgid "Contact Form 7"
 msgstr "Contact Form 7"
@@ -200,7 +204,7 @@ msgstr "Sisältö"
 msgid "Count"
 msgstr "Määrä"
 
-#: class/Integrations.php:126
+#: class/Integrations.php:130
 #| msgid ""
 #| "Default configuration meta titles and descriptions, andd custom meta "
 #| "variables."
@@ -241,7 +245,7 @@ msgstr "Kaavion otsikko"
 msgid "Diagram URL"
 msgstr "Kaavion URL"
 
-#: class/Integrations.php:122
+#: class/Integrations.php:126
 msgid "Enable custom default template for Helsinki theme."
 msgstr "Käytä räätälöityä oletusteemaa Helsinkiteeman kanssa."
 
@@ -420,7 +424,7 @@ msgstr "Helsingin WordPress-portaali"
 msgid "Helsinki WP"
 msgstr "Helsinki WP"
 
-#: class/Integrations.php:135
+#: class/Integrations.php:139
 msgid "Helsinkiteema #1"
 msgstr "Helsinkiteema #1"
 
@@ -556,6 +560,11 @@ msgstr "Avaa kartta uudessa ikkunassa"
 msgid "Panel Title"
 msgstr "Paneeliotsikko"
 
+#: integrations/plugins/complianz-gdpr.php:39
+#| msgid "Please accepta \"{category}\" cookies to view this content."
+msgid "Please accepta \"{category}\" cookies to view this content"
+msgstr "Hyväksy \"{category}\" -evästeet nähdäksesi tämän sisällön"
+
 #: assets/admin/js/scripts.js:2266 src/admin/js/blocks/link-list-card.js:151
 msgid "Please add between 1 and 3 links"
 msgstr "Kortilla pitää olla minimissään 1 ja maksimissaan 3 linkkiä"
@@ -635,9 +644,13 @@ msgstr ""
 "Mahdollistaa yleiset Helsinki-tyylit, resurssit ja lohkot, sekä integraation "
 "Helsingin rajapintoihin ja eri lisäosiin."
 
-#: class/Integrations.php:130
+#: class/Integrations.php:134
 msgid "Provides cookie information to the cookie consent banner."
 msgstr "Tarjoaa evästetietoja suostumusbannerille."
+
+#: class/Integrations.php:122
+msgid "Provides cookie information to the cookie scanner."
+msgstr "Tarjoaa evästetietoja evästeskannaukseen."
 
 #: config/blocks/content-cards/render.php:110
 #: config/blocks/recent-posts/render.php:196
@@ -854,7 +867,7 @@ msgstr "Ilman kuvaa"
 msgid "WordPress Helsinki"
 msgstr "WordPress Helsinki"
 
-#: class/Integrations.php:129
+#: class/Integrations.php:133
 msgid "WordPress Helsinki Cookie Consent"
 msgstr "WordPress Helsinki Evästehallinta"
 
@@ -862,11 +875,11 @@ msgstr "WordPress Helsinki Evästehallinta"
 msgid "WordPress User Guides"
 msgstr "WordPress-käyttöohjeet"
 
-#: class/Integrations.php:121
+#: class/Integrations.php:125
 msgid "WP RSS Aggregator"
 msgstr "WP RSS Aggregator"
 
-#: class/Integrations.php:125
+#: class/Integrations.php:129
 msgid "Yoast SEO"
 msgstr "Yoast SEO"
 

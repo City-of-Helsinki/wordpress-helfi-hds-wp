@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function provide_cmplz_powerbi_script( array $tags ): array {
 	$tags[] = array(
 		'name' => cmplz_integration_name(),
-		'category' => 'statistics',
+		'category' => 'preferences',
 		'urls' => array( 'app.powerbi.com' ),
 		'enable_placeholder' => '1',
 		'placeholder' => 'default-minimal',
