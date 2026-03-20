@@ -731,7 +731,7 @@ function hdsIcons(name) {
     }, createElement('div', {
       className: 'accordion__content'
     }, createElement(innerBlocks, {
-      allowedBlocks: ['core/heading', 'core/paragraph', 'core/list', 'core/table', 'core/freeform', 'core/quote', 'core/buttons', 'core/button', 'core/image', 'core/embed', 'core/file']
+      allowedBlocks: ['core/heading', 'core/paragraph', 'core/list', 'core/table', 'core/freeform', 'core/quote', 'core/buttons', 'core/button', 'core/image', 'core/embed', 'core/file', 'hds-wp/diagram']
     })), panelClose(props));
   }
   function panelClose(props) {

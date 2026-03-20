@@ -161,6 +161,7 @@
             'core/image',
             'core/embed',
             'core/file',
+            'hds-wp/diagram'
           ],
         })
       ),
