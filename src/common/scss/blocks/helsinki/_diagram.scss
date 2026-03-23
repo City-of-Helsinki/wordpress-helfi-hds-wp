@@ -1,12 +1,4 @@
 .hds-diagram {
-  padding-bottom: $paragraph-margin-bottom-medium;
-  padding-top: $paragraph-margin-bottom-medium;
-
-  @include breakpoint('m') {
-    padding-bottom: $paragraph-margin-bottom-big;
-    padding-top: $paragraph-margin-bottom-big;
-  }
-
 	@extend %helsinki-block-spacing;
 
   h2 {
