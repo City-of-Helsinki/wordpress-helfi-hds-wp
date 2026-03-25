@@ -2607,52 +2607,43 @@ function hdsIcons(name) {
     createElement = _wp$element12.createElement;
   var _wp$blockEditor10 = wp.blockEditor,
     useBlockProps = _wp$blockEditor10.useBlockProps,
-    BlockControls = _wp$blockEditor10.BlockControls,
-    InnerBlocks = _wp$blockEditor10.InnerBlocks;
-  var InspectorControls = wp.editor.InspectorControls;
+    BlockControls = _wp$blockEditor10.BlockControls;
   var _wp$data9 = wp.data,
-    withSelect = _wp$data9.withSelect,
     select = _wp$data9.select,
     dispatch = _wp$data9.dispatch;
-  var compose = wp.compose.compose;
-  var apiFetch = wp.apiFetch;
   var _wp$components11 = wp.components,
     Button = _wp$components11.Button,
-    TextControl = _wp$components11.TextControl,
-    SelectControl = _wp$components11.SelectControl,
-    ToolbarGroup = _wp$components11.ToolbarGroup,
-    ToolbarButton = _wp$components11.ToolbarButton;
-  var PostTypeSelect = hdsWithPostTypeSelectControl();
+    ToolbarGroup = _wp$components11.ToolbarGroup;
   var PostSearch = hdsSearchPostsTextControl();
   function removePostButton(props) {
     return hdsRemovePostControl({
-      text: wp.i18n.__('Detach post', 'hds-wp')
+      text: __('Detach post', 'hds-wp')
     }, props);
   }
   function titleText(props) {
     return hdsTextControl({
-      label: wp.i18n.__('Link text', 'hds-wp'),
+      label: __('Link text', 'hds-wp'),
       value: props.attributes.linkTitle,
       attribute: 'linkTitle'
     }, props);
   }
   function excerptText(props) {
     return hdsTextAreaControl({
-      label: wp.i18n.__('Excerpt', 'hds-wp'),
+      label: __('Excerpt', 'hds-wp'),
       value: props.attributes.linkExcerpt,
       attribute: 'linkExcerpt'
     }, props);
   }
   function urlText(props) {
     return hdsTextControl({
-      label: wp.i18n.__('Link URL', 'hds-wp'),
+      label: __('Link URL', 'hds-wp'),
       value: props.attributes.linkUrl,
       attribute: 'linkUrl'
     }, props);
   }
   function linkDirectionControl(props) {
     return hdsRadioControl({
-      label: wp.i18n.__('Link type', 'hds-wp'),
+      label: __('Link type', 'hds-wp'),
       selected: props.attributes.linkDir,
       attribute: 'linkDir',
       options: [{
@@ -2666,12 +2657,14 @@ function hdsIcons(name) {
   }
   function panelControls(linkType, props) {
     var controls = [];
+    var isInternalLink = 'internal' === props.attributes.linkDir;
+    var hasPostId = 0 !== props.attributes.postId;
     controls.push(linkDirectionControl);
     switch (linkType) {
       case 'title':
-        if (props.attributes.linkDir == 'internal') {
+        if (isInternalLink) {
           controls.push(PostSearch);
-          if (props.attributes.postId != 0) {
+          if (hasPostId) {
             controls.push(removePostButton);
           }
         } else {
@@ -2681,9 +2674,9 @@ function hdsIcons(name) {
         }
         break;
       case 'title-excerpt':
-        if (props.attributes.linkDir == 'internal') {
+        if (isInternalLink) {
           controls.push(PostSearch);
-          if (props.attributes.postId != 0) {
+          if (hasPostId) {
             controls.push(removePostButton);
           }
         } else {
@@ -2694,9 +2687,9 @@ function hdsIcons(name) {
         }
         break;
       case 'image-title':
-        if (props.attributes.linkDir == 'internal') {
+        if (isInternalLink) {
           controls.push(PostSearch);
-          if (props.attributes.postId != 0) {
+          if (hasPostId) {
             controls.push(removePostButton);
           }
         } else {
@@ -2714,20 +2707,22 @@ function hdsIcons(name) {
     }));
   }
   function placeholder(linkType, props) {
+    var isInternalLink = 'internal' === props.attributes.linkDir,
+      hasPostId = 0 != props.attributes.postId;
     var title = props.attributes.linkTitle ? props.attributes.linkTitle : __('Helsinki - Link', 'hds-wp');
-    if (props.attributes.linkDir == 'internal' && props.attributes.postId != 0) {
+    if (isInternalLink && hasPostId) {
       title = props.attributes.postTitle ? props.attributes.postTitle : __('Helsinki - Link', 'hds-wp');
     }
     var parts = [createElement('h3', {
       className: 'link___title'
     }, title)];
-    if (linkType === 'title-excerpt' && props.attributes.linkDir == 'internal' && props.attributes.postId != 0 && props.attributes.postExcerpt) {
+    if (linkType === 'title-excerpt' && isInternalLink && hasPostId && props.attributes.postExcerpt) {
       var excerptWrapper = document.createElement("div");
       excerptWrapper.innerHTML = props.attributes.postExcerpt; //used to remove extra <p>-tags from excerpt source
       parts.push(createElement('p', {
         className: 'link___excerpt'
       }, excerptWrapper.innerText));
-    } else if (linkType === 'title-excerpt' && (props.attributes.linkDir != 'internal' || props.attributes.postId == 0) && props.attributes.linkExcerpt) {
+    } else if (linkType === 'title-excerpt' && (!isInternalLink || !hasPostId) && props.attributes.linkExcerpt) {
       parts.push(createElement('p', {
         className: 'link___excerpt'
       }, props.attributes.linkExcerpt));
@@ -2735,10 +2730,6 @@ function hdsIcons(name) {
     return createElement('div', useBlockProps({
       className: 'link'
     }), parts);
-  }
-  function getParentBlock(clientId) {
-    var parent = wp.data.select('core/block-editor').getBlocksByClientId(wp.data.select('core/editor').getBlockHierarchyRootClientId(clientId));
-    return parent[0];
   }
   function toolbar(props, linkType) {
     if (linkType === 'image-title') {
@@ -2773,27 +2764,35 @@ function hdsIcons(name) {
       height: props.attributes.mediaHeight
     };
   }
-  function edit() {
-    return function (props) {
-      var clientId = props.clientId;
-      var parent = select('core/block-editor').getBlocksByClientId(select('core/block-editor').getBlockHierarchyRootClientId(clientId))[0];
-      dispatch('core/block-editor').updateBlockAttributes(parent.clientId, {
-        links: select('core/block-editor').getBlocks(parent.clientId).map(function (block) {
-          return block.attributes;
-        })
-      });
-      parent = getParentBlock(props.clientId);
-      if (props.attributes.hasOwnProperty('isExternalUrl') && props.attributes.isExternalUrl != null) {
-        if (props.attributes.isExternalUrl) {
-          props.attributes.linkDir = 'external';
-        } else {
-          props.attributes.linkDir = 'internal';
-        }
-        props.attributes.isExternalUrl = null;
-      } else if (!props.attributes.hasOwnProperty('linkDir')) {
+  function ensureValidAttributesExist(props) {
+    if (props.attributes.hasOwnProperty('isExternalUrl') && props.attributes.isExternalUrl != null) {
+      if (props.attributes.isExternalUrl) {
+        props.attributes.linkDir = 'external';
+      } else {
         props.attributes.linkDir = 'internal';
       }
-      return createElement(Fragment, {}, toolbar(props, parent.attributes.linkType), panelControls(parent.attributes.linkType, props), placeholder(parent.attributes.linkType, props));
+      props.attributes.isExternalUrl = null;
+    } else if (!props.attributes.hasOwnProperty('linkDir')) {
+      props.attributes.linkDir = 'internal';
+    }
+    return props;
+  }
+  function refreshParentLinksAttribute(linkClientId) {
+    var parents = select('core/block-editor').getBlockParents(linkClientId);
+    var directParentId = parents[parents.length - 1];
+    dispatch('core/block-editor').updateBlockAttributes(directParentId, {
+      links: select('core/block-editor').getBlocks(directParentId).map(function (block) {
+        return block.attributes;
+      })
+    });
+  }
+  function edit() {
+    return function (props) {
+      var _props = props,
+        context = _props.context;
+      refreshParentLinksAttribute(props.clientId);
+      props = ensureValidAttributesExist(props);
+      return createElement(Fragment, {}, toolbar(props, context["hds-wp/linkType"]), panelControls(context["hds-wp/linkType"], props), placeholder(context["hds-wp/linkType"], props));
     };
   }
   registerBlockType('hds-wp/link', {
