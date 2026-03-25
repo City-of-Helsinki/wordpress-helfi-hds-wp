@@ -113,7 +113,7 @@
 
   function placeholder(linkType, props) {
     const isInternalLink = ('internal' === props.attributes.linkDir),
-          hasPostId = (0 != props.attributes.postId);
+          hasPostId = (0 !== props.attributes.postId);
 
     var title = props.attributes.linkTitle ? props.attributes.linkTitle : __( 'Helsinki - Link', 'hds-wp' );
 
@@ -140,7 +140,7 @@
 		if (linkType === 'image-title') {
 			return createElement(BlockControls, {key: 'controls'},
 				createElement(ToolbarGroup, {},
-					props.attributes.linkDir == 'external' ? hdsMediaUpload(
+					props.attributes.linkDir === 'external' ? hdsMediaUpload(
 						props.attributes.mediaId,
 						function( media ) {
 							props.setAttributes({
