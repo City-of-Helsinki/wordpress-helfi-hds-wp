@@ -1,27 +1,22 @@
 (function(wp){
-
-	const __ = wp.i18n.__;
+	const {__} = wp.i18n;
 	const { registerBlockType } = wp.blocks;
 	const { Fragment, createElement } = wp.element;
-	const { useBlockProps, BlockControls, InnerBlocks } = wp.blockEditor;
-	const { InspectorControls } = wp.editor;
-	const { withSelect, select, dispatch } = wp.data;
-	const compose = wp.compose.compose;
-	const apiFetch = wp.apiFetch;
-	const { Button, TextControl, SelectControl, ToolbarGroup, ToolbarButton } = wp.components;
+	const { useBlockProps, BlockControls } = wp.blockEditor;
+	const { select, dispatch } = wp.data;
+	const { Button, ToolbarGroup } = wp.components;
 
-	const PostTypeSelect = hdsWithPostTypeSelectControl();
 	const PostSearch = hdsSearchPostsTextControl();
 
   function removePostButton(props) {
 	  return hdsRemovePostControl({
-		  text: wp.i18n.__( 'Detach post', 'hds-wp' )
+		  text: __( 'Detach post', 'hds-wp' )
 	  }, props);
   }
 
   function titleText(props) {
     return hdsTextControl({
-  		label: wp.i18n.__( 'Link text', 'hds-wp' ),
+  		label: __( 'Link text', 'hds-wp' ),
   		value: props.attributes.linkTitle,
   		attribute: 'linkTitle',
   	}, props);
@@ -29,7 +24,7 @@
 
   function excerptText(props) {
     return hdsTextAreaControl({
-  		label: wp.i18n.__( 'Excerpt', 'hds-wp' ),
+  		label: __( 'Excerpt', 'hds-wp' ),
   		value: props.attributes.linkExcerpt,
   		attribute: 'linkExcerpt',
   	}, props);
@@ -37,70 +32,75 @@
 
   function urlText(props) {
     return hdsTextControl({
-  		label: wp.i18n.__( 'Link URL', 'hds-wp' ),
+  		label: __( 'Link URL', 'hds-wp' ),
   		value: props.attributes.linkUrl,
   		attribute: 'linkUrl',
   	}, props);
   }
 
   function linkDirectionControl(props) {
-	return hdsRadioControl({
-		label: wp.i18n.__( 'Link type', 'hds-wp' ),
-		selected: props.attributes.linkDir,
-		attribute: 'linkDir',
-		options:  [
-			{label: __('Post', 'hds-wp'), value: 'internal'},
-			{label: __('Link', 'hds-wp'), value: 'external'},
-		]
-	}, props);
+  	return hdsRadioControl({
+  		label: __( 'Link type', 'hds-wp' ),
+  		selected: props.attributes.linkDir,
+  		attribute: 'linkDir',
+  		options:  [
+  			{label: __('Post', 'hds-wp'), value: 'internal'},
+  			{label: __('Link', 'hds-wp'), value: 'external'},
+  		]
+  	}, props);
   }
 
 	function panelControls(linkType, props) {
-    var controls = [];
-	controls.push(linkDirectionControl);
+    const controls = [];
+
+    const isInternalLink = ('internal' === props.attributes.linkDir);
+    const hasPostId = (0 !== props.attributes.postId);
+
+    controls.push(linkDirectionControl);
+
     switch (linkType) {
       case 'title':
-		if (props.attributes.linkDir == 'internal') {
-			controls.push(PostSearch);
-			if (props.attributes.postId != 0) {
-				controls.push(removePostButton);
-			}
-		}
-		else {
-			controls.push(titleText);
-			controls.push(urlText);
-			controls.push(hdsTargetBlankControl);
-		}
-        break;
+        if (isInternalLink) {
+          controls.push(PostSearch);
+
+          if (hasPostId) {
+            controls.push(removePostButton);
+          }
+        } else {
+            controls.push(titleText);
+            controls.push(urlText);
+            controls.push(hdsTargetBlankControl);
+        }
+      break;
 
       case 'title-excerpt':
-		if (props.attributes.linkDir == 'internal') {
-			controls.push(PostSearch);
-			if (props.attributes.postId != 0) {
-				controls.push(removePostButton);
-			}
-		}
-		else {
-			controls.push(titleText);
-			controls.push(excerptText);
-			controls.push(urlText);
-			controls.push(hdsTargetBlankControl);
-		}
-        break;
+        if (isInternalLink) {
+          controls.push(PostSearch);
+
+          if (hasPostId) {
+            controls.push(removePostButton);
+          }
+        } else {
+          controls.push(titleText);
+          controls.push(excerptText);
+          controls.push(urlText);
+          controls.push(hdsTargetBlankControl);
+        }
+      break;
 
       case 'image-title':
-		if (props.attributes.linkDir == 'internal') {
-			controls.push(PostSearch);
-			if (props.attributes.postId != 0) {
-				controls.push(removePostButton);
-			}
-		}
-		else {
-			controls.push(titleText);
-			controls.push(urlText);
-			controls.push(hdsTargetBlankControl);
-		}
-        break;
+        if (isInternalLink) {
+          controls.push(PostSearch);
+
+          if (hasPostId) {
+            controls.push(removePostButton);
+          }
+        } else {
+          controls.push(titleText);
+          controls.push(urlText);
+          controls.push(hdsTargetBlankControl);
+        }
+      break;
     }
 
     return hdsInspectorControls(
@@ -112,40 +112,35 @@
 	}
 
   function placeholder(linkType, props) {
+    const isInternalLink = ('internal' === props.attributes.linkDir),
+          hasPostId = (0 !== props.attributes.postId);
+
     var title = props.attributes.linkTitle ? props.attributes.linkTitle : __( 'Helsinki - Link', 'hds-wp' );
 
-	if (props.attributes.linkDir == 'internal' && props.attributes.postId != 0) {
-		title = props.attributes.postTitle ? props.attributes.postTitle : __( 'Helsinki - Link', 'hds-wp' );
-	}
+    if (isInternalLink && hasPostId) {
+      title = props.attributes.postTitle ? props.attributes.postTitle : __( 'Helsinki - Link', 'hds-wp' );
+    }
 
     let parts = [
       createElement( 'h3', {className: 'link___title'}, title )
     ];
 
-    if ( linkType === 'title-excerpt' && props.attributes.linkDir == 'internal' && props.attributes.postId != 0 && props.attributes.postExcerpt ) {
-		var excerptWrapper = document.createElement("div");
-		excerptWrapper.innerHTML = props.attributes.postExcerpt; //used to remove extra <p>-tags from excerpt source
-		parts.push(createElement( 'p', {className: 'link___excerpt'}, excerptWrapper.innerText ));
-    }
-    else if ( linkType === 'title-excerpt' && (props.attributes.linkDir != 'internal' || props.attributes.postId == 0) && props.attributes.linkExcerpt ) {
-		parts.push(createElement( 'p', {className: 'link___excerpt'}, props.attributes.linkExcerpt ));
+    if ( linkType === 'title-excerpt' && isInternalLink && hasPostId && props.attributes.postExcerpt ) {
+	    var excerptWrapper = document.createElement("div");
+	    excerptWrapper.innerHTML = props.attributes.postExcerpt; //used to remove extra <p>-tags from excerpt source
+	    parts.push(createElement( 'p', {className: 'link___excerpt'}, excerptWrapper.innerText ));
+    } else if ( linkType === 'title-excerpt' && (! isInternalLink || ! hasPostId) && props.attributes.linkExcerpt ) {
+	    parts.push(createElement( 'p', {className: 'link___excerpt'}, props.attributes.linkExcerpt ));
     }
 
     return createElement( 'div', useBlockProps({className: 'link'}), parts);
-  }
-
-  function getParentBlock( clientId ) {
-    let parent = wp.data.select('core/block-editor').getBlocksByClientId(
-      wp.data.select( 'core/editor' ).getBlockHierarchyRootClientId( clientId )
-    );
-    return parent[0];
   }
 
 	function toolbar( props, linkType ) {
 		if (linkType === 'image-title') {
 			return createElement(BlockControls, {key: 'controls'},
 				createElement(ToolbarGroup, {},
-					props.attributes.linkDir == 'external' ? hdsMediaUpload(
+					props.attributes.linkDir === 'external' ? hdsMediaUpload(
 						props.attributes.mediaId,
 						function( media ) {
 							props.setAttributes({
@@ -182,42 +177,44 @@
 		};
 	}
 
+  function ensureValidAttributesExist(props) {
+    if (props.attributes.hasOwnProperty('isExternalUrl') && props.attributes.isExternalUrl != null) {
+      if (props.attributes.isExternalUrl) {
+        props.attributes.linkDir = 'external';
+      }
+      else {
+        props.attributes.linkDir = 'internal';
+      }
+      props.attributes.isExternalUrl = null;
+    } else if (!props.attributes.hasOwnProperty('linkDir')) {
+      props.attributes.linkDir = 'internal';
+    }
+
+    return props;
+  }
+
+  function refreshParentLinksAttribute(linkClientId) {
+    let parents = select('core/block-editor').getBlockParents(linkClientId);
+    let directParentId = parents[parents.length - 1];
+
+    dispatch('core/block-editor').updateBlockAttributes(directParentId, {
+      links: select('core/block-editor').getBlocks(directParentId).map(block => block.attributes)
+    });
+  }
 
 	function edit() {
-
 		return function(props) {
-			const {
-				clientId
-			} = props;
+			const {context} = props;
 
-			var parent = select('core/block-editor').getBlocksByClientId(select('core/block-editor').getBlockHierarchyRootClientId( clientId ))[0];
-			dispatch('core/block-editor').updateBlockAttributes(parent.clientId, {
-				links: select('core/block-editor')
-				.getBlocks(parent.clientId)
-				.map(function(block){
-				  return block.attributes;
-				})
-			});
+      refreshParentLinksAttribute(props.clientId);
 
-      parent = getParentBlock(props.clientId);
-			if (props.attributes.hasOwnProperty('isExternalUrl') && props.attributes.isExternalUrl != null) {
-				if (props.attributes.isExternalUrl) {
-					props.attributes.linkDir = 'external';
-				}
-				else {
-					props.attributes.linkDir = 'internal';
-				}
-				props.attributes.isExternalUrl = null;
-			}
-			else if (!props.attributes.hasOwnProperty('linkDir')) {
-				props.attributes.linkDir = 'internal';
-			}
+			props = ensureValidAttributesExist(props);
 
 			return createElement(
 				Fragment, {},
-				toolbar( props, parent.attributes.linkType ),
-				panelControls(parent.attributes.linkType, props),
-        placeholder(parent.attributes.linkType, props)
+				toolbar( props, context["hds-wp/linkType"] ),
+				panelControls(context["hds-wp/linkType"], props),
+        placeholder(context["hds-wp/linkType"], props)
 			);
 		}
 	}
