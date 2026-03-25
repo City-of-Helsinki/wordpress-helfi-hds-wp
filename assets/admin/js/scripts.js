@@ -2708,7 +2708,7 @@ function hdsIcons(name) {
   }
   function placeholder(linkType, props) {
     var isInternalLink = 'internal' === props.attributes.linkDir,
-      hasPostId = 0 != props.attributes.postId;
+      hasPostId = 0 !== props.attributes.postId;
     var title = props.attributes.linkTitle ? props.attributes.linkTitle : __('Helsinki - Link', 'hds-wp');
     if (isInternalLink && hasPostId) {
       title = props.attributes.postTitle ? props.attributes.postTitle : __('Helsinki - Link', 'hds-wp');
@@ -2735,7 +2735,7 @@ function hdsIcons(name) {
     if (linkType === 'image-title') {
       return createElement(BlockControls, {
         key: 'controls'
-      }, createElement(ToolbarGroup, {}, props.attributes.linkDir == 'external' ? hdsMediaUpload(props.attributes.mediaId, function (media) {
+      }, createElement(ToolbarGroup, {}, props.attributes.linkDir === 'external' ? hdsMediaUpload(props.attributes.mediaId, function (media) {
         props.setAttributes({
           mediaId: media.id,
           mediaUrl: media.sizes.full.url,
