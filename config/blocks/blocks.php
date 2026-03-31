@@ -20,6 +20,9 @@ return array(
 	'content-cards' => array(
 		'render_callback' => 'hds_wp_render_block_content_cards',
 	),
+	'diagram' => array(
+		'render_callback' => 'hds_wp_render_diagram',
+	),
 	'image-banner' => array(
 		'render_callback' => 'hds_wp_render_image_banner',
 	),

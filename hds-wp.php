@@ -4,7 +4,7 @@ namespace ArtCloud\Helsinki\Plugin\HDS;
 /**
   * Plugin Name: WordPress Helsinki
   * Description: Provides common Helsinki styles, assets and blocks, and integrations to Helsinki APIs and various plugins.
-  * Version: 2.0.0
+  * Version: 2.1.0
   * License: GPLv3
   * Requires at least: 5.9
   * Requires PHP:      7.1
@@ -73,6 +73,13 @@ spl_autoload_register( __NAMESPACE__ . '\\autoloader' );
 /**
   * Prepare plugin
   */
+
+// Load early to accomodate Complianz loading sequence
+add_action( 'plugins_loaded', __NAMESPACE__ . '\\complianz_integration', 5 );
+function complianz_integration(): void {
+	require_once \plugin_dir_path( __FILE__ ) . 'integrations/plugins/complianz-gdpr.php';
+}
+
 add_action( 'plugins_loaded', __NAMESPACE__ . '\\prepare', 11 );
 function prepare() {
 	ModuleFactory::instance(

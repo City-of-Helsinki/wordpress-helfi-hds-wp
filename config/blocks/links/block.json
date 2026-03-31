@@ -45,5 +45,6 @@
             "default": ""
         }
     },
+    "providesContext": { "hds-wp/linkType": "linkType" },
     "render_callback": "hds_wp_render_block_links_list"
 }

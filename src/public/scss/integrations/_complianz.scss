@@ -1,4 +1,4 @@
-.hds-video .wp-block-embed__wrapper .cmplz-placeholder-parent {
+.wp-block-embed__wrapper .cmplz-placeholder-parent {
   bottom: 0;
   height: 100%;
   left: 0;
@@ -6,4 +6,32 @@
   right: 0;
   top: 0;
   width: 100%;
+}
+
+.cmplz-blocked-content-container {
+  background-color: color( 'black-10' );
+  box-shadow: none;
+  border: none;
+  border-radius: 0;
+
+  .cmplz-blocked-content-notice {
+    max-width: min(300px, 70%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 98;
+    transform: translate(-50%,-50%);
+  }
+}
+
+figure .cmplz-blocked-content-container::after {
+  background-color: color( 'white' );
+  content: "";
+  display: block;
+  position: absolute;
+  width: 80%;
+  height: 80%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

@@ -43,6 +43,7 @@ return array(
 		'post' => array(
 			'hds-wp/map' => true,
 			'hds-wp/video' => true,
+			'hds-wp/diagram' => true,
 		),
 
 		'page' => array(
@@ -73,6 +74,7 @@ return array(
 			'hds-wp/timeline-card' => true,
 			'hds-wp/timeline' => true,
 			'hds-wp/video' => true,
+			'hds-wp/diagram' => true,
 
 			'complianz/document' => true,
 		),

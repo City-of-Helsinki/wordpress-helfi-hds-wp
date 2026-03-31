@@ -117,6 +117,10 @@ class Integrations extends Module {
 						__( 'Replaces date field with HDS DateInput.', 'hds-wp' )
 					),
 				),
+				'complianz-gdpr' => array(
+					'title' => __( 'Complianz GDPR', 'hds-wp' ),
+					'description' => __( 'Provides cookie information to the cookie scanner.', 'hds-wp' ),
+				),
 				'wp-rss-aggregator' => array(
 					'title' => __( 'WP RSS Aggregator', 'hds-wp' ),
 					'description' => __( 'Enable custom default template for Helsinki theme.', 'hds-wp' ),

@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 .feed-posts {
 	@extend %helsinki-block-spacing;
 
@@ -73,7 +75,7 @@
 
     @include breakpoint(l) {
         .posts {
-            padding-left: percentage(math.div(2,12));
+            padding-left: math.percentage(math.div(2,12));
         }
     }
 
