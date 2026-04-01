@@ -9,19 +9,38 @@
 }
 
 .cmplz-blocked-content-container {
-  background-color: color( 'black-10' );
+  --container-background-color: #{color( 'black-10' )};
+  --container-padding: 0;
+  --notice-position: absolute;
+  --notice-top: 50%;
+  --notice-left: 50%;
+  --notice-transform: translate(-50%,-50%);
+  --notice-z-index: 98;
+
+  background-color: var(--container-background-color);
   box-shadow: none;
   border: none;
   border-radius: 0;
+  padding: var(--container-padding);
 
   .cmplz-blocked-content-notice {
     max-width: min(300px, 70%);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: 98;
-    transform: translate(-50%,-50%);
+    position: var(--notice-position);
+    top: var(--notice-top);
+    left: var(--notice-left);
+    z-index: var(--notice-z-index);
+    transform: var(--notice-transform);
   }
+}
+
+.rns-container .cmplz-blocked-content-container {
+  --container-background-color: transparent;
+  --notice-position: static !important;
+  --notice-transform: none;
+}
+
+.has-rns.has-sidebar:not(.single-post) .rns-container .cmplz-blocked-content-container {
+  --container-padding: var(--spacing-s, 1rem);
 }
 
 figure .cmplz-blocked-content-container::after {
