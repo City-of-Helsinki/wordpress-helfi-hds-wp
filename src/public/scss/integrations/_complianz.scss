@@ -33,12 +33,14 @@
   }
 }
 
-.rns-container {
-  .cmplz-blocked-content-container {
-    --container-padding: var(--spacing-s, 1rem);
-    --notice-position: static !important;
-    --notice-transform: none;
-  }
+.rns-container .cmplz-blocked-content-container {
+  --container-background-color: transparent;
+  --notice-position: static !important;
+  --notice-transform: none;
+}
+
+.has-rns.has-sidebar:not(.single-post) .rns-container .cmplz-blocked-content-container {
+  --container-padding: var(--spacing-s, 1rem);
 }
 
 figure .cmplz-blocked-content-container::after {
