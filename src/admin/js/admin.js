@@ -549,23 +549,22 @@ function hdsWithSearchPosts(control) {
     wp.data.withSelect(function(select, props){
       return {
         searchPosts: function(searchInput) {
-          let params = [
-                'status=publish',
-                'per_page=100',
-                'search=' + searchInput,
-				'orderby=relevance',
-				'search_columns=post_title',
-              ];
+          const params = new URLSearchParams();
 
-			  return wp.apiFetch({
-				path: '/wp/v2/posts?' + params.join('&')
-			  }).then(function (posts) {
-			  	return wp.apiFetch({
-					path: '/wp/v2/pages?' + params.join('&')
-				}).then(function (pages) {
-					return posts.concat(pages);
-				});
-			  });
+          params.append('status', ['publish', 'private', 'draft']);
+          params.append('per_page', 100);
+          params.append('search', searchInput);
+          params.append('orderby', 'relevance');
+          params.append('search_columns', 'post_title');
+
+          return wp.apiFetch({
+              path: '/wp/v2/posts?' + params.toString()
+            })
+            .then((posts) => wp.apiFetch({
+                path: '/wp/v2/pages?' + params.toString()
+              })
+              .then((pages) => posts.concat(pages))
+            );
         },
       }
     })
@@ -573,83 +572,169 @@ function hdsWithSearchPosts(control) {
 }
 
 function hdsSearchPostsTextControl() {
+  const {
+    createElement,
+    Fragment,
+    useState,
+    useEffect
+  } = wp.element;
+  const {
+    Button,
+    RadioControl,
+    TextControl,
+    Flex,
+    FlexBlock,
+    FlexItem
+  } = wp.components;
+  const {__} = wp.i18n;
 
-  function populateFoundPosts(posts, props) {
-    const foundPostsList = document.getElementById('found-posts');
+  const postStatuses = {
+    publish: __('Public'),
+    private: __('Private'),
+    draft: __('Draft'),
+  };
 
-    clearFoundPosts(foundPostsList);
+  const postTypes = {
+    post: __('post'),
+    page: __('page'),
+  };
 
-    for (var i = 0; i < posts.length; i++) {
-      foundPostsList.appendChild(
-        foundPostListItem(posts[i], function(post) {
-			highlightSelectedPost(event.target);
-          props.setAttributes({
-            postId: post.id,
-            postTitle: post.title.rendered,
-			postExcerpt: post.excerpt.rendered
-          });
-        })
-      );
-    }
-  }
+  const FoundPost = ({post, onClick, selectedPostId}) => {
+    const {id, title} = post || {};
+    const {rendered} = title || {};
 
-  function highlightSelectedPost(target) {
-	var links = target.closest('#found-posts').querySelectorAll('a');
-	for(var i = 0; i < links.length; i++) {
-		links[i].classList.remove('selected');
-	}
-	target.classList.add('selected');
-  }
+    return createElement('li', {},
+      createElement(TextControl, {
+        type: 'radio',
+        value: id,
+        label: rendered,
+        selected: id === selectedPostId,
+        onChange: () => onClick(post),
+      })
+    );
+  };
 
-  function clearFoundPosts(element) {
-    while( element.firstChild ) {
-      element.removeChild(
-        element.firstChild
-      );
-    }
-  }
+  const PostsList = ({posts, onClick, selectedPostId}) => {
+    return Object.keys(posts)
+      .map(status => createElement(RadioControl, {
+        label: postStatuses[status] ? postStatuses[status] : status,
+        selected: selectedPostId,
+        options: posts[status].map(({id, title}) => ({value: id, label: title.rendered})),
+        onChange: (id) => onClick(posts[status].find(post => post.id == id)),
+      })
+    );
+  };
 
-  function foundPostListItem(post, onClick) {
-    var li = document.createElement('li'),
-        link = document.createElement('a');
+  const FoundPosts = ({posts, onClick, selectedPostId}) => {
+    const [currentType, setCurrentType] = useState(Object.keys(posts)[0]);
 
-    link.addEventListener('click', function(event){
-      event.preventDefault();
-      onClick(post);
+    const typeTabs = [];
+    const postLists = [];
+
+    const TabButton = ({type}) => createElement(Button, {
+      text: postTypes[type] ? postTypes[type] : type,
+      isPressed: type === currentType,
+      onClick: () => setCurrentType(type),
+      variant: 'secondary',
+      size: 'small',
     });
 
-    link.innerHTML = post.title.rendered;
-    li.appendChild(link);
+    Object.keys(posts).forEach(type => {
+      typeTabs.push(createElement(FlexItem, {}, createElement(TabButton, {type})));
 
-    return li;
-  }
+      postLists.push(
+        createElement('div', {hidden: type !== currentType},
+          createElement(PostsList, {
+            posts: posts[type],
+            onClick,
+            selectedPostId
+          })
+        )
+      );
+    });
 
-  // TODO: how to make this more React style?
-  const FoundPosts = wp.element.createElement(
-    'ul', {id: 'found-posts'}
-  );
+    if ( postLists.length ) {
+      return createElement(
+        Fragment, {},
+        createElement(Flex, {justify: 'flex-start', expanded: true}, typeTabs),
+        createElement('hr', {}),
+        ...postLists,
+      );
+    }
+  };
 
-  return hdsWithSearchPosts(function(props) {
-    return wp.element.createElement(
-      wp.element.Fragment, {},
-      wp.element.createElement(
-        'div', {className: 'helsinki-post-search'},
-        wp.element.createElement( wp.components.TextControl, {
-          label: wp.i18n.__( 'Search posts', 'hds-wp' ),
-          value: props.attributes.search,
-          attribute: 'postTitle',
-          onChange: function(text) {
-            props.setAttributes({search: text});
+  const SearchingNotice = () => {
+    return createElement('p', {}, __('Searching...', 'hds-wp'));
+  };
 
-            if ( text.length >= 3 ) {
-              props.searchPosts(text).then(function(posts){
-                populateFoundPosts(posts, props);
-              });
-            }
-          }
-        }),
-        FoundPosts
-      )
+  return hdsWithSearchPosts(({attributes, setAttributes, searchPosts}) => {
+    const [isSearching, setIsSearching] = useState(false);
+    const [selectedPostId, setSelectedPostId] = useState(attributes.postId);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [posts, setPosts] = useState([]);
+
+    const onClick = (post) => {
+      if (post) {
+        setSelectedPostId(post.id);
+        setAttributes({
+          postId: post.id,
+          postTitle: post.title.rendered,
+          postExcerpt: post.excerpt.rendered
+        });
+      } else {
+        setSelectedPostId(null);
+        setAttributes({
+          postId: 0,
+          postTitle: '',
+          postExcerpt: ''
+        });
+      }
+    };
+
+    useEffect(() => {
+      setSelectedPostId(attributes.postId);
+    }, [attributes.postId]);
+
+    useEffect(() => {
+      if (searchTerm.length >= 3 && !isSearching) {
+        const timer = setTimeout(() => {
+          setIsSearching(true);
+
+          searchPosts(searchTerm).then(posts => {
+            setPosts(posts.reduce((filtered, post) => {
+              if (! filtered[post.type]) {
+                filtered[post.type] = {};
+              }
+
+              if (! filtered[post.type][post.status]) {
+                filtered[post.type][post.status] = [];
+              }
+
+              filtered[post.type][post.status].push(post);
+
+              return filtered;
+            }, {}));
+            setIsSearching(false);
+          });
+        }, 300);
+
+        return () => clearTimeout(timer);
+      } else if (! searchTerm.length) {
+        setPosts([]);
+      }
+    }, [searchTerm]);
+
+    return createElement(
+      Flex, {direction: 'column', expanded: true, style: {width: '100%'}},
+      createElement(FlexBlock, {},
+        createElement( TextControl, {
+          label: __( 'Search posts', 'hds-wp' ),
+          value: searchTerm,
+          onChange: setSearchTerm,
+        })
+      ),
+      isSearching && createElement(FlexBlock, {}, createElement(SearchingNotice)),
+      ! isSearching && createElement(FlexBlock, {}, createElement(FoundPosts, {posts, onClick, selectedPostId}))
     );
   });
 }

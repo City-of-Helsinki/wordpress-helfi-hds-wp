@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace ArtCloud\Helsinki\Plugin\HDS\Integrations\Plugins\WPHelfiCookieConsent\Cookies;
+namespace ArtCloud\Helsinki\Plugin\HDS\Integrations\Plugins\WPHelfiCookieConsent\Cookies\Helsinki;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

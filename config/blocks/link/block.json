@@ -72,5 +72,6 @@
             "type": "string",
             "default": ""
         }
-    }
+    },
+    "usesContext": [ "hds-wp/linkType" ]
 }
