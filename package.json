@@ -37,7 +37,7 @@
     "hds-core": "^2.16.0",
     "hds-design-tokens": "^2.4.0",
     "hds-react": "^4.8.1",
-    "rollup": "^4.53.3",
+    "rollup": "^4.59.0",
     "sass": "^1.96.0"
   },
   "browserslist": [
