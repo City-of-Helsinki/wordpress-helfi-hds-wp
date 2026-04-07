@@ -1,0 +1,31 @@
+.wp-block-embed {
+  .wp-block-embed__wrapper {
+    height: auto;
+    position: relative;
+  }
+
+  &.wp-has-aspect-ratio {
+    &.wp-embed-aspect-16-9 {
+      .wp-block-embed__wrapper {
+        padding-top: 56.25%;
+      }
+    }
+  }
+}
+
+.block-embed-external-link,
+.hds-diagram .block-embed-external-link,
+.hds-video .block-embed-external-link,
+.hds-map .block-embed-external-link {
+  margin-top: 1rem;
+  display: flex !important;
+  align-items: center;
+  font-weight: 500;
+  text-decoration: underline;
+
+  svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-inline-start: 0.5rem;
+  }
+}
