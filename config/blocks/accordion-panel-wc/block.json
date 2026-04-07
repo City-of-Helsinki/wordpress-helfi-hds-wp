@@ -1,5 +1,5 @@
 {
-    "apiVersion": 2,
+    "apiVersion": 3,
     "title": "Helsinki - Web Component Accordion Panel",
     "name": "hds-wp/accordion-panel-wc",
     "textdomain": "hds-wp",
@@ -33,5 +33,6 @@
             "type": "string",
             "default": ""
         }
-    }
+    },
+    "style": [ "helsinki-wp-blocks" ]
 }
