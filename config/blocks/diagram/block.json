@@ -36,5 +36,6 @@
       "default": ""
     }
   },
-  "render_callback": "hds_wp_render_diagram"
+  "render_callback": "hds_wp_render_diagram",
+  "style": [ "helsinki-wp-blocks" ]
 }
