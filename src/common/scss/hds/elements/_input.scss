@@ -1,0 +1,13 @@
+.hds-text-input__input-wrapper {
+    .hds-text-input__input {
+        &:focus {
+            --focus-outline-color: #1a1a1a;
+            box-shadow: none !important;
+            outline: 3px solid var(--focus-outline-color);
+            outline: var(--outline-width,3px) solid var(--focus-outline-color);
+            outline-offset: 2px;
+            outline-offset: var(--outline-gutter,2px);
+            outline-color: inherit;
+        }
+    }
+}
