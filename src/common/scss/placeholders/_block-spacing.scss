@@ -1,0 +1,17 @@
+%helsinki-block-spacing {
+    margin-bottom: $paragraph-margin-bottom-small;
+    margin-top: $paragraph-margin-bottom-small;
+
+    @include breakpoint('m') {
+        margin-bottom: $paragraph-margin-bottom-big;
+        margin-top: $paragraph-margin-bottom-big;
+    }
+}
+
+%helsinki-block-content-spacing {
+    margin-top: spacing('m');
+
+    @include breakpoint('m') {
+        margin-top: spacing('2-xl');
+    }
+}
