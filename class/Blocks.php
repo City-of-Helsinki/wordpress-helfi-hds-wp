@@ -69,7 +69,7 @@ class Blocks extends Module
 		}
 
 		wp_add_inline_script(
-			'helsinki-wp-admin-scripts',
+			'helsinki-wp-admin',
 			sprintf(
 				'const HelsinkiAllowedVariations = %s;',
 				json_encode( $allowed )
