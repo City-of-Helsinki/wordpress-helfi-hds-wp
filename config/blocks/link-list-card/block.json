@@ -1,5 +1,5 @@
 {
-    "apiVersion": 2,
+    "apiVersion": 3,
     "title": "Helsinki - Link List Card",
     "name": "hds-wp/link-list-card",
     "icon": "screenoptions",
@@ -37,5 +37,6 @@
               }
             ]
         }
-    }
+    },
+    "style": [ "helsinki-wp-blocks" ]
 }
