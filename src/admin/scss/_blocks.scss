@@ -1,21 +1,8 @@
-.wp-block-hds-wp-content-cards {
-  .content-cards__title {
-    margin-top: 0;
-  }
-
-  .content-cards__cards {
-    .content-cards__card {
-      border: none;
-      margin-top: 0;
-      padding: 0;
-      min-width: unset;
-      max-width: unset;
-
-      .card__more {
-        .icon {
-        }
-      }
-    }
+.wp-block-hds-wp-content-card {
+  > .card {
+    border: 1px solid $medium-gray;
+    margin-top: spacing('xs');
+    padding: spacing('s');
   }
 }
 
