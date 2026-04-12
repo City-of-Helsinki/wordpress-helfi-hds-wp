@@ -1,5 +1,15 @@
 .wp-block-columns {
   @extend %helsinki-block-spacing;
+
+  &.is-layout-flex {
+    --gap: var(--spacing-s, 1rem);
+
+    gap: var(--gap);
+
+    @include breakpoint('m') {
+      --gap: var(--spacing-layout-l, 4rem);
+    }
+  }
 }
 
 .wp-block-column {
