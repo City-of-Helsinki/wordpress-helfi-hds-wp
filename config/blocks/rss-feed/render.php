@@ -4,36 +4,43 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
 
-function hds_wp_render_rss_feed($attributes)
-{
+function hds_wp_render_rss_feed($attributes) {
 
-	if (function_exists('helsinki_front_page_section')) {
-		add_filter('wp_feed_cache_transient_lifetime', function ($lifetime, $url) use ($attributes) {
+	add_filter(
+		'wp_feed_cache_transient_lifetime',
+		function ($lifetime, $url) use ($attributes) {
 			return hds_wp_rss_feed_lifetime(1, $url, $attributes);
-		}, 10, 2);
-		$content = sprintf(
-			'
-			<div id="%s" class="feed-posts %s">
+		},
+		10, 2
+	);
 
-				<div class="hds-container">
-					<h2>%s</h2>
-					%s
-					%s
-				</div>
-
-			</div>
-			',
-			isset($attributes['anchor']) ? $attributes['anchor'] : '',
-			isset($attributes['className']) ? $attributes['className'] : '',
-			$attributes['title'],
-			hds_wp_feed_posts_source_text($attributes),
-			hds_wp_feed_posts(hds_wp_feed_posts_data($attributes))
+	$elements = '';
+	if ( ! empty( $attributes['title'] ) ) {
+		$elements .= sprintf(
+			'<h2>%s</h2>',
+			$attributes['title']
 		);
-		remove_filter('wp_feed_cache_transient_lifetime', function () {
-		}, 10);
-		return $content;
 	}
-	return;
+
+	$elements .= hds_wp_feed_posts_source_text( $attributes );
+	$elements .= hds_wp_feed_posts( hds_wp_feed_posts_data( $attributes ) );
+
+	$content = sprintf(
+		'<div %s>
+			<div class="hds-container">
+				%s
+			</div>
+		</div>',
+		hds_wp_block_html_attributes(
+			$attributes,
+			array( 'wp-block-hds-wp-feed-posts', 'feed-posts' )
+		),
+		$elements
+	);
+
+	remove_filter( 'wp_feed_cache_transient_lifetime', function () {}, 10 );
+
+	return $content;
 }
 
 function hds_wp_rss_feed_lifetime($lifetime, $url, $attributes)
@@ -60,10 +67,10 @@ function hds_wp_feed_posts_url($attributes = null)
 	return $attributes['url'];
 }
 
-function hds_wp_feed_posts_source_text($attributes = array())
+function hds_wp_feed_posts_source_text( $attributes = array() ): string
 {
 	$url = hds_wp_feed_posts_url($attributes);
-	if ($url) {
+	if ( $url ) {
 		return sprintf(
 			'<p class="feed-source">%s</p>',
 			sprintf(
@@ -75,6 +82,8 @@ function hds_wp_feed_posts_source_text($attributes = array())
 			)
 		);
 	}
+
+	return '';
 }
 
 function hds_wp_feed_rss(string $url = '', int $count = 10)
@@ -92,10 +101,9 @@ function hds_wp_feed_rss(string $url = '', int $count = 10)
 	);
 }
 
-function hds_wp_feed_posts($args = array())
-{
-	if (empty($args['feed_posts'])) {
-		return;
+function hds_wp_feed_posts( $args = array() ): string {
+	if ( empty( $args['feed_posts'] ) ) {
+		return '';
 	}
 
 	$items = array_map(
@@ -110,8 +118,7 @@ function hds_wp_feed_posts($args = array())
 	);
 
 	return sprintf(
-		'
-		<div class="entries l-up-2">
+		'<div class="entries l-up-2">
 			<div>
 				<ul class="posts">
 					%s
