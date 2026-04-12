@@ -23,7 +23,11 @@ function hds_wp_render_timeline_card($attributes, $content = null)
 		$content ? $content : $attributes['innerContent']
 	);
 
-	$wrapClasses = array('wp-block-hds-wp-timeline-card');
+	$wrapClasses = array(
+		'wp-block-hds-wp-timeline-card',
+		'has-secondary-background-color',
+		'has-secondary-content-color',
+	);
 
 	if (!empty($attributes['className'])) {
 		$wrapClasses[] = esc_attr($attributes['className']);
