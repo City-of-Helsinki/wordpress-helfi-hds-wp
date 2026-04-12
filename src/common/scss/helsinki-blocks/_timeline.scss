@@ -14,8 +14,6 @@
     }
 
     .wp-block-hds-wp-timeline-card {
-        background-color: var(--secondary-color);
-        color: var(--secondary-content-color);
         margin-bottom: spacing('s');
         position: relative;
         list-style: none;
@@ -100,32 +98,13 @@
                 font-size: 24px;
                 font-weight: $global-font-weight-medium;
                 margin: 0 0 spacing('s');
-                color: var(--secondary-content-color);
+                color: currentColor;
             }
 
             p {
               font-size: rem-calc(18);
-              color: var(--secondary-content-color);
+              color: currentColor;
               max-width: none;
-            }
-
-            &__link {
-                background-color: var(--secondary-content-color);
-                border-color: var(--secondary-content-color);
-                color: var(--primary-content-secondary-color);
-            }
-
-            &__link:hover {
-                color: var(--secondary-content-color);
-                background-color: transparent;
-            }
-
-            &__link svg {
-                background-color: var(--primary-content-secondary-color);
-            }
-
-            &__link:hover svg {
-                background-color: var(--secondary-content-color);
             }
 
             @include breakpoint('m') {
