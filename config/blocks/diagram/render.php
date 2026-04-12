@@ -74,12 +74,20 @@ function hds_wp_render_diagram( $attributes ) {
 		);
 	}
 
-	return $content ? sprintf(
-		'<div class="hds-diagram has-background">
-			<div class="hds-container">
-				%1$s
-			</div>
-		</div>',
-		$content
-	) : '';
+	if ( $content ) {
+		return sprintf(
+			'<div %1$s>
+				<div class="hds-container">
+					%2$s
+				</div>
+			</div>',
+			hds_wp_block_html_attributes(
+				$attributes,
+				array( 'wp-block-hds-wp-diagram', 'hds-diagram', 'has-background' )
+			),
+			$content
+		);
+	}
+
+	return '';
 }
