@@ -189,7 +189,7 @@ class Assets extends Module {
 
 	public function commonStyles(): void
 	{
-		\wp_register_style(
+		\wp_enqueue_style(
 			'helsinki-wp',
 			$this->assetUrl( 'common', 'hds', $this->minified, 'css' ),
 			apply_filters( 'hds_wp_styles_dependencies', array() ),
@@ -197,7 +197,7 @@ class Assets extends Module {
 			'all'
 		);
 
-		\wp_register_style(
+		\wp_enqueue_style(
 			'helsinki-wp-blocks',
 			$this->assetUrl( 'common', 'blocks', $this->minified, 'css' ),
 			apply_filters( 'hds_wp_styles_dependencies', array( 'helsinki-wp' ) ),
