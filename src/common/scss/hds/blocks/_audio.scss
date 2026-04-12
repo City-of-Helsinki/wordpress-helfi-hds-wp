@@ -1,4 +1,6 @@
 .wp-block-audio {
+  @extend %helsinki-paragraph-spacing;
+
   figcaption {
     background: none !important;
     color: $black !important;
