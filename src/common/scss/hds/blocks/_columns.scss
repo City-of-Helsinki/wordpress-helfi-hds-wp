@@ -1,0 +1,13 @@
+.wp-block-columns {
+  @extend %helsinki-block-spacing;
+}
+
+.wp-block-column {
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
