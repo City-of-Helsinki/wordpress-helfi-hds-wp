@@ -1,8 +1,6 @@
 @use 'sass:math';
 
 .wp-block-hds-wp-image-banner {
-	@extend %helsinki-block-spacing;
-
 	.image-banner-caption {
     font-size: $caption-font-size;
 		margin-top: spacing('s');
