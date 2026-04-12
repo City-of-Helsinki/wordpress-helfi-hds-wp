@@ -1,0 +1,11 @@
+.wp-block-heading {
+  --margin-top: var(--spacing-layout-s, 2rem);
+  --margin-bottom: var(--spacing-s, 1rem);
+
+  margin-top: var(--margin-top);
+  margin-bottom: var(--margin-bottom);
+
+  @include breakpoint('m') {
+    --margin-top: var(--spacing-layout-l, 4rem);
+  }
+}
