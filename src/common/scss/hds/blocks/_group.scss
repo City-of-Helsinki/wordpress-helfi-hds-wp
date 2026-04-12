@@ -1,0 +1,11 @@
+.wp-block-group {
+  @extend %helsinki-block-spacing;
+
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
