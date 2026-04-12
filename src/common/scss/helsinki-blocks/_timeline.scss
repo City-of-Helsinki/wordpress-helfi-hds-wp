@@ -1,6 +1,5 @@
 .wp-block-hds-wp-timeline {
     position: relative;
-	@extend %helsinki-block-spacing;
 
     .excerpt {
         margin: 0;
@@ -171,16 +170,16 @@
             --step-top: 33px;
             --step-numbered-top: 16px;
         }
-    
+
         @include breakpoint('l') {
             --step-top: 48px;
             --step-numbered-top: 33px;
         }
-    
+
         @include breakpoint('xl') {
             --step-top: 41px;
             --step-numbered-top: 23px;
         }
-    
+
     }
 }
