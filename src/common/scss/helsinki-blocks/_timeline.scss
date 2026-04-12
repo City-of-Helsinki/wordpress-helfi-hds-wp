@@ -7,8 +7,9 @@
 
     .timeline {
         position: relative;
-		margin-left: 0;
+        margin-left: 0;
         margin-bottom: 0;
+
         @extend %helsinki-block-content-spacing;
     }
 
