@@ -140,7 +140,7 @@
       .rns-shares {
 
         * {
-          max-width: 860px;
+          @extend %helsinki-text-block-size;
         }
 
         .rns-header {
