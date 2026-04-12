@@ -6,6 +6,11 @@
 @import '../../settings';
 @import '../../hds-core';
 
+:root {
+  --hds-wp-text-max-width: 860px;
+}
+
+@import 'placeholders/block-sizing';
 @import 'placeholders/block-spacing';
 @import 'placeholders/hds-button';
 
