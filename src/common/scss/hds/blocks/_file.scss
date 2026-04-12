@@ -1,6 +1,12 @@
 .wp-block-file {
+  @extend %helsinki-paragraph-spacing;
+
   display: flex;
   align-items: center;
   gap: 0.75rem;
   flex-wrap: wrap;
+}
+
+.wp-block-file__embed {
+  @extend %helsinki-paragraph-spacing;
 }
