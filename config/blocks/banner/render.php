@@ -43,15 +43,20 @@ function hds_wp_render_banner($attributes)
 		);
 	}
 
-
 	$wrap_classes = array( 'wp-block-hds-wp-banner' );
+	$color_classes = 'has-primary-background-color has-primary-content-color';
 
-	if (
-		! empty( $attributes['className'] )
-		&& str_contains( $attributes['className'], 'align-center' )
-	) {
-		$icon = '';
+	if ( ! empty( $attributes['className'] ) ) {
+		if ( preg_match( '/is-style-(.*)-secondary-color/', $attributes['className'] ) ) {
+			$color_classes = 'has-secondary-background-color has-secondary-content-color';
+		}
+
+		if ( str_contains( $attributes['className'], 'align-center' ) ) {
+			$icon = '';
+		}
 	}
+
+	$wrap_classes[] = $color_classes;
 
 	if ( ! $icon ) {
 		$wrap_classes[] = 'no-icon';
