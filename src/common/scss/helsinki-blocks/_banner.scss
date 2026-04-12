@@ -2,8 +2,6 @@
 	background-color: var(--primary-color);
 	color: var(--primary-content-color);
 
-	@extend %helsinki-block-spacing;
-
 	.content {
 		display: flex;
 		flex-flow: column;
