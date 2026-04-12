@@ -5,3 +5,47 @@
         }
     }
 }
+
+.wp-block-categories.wp-block-categories-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: spacing('2-xs');
+  list-style: none;
+  margin-inline-start: 0;
+
+  .cat-item {
+    &.current-cat {
+      font-weight: $global-font-weight-bold;
+    }
+  }
+}
+
+.widget--widget_categories {
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: spacing('2-xs');
+    list-style: none;
+    margin-inline-start: 0;
+  }
+
+  .cat-item {
+    margin: 0;
+
+    &.current-cat {
+      font-weight: $global-font-weight-bold;
+    }
+  }
+}
+
+.tagcloud {
+  .tag-cloud-link {
+    .tag-link-count {
+      display: contents;
+    }
+
+    &.current_tag {
+      font-weight: $global-font-weight-bold;
+    }
+  }
+}
