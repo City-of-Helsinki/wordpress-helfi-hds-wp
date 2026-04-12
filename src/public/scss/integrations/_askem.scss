@@ -59,9 +59,6 @@
             padding: 0;
 
             .rns-reaction-button {
-              @extend %hds-button;
-              @extend %hds-button--secondary;
-
               .plus-one, .rns-reaction-count {
                 display: none;
               }
@@ -125,8 +122,6 @@
             }
 
             .rns-textarea-wrapper {
-              @extend .hds-text-input;
-
               textarea {
                 font-size: 18px !important;
               }
@@ -134,7 +129,6 @@
           }
 
           .rns-form-submit {
-            @extend %hds-button;
             margin-top: 24px;
             opacity: 1;
           }
