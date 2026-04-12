@@ -17,14 +17,14 @@ function hds_wp_render_video( $attributes ) {
 	if ( $attributes['description'] ) {
 		$content .= sprintf(
 			'<p>%s</p>',
-			wp_kses_post( $attributes['description'] )
+			esc_html( $attributes['description'] )
 		);
 	}
 
 	if ( $attributes['videoTitle'] ) {
 		$content .= sprintf(
 			'<h3>%s</h3>',
-			wp_kses_post( $attributes['videoTitle'] )
+			esc_html( $attributes['videoTitle'] )
 		);
 	}
 
@@ -70,12 +70,20 @@ function hds_wp_render_video( $attributes ) {
 		);
 	}
 
-	return $content ? sprintf(
-		'<div class="hds-video has-background">
-			<div class="hds-container">
-				%1$s
-			</div>
-		</div>',
-		$content
-	) : '';
+	if ( $content ) {
+		return sprintf(
+			'<div %2$s>
+				<div class="hds-container">
+					%1$s
+				</div>
+			</div>',
+			$content,
+			hds_wp_block_html_attributes(
+				$attributes,
+				array( 'wp-block-hds-wp-video', 'hds-video', 'has-background' )
+			)
+		);
+	}
+
+	return '';
 }
