@@ -68,7 +68,6 @@
     --padding: #{rem-calc(24)};
     --width: 100%;
 
-    background-color: var(--secondary-color, var(--primary-color));
     align-items: flex-start;
     display: flex;
     flex-direction: column;
@@ -85,6 +84,7 @@
     }
 
 		.content__heading {
+      color: currentColor;
 			font-size: rem-calc(24);
 			margin: 0;
 
@@ -94,51 +94,26 @@
 		}
 
 		.content__text {
+      color: currentColor;
 			margin: spacing('s') 0 0;
+
+      a {
+        color: currentColor;
+
+        svg {
+          fill: currentColor;
+
+          &.mask-icon {
+            background-color: currentColor;
+          }
+        }
+      }
 		}
 
 		.content__link {
 			margin: spacing('m') 0 0;
 		}
 	} // .content
-
-	&.is-style-primary-color {
-		.content {
-			background-color: var(--primary-color);
-		}
-	}
-
-	&.has-invert-color {
-		&.is-style-primary-color {
-			.content {
-				color: var(--primary-content-color);
-
-				.content__heading {
-					color: var(--primary-content-color);
-				}
-
-				.content__text {
-					color: var(--primary-content-color);
-
-					a {
-						color: var(--primary-content-color);
-
-						svg {
-							fill: var(--primary-content-color);
-
-							&.mask-icon {
-								background-color: var(--primary-content-color);
-							}
-						}
-					}
-				}
-
-				.hds-button {
-					@extend %inverted-button;
-				}
-			}
-		} // &.is-style-primary-color {
-	} // &.has-invert-color
 } // .wp-block-hds-wp-image-text
 
 [dir="rtl"] .wp-block-hds-wp-image-text {
