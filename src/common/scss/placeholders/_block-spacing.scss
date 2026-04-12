@@ -1,12 +1,22 @@
 %helsinki-block-spacing {
-  --vertical-margin: var(--spacing-layout-s, 2rem);
+  --margin-top: var(--spacing-layout-s, 2rem);
+  --margin-bottom: var(--spacing-layout-s, 2rem);
 
-  margin-top: var(--vertical-margin);
-  margin-bottom: var(--vertical-margin);
+  margin-top: var(--margin-top);
+  margin-bottom: var(--margin-bottom);
 
   @include breakpoint('m') {
-    --vertical-margin: var(--spacing-layout-l, 4rem);
+    --margin-top: var(--spacing-layout-l, 4rem);
+    --margin-bottom: var(--spacing-layout-l, 4rem);
   }
+}
+
+%helsinki-paragraph-spacing {
+  --margin-top: var(--spacing-s, 1rem);
+  --margin-bottom: var(--spacing-s, 1rem);
+
+  margin-top: var(--margin-top);
+  margin-bottom: var(--margin-bottom);
 }
 
 %helsinki-block-content-spacing {
