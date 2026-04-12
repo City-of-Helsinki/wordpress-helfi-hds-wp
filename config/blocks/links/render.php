@@ -4,93 +4,74 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
 
-function hds_wp_render_block_links_list($attributes)
-{
-	if (
-		empty($attributes['links']) ||
-		!is_array($attributes['links'])
-	) {
+function hds_wp_render_block_links_list($attributes) {
+	if ( ! hds_wp_has_array_attribute( $attributes, 'links' ) ) {
 		return;
 	}
 
-	$linkType = !empty($attributes['linkType']) ? $attributes['linkType'] : 'title';
-	switch ($linkType) {
-		case 'title-excerpt':
-			$links = array_map(
-				'hds_wp_render_link_with_title_excerpt',
-				$attributes['links']
-			);
-			break;
+	$linkType = $attributes['linkType'] ?? 'title';
 
-		case 'image-title':
-			$links = array_map(
-				'hds_wp_render_link_with_image_title',
-				$attributes['links']
-			);
-			break;
+	$links = match( $linkType ) {
+		'title-excerpt' => array_map(
+			'hds_wp_render_link_with_title_excerpt',
+			$attributes['links']
+		),
+		'image-title' => array_map(
+			'hds_wp_render_link_with_image_title',
+			$attributes['links']
+		),
+		default => array_map(
+			'hds_wp_render_link_with_image_title',
+			$attributes['links']
+		),
+	};
 
-		default:
-			$links = array_map(
-				'hds_wp_render_link_with_title',
-				$attributes['links']
-			);
-			break;
-	}
-
-	$links = array_filter($links);
-	if (!$links) {
+	$links = array_filter( $links );
+	if ( ! $links ) {
 		return;
 	}
 
-	$id = '';
-	if (!empty($attributes['anchor'])) {
-		$id = 'id="' . esc_attr($attributes['anchor']) . '"';
-	}
-
-	$wrapClasses = array('links-list');
-	if (!empty($attributes['hasBackground'])) {
-		$wrapClasses[] = 'has-background';
-	}
-	if (!empty($attributes['className'])) {
-		$wrapClasses[] = esc_attr($attributes['className']);
-	}
-
-	$title = '';
+	$content = '';
 	if (!empty($attributes['title'])) {
-		$title = sprintf(
+		$content .= sprintf(
 			'<h2 class="links-list__title"><span>%s</span></h2>',
 			esc_html($attributes['title'])
 		);
 	}
 
-	$description = '';
 	if (!empty($attributes['contentText'])) {
-		$description = sprintf(
+		$content .= sprintf(
 			'<p class="links-list__description">%s</p>',
 			esc_html($attributes['contentText'])
 		);
 	}
 
-	$gridClasses = array(
-		'links-list__links',
-		'links-list__links--' . $linkType,
-		'links-list__links--' . $attributes['columns'],
+	$wrap_classes = array( 'wp-block-hds-wp-links-list', 'links-list' );
+	if ( ! empty( $attributes['hasBackground'] ) ) {
+		$wrap_classes[] = 'has-background';
+	}
+
+	$content .= sprintf(
+		'<ul class="%s">%s</ul>',
+		esc_attr( implode( ' ', array(
+			'links-list__links',
+			'links-list__links--' . $linkType,
+			'links-list__links--' . $attributes['columns'],
+		) ) ),
+		implode( '', $links )
 	);
 
 	return sprintf(
-		'<div %s class="%s">
+		'<div %s>
 			<div class="hds-container">
 				%s
-				%s
-				<ul class="%s">%s</ul>
 			</div>
 		</div>',
-		$id,
-		implode(' ', $wrapClasses),
-		$title,
-		$description,
-		implode(' ', $gridClasses),
-		implode('', $links)
+		hds_wp_block_html_attributes(
+			$attributes,
+			$wrap_classes
+		),
+		$content
 	);
 }
 
