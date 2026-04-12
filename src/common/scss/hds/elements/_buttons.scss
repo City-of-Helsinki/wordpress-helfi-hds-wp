@@ -44,7 +44,3 @@ button:focus-visible,
 .button {
   @extend %hds-button;
 }
-
-.wp-block-buttons {
-  margin-bottom: spacing('l');
-}
