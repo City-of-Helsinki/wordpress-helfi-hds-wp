@@ -1,17 +1,18 @@
 %helsinki-block-spacing {
-    margin-bottom: $paragraph-margin-bottom-small;
-    margin-top: $paragraph-margin-bottom-small;
+  --vertical-margin: var(--spacing-layout-s, 2rem);
 
-    @include breakpoint('m') {
-        margin-bottom: $paragraph-margin-bottom-big;
-        margin-top: $paragraph-margin-bottom-big;
-    }
+  margin-top: var(--vertical-margin);
+  margin-bottom: var(--vertical-margin);
+
+  @include breakpoint('m') {
+    --vertical-margin: var(--spacing-layout-l, 4rem);
+  }
 }
 
 %helsinki-block-content-spacing {
-    margin-top: spacing('m');
+  margin-top: spacing('m');
 
-    @include breakpoint('m') {
-        margin-top: spacing('2-xl');
-    }
+  @include breakpoint('m') {
+    margin-top: spacing('2-xl');
+  }
 }
