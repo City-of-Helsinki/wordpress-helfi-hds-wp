@@ -163,8 +163,6 @@ $heading-color: $body-color !default;
 $heading-font-family: $body-font-family !default;
 $heading-font-weight: $global-font-weight-normal !default;
 $heading-line-height: 1 !default;
-$heading-margin-top: var(--spacing-4-xl) !default;
-$heading-margin-bottom: var(--spacing-s) !default;
 $heading-word-wrap: break-word !default;
 
 /* ===== LINKS ===== */
@@ -185,7 +183,6 @@ $definition-list-title-width: 100px !default;
 $caption-font-size: 16px !default;
 
 /* ===== PARAGRAPHS ===== */
-$paragraph-line-height: $global-line-height !default;
 $paragraph-margin-bottom: var(--spacing-l) !default;
 $paragraph-margin-bottom-big: var(--spacing-4-xl) !default;
 $paragraph-margin-bottom-medium: var(--spacing-2-xl) !default;
