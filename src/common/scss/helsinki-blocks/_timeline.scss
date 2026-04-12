@@ -56,7 +56,6 @@
             position: relative;
 
             &__inner {
-
                 &--step {
                     width: var(--step-size);
                     height: var(--step-size);
@@ -89,10 +88,11 @@
                 }
 
                 &--text {
-                    padding-left: spacing('l');
-                }
+                  padding-left: spacing('l');
 
-                &--button {
+                  > :last-child {
+                    margin: 0;
+                  }
                 }
             }
 
@@ -104,22 +104,9 @@
             }
 
             p {
-                font-size: rem-calc(18);
-                margin: 0 0 spacing('m');
-                color: var(--secondary-content-color);
-                max-width: none;
-
-                &:last-child {
-                    margin: 0;
-                }
-            }
-
-            .wp-block-buttons {
-                margin: 0 0 spacing('m');
-
-                &:last-child {
-                    margin: 0;
-                }
+              font-size: rem-calc(18);
+              color: var(--secondary-content-color);
+              max-width: none;
             }
 
             &__link {
