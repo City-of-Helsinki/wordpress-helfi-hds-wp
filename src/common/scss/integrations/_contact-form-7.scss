@@ -188,13 +188,14 @@
                 @extend .hds-notification__label;
 
                 .icon {
-                    @extend .hds-icon;
-                    background-color: var(--notification-icon-color);
-                    display: none;
-                    transform: none !important;
-                    margin: 0;
-                    width: 24px;
-                    height: 24px;
+                  @extend .hds-icon;
+
+                  --icon-size: 24px;
+
+                  background-color: var(--notification-icon-color);
+                  display: none;
+                  transform: none !important;
+                  margin: 0;
                 }
             }
         }
