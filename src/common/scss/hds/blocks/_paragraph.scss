@@ -2,3 +2,8 @@
   @extend %helsinki-paragraph-spacing;
   @extend %helsinki-text-block-size;
 }
+
+p:not(.wp-block-paragraph) {
+  margin-top: 0;
+  margin-bottom: var(--spacing-s, 1rem);
+}
