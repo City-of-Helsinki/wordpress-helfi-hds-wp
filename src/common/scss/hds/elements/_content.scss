@@ -1,8 +1,9 @@
 .content {
 
 	.icon {
+    --icon-size: calc( var(--line-height, 1) * 1em );
+
 		display: block;
 		transition: $default-transition;
-		width: calc( var(--line-height, 1) * 1em );
 	}
 }
