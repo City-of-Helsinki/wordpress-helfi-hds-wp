@@ -108,7 +108,6 @@
               textAttribute: 'description',
             }),
             createElement(InnerBlocks, {
-              allowedBlocks: ['hds-wp/content-card'],
               template: [
                 ['hds-wp/content-card', {}],
                 ['hds-wp/content-card', {}],
@@ -199,7 +198,6 @@
           {},
           title(),
           createElement(InnerBlocks, {
-            allowedBlocks: ['hds-wp/content-card'],
             template: [
               ['hds-wp/content-card', {}],
               ['hds-wp/content-card', {}],

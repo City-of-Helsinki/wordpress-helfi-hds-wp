@@ -18,9 +18,10 @@
 } // .wp-block-hds-wp-link-list-cards
 
 .wp-block-hds-wp-link-list-card {
+  --card-background-color: #{$light-gray};
   --card-icon-size: 24px;
 
-  background-color: $light-gray;
+  background-color: var(--card-background-color);
   margin-bottom: spacing('m');
   padding: spacing('m') spacing('m') spacing('l') spacing('m');
 
@@ -42,8 +43,11 @@
   .hds-links-list-card__links {
 
     .hds-links-list-card__list {
-      padding: 0;
+      --list-indent: #{$list-margin-left};
+
       margin-bottom: 0;
+      padding: 0;
+      padding-inline-start: var(--list-indent);
     } // .hds-links-list-card__list
 
     .wp-block-hds-wp-link-list-card-link {

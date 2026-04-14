@@ -5,12 +5,14 @@
     "icon": "format-gallery",
     "textdomain": "hds-wp",
     "category": "hds-wp",
-    "parent": [
-      "hds-wp/timeline"
-    ],
     "supports": {
       "anchor": true
     },
+    "parent": [ "hds-wp/timeline" ],
+    "allowedBlocks": [
+      "core/paragraph",
+      "core/buttons"
+    ],
     "attributes": {
         "contentTitle": {
             "type": "string",
