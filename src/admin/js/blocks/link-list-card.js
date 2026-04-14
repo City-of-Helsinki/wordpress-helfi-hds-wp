@@ -55,7 +55,6 @@
           ['hds-wp/link-list-card-link'],
           ['hds-wp/link-list-card-link'],
         ],
-        allowedBlocks: ['hds-wp/link-list-card-link'],
         templateLock: false,
       });
 
