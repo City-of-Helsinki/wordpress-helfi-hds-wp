@@ -221,9 +221,9 @@ class Assets extends Module {
 	{
 		wp_enqueue_style(
 			'helsinki-wp-fonts',
-			$this->assetUrl('fonts', 'styles', $this->minified, 'css'),
+			$this->assetUrl('fonts', 'fonts', $this->minified, 'css'),
 			apply_filters( 'hds_wp_fonts_dependencies', array() ),
-			$this->assetVersion( $this->assetPath('fonts', 'styles', $this->minified, 'css') ),
+			$this->assetVersion( $this->assetPath('fonts', 'fonts', $this->minified, 'css') ),
 			'all'
 		);
 	}
