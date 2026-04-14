@@ -60,7 +60,7 @@ function hds_wp_render_block_accordion_panel($attributes)
 			</%1$s>',
 		isset($attributes['headingLevel']) ? $attributes['headingLevel'] : 'h2',
 		$attributes['blockId'],
-		isset($attributes['panelTitle']) ? esc_html($attributes['panelTitle']) : '',
+		hds_wp_render_block_accordion_panel_title( $attributes ),
 		Svg::icon('arrows-operators', 'angle-up')
 	);
 
@@ -100,4 +100,24 @@ function hds_wp_render_block_accordion_panel($attributes)
 		$title,
 		$panel
 	);
+}
+
+function hds_wp_render_block_accordion_panel_title( array $attributes ): string {
+	if ( empty( $attributes['panelTitle'] ) ) {
+		return '';
+	}
+
+	return wp_kses( $attributes['panelTitle'], array(
+		'img' => array(
+			'alt' => true,
+			'class' => true,
+			'height' => true,
+			'loading' => true,
+			'sizes' => true,
+			'src' => true,
+			'srcset' => true,
+			'style' => true,
+			'width' => true,
+		),
+	) );
 }
