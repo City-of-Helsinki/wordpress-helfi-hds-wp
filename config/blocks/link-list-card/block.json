@@ -1,42 +1,40 @@
 {
-    "apiVersion": 3,
-    "title": "Helsinki - Link List Card",
-    "name": "hds-wp/link-list-card",
-    "icon": "screenoptions",
-    "textdomain": "hds-wp",
-    "category": "hds-wp",
-    "style": "hds-map",
-    "parent": [
-      "hds-wp/link-list-cards"
-    ],
-    "attributes": {
-        "title": {
-            "type": "string",
-            "default": ""
-        },
-        "links": {
-            "type": "array",
-            "default": [
-              {
-                "linkTitle": "",
-                "linkUrl": "",
-                "linkDir": "external",
-                "targetBlank": false
-              },
-              {
-                "linkTitle": "",
-                "linkUrl": "",
-                "linkDir": "external",
-                "targetBlank": false
-              },
-              {
-                "linkTitle": "",
-                "linkUrl": "",
-                "linkDir": "external",
-                "targetBlank": false
-              }
-            ]
-        }
+  "apiVersion": 3,
+  "title": "Helsinki - Link List Card",
+  "name": "hds-wp/link-list-card",
+  "icon": "screenoptions",
+  "textdomain": "hds-wp",
+  "category": "hds-wp",
+  "parent": [ "hds-wp/link-list-cards" ],
+  "allowedBlocks": [ "hds-wp/link-list-card-link" ],
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": ""
     },
-    "style": [ "helsinki-wp-blocks" ]
+    "links": {
+      "type": "array",
+      "default": [
+        {
+          "linkTitle": "",
+          "linkUrl": "",
+          "linkDir": "external",
+          "targetBlank": false
+        },
+        {
+          "linkTitle": "",
+          "linkUrl": "",
+          "linkDir": "external",
+          "targetBlank": false
+        },
+        {
+          "linkTitle": "",
+          "linkUrl": "",
+          "linkDir": "external",
+          "targetBlank": false
+        }
+      ]
+    }
+  },
+  "style": [ "helsinki-wp-blocks" ]
 }
