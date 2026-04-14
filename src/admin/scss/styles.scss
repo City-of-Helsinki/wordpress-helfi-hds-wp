@@ -1,0 +1,24 @@
+@use "sass:math";
+
+@import '../../functions';
+@import '../../mixins';
+@import '../../hds-design-tokens';
+@import '../../settings';
+
+@import '../../common/scss/placeholders/block-spacing';
+@import '../../common/scss/placeholders/hds-button';
+
+@import 'blocks';
+
+body.wp-admin .editor-styles-wrapper,
+body.editor-styles-wrapper {
+    font-family: $body-font-family;
+
+    @import 'editor';
+    @import 'entry';
+    @import 'content';
+}
+
+body.wp-admin .interface-interface-skeleton__body {
+    @import 'interface';
+}

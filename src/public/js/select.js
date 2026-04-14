@@ -1,11 +1,7 @@
 (function( $ ) {
-    $(function () {       
+    $(function () {
         $("select[name='cat']").each(function(){
             var $this = $(this), numberOfOptions = $(this).children('option').length;
-                            
-            if (!$this.hasClass('hds-text-input__input')) {
-                $this.addClass('hds-text-input__input');
-            }
 
             $this.click(function (e) {
                 e.stopPropagation();

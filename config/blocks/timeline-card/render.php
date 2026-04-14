@@ -14,7 +14,6 @@ function hds_wp_render_timeline_card($attributes, $content = null)
 		$attributes['style'] == 'numbered' ? $attributes['order'] : ''
 	);
 
-	$text = '';
 	$text = sprintf(
 		'<div class="content__inner content__inner--text">
 			%s
@@ -30,13 +29,16 @@ function hds_wp_render_timeline_card($attributes, $content = null)
 		$wrapClasses[] = esc_attr($attributes['className']);
 	}
 
-	$id = '';
-	if (!empty($attributes['anchor'])) {
-		$id = 'id="' . esc_attr($attributes['anchor']) . '"';
+	$html_attr = array(
+		'class' => implode( ' ', $wrapClasses ),
+	);
+
+	if ( ! empty( $attributes['anchor'] ) ) {
+		$html_attr['id'] = $attributes['anchor'];
 	}
 
 	return sprintf(
-		'<li %s class="%s">
+		'<li %s>
 			<div class="content">
 				%s
 				<div class="content-wrapper">
@@ -44,8 +46,7 @@ function hds_wp_render_timeline_card($attributes, $content = null)
 				</div>
 			</div>
 		</li>',
-		$id,
-		implode(' ', $wrapClasses),
+		hds_wp_reduce_html_attributes( $html_attr ),
 		$step,
 		$text,
 	);

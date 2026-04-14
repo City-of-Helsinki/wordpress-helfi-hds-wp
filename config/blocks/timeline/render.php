@@ -10,68 +10,50 @@ function hds_wp_render_timeline($attributes, $content)
 		return $content;
 	}
 
-	$title = '';
+	$elements = '';
+
 	if (!empty($attributes['title'])) {
-		$title = sprintf(
+		$elements .= sprintf(
 			'<h2 class="timeline__heading">%s</h2>',
 			$attributes['title']
 		);
 	}
 
-	$description = '';
 	if (!empty($attributes['description'])) {
-		$description = sprintf(
+		$elements .= sprintf(
 			'<p class="excerpt">%s</p>',
 			$attributes['description']
 		);
 	}
 
-	$wrapClasses = array('wp-block-hds-wp-timeline');
-	if (!empty($attributes['className'])) {
-		$wrapClasses[] = esc_attr($attributes['className']);
-	}
+	if ( hds_wp_has_array_attribute( $attributes, 'cards' ) ) {
+		$list_element = match( $attributes['style'] ?? '' ) {
+			'numbered' => 'ol',
+			default => 'ul',
+		};
 
-	$id = '';
-	if (!empty($attributes['anchor'])) {
-		$id = 'id="' . esc_attr($attributes['anchor']) . '"';
-	}
-
-	$cards = array();
-	if (!empty($attributes['cards']) || is_array($attributes['cards'])) {
-		$cards = array_map(
-			'hds_wp_render_timeline_card',
-			$attributes['cards']
+		$elements .= sprintf(
+			'<%1$s class="timeline">%2$s</%1$s>',
+			$list_element,
+			\do_blocks( implode( PHP_EOL, array_map(
+				'hds_wp_render_timeline_card',
+				$attributes['cards']
+			) ) )
 		);
 	}
 
-	$timeline = '';
-	if (empty($attributes['style']) || $attributes['style'] == 'numberless') {
-		$timeline = sprintf(
-			'<ul class="timeline">
-				%s
-			</ul>',
-			do_blocks(implode(' ', $cards))
-		);
-	} else if ($attributes['style'] == 'numbered') {
-		$timeline = sprintf(
-			'<ol class="timeline">
-				%s
-			</ol>',
-			do_blocks(implode(' ', $cards))
+	if ( $elements ) {
+		return sprintf(
+			'<div %1$s>
+				%2$s
+			</div>',
+			hds_wp_block_html_attributes(
+				$attributes,
+				array( 'wp-block-hds-wp-timeline' )
+			),
+			$elements
 		);
 	}
 
-
-	return sprintf(
-		'<div %s class="%s">
-			%s
-			%s
-			%s
-		</div>',
-		$id,
-		implode(' ', $wrapClasses),
-		$title,
-		$description,
-		$timeline
-	);
+	return '';
 }

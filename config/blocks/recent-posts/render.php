@@ -26,15 +26,17 @@ function hds_wp_render_recent_posts_block( $attr ) {
 	$data = hds_wp_recent_posts_data( $attr );
 
 	return sprintf(
-		'<div id="%s" class="recent-posts %s">
+		'<div %s>
 			<div class="hds-container">
 				<h2>%s</h2>
 				%s
 				%s
 			</div>
 		</div>',
-		esc_attr( hds_wp_recent_posts_anchor( $attr ) ),
-		esc_attr( hds_wp_recent_posts_extra_class_names( $attr ) ),
+		hds_wp_block_html_attributes(
+			$attr,
+			array( 'wp-block-hds-wp-recent-posts', 'recent-posts' )
+		),
 		esc_html( hds_wp_recent_posts_title( $attr ) ),
 		hds_wp_recent_posts_grid( $data ),
 		hds_wp_recent_posts_more( $data )
@@ -43,10 +45,6 @@ function hds_wp_render_recent_posts_block( $attr ) {
 
 function hds_wp_recent_posts_anchor( $attr ) {
 	return ! empty( $attr['anchor'] ) ? $attr['anchor'] : '';
-}
-
-function hds_wp_recent_posts_extra_class_names( $attr ) {
-	return ! empty( $attr['className'] ) ? $attr['className'] : '';
 }
 
 function hds_wp_recent_posts_title( $attr ) {

@@ -1,5 +1,5 @@
 {
-    "apiVersion": 2,
+    "apiVersion": 3,
     "title": "Helsinki - Link",
     "name": "hds-wp/link",
     "icon": "links",
@@ -73,5 +73,6 @@
             "default": ""
         }
     },
-    "usesContext": [ "hds-wp/linkType" ]
+    "usesContext": [ "hds-wp/linkType" ],
+    "style": [ "helsinki-wp-blocks" ]
 }

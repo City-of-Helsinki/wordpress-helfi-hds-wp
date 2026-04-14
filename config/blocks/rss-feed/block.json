@@ -1,5 +1,5 @@
 {
-    "apiVersion": 2,
+    "apiVersion": 3,
     "title": "Helsinki - RSS",
     "name": "hds-wp/rss-feed",
     "icon": "images-alt",
@@ -34,5 +34,6 @@
             "default": ""
         }
     },
-    "render_callback": "hds_wp_render_rss_feed"
+    "render_callback": "hds_wp_render_rss_feed",
+    "style": [ "helsinki-wp-blocks" ]
 }

@@ -51,7 +51,7 @@ function hds_wp_render_map($attributes)
 	);
 
 	return sprintf(
-		'<div class="hds-map has-background">
+		'<div %s>
 			<div class="hds-container">
 				<h2>%s</h2>
 				<p>%s</p>
@@ -63,6 +63,10 @@ function hds_wp_render_map($attributes)
 				</div>
 			</div>
 		</div>',
+		hds_wp_block_html_attributes(
+			$attributes,
+			array( 'wp-block-hds-wp-map', 'hds-map', 'has-background' )
+		),
 		$title,
 		$description,
 		$beforeMapSkipLink,

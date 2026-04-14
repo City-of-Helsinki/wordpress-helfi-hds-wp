@@ -40,3 +40,43 @@ function hds_wp_render_credit_text($postId)
 	}
 	return '';
 }
+
+function hds_wp_block_html_attributes( array $block_attr, array $wrap_classes ): string {
+	$html_attr = array(
+		'class' => hds_wp_block_wrap_class_names( $wrap_classes, $block_attr ),
+	);
+
+	if ( ! empty( $block_attr['anchor'] ) ) {
+		$html_attr['id'] = $block_attr['anchor'];
+	}
+
+	return hds_wp_reduce_html_attributes( $html_attr );
+}
+
+function hds_wp_reduce_html_attributes( array $html_attr ): string {
+	return array_reduce(
+		array_keys( $html_attr ),
+		fn( $html, $attr ) => $html . sprintf(
+			'%s="%s"',
+			sanitize_key( $attr ),
+			esc_attr( $html_attr[$attr] )
+		),
+		''
+	);
+}
+
+function hds_wp_block_wrap_class_names( array $classes, array $attributes ): string {
+	$classes = array( 'wp-block-helsinki', ...$classes );
+
+	if ( ! empty( $attributes['className'] ) ) {
+		$classes[] = $attributes['className'];
+	}
+
+	return implode( ' ', $classes );
+}
+
+function hds_wp_has_array_attribute( array $attributes, string $key ): bool {
+	return isset( $attributes[$key] )
+		&& is_array( $attributes[$key] )
+		&& $attributes[$key];
+}

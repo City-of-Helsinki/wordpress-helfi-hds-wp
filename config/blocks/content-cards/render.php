@@ -4,71 +4,59 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
 
-function hds_wp_render_block_content_cards($attributes)
-{
-	if (
-		empty($attributes['cards']) ||
-		!is_array($attributes['cards'])
-	) {
+function hds_wp_render_block_content_cards($attributes) {
+	if ( ! hds_wp_has_array_attribute( $attributes, 'cards' ) ) {
 		return;
 	}
 
-	$posts = hds_wp_query_block_post_ids($attributes['cards']);
-	if (!$posts) {
+	$posts = hds_wp_query_block_post_ids( $attributes['cards'] );
+	if ( ! $posts ) {
 		return;
 	}
 
-	$wrapClasses = array('content-cards');
-	if (!empty($attributes['hasBackground'])) {
-		$wrapClasses[] = 'has-background';
+	$wrap_classes = array( 'wp-block-hds-wp-content-cards', 'content-cards' );
+	if ( ! empty( $attributes['hasBackground'] ) ) {
+		$wrap_classes[] = 'has-background';
 	}
 
-	if (!empty($attributes['className'])) {
-		$wrapClasses[] = esc_attr($attributes['className']);
-	}
-
-	$id = '';
-	if (!empty($attributes['anchor'])) {
-		$id = 'id="' . esc_attr($attributes['anchor']) . '"';
-	}
-
-	$gridClasses = array(
-		'content-cards__cards',
-		'content-cards__cards--' . $attributes['columns'],
-	);
-
-	$title = '';
+	$content = '';
 	if (!empty($attributes['title'])) {
-		$title = sprintf(
+		$content .= sprintf(
 			'<h2 class="content-cards__title">%s</h2>',
 			esc_html($attributes['title'])
 		);
 	}
 
-	$description = '';
 	if (!empty($attributes['description'])) {
-		$description = sprintf(
+		$content .= sprintf(
 			'<div class="content-cards__description">%s</div>',
 			wpautop($attributes['description'], false)
 		);
 	}
 
+	$content .= sprintf(
+		'<div class="%s">%s</div>',
+		esc_attr( implode( ' ', array(
+			'content-cards__cards',
+			'content-cards__cards--' . $attributes['columns'],
+		) ) ),
+		implode( '', array_map(
+			fn( $post ) => hds_wp_content_card_html( $post, $attributes ),
+			$posts
+		) )
+	);
+
 	return sprintf(
-		'<div %s class="%s">
+		'<div %s>
 			<div class="hds-container">
 				%s
-				%s
-				<div class="%s">%s</div>
 			</div>
 		</div>',
-		$id,
-		implode(' ', $wrapClasses),
-		$title,
-		$description,
-		implode(' ', $gridClasses),
-		implode('', array_map(function ($post) use ($attributes) {
-			return hds_wp_content_card_html($post, $attributes);
-		}, $posts))
+		hds_wp_block_html_attributes(
+			$attributes,
+			$wrap_classes
+		),
+		$content
 	);
 }
 

@@ -4,25 +4,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
 
-function hds_wp_render_image_banner($attributes)
-{
-
-	$wrapClasses = array('wp-block-hds-wp-image-banner');
-
-	if ($attributes['alignment'] === 'right') {
-		$wrapClasses[] = 'align-right';
-	} else {
-		$wrapClasses[] = 'align-left';
-	}
-
-	if (!empty($attributes['className'])) {
-		$wrapClasses[] = esc_attr($attributes['className']);
-	}
-
-	$id = '';
-	if (!empty($attributes['anchor'])) {
-		$id = 'id="' . esc_attr($attributes['anchor']) . '"';
-	}
+function hds_wp_render_image_banner($attributes) {
+	$wrap_classes = array(
+		'wp-block-hds-wp-image-banner',
+		$attributes['alignment'] === 'right' ? 'align-right' : 'align-left',
+	);
 
 	$imageConfig = array(
 		'alt' => $attributes['mediaAlt'],
@@ -59,10 +45,10 @@ function hds_wp_render_image_banner($attributes)
 			wp_get_attachment_image($attributes['mediaId'], 'full', false, $imageConfig),
 			$credit ? $credit : ''
 		);
-		$wrapClasses[] = 'has-image';
+		$wrap_classes[] = 'has-image';
 	} else {
 		$image = '<div class="image"><div class="placeholder"></div></div>';
-		$wrapClasses[] = 'has-placeholder';
+		$wrap_classes[] = 'has-placeholder';
 	}
 
 	$content = '';
@@ -82,7 +68,7 @@ function hds_wp_render_image_banner($attributes)
 	}
 
 	return sprintf(
-		'<div %s class="%s">
+		'<div %s>
 			%s
 			<div class="image-banner--wrapper">
 				%s
@@ -90,8 +76,10 @@ function hds_wp_render_image_banner($attributes)
 			</div>
 			%s
 		</div>',
-		$id,
-		implode(' ', $wrapClasses),
+		hds_wp_block_html_attributes(
+			$attributes,
+			$wrap_classes
+		),
 		$image_caption_mobile,
 		$image,
 		$content,

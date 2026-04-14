@@ -20,7 +20,6 @@ function hds_wp_render_banner($attributes)
 		);
 	}
 
-	$text = '';
 	$text = sprintf(
 		'<div class="content__inner content__inner--text">
 			<h2 class="content__heading">%s</h2>
@@ -45,32 +44,25 @@ function hds_wp_render_banner($attributes)
 	}
 
 
-	$wrapClasses = array('wp-block-hds-wp-banner');
+	$wrap_classes = array( 'wp-block-hds-wp-banner' );
 
-	if (!empty($attributes['className'])) {
-		$wrapClasses[] = esc_attr($attributes['className']);
-
-		if (str_contains($attributes['className'], 'align-center')) {
-			$icon = '';
-		}
+	if (
+		! empty( $attributes['className'] )
+		&& str_contains( $attributes['className'], 'align-center' )
+	) {
+		$icon = '';
 	}
 
-	if (empty($icon)) {
-		$wrapClasses[] = 'no-icon';
+	if ( ! $icon ) {
+		$wrap_classes[] = 'no-icon';
 	}
 
-	if (empty($button)) {
-		$wrapClasses[] = 'no-button';
-	}
-
-
-	$id = '';
-	if (!empty($attributes['anchor'])) {
-		$id = 'id="' . esc_attr($attributes['anchor']) . '"';
+	if ( ! $button ) {
+		$wrap_classes[] = 'no-button';
 	}
 
 	return sprintf(
-		'<div %s class="%s">
+		'<div %s>
 			<div class="content">
 				%s
 				<div class="content-wrapper">
@@ -79,8 +71,10 @@ function hds_wp_render_banner($attributes)
 				</div>
 			</div>
 		</div>',
-		$id,
-		implode(' ', $wrapClasses),
+		hds_wp_block_html_attributes(
+			$attributes,
+			$wrap_classes
+		),
 		$icon,
 		$text,
 		$button

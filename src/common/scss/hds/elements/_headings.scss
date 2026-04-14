@@ -1,0 +1,58 @@
+@use "sass:map";
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  --line-height: #{$heading-line-height};
+  --margin-top: 0;
+  --margin-bottom: var(--spacing-s, 1rem);
+
+  color: $heading-color;
+  font-family: $heading-font-family;
+  font-weight: $heading-font-weight;
+  hyphens: auto;
+  line-height: var(--line-height);
+  margin-top: var(--margin-top);
+  margin-bottom: var(--margin-bottom);
+  word-break: $heading-word-wrap;
+
+  &.has-background {
+    padding: 0;
+  }
+}
+
+@each $heading, $config in $heading-config {
+  #{$heading} {
+    @each $property, $value in $config {
+      #{$property}: #{$value};
+    }
+  }
+}
+
+@each $breakpoint, $headings in $heading-responsive-config {
+  @if ( map.has-key( $breakpoints, $breakpoint ) ) {
+    @include breakpoint($breakpoint) {
+      @each $heading, $config in $headings {
+        #{$heading} {
+          @each $property, $value in $config {
+            #{$property}: #{$value};
+          }
+        }
+      }
+    }
+  }
+}
+
+.content__body {
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+	  @extend %helsinki-text-block-size;
+	}
+}
