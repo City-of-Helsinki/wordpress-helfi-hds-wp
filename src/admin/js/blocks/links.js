@@ -108,7 +108,6 @@
             placeholder: __('This is the excerpt.', 'hds-wp'),
           }),
           createElement(InnerBlocks, {
-            allowedBlocks: ['hds-wp/link'],
             template: [
               ['hds-wp/link', {}],
               ['hds-wp/link', {}],
