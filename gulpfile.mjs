@@ -39,9 +39,6 @@ const DIST = {
     scripts: 'assets/public/js',
     styles: 'assets/public/css',
   },
-  fonts: {
-    styles: 'assets/fonts/css',
-  },
 };
 
 const SOURCE = {
@@ -56,9 +53,6 @@ const SOURCE = {
   public: {
     scripts: 'src/public/js/**/*.js',
     styles: 'src/public/scss/**/*.scss',
-  },
-  fonts: {
-    styles: 'src/fonts/scss/**/*.scss',
   },
 };
 
@@ -93,7 +87,6 @@ gulp.task('commonStyles', () => handleStyles('common'));
 gulp.task('publicScripts', () => handleScripts('public'));
 
 gulp.task('publicStyles', () => handleStyles('public'));
-gulp.task('fontStyles', () => handleStyles('fonts'));
 
 gulp.task('watchAdmin',function() {
   gulp.watch(SOURCE.admin.styles, gulp.parallel('adminStyles'));
@@ -110,10 +103,6 @@ gulp.task('watchPublic',function() {
   gulp.watch(SOURCE.public.scripts, gulp.parallel('publicScripts'));
 });
 
-gulp.task('watchFont',function() {
-  gulp.watch(SOURCE.fonts.styles, gulp.parallel('fontStyles'));
-});
-
 gulp.task('watch',function() {
   gulp.watch(SOURCE.admin.styles, gulp.parallel('adminStyles'));
   gulp.watch(SOURCE.admin.scripts, gulp.parallel('adminScripts'));
@@ -121,7 +110,6 @@ gulp.task('watch',function() {
   gulp.watch(SOURCE.common.scripts, gulp.parallel('commonScripts'));
   gulp.watch(SOURCE.public.styles, gulp.parallel('publicStyles'));
   gulp.watch(SOURCE.public.scripts, gulp.parallel('publicScripts'));
-  gulp.watch(SOURCE.fonts.styles, gulp.parallel('fontStyles'));
 });
 
 gulp.task('default', gulp.parallel(
@@ -131,5 +119,4 @@ gulp.task('default', gulp.parallel(
   'commonScripts',
   'publicStyles',
   'publicScripts',
-  'fontStyles'
 ));

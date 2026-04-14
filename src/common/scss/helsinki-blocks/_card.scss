@@ -68,7 +68,7 @@
 
         .card__more {
           .icon {
-            margin-left: spacing('s');
+            margin-inline-start: spacing('s');
           }
         }
       }
@@ -146,9 +146,10 @@
       margin-top: auto;
 
       .icon {
+        --icon-size: 48px;
+
         transition: $default-transition-time;
         margin-left: -8px;
-        width: 48px;
         pointer-events: none;
 
         &:focus {

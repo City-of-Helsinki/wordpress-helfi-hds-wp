@@ -18,7 +18,7 @@
 } // .wp-block-hds-wp-link-list-cards
 
 .wp-block-hds-wp-link-list-card {
-  --icon-size: 24px;
+  --card-icon-size: 24px;
 
   background-color: $light-gray;
   margin-bottom: spacing('m');
@@ -55,9 +55,7 @@
       font-weight: $global-font-weight-medium;
 
       .icon {
-        height: var(--icon-size);
-        width: var(--icon-size);
-        min-width: var(--icon-size);
+        --icon-size: var(--card-icon-size);
       }
     } // .wp-block-hds-wp-link-list-card-link
 

@@ -219,11 +219,11 @@ class Assets extends Module {
 
 	public function fonts(): void
 	{
-		wp_enqueue_style(
+		\wp_enqueue_style(
 			'helsinki-wp-fonts',
-			$this->assetUrl('fonts', 'fonts', $this->minified, 'css'),
-			apply_filters( 'hds_wp_fonts_dependencies', array() ),
-			$this->assetVersion( $this->assetPath('fonts', 'fonts', $this->minified, 'css') ),
+			'https://hds.hel.fi/fonts/fonts.css',
+			array(),
+			'5.0.0',
 			'all'
 		);
 	}

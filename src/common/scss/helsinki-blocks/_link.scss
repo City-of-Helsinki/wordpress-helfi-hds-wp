@@ -60,6 +60,8 @@
       }
 
       .icon {
+        --icon-size: 180px;
+
         @include absoluteCenter();
         max-width: 180px;
         width: 30%;
@@ -94,9 +96,7 @@
       margin: 0;
 
       .icon {
-        height: 24px;
-        width: 24px;
-        min-width: 24px;
+        --icon-size: 24px;
       }
 
       @include breakpoint('m') {
@@ -152,7 +152,7 @@
           }
 
           .icon {
-            margin-left: spacing('2-xs');
+            margin-inline-start: spacing('2-xs');
           }
         }
       }
@@ -180,7 +180,7 @@
 
             .icon {
               margin-top: spacing('s');
-              margin-left: calc(var(--spacing-2-xs) * -1);
+              margin-inline-start: calc(var(--spacing-2-xs) * -1);
             }
           }
         }
