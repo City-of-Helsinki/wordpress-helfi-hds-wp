@@ -130,7 +130,6 @@
                 className: 'timeline-line',
               }),
               createElement(InnerBlocks, {
-                allowedBlocks: ['hds-wp/timeline-card'],
                 template: [
                   ['hds-wp/timeline-card', {}],
                   ['hds-wp/timeline-card', {}],
