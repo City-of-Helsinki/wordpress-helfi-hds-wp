@@ -8,6 +8,7 @@
     "supports": {
       "anchor": true
     },
+    "allowedBlocks": [ "hds-wp/timeline-card" ],
     "attributes": {
         "title": {
             "type": "string",
