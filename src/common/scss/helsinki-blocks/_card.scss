@@ -94,6 +94,8 @@
       }
 
       .icon {
+        --icon-size: 180px;
+
         @include absoluteCenter();
         max-width: 180px;
         width: 30%;

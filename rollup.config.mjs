@@ -15,7 +15,7 @@ export default {
     globals: {
       lodash: 'lodash',
       react: 'React',
-      reactDOM: 'ReactDOM'
+      'react-dom': 'ReactDOM',
     }
   },
   plugins: [
