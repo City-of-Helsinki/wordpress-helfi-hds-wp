@@ -11,6 +11,7 @@
     "supports": {
       "anchor": true
     },
+    "allowedBlocks": [ "hds-wp/link" ],
     "attributes": {
         "columns": {
             "type": "integer",
