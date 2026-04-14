@@ -1,3 +1,5 @@
+@use "sass:map";
+
 @mixin breakpoint($breakpoint) {
   @media only screen and (min-width: #{get-breakpoint($breakpoint)} ) {
     @content;
@@ -87,7 +89,7 @@
   }
 
   @each $breakpoint, $headings in $heading-responsive-config {
-    @if ( map-has-key( $breakpoints, $breakpoint ) ) {
+    @if ( map.has-key( $breakpoints, $breakpoint ) ) {
       @include breakpoint($breakpoint) {
         @each $heading, $config in $headings {
           #{$heading} {

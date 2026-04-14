@@ -1,5 +1,5 @@
 {
-    "apiVersion": 2,
+    "apiVersion": 3,
     "title": "Helsinki - Phasing",
     "name": "hds-wp/timeline",
     "icon": "format-gallery",
@@ -37,5 +37,6 @@
             "default": ""
         }
     },
-    "render_callback": "hds_wp_render_timeline"
+    "render_callback": "hds_wp_render_timeline",
+    "style": [ "helsinki-wp-blocks" ]
 }

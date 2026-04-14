@@ -7,6 +7,10 @@
     margin-right: auto;
   }
 
+  .content-cards__title {
+    margin-top: 0;
+  }
+
   .content-cards__cards {
 		--grid-columns: 1;
 		--grid-columns-gap: 0px;

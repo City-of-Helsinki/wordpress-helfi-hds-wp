@@ -1,5 +1,5 @@
 {
-    "apiVersion": 2,
+    "apiVersion": 3,
     "title": "Helsinki - Phasing Card",
     "name": "hds-wp/timeline-card",
     "icon": "format-gallery",
@@ -32,5 +32,6 @@
             "default": ""
         }
     },
-    "render_callback": "hds_wp_render_timeline_card"
+    "render_callback": "hds_wp_render_timeline_card",
+    "style": [ "helsinki-wp-blocks" ]
 }

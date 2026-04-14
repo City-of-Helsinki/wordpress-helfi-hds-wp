@@ -1,5 +1,5 @@
 {
-  "apiVersion": 2,
+  "apiVersion": 3,
   "title": "Helsinki - Video",
   "description": "Embed a video from the Helsinki-kanava or YouTube.",
   "name": "hds-wp/video",
@@ -41,5 +41,6 @@
       "default": ""
     }
   },
-  "render_callback": "hds_wp_render_video"
+  "render_callback": "hds_wp_render_video",
+  "style": [ "helsinki-wp-blocks" ]
 }

@@ -6,15 +6,13 @@
 @import '../../settings';
 @import '../../hds-core';
 
-@import '../../common/scss/hds/index';
-@import '../../common/scss/blocks/index';
-@import '../../common/scss/widgets/index';
+@import '../../common/scss/placeholders/block-spacing';
+@import '../../common/scss/placeholders/hds-button';
 @import '../../common/scss/integrations/index';
 
 @import 'fieldset';
-@import 'headings';
 @import 'text';
 @import 'integrations/askem';
 @import 'integrations/complianz';
 @import 'integrations/contact-form-7';
-@import 'widgets';
+@import 'widgets/index';

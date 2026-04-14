@@ -1,5 +1,5 @@
 {
-    "apiVersion": 2,
+    "apiVersion": 3,
     "title": "Helsinki - Content Cards",
     "name": "hds-wp/content-cards",
     "icon": "images-alt",
@@ -41,5 +41,6 @@
             "type": "string"
         }
     },
-    "render_callback": "hds_wp_render_block_content_cards"
+    "render_callback": "hds_wp_render_block_content_cards",
+    "style": [ "helsinki-wp-blocks" ]
 }

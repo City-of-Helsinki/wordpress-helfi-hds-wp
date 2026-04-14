@@ -76,7 +76,6 @@ function handleScripts(type) {
 
 function handleStyles(type) {
   return gulp.src(SOURCE[type].styles)
-    .pipe(rename({basename: "styles"}))
     .pipe(sass(sassOptions).on('error', sass.logError))
     .pipe(prefix())
     .pipe(cleanCSS(cssOptions))

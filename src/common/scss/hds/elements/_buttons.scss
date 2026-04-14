@@ -1,0 +1,50 @@
+button {
+  outline-offset: 2px;
+
+  &:focus {
+    outline: 3px solid $black;
+  }
+}
+
+button:focus-visible,
+[type="button"]:focus-visible,
+[type="reset"]:focus-visible,
+[type="submit"]:focus-visible {
+  outline: 3px solid $black;
+}
+
+.hds-button,
+.hds-button--primary,
+.wp-block-button .wp-block-button__link,
+.wp-block-button .wp-element-button,
+.wp-block-file .wp-element-button {
+  @extend %hds-button;
+}
+
+.hds-button--secondary,
+.wp-block-button.is-style-secondary .wp-block-button__link,
+.wp-block-button.is-style-secondary .wp-element-button,
+.wp-block-file.is-style-secondary .wp-element-button {
+  @extend %hds-button--secondary;
+}
+
+.hds-button--supplementary,
+.wp-block-button.is-style-supplementary .wp-block-button__link,
+.wp-block-button.is-style-supplementary .wp-element-button,
+.wp-block-file.is-style-supplementary .wp-element-button {
+  @extend %hds-button--supplementary;
+}
+
+.hds-button--small,
+.wp-block-button .hds-button--small {
+  @extend %hds-button--small;
+}
+
+.cmplz-blocked-content-container .cmplz-blocked-content-notice,
+.button {
+  @extend %hds-button;
+}
+
+.wp-block-buttons {
+  margin-bottom: spacing('l');
+}

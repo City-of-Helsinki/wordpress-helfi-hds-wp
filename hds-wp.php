@@ -4,10 +4,10 @@ namespace ArtCloud\Helsinki\Plugin\HDS;
 /**
   * Plugin Name: WordPress Helsinki
   * Description: Provides common Helsinki styles, assets and blocks, and integrations to Helsinki APIs and various plugins.
-  * Version: 2.1.1
+  * Version: 3.0.0
   * License: GPLv3
-  * Requires at least: 5.9
-  * Requires PHP:      7.1
+  * Requires at least: 6.9
+  * Requires PHP:      8.2
   * Author: ArtCloud
   * Author URI: https://www.artcloud.fi
   * Text Domain: hds-wp
@@ -240,7 +240,7 @@ function textdomain() {
 add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\\admin_script_translations', 9999 );
 function admin_script_translations() {
     wp_set_script_translations(
-        'helsinki-wp-admin-scripts',
+        'helsinki-wp-admin',
         'hds-wp',
         plugin_dir_path( __FILE__ ) . 'languages'
     );
@@ -249,7 +249,7 @@ function admin_script_translations() {
 add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\public_script_translations', 9999 );
 function public_script_translations() {
     wp_set_script_translations(
-        'helsinki-wp-scripts',
+        'helsinki-wp',
         'hds-wp',
         plugin_dir_path( __FILE__ ) . 'languages'
     );

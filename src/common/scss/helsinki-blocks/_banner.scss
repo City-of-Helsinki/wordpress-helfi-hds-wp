@@ -1,6 +1,7 @@
 .wp-block-hds-wp-banner {
 	background-color: var(--primary-color);
 	color: var(--primary-content-color);
+
 	@extend %helsinki-block-spacing;
 
 	.content {
@@ -24,12 +25,6 @@
 						margin-bottom: spacing('s');
 					}
 				}
-			}
-
-			&--text {
-			}
-
-			&--button {
 			}
 		}
 
@@ -59,31 +54,16 @@
 		}
 
 		&__link {
-			background-color: var(--primary-content-color);
-			border-color: var(--primary-content-color);
-			color: var(--primary-content-secondary-color);
-			outline-color: var(--primary-content-color);
+      --button-background-color: var(--primary-content-color);
+      --button-border-color: var(--primary-content-color);
+      --button-outline-color: var(--primary-content-color);
+      --button-color: var(--primary-content-secondary-color);
+      --button-icon-color: var(--button-color);
 		}
 
 		&__link:hover {
-			color: var(--primary-content-color);
-			background-color: transparent;
-		}
-
-		&__link svg {
-			fill: var(--primary-content-secondary-color);
-
-			&.mask-icon {
-				background-color: var(--primary-content-secondary-color);
-			}
-		}
-
-		&__link:hover svg {
-			fill: var(--primary-content-color);
-
-			&.mask-icon {
-				background-color: var(--primary-content-color);
-			}
+      --button-background-color: transparent;
+      --button-color: var(--primary-content-color);
 		}
 
 		@include breakpoint('m') {
@@ -140,15 +120,6 @@
 			&__heading {
 				margin-bottom: spacing('s');
 			}
-
-			&__inner {
-
-				&--text {
-				}
-
-				&--button {
-				}
-			}
 		}
 	}
 
@@ -168,10 +139,6 @@
 	&.no-button {
 
 		.content {
-
-			&__inner {
-
-			}
 
 			&__text {
 				margin-bottom: 0;
@@ -196,21 +163,15 @@
 						}
 					}
 				}
-	
-				&--text {
-				}
-	
-				&--button {
-				}
 			}
-	
+
 			&__heading {
 				color: var(--secondary-content-color);
 			}
-	
+
 			&__text {
 				color: var(--secondary-content-color);
-				a {	
+				a {
 					svg {
 						fill: var(--secondary-content-color);
 
@@ -218,42 +179,25 @@
 							background-color: var(--secondary-content-color);
 						}
 					}
-				}	
+				}
 			}
-	
+
 			&__link {
-				background-color: $black;
-				border-color: $black;
-				color: $white;
-				outline-color: $black;
+        --button-background-color: #{$black};
+        --button-border-color: #{$black};
+        --button-outline-color: #{$black};
+        --button-color: #{$white};
 			}
-	
+
 			&__link:hover {
-				color: $black;
-				background-color: transparent;
+        --button-background-color: transparent;
+        --button-color: #{$black};
 			}
-	
-			&__link svg {
-				fill: $white;
-
-				&.mask-icon {
-					background-color: $white;
-				}
-			}
-	
-			&__link:hover svg {
-				fill: $black;
-
-				&.mask-icon {
-					background-color: $black;
-				}
-			}
-	
 		}
 	}
 
 	&[class*="-align-center"] {
-	
+
 		.content {
 
 			&-wrapper {
@@ -274,7 +218,7 @@
 				p {
 					margin-left: auto;
 					margin-right: auto;
-					text-align: center;	
+					text-align: center;
 
 					&:last-child {
 						margin-bottom: 0;

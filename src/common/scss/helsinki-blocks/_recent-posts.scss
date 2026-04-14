@@ -1,3 +1,5 @@
+@use "sass:map";
+
 .recent-posts {
 	@extend %helsinki-block-spacing;
 
@@ -45,12 +47,12 @@
 }
 
 .has-sidebar {
-	
+
     .recent-posts:not(.is-style-without-image) {
 
         .grid {
             @include breakpoint('l') {
-                $gutter: map-get($gutters, 'l');
+                $gutter: map.get($gutters, 'l');
 
                 .grid__column {
                     width: calc(50% - #{$gutter} / 2);

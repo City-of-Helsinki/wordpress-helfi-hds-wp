@@ -6,9 +6,11 @@
 @import '../../settings';
 @import '../../hds-core';
 
-@import '../../common/scss/hds/index';
+@import '../../common/scss/placeholders/block-spacing';
+@import '../../common/scss/placeholders/hds-button';
 @import '../../common/scss/integrations/index';
 
+@import 'blocks';
 
 body.wp-admin .editor-styles-wrapper,
 body.editor-styles-wrapper {
@@ -16,11 +18,7 @@ body.editor-styles-wrapper {
 
     @import 'editor';
     @import 'entry';
-    @import 'headings';
     @import 'content';
-    @import '../../common/scss/blocks/index';
-
-    @import 'blocks';
 }
 
 body.wp-admin .interface-interface-skeleton__body {
