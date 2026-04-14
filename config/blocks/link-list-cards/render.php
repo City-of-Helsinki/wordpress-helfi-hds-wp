@@ -5,50 +5,67 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 function hds_wp_render_link_list_cards( $attributes ) {
-	if (
-		empty( $attributes['cards'] ) ||
-		! is_array( $attributes['cards'] )
-	) {
-		return;
-	}
+	$elements = '';
 
-	$title = '';
 	if ( ! empty( $attributes['title'] ) ) {
-		$title = sprintf(
+		$elements .= sprintf(
 			'<h2 class="hds-links-list-cards__title">%s</h2>',
 			$attributes['title']
 		);
 	}
 
-	return sprintf(
-		'<div class="wp-block-hds-wp-link-list-cards">
-			%s
-			<div class="hds-links-list-cards__cards">
+	if ( hds_wp_has_array_attribute( $attributes, 'cards' ) ) {
+		$elements .= sprintf(
+			'<div class="hds-links-list-cards__cards">
 				%s
-			</div>
-		</div>',
-		$title,
-		implode( '', array_map(
-			'hds_wp_render_link_list_card',
-			$attributes['cards']
-		) )
-	);
+			</div>',
+			implode( '', array_map(
+				'hds_wp_render_link_list_card',
+				$attributes['cards']
+			) )
+		);
+	}
+
+	if ( $elements ) {
+		return sprintf(
+			'<div %1$s>%2$s</div>',
+			hds_wp_block_html_attributes(
+				$attributes,
+				array( 'wp-block-hds-wp-link-list-cards' )
+			),
+			$elements
+		);
+	}
+
+	return '';
 }
 
-function hds_wp_render_link_list_card( $attributes ) {
-	return sprintf(
-		'<div class="wp-block-hds-wp-link-list-card">
-			<h3 class="hds-links-list-card__title">%s</h3>
-			<div class="hds-links-list-card__links">
+function hds_wp_render_link_list_card( $attributes ): string {
+	$elements = '';
+
+	if ( ! empty( $attributes['title'] ) ) {
+		$elements .= sprintf(
+			'<h3 class="hds-links-list-card__title">%s</h3>',
+			esc_html( $attributes['title'] )
+		);
+	}
+
+	if ( hds_wp_has_array_attribute( $attributes, 'links' ) ) {
+		$elements .= sprintf(
+			'<div class="hds-links-list-card__links">
 				<ul class="hds-links-list-card__list">%s</ul>
-			</div>
-		</div>',
-		esc_html( $attributes['title'] ),
-		implode( '', array_map(
-			'hds_wp_render_link_list_card_link',
-			$attributes['links']
-		) )
-	);
+			</div>',
+			implode( '', array_map(
+				'hds_wp_render_link_list_card_link',
+				$attributes['links']
+			) )
+		);
+	}
+
+	return $elements ? sprintf(
+		'<div class="wp-block-hds-wp-link-list-card">%s</div>',
+		$elements
+	) : '';
 }
 
 function hds_wp_render_link_list_card_link( $attributes ) {

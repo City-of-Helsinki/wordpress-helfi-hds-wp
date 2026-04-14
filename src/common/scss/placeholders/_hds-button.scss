@@ -1,5 +1,7 @@
 %hds-button {
   --button-background-color: #{$black};
+  --button-border-width: 2px;
+  --button-border-style: solid;
   --button-border-color: #{$black};
   --button-outline-color: #{$black};
   --button-color: #{$white};
@@ -7,7 +9,7 @@
 
   align-items: center;
   background-color: var(--button-background-color);
-  border: 2px solid var(--button-border-color);
+  border: var(--button-border-width) var(--button-border-style) var(--button-border-color);
   border-radius: 0;
   box-sizing: border-box;
   color: var(--button-color);
@@ -43,10 +45,17 @@
   &:hover {
     --button-background-color: transparent;
     --button-color: #{$black};
+
+    background-color: var(--button-background-color);
+    color: var(--button-color);
+    text-decoration: none;
   }
 
   &:focus {
+    background-color: var(--button-background-color);
+    color: var(--button-color);
     outline: 3px solid var(--button-outline-color);
+    text-decoration: none;
   }
 
   &:disabled,
@@ -57,6 +66,7 @@
     --button-icon-color: #{$medium-gray};
 
     cursor: default;
+    text-decoration: none;
 
     &:focus {
       outline: none;
@@ -112,7 +122,6 @@
     --button-background-color: transparent;
     --button-border-color: transparent;
     --button-color: #{$medium-gray};
-    text-decoration: none;
 
     &:hover,
     &:focus {

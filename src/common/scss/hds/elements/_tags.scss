@@ -1,0 +1,15 @@
+.hds-tag {
+  --tag-focus-outline-color: #{$black};
+
+  color: var(--tag-color);
+  font-size: var(--tag-font-size);
+  outline: none;
+  padding-left: var(--tag-padding);
+  padding-right: var(--tag-padding);
+  text-decoration: none;
+
+  &:focus,
+  &:hover {
+    --tag-background: #{$medium-gray};
+  }
+}

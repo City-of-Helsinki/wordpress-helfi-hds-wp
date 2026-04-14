@@ -1,0 +1,21 @@
+.wp-block-list {
+  --list-indent: #{$list-margin-left};
+  --list-item-spacing: #{spacing('2-xs')};
+
+  @extend %helsinki-paragraph-spacing;
+  @extend %helsinki-text-block-size;
+
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+  padding: 0;
+  padding-inline-start: var(--list-indent);
+
+  .wp-block-list {
+    margin-top: var(--list-item-spacing) !important;
+    margin-bottom: var(--list-item-spacing) !important;
+  }
+
+  li + li {
+    margin-top: var(--list-item-spacing);
+  }
+}

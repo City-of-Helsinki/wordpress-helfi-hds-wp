@@ -2,8 +2,6 @@
 	background-color: var(--primary-color);
 	color: var(--primary-content-color);
 
-	@extend %helsinki-block-spacing;
-
 	.content {
 		display: flex;
 		flex-flow: column;
@@ -12,13 +10,17 @@
 		&__inner {
 
 			&--icon {
+        --banner-icon-size: 64px;
+        --banner-icon-color: var(--primary-content-color);
+
 				svg {
-					fill: var(--primary-content-color);
-					margin-right: spacing('s');
-					width: 64px;
+					fill: var(--banner-icon-color);
+					margin-inline-end: spacing('s');
+					width: var(--banner-icon-size);
 
 					&.mask-icon {
-						background-color: var(--primary-content-color);
+            --icon-size: var(--banner-icon-size);
+						background-color: var(--banner-icon-color);
 					}
 
 					@include breakpointMax('m') {
@@ -73,17 +75,8 @@
 			&__inner {
 
 				&--icon {
+          --banner-icon-size: 72px;
 					float: left;
-
-					svg {
-						width: 72px;
-					}
-				}
-
-				&--text {
-				}
-
-				&--button {
 				}
 			}
 		}
@@ -100,15 +93,7 @@
 			&__inner {
 
 				&--icon {
-					svg {
-						width: 100px;
-					}
-				}
-
-				&--text {
-				}
-
-				&--button {
+          --banner-icon-size: 100px;
 				}
 			}
 		}
@@ -151,17 +136,9 @@
 		color: var(--secondary-content-color);
 
 		.content {
-
 			&__inner {
-
 				&--icon {
-					svg {
-						fill: var(--secondary-content-color);
-
-						&.mask-icon {
-							background-color: var(--secondary-content-color);
-						}
-					}
+          --banner-icon-color: var(--secondary-content-color);
 				}
 			}
 

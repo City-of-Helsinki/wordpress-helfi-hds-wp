@@ -11,51 +11,41 @@ function hds_wp_render_block_accordion($attributes, $content)
 	if (!isset($attributes['blockVersion']) || $attributes['blockVersion'] <= 1) {
 		return $content;
 	}
-	$title = '';
+
+	$html = '';
 	if (!empty($attributes['title'])) {
-		$title = sprintf(
+		$html .= sprintf(
 			'<h2 class="accordion_heading">%s</h2>',
 			esc_html($attributes['title'])
 		);
 	}
 
-	$description = '';
 	if (!empty($attributes['description'])) {
-		$description = sprintf(
+		$html .= sprintf(
 			'<div class="accordion-description">%s</div>',
 			wpautop($attributes['description'], false)
 		);
 	}
 
-	$id = '';
-	if (!empty($attributes['anchor'])) {
-		$id = 'id="' . esc_attr($attributes['anchor']) . '"';
-	}
-
-	$wrapClasses = array('wp-block-hds-wp-accordion', 'accordion-wrapper');
-	if (!empty($attributes['className'])) {
-		$wrapClasses[] = esc_attr($attributes['className']);
-	}
-
-	$panels = array();
-	if (!empty($attributes['panels']) || is_array($attributes['panels'])) {
-		$panels = array_map(
-			'hds_wp_render_block_accordion_panel',
-			$attributes['panels']
+	if ( hds_wp_has_array_attribute( $attributes, 'panels' ) ) {
+		$html .= sprintf(
+			'<div class="accordion">%s</div>',
+			implode( '', array_map(
+				'hds_wp_render_block_accordion_panel',
+				$attributes['panels']
+			) )
 		);
 	}
 
 	return sprintf(
-		'<div %s class="%s">
-					%s
-					%s
-					<div class="accordion">%s</div>
-			</div>',
-		$id,
-		implode(' ', $wrapClasses),
-		$title,
-		$description,
-		implode(' ', $panels)
+		'<div %s>
+			%s
+		</div>',
+		hds_wp_block_html_attributes(
+			$attributes,
+			array( 'wp-block-hds-wp-accordion', 'accordion-wrapper' ),
+		),
+		$html
 	);
 }
 
@@ -88,23 +78,25 @@ function hds_wp_render_block_accordion_panel($attributes)
 		Svg::icon('arrows-operators', 'angle-up')
 	);
 
-	$id = '';
-	if (!empty($attributes['anchor'])) {
-		$id = 'id="' . esc_attr($attributes['anchor']) . '"';
-	}
-
 	$wrapClasses = array('wp-block-hds-wp-accordion-panel', 'accordion__section');
 	if (!empty($attributes['className'])) {
 		$wrapClasses[] = esc_attr($attributes['className']);
 	}
 
+	$html_attr = array(
+		'class' => implode( ' ', $wrapClasses ),
+	);
+
+	if ( ! empty( $attributes['anchor'] ) ) {
+		$html_attr['id'] = $attributes['anchor'];
+	}
+
 	return sprintf(
-		'<div %s class="%s">
-				%s
-				%s
-			</div>',
-		$id,
-		implode(' ', $wrapClasses),
+		'<div %s>
+			%s
+			%s
+		</div>',
+		hds_wp_reduce_html_attributes( $html_attr ),
 		$title,
 		$panel
 	);

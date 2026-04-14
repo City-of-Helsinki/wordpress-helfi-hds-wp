@@ -1,6 +1,4 @@
 .wp-block-hds-wp-accordion {
-	@extend %helsinki-block-spacing;
-
 	.accordion__section {
 		margin: 0;
 		padding: 0;
@@ -31,11 +29,10 @@
 		 }
 
 		 p {
-            &:last-child {
-                margin-bottom: 0;
-            }
-        }
-
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
 	}
 
 	.accordion {

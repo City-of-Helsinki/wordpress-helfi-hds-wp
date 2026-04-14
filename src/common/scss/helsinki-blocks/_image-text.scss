@@ -1,6 +1,4 @@
 .wp-block-hds-wp-image-text {
-	@extend %helsinki-block-spacing;
-
   --side-padding: #{rem-calc(24)};
 	--caption-align: right;
 	--caption-spacing: #{spacing('s')};

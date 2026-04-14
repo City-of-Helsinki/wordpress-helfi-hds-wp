@@ -1,8 +1,6 @@
 @use "sass:map";
 
 .recent-posts {
-	@extend %helsinki-block-spacing;
-
     .posts-page {
 
         .link-wrap {
@@ -38,12 +36,13 @@
 
 }
 
-.recent-posts.is-style-without-image, .wp-block-hds-wp-recent-posts.is-style-without-image {
-    @extend .feed-posts;
+.recent-posts.is-style-without-image,
+.wp-block-hds-wp-recent-posts.is-style-without-image {
+  @extend .feed-posts;
 
-    .posts {
-        margin-bottom: spacing('m');
-    }
+  .posts {
+    margin-bottom: spacing('m');
+  }
 }
 
 .has-sidebar {
