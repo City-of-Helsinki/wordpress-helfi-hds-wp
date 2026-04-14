@@ -2215,7 +2215,7 @@ function hdsIcons(name) {
     }
     return hdsInspectorControls({
       title: __('Settings', 'hds-wp'),
-      initialOpen: false
+      initialOpen: true
     }, controls.map(function (control) {
       return hdsPanelRow({}, createElement(control, props));
     }));
@@ -2320,7 +2320,6 @@ function hdsIcons(name) {
     var _useInnerBlocksProps = useInnerBlocksProps(_objectSpread(_objectSpread({}, blockProps), {}, {
         className: 'hds-links-list-card__list',
         template: [['hds-wp/link-list-card-link'], ['hds-wp/link-list-card-link'], ['hds-wp/link-list-card-link']],
-        allowedBlocks: ['hds-wp/link-list-card-link'],
         templateLock: false
       })),
       children = _useInnerBlocksProps.children,
@@ -2498,7 +2497,6 @@ function hdsIcons(name) {
     var innerBlocksProps = useInnerBlocksProps(_objectSpread(_objectSpread({}, blockProps), {}, {
       className: 'hds-links-list-cards__cards',
       template: [['hds-wp/link-list-card']],
-      allowedBlocks: ['hds-wp/link-list-card'],
       templateLock: false
     }));
     var _useState21 = useState(attributes.title ? false : true),

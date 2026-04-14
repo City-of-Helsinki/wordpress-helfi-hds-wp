@@ -1,25 +1,25 @@
 {
-    "apiVersion": 3,
-    "title": "Helsinki - Link List Cards",
-    "name": "hds-wp/link-list-cards",
-    "icon": "screenoptions",
-    "textdomain": "hds-wp",
-    "category": "hds-wp",
-    "style": "hds-map",
-    "attributes": {
-        "title": {
-            "type": "string",
-            "default": ""
-        },
-        "cards": {
-            "type": "array",
-            "default": []
-        },
-        "preview": {
-            "type": "string",
-            "default": ""
-        }
+  "apiVersion": 3,
+  "title": "Helsinki - Link List Cards",
+  "name": "hds-wp/link-list-cards",
+  "icon": "screenoptions",
+  "textdomain": "hds-wp",
+  "category": "hds-wp",
+  "allowedBlocks": [ "hds-wp/link-list-card" ],
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": ""
     },
-    "render_callback": "hds_wp_render_link_list_cards",
-    "style": [ "helsinki-wp-blocks" ]
+    "cards": {
+      "type": "array",
+      "default": []
+    },
+    "preview": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "render_callback": "hds_wp_render_link_list_cards",
+  "style": [ "helsinki-wp-blocks" ]
 }
