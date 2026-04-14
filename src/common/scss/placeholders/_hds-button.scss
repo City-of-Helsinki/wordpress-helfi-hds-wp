@@ -43,8 +43,8 @@
 	}
 
   &:hover {
-    --button-background-color: transparent;
-    --button-color: #{$black};
+    --button-background-color: rgba(0,0,0,.8);
+    --button-color: #{$white};
 
     background-color: var(--button-background-color);
     color: var(--button-color);
@@ -85,8 +85,7 @@
     --button-color: #{$black};
 
     &:hover {
-      --button-background-color: #{$black};
-      --button-color: #{$white};
+      --button-background-color: rgba(0,0,0,.05);
     }
   }
 
@@ -147,8 +146,7 @@
     --button-color: #{$black};
 
   	&:hover {
-      --button-background-color: transparent;
-      --button-color: #{$white};
+      --button-background-color: rgba(255,255,255,0.8);
   	}
 
     &:focus {
@@ -161,8 +159,23 @@
       --button-color: #{$white};
 
       &:hover {
-        --button-background-color: #{$white};
-        --button-color: #{$black};
+        --button-background-color: rgba(0,0,0,.05);
+        --button-color: #{$white};
+  		}
+
+      &:focus {
+        outline-color: $white;
+      }
+    }
+
+    &.hds-button--supplementary {
+      --button-background-color: transparent;
+      --button-border-color: transparent;
+      --button-color: #{$white};
+
+      &:hover {
+        --button-background-color: rgba(0,0,0,.05);
+        --button-color: #{$white};
   		}
 
       &:focus {

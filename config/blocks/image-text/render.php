@@ -10,12 +10,6 @@ function hds_wp_render_image_text($attributes) {
 		$attributes['alignment'] === 'right' ? 'align-right' : 'align-left'
 	);
 
-	if ( function_exists('helsinki_scheme_has_invert_color') ) {
-		if ( helsinki_scheme_has_invert_color() ) {
-			$wrap_classes[] = 'has-invert-color';
-		}
-	}
-
 	$imageConfig = array(
 		'alt' => $attributes['mediaAlt'],
 		'width' => $attributes['mediaWidth'],
@@ -60,16 +54,53 @@ function hds_wp_render_image_text($attributes) {
 	}
 
 	$content = '';
-	if (!empty($attributes['contentTitle']) || !empty($attributes['contentText']) || !empty($attributes['buttonText'])) {
+	if (
+		! empty( $attributes['contentTitle'] )
+		|| ! empty( $attributes['contentText'] )
+		|| ! empty( $attributes['buttonText'] )
+	) {
+		$color_classes = 'has-secondary-background-color has-secondary-content-color';
+
+		if (
+			! empty( $attributes['className'] )
+			&& str_contains( $attributes['className'], 'is-style-primary-color' )
+		) {
+			$color_classes = 'has-primary-background-color has-primary-content-color';
+		}
+
+		$inner_content = '';
+		if ( ! empty( $attributes['contentTitle'] ) ) {
+			$inner_content .= sprintf(
+				'<h2 class="content__heading">%s</h2>',
+				$attributes['contentTitle']
+			);
+		}
+
+		if ( ! empty( $attributes['contentText'] ) ) {
+			$inner_content .= sprintf(
+				'<div class="content__text">%s</div>',
+				wpautop( $attributes['contentText'], false )
+			);
+		}
+
+		if (
+			! empty( $attributes['buttonText'] )
+			&& ! empty( $attributes['buttonUrl'] )
+		) {
+			$inner_content .= sprintf(
+				'<a class="content__link hds-button" href="%s" %s>
+					%s
+				</a>',
+				$attributes['buttonUrl'],
+				$attributes['targetBlank'] ? 'target="_blank"' : '',
+				$attributes['buttonText']
+			);
+		}
+
 		$content = sprintf(
-			'<div class="content">
-				%s
-				%s
-				%s
-			</div>',
-			!empty($attributes['contentTitle']) ? sprintf('<h2 class="content__heading">%s</h2>', $attributes['contentTitle']) : '',
-			!empty($attributes['contentText']) ? sprintf('<div class="content__text">%s</div>', wpautop($attributes['contentText'], false)) : '',
-			!empty($attributes['buttonText']) && !empty($attributes['buttonUrl']) ? sprintf('<a class="content__link hds-button hds-button--primary" href="%s" %s>%s</a>', $attributes['buttonUrl'], $attributes['targetBlank'] ? 'target="_blank"' : '', $attributes['buttonText']) : ''
+			'<div class="content %s">%s</div>',
+			$color_classes,
+			$inner_content
 		);
 	}
 

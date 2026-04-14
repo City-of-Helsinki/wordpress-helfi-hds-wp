@@ -1,83 +1,60 @@
 .wp-block-hds-wp-banner {
-	background-color: var(--primary-color);
-	color: var(--primary-content-color);
-
 	.content {
 		display: flex;
 		flex-flow: column;
 		padding: spacing('l') spacing('m');
 
-		&__inner {
+		&__inner--icon {
+      --banner-icon-size: 64px;
 
-			&--icon {
-        --banner-icon-size: 64px;
-        --banner-icon-color: var(--primary-content-color);
+      svg {
+        fill: currentColor;
+        margin-inline-end: spacing('s');
+        width: var(--banner-icon-size);
 
-				svg {
-					fill: var(--banner-icon-color);
-					margin-inline-end: spacing('s');
-					width: var(--banner-icon-size);
+        &.mask-icon {
+          --icon-size: var(--banner-icon-size);
+          background-color: currentColor;
+        }
 
-					&.mask-icon {
-            --icon-size: var(--banner-icon-size);
-						background-color: var(--banner-icon-color);
-					}
-
-					@include breakpointMax('m') {
-						margin-bottom: spacing('s');
-					}
-				}
-			}
+        @include breakpointMax('m') {
+          margin-bottom: spacing('s');
+        }
+      }
 		}
 
 		&__heading {
 			font-size: rem-calc(24);
 			margin: 0 0 spacing('s');
-			color: var(--primary-content-color);
+			color: currentColor;
 		}
 
 		&__text {
 			font-size: rem-calc(18);
 			margin: 0 0 spacing('m');
-			color: var(--primary-content-color);
+			color: currentColor;
 			max-width: none;
 
 			a {
-				color: inherit;
+				color: currentColor;
 
 				svg {
-					fill: var(--primary-content-color);
+					fill: currentColor;
 
 					&.mask-icon {
-						background-color: var(--primary-content-color);
+						background-color: currentColor;
 					}
 				}
 			}
-		}
-
-		&__link {
-      --button-background-color: var(--primary-content-color);
-      --button-border-color: var(--primary-content-color);
-      --button-outline-color: var(--primary-content-color);
-      --button-color: var(--primary-content-secondary-color);
-      --button-icon-color: var(--button-color);
-		}
-
-		&__link:hover {
-      --button-background-color: transparent;
-      --button-color: var(--primary-content-color);
 		}
 
 		@include breakpoint('m') {
 			padding: spacing('l');
 			flex-flow: row;
 
-			&__inner {
-
-				&--icon {
-          --banner-icon-size: 72px;
-					float: left;
-				}
+			&__inner--icon {
+        --banner-icon-size: 72px;
+        float: left;
 			}
 		}
 
@@ -90,11 +67,8 @@
 				margin-bottom: spacing('l');
 			}
 
-			&__inner {
-
-				&--icon {
-          --banner-icon-size: 100px;
-				}
+			&__inner--icon {
+        --banner-icon-size: 100px;
 			}
 		}
 
@@ -109,74 +83,19 @@
 	}
 
 	&.no-icon {
-
-		.content {
-
-			&__inner {
-
-				&--text {
-					margin: auto;
-				}
-			}
+		.content__inner--text {
+			margin: auto;
 		}
 	}
 
 	&.no-button {
-
-		.content {
-
-			&__text {
-				margin-bottom: 0;
-			}
-		}
-	}
-
-	&[class*="-secondary-color"] {
-		background-color: var(--secondary-color);
-		color: var(--secondary-content-color);
-
-		.content {
-			&__inner {
-				&--icon {
-          --banner-icon-color: var(--secondary-content-color);
-				}
-			}
-
-			&__heading {
-				color: var(--secondary-content-color);
-			}
-
-			&__text {
-				color: var(--secondary-content-color);
-				a {
-					svg {
-						fill: var(--secondary-content-color);
-
-						&.mask-icon {
-							background-color: var(--secondary-content-color);
-						}
-					}
-				}
-			}
-
-			&__link {
-        --button-background-color: #{$black};
-        --button-border-color: #{$black};
-        --button-outline-color: #{$black};
-        --button-color: #{$white};
-			}
-
-			&__link:hover {
-        --button-background-color: transparent;
-        --button-color: #{$black};
-			}
+		.content__text {
+			margin-bottom: 0;
 		}
 	}
 
 	&[class*="-align-center"] {
-
 		.content {
-
 			&-wrapper {
 				flex-grow: 1;
 			}

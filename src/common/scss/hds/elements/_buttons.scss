@@ -44,3 +44,11 @@ button:focus-visible,
 .button {
   @extend %hds-button;
 }
+
+.has-invert-color {
+  .has-primary-background-color {
+    .hds-button {
+      @extend %inverted-button;
+    }
+  }
+}
