@@ -5,9 +5,7 @@
     "icon": "links",
     "textdomain": "hds-wp",
     "category": "hds-wp",
-    "parent": [
-      "hds-wp/links"
-    ],
+    "parent": [ "hds-wp/links" ],
     "attributes": {
         "postId": {
             "type": "integer",
