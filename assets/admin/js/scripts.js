@@ -864,9 +864,7 @@ function hdsIcons(name) {
       hidden: 'hidden'
     }, createElement('div', {
       className: 'accordion__content'
-    }, createElement(innerBlocks, {
-      allowedBlocks: ['core/heading', 'core/paragraph', 'core/list', 'core/table', 'core/freeform', 'core/quote', 'core/buttons', 'core/button', 'core/image', 'core/embed', 'core/file', 'hds-wp/diagram']
-    })), panelClose(props));
+    }, createElement(innerBlocks, {})), panelClose(props));
   }
   function panelClose(props) {
     return createElement('button', {
@@ -1026,7 +1024,6 @@ function hdsIcons(name) {
         }, accordionTitle(props), accordionDescription(props), createElement('div', {
           className: 'accordion'
         }, createElement(InnerBlocks, {
-          allowedBlocks: ['hds-wp/accordion-panel'],
           template: [['hds-wp/accordion-panel', {}], ['hds-wp/accordion-panel', {}], ['hds-wp/accordion-panel', {}]]
         }))));
       } else {
@@ -1373,7 +1370,6 @@ function hdsIcons(name) {
           placeholder: __('This is the excerpt.', 'hds-wp'),
           textAttribute: 'description'
         }), createElement(InnerBlocks, {
-          allowedBlocks: ['hds-wp/content-card'],
           template: [['hds-wp/content-card', {}], ['hds-wp/content-card', {}], ['hds-wp/content-card', {}]]
         })));
       } else {
@@ -1439,7 +1435,6 @@ function hdsIcons(name) {
       });
       if (props.isSelected || isParentOfSelectedBlock) {
         content = createElement(Fragment, {}, title(), createElement(InnerBlocks, {
-          allowedBlocks: ['hds-wp/content-card'],
           template: [['hds-wp/content-card', {}], ['hds-wp/content-card', {}], ['hds-wp/content-card', {}]]
         }));
       } else {
@@ -2896,7 +2891,6 @@ function hdsIcons(name) {
         }), hdsContentTextRich(props, {
           placeholder: __('This is the excerpt.', 'hds-wp')
         }), createElement(InnerBlocks, {
-          allowedBlocks: ['hds-wp/link'],
           template: [['hds-wp/link', {}], ['hds-wp/link', {}], ['hds-wp/link', {}]]
         }));
       } else {
@@ -3202,47 +3196,43 @@ function hdsIcons(name) {
   var _wp$data10 = wp.data,
     select = _wp$data10.select,
     useSelect = _wp$data10.useSelect;
-  function edit() {
-    return function (props) {
-      var isParentOfSelectedBlock = useSelect(function (selectFrom) {
-        return select('core/block-editor').hasSelectedInnerBlock(props.clientId, true);
-      });
-      var content = null;
-      if (props.isSelected || isParentOfSelectedBlock) {
-        var stepClasses = 'content__inner content__inner--step' + (props.attributes.style == 'numbered' ? ' numbered' : '');
-        content = createElement('div', useBlockProps(), createElement('div', {
-          className: 'content'
-        }, createElement('div', {
-          className: stepClasses
-        }, props.attributes.style == 'numbered' ? props.attributes.order : ''), createElement('div', {
-          className: 'content__inner content__inner--text'
-        }, hdsContentTitleRich(props, {
-          placeholder: __('This is the title', 'hds-wp')
-        }), createElement(InnerBlocks, {
-          allowedBlocks: ['core/paragraph', 'core/buttons']
-        }))));
-      } else {
-        var innerContent = getBlockContent(select('core/block-editor').getBlock(props.clientId));
-        var attributes = props.attributes;
-        attributes.innerContent = innerContent;
-        content = createElement('div', useBlockProps(), createElement(wp.serverSideRender, {
-          block: 'hds-wp/timeline-card',
-          attributes: attributes,
-          httpMethod: 'POST'
-        }));
-      }
-      return createElement(Fragment, {}, content);
-    };
+  function edit(props) {
+    var isParentOfSelectedBlock = useSelect(function (selectFrom) {
+      return select('core/block-editor').hasSelectedInnerBlock(props.clientId, true);
+    });
+    var content = null;
+    if (props.isSelected || isParentOfSelectedBlock) {
+      var stepClasses = 'content__inner content__inner--step' + (props.attributes.style == 'numbered' ? ' numbered' : '');
+      content = createElement('div', useBlockProps(), createElement('div', {
+        className: 'content'
+      }, createElement('div', {
+        className: stepClasses
+      }, props.attributes.style == 'numbered' ? props.attributes.order : ''), createElement('div', {
+        className: 'content__inner content__inner--text'
+      }, hdsContentTitleRich(props, {
+        placeholder: __('This is the title', 'hds-wp')
+      }), createElement(InnerBlocks, {
+        template: [['core/paragraph']]
+      }))));
+    } else {
+      var innerContent = getBlockContent(select('core/block-editor').getBlock(props.clientId));
+      var attributes = props.attributes;
+      attributes.innerContent = innerContent;
+      content = createElement('div', useBlockProps(), createElement(wp.serverSideRender, {
+        block: 'hds-wp/timeline-card',
+        attributes: attributes,
+        httpMethod: 'POST'
+      }));
+    }
+    return createElement(Fragment, {}, content);
   }
-  function save() {
-    return function (props) {
-      return createElement(InnerBlocks.Content, useBlockProps.save());
-    };
+  function save(props) {
+    return createElement(InnerBlocks.Content, useBlockProps.save());
   }
   registerBlockType('hds-wp/timeline-card', {
     title: __('Helsinki - Phasing Card', 'hds-wp'),
-    edit: edit(),
-    save: save()
+    edit: edit,
+    save: save
   });
 })(window.wp);
 (function (wp) {
@@ -3347,7 +3337,6 @@ function hdsIcons(name) {
         }, createElement('div', {
           className: 'timeline-line'
         }), createElement(InnerBlocks, {
-          allowedBlocks: ['hds-wp/timeline-card'],
           template: [['hds-wp/timeline-card', {}], ['hds-wp/timeline-card', {}], ['hds-wp/timeline-card', {}]]
         }))));
       } else {
