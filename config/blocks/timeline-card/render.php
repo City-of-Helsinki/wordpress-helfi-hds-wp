@@ -6,12 +6,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 function hds_wp_render_timeline_card($attributes, $content = null)
 {
-	$step = '';
-
 	$step = sprintf(
 		'<div class="content__inner content__inner--step %s">%s</div>',
 		$attributes['style'] == 'numbered' ? 'numbered' : '',
-		$attributes['style'] == 'numbered' ? $attributes['order'] : ''
+		$attributes['style'] == 'numbered' ? esc_html( $attributes['order'] ) : ''
 	);
 
 	$text = sprintf(
@@ -19,8 +17,11 @@ function hds_wp_render_timeline_card($attributes, $content = null)
 			%s
 			%s
 		</div>',
-		$attributes['contentTitle'] ? '<div class="content__heading">' . $attributes['contentTitle'] . '</div>' : '',
-		$content ? $content : $attributes['innerContent']
+		$attributes['contentTitle'] ? sprintf(
+			'<div class="content__heading">%s</div>',
+			esc_html( $attributes['contentTitle'] )
+		) : '',
+		wp_kses_post( $content ?: $attributes['innerContent'] )
 	);
 
 	$wrapClasses = array(
@@ -29,8 +30,8 @@ function hds_wp_render_timeline_card($attributes, $content = null)
 		'has-secondary-content-color',
 	);
 
-	if (!empty($attributes['className'])) {
-		$wrapClasses[] = esc_attr($attributes['className']);
+	if ( ! empty( $attributes['className'] ) ) {
+		$wrapClasses[] = $attributes['className'];
 	}
 
 	$html_attr = array(
