@@ -4,74 +4,90 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
 
-function hds_wp_render_map($attributes)
-{
+function hds_wp_render_map( array $attributes ): string {
+	$content = '';
 
-	$id = 'hds-map-' . $attributes['blockId'];
-	$title = $attributes['title'];
-	$description = $attributes['description'];
-	$url = $attributes['url'];
-	$linkUrl = $attributes['url'];
-
-	//if linkUrl contains palvelukartta.hel.fi and embed, remove '/embed' from linkUrl
-	if (strpos($linkUrl, 'palvelukartta.hel.fi') !== false && strpos($linkUrl, 'embed') !== false) {
-		$linkUrl = str_replace('/embed', '', $linkUrl);
-	}
-	//if linkUrl contains kartta.hel.fi and embed, remove 'embed' from linkUrl
-	if (strpos($linkUrl, 'kartta.hel.fi') !== false && strpos($linkUrl, 'embed') !== false) {
-		$linkUrl = str_replace('embed', '', $linkUrl);
+	if ( $attributes['title'] ) {
+		$content .= sprintf(
+			'<h2>%s</h2>',
+			esc_html( $attributes['title'] ),
+		);
 	}
 
-	$assistive_title = $attributes['assistive_title'];
+	if ( $attributes['description'] ) {
+		$content .= sprintf(
+			'<p>%s</p>',
+			wp_kses_post( $attributes['description'] ),
+		);
+	}
 
-	$beforeMapSkipLink = sprintf(
-		'<a href="#%s-after" id="%s-before" class="focusable skip-link skip-link--map--before">%s</a>',
-		$id,
-		$id,
-		esc_html__('Move below the map', 'hds-wp'),
-	);
+	if ( $attributes['url'] ) {
+		$content .= '<div class="hds-map__container">';
 
-	$afterMapSkipLink = sprintf(
-		'<a href="#%s-before" id="%s-after" class="focusable skip-link skip-link--map--after">%s</a>',
-		$id,
-		$id,
-		esc_html__('Move above the map', 'hds-wp'),
-	);
+		$id = 'hds-map-' . $attributes['blockId'];
 
-	$iframe = sprintf(
-		'<iframe src="%s" title="%s"></iframe>',
-		$url,
-		$assistive_title
-	);
+		$content .= hds_wp_block_skip_link(
+			$id,
+			'map',
+			'before',
+			'after',
+			__( 'Move below the map', 'hds-wp' )
+		);
 
-	$externalLink = sprintf(
-		'<a href="%s" target="_blank" class="block-embed-external-link" rel="noopener">%s</a>',
-		$linkUrl,
-		esc_html__('Open map in new window', 'hds-wp')
-	);
+		$content .= sprintf(
+			'<iframe src="%s" title="%s"></iframe>',
+			esc_url( $attributes['url'] ),
+			esc_attr( $attributes['assistive_title'] )
+		);
 
-	return sprintf(
+		$content .= hds_wp_block_skip_link(
+			$id,
+			'map',
+			'after',
+			'before',
+			__( 'Move above the map', 'hds-wp' )
+		);
+
+		$linkUrl = hds_wp_format_map_external_url( $attributes['url'] );
+		if ( $linkUrl ) {
+			$content .= sprintf(
+				'<a href="%s" target="_blank" class="block-embed-external-link" rel="noopener">%s</a>',
+				esc_url( $linkUrl ),
+				esc_html__( 'Open map in new window', 'hds-wp' )
+			);
+		}
+
+		$content .= '</div>';
+	}
+
+	return $content ? sprintf(
 		'<div %s>
 			<div class="hds-container">
-				<h2>%s</h2>
-				<p>%s</p>
-				<div class="hds-map__container">
-					%s
-					%s
-					%s
-					%s
-				</div>
+				%s
 			</div>
 		</div>',
 		hds_wp_block_html_attributes(
 			$attributes,
 			array( 'wp-block-hds-wp-map', 'hds-map', 'has-background' )
 		),
-		$title,
-		$description,
-		$beforeMapSkipLink,
-		$iframe,
-		$afterMapSkipLink,
-		$externalLink
-	);
+		$content
+	) : '';
+}
+
+function hds_wp_format_map_external_url( string $url ): string {
+	if (
+		strpos( $url, 'palvelukartta.hel.fi' ) !== false
+		&& strpos( $url, 'embed' ) !== false
+	) {
+		return str_replace( '/embed', '', $url );
+	}
+
+	if (
+		strpos( $url, 'kartta.hel.fi') !== false
+		&& strpos( $url, 'embed' ) !== false
+	) {
+		return str_replace( 'embed', '', $url );
+	}
+
+	return $url;
 }
