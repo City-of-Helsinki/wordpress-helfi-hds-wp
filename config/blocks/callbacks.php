@@ -59,7 +59,10 @@ function hds_wp_reduce_html_attributes( array $html_attr ): string {
 		fn( $html, $attr ) => $html . sprintf(
 			'%s="%s"',
 			sanitize_key( $attr ),
-			esc_attr( $html_attr[$attr] )
+			match( $attr ) {
+				'href', 'src' => esc_url( $html_attr[$attr] ),
+				default => esc_attr( $html_attr[$attr] )
+			}
 		),
 		''
 	);
@@ -79,4 +82,15 @@ function hds_wp_has_array_attribute( array $attributes, string $key ): bool {
 	return isset( $attributes[$key] )
 		&& is_array( $attributes[$key] )
 		&& $attributes[$key];
+}
+
+function hds_wp_block_skip_link( int|string $id, string $type, string $from, string $to, string $label ): string {
+	return sprintf(
+		'<a href="#%1$s-%4$s" id="%1$s-%3$s" class="focusable skip-link skip-link--%2$s--%3$s">%5$s</a>',
+		esc_attr( $id ),
+		esc_attr( $type ),
+		esc_attr( $from ),
+		esc_attr( $to ),
+		esc_html( $label ),
+	);
 }
