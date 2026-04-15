@@ -32,17 +32,17 @@ function hds_wp_render_block_links_list($attributes) {
 	}
 
 	$content = '';
-	if (!empty($attributes['title'])) {
+	if ( ! empty( $attributes['title'] ) ) {
 		$content .= sprintf(
 			'<h2 class="links-list__title"><span>%s</span></h2>',
-			esc_html($attributes['title'])
+			esc_html( $attributes['title'] )
 		);
 	}
 
-	if (!empty($attributes['contentText'])) {
+	if ( ! empty( $attributes['contentText'] ) ) {
 		$content .= sprintf(
 			'<p class="links-list__description">%s</p>',
-			esc_html($attributes['contentText'])
+			esc_html( $attributes['contentText'] )
 		);
 	}
 
@@ -135,7 +135,7 @@ function hds_wp_render_link_with_title(array $link)
 				<a %s><span>%s</span></a>
 			</div>',
 			hds_links_list_link_attributes($link),
-			esc_html($link['linkTitle'])
+			esc_html( $link['linkTitle'] )
 		)
 	);
 }
@@ -171,7 +171,7 @@ function hds_wp_render_link_with_title_excerpt(array $link)
 				%s
 			</div>',
 			hds_links_list_link_attributes($link),
-			esc_html($link['linkTitle']),
+			esc_html( $link['linkTitle'] ),
 			$excerpt
 		)
 	);
@@ -216,22 +216,20 @@ function hds_wp_render_link_with_image_title(array $link)
 					)
 				),
 			hds_links_list_link_attributes($link),
-			esc_html($link['linkTitle'])
+			esc_html( $link['linkTitle'] )
 		)
 	);
 }
 
-function hds_links_list_link_attributes(array $link)
-{
+function hds_links_list_link_attributes( array $link ): string {
 	$attributes = array(
-		'href="' . esc_url($link['linkUrl']) . '"'
+		'href' => $link['linkUrl'],
+		'class' => 'link__title_link',
 	);
 
-	$attributes[] = 'class="link__title_link"';
-
-	if (!empty($link['targetBlank'])) {
-		$attributes[] = 'target="_blank"';
+	if ( ! empty( $link['targetBlank'] ) ) {
+		$attributes['target'] = '_blank';
 	}
 
-	return implode(' ', $attributes);
+	return hds_wp_reduce_html_attributes( $attributes );
 }
