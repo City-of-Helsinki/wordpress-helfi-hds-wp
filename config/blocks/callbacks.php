@@ -33,6 +33,11 @@ function hds_wp_query_block_post_id(int $post)
 	return $query;
 }
 
+function hds_wp_has_invert_color(): bool {
+	return function_exists( 'helsinki_scheme_has_invert_color' )
+		&& helsinki_scheme_has_invert_color();
+}
+
 function hds_wp_render_credit_text( $post_id ): string {
 	return apply_filters( 'helsinki_image_credit_text', '', (int) $post_id );
 }
@@ -89,4 +94,54 @@ function hds_wp_block_skip_link( int|string $id, string $type, string $from, str
 		esc_attr( $to ),
 		esc_html( $label ),
 	);
+}
+
+function hds_wp_block_placeholder_icon_html( string $block_name, string $icon, $entity = null ): string {
+	$icon = apply_filters( "hds_wp_{$block_name}_placeholder_icon", $icon );
+
+	return apply_filters(
+		"hds_wp_{$block_name}_placeholder",
+		apply_filters( 'hds_wp_svg_placeholder_html', '', $icon ),
+		$entity
+	);
+}
+
+function hds_wp_block_text_kses( string $text ): string {
+	return wp_kses( $text, array(
+		'a' => array(
+			'id' => true,
+			'class' => true,
+			'href' => true,
+			'hreflang' => true,
+			'target' => true,
+			'download' => true,
+			'rel' => true,
+		),
+		'img' => array(
+			'id' => true,
+			'alt' => true,
+			'class' => true,
+			'height' => true,
+			'loading' => true,
+			'sizes' => true,
+			'src' => true,
+			'srcset' => true,
+			'style' => true,
+			'width' => true,
+		),
+		'br' => array(),
+		'strong' => array(),
+		'em' => array(),
+		's' => array(),
+		'sub' => array(),
+		'sup' => array(),
+		'p' => array(
+			'id' => true,
+			'class' => true,
+		),
+		'span' => array(
+			'id' => true,
+			'class' => true,
+		),
+	) );
 }
