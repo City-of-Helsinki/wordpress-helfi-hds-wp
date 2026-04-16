@@ -89,10 +89,6 @@
         object-fit: cover;
       }
 
-      &.has-placeholder {
-        background-color: var(--primary-color);
-      }
-
       .icon {
         --icon-size: 180px;
 
@@ -160,7 +156,6 @@
   }
 
   &.has-background {
-    background-color: $light-gray;
     margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
     max-width: 100vw;
