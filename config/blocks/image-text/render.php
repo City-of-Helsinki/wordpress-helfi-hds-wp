@@ -49,25 +49,15 @@ function hds_wp_render_image_text($attributes) {
 		|| ! empty( $attributes['contentText'] )
 		|| ! empty( $attributes['buttonText'] )
 	) {
-		$color_classes = 'has-secondary-background-color has-secondary-content-color';
-
-		if (
-			! empty( $attributes['className'] )
-			&& str_contains( $attributes['className'], 'is-style-primary-color' )
-		) {
-			$color_classes = 'has-primary-background-color has-primary-content-color';
-		}
-
-		$inner_content = '';
 		if ( ! empty( $attributes['contentTitle'] ) ) {
-			$inner_content .= sprintf(
+			$content .= sprintf(
 				'<h2 class="content__heading">%s</h2>',
 				esc_html( $attributes['contentTitle'] )
 			);
 		}
 
 		if ( ! empty( $attributes['contentText'] ) ) {
-			$inner_content .= sprintf(
+			$content .= sprintf(
 				'<div class="content__text">%s</div>',
 				hds_wp_block_text_kses( wpautop( $attributes['contentText'], false ) )
 			);
@@ -77,7 +67,7 @@ function hds_wp_render_image_text($attributes) {
 			! empty( $attributes['buttonText'] )
 			&& ! empty( $attributes['buttonUrl'] )
 		) {
-			$inner_content .= sprintf(
+			$content .= sprintf(
 				'<a class="content__link hds-button" href="%s" %s>
 					%s
 				</a>',
@@ -86,13 +76,22 @@ function hds_wp_render_image_text($attributes) {
 				esc_html( $attributes['buttonText'] )
 			);
 		}
-
-		$content = sprintf(
-			'<div class="content %s">%s</div>',
-			$color_classes,
-			$inner_content
-		);
 	}
+
+	$color_classes = 'has-secondary-background-color has-secondary-content-color';
+
+	if (
+		! empty( $attributes['className'] )
+		&& str_contains( $attributes['className'], 'is-style-primary-color' )
+	) {
+		$color_classes = 'has-primary-background-color has-primary-content-color';
+	}
+
+	$content = sprintf(
+		'<div class="content %s">%s</div>',
+		$color_classes,
+		$content
+	);
 
 	return sprintf(
 		'<div %s>
