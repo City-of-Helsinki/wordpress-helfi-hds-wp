@@ -10,13 +10,13 @@ function hds_wp_render_banner($attributes)
 {
 	$icon = '';
 
-	if (!empty($attributes['contentIcon']) && $attributes['contentIcon'] !== '(empty)') {
+	if (
+		! empty( $attributes['contentIcon'] )
+		&& $attributes['contentIcon'] !== '(empty)'
+	) {
 		$icon = sprintf(
 			'<div class="content__inner content__inner--icon">%s</div>',
-			Svg::icon(
-				'blocks',
-				$attributes['contentIcon']
-			)
+			Svg::icon( 'blocks', $attributes['contentIcon'] )
 		);
 	}
 
@@ -25,21 +25,24 @@ function hds_wp_render_banner($attributes)
 			<h2 class="content__heading">%s</h2>
 			<div class="content__text">%s</div>
 		</div>',
-		$attributes['contentTitle'],
-		wpautop($attributes['contentText'], false)
+		esc_html( $attributes['contentTitle'] ),
+		hds_wp_block_text_kses( wpautop( $attributes['contentText'], false ) )
 	);
 
 	$button = '';
-	if (!empty($attributes['buttonUrl']) && !empty($attributes['buttonText'])) {
+	if (
+		! empty( $attributes['buttonUrl'] )
+		&& ! empty( $attributes['buttonText'] )
+	) {
 		$button = sprintf(
 			'<div class="content__inner content__inner--button">
 				<a class="content__link hds-button" href="%s" %s rel="noopener">
 					%s
 				</a>
 			</div>',
-			$attributes['buttonUrl'],
+			esc_url( $attributes['buttonUrl'] ),
 			$attributes['targetBlank'] ? 'target="_blank"' : '',
-			$attributes['buttonText'],
+			esc_html( $attributes['buttonText'] )
 		);
 	}
 
