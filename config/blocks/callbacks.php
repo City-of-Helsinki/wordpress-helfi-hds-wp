@@ -33,12 +33,8 @@ function hds_wp_query_block_post_id(int $post)
 	return $query;
 }
 
-function hds_wp_render_credit_text($postId)
-{
-	if (function_exists('helsinki_base_image_credit')) {
-		return helsinki_base_image_credit($postId);
-	}
-	return '';
+function hds_wp_render_credit_text( $post_id ): string {
+	return apply_filters( 'helsinki_image_credit_text', '', (int) $post_id );
 }
 
 function hds_wp_block_html_attributes( array $block_attr, array $wrap_classes ): string {
