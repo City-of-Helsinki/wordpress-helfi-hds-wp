@@ -16,7 +16,7 @@ function hds_wp_render_block_content_cards($attributes) {
 
 	$wrap_classes = array( 'wp-block-hds-wp-content-cards', 'content-cards' );
 	if ( ! empty( $attributes['hasBackground'] ) ) {
-		$wrap_classes[] = 'has-background';
+		$wrap_classes[] = 'has-background has-light-gray-background-color';
 	}
 
 	$content = '';
@@ -30,7 +30,7 @@ function hds_wp_render_block_content_cards($attributes) {
 	if (!empty($attributes['description'])) {
 		$content .= sprintf(
 			'<div class="content-cards__description">%s</div>',
-			wpautop($attributes['description'], false)
+			hds_wp_block_text_kses( wpautop( $attributes['description'], false ) )
 		);
 	}
 
@@ -60,69 +60,66 @@ function hds_wp_render_block_content_cards($attributes) {
 	);
 }
 
-function hds_wp_content_card_html(WP_Post $post, $attributes)
-{
-	$image = get_the_post_thumbnail($post, 'medium', array('alt' => ''));
-	$has_placeholder = false;
-	if (!$image) {
-		$has_placeholder = true;
-		$image = apply_filters(
-			'hds_wp_content_card_placeholder',
-			apply_filters(
-				'hds_wp_svg_placeholder_html',
-				'',
-				apply_filters(
-					'hds_wp_content_card_placeholder_icon',
-					'abstract-3'
-				)
-			),
-			$post
-		);
-	}
-	$has_invert_color = false;
-	if (function_exists('helsinki_scheme_has_invert_color')) {
-		$has_invert_color = helsinki_scheme_has_invert_color();
+function hds_wp_content_card_html( WP_Post $post, array $attributes ): string {
+	$image_html = '';
+	$image_wrap_classes = 'card__image';
+
+	$image = get_the_post_thumbnail( $post, 'medium', array( 'alt' => '' ) );
+	if ( ! $image ) {
+		$image = hds_wp_block_placeholder_icon_html( 'content_card', 'abstract-3', $post );
+		$image_wrap_classes .= ' has-primary-background-color has-placeholder';
+
+		if ( hds_wp_has_invert_color() ) {
+			$image_wrap_classes .= ' has-invert-color';
+		}
 	}
 
-	$excerpt = '';
-	if (isset($attributes['linkType']) && $attributes['linkType'] == 'image-title-excerpt' && !empty($post->post_excerpt)) {
-		$excerpt = sprintf(
-			'<p class="card__excerpt">%s</p>',
-			$post->post_excerpt
-		);
-	}
-
-	$date = 'post' === $post->post_type ? sprintf(
-		'<span class="screen-reader-text">%s</span>
-			<time datetime="%s" class="card__date">%s</time>',
-		__('Published:', 'hds-wp'),
-		esc_attr(get_the_date('c', $post)),
-		get_the_date('', $post)
-	) : '';
-
-	$parts = array(
-		'image' => sprintf(
-			'<div class="card__image%s">%s</div>',
-			$has_placeholder ? ' has-placeholder' . ($has_invert_color ? ' has-invert-color' : '') : '',
-			$image
-		),
-		'content_open' => '<div class="card__content">',
-		'title' => sprintf(
-			'<a class="card__title_link" href="%s">
-				<h3 class="card__title">%s</h3>
-			</a>',
-			esc_url( get_permalink( $post ) ),
-			esc_html( $post->post_title )
-		),
-		'excerpt' => $excerpt,
-		'date' => $date,
-		'content_close' => '</div>',
+	$content = sprintf(
+		'<div class="%s">%s</div>',
+		$image_wrap_classes,
+		$image
 	);
 
+	$content .= '<div class="card__content">';
+
+	$content .= sprintf(
+		'<a class="card__title_link" href="%s">
+			<h3 class="card__title">%s</h3>
+		</a>',
+		esc_url( get_permalink( $post ) ),
+		esc_html( $post->post_title )
+	);
+
+	if (
+		isset( $attributes['linkType'] )
+		&& $attributes['linkType'] == 'image-title-excerpt'
+		&& ! empty( $post->post_excerpt )
+	) {
+		$content .= sprintf(
+			'<p class="card__excerpt">%s</p>',
+			esc_html( $post->post_excerpt )
+		);
+	}
+
+	if ( 'post' === $post->post_type ) {
+		$content .= sprintf(
+			'<span class="screen-reader-text">%s</span>',
+			esc_html__( 'Published:', 'hds-wp' )
+		);
+
+		$content .= sprintf(
+			'<time datetime="%s" class="card__date">%s</time>',
+			esc_attr( get_the_date( 'c', $post ) ),
+			esc_html( get_the_date( '', $post ) )
+		);
+	}
+
+	$content .= '</div>';
+
 	return sprintf(
-		'<article class="content-cards__card card">
+		'<article class="content-cards__card">
 			<div class="card__link">%s</div>
 		</article>',
-		implode('', $parts)
+		$content
 	);
 }
