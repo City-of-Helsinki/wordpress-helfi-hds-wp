@@ -2869,7 +2869,7 @@ function hdsIcons(name) {
     }, props));
   }
   function classNamesString(props) {
-    var classNames = ['links', 'type-' + props.attributes.linkType, props.attributes.hasBackground ? 'has-background' : ''];
+    var classNames = ['links', 'type-' + props.attributes.linkType, props.attributes.hasBackground ? 'has-background has-light-gray-background-color' : ''];
     return classNames.join(' ');
   }
   function title(props) {
@@ -3098,7 +3098,7 @@ function hdsIcons(name) {
       }
     }, [assistiveTitleError]);
     return /*#__PURE__*/React.createElement(Fragment, null, /*#__PURE__*/React.createElement("div", blockProps, /*#__PURE__*/React.createElement("div", {
-      className: "hds-map has-background"
+      className: "hds-map has-background has-light-gray-background-color"
     }, /*#__PURE__*/React.createElement("div", {
       className: "hds-container"
     }, /*#__PURE__*/React.createElement(RichText, {
