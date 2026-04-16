@@ -48,7 +48,7 @@ function hds_wp_render_block_links_list($attributes) {
 
 	$wrap_classes = array( 'wp-block-hds-wp-links-list', 'links-list' );
 	if ( ! empty( $attributes['hasBackground'] ) ) {
-		$wrap_classes[] = 'has-background';
+		$wrap_classes[] = 'has-background has-light-gray-background-color';
 	}
 
 	$content .= sprintf(
