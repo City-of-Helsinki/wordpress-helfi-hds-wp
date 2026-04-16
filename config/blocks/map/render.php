@@ -68,7 +68,7 @@ function hds_wp_render_map( array $attributes ): string {
 		</div>',
 		hds_wp_block_html_attributes(
 			$attributes,
-			array( 'wp-block-hds-wp-map', 'hds-map', 'has-background' )
+			array( 'wp-block-hds-wp-map', 'hds-map', 'has-background', 'has-light-gray-background-color' )
 		),
 		$content
 	) : '';
