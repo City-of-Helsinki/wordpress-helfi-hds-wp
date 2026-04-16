@@ -158,15 +158,8 @@ function hds_wp_recent_posts_grid_entry( $args = array() ) {
 					%s
 				</div>
 			</div>',
-			function_exists('helsinki_scheme_has_invert_color') && helsinki_scheme_has_invert_color() ? 'has-invert-color' : '',
-			apply_filters(
-				'hds_wp_svg_placeholder_html',
-				'',
-				apply_filters(
-					'hds_wp_recent_posts_placeholder_icon',
-					'abstract-3'
-				)
-			)
+			hds_wp_has_invert_color() ? 'has-invert-color' : '',
+			hds_wp_block_placeholder_icon_html( 'recent_posts', 'abstract-3' )
 		);
 	}
 
