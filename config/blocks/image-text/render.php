@@ -10,15 +10,6 @@ function hds_wp_render_image_text($attributes) {
 		$attributes['alignment'] === 'right' ? 'align-right' : 'align-left'
 	);
 
-	$imageConfig = array(
-		'alt' => $attributes['mediaAlt'],
-		'width' => $attributes['mediaWidth'],
-		'height' => $attributes['mediaHeight'],
-		'src' => $attributes['mediaUrl'],
-		'srcset' => $attributes['mediaSrcset'],
-		'id' => $attributes['mediaId'],
-	);
-
 	$image_caption = '';
 	$image_caption_mobile = '';
 	$image = '';
@@ -44,8 +35,7 @@ function hds_wp_render_image_text($attributes) {
 				%s
 				<figcaption class="screen-reader-text">%s</figcaption>
 			</figure>',
-			wp_get_attachment_image( (int) $attributes['mediaId'], 'full', false, $imageConfig )
-				?: sprintf( '<img %s/>', hds_wp_reduce_html_attributes( $imageConfig ) ),
+			wp_get_attachment_image( (int) $attributes['mediaId'], 'full', false ),
 			esc_html( $credit )
 		);
 	} else {
@@ -79,7 +69,7 @@ function hds_wp_render_image_text($attributes) {
 		if ( ! empty( $attributes['contentText'] ) ) {
 			$inner_content .= sprintf(
 				'<div class="content__text">%s</div>',
-				wp_kses_post( wpautop( $attributes['contentText'], false ) )
+				hds_wp_block_text_kses( wpautop( $attributes['contentText'], false ) )
 			);
 		}
 
