@@ -140,8 +140,10 @@
         padding-top: 0;
 
         img {
-          width: auto;
-          max-width: unset;
+					object-fit: cover;
+					height: 100%;
+					width: 100%;
+					max-width: unset;
         }
       }
 

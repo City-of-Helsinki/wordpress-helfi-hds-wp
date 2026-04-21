@@ -10,7 +10,7 @@ function hds_wp_render_link_list_cards( $attributes ) {
 	if ( ! empty( $attributes['title'] ) ) {
 		$elements .= sprintf(
 			'<h2 class="hds-links-list-cards__title">%s</h2>',
-			$attributes['title']
+			esc_html( $attributes['title'] )
 		);
 	}
 
@@ -73,25 +73,36 @@ function hds_wp_render_link_list_card_link( $attributes ) {
 	$isInternal = ($linkDir === 'internal');
 
 	if (
-		( $linkDir === 'external' && ( empty( $attributes['linkTitle'] ) || empty( $attributes['linkUrl'] ) ) ) ||
-		( $isInternal && empty( $attributes['postId'] ) )
+		( $linkDir === 'external' && ( empty( $attributes['linkTitle'] ) || empty( $attributes['linkUrl'] ) ) )
+		|| ( $isInternal && empty( $attributes['postId'] ) )
 	) {
 		return;
 	}
 
+	if ( $isInternal ) {
+		$link_url = get_permalink( $attributes['postId'] );
+		$link_title = $attributes['postTitle'];
+	} else {
+		$link_url = $attributes['linkUrl'];
+		$link_title = $attributes['linkTitle'];
+	}
+
+	$link_html_attr = array(
+		'href' => $link_url,
+		'class' => 'wp-block-hds-wp-link-list-card-link link',
+	);
+
+	if ( ! empty( $attributes['targetBlank'] ) ) {
+		$link_html_attr['target'] = '_blank';
+		$link_html_attr['rel'] = 'noopener';
+	}
+
 	return sprintf(
 		'<li class="hds-links-list-card__list-item">
-			<a href="%s" class="wp-block-hds-wp-link-list-card-link link" %s>%s</a>
+			<a %s>%s</a>
 		</li>',
-		$isInternal
-			? get_permalink( $attributes['postId'] )
-			: $attributes['linkUrl'],
-		! empty( $attributes['targetBlank'] )
-			? 'target="_blank" rel="noopener"'
-			: '',
-		$isInternal
-			? $attributes['postTitle']
-			: $attributes['linkTitle'],
+		hds_wp_reduce_html_attributes( $link_html_attr ),
+		esc_html( $link_title ),
 	);
 
 }

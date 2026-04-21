@@ -62,7 +62,7 @@
     var classNames = [
       'links',
       'type-' + props.attributes.linkType,
-      props.attributes.hasBackground ? 'has-background' : '',
+      props.attributes.hasBackground ? 'has-background has-light-gray-background-color' : '',
     ];
     return classNames.join(' ');
   }

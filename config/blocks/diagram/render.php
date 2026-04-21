@@ -15,16 +15,13 @@ function hds_wp_render_diagram( $attributes ) {
 	}
 
 	if ( $attributes['description'] ) {
-		$content .= sprintf(
-			'<p>%s</p>',
-			wp_kses_post( $attributes['description'] )
-		);
+		$content .= hds_wp_block_text_kses( wpautop( $attributes['description'] ) );
 	}
 
 	if ( $attributes['diagramTitle'] ) {
 		$content .= sprintf(
 			'<h3>%s</h3>',
-			wp_kses_post( $attributes['diagramTitle'] )
+			esc_html( $attributes['diagramTitle'] )
 		);
 	}
 

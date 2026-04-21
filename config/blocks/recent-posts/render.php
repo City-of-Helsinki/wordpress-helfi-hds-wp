@@ -148,7 +148,7 @@ function hds_wp_recent_posts_grid_entry( $args = array() ) {
 					%s
 				</div>
 			</div>',
-			get_the_post_thumbnail(null, 'post-thumbnail')
+			get_the_post_thumbnail( null, 'post-thumbnail' )
 		);
 		$classes[] = 'has-thumbnail';
 	} else {
@@ -158,15 +158,8 @@ function hds_wp_recent_posts_grid_entry( $args = array() ) {
 					%s
 				</div>
 			</div>',
-			function_exists('helsinki_scheme_has_invert_color') && helsinki_scheme_has_invert_color() ? 'has-invert-color' : '',
-			apply_filters(
-				'hds_wp_svg_placeholder_html',
-				'',
-				apply_filters(
-					'hds_wp_recent_posts_placeholder_icon',
-					'abstract-3'
-				)
-			)
+			hds_wp_has_invert_color() ? 'has-invert-color' : '',
+			hds_wp_block_placeholder_icon_html( 'recent_posts', 'abstract-3' )
 		);
 	}
 
@@ -175,7 +168,9 @@ function hds_wp_recent_posts_grid_entry( $args = array() ) {
 			<article id="post-%s" class="%s">
 				<div>
 					%s
-					<a class="entry__link" href="%s"><h2 class="entry__title">%s</h2></a>
+					<a class="entry__link" href="%s">
+						<h2 class="entry__title">%s</h2>
+					</a>
 					<div class="entry__meta meta">
 						<time class="date" datetime="%s">
 							<span class="screen-reader-text">%s</span>
@@ -185,43 +180,42 @@ function hds_wp_recent_posts_grid_entry( $args = array() ) {
 				</div>
 			</article>
 		</div>',
-		get_the_ID(),
-		implode(' ', $classes),
+		esc_attr( get_the_ID() ),
+		esc_attr( implode( ' ', $classes ) ),
 		$image,
-		get_permalink(),
-		get_the_title(),
+		esc_url( get_permalink() ),
+		esc_html( get_the_title() ),
 		esc_attr( get_the_date('c') ),
 		esc_html__( 'Published:', 'hds-wp' ),
 		esc_html( get_the_date() )
 	);
 }
 
-function hds_wp_recent_posts_more( $args = array() ) {
-	if ( ! empty( $args['page_for_posts'] ) ) {
-		if ($args['attributes']['category'] != 0) {
-			$link = get_category_link($args['attributes']['category']);
-		} else {
-			$link = get_permalink($args['page_for_posts']);
-		}
-
-		return sprintf(
-			'<p class="posts-page">
-				<span class="link-wrap">
-					<a class="has-icon has-icon--after hds-button" href="%s">
-						%s
-						%s
-					</a>
-				</span>
-			</p>',
-			$link,
-			esc_html__('See all articles', 'hds-wp'),
-			apply_filters(
-				'hds_wp_svg_icon_html',
-				'',
-				'arrow-right',
-				'arrows-operators'
-			)
-		);
+function hds_wp_recent_posts_more( $args = array() ): string {
+	if ( empty( $args['page_for_posts'] ) ) {
+		return '';
 	}
-	return '';
+
+	$link = ! empty( $args['attributes']['category'] )
+		? get_category_link( $args['attributes']['category'] )
+		: get_permalink( $args['page_for_posts'] );
+
+	return sprintf(
+		'<p class="posts-page">
+			<span class="link-wrap">
+				<a class="has-icon has-icon--after hds-button" href="%s">
+					%s
+					%s
+				</a>
+			</span>
+		</p>',
+		$link,
+		esc_html__( 'See all articles', 'hds-wp' ),
+		apply_filters(
+			'hds_wp_svg_icon_html',
+			'',
+			'arrow-right',
+			'arrows-operators'
+		)
+	);
 }

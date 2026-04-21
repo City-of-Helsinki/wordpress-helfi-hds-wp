@@ -27,3 +27,7 @@ $hasColors: (
 .has-secondary-background-color {
   background-color: var(--secondary-color);
 }
+
+.has-light-gray-background-color {
+  background-color: #{$light-gray};
+}

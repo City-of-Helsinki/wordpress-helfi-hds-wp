@@ -6,23 +6,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 function hds_wp_render_timeline($attributes, $content)
 {
-	if (!isset($attributes['blockVersion']) || $attributes['blockVersion'] <= 1) {
+	if (
+		! isset( $attributes['blockVersion'] )
+		|| $attributes['blockVersion'] <= 1
+	) {
 		return $content;
 	}
 
 	$elements = '';
 
-	if (!empty($attributes['title'])) {
+	if ( ! empty( $attributes['title'] ) ) {
 		$elements .= sprintf(
 			'<h2 class="timeline__heading">%s</h2>',
-			$attributes['title']
+			esc_html( $attributes['title'] )
 		);
 	}
 
-	if (!empty($attributes['description'])) {
+	if ( ! empty( $attributes['description'] ) ) {
 		$elements .= sprintf(
 			'<p class="excerpt">%s</p>',
-			$attributes['description']
+			wp_kses_post( $attributes['description'] )
 		);
 	}
 
@@ -42,18 +45,14 @@ function hds_wp_render_timeline($attributes, $content)
 		);
 	}
 
-	if ( $elements ) {
-		return sprintf(
-			'<div %1$s>
-				%2$s
-			</div>',
-			hds_wp_block_html_attributes(
-				$attributes,
-				array( 'wp-block-hds-wp-timeline' )
-			),
-			$elements
-		);
-	}
-
-	return '';
+	return $elements ? sprintf(
+		'<div %1$s>
+			%2$s
+		</div>',
+		hds_wp_block_html_attributes(
+			$attributes,
+			array( 'wp-block-hds-wp-timeline' )
+		),
+		$elements
+	) : '';
 }

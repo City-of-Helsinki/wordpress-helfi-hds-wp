@@ -33,12 +33,13 @@ function hds_wp_query_block_post_id(int $post)
 	return $query;
 }
 
-function hds_wp_render_credit_text($postId)
-{
-	if (function_exists('helsinki_base_image_credit')) {
-		return helsinki_base_image_credit($postId);
-	}
-	return '';
+function hds_wp_has_invert_color(): bool {
+	return function_exists( 'helsinki_scheme_has_invert_color' )
+		&& helsinki_scheme_has_invert_color();
+}
+
+function hds_wp_render_credit_text( $post_id ): string {
+	return apply_filters( 'helsinki_image_credit_text', '', (int) $post_id );
 }
 
 function hds_wp_block_html_attributes( array $block_attr, array $wrap_classes ): string {
@@ -59,7 +60,10 @@ function hds_wp_reduce_html_attributes( array $html_attr ): string {
 		fn( $html, $attr ) => $html . sprintf(
 			'%s="%s"',
 			sanitize_key( $attr ),
-			esc_attr( $html_attr[$attr] )
+			match( $attr ) {
+				'href', 'src' => esc_url( $html_attr[$attr] ),
+				default => esc_attr( $html_attr[$attr] )
+			}
 		),
 		''
 	);
@@ -79,4 +83,65 @@ function hds_wp_has_array_attribute( array $attributes, string $key ): bool {
 	return isset( $attributes[$key] )
 		&& is_array( $attributes[$key] )
 		&& $attributes[$key];
+}
+
+function hds_wp_block_skip_link( int|string $id, string $type, string $from, string $to, string $label ): string {
+	return sprintf(
+		'<a href="#%1$s-%4$s" id="%1$s-%3$s" class="focusable skip-link skip-link--%2$s--%3$s">%5$s</a>',
+		esc_attr( $id ),
+		esc_attr( $type ),
+		esc_attr( $from ),
+		esc_attr( $to ),
+		esc_html( $label ),
+	);
+}
+
+function hds_wp_block_placeholder_icon_html( string $block_name, string $icon, $entity = null ): string {
+	$icon = apply_filters( "hds_wp_{$block_name}_placeholder_icon", $icon );
+
+	return apply_filters(
+		"hds_wp_{$block_name}_placeholder",
+		apply_filters( 'hds_wp_svg_placeholder_html', '', $icon ),
+		$entity
+	);
+}
+
+function hds_wp_block_text_kses( string $text ): string {
+	return wp_kses( $text, array(
+		'a' => array(
+			'id' => true,
+			'class' => true,
+			'href' => true,
+			'hreflang' => true,
+			'target' => true,
+			'download' => true,
+			'rel' => true,
+		),
+		'img' => array(
+			'id' => true,
+			'alt' => true,
+			'class' => true,
+			'height' => true,
+			'loading' => true,
+			'sizes' => true,
+			'src' => true,
+			'srcset' => true,
+			'style' => true,
+			'width' => true,
+		),
+		'br' => array(),
+		'strong' => array(),
+		'em' => array(),
+		's' => array(),
+		'sub' => array(),
+		'sup' => array(),
+		'p' => array(
+			'id' => true,
+			'class' => true,
+		),
+		'span' => array(
+			'id' => true,
+			'class' => true,
+		),
+	) );
 }

@@ -1,5 +1,5 @@
 (function (wp) {
-  const __ = wp.i18n.__;
+  const {__} = wp.i18n;
   const {registerBlockType, registerBlockStyle, unregisterBlockStyle} =
     wp.blocks;
   const {Fragment, createElement} = wp.element;
@@ -82,23 +82,32 @@
         buttonText: props.attributes.buttonText,
         buttonUrl: props.attributes.buttonUrl
       }, {
-      className: 'content__link hds-button hds-button--primary',
+      className: 'content__link hds-button',
       href: props.attributes.buttonUrl,
     });
+  }
+
+  function contentProps({attributes}) {
+    let names = ['content'];
+    let style = attributes.className.includes('is-style-primary-color')
+      ? 'primary'
+      : 'secondary';
+
+    names.push(`has-${style}-background-color`, `has-${style}-content-color`);
+
+    return {className: names.join(' ')};
   }
 
   function edit() {
     return function (props) {
       if (props.attributes.preview) {
-        return <img src={props.attributes.preview} />;
+        return createElement('img', {src: props.attributes.preview});
       }
 
       var content = null;
 
       if (props.isSelected) {
-        content = createElement(
-          Fragment,
-          {},
+        content = createElement(Fragment, {},
           toolbar(props),
           hdsInspectorControls(
             {
@@ -108,23 +117,13 @@
             hdsButtonTextControl(props),
             hdsButtonUrlControl(props),
             hdsTargetBlankControl(props, {
-              help: wp.element.createElement(
-                'p',
-                {},
-                wp.i18n.__(
-                  'I have made sure that the description of this link clearly states that it opens in a new tab. ',
-                  'hds-wp'
-                ),
-                wp.element.createElement(
-                  'a',
-                  {
+              help: createElement('p', {},
+                __('I have made sure that the description of this link clearly states that it opens in a new tab. ', 'hds-wp'),
+                createElement('a', {
                     href: 'https://www.w3.org/WAI/WCAG21/Techniques/general/G200.html',
                     target: '_blank',
                   },
-                  wp.i18n.__(
-                    'Check WCGA 3.2.5 accessibility requirements (the link opens in a new tab).',
-                    'hds-wp'
-                  )
+                  __('Check WCGA 3.2.5 accessibility requirements (the link opens in a new tab).', 'hds-wp')
                 )
               ),
             })
@@ -133,8 +132,7 @@
             'div',
             {className: 'image-text--wrapper'},
             hdsSingleImage(imageConfig(props)),
-            hdsContent(
-              props,
+            createElement('div', contentProps(props),
               hdsContentTitleRich(props, {
                 placeholder: __('This is the title', 'hds-wp'),
               }),
@@ -237,8 +235,7 @@
           className: classNamesStringV1(props),
         }),
         hdsSingleImage(imageConfig(props)),
-        hdsContent(
-          props,
+        createElement('div', contentProps(props),
           hdsContentTitle(props),
           hdsContentText(props),
           hdsContentButton({
@@ -246,7 +243,7 @@
               buttonUrl: props.attributes.buttonUrl
             },
             {
-              className: 'content__link hds-button hds-button--secondary',
+              className: 'content__link hds-button',
               href: props.attributes.buttonUrl,
             },
             props.attributes.isExternalUrl

@@ -45,6 +45,8 @@
 
   .image {
     background-color: $white;
+    border: none;
+    display: block;
     grid-area: var(--image-area);
 		margin: 0;
     overflow: hidden;
@@ -53,6 +55,7 @@
       display: block;
       height: auto;
       width: 100%;
+      margin: 0;
     }
   }
 

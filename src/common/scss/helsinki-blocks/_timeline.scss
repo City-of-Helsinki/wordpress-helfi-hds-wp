@@ -6,11 +6,12 @@
     }
 
     .timeline {
-        position: relative;
-        margin-left: 0;
-        margin-bottom: 0;
+      position: relative;
+      margin-left: 0;
+      margin-bottom: 0;
+      padding: 0;
 
-        @extend %helsinki-block-content-spacing;
+      @extend %helsinki-block-content-spacing;
     }
 
     .wp-block-hds-wp-timeline-card {
