@@ -73,7 +73,7 @@ function hds_wp_render_block_accordion_panel( array $attributes ): string {
 	$title = sprintf(
 		'<%1$s class="accordion__title">
 			<button id="panel-toggle-%2$s" class="accordion__toggle" type="button" aria-controls="panel-%2$s" aria-expanded="false">
-				%3$s
+				<span class="text">%3$s</span>
 				<span class="accordion__icon">%4$s</span>
 			</button>
 		</%1$s>',
