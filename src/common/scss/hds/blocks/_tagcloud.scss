@@ -1,51 +1,35 @@
 .wp-block-tag-cloud {
-    &:not(.is-style-outline) {
-        a {
-            @include tagLink();
-        }
-    }
-}
-
-.wp-block-categories.wp-block-categories-list {
+  --font-size: var(--fontsize-body-s);
   display: flex;
   flex-wrap: wrap;
-  gap: spacing('2-xs');
-  list-style: none;
-  margin-inline-start: 0;
+  gap: spacing('s');
 
-  .cat-item {
-    &.current-cat {
-      font-weight: $global-font-weight-bold;
-    }
-  }
-}
-
-.widget--widget_categories {
-  ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: spacing('2-xs');
-    list-style: none;
-    margin-inline-start: 0;
+  .hds-tag {
+    --border-color-hover: #{$black};
   }
 
-  .cat-item {
+  a {
+    display: inline-flex;
     margin: 0;
-
-    &.current-cat {
-      font-weight: $global-font-weight-bold;
-    }
   }
 }
 
 .tagcloud {
-  .tag-cloud-link {
-    .tag-link-count {
-      display: contents;
-    }
+  display: flex;
+  flex-wrap: wrap;
+  gap: spacing('s');
+}
 
-    &.current_tag {
-      font-weight: $global-font-weight-bold;
-    }
+.wp-block-categories.wp-block-categories-list,
+.widget--widget_categories ul {
+  --list-indent: 0;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: spacing('s');
+  list-style: none;
+
+  .cat-item {
+    margin: 0;
   }
 }

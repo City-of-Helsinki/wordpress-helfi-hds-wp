@@ -48,30 +48,6 @@
   transform: translate(-50%, -50%);
 }
 
-@mixin tagLink() {
-  background-color: var(--color-silver);
-  border: $default-border-width $default-border-style var(--color-silver);
-  border-radius: $default-border-radius;
-  color: $black;
-  display: inline-block;
-  font-size: rem-calc(16) !important;
-  margin-right: spacing('2-xs');
-  margin-bottom: spacing('2-xs');
-  padding: rem-calc(8) rem-calc(24);
-  text-decoration: none;
-
-  &:focus {
-    border-color: var(--primary-color);
-    outline: none;
-  }
-
-  &:hover {
-    background-color: var(--color-silver-dark);
-    border-color: var(--color-silver-dark);
-    outline: none;
-  }
-}
-
 @mixin alignFull() {
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);

@@ -82,6 +82,8 @@ function complianz_integration(): void {
 
 add_action( 'plugins_loaded', __NAMESPACE__ . '\\prepare', 11 );
 function prepare() {
+	require_once \plugin_dir_path( __FILE__ ) . 'functions/filters.php';
+
 	ModuleFactory::instance(
 		ConfigLoader::instance( config_path() )
 	);
