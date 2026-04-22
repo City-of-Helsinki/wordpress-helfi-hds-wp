@@ -194,6 +194,8 @@ function init() {
 			)
 		);
 		$blocks->init();
+
+		(ModuleFactory::module( 'BlockEditor' ))->init();
 	}
 
 	/**
