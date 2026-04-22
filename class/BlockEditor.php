@@ -10,19 +10,39 @@ use WP_Theme_JSON_Data;
 
 class BlockEditor extends Module
 {
+	private array $no_styles = array(
+		'core/button' => true,
+		'core/image' => true,
+		'core/paragraph' => true,
+		'core/quote' => true,
+	);
+
 	public function init()
 	{
 		\add_filter( 'wp_theme_json_data_theme', array( $this, 'theme_json' ) );
+
 		\add_filter( 'register_block_type_args', array( $this, 'disable_block_alignment' ), 10, 2 );
+		\add_filter( 'register_block_type_args', array( $this, 'disable_core_block_styles' ), 10, 2 );
+
 		\add_filter( 'block_bindings_supported_attributes', '__return_empty_array' );
 	}
 
-	function disable_block_alignment( array $args, string $block_type ): array
+	public function disable_block_alignment( array $args, string $block_type ): array
 	{
-		if ( substr( $block_type, 0, 5 ) === 'core/'
-			&& isset( $args['supports']['align'] )
-		) {
+		if ( isset( $args['supports']['align'] ) ) {
 			$args['supports']['align'] = false;
+		}
+
+		return $args;
+	}
+
+	public function disable_core_block_styles( array $args, string $block_type ): array
+	{
+		if (
+			isset( $this->no_styles[$block_type] )
+			&& isset( $args['styles'] )
+		) {
+			$args['styles'] = array();
 		}
 
 		return $args;
