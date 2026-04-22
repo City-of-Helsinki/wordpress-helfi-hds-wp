@@ -3886,46 +3886,6 @@ function hdsIcons(name) {
     }, editBlockTitle(props), editBlockDescription(props), editVideoTitle(props), videoFigure(props)))));
   }
 })(window.wp);
-wp.domReady(function () {
-  /**
-    * Buttons
-    */
-  wp.blocks.unregisterBlockStyle('core/button', 'default');
-  wp.blocks.unregisterBlockStyle('core/button', 'outline');
-  wp.blocks.unregisterBlockStyle('core/button', 'fill');
-  wp.blocks.registerBlockStyle('core/button', [{
-    name: 'default',
-    label: wp.i18n.__('Primary', 'hds-wp'),
-    isDefault: true
-  }, {
-    name: 'secondary',
-    label: wp.i18n.__('Secondary', 'hds-wp')
-  }, {
-    name: 'supplementary',
-    label: wp.i18n.__('Supplementary', 'hds-wp')
-  }]);
-
-  /**
-    * Text
-    */
-  var withBackgroundStyle = ['core/group', 'core/paragraph'];
-  for (var i = 0; i < withBackgroundStyle.length; i++) {
-    wp.blocks.registerBlockStyle(withBackgroundStyle[i], [{
-      name: 'light-gray-background',
-      label: wp.i18n.__('Light Gray Background', 'hds-wp')
-    }]);
-  }
-
-  /**
-   * Image
-   */
-  wp.blocks.unregisterBlockStyle('core/image', 'rounded');
-
-  /**
-   * Quote
-   */
-  wp.blocks.unregisterBlockStyle('core/quote', 'plain');
-});
 (function (wp) {
   function addColumnAttributes(settings, name) {
     if (typeof settings.attributes !== 'undefined') {
@@ -3948,6 +3908,30 @@ wp.domReady(function () {
     return settings;
   }
   wp.hooks.addFilter('blocks.registerBlockType', 'column/custom-attributes', addColumnAttributes);
+  wp.hooks.addFilter('blocks.registerBlockType', 'hds-wp/restrict-column-children', function (settings, name) {
+    if (name === 'core/column') {
+      var allBlocks = wp.blocks.getBlockTypes();
+      var denyList = ['core/columns', 'core/gallery', 'core/group'];
+      var allowedBlocks = allBlocks.map(function (block) {
+        return block.name;
+      }).filter(function (blockName) {
+        if (blockName.startsWith('hds-wp/')) {
+          return false;
+        }
+        if (blockName.startsWith('helsinki-')) {
+          return false;
+        }
+        if (denyList.includes(blockName)) {
+          return false;
+        }
+        return true;
+      });
+      return _objectSpread(_objectSpread({}, settings), {}, {
+        allowedBlocks: allowedBlocks
+      });
+    }
+    return settings;
+  });
 })(window.wp);
 (function (wp) {
   function addGroupAttributes(settings, name) {
