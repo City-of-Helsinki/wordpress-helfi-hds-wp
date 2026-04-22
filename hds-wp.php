@@ -187,6 +187,7 @@ function init() {
 			array(
 				'blocks',
 				'allowed-blocks',
+				'block-styles',
 			),
 			array(
 				'callbacks',
