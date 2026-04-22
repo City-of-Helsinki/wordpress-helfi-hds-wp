@@ -5,17 +5,22 @@ use WP_Block_Editor_Context;
 
 class Blocks extends Module
 {
-	public function init() {
-		add_filter( 'hds_wp_settings_tabs', array( $this, 'settingsTab' ) );
-		add_filter( 'hds_wp_settings_tab_panel', array( $this, 'settingsTabPanel' ) );
-		add_filter( 'block_categories_all', array( $this, 'category' ), 10, 2 );
-		add_action( 'admin_enqueue_scripts', array( $this, 'allowedBlockVariations' ) );
-		add_action( 'init', array( $this, 'register' ) );
+	public function init()
+	{
+		\add_filter( 'hds_wp_settings_tabs', array( $this, 'settingsTab' ) );
+		\add_filter( 'hds_wp_settings_tab_panel', array( $this, 'settingsTabPanel' ) );
 
-		add_filter( 'allowed_block_types_all', array( $this, 'setupAllowedBlocks' ), 10, 2 );
+		\add_action( 'admin_enqueue_scripts', array( $this, 'allowedBlockVariations' ) );
+
+		\add_filter( 'block_categories_all', array( $this, 'category' ), 10, 2 );
+		\add_action( 'init', array( $this, 'register' ) );
+		\add_filter( 'init', array( $this, 'custom_block_styles' ) );
+
+		\add_filter( 'allowed_block_types_all', array( $this, 'setupAllowedBlocks' ), 10, 2 );
 	}
 
-	public function register() {
+	public function register(): void
+	{
 		$commons = array(
 			'version' => $this->config->value( 'debug' )
 				? (string) time()
@@ -31,6 +36,17 @@ class Blocks extends Module
 				$this->block_json_path( $block ),
 				array_merge( $commons, $args )
 			);
+		}
+	}
+
+	public function custom_block_styles(): void
+	{
+		$block_styles = $this->config->value( 'block-styles' );
+
+		foreach ( $block_styles as $block => $styles ) {
+			foreach ( $styles as $style ) {
+				\register_block_style( $block, $style );
+			}
 		}
 	}
 
