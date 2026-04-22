@@ -54,21 +54,6 @@
   }
 }
 
-.wp-block-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5em;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-.button.hds-button {
-  min-height: 56px;
-  padding-left: 2rem;
-  padding-right: 2rem;
-}
-
 .content__link {
   > .icon--arrow-right {
     margin: 5px 0 0 5px;
