@@ -9,7 +9,7 @@ function hds_wp_render_video( $attributes ) {
 
 	if ( $attributes['title'] ) {
 		$content .= sprintf(
-			'<h2>%s</h2>',
+			'<h2 class="block-title">%s</h2>',
 			esc_html( $attributes['title'] )
 		);
 	}
@@ -23,7 +23,7 @@ function hds_wp_render_video( $attributes ) {
 
 	if ( $attributes['videoTitle'] ) {
 		$content .= sprintf(
-			'<h3>%s</h3>',
+			'<h3 class="video__title">%s</h3>',
 			esc_html( $attributes['videoTitle'] )
 		);
 	}
