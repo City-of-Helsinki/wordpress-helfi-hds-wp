@@ -80,6 +80,20 @@ class BlockEditor extends Module
 		$theme_json['settings']['layout'] = array(
 			'allowEditing' => false,
 		);
+
+		$theme_json['settings']['blocks'] = array(
+			'core/buttons' => array(
+				'layout' => array(
+					'allowEditing' => true,
+				),
+			),
+			'core/group' => array(
+				'layout' => array(
+					'allowEditing' => true,
+					'allowCustomContentAndWideSize' => false,
+				),
+			),
+		);
 	}
 
 	private function settings_shadow( array &$theme_json ): void
