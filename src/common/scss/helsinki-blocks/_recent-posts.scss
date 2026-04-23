@@ -1,25 +1,21 @@
 @use "sass:map";
 
 .recent-posts {
-    .posts-page {
 
-        .link-wrap {
-            display: inline-block;
+  .block-title {
+    --margin-top: 0;
+    --margin-bottom: var(--spacing-s,1rem);
+  }
 
-            a {
-                &:focus,
-                &:hover {
-                    svg {
-
-                    }
-                }
-            }
-        }
+  .posts-page {
+    .link-wrap {
+      display: inline-block;
     }
+  }
 
     .hds-container {
-        padding-left: 0;
-        padding-right: 0;
+      padding-left: 0;
+      padding-right: 0;
     }
 
     .entries {
