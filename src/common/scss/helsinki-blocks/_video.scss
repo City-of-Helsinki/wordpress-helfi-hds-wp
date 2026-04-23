@@ -7,12 +7,9 @@
     padding-top: $paragraph-margin-bottom-big;
   }
 
-  h2 {
-    margin-top: 1rem;
-  }
-
-  p {
-    margin: 0;
+  .block-title {
+    --margin-top: 0;
+    --margin-bottom: var(--spacing-s,1rem);
   }
 
   figure {
@@ -25,8 +22,8 @@
     }
   }
 
-  h3  {
-    margin-top: var(--spacing-2-xl);
+  .video__title  {
+    --margin-bottom: var(--spacing-s,1rem);
 
     + .hds-video__container {
       margin-top: 0;
