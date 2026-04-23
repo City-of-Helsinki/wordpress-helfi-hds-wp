@@ -1,3 +1,12 @@
+.wp-block {
+  max-width: var(--element-max-width, var(--wp--style--global--content-size));
+}
+
+.block-editor-block-list__layout.is-root-container > :where(:not(.alignleft):not(.alignright):not(.alignfull)) {
+  margin-left: unset !important;
+  margin-right: unset !important;
+}
+
 .editor-post-title .editor-post-title__input {
   font-weight: $heading-font-weight;
 }
