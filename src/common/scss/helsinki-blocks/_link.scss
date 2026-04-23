@@ -28,6 +28,7 @@
   } // .links-list__decoration
 
   .links-list__title {
+    --margin-bottom: var(--spacing-s,1rem);
     position: relative;
 
     span {
