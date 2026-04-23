@@ -1,4 +1,6 @@
 .wp-block-heading {
+  @extend %helsinki-text-block-size;
+
   --margin-top: var(--spacing-layout-s, 2rem);
   --margin-bottom: var(--spacing-s, 1rem);
 
