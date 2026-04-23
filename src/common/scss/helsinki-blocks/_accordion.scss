@@ -10,15 +10,13 @@
 	}
 
 	.accordion__title {
-    --font-size: #{rem-calc(20)};
-    --font-weight: #{$global-font-weight-medium};
     --line-height: 26px;
     --vertical-padding: #{spacing('s')};
     --toggle-icon-size: 30px;
     --text-max-width: none;
 
-		font-size: var(--font-size);
-    font-weight: var(--font-weight);
+		font-size: var(--font-size, #{rem-calc(20)});
+    font-weight: var(--font-weight, #{$global-font-weight-medium});
 		margin: 0;
 		max-width: unset;
 
@@ -80,6 +78,10 @@
 			}
 		}
 	}
+
+  .accordion_heading {
+    --margin-bottom: var(--spacing-s,1rem);
+  }
 
 	.accordion__panel {
 		padding: spacing('m') 0 spacing('2-xs');

@@ -1,4 +1,14 @@
 .wp-block-quote,
-blockquote.wp-block-quote {
-  @extend %helsinki-block-spacing;
+blockquote {
+  > * {
+    @extend %helsinki-block-spacing;
+    text-align: var(--text-align, left) !important;
+  }
+}
+
+[dir="rtl"] {
+  .wp-block-quote,
+  blockquote.wp-block-quote {
+    --text-align: right;
+  }
 }

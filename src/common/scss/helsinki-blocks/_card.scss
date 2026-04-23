@@ -5,18 +5,16 @@
   }
 
   .content-cards__title {
-    margin-top: 0;
+    --margin-top: 0;
+    --margin-bottom: var(--spacing-s,1rem);
   }
 
   .content-cards__cards {
-		--grid-columns: 1;
-		--grid-columns-gap: 0px;
-
     @extend %helsinki-block-content-spacing;
 
 		display: grid;
-		grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
-		gap: var(--grid-columns-gap);
+		grid-template-columns: repeat(var(--grid-columns, 1), minmax(0, 1fr));
+		gap: var(--grid-columns-gap, 0px);
 
     @include breakpoint('s') {
       --grid-columns: 2;

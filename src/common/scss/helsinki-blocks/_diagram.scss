@@ -1,10 +1,7 @@
 .hds-diagram {
-  h2 {
-    margin-top: 1rem;
-  }
-
-  p {
-    margin: 0;
+  .block-title {
+    --margin-top: 0;
+    --margin-bottom: var(--spacing-s,1rem);
   }
 
   figure {
@@ -17,8 +14,9 @@
     }
   }
 
-  h3  {
-    margin-top: var(--spacing-2-xl);
+  .diagram__title  {
+    --margin-top: var(--spacing-2-xl);
+    --margin-bottom: var(--spacing-s,1rem);
 
     + .hds-diagram__container {
       margin-top: 0;

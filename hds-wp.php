@@ -187,6 +187,7 @@ function init() {
 			array(
 				'blocks',
 				'allowed-blocks',
+				'block-styles',
 			),
 			array(
 				'callbacks',
@@ -194,6 +195,8 @@ function init() {
 			)
 		);
 		$blocks->init();
+
+		(ModuleFactory::module( 'BlockEditor' ))->init();
 	}
 
 	/**

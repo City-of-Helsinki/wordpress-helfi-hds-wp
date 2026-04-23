@@ -9,7 +9,7 @@ function hds_wp_render_map( array $attributes ): string {
 
 	if ( $attributes['title'] ) {
 		$content .= sprintf(
-			'<h2>%s</h2>',
+			'<h2 class="block-title">%s</h2>',
 			esc_html( $attributes['title'] ),
 		);
 	}

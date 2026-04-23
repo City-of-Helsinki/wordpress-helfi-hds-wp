@@ -28,7 +28,7 @@ function hds_wp_render_recent_posts_block( $attr ) {
 	return sprintf(
 		'<div %s>
 			<div class="hds-container">
-				<h2>%s</h2>
+				<h2 class="block-title">%s</h2>
 				%s
 				%s
 			</div>

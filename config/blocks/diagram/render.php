@@ -9,7 +9,7 @@ function hds_wp_render_diagram( $attributes ) {
 
 	if ( $attributes['title'] ) {
 		$content .= sprintf(
-			'<h2>%s</h2>',
+			'<h2 class="block-title">%s</h2>',
 			esc_html( $attributes['title'] )
 		);
 	}
@@ -20,7 +20,7 @@ function hds_wp_render_diagram( $attributes ) {
 
 	if ( $attributes['diagramTitle'] ) {
 		$content .= sprintf(
-			'<h3>%s</h3>',
+			'<h3 class="diagram__title">%s</h3>',
 			esc_html( $attributes['diagramTitle'] )
 		);
 	}
