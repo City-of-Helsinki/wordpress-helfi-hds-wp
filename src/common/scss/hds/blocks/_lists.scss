@@ -1,5 +1,4 @@
 .wp-block-list {
-  --list-indent: #{$list-margin-left};
   --list-item-spacing: #{spacing('2-xs')};
 
   @extend %helsinki-paragraph-spacing;
@@ -8,7 +7,7 @@
   margin-inline-start: 0;
   margin-inline-end: 0;
   padding: 0;
-  padding-inline-start: var(--list-indent);
+  padding-inline-start: var(--list-indent, #{$list-margin-left});
 
   .wp-block-list {
     margin-top: var(--list-item-spacing) !important;
