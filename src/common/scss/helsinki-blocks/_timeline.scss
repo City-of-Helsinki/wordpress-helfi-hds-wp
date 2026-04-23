@@ -1,8 +1,9 @@
 .wp-block-hds-wp-timeline {
     position: relative;
 
-    .excerpt {
-        margin: 0;
+    .timeline__heading {
+      --margin-top: 0;
+      --margin-bottom: var(--spacing-s,1rem);
     }
 
     .timeline {
