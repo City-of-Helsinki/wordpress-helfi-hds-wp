@@ -2,9 +2,7 @@
   @extend %helsinki-block-spacing;
 
   &.is-layout-flex {
-    --gap: var(--spacing-s, 1rem);
-
-    gap: var(--gap);
+    gap: var(--gap, var(--spacing-s, 1rem));
 
     @include breakpoint('m') {
       --gap: var(--spacing-layout-l, 4rem);
