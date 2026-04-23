@@ -6,7 +6,6 @@ h3,
 h4,
 h5,
 h6 {
-  --line-height: #{$heading-line-height};
   --margin-top: 0;
   --margin-bottom: var(--spacing-s, 1rem);
 
@@ -14,7 +13,7 @@ h6 {
   font-family: $heading-font-family;
   font-weight: $heading-font-weight;
   hyphens: auto;
-  line-height: var(--line-height);
+  line-height: var(--line-height, #{$heading-line-height});
   margin-top: var(--margin-top);
   margin-bottom: var(--margin-bottom);
   word-break: $heading-word-wrap;
@@ -44,15 +43,4 @@ h6 {
       }
     }
   }
-}
-
-.content__body {
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6 {
-	  @extend %helsinki-text-block-size;
-	}
 }
