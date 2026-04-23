@@ -3887,32 +3887,13 @@ function hdsIcons(name) {
   }
 })(window.wp);
 (function (wp) {
-  function addColumnAttributes(settings, name) {
-    if (typeof settings.attributes !== 'undefined') {
-      if (name == 'core/column') {
-        settings.attributes = Object.assign(settings.attributes, {
-          allowedBlocks: {
-            type: 'array',
-            default: ['core/heading', 'core/paragraph', 'core/quote', 'core/table', 'core/list', 'core/freeform', 'core/image', 'core/video', 'core/audio', 'core/file', 'core/buttons', 'core/embed']
-          }
-        });
-      } else if (name == 'core/columns') {
-        settings.transforms.from[0].isMatch = function (attr, block) {
-          if (block[0].name.startsWith('hds-wp') || block[0].name.startsWith('helsinki')) {
-            return false;
-          }
-          return true;
-        };
-      }
-    }
-    return settings;
-  }
-  wp.hooks.addFilter('blocks.registerBlockType', 'column/custom-attributes', addColumnAttributes);
-  wp.hooks.addFilter('blocks.registerBlockType', 'hds-wp/restrict-column-children', function (settings, name) {
-    if (name === 'core/column') {
-      var allBlocks = wp.blocks.getBlockTypes();
-      var denyList = ['core/columns', 'core/gallery', 'core/group'];
-      var allowedBlocks = allBlocks.map(function (block) {
+  var limitedBlocks = {
+    'core/column': ['core/columns', 'core/gallery', 'core/group'],
+    'core/group': []
+  };
+  function filterAllowedBlocks(settings, name) {
+    if (limitedBlocks[name]) {
+      var allowedBlocks = wp.blocks.getBlockTypes().map(function (block) {
         return block.name;
       }).filter(function (blockName) {
         if (blockName.startsWith('hds-wp/')) {
@@ -3921,7 +3902,7 @@ function hdsIcons(name) {
         if (blockName.startsWith('helsinki-')) {
           return false;
         }
-        if (denyList.includes(blockName)) {
+        if (limitedBlocks[name].includes(blockName)) {
           return false;
         }
         return true;
@@ -3931,7 +3912,8 @@ function hdsIcons(name) {
       });
     }
     return settings;
-  });
+  }
+  wp.hooks.addFilter('blocks.registerBlockType', 'hds-wp/restrict-allowed-blocks', filterAllowedBlocks);
 })(window.wp);
 (function (wp) {
   function addGroupAttributes(settings, name) {
