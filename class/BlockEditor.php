@@ -21,10 +21,19 @@ class BlockEditor extends Module
 	{
 		\add_filter( 'wp_theme_json_data_theme', array( $this, 'theme_json' ) );
 
+		\add_filter( 'block_editor_settings_all', array( $this, 'disable_code_editor' ) );
+
 		\add_filter( 'register_block_type_args', array( $this, 'disable_block_alignment' ), 10, 2 );
 		\add_filter( 'register_block_type_args', array( $this, 'disable_core_block_styles' ), 10, 2 );
 
 		\add_filter( 'block_bindings_supported_attributes', '__return_empty_array' );
+	}
+
+	public function disable_code_editor( array $settings ): array
+	{
+		$settings[ 'codeEditingEnabled' ] = false;
+
+		return $settings;
 	}
 
 	public function disable_block_alignment( array $args, string $block_type ): array
