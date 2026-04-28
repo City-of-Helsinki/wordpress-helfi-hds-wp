@@ -1,5 +1,5 @@
 {
-    "apiVersion": 2,
+    "apiVersion": 3,
     "title": "Helsinki - Web Component Accordion",
     "name": "hds-wp/accordion-wc",
     "textdomain": "hds-wp",
@@ -35,5 +35,6 @@
             "default": ""
         }
     },
-    "render_callback": "hds_wp_render_block_accordion_wc"
+    "render_callback": "hds_wp_render_block_accordion_wc",
+    "style": [ "helsinki-wp-blocks" ]
 }

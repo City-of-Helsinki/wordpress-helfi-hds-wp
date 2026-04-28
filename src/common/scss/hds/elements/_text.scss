@@ -1,0 +1,10 @@
+p {
+  @extend %helsinki-text-block-size;
+
+  font-size: var(--font-size, #{$global-font-size});
+  line-height: var(--line-height, #{$global-line-height});
+
+  &.has-background {
+    padding: 0;
+  }
+}

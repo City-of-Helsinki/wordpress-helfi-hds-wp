@@ -6,37 +6,44 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 function hds_wp_render_timeline_card($attributes, $content = null)
 {
-	$step = '';
-
 	$step = sprintf(
 		'<div class="content__inner content__inner--step %s">%s</div>',
 		$attributes['style'] == 'numbered' ? 'numbered' : '',
-		$attributes['style'] == 'numbered' ? $attributes['order'] : ''
+		$attributes['style'] == 'numbered' ? esc_html( $attributes['order'] ) : ''
 	);
 
-	$text = '';
 	$text = sprintf(
 		'<div class="content__inner content__inner--text">
 			%s
 			%s
 		</div>',
-		$attributes['contentTitle'] ? '<div class="content__heading">' . $attributes['contentTitle'] . '</div>' : '',
-		$content ? $content : $attributes['innerContent']
+		$attributes['contentTitle'] ? sprintf(
+			'<div class="content__heading">%s</div>',
+			esc_html( $attributes['contentTitle'] )
+		) : '',
+		wp_kses_post( $content ?: $attributes['innerContent'] )
 	);
 
-	$wrapClasses = array('wp-block-hds-wp-timeline-card');
+	$wrapClasses = array(
+		'wp-block-hds-wp-timeline-card',
+		'has-secondary-background-color',
+		'has-secondary-content-color',
+	);
 
-	if (!empty($attributes['className'])) {
-		$wrapClasses[] = esc_attr($attributes['className']);
+	if ( ! empty( $attributes['className'] ) ) {
+		$wrapClasses[] = $attributes['className'];
 	}
 
-	$id = '';
-	if (!empty($attributes['anchor'])) {
-		$id = 'id="' . esc_attr($attributes['anchor']) . '"';
+	$html_attr = array(
+		'class' => implode( ' ', $wrapClasses ),
+	);
+
+	if ( ! empty( $attributes['anchor'] ) ) {
+		$html_attr['id'] = $attributes['anchor'];
 	}
 
 	return sprintf(
-		'<li %s class="%s">
+		'<li %s>
 			<div class="content">
 				%s
 				<div class="content-wrapper">
@@ -44,8 +51,7 @@ function hds_wp_render_timeline_card($attributes, $content = null)
 				</div>
 			</div>
 		</li>',
-		$id,
-		implode(' ', $wrapClasses),
+		hds_wp_reduce_html_attributes( $html_attr ),
 		$step,
 		$text,
 	);

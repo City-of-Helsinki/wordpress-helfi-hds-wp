@@ -1,13 +1,11 @@
 {
-    "apiVersion": 2,
+    "apiVersion": 3,
     "title": "Helsinki - Link",
     "name": "hds-wp/link",
     "icon": "links",
     "textdomain": "hds-wp",
     "category": "hds-wp",
-    "parent": [
-      "hds-wp/links"
-    ],
+    "parent": [ "hds-wp/links" ],
     "attributes": {
         "postId": {
             "type": "integer",
@@ -73,5 +71,6 @@
             "default": ""
         }
     },
-    "usesContext": [ "hds-wp/linkType" ]
+    "usesContext": [ "hds-wp/linkType" ],
+    "style": [ "helsinki-wp-blocks" ]
 }

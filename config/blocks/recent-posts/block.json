@@ -1,5 +1,5 @@
 {
-    "apiVersion": 2,
+    "apiVersion": 3,
     "title": "Helsinki - Recent Posts",
     "name": "hds-wp/recent-posts",
     "icon": "images-alt",
@@ -39,5 +39,6 @@
             "default": ""
         }
     },
-    "render_callback": "hds_wp_render_recent_posts"
+    "render_callback": "hds_wp_render_recent_posts",
+    "style": [ "helsinki-wp-blocks" ]
 }

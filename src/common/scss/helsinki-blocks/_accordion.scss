@@ -1,0 +1,121 @@
+.wp-block-hds-wp-accordion {
+	.accordion__section {
+		margin: 0;
+		padding: 0;
+		border-bottom: $default-border;
+
+		&:first-child {
+			border-top: $default-border;
+		}
+	}
+
+	.accordion__title {
+    --line-height: 26px;
+    --vertical-padding: #{spacing('s')};
+    --toggle-icon-size: 30px;
+    --text-max-width: none;
+
+		font-size: var(--font-size, #{rem-calc(20)});
+    font-weight: var(--font-weight, #{$global-font-weight-medium});
+		margin: 0;
+		max-width: unset;
+
+		@include breakpoint('m') {
+			--font-size: #{rem-calc(24)};
+      --line-height: 28px;
+		}
+
+    @include breakpoint('l') {
+      --vertical-padding: #{spacing('m')};
+      --toggle-icon-size: 32px;
+		}
+	}
+
+	.accordion-description {
+		 &.block-editor-rich-text__editable {
+			margin-bottom: spacing('l');
+		 }
+
+		 p {
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+	}
+
+	.accordion {
+		@extend %helsinki-block-content-spacing;
+	}
+
+	.accordion__toggle {
+    align-items: center;
+		background-color: transparent;
+		border: none;
+    color: currentColor;
+		display: flex;
+    font-size: inherit;
+    font-weight: inherit;
+		padding: var(--vertical-padding) 0;
+		line-height: inherit;
+		margin: 0;
+		text-align: left;
+		width: 100%;
+
+		.accordion__icon {
+			margin-left: auto;
+
+			.icon {
+        --icon-size: var(--toggle-icon-size);
+				transform: rotate(180deg);
+			}
+		}
+
+		&[aria-expanded="true"] {
+			.accordion__icon {
+				.icon {
+					transform: rotate(0deg);
+				}
+			}
+		}
+	}
+
+  .accordion_heading {
+    --margin-bottom: var(--spacing-s,1rem);
+  }
+
+	.accordion__panel {
+		padding: spacing('m') 0 spacing('2-xs');
+
+		@include breakpoint('l') {
+			padding-bottom: spacing('s');
+		}
+	}
+
+	.accordion__content {
+		font-size: rem-calc(18);
+		max-width: 780px;
+	}
+
+	.accordion__close {
+		display: flex;
+		align-items: center;
+		font-size: rem-calc(16);
+		padding: 0 8px;
+		margin: spacing('m') 0 0 auto;
+		min-height: 44px;
+
+		> span {
+			--line-height: 22px;
+			line-height: 22px;
+		}
+
+		.icon {
+			margin-top: -4px;
+		}
+
+		@include breakpoint('l') {
+			margin-top: spacing('l');
+		}
+	}
+
+}

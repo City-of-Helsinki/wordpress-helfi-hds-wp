@@ -1,5 +1,5 @@
 {
-    "apiVersion": 2,
+    "apiVersion": 3,
     "title": "Helsinki - Image & Text",
     "name": "hds-wp/image-text",
     "icon": "format-gallery",
@@ -70,5 +70,6 @@
             "default": ""
         }
     },
-    "render_callback": "hds_wp_render_image_text"
+    "render_callback": "hds_wp_render_image_text",
+    "style": [ "helsinki-wp-blocks" ]
 }

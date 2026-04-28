@@ -1,5 +1,5 @@
 {
-    "apiVersion": 2,
+    "apiVersion": 3,
     "title": "Helsinki - Accordion Panel",
     "name": "hds-wp/accordion-panel",
     "icon": "format-gallery",
@@ -8,8 +8,20 @@
     "supports": {
       "anchor": true
     },
-    "parent": [
-      "hds-wp/accordion"
+    "parent": [ "hds-wp/accordion" ],
+    "allowedBlocks": [
+      "core/heading",
+      "core/paragraph",
+      "core/list",
+      "core/table",
+      "core/freeform",
+      "core/quote",
+      "core/buttons",
+      "core/button",
+      "core/image",
+      "core/embed",
+      "core/file",
+      "hds-wp/diagram"
     ],
     "attributes": {
         "panelTitle": {
@@ -31,5 +43,6 @@
             "type": "string",
             "default": ""
         }
-    }
+    },
+    "style": [ "helsinki-wp-blocks" ]
 }

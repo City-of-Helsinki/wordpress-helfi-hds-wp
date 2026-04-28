@@ -1,0 +1,22 @@
+$hasColors: (
+	"light-gray": $light-gray,
+);
+
+@each $name, $color in $hasColors {
+  .is-style-#{"" + $name}-background {
+    background-color: $color;
+    padding: spacing('layout-m') spacing('layout-s');
+  }
+}
+
+.has-primary-background-color {
+  background-color: var(--primary-color);
+}
+
+.has-secondary-background-color {
+  background-color: var(--secondary-color);
+}
+
+.has-light-gray-background-color {
+  background-color: #{$light-gray};
+}

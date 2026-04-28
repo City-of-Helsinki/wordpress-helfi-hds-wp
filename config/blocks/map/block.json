@@ -1,5 +1,5 @@
 {
-    "apiVersion": 2,
+    "apiVersion": 3,
     "title": "Helsinki - Map",
     "description": "Embed the map from Palvelukartasta or Karttapalvelusta.",
     "name": "hds-wp/map",
@@ -28,5 +28,6 @@
             "default": ""
         }
     },
-    "render_callback": "hds_wp_render_map"
+    "render_callback": "hds_wp_render_map",
+    "style": [ "helsinki-wp-blocks" ]
 }

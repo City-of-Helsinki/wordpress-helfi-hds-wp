@@ -12,8 +12,12 @@
 /**
   * Icons
   */
- @import '../node_modules/hds-core/lib/icons/all';
-// @import '../node_modules/hds-core/lib/icons/icon';
+@import '../node_modules/hds-core/lib/icons/icon';
+@import '../node_modules/hds-core/lib/icons/icons';
+
+.icon {
+  @extend .hds-icon;
+}
 
 // UI
 // @import '../node_modules/hds-core/lib/icons/ui/icon-alert-circle';

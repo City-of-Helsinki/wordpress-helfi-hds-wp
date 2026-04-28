@@ -1,0 +1,35 @@
+.wp-block-tag-cloud {
+  --font-size: var(--fontsize-body-s);
+  display: flex;
+  flex-wrap: wrap;
+  gap: spacing('s');
+
+  .hds-tag {
+    --border-color-hover: #{$black};
+  }
+
+  a {
+    display: inline-flex;
+    margin: 0;
+  }
+}
+
+.tagcloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: spacing('s');
+}
+
+.wp-block-categories.wp-block-categories-list,
+.widget--widget_categories ul {
+  --list-indent: 0;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: spacing('s');
+  list-style: none;
+
+  .cat-item {
+    margin: 0;
+  }
+}

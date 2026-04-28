@@ -83,7 +83,7 @@
       }
 
       return hdsInspectorControls(
-        { title: __( 'Settings', 'hds-wp' ), initialOpen: false },
+        { title: __( 'Settings', 'hds-wp' ), initialOpen: true },
         controls.map(function(control){
           return hdsPanelRow({}, createElement(control, props));
         })
