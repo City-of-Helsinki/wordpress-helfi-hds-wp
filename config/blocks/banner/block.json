@@ -1,5 +1,5 @@
 {
-    "apiVersion": 2,
+    "apiVersion": 3,
     "title": "Helsinki - Banner",
     "name": "hds-wp/banner",
     "icon": "format-gallery",
@@ -42,5 +42,6 @@
             "default": ""
         }
     },
-    "render_callback": "hds_wp_render_banner"
+    "render_callback": "hds_wp_render_banner",
+    "style": [ "helsinki-wp-blocks" ]
 }

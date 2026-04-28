@@ -1,5 +1,5 @@
 {
-    "apiVersion": 2,
+    "apiVersion": 3,
     "title": "Helsinki - Accordion",
     "name": "hds-wp/accordion",
     "icon": "format-gallery",
@@ -8,6 +8,7 @@
     "supports": {
       "anchor": true
     },
+    "allowedBlocks": [ "hds-wp/accordion-panel" ],
     "attributes": {
         "title": {
             "type": "string"
@@ -31,5 +32,6 @@
             "default": ""
         }
     },
-    "render_callback": "hds_wp_render_block_accordion"
+    "render_callback": "hds_wp_render_block_accordion",
+    "style": [ "helsinki-wp-blocks" ]
 }

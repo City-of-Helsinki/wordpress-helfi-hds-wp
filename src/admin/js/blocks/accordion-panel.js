@@ -148,22 +148,7 @@
       createElement(
         'div',
         {className: 'accordion__content'},
-        createElement(innerBlocks, {
-          allowedBlocks: [
-            'core/heading',
-            'core/paragraph',
-            'core/list',
-            'core/table',
-            'core/freeform',
-            'core/quote',
-            'core/buttons',
-            'core/button',
-            'core/image',
-            'core/embed',
-            'core/file',
-            'hds-wp/diagram'
-          ],
-        })
+        createElement(innerBlocks, {})
       ),
       panelClose(props)
     );

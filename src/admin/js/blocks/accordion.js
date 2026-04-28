@@ -147,7 +147,6 @@
                 className: 'accordion',
               },
               createElement(InnerBlocks, {
-                allowedBlocks: ['hds-wp/accordion-panel'],
                 template: [
                   ['hds-wp/accordion-panel', {}],
                   ['hds-wp/accordion-panel', {}],

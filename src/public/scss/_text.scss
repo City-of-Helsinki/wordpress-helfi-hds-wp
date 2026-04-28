@@ -1,16 +1,6 @@
 body {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-p {
-    font-size: $global-font-size-m;
-    --line-height: #{$global-line-height};
-    line-height: $global-line-height;
-
-    @include breakpoint('l') {
-        font-size: $global-font-size;
-    }
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 p.has-lead-font-size {

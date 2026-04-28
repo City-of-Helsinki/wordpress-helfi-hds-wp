@@ -6,72 +6,53 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 function hds_wp_render_timeline($attributes, $content)
 {
-	if (!isset($attributes['blockVersion']) || $attributes['blockVersion'] <= 1) {
+	if (
+		! isset( $attributes['blockVersion'] )
+		|| $attributes['blockVersion'] <= 1
+	) {
 		return $content;
 	}
 
-	$title = '';
-	if (!empty($attributes['title'])) {
-		$title = sprintf(
+	$elements = '';
+
+	if ( ! empty( $attributes['title'] ) ) {
+		$elements .= sprintf(
 			'<h2 class="timeline__heading">%s</h2>',
-			$attributes['title']
+			esc_html( $attributes['title'] )
 		);
 	}
 
-	$description = '';
-	if (!empty($attributes['description'])) {
-		$description = sprintf(
+	if ( ! empty( $attributes['description'] ) ) {
+		$elements .= sprintf(
 			'<p class="excerpt">%s</p>',
-			$attributes['description']
+			wp_kses_post( $attributes['description'] )
 		);
 	}
 
-	$wrapClasses = array('wp-block-hds-wp-timeline');
-	if (!empty($attributes['className'])) {
-		$wrapClasses[] = esc_attr($attributes['className']);
-	}
+	if ( hds_wp_has_array_attribute( $attributes, 'cards' ) ) {
+		$list_element = match( $attributes['style'] ?? '' ) {
+			'numbered' => 'ol',
+			default => 'ul',
+		};
 
-	$id = '';
-	if (!empty($attributes['anchor'])) {
-		$id = 'id="' . esc_attr($attributes['anchor']) . '"';
-	}
-
-	$cards = array();
-	if (!empty($attributes['cards']) || is_array($attributes['cards'])) {
-		$cards = array_map(
-			'hds_wp_render_timeline_card',
-			$attributes['cards']
+		$elements .= sprintf(
+			'<%1$s class="timeline">%2$s</%1$s>',
+			$list_element,
+			\do_blocks( implode( PHP_EOL, array_map(
+				'hds_wp_render_timeline_card',
+				$attributes['cards']
+			) ) )
 		);
 	}
 
-	$timeline = '';
-	if (empty($attributes['style']) || $attributes['style'] == 'numberless') {
-		$timeline = sprintf(
-			'<ul class="timeline">
-				%s
-			</ul>',
-			do_blocks(implode(' ', $cards))
-		);
-	} else if ($attributes['style'] == 'numbered') {
-		$timeline = sprintf(
-			'<ol class="timeline">
-				%s
-			</ol>',
-			do_blocks(implode(' ', $cards))
-		);
-	}
-
-
-	return sprintf(
-		'<div %s class="%s">
-			%s
-			%s
-			%s
+	return $elements ? sprintf(
+		'<div %1$s>
+			%2$s
 		</div>',
-		$id,
-		implode(' ', $wrapClasses),
-		$title,
-		$description,
-		$timeline
-	);
+		hds_wp_block_html_attributes(
+			$attributes,
+			array( 'wp-block-hds-wp-timeline' )
+		),
+		$elements
+	) : '';
 }

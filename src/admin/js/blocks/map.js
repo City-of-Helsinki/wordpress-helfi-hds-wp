@@ -179,7 +179,7 @@
     return (
       <Fragment>
         <div {...blockProps}>
-          <div className="hds-map has-background">
+          <div className="hds-map has-background has-light-gray-background-color">
             <div className="hds-container">
               <RichText
                 tagName="h2"

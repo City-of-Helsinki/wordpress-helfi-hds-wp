@@ -38,7 +38,6 @@
         ...blockProps,
         className: 'hds-links-list-cards__cards',
         template: [ ['hds-wp/link-list-card'] ],
-        allowedBlocks: ['hds-wp/link-list-card'],
         templateLock: false,
       });
 

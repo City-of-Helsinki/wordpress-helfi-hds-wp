@@ -4,93 +4,74 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
 
-function hds_wp_render_block_links_list($attributes)
-{
-	if (
-		empty($attributes['links']) ||
-		!is_array($attributes['links'])
-	) {
+function hds_wp_render_block_links_list($attributes) {
+	if ( ! hds_wp_has_array_attribute( $attributes, 'links' ) ) {
 		return;
 	}
 
-	$linkType = !empty($attributes['linkType']) ? $attributes['linkType'] : 'title';
-	switch ($linkType) {
-		case 'title-excerpt':
-			$links = array_map(
-				'hds_wp_render_link_with_title_excerpt',
-				$attributes['links']
-			);
-			break;
+	$linkType = $attributes['linkType'] ?? 'title';
 
-		case 'image-title':
-			$links = array_map(
-				'hds_wp_render_link_with_image_title',
-				$attributes['links']
-			);
-			break;
+	$links = match( $linkType ) {
+		'title-excerpt' => array_map(
+			'hds_wp_render_link_with_title_excerpt',
+			$attributes['links']
+		),
+		'image-title' => array_map(
+			'hds_wp_render_link_with_image_title',
+			$attributes['links']
+		),
+		default => array_map(
+			'hds_wp_render_link_with_image_title',
+			$attributes['links']
+		),
+	};
 
-		default:
-			$links = array_map(
-				'hds_wp_render_link_with_title',
-				$attributes['links']
-			);
-			break;
-	}
-
-	$links = array_filter($links);
-	if (!$links) {
+	$links = array_filter( $links );
+	if ( ! $links ) {
 		return;
 	}
 
-	$id = '';
-	if (!empty($attributes['anchor'])) {
-		$id = 'id="' . esc_attr($attributes['anchor']) . '"';
-	}
-
-	$wrapClasses = array('links-list');
-	if (!empty($attributes['hasBackground'])) {
-		$wrapClasses[] = 'has-background';
-	}
-	if (!empty($attributes['className'])) {
-		$wrapClasses[] = esc_attr($attributes['className']);
-	}
-
-	$title = '';
-	if (!empty($attributes['title'])) {
-		$title = sprintf(
+	$content = '';
+	if ( ! empty( $attributes['title'] ) ) {
+		$content .= sprintf(
 			'<h2 class="links-list__title"><span>%s</span></h2>',
-			esc_html($attributes['title'])
+			esc_html( $attributes['title'] )
 		);
 	}
 
-	$description = '';
-	if (!empty($attributes['contentText'])) {
-		$description = sprintf(
+	if ( ! empty( $attributes['contentText'] ) ) {
+		$content .= sprintf(
 			'<p class="links-list__description">%s</p>',
-			esc_html($attributes['contentText'])
+			esc_html( $attributes['contentText'] )
 		);
 	}
 
-	$gridClasses = array(
-		'links-list__links',
-		'links-list__links--' . $linkType,
-		'links-list__links--' . $attributes['columns'],
+	$wrap_classes = array( 'wp-block-hds-wp-links-list', 'links-list' );
+	if ( ! empty( $attributes['hasBackground'] ) ) {
+		$wrap_classes[] = 'has-background has-light-gray-background-color';
+	}
+
+	$content .= sprintf(
+		'<ul class="%s">%s</ul>',
+		esc_attr( implode( ' ', array(
+			'links-list__links',
+			'links-list__links--' . $linkType,
+			'links-list__links--' . $attributes['columns'],
+		) ) ),
+		implode( '', $links )
 	);
 
 	return sprintf(
-		'<div %s class="%s">
+		'<div %s>
 			<div class="hds-container">
 				%s
-				%s
-				<ul class="%s">%s</ul>
 			</div>
 		</div>',
-		$id,
-		implode(' ', $wrapClasses),
-		$title,
-		$description,
-		implode(' ', $gridClasses),
-		implode('', $links)
+		hds_wp_block_html_attributes(
+			$attributes,
+			$wrap_classes
+		),
+		$content
 	);
 }
 
@@ -154,7 +135,7 @@ function hds_wp_render_link_with_title(array $link)
 				<a %s><span>%s</span></a>
 			</div>',
 			hds_links_list_link_attributes($link),
-			esc_html($link['linkTitle'])
+			esc_html( $link['linkTitle'] )
 		)
 	);
 }
@@ -190,7 +171,7 @@ function hds_wp_render_link_with_title_excerpt(array $link)
 				%s
 			</div>',
 			hds_links_list_link_attributes($link),
-			esc_html($link['linkTitle']),
+			esc_html( $link['linkTitle'] ),
 			$excerpt
 		)
 	);
@@ -226,31 +207,22 @@ function hds_wp_render_link_with_image_title(array $link)
 			$has_placeholder ? ' has-placeholder' : '',
 			$link['mediaId']
 				? wp_get_attachment_image($link['mediaId'], 'medium_large', false, array('alt' => ''))
-				: apply_filters(
-					'hds_wp_svg_placeholder_html',
-					'',
-					apply_filters(
-						'hds_wp_links_list_item_placeholder_icon',
-						'abstract-3'
-					)
-				),
+				: hds_wp_block_placeholder_icon_html( 'links_list_item', 'abstract-3' ),
 			hds_links_list_link_attributes($link),
-			esc_html($link['linkTitle'])
+			esc_html( $link['linkTitle'] )
 		)
 	);
 }
 
-function hds_links_list_link_attributes(array $link)
-{
+function hds_links_list_link_attributes( array $link ): string {
 	$attributes = array(
-		'href="' . esc_url($link['linkUrl']) . '"'
+		'href' => $link['linkUrl'],
+		'class' => 'link__title_link',
 	);
 
-	$attributes[] = 'class="link__title_link"';
-
-	if (!empty($link['targetBlank'])) {
-		$attributes[] = 'target="_blank"';
+	if ( ! empty( $link['targetBlank'] ) ) {
+		$attributes['target'] = '_blank';
 	}
 
-	return implode(' ', $attributes);
+	return hds_wp_reduce_html_attributes( $attributes );
 }

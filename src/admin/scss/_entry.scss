@@ -24,9 +24,10 @@
 			margin-bottom: spacing('2-xs');
 
 			.icon {
+        --icon-size: 16px;
+
 				display: inline-block;
 				margin-left: spacing('2-xs');
-				width: 16px;
 			}
 		}
 

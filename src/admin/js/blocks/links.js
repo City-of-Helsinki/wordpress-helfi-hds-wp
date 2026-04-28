@@ -62,7 +62,7 @@
     var classNames = [
       'links',
       'type-' + props.attributes.linkType,
-      props.attributes.hasBackground ? 'has-background' : '',
+      props.attributes.hasBackground ? 'has-background has-light-gray-background-color' : '',
     ];
     return classNames.join(' ');
   }
@@ -108,7 +108,6 @@
             placeholder: __('This is the excerpt.', 'hds-wp'),
           }),
           createElement(InnerBlocks, {
-            allowedBlocks: ['hds-wp/link'],
             template: [
               ['hds-wp/link', {}],
               ['hds-wp/link', {}],

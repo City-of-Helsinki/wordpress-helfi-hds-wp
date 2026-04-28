@@ -1,7 +1,5 @@
 #sb_instagram {
-
-    overflow: visible !important;
-    
+  overflow: visible !important;
 	margin-bottom: $paragraph-margin-bottom-small;
 
 	@include breakpoint('m') {
@@ -59,7 +57,7 @@
                 border-bottom-color: $white !important;
             }
         }
-        
+
     }
 }
 
@@ -145,7 +143,7 @@
                 padding-left: 0 !important;
                 padding-right: 0 !important;
             }
-    
+
             .sbsw-item-inner {
                 box-shadow: none;
                 border-radius: 0;
@@ -156,7 +154,7 @@
                 }
 
                 .sbsw-item-header {
-                    
+
                     .sbsw-author-name {
                         font-weight: 500;
                         font-size: 18px;
@@ -190,13 +188,13 @@
             .sbsw-loader {
                 background-color: rgba(255,255,255,.5) !important;
             }
-    
+
             &:hover {
                 .sbsw-loader {
                     background-color: rgba(0,0,0,.5) !important;
                 }
             }
-    
+
         }
 
     }

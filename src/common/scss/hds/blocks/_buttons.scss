@@ -1,0 +1,13 @@
+.wp-block-buttons {
+  @extend %helsinki-paragraph-spacing;
+
+  .wp-block-button {
+    flex-basis: auto !important;
+    width: auto !important;
+    max-width: none !important;
+
+    > * {
+      width: auto !important;
+    }
+  }
+}

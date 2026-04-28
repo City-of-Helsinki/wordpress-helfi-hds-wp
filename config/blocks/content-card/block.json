@@ -1,5 +1,5 @@
 {
-    "apiVersion": 2,
+    "apiVersion": 3,
     "title": "Helsinki - Content Card",
     "name": "hds-wp/content-card",
     "icon": "cover-image",
@@ -26,5 +26,6 @@
             "type": "string",
             "default": ""
         }
-    }
+    },
+    "style": [ "helsinki-wp-blocks" ]
 }
