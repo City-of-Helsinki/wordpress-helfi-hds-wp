@@ -1,43 +1,40 @@
 (function(wp){
-  const limitedBlocks = {
-    'core/column': [
-      'core/columns',
-      'core/gallery',
-      'core/group',
-    ],
-    'core/group': [],
-  };
+  /*
+   * Limit child blocks in column and group blocks
+   *
+   * Unregister and re-register blocks after all blocks have been registered
+   * to make the allowedBlocks configuration properly dynamic
+   *
+   */
+  wp.domReady( function() {
+    const limitedBlocks = {
+      'core/column': [
+        'core/columns',
+        'core/column',
+        'core/gallery',
+        'core/group',
+      ],
+      'core/group': [],
+    };
 
-  function filterAllowedBlocks(settings, name) {
-    if (limitedBlocks[name]) {
-      const allowedBlocks = wp.blocks
-        .getBlockTypes()
-        .map(block => block.name)
-        .filter(blockName => {
-          if (blockName.startsWith('hds-wp/')) {
-            return false;
-          }
+    const allowedBlocks = wp.blocks
+      .getBlockTypes()
+      .map(block => block.name)
+      .filter(blockName => {
+        return !blockName.startsWith('hds-wp/')
+          && !blockName.startsWith('helsinki-');
+      });
 
-          if (blockName.startsWith('helsinki-')) {
-            return false;
-          }
+    for (let blockName in limitedBlocks) {
+      let block = wp.blocks.getBlockType(blockName);
 
-          if (limitedBlocks[name].includes(blockName)) {
-            return false;
-          }
+      wp.blocks.unregisterBlockType(blockName);
 
-          return true;
-        });
-
-      return {...settings, allowedBlocks};
+      wp.blocks.registerBlockType(blockName, {
+        ...block,
+        variations: 'core/group' ? block.variations.filter(variation => variation.name === 'group') : [],
+        allowedBlocks: allowedBlocks.filter(name => !limitedBlocks[blockName].includes(name)),
+      });
     }
-
-    return settings;
-  }
-
-  wp.hooks.addFilter(
-    'blocks.registerBlockType',
-    'hds-wp/restrict-allowed-blocks',
-    filterAllowedBlocks
-  );
+  });
 })(window.wp);

@@ -3887,33 +3887,39 @@ function hdsIcons(name) {
   }
 })(window.wp);
 (function (wp) {
-  var limitedBlocks = {
-    'core/column': ['core/columns', 'core/gallery', 'core/group'],
-    'core/group': []
-  };
-  function filterAllowedBlocks(settings, name) {
-    if (limitedBlocks[name]) {
-      var allowedBlocks = wp.blocks.getBlockTypes().map(function (block) {
-        return block.name;
-      }).filter(function (blockName) {
-        if (blockName.startsWith('hds-wp/')) {
-          return false;
-        }
-        if (blockName.startsWith('helsinki-')) {
-          return false;
-        }
-        if (limitedBlocks[name].includes(blockName)) {
-          return false;
-        }
-        return true;
-      });
-      return _objectSpread(_objectSpread({}, settings), {}, {
-        allowedBlocks: allowedBlocks
-      });
+  /*
+   * Limit child blocks in column and group blocks
+   *
+   * Unregister and re-register blocks after all blocks have been registered
+   * to make the allowedBlocks configuration properly dynamic
+   *
+   */
+  wp.domReady(function () {
+    var limitedBlocks = {
+      'core/column': ['core/columns', 'core/column', 'core/gallery', 'core/group'],
+      'core/group': []
+    };
+    var allowedBlocks = wp.blocks.getBlockTypes().map(function (block) {
+      return block.name;
+    }).filter(function (blockName) {
+      return !blockName.startsWith('hds-wp/') && !blockName.startsWith('helsinki-');
+    });
+    var _loop2 = function _loop2(blockName) {
+      var block = wp.blocks.getBlockType(blockName);
+      wp.blocks.unregisterBlockType(blockName);
+      wp.blocks.registerBlockType(blockName, _objectSpread(_objectSpread({}, block), {}, {
+        variations: 'core/group' ? block.variations.filter(function (variation) {
+          return variation.name === 'group';
+        }) : [],
+        allowedBlocks: allowedBlocks.filter(function (name) {
+          return !limitedBlocks[blockName].includes(name);
+        })
+      }));
+    };
+    for (var blockName in limitedBlocks) {
+      _loop2(blockName);
     }
-    return settings;
-  }
-  wp.hooks.addFilter('blocks.registerBlockType', 'hds-wp/restrict-allowed-blocks', filterAllowedBlocks);
+  });
 })(window.wp);
 (function (wp) {
   function addGroupAttributes(settings, name) {
