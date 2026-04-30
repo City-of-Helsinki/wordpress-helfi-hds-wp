@@ -52,7 +52,7 @@ function hds_wp_render_image_text($attributes) {
 		if ( ! empty( $attributes['contentTitle'] ) ) {
 			$content .= sprintf(
 				'<h2 class="content__heading">%s</h2>',
-				esc_html( $attributes['contentTitle'] )
+				hds_wp_block_text_kses( $attributes['contentTitle'] )
 			);
 		}
 
