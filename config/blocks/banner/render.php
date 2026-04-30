@@ -25,7 +25,7 @@ function hds_wp_render_banner($attributes)
 			<h2 class="content__heading">%s</h2>
 			<div class="content__text">%s</div>
 		</div>',
-		esc_html( $attributes['contentTitle'] ),
+		hds_wp_block_text_kses( $attributes['contentTitle'] ),
 		hds_wp_block_text_kses( wpautop( $attributes['contentText'], false ) )
 	);
 

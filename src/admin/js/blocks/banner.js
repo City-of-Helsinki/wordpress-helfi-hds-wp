@@ -83,12 +83,18 @@
         });
       }
 
-      var wrapperClasses = '';
-      if (!hasIcon(props)) {
-        wrapperClasses += 'no-icon ';
-      }
-      if (!hasButton(props)) {
-        wrapperClasses += 'no-button ';
+      var wrapperClasses = [];
+
+      if (props.attributes.className?.match('(is-style-.*-secondary-color)')) {
+        wrapperClasses.push(
+          'has-secondary-background-color',
+          'has-secondary-content-color'
+        );
+      } else {
+        wrapperClasses.push(
+          'has-primary-background-color',
+          'has-primary-content-color'
+        );
       }
 
       return createElement(
@@ -126,36 +132,8 @@
         ),
         createElement(
           'div',
-          useBlockProps({className: wrapperClasses}),
+          useBlockProps({className: wrapperClasses.join(' ')}),
           content
-        )
-      );
-    };
-  }
-
-  function save() {
-    return function (props) {
-      return createElement(
-        'div',
-        useBlockProps.save(),
-        hdsContent(
-          props,
-          createElement(
-            'div',
-            {className: 'content__inner content__inner--icon'},
-            hdsContentIcon(props)
-          ),
-          createElement(
-            'div',
-            {className: 'content__inner content__inner--text'},
-            hdsContentTitle(props),
-            hdsContentText(props)
-          ),
-          createElement(
-            'div',
-            {className: 'content__inner content__inner--button'},
-            contentButton(props)
-          )
         )
       );
     };

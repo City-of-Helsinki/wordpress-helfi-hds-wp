@@ -89,7 +89,7 @@
 
   function contentProps({attributes}) {
     let names = ['content'];
-    let style = attributes.className.includes('is-style-primary-color')
+    let style = attributes?.className?.includes('is-style-primary-color')
       ? 'primary'
       : 'secondary';
 
