@@ -1126,6 +1126,7 @@ function hdsIcons(name) {
   }
   function edit() {
     return function (props) {
+      var _props$attributes$cla;
       var content = null;
       if (props.isSelected) {
         content = createElement('div', {
@@ -1150,12 +1151,11 @@ function hdsIcons(name) {
           httpMethod: 'POST'
         });
       }
-      var wrapperClasses = '';
-      if (!hasIcon(props)) {
-        wrapperClasses += 'no-icon ';
-      }
-      if (!hasButton(props)) {
-        wrapperClasses += 'no-button ';
+      var wrapperClasses = [];
+      if ((_props$attributes$cla = props.attributes.className) !== null && _props$attributes$cla !== void 0 && _props$attributes$cla.match('(is-style-.*-secondary-color)')) {
+        wrapperClasses.push('has-secondary-background-color', 'has-secondary-content-color');
+      } else {
+        wrapperClasses.push('has-primary-background-color', 'has-primary-content-color');
       }
       return createElement(Fragment, {}, hdsInspectorControls({
         title: __('Content', 'hds-wp'),
@@ -1166,19 +1166,8 @@ function hdsIcons(name) {
           target: '_blank'
         }, wp.i18n.__('Check WCGA 3.2.5 accessibility requirements (the link opens in a new tab).', 'hds-wp')))
       }), hasIcon(props, false) ? hdsIconControl(props) : ''), createElement('div', useBlockProps({
-        className: wrapperClasses
+        className: wrapperClasses.join(' ')
       }), content));
-    };
-  }
-  function save() {
-    return function (props) {
-      return createElement('div', useBlockProps.save(), hdsContent(props, createElement('div', {
-        className: 'content__inner content__inner--icon'
-      }, hdsContentIcon(props)), createElement('div', {
-        className: 'content__inner content__inner--text'
-      }, hdsContentTitle(props), hdsContentText(props)), createElement('div', {
-        className: 'content__inner content__inner--button'
-      }, contentButton(props))));
     };
   }
   registerBlockType('hds-wp/banner', {
@@ -1527,7 +1516,7 @@ function hdsIcons(name) {
       }, 'app.powerbi.com')));
     };
     var isPowerBI = function isPowerBI(value) {
-      return value.includes('app.powerbi.com');
+      return value === null || value === void 0 ? void 0 : value.includes('app.powerbi.com');
     };
     var saveDiagramUrl = function saveDiagramUrl(value) {
       if (isPowerBI(value)) {
@@ -1991,9 +1980,10 @@ function hdsIcons(name) {
     });
   }
   function contentProps(_ref19) {
+    var _attributes$className;
     var attributes = _ref19.attributes;
     var names = ['content'];
-    var style = attributes.className.includes('is-style-primary-color') ? 'primary' : 'secondary';
+    var style = attributes !== null && attributes !== void 0 && (_attributes$className = attributes.className) !== null && _attributes$className !== void 0 && _attributes$className.includes('is-style-primary-color') ? 'primary' : 'secondary';
     names.push("has-".concat(style, "-background-color"), "has-".concat(style, "-content-color"));
     return {
       className: names.join(' ')
