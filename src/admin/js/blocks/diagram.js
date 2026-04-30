@@ -53,7 +53,7 @@
       );
     }
 
-    const isPowerBI = (value) => value.includes('app.powerbi.com');
+    const isPowerBI = (value) => value?.includes('app.powerbi.com');
 
     const saveDiagramUrl = (value) => {
       if (isPowerBI(value)) {
