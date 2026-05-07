@@ -10,4 +10,12 @@
   @include breakpoint('m') {
     --margin-top: var(--spacing-layout-l, 4rem);
   }
+
+  > a {
+    display: inline;
+  }
+
+  .inline-icon {
+    max-width: 27px;
+  }
 }
