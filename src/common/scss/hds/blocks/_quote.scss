@@ -1,7 +1,6 @@
 .wp-block-quote,
 blockquote {
   > * {
-    @extend %helsinki-block-spacing;
     text-align: var(--text-align, left) !important;
   }
 }
