@@ -9,19 +9,25 @@ q {
 
 .wp-block-quote,
 blockquote {
+  @extend %helsinki-block-spacing;
+
+  --border-width: 8px;
+  --border-style: solid;
+  --border-color: #{var(--primary-color)};
+
   background: none;
-  font-size: rem-calc(36);
+  font-size: fontsize-heading('m');
   margin-left: 0;
   margin-right: 0;
   padding: 0;
-  border-left: 8px solid;
-  border-color: var(--primary-color);
-  padding-left: spacing('layout-s');
+  border-left: var(--border-width) var(--border-style);
+  border-color: var(--border-color);
+  padding-block: spacing('2-xs');
+  padding-inline-start: spacing('m');
 
-  @extend %helsinki-block-spacing;
-
-  @include breakpointMax('m') {
-    padding-left: spacing('layout-2-xs');
+  @include breakpoint('m') {
+    font-size: fontsize-heading('l');
+    padding-inline-start: spacing('xl');
   }
 
   > * {
@@ -29,7 +35,7 @@ blockquote {
   }
 
   p {
-    font-size: rem-calc(32);
+    font-size: inherit;
     font-style: italic;
     margin-top: 0;
     margin-bottom: 0;
@@ -51,8 +57,8 @@ blockquote {
     display: block;
     color: $body-color;
     font-style: normal;
-    font-size: rem-calc(18);
-    margin-top: spacing('s');
+    font-size: fontsize-heading('xs');
+    margin-top: spacing('m');
 
     &::before {
       content: '- ';
@@ -65,5 +71,9 @@ blockquote {
   blockquote.wp-block-quote,
   blockquote {
     --text-align: right;
+
+    border-left: none;
+    border-right: var(--border-width) var(--border-style);
+    border-color: var(--border-color);
   }
 }
