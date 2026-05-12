@@ -35,6 +35,10 @@
 
       &:has(figcaption) {
         figcaption {
+          will-change: auto;
+          scrollbar-color: auto;
+          scrollbar-gutter: auto;
+          scrollbar-width: auto;
           text-shadow: none;
         }
 

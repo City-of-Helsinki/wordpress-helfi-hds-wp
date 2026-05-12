@@ -89,19 +89,19 @@
     }
 
     .link__title_link {
-      --line-height: 24px;
+      --line-height: 1.25;
 
       font-size: rem-calc(20);
       font-weight: $global-font-weight-medium;
-      line-height: 24px;
+      line-height: var(--line-height);
       margin: 0;
-
-      .icon {
-        --icon-size: 24px;
-      }
 
       @include breakpoint('m') {
         font-size: rem-calc(24);
+      }
+
+      .icon {
+        margin-inline-start: spacing('2-xs');
       }
     }
 
@@ -151,10 +151,6 @@
               padding-top: 12px;
             }
           }
-
-          .icon {
-            margin-inline-start: spacing('2-xs');
-          }
         }
       }
     }
@@ -172,17 +168,6 @@
             margin-right: spacing('s');
             min-width: 86px;
             width: 86px;
-          }
-
-          .link__title_link {
-            span {
-              display: block;
-            }
-
-            .icon {
-              margin-top: spacing('s');
-              margin-inline-start: calc(var(--spacing-2-xs) * -1);
-            }
           }
         }
 
