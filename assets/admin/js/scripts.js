@@ -3912,6 +3912,55 @@ function hdsIcons(name) {
   });
 })(window.wp);
 (function (wp) {
+  var createHigherOrderComponent = wp.compose.createHigherOrderComponent;
+  var addFilter = wp.hooks.addFilter;
+  var select = wp.data.select;
+  var _wp$element20 = wp.element,
+    createElement = _wp$element20.createElement,
+    useEffect = _wp$element20.useEffect;
+  var isHelsinkiBlockWithBlockId = function isHelsinkiBlockWithBlockId(_ref30) {
+    var name = _ref30.name,
+      attributes = _ref30.attributes;
+    return (name.startsWith('hds-wp/') || name.startsWith('helsinki-')) && (attributes === null || attributes === void 0 ? void 0 : attributes.blockId) !== undefined;
+  };
+  var isBlockIdReserved = function isBlockIdReserved(blockId, clientId) {
+    var blocksClientIds = select('core/block-editor').getClientIdsWithDescendants();
+    return blocksClientIds.some(function (_clientId) {
+      var _select$getBlockAttri = select('core/block-editor').getBlockAttributes(_clientId),
+        _blockId = _select$getBlockAttri.blockId;
+      return clientId !== _clientId && blockId === _blockId;
+    });
+  };
+  var generateBlockId = function generateBlockId() {
+    return Date.now().toString(36) + Math.random().toString(36).substring(2, 12).padStart(12, 0);
+  };
+  var withDuplicationDetection = createHigherOrderComponent(function (BlockEdit) {
+    return function (props) {
+      if (isHelsinkiBlockWithBlockId(props)) {
+        var clientId = props.clientId,
+          attributes = props.attributes,
+          setAttributes = props.setAttributes;
+        var blockId = attributes.blockId;
+        var setBlockId = function setBlockId() {
+          return setAttributes({
+            blockId: generateBlockId()
+          });
+        };
+        useEffect(function () {
+          if (!blockId) {
+            setBlockId();
+          } else if (isBlockIdReserved(blockId, clientId)) {
+            console.info("Block with id '".concat(blockId, "' already exists. Regenerating..."));
+            setBlockId();
+          }
+        }, [blockId]);
+      }
+      return createElement(BlockEdit, props);
+    };
+  }, 'withDuplicationDetection');
+  addFilter('editor.BlockEdit', 'hds-wp/with-duplication-detection', withDuplicationDetection);
+})(window.wp);
+(function (wp) {
   function addGroupAttributes(settings, name) {
     if (typeof settings.attributes !== 'undefined') {
       if (name == 'core/group') {
@@ -3947,9 +3996,9 @@ function hdsIcons(name) {
   var tableAdvancedControls = wp.compose.createHigherOrderComponent(function (BlockEdit) {
     return function (props) {
       var __ = wp.i18n.__;
-      var _wp$element20 = wp.element,
-        Fragment = _wp$element20.Fragment,
-        createElement = _wp$element20.createElement;
+      var _wp$element21 = wp.element,
+        Fragment = _wp$element21.Fragment,
+        createElement = _wp$element21.createElement;
       var _wp$components19 = wp.components,
         ToggleControl = _wp$components19.ToggleControl,
         Panel = _wp$components19.Panel,
