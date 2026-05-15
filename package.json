@@ -18,7 +18,7 @@
   "devDependencies": {
     "@babel/core": "^7.29.0",
     "@babel/plugin-syntax-jsx": "^7.28.6",
-    "@babel/preset-env": "^7.29.2",
+    "@babel/preset-env": "^7.29.5",
     "@babel/preset-react": "^7.28.5",
     "@rollup/plugin-babel": "^7.0.0",
     "@rollup/plugin-commonjs": "^29.0.2",
@@ -37,7 +37,7 @@
     "hds-core": "^5.0.0",
     "hds-design-tokens": "^5.0.0",
     "hds-react": "^5.0.0",
-    "rollup": "^4.60.1",
+    "rollup": "^4.60.3",
     "sass": "^1.99.0"
   },
   "browserslist": [

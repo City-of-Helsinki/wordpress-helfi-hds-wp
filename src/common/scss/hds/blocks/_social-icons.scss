@@ -1,16 +1,44 @@
 .wp-block-social-links {
-    flex-wrap: wrap !important;
+  --social-link-background-color: #{$black};
+  --social-link-color: #{$white};
+  --social-link-outline-color: #{$black};
 
-    &:not(.is-style-logos-only) {
-        .wp-social-link {
-            background-color: #000000;
-            color: #ffffff;
-        }
+  flex-wrap: wrap !important;
+
+  .wp-block-social-link-anchor {
+    align-items: center;
+    border-radius: inherit;
+    display: flex;
+    outline-offset: 2px;
+
+    &:focus {
+      background-color: var(--social-link-background-color);
+      color: var(--social-link-color);
+      outline: 3px solid var(--social-link-outline-color);
+      text-decoration: none;
     }
-    &.is-style-logos-only {
-        .wp-social-link {
-            background-color: transparent;
-            color: #000000;
-        }
+  }
+
+  .wp-social-link {
+    background-color: var(--social-link-background-color) !important;
+    color: var(--social-link-color) !important;
+
+    &:hover {
+      --social-link-background-color: rgba(0,0,0,.8);
+      transform: unset;
     }
+  }
+
+  &.is-style-logos-only {
+    --social-link-background-color: transparent;
+    --social-link-color: #{$black};
+
+    .wp-social-link {
+      padding: spacing('3-xs');
+
+      &:hover {
+        --social-link-background-color: var(--color-black-5);
+      }
+    }
+  }
 }
