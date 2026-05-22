@@ -57,7 +57,7 @@
     const isYouTube = (value) => value.includes('youtube.com');
     const isHelsinkiKanava = (value) => {
       return value.includes('helsinkikanava.fi')
-        || value.includes('players.icareus.com/helsinkikanava/');
+        || (value.includes('players.icareus.com') && value.includes('/helsinkikanava/'));
     };
 
     const saveVideoUrl = (value) => {

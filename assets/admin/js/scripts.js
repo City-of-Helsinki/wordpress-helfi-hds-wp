@@ -3670,7 +3670,7 @@ function hdsIcons(name) {
       return value.includes('youtube.com');
     };
     var isHelsinkiKanava = function isHelsinkiKanava(value) {
-      return value.includes('helsinkikanava.fi') || value.includes('players.icareus.com/helsinkikanava/');
+      return value.includes('helsinkikanava.fi') || value.includes('players.icareus.com') && value.includes('/helsinkikanava/');
     };
     var saveVideoUrl = function saveVideoUrl(value) {
       setAttributes({
