@@ -19,9 +19,8 @@
       attributes: {
         title: __('Video title', 'hds-wp'),
         description: __('Video description', 'hds-wp'),
-        iframeUrl:
-          'https://www.helsinkikanava.fi/fi_FI/web/helsinkikanava/player/embed/vod?assetId=107834317',
-        url: 'https://www.helsinkikanava.fi/fi_FI/web/helsinkikanava/player/vod?assetId=107834317',
+        iframeUrl: 'https://players.icareus.com/helsinkikanava/embed/vod/154345162',
+        url: 'https://players.icareus.com/helsinkikanava/embed/vod/154345162',
         assistive_title: __('Video title', 'hds-wp'),
       },
     },
@@ -56,7 +55,10 @@
     }
 
     const isYouTube = (value) => value.includes('youtube.com');
-    const isHelsinkiKanava = (value) => value.includes('helsinkikanava.fi');
+    const isHelsinkiKanava = (value) => {
+      return value.includes('helsinkikanava.fi')
+        || (value.includes('players.icareus.com') && value.includes('/helsinkikanava/'));
+    };
 
     const saveVideoUrl = (value) => {
       setAttributes({url: value});
