@@ -44,5 +44,19 @@ function cookie_files_classes(): array {
 		'icareus/class-icareus-iframe-icareus-device.php' => Cookies\Icareus\Icareus_Iframe_Icareus_Device::class,
 		'icareus/class-icareus-iframe-jsessionid.php' => Cookies\Icareus\Icareus_Iframe_JSessionid::class,
 		'icareus/class-icareus-iframe-rmp-volume.php' => Cookies\Icareus\Icareus_Iframe_Rmp_Volume::class,
+
+		'youtube/class-youtube-iframe-asterisk-dash-asterisk.php' => Cookies\YouTube\Youtube_Iframe_Asterisk_Dash_Asterisk::class,
+		'youtube/class-youtube-iframe-iu5q.php' => Cookies\YouTube\Youtube_Iframe_Iu5q::class,
+		'youtube/class-youtube-iframe-logs-database-v2.php' => Cookies\YouTube\Youtube_Iframe_Logs_Database_V2::class,
+		'youtube/class-youtube-iframe-secure-rollout-token.php' => Cookies\YouTube\Youtube_Iframe_Secure_Rollout_Token::class,
+		'youtube/class-youtube-iframe-visitor-info1-live.php' => Cookies\YouTube\Youtube_Iframe_Visitor_Info1_Live::class,
+		'youtube/class-youtube-iframe-visitor-privacy-metadata.php' => Cookies\YouTube\Youtube_Iframe_Visitor_Privacy_Metadata::class,
+		'youtube/class-youtube-iframe-ysc.php' => Cookies\YouTube\Youtube_Iframe_Ysc::class,
+		'youtube/class-youtube-iframe-yt-player.php' => Cookies\YouTube\Youtube_Iframe_Yt_Player::class,
+		'youtube/class-youtube-iframe-yt-remote-connected-devices.php' => Cookies\YouTube\Youtube_Iframe_Yt_Remote_Connected_Devices::class,
+		'youtube/class-youtube-iframe-yt-remote-device-id.php' => Cookies\YouTube\Youtube_Iframe_Yt_Remote_Device_Id::class,
+		'youtube/class-youtube-iframe-yt-remote.php' => Cookies\YouTube\Youtube_Iframe_Yt_Remote::class,
+		'youtube/class-youtube-iframe-ytidb-last-result-entry-key.php' => Cookies\YouTube\Youtube_Iframe_Ytidb_Last_Result_Entry_Key::class,
+		'youtube/class-youtube-iframe-ytidb-meta-databases.php' => Cookies\YouTube\Youtube_Iframe_Ytidb_Meta_Databases::class,
 	);
 }
