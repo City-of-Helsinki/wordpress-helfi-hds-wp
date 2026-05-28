@@ -73,6 +73,10 @@ spl_autoload_register( __NAMESPACE__ . '\\autoloader' );
 /**
   * Prepare plugin
   */
+add_action( 'plugins_loaded', __NAMESPACE__ . '\\pre_setup', 0 );
+function pre_setup(): void {
+	\do_action( 'helsinki_wp_pre_setup' );
+}
 
 // Load early to accomodate Complianz loading sequence
 add_action( 'plugins_loaded', __NAMESPACE__ . '\\complianz_integration', 5 );
