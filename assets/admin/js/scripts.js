@@ -3667,26 +3667,29 @@ function hdsIcons(name) {
       }, 'helsinkikanava.fi')));
     };
     var isYouTube = function isYouTube(value) {
-      return value.includes('youtube.com');
+      return value.includes('youtube.com') || isShortYouTube(value);
+    };
+    var isShortYouTube = function isShortYouTube(value) {
+      return value.includes('youtu.be');
     };
     var isHelsinkiKanava = function isHelsinkiKanava(value) {
       return value.includes('helsinkikanava.fi') || value.includes('players.icareus.com') && value.includes('/helsinkikanava/');
     };
-    var saveVideoUrl = function saveVideoUrl(value) {
-      setAttributes({
-        url: value
-      });
-      setUrlError(!isYouTube(value) && !isHelsinkiKanava(value));
+    var formatIframeUrl = function formatIframeUrl(value) {
       if (isYouTube(value)) {
-        setAttributes({
-          iframeUrl: value.replace('watch?v=', 'embed/')
-        });
+        return isShortYouTube(value) ? value.replace('https://youtu.be/', 'https://www.youtube.com/embed/') : value.replace('watch?v=', 'embed/');
       }
       if (isHelsinkiKanava(value)) {
-        setAttributes({
-          iframeUrl: value.replace('player/vod', 'player/embed/vod')
-        });
+        return value.replace('player/vod', 'player/embed/vod');
       }
+      return '';
+    };
+    var saveVideoUrl = function saveVideoUrl(value) {
+      setAttributes({
+        url: value,
+        iframeUrl: formatIframeUrl(value)
+      });
+      setUrlError(!isYouTube(value) && !isHelsinkiKanava(value));
     };
     var saveAssistiveTitle = function saveAssistiveTitle(value) {
       setAttributes({
