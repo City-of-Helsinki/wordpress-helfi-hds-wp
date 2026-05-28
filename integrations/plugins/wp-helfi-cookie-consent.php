@@ -26,6 +26,12 @@ function cookie_files_classes(): array {
 		'helsinki/class-helsinki-accordion-exit-panel.php' => Cookies\Helsinki\Helsinki_Accordion_Exit_Panel::class,
 		'helsinki/class-helsinki-accordion-open-panels.php' => Cookies\Helsinki\Helsinki_Accordion_Open_Panels::class,
 
+		'helsinki/maps/class-map-iframe-cb-enabled.php' => Cookies\Helsinki\Maps\Map_Iframe_Sw_Culture::class,
+		'helsinki/maps/class-map-iframe-louhi-asp-xsrf-token.php' => Cookies\Helsinki\Maps\Map_Iframe_Sw_Profile::class,
+		'helsinki/maps/class-map-iframe-louhi-cookie-bar-enabled.php' => Cookies\Helsinki\Maps\Map_Iframe_Cb_Enabled::class,
+		'helsinki/maps/class-map-iframe-sw-culture.php' => Cookies\Helsinki\Maps\Map_Iframe_Louhi_Cookie_Bar_Enabled::class,
+		'helsinki/maps/class-map-iframe-sw-profile.php' => Cookies\Helsinki\Maps\Map_Iframe_Louhi_Asp_Xsrf_Token::class,
+
 		'powerbi/class-power-bi-iframe.php' => Cookies\PowerBI\Power_Bi_Iframe::class,
 		'powerbi/class-power-bi-iframe-ai-buffer-1.php' => Cookies\PowerBI\Power_Bi_Iframe_Ai_Buffer_1::class,
 		'powerbi/class-power-bi-iframe-ai-sent-buffer-1.php' => Cookies\PowerBI\Power_Bi_Iframe_Ai_Sent_Buffer_1::class,
