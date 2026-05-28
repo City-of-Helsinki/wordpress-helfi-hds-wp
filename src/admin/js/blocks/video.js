@@ -54,23 +54,39 @@
       );
     }
 
-    const isYouTube = (value) => value.includes('youtube.com');
+    const isYouTube = (value) => {
+      return value.includes('youtube.com')
+        || isShortYouTube(value);
+    };
+
+    const isShortYouTube = (value) => value.includes('youtu.be');
+
     const isHelsinkiKanava = (value) => {
       return value.includes('helsinkikanava.fi')
         || (value.includes('players.icareus.com') && value.includes('/helsinkikanava/'));
     };
 
-    const saveVideoUrl = (value) => {
-      setAttributes({url: value});
-      setUrlError(!isYouTube(value) && !isHelsinkiKanava(value));
-
+    const formatIframeUrl = (value) => {
       if (isYouTube(value)) {
-        setAttributes({iframeUrl: value.replace('watch?v=', 'embed/')});
+        return isShortYouTube(value)
+          ? value.replace('https://youtu.be/', 'https://www.youtube.com/embed/')
+          : value.replace('watch?v=', 'embed/');
       }
 
       if (isHelsinkiKanava(value)) {
-        setAttributes({iframeUrl: value.replace('player/vod', 'player/embed/vod')});
+        return value.replace('player/vod', 'player/embed/vod');
       }
+
+      return '';
+    };
+
+    const saveVideoUrl = (value) => {
+      setAttributes({
+        url: value,
+        iframeUrl: formatIframeUrl(value)
+      });
+
+      setUrlError(!isYouTube(value) && !isHelsinkiKanava(value));
     };
 
     const saveAssistiveTitle = (value) => {
