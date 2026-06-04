@@ -11,14 +11,14 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-03-09 11:54+0000\n"
+"POT-Creation-Date: 2026-05-22 14:48+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Loco https://localise.biz/\n"
 "X-Domain: hds-wp\n"
 "Language: \n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;"
 
-#: class/Blocks.php:125
+#: class/Blocks.php:141
 msgid "3rd party"
 msgstr ""
 
@@ -26,16 +26,16 @@ msgstr ""
 msgid "A multipurpose WordPress theme of City of Helsinki."
 msgstr ""
 
-#: assets/admin/js/scripts.js:1427 assets/admin/js/scripts.js:3586
-#: src/admin/js/blocks/diagram.js:79 src/admin/js/blocks/video.js:86
+#: assets/admin/js/scripts.js:1545 assets/admin/js/scripts.js:3705
+#: src/admin/js/blocks/diagram.js:79 src/admin/js/blocks/video.js:88
 msgid "Accessibility"
 msgstr ""
 
-#: assets/admin/js/scripts.js:691 src/admin/js/blocks/accordion-panel.js:89
+#: assets/admin/js/scripts.js:825 src/admin/js/blocks/accordion-panel.js:89
 msgid "Accordion heading"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1395 src/admin/js/blocks/diagram.js:49
+#: assets/admin/js/scripts.js:1513 src/admin/js/blocks/diagram.js:49
 msgid "Add diagram url from:"
 msgstr ""
 
@@ -47,19 +47,19 @@ msgstr ""
 msgid "Add Helsinki styling to contact forms."
 msgstr ""
 
-#: assets/admin/js/scripts.js:3027 src/admin/js/blocks/map.js:256
+#: assets/admin/js/scripts.js:3151 src/admin/js/blocks/map.js:256
 msgid "Add map url from:"
 msgstr ""
 
-#: assets/admin/js/scripts.js:3542 src/admin/js/blocks/video.js:49
+#: assets/admin/js/scripts.js:3661 src/admin/js/blocks/video.js:48
 msgid "Add video url from:"
 msgstr ""
 
-#: class/Assets.php:53
+#: class/Assets.php:54
 msgid "Adds Helsinki styles, scripts and fonts to the site."
 msgstr ""
 
-#: assets/admin/js/scripts.js:3875 src/admin/js/filters/table.js:36
+#: assets/admin/js/scripts.js:4015 src/admin/js/filters/table.js:36
 msgid "Advanced table settings"
 msgstr ""
 
@@ -71,19 +71,19 @@ msgstr ""
 msgid "Align Right"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1077 src/admin/js/blocks/banner.js:191
+#: assets/admin/js/scripts.js:1197 src/admin/js/blocks/banner.js:169
 msgid "Align to center, primary color"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1085 src/admin/js/blocks/banner.js:201
+#: assets/admin/js/scripts.js:1205 src/admin/js/blocks/banner.js:179
 msgid "Align to center, secondary color"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1072 src/admin/js/blocks/banner.js:185
+#: assets/admin/js/scripts.js:1192 src/admin/js/blocks/banner.js:163
 msgid "Align to left, primary color"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1081 src/admin/js/blocks/banner.js:196
+#: assets/admin/js/scripts.js:1201 src/admin/js/blocks/banner.js:174
 msgid "Align to left, secondary color"
 msgstr ""
 
@@ -91,7 +91,7 @@ msgstr ""
 msgid "All categories"
 msgstr ""
 
-#: class/Blocks.php:117
+#: class/Blocks.php:133
 msgid "Allowed blocks"
 msgstr ""
 
@@ -99,35 +99,35 @@ msgstr ""
 msgid "ArtCloud"
 msgstr ""
 
-#: assets/admin/js/scripts.js:3325 src/admin/js/blocks/recent-posts.js:36
+#: assets/admin/js/scripts.js:3444 src/admin/js/blocks/recent-posts.js:36
 msgid "Article count"
 msgstr ""
 
-#: assets/admin/js/scripts.js:3435 assets/admin/js/scripts.js:3438
-#: assets/admin/js/scripts.js:3441 src/admin/js/blocks/rss-feed.js:12
+#: assets/admin/js/scripts.js:3554 assets/admin/js/scripts.js:3557
+#: assets/admin/js/scripts.js:3560 src/admin/js/blocks/rss-feed.js:12
 #: src/admin/js/blocks/rss-feed.js:13 src/admin/js/blocks/rss-feed.js:14
 msgid "articles"
 msgstr ""
 
-#: class/Assets.php:52
+#: class/Assets.php:53
 msgid "Assets"
 msgstr ""
 
-#: assets/admin/js/scripts.js:3034 assets/admin/js/scripts.js:3046
+#: assets/admin/js/scripts.js:3158 assets/admin/js/scripts.js:3170
 #: src/admin/js/blocks/map.js:268 src/admin/js/blocks/map.js:278
 msgid "Assistive technology title"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1431 assets/admin/js/scripts.js:3590
-#: src/admin/js/blocks/diagram.js:82 src/admin/js/blocks/video.js:89
+#: assets/admin/js/scripts.js:1549 assets/admin/js/scripts.js:3709
+#: src/admin/js/blocks/diagram.js:82 src/admin/js/blocks/video.js:91
 msgid "Assistive title"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2731 src/admin/js/blocks/links.js:52
+#: assets/admin/js/scripts.js:2856 src/admin/js/blocks/links.js:52
 msgid "Background"
 msgstr ""
 
-#: class/Blocks.php:103
+#: class/Blocks.php:119
 msgid "Blocks"
 msgstr ""
 
@@ -148,33 +148,33 @@ msgctxt "CF7 date validation error"
 msgid "Please enter a date in D.M.YYYY format."
 msgstr ""
 
-#: assets/admin/js/scripts.js:194 assets/admin/js/scripts.js:1036
-#: assets/admin/js/scripts.js:1684 assets/admin/js/scripts.js:1880
-#: src/admin/js/admin.js:213 src/admin/js/blocks/banner.js:118
+#: assets/admin/js/scripts.js:194 assets/admin/js/scripts.js:1167
+#: assets/admin/js/scripts.js:1802 assets/admin/js/scripts.js:2008
+#: src/admin/js/admin.js:213 src/admin/js/blocks/banner.js:124
 #: src/admin/js/blocks/image-banner.js:124
-#: src/admin/js/blocks/image-text.js:124
+#: src/admin/js/blocks/image-text.js:126
 msgid ""
 "Check WCGA 3.2.5 accessibility requirements (the link opens in a new tab)."
 msgstr ""
 
-#: integrations/plugins/yoast-seo.php:107 assets/admin/js/scripts.js:3952
+#: integrations/plugins/yoast-seo.php:107 assets/admin/js/scripts.js:4091
 #: src/admin/js/integrations/yoast.js:38
 msgid "City of Helsinki"
 msgstr ""
 
-#: config/blocks/accordion/render.php:87 assets/admin/js/scripts.js:745
-#: src/admin/js/blocks/accordion-panel.js:182
+#: config/blocks/accordion/render.php:96 assets/admin/js/scripts.js:877
+#: src/admin/js/blocks/accordion-panel.js:168
 msgid "Close"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1202 assets/admin/js/scripts.js:2726
+#: assets/admin/js/scripts.js:1322 assets/admin/js/scripts.js:2851
 #: src/admin/js/blocks/content-cards.js:45 src/admin/js/blocks/links.js:43
 msgid "Column count"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1182 assets/admin/js/scripts.js:1185
-#: assets/admin/js/scripts.js:1188 assets/admin/js/scripts.js:2706
-#: assets/admin/js/scripts.js:2709 assets/admin/js/scripts.js:2712
+#: assets/admin/js/scripts.js:1302 assets/admin/js/scripts.js:1305
+#: assets/admin/js/scripts.js:1308 assets/admin/js/scripts.js:2831
+#: assets/admin/js/scripts.js:2834 assets/admin/js/scripts.js:2837
 #: src/admin/js/blocks/content-cards.js:22
 #: src/admin/js/blocks/content-cards.js:23
 #: src/admin/js/blocks/content-cards.js:24 src/admin/js/blocks/links.js:20
@@ -182,7 +182,7 @@ msgstr ""
 msgid "Columns"
 msgstr ""
 
-#: class/Blocks.php:121
+#: class/Blocks.php:137
 msgid "Common"
 msgstr ""
 
@@ -194,14 +194,14 @@ msgstr ""
 msgid "Contact Form 7"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1030 assets/admin/js/scripts.js:1678
-#: assets/admin/js/scripts.js:1874 src/admin/js/blocks/banner.js:99
+#: assets/admin/js/scripts.js:1161 assets/admin/js/scripts.js:1796
+#: assets/admin/js/scripts.js:2002 src/admin/js/blocks/banner.js:105
 #: src/admin/js/blocks/image-banner.js:105
-#: src/admin/js/blocks/image-text.js:105
+#: src/admin/js/blocks/image-text.js:114
 msgid "Content"
 msgstr ""
 
-#: assets/admin/js/scripts.js:3458 src/admin/js/blocks/rss-feed.js:42
+#: assets/admin/js/scripts.js:3577 src/admin/js/blocks/rss-feed.js:42
 msgid "Count"
 msgstr ""
 
@@ -211,34 +211,34 @@ msgid ""
 "variables."
 msgstr ""
 
-#: assets/admin/js/scripts.js:851 assets/admin/js/scripts.js:1483
-#: assets/admin/js/scripts.js:3642 src/admin/js/blocks/accordion.js:76
-#: src/admin/js/blocks/diagram.js:140 src/admin/js/blocks/video.js:147
+#: assets/admin/js/scripts.js:983 assets/admin/js/scripts.js:1601
+#: assets/admin/js/scripts.js:3761 src/admin/js/blocks/accordion.js:76
+#: src/admin/js/blocks/diagram.js:140 src/admin/js/blocks/video.js:149
 msgid "Description"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1111 assets/admin/js/scripts.js:2029
-#: assets/admin/js/scripts.js:2495 src/admin/js/blocks/content-card.js:16
-#: src/admin/js/blocks/link-list-card-link.js:27 src/admin/js/blocks/link.js:18
+#: assets/admin/js/scripts.js:1231 assets/admin/js/scripts.js:2157
+#: assets/admin/js/scripts.js:2612 src/admin/js/blocks/content-card.js:16
+#: src/admin/js/blocks/link-list-card-link.js:27 src/admin/js/blocks/link.js:13
 msgid "Detach post"
 msgstr ""
 
-#: config/blocks/diagram/render.php:65
+#: config/blocks/diagram/render.php:62
 msgid "Diagram"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1364 assets/admin/js/scripts.js:1533
+#: assets/admin/js/scripts.js:1482 assets/admin/js/scripts.js:1651
 #: src/admin/js/blocks/diagram.js:21 src/admin/js/blocks/diagram.js:190
 msgid "Diagram description"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1363 assets/admin/js/scripts.js:1368
-#: assets/admin/js/scripts.js:1498 src/admin/js/blocks/diagram.js:20
+#: assets/admin/js/scripts.js:1481 assets/admin/js/scripts.js:1486
+#: assets/admin/js/scripts.js:1616 src/admin/js/blocks/diagram.js:20
 #: src/admin/js/blocks/diagram.js:25 src/admin/js/blocks/diagram.js:155
 msgid "Diagram title"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1440 src/admin/js/blocks/diagram.js:95
+#: assets/admin/js/scripts.js:1558 src/admin/js/blocks/diagram.js:95
 msgid "Diagram URL"
 msgstr ""
 
@@ -246,13 +246,13 @@ msgstr ""
 msgid "Enable custom default template for Helsinki theme."
 msgstr ""
 
-#: assets/admin/js/scripts.js:1365 src/admin/js/blocks/diagram.js:22
+#: assets/admin/js/scripts.js:1483 src/admin/js/blocks/diagram.js:22
 msgid "Example diagram"
 msgstr ""
 
 #: assets/admin/js/scripts.js:141 assets/admin/js/scripts.js:161
-#: assets/admin/js/scripts.js:2507 src/admin/js/admin.js:155
-#: src/admin/js/admin.js:178 src/admin/js/blocks/link.js:32
+#: assets/admin/js/scripts.js:2624 src/admin/js/admin.js:155
+#: src/admin/js/admin.js:178 src/admin/js/blocks/link.js:27
 msgid "Excerpt"
 msgstr ""
 
@@ -276,7 +276,7 @@ msgstr ""
 msgid "Feedback"
 msgstr ""
 
-#: class/Assets.php:163
+#: class/Assets.php:174
 msgid "Follow on Facebook"
 msgstr ""
 
@@ -284,7 +284,7 @@ msgstr ""
 msgid "Frequently Asked Questions"
 msgstr ""
 
-#: config/blocks/rss-feed/render.php:72
+#: config/blocks/rss-feed/render.php:76
 #, php-format
 msgctxt "from RSS feed source"
 msgid "%s"
@@ -294,7 +294,7 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1207 src/admin/js/blocks/content-cards.js:54
+#: assets/admin/js/scripts.js:1327 src/admin/js/blocks/content-cards.js:54
 msgid "Has background"
 msgstr ""
 
@@ -308,107 +308,111 @@ msgctxt "HDS React DateInput label"
 msgid "Choose a date"
 msgstr ""
 
-#: class/Blocks.php:91
+#: class/Blocks.php:107
 msgid "Helsinki"
 msgstr ""
 
-#: assets/admin/js/scripts.js:914 src/admin/js/blocks/accordion.js:183
+#: assets/admin/js/scripts.js:1045 src/admin/js/blocks/accordion.js:182
 msgid "Helsinki - Accordion"
 msgstr ""
 
-#: assets/admin/js/scripts.js:775 src/admin/js/blocks/accordion-panel.js:241
+#: assets/admin/js/scripts.js:907 src/admin/js/blocks/accordion-panel.js:227
 msgid "Helsinki - Accordion Panel"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1054 src/admin/js/blocks/banner.js:165
+#: assets/admin/js/scripts.js:1174 src/admin/js/blocks/banner.js:143
 msgid "Helsinki - Banner"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1130 assets/admin/js/scripts.js:1145
+#: assets/admin/js/scripts.js:1250 assets/admin/js/scripts.js:1265
 #: src/admin/js/blocks/content-card.js:40
 #: src/admin/js/blocks/content-card.js:69
 msgid "Helsinki - Content Card"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1327 src/admin/js/blocks/content-cards.js:237
+#: assets/admin/js/scripts.js:1445 src/admin/js/blocks/content-cards.js:235
 msgid "Helsinki - Content Cards"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1359 assets/admin/js/scripts.js:1447
+#: assets/admin/js/scripts.js:1477 assets/admin/js/scripts.js:1565
 #: src/admin/js/blocks/diagram.js:16 src/admin/js/blocks/diagram.js:110
 msgid "Helsinki - Diagram"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1977 src/admin/js/blocks/image-text.js:262
+#: assets/admin/js/scripts.js:2105 src/admin/js/blocks/image-text.js:259
 msgid "Helsinki - Image & Text"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1785 src/admin/js/blocks/image-banner.js:268
+#: assets/admin/js/scripts.js:1903 src/admin/js/blocks/image-banner.js:268
 msgid "Helsinki - Image Banner"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2090 assets/admin/js/scripts.js:2092
-#: assets/admin/js/scripts.js:2583 assets/admin/js/scripts.js:2585
-#: assets/admin/js/scripts.js:2666
+#: assets/admin/js/scripts.js:2218 assets/admin/js/scripts.js:2220
+#: assets/admin/js/scripts.js:2704 assets/admin/js/scripts.js:2706
+#: assets/admin/js/scripts.js:2791
 #: src/admin/js/blocks/link-list-card-link.js:94
 #: src/admin/js/blocks/link-list-card-link.js:97
-#: src/admin/js/blocks/link.js:115 src/admin/js/blocks/link.js:118
-#: src/admin/js/blocks/link.js:226
+#: src/admin/js/blocks/link.js:118 src/admin/js/blocks/link.js:121
+#: src/admin/js/blocks/link.js:223
 msgid "Helsinki - Link"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2163 assets/admin/js/scripts.js:2220
-#: assets/admin/js/scripts.js:2243 assets/admin/js/scripts.js:2266
+#: assets/admin/js/scripts.js:2291 assets/admin/js/scripts.js:2347
+#: assets/admin/js/scripts.js:2370 assets/admin/js/scripts.js:2393
 #: src/admin/js/blocks/link-list-card.js:25
-#: src/admin/js/blocks/link-list-card.js:88
-#: src/admin/js/blocks/link-list-card.js:118
-#: src/admin/js/blocks/link-list-card.js:149
+#: src/admin/js/blocks/link-list-card.js:87
+#: src/admin/js/blocks/link-list-card.js:117
+#: src/admin/js/blocks/link-list-card.js:148
 msgid "Helsinki - Link List Card"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2033
+#: assets/admin/js/scripts.js:2161
 #: src/admin/js/blocks/link-list-card-link.js:32
 msgid "Helsinki - Link List Card Link"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2349 assets/admin/js/scripts.js:2396
-#: assets/admin/js/scripts.js:2419 src/admin/js/blocks/link-list-cards.js:25
-#: src/admin/js/blocks/link-list-cards.js:70
-#: src/admin/js/blocks/link-list-cards.js:100
+#: assets/admin/js/scripts.js:2476 assets/admin/js/scripts.js:2522
+#: assets/admin/js/scripts.js:2545 src/admin/js/blocks/link-list-cards.js:25
+#: src/admin/js/blocks/link-list-cards.js:69
+#: src/admin/js/blocks/link-list-cards.js:99
 msgid "Helsinki - Link List Cards"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2791 src/admin/js/blocks/links.js:151
+#: assets/admin/js/scripts.js:2915 src/admin/js/blocks/links.js:150
 msgid "Helsinki - Links"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2830 assets/admin/js/scripts.js:2879
-#: assets/admin/js/scripts.js:2902 assets/admin/js/scripts.js:2925
-#: assets/admin/js/scripts.js:2948 src/admin/js/blocks/map.js:24
+#: assets/admin/js/scripts.js:2954 assets/admin/js/scripts.js:3003
+#: assets/admin/js/scripts.js:3026 assets/admin/js/scripts.js:3049
+#: assets/admin/js/scripts.js:3072 src/admin/js/blocks/map.js:24
 #: src/admin/js/blocks/map.js:62 src/admin/js/blocks/map.js:92
 #: src/admin/js/blocks/map.js:122 src/admin/js/blocks/map.js:152
 msgid "Helsinki - Map"
 msgstr ""
 
-#: assets/admin/js/scripts.js:3238 src/admin/js/blocks/phasing.js:166
+#: assets/admin/js/scripts.js:3357 src/admin/js/blocks/phasing.js:165
 msgid "Helsinki - Phasing"
 msgstr ""
 
-#: assets/admin/js/scripts.js:3112 src/admin/js/blocks/phasing-card.js:69
+#: assets/admin/js/scripts.js:3232 src/admin/js/blocks/phasing-card.js:55
 msgid "Helsinki - Phasing Card"
 msgstr ""
 
-#: assets/admin/js/scripts.js:3392 src/admin/js/blocks/recent-posts.js:128
+#: assets/admin/js/scripts.js:3511 src/admin/js/blocks/recent-posts.js:128
 msgid "Helsinki - Posts"
 msgstr ""
 
-#: assets/admin/js/scripts.js:3479 src/admin/js/blocks/rss-feed.js:75
+#: assets/admin/js/scripts.js:3598 src/admin/js/blocks/rss-feed.js:75
 msgid "Helsinki - RSS-feed"
 msgstr ""
 
-#: assets/admin/js/scripts.js:3507 assets/admin/js/scripts.js:3606
-#: src/admin/js/blocks/video.js:16 src/admin/js/blocks/video.js:117
+#: assets/admin/js/scripts.js:3626 assets/admin/js/scripts.js:3725
+#: src/admin/js/blocks/video.js:16 src/admin/js/blocks/video.js:119
 msgid "Helsinki - Video"
+msgstr ""
+
+#: integrations/plugins/complianz/class-known-scripts.php:20
+msgid "Helsinki Channel"
 msgstr ""
 
 #: class/Settings.php:44
@@ -427,10 +431,10 @@ msgstr ""
 msgid "https://www.artcloud.fi"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1033 assets/admin/js/scripts.js:1681
-#: assets/admin/js/scripts.js:1877 src/admin/js/blocks/banner.js:108
+#: assets/admin/js/scripts.js:1164 assets/admin/js/scripts.js:1799
+#: assets/admin/js/scripts.js:2005 src/admin/js/blocks/banner.js:114
 #: src/admin/js/blocks/image-banner.js:114
-#: src/admin/js/blocks/image-text.js:114
+#: src/admin/js/blocks/image-text.js:121
 msgid ""
 "I have made sure that the description of this link clearly states that it "
 "opens in a new tab. "
@@ -440,11 +444,11 @@ msgstr ""
 msgid "Icon"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1173 src/admin/js/blocks/content-cards.js:12
+#: assets/admin/js/scripts.js:1293 src/admin/js/blocks/content-cards.js:12
 msgid "Image & Title"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1176 src/admin/js/blocks/content-cards.js:14
+#: assets/admin/js/scripts.js:1296 src/admin/js/blocks/content-cards.js:14
 msgid "Image, Title & Excerpt"
 msgstr ""
 
@@ -456,63 +460,63 @@ msgstr ""
 msgid "Is external URL"
 msgstr ""
 
-#: config/blocks/recent-posts/render.php:53 assets/admin/js/scripts.js:3373
+#: config/blocks/recent-posts/render.php:51 assets/admin/js/scripts.js:3492
 #: src/admin/js/blocks/recent-posts.js:98
 msgid "Latest News"
 msgstr ""
 
-#: assets/admin/js/scripts.js:3786 src/admin/js/filters/block-styles.js:33
+#: config/blocks/block-styles.php:26 config/blocks/block-styles.php:32
 msgid "Light Gray Background"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2050 assets/admin/js/scripts.js:2528
-#: src/admin/js/blocks/link-list-card-link.js:48 src/admin/js/blocks/link.js:53
+#: assets/admin/js/scripts.js:2178 assets/admin/js/scripts.js:2645
+#: src/admin/js/blocks/link-list-card-link.js:48 src/admin/js/blocks/link.js:48
 msgid "Link"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2057 assets/admin/js/scripts.js:2500
-#: src/admin/js/blocks/link-list-card-link.js:55 src/admin/js/blocks/link.js:24
+#: assets/admin/js/scripts.js:2185 assets/admin/js/scripts.js:2617
+#: src/admin/js/blocks/link-list-card-link.js:55 src/admin/js/blocks/link.js:19
 msgid "Link text"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2043 assets/admin/js/scripts.js:2521
-#: assets/admin/js/scripts.js:2721
-#: src/admin/js/blocks/link-list-card-link.js:43 src/admin/js/blocks/link.js:48
+#: assets/admin/js/scripts.js:2171 assets/admin/js/scripts.js:2638
+#: assets/admin/js/scripts.js:2846
+#: src/admin/js/blocks/link-list-card-link.js:43 src/admin/js/blocks/link.js:43
 #: src/admin/js/blocks/links.js:34
 msgid "Link type"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2064 assets/admin/js/scripts.js:2514
-#: src/admin/js/blocks/link-list-card-link.js:63 src/admin/js/blocks/link.js:40
+#: assets/admin/js/scripts.js:2192 assets/admin/js/scripts.js:2631
+#: src/admin/js/blocks/link-list-card-link.js:63 src/admin/js/blocks/link.js:35
 msgid "Link URL"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2835 src/admin/js/blocks/map.js:29
+#: assets/admin/js/scripts.js:2959 src/admin/js/blocks/map.js:29
 msgid "Map description"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2988 src/admin/js/blocks/map.js:201
+#: assets/admin/js/scripts.js:3112 src/admin/js/blocks/map.js:201
 msgid "Map description*"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2834 assets/admin/js/scripts.js:2837
+#: assets/admin/js/scripts.js:2958 assets/admin/js/scripts.js:2961
 #: src/admin/js/blocks/map.js:28 src/admin/js/blocks/map.js:31
 msgid "Map title"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2978 src/admin/js/blocks/map.js:191
+#: assets/admin/js/scripts.js:3102 src/admin/js/blocks/map.js:191
 msgid "Map title*"
 msgstr ""
 
-#: assets/admin/js/scripts.js:3006 src/admin/js/blocks/map.js:233
+#: assets/admin/js/scripts.js:3130 src/admin/js/blocks/map.js:233
 msgid "Map URL"
 msgstr ""
 
-#: config/blocks/diagram/render.php:71
+#: config/blocks/diagram/render.php:68
 msgid "Move above the diagram"
 msgstr ""
 
-#: config/blocks/map/render.php:38
+#: config/blocks/map/render.php:48
 msgid "Move above the map"
 msgstr ""
 
@@ -520,11 +524,11 @@ msgstr ""
 msgid "Move above the video"
 msgstr ""
 
-#: config/blocks/diagram/render.php:60
+#: config/blocks/diagram/render.php:57
 msgid "Move below the diagram"
 msgstr ""
 
-#: config/blocks/map/render.php:31
+#: config/blocks/map/render.php:34
 msgid "Move below the map"
 msgstr ""
 
@@ -532,11 +536,11 @@ msgstr ""
 msgid "Move below the video"
 msgstr ""
 
-#: assets/admin/js/scripts.js:3160 src/admin/js/blocks/phasing.js:46
+#: assets/admin/js/scripts.js:3280 src/admin/js/blocks/phasing.js:46
 msgid "Numbered"
 msgstr ""
 
-#: assets/admin/js/scripts.js:3157 src/admin/js/blocks/phasing.js:45
+#: assets/admin/js/scripts.js:3277 src/admin/js/blocks/phasing.js:45
 msgid "Numberless"
 msgstr ""
 
@@ -544,71 +548,72 @@ msgstr ""
 msgid "Open in new window"
 msgstr ""
 
-#: config/blocks/map/render.php:50 assets/admin/js/scripts.js:3001
+#: config/blocks/map/render.php:56 assets/admin/js/scripts.js:3125
 #: src/admin/js/blocks/map.js:222
 msgid "Open map in new window"
 msgstr ""
 
-#: assets/admin/js/scripts.js:661 src/admin/js/blocks/accordion-panel.js:50
+#: config/blocks/accordion/render.php:82 assets/admin/js/scripts.js:795
+#: src/admin/js/blocks/accordion-panel.js:50
 msgid "Panel Title"
 msgstr ""
 
-#: integrations/plugins/complianz-gdpr.php:39
-msgid "Please accepta \"{category}\" cookies to view this content"
+#: integrations/plugins/complianz-gdpr.php:41
+msgid "Please accept \"{category}\" cookies to view this content"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2266 src/admin/js/blocks/link-list-card.js:151
+#: assets/admin/js/scripts.js:2393 src/admin/js/blocks/link-list-card.js:150
 msgid "Please add between 1 and 3 links"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2419 src/admin/js/blocks/link-list-cards.js:102
+#: assets/admin/js/scripts.js:2545 src/admin/js/blocks/link-list-cards.js:101
 msgid "Please add between 1 and 4 cards"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2902 src/admin/js/blocks/map.js:94
+#: assets/admin/js/scripts.js:3026 src/admin/js/blocks/map.js:94
 msgid "Please enter a description"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2220 assets/admin/js/scripts.js:2396
-#: assets/admin/js/scripts.js:2879 src/admin/js/blocks/link-list-card.js:90
-#: src/admin/js/blocks/link-list-cards.js:72 src/admin/js/blocks/map.js:64
+#: assets/admin/js/scripts.js:2347 assets/admin/js/scripts.js:2522
+#: assets/admin/js/scripts.js:3003 src/admin/js/blocks/link-list-card.js:89
+#: src/admin/js/blocks/link-list-cards.js:71 src/admin/js/blocks/map.js:64
 msgid "Please enter a title"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1444 assets/admin/js/scripts.js:1571
+#: assets/admin/js/scripts.js:1562 assets/admin/js/scripts.js:1689
 #: src/admin/js/blocks/diagram.js:102 src/admin/js/blocks/diagram.js:217
 msgid "Please enter a valid diagram URL"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2925 assets/admin/js/scripts.js:3022
+#: assets/admin/js/scripts.js:3049 assets/admin/js/scripts.js:3146
 #: src/admin/js/blocks/map.js:124 src/admin/js/blocks/map.js:251
 msgid "Please enter a valid map embed URL"
 msgstr ""
 
-#: assets/admin/js/scripts.js:3603 assets/admin/js/scripts.js:3734
-#: src/admin/js/blocks/video.js:109 src/admin/js/blocks/video.js:226
+#: assets/admin/js/scripts.js:3722 assets/admin/js/scripts.js:3853
+#: src/admin/js/blocks/video.js:111 src/admin/js/blocks/video.js:228
 msgid "Please enter a valid video URL"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1435 assets/admin/js/scripts.js:1578
-#: assets/admin/js/scripts.js:2948 assets/admin/js/scripts.js:3052
-#: assets/admin/js/scripts.js:3594 assets/admin/js/scripts.js:3743
+#: assets/admin/js/scripts.js:1553 assets/admin/js/scripts.js:1696
+#: assets/admin/js/scripts.js:3072 assets/admin/js/scripts.js:3176
+#: assets/admin/js/scripts.js:3713 assets/admin/js/scripts.js:3862
 #: src/admin/js/blocks/diagram.js:89 src/admin/js/blocks/diagram.js:230
 #: src/admin/js/blocks/map.js:154 src/admin/js/blocks/map.js:284
-#: src/admin/js/blocks/video.js:96 src/admin/js/blocks/video.js:240
+#: src/admin/js/blocks/video.js:98 src/admin/js/blocks/video.js:242
 msgid "Please enter assistive technology title"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2243 src/admin/js/blocks/link-list-card.js:120
+#: assets/admin/js/scripts.js:2370 src/admin/js/blocks/link-list-card.js:119
 msgid "Please limit the title to 64 characters"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2047 assets/admin/js/scripts.js:2525
-#: src/admin/js/blocks/link-list-card-link.js:47 src/admin/js/blocks/link.js:52
+#: assets/admin/js/scripts.js:2175 assets/admin/js/scripts.js:2642
+#: src/admin/js/blocks/link-list-card-link.js:47 src/admin/js/blocks/link.js:47
 msgid "Post"
 msgstr ""
 
-#: class/Blocks.php:131 assets/admin/js/scripts.js:380
+#: class/Blocks.php:147 assets/admin/js/scripts.js:380
 #: src/admin/js/admin.js:484
 msgid "Post type"
 msgstr ""
@@ -617,11 +622,15 @@ msgstr ""
 msgid "Post Types"
 msgstr ""
 
-#: assets/admin/js/scripts.js:3769 src/admin/js/filters/block-styles.js:13
+#: integrations/plugins/complianz/class-known-scripts.php:19
+msgid "Power BI"
+msgstr ""
+
+#: config/blocks/block-styles.php:11
 msgid "Primary"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1995 src/admin/js/blocks/image-text.js:282
+#: assets/admin/js/scripts.js:2123 src/admin/js/blocks/image-text.js:279
 msgid "Primary color"
 msgstr ""
 
@@ -639,12 +648,13 @@ msgstr ""
 msgid "Provides cookie information to the cookie scanner."
 msgstr ""
 
-#: config/blocks/content-cards/render.php:110
-#: config/blocks/recent-posts/render.php:196
+#: config/blocks/content-cards/render.php:107
+#: config/blocks/recent-posts/render.php:189
+#: config/blocks/rss-feed/render.php:158
 msgid "Published:"
 msgstr ""
 
-#: class/Assets.php:158
+#: class/Assets.php:169
 msgid "Remove"
 msgstr ""
 
@@ -656,7 +666,7 @@ msgstr ""
 msgid "Replaces date field with HDS DateInput."
 msgstr ""
 
-#: config/blocks/rss-feed/render.php:70
+#: config/blocks/rss-feed/render.php:74
 #, php-format
 msgctxt "RSS feed source(s)"
 msgid "Contents are automatically fetched from %s."
@@ -666,50 +676,54 @@ msgstr ""
 msgid "Save settings"
 msgstr ""
 
-#: assets/admin/js/scripts.js:527 src/admin/js/admin.js:638
+#: assets/admin/js/scripts.js:667 src/admin/js/admin.js:731
 msgid "Search posts"
 msgstr ""
 
-#: assets/admin/js/scripts.js:3773 src/admin/js/filters/block-styles.js:18
+#: assets/admin/js/scripts.js:593 src/admin/js/admin.js:667
+msgid "Searching..."
+msgstr ""
+
+#: config/blocks/block-styles.php:16
 msgid "Secondary"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1990 src/admin/js/blocks/image-text.js:276
+#: assets/admin/js/scripts.js:2118 src/admin/js/blocks/image-text.js:273
 msgid "Secondary color"
 msgstr ""
 
-#: config/blocks/recent-posts/render.php:219
+#: config/blocks/recent-posts/render.php:213
 msgid "See all articles"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1452 assets/admin/js/scripts.js:2225
-#: assets/admin/js/scripts.js:2248 assets/admin/js/scripts.js:2271
-#: assets/admin/js/scripts.js:2401 assets/admin/js/scripts.js:2424
-#: assets/admin/js/scripts.js:2884 assets/admin/js/scripts.js:2907
-#: assets/admin/js/scripts.js:2930 assets/admin/js/scripts.js:2953
-#: assets/admin/js/scripts.js:3611 src/admin/js/blocks/diagram.js:115
-#: src/admin/js/blocks/link-list-card.js:97
-#: src/admin/js/blocks/link-list-card.js:127
-#: src/admin/js/blocks/link-list-card.js:158
-#: src/admin/js/blocks/link-list-cards.js:79
-#: src/admin/js/blocks/link-list-cards.js:109 src/admin/js/blocks/map.js:71
+#: assets/admin/js/scripts.js:1570 assets/admin/js/scripts.js:2352
+#: assets/admin/js/scripts.js:2375 assets/admin/js/scripts.js:2398
+#: assets/admin/js/scripts.js:2527 assets/admin/js/scripts.js:2550
+#: assets/admin/js/scripts.js:3008 assets/admin/js/scripts.js:3031
+#: assets/admin/js/scripts.js:3054 assets/admin/js/scripts.js:3077
+#: assets/admin/js/scripts.js:3730 src/admin/js/blocks/diagram.js:115
+#: src/admin/js/blocks/link-list-card.js:96
+#: src/admin/js/blocks/link-list-card.js:126
+#: src/admin/js/blocks/link-list-card.js:157
+#: src/admin/js/blocks/link-list-cards.js:78
+#: src/admin/js/blocks/link-list-cards.js:108 src/admin/js/blocks/map.js:71
 #: src/admin/js/blocks/map.js:101 src/admin/js/blocks/map.js:131
-#: src/admin/js/blocks/map.js:161 src/admin/js/blocks/video.js:122
+#: src/admin/js/blocks/map.js:161 src/admin/js/blocks/video.js:124
 msgid "Select"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1624 assets/admin/js/scripts.js:1828
-#: assets/admin/js/scripts.js:2625 src/admin/js/blocks/image-banner.js:30
-#: src/admin/js/blocks/image-text.js:41 src/admin/js/blocks/link.js:163
+#: assets/admin/js/scripts.js:1742 assets/admin/js/scripts.js:1946
+#: assets/admin/js/scripts.js:2742 src/admin/js/blocks/image-banner.js:30
+#: src/admin/js/blocks/image-text.js:41 src/admin/js/blocks/link.js:158
 msgid "Select image"
 msgstr ""
 
-#: class/Settings.php:134 assets/admin/js/scripts.js:658
-#: assets/admin/js/scripts.js:844 assets/admin/js/scripts.js:1121
-#: assets/admin/js/scripts.js:1194 assets/admin/js/scripts.js:2083
-#: assets/admin/js/scripts.js:2576 assets/admin/js/scripts.js:2718
-#: assets/admin/js/scripts.js:3166 assets/admin/js/scripts.js:3322
-#: assets/admin/js/scripts.js:3447 src/admin/js/blocks/accordion-panel.js:45
+#: class/Settings.php:134 assets/admin/js/scripts.js:792
+#: assets/admin/js/scripts.js:976 assets/admin/js/scripts.js:1241
+#: assets/admin/js/scripts.js:1314 assets/admin/js/scripts.js:2211
+#: assets/admin/js/scripts.js:2695 assets/admin/js/scripts.js:2843
+#: assets/admin/js/scripts.js:3286 assets/admin/js/scripts.js:3441
+#: assets/admin/js/scripts.js:3566 src/admin/js/blocks/accordion-panel.js:45
 #: src/admin/js/blocks/accordion.js:63 src/admin/js/blocks/content-card.js:28
 #: src/admin/js/blocks/content-cards.js:31
 #: src/admin/js/blocks/link-list-card-link.js:86
@@ -719,17 +733,17 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1436 assets/admin/js/scripts.js:3595
-#: src/admin/js/blocks/diagram.js:92 src/admin/js/blocks/video.js:99
+#: assets/admin/js/scripts.js:1554 assets/admin/js/scripts.js:3714
+#: src/admin/js/blocks/diagram.js:92 src/admin/js/blocks/video.js:101
 msgid "Source"
 msgstr ""
 
-#: assets/admin/js/scripts.js:1197 assets/admin/js/scripts.js:3169
+#: assets/admin/js/scripts.js:1317 assets/admin/js/scripts.js:3289
 #: src/admin/js/blocks/content-cards.js:36 src/admin/js/blocks/phasing.js:58
 msgid "Style"
 msgstr ""
 
-#: assets/admin/js/scripts.js:3776 src/admin/js/filters/block-styles.js:22
+#: config/blocks/block-styles.php:20
 msgid "Supplementary"
 msgstr ""
 
@@ -739,64 +753,64 @@ msgid ""
 "fulfill accessibility requirements. "
 msgstr ""
 
-#: assets/admin/js/scripts.js:1366 src/admin/js/blocks/diagram.js:23
+#: assets/admin/js/scripts.js:1484 src/admin/js/blocks/diagram.js:23
 msgid "This is a diagram."
 msgstr ""
 
-#: assets/admin/js/scripts.js:2168 src/admin/js/blocks/link-list-card.js:30
+#: assets/admin/js/scripts.js:2296 src/admin/js/blocks/link-list-card.js:30
 msgid "This is the card's title"
 msgstr ""
 
-#: assets/admin/js/scripts.js:821 assets/admin/js/scripts.js:1011
-#: assets/admin/js/scripts.js:1239 assets/admin/js/scripts.js:1692
-#: assets/admin/js/scripts.js:1886 assets/admin/js/scripts.js:2766
-#: assets/admin/js/scripts.js:3211 src/admin/js/blocks/accordion.js:20
+#: assets/admin/js/scripts.js:953 assets/admin/js/scripts.js:1143
+#: assets/admin/js/scripts.js:1359 assets/admin/js/scripts.js:1810
+#: assets/admin/js/scripts.js:2014 assets/admin/js/scripts.js:2891
+#: assets/admin/js/scripts.js:3331 src/admin/js/blocks/accordion.js:20
 #: src/admin/js/blocks/banner.js:68 src/admin/js/blocks/content-cards.js:107
 #: src/admin/js/blocks/image-banner.js:145
-#: src/admin/js/blocks/image-text.js:142 src/admin/js/blocks/links.js:108
+#: src/admin/js/blocks/image-text.js:140 src/admin/js/blocks/links.js:108
 #: src/admin/js/blocks/phasing.js:123
 msgid "This is the excerpt."
 msgstr ""
 
-#: assets/admin/js/scripts.js:2037
+#: assets/admin/js/scripts.js:2165
 #: src/admin/js/blocks/link-list-card-link.js:36
 msgid "This is the link's title"
 msgstr ""
 
-#: assets/admin/js/scripts.js:814 assets/admin/js/scripts.js:1009
-#: assets/admin/js/scripts.js:1236 assets/admin/js/scripts.js:1690
-#: assets/admin/js/scripts.js:1884 assets/admin/js/scripts.js:2762
-#: assets/admin/js/scripts.js:3089 assets/admin/js/scripts.js:3207
-#: assets/admin/js/scripts.js:3370 src/admin/js/blocks/accordion.js:12
+#: assets/admin/js/scripts.js:946 assets/admin/js/scripts.js:1141
+#: assets/admin/js/scripts.js:1356 assets/admin/js/scripts.js:1808
+#: assets/admin/js/scripts.js:2012 assets/admin/js/scripts.js:2887
+#: assets/admin/js/scripts.js:3212 assets/admin/js/scripts.js:3327
+#: assets/admin/js/scripts.js:3489 src/admin/js/blocks/accordion.js:12
 #: src/admin/js/blocks/banner.js:65 src/admin/js/blocks/content-cards.js:103
 #: src/admin/js/blocks/image-banner.js:142
-#: src/admin/js/blocks/image-text.js:139 src/admin/js/blocks/links.js:103
-#: src/admin/js/blocks/phasing-card.js:28 src/admin/js/blocks/phasing.js:122
+#: src/admin/js/blocks/image-text.js:137 src/admin/js/blocks/links.js:103
+#: src/admin/js/blocks/phasing-card.js:26 src/admin/js/blocks/phasing.js:122
 #: src/admin/js/blocks/recent-posts.js:95
 msgid "This is the title"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2309 assets/admin/js/scripts.js:2460
-#: src/admin/js/blocks/link-list-card.js:201
-#: src/admin/js/blocks/link-list-cards.js:150
+#: assets/admin/js/scripts.js:2436 assets/admin/js/scripts.js:2586
+#: src/admin/js/blocks/link-list-card.js:200
+#: src/admin/js/blocks/link-list-cards.js:149
 msgid "This is the title*"
 msgstr ""
 
 #: assets/admin/js/scripts.js:111 assets/admin/js/scripts.js:136
-#: assets/admin/js/scripts.js:847 assets/admin/js/scripts.js:1468
-#: assets/admin/js/scripts.js:3450 assets/admin/js/scripts.js:3627
-#: assets/admin/js/scripts.js:3877 src/admin/js/admin.js:117
+#: assets/admin/js/scripts.js:979 assets/admin/js/scripts.js:1586
+#: assets/admin/js/scripts.js:3569 assets/admin/js/scripts.js:3746
+#: assets/admin/js/scripts.js:4017 src/admin/js/admin.js:117
 #: src/admin/js/admin.js:147 src/admin/js/blocks/accordion.js:68
 #: src/admin/js/blocks/diagram.js:130 src/admin/js/blocks/rss-feed.js:26
-#: src/admin/js/blocks/video.js:137 src/admin/js/filters/table.js:38
+#: src/admin/js/blocks/video.js:139 src/admin/js/filters/table.js:38
 msgid "Title"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2697 src/admin/js/blocks/links.js:13
+#: assets/admin/js/scripts.js:2822 src/admin/js/blocks/links.js:13
 msgid "Title & excerpt"
 msgstr ""
 
-#: assets/admin/js/scripts.js:3454 src/admin/js/blocks/rss-feed.js:34
+#: assets/admin/js/scripts.js:3573 src/admin/js/blocks/rss-feed.js:34
 msgid "URL"
 msgstr ""
 
@@ -804,25 +818,25 @@ msgstr ""
 msgid "Use Helsinki settings with plugins and enable available Helsinki APIs."
 msgstr ""
 
-#: assets/admin/js/scripts.js:3885 src/admin/js/filters/table.js:43
+#: assets/admin/js/scripts.js:4025 src/admin/js/filters/table.js:43
 msgid "Vertical header"
 msgstr ""
 
-#: assets/admin/js/scripts.js:3512 src/admin/js/blocks/video.js:21
+#: assets/admin/js/scripts.js:3631 src/admin/js/blocks/video.js:21
 msgid "Video description"
 msgstr ""
 
-#: assets/admin/js/scripts.js:3692 src/admin/js/blocks/video.js:197
+#: assets/admin/js/scripts.js:3811 src/admin/js/blocks/video.js:199
 msgid "Video description and credits"
 msgstr ""
 
-#: assets/admin/js/scripts.js:3511 assets/admin/js/scripts.js:3515
-#: assets/admin/js/scripts.js:3657 src/admin/js/blocks/video.js:20
-#: src/admin/js/blocks/video.js:25 src/admin/js/blocks/video.js:162
+#: assets/admin/js/scripts.js:3630 assets/admin/js/scripts.js:3634
+#: assets/admin/js/scripts.js:3776 src/admin/js/blocks/video.js:20
+#: src/admin/js/blocks/video.js:24 src/admin/js/blocks/video.js:164
 msgid "Video title"
 msgstr ""
 
-#: assets/admin/js/scripts.js:3599 src/admin/js/blocks/video.js:102
+#: assets/admin/js/scripts.js:3718 src/admin/js/blocks/video.js:104
 msgid "Video URL"
 msgstr ""
 
@@ -835,12 +849,12 @@ msgstr ""
 msgid "Widgets"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2700 assets/admin/js/scripts.js:3403
+#: assets/admin/js/scripts.js:2825 assets/admin/js/scripts.js:3522
 #: src/admin/js/blocks/links.js:14 src/admin/js/blocks/recent-posts.js:140
 msgid "With image"
 msgstr ""
 
-#: assets/admin/js/scripts.js:2694 assets/admin/js/scripts.js:3408
+#: assets/admin/js/scripts.js:2819 assets/admin/js/scripts.js:3527
 #: src/admin/js/blocks/links.js:12 src/admin/js/blocks/recent-posts.js:146
 msgid "Without image"
 msgstr ""
@@ -866,6 +880,6 @@ msgstr ""
 msgid "Yoast SEO"
 msgstr ""
 
-#: config/blocks/filters.php:90
+#: config/blocks/filters.php:65
 msgid "Your browser does not support the <code>audio</code> element."
 msgstr ""
