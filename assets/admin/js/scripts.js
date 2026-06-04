@@ -3629,8 +3629,8 @@ function hdsIcons(name) {
       attributes: {
         title: __('Video title', 'hds-wp'),
         description: __('Video description', 'hds-wp'),
-        iframeUrl: 'https://www.helsinkikanava.fi/fi_FI/web/helsinkikanava/player/embed/vod?assetId=107834317',
-        url: 'https://www.helsinkikanava.fi/fi_FI/web/helsinkikanava/player/vod?assetId=107834317',
+        iframeUrl: 'https://players.icareus.com/helsinkikanava/embed/vod/154345162',
+        url: 'https://players.icareus.com/helsinkikanava/embed/vod/154345162',
         assistive_title: __('Video title', 'hds-wp')
       }
     }
@@ -3667,26 +3667,29 @@ function hdsIcons(name) {
       }, 'helsinkikanava.fi')));
     };
     var isYouTube = function isYouTube(value) {
-      return value.includes('youtube.com');
+      return value.includes('youtube.com') || isShortYouTube(value);
+    };
+    var isShortYouTube = function isShortYouTube(value) {
+      return value.includes('youtu.be');
     };
     var isHelsinkiKanava = function isHelsinkiKanava(value) {
-      return value.includes('helsinkikanava.fi');
+      return value.includes('helsinkikanava.fi') || value.includes('players.icareus.com') && value.includes('/helsinkikanava/');
+    };
+    var formatIframeUrl = function formatIframeUrl(value) {
+      if (isYouTube(value)) {
+        return isShortYouTube(value) ? value.replace('https://youtu.be/', 'https://www.youtube.com/embed/') : value.replace('watch?v=', 'embed/');
+      }
+      if (isHelsinkiKanava(value)) {
+        return value.replace('player/vod', 'player/embed/vod');
+      }
+      return '';
     };
     var saveVideoUrl = function saveVideoUrl(value) {
       setAttributes({
-        url: value
+        url: value,
+        iframeUrl: formatIframeUrl(value)
       });
       setUrlError(!isYouTube(value) && !isHelsinkiKanava(value));
-      if (isYouTube(value)) {
-        setAttributes({
-          iframeUrl: value.replace('watch?v=', 'embed/')
-        });
-      }
-      if (isHelsinkiKanava(value)) {
-        setAttributes({
-          iframeUrl: value.replace('player/vod', 'player/embed/vod')
-        });
-      }
     };
     var saveAssistiveTitle = function saveAssistiveTitle(value) {
       setAttributes({
