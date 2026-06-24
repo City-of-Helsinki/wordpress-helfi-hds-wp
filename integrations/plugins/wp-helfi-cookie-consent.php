@@ -8,6 +8,39 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+function is_helsinki_video_url( string $url ): bool {
+	return str_contains( $url, 'helsinkikanava.fi' )
+		|| str_contains( $url, 'players.icareus.com' );
+}
+
+function is_youtube_video_url( string $url ): bool {
+	return str_contains( $url, 'youtube.com' );
+}
+
+\add_filter(
+	'wordpress_helfi_cookie_consent_iframe_placeholder_cookie_host',
+	__NAMESPACE__ . '\\provide_iframe_placeholder_cookie_host'
+);
+function provide_iframe_placeholder_cookie_host( string $host ): string {
+	return is_helsinki_video_url( $host ) ? 'suite.icareus.com' : $host;
+}
+
+\add_filter(
+	'wordpress_helfi_cookie_consent_placeholder_notice_external_url',
+	__NAMESPACE__ . '\\provide_placeholder_notice_external_url'
+);
+function provide_placeholder_notice_external_url( string $url ): string {
+	if ( is_helsinki_video_url( $url ) ) {
+		return str_replace( 'player/embed/vod', 'player/vod', $url );
+	}
+
+	if ( is_youtube_video_url( $url ) ) {
+		return str_replace( '/embed/', '/watch?v=', $url );
+	}
+
+	return $url;
+}
+
 \add_filter( 'wordpress_helfi_cookie_consent_known_cookies', __NAMESPACE__ . '\\provide_cookies' );
 function provide_cookies( array $cookies ): array {
 	$path = \plugin_dir_path( __FILE__ );
