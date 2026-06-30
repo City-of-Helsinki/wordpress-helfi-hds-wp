@@ -246,6 +246,7 @@ class Blocks extends Module
 		}
 
 		$metadata['supports']['customCSS'] = false;
+		$metadata['supports']['customClassName'] = false;
 
 		return $metadata;
 	}
