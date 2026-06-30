@@ -248,6 +248,16 @@ class Blocks extends Module
 		$metadata['supports']['customCSS'] = false;
 		$metadata['supports']['customClassName'] = false;
 
+		if ( $this->uses_fit_text( $metadata ) ) {
+			$metadata['supports']['typography']['fitText'] = false;
+		}
+
 		return $metadata;
+	}
+
+	private function uses_fit_text( array $metadata ): bool
+	{
+		return 'core/paragraph' === $metadata['name']
+			|| 'core/heading'=== $metadata['name'];
 	}
 }
