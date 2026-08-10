@@ -4,6 +4,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
 
+use ArtCloud\Helsinki\Plugin\HDS\Builders\EmbeddedFigureBuilder;
+
 function hds_wp_render_diagram( $attributes ) {
 	$content = '';
 
@@ -25,50 +27,22 @@ function hds_wp_render_diagram( $attributes ) {
 		);
 	}
 
-	$url = (false !== strpos( $attributes['url'], 'https://app.powerbi.com/' ))
-		? $attributes['url']
-		: '';
+	if ( false !== strpos( $attributes['url'], 'https://app.powerbi.com/' ) ) {
+		$figure = (new EmbeddedFigureBuilder())
+			->id( 'hds-diagram-' . $attributes['blockId'] )
+			->type( 'diagram' )
+			->source( $attributes['url'] )
+			->caption( $attributes['diagramDescription'] )
+			->skip_link_before( __( 'Move below the diagram', 'hds-wp' ) )
+			->skip_link_after( __( 'Move above the diagram', 'hds-wp' ) )
+			->aspect_ratio_16_9()
+			->with_container();
 
-	if ( $url ) {
-		$id = esc_attr( 'hds-diagram-' . $attributes['blockId'] );
-
-		$caption = '';
-		if ( $attributes['diagramDescription'] ) {
-			$caption = sprintf(
-				'<figcaption>%s</figcaption>',
-				esc_html( $attributes['diagramDescription'] )
-			);
+		foreach ( hds_wp_diagram_iframe_attributes( $attributes ) as $key => $value ) {
+			$figure->attribute( $key, $value );
 		}
 
-		$content .= sprintf(
-			'<div class="hds-diagram__container">
-				<figure class="wp-block-embed wp-has-aspect-ratio wp-embed-aspect-16-9">
-					%1$s
-					<div class="wp-block-embed__wrapper">
-						<iframe src="%2$s" title="%3$s" width="1000" height="563" scrolling="no" allowfullscreen="true" sandbox="allow-scripts allow-presentation allow-same-origin"></iframe>
-					</div>
-					%4$s
-					%5$s
-				</figure>
-			</div>',
-			sprintf(
-				'<a href="#%1$s-after" id="%1$s-before" class="focusable skip-link skip-link--diagram--before">%2$s</a>',
-				$id,
-				esc_html__( 'Move below the diagram', 'hds-wp' ),
-			),
-			esc_url( $url ),
-			esc_attr( sprintf(
-				'%s: %s',
-				__( 'Diagram', 'hds-wp' ),
-				$attributes['assistiveTitle']
-			) ),
-			sprintf(
-				'<a href="#%1$s-before" id="%1$s-after" class="focusable skip-link skip-link--diagram--after">%2$s</a>',
-				$id,
-				esc_html__( 'Move above the diagram', 'hds-wp' ),
-			),
-			$caption
-		);
+		$content .= $figure->render();
 	}
 
 	if ( $content ) {
@@ -87,4 +61,19 @@ function hds_wp_render_diagram( $attributes ) {
 	}
 
 	return '';
+}
+
+function hds_wp_diagram_iframe_attributes( array $attributes ): array {
+	return array(
+		'title' => sprintf(
+			'%s: %s',
+			__( 'Diagram', 'hds-wp' ),
+			$attributes['assistiveTitle']
+		),
+		'width' => '1000',
+		'height' => '563',
+		'scrolling' => 'no',
+		'allowfullscreen' => 'true',
+		'sandbox' => 'allow-scripts allow-presentation allow-same-origin',
+	);
 }
