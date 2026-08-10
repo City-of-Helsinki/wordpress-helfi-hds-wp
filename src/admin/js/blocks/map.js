@@ -21,7 +21,7 @@
   const {store} = wp.notices;
 
   registerBlockType('hds-wp/map', {
-    title: __('Helsinki - Map', 'hds-wp'),
+    title: __('Helsinki - Map embed', 'hds-wp'),
     edit: edit,
     example: {
       attributes: {
@@ -59,7 +59,7 @@
       const title = attributes.title;
       if (!title) {
         createErrorNotice(
-          __('Helsinki - Map', 'hds-wp') +
+          __('Helsinki - Map embed', 'hds-wp') +
             ': ' +
             __('Please enter a title', 'hds-wp'),
           {
@@ -89,7 +89,7 @@
       const description = attributes.description;
       if (!description) {
         createErrorNotice(
-          __('Helsinki - Map', 'hds-wp') +
+          __('Helsinki - Map embed', 'hds-wp') +
             ': ' +
             __('Please enter a description', 'hds-wp'),
           {
@@ -119,7 +119,7 @@
       const url = attributes.url;
       if (!url) {
         createErrorNotice(
-          __('Helsinki - Map', 'hds-wp') +
+          __('Helsinki - Map embed', 'hds-wp') +
             ': ' +
             __('Please enter a valid map embed URL', 'hds-wp'),
           {
@@ -149,7 +149,7 @@
       const assistiveTitle = attributes.assistive_title;
       if (!assistiveTitle) {
         createErrorNotice(
-          __('Helsinki - Map', 'hds-wp') +
+          __('Helsinki - Map embed', 'hds-wp') +
             ': ' +
             __('Please enter assistive technology title', 'hds-wp'),
           {
@@ -188,7 +188,7 @@
                   setAttributes({title: value}),
                   setTitleError(value ? false : true)
                 )}
-                placeholder={__('Map title*', 'hds-wp')}
+                placeholder={__('Map title', 'hds-wp') + '*'}
                 allowedFormats={[]}
               />
               <RichText
@@ -198,7 +198,7 @@
                   setAttributes({description: value}),
                   setDescriptionError(value ? false : true)
                 )}
-                placeholder={__('Map description*', 'hds-wp')}
+                placeholder={__('Map description', 'hds-wp') + '*'}
                 allowedFormats={[
                   'core/bold',
                   'core/italic',
