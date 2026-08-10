@@ -2433,7 +2433,7 @@ function hdsIcons(name) {
           title: value
         }), setTitleError(value ? false : true), setTitleLengthError(value.length < 65 ? false : true);
       },
-      placeholder: __('This is the title*', 'hds-wp'),
+      placeholder: __('This is the title', 'hds-wp') + '*',
       allowedFormats: []
     }), /*#__PURE__*/React.createElement("div", {
       className: "hds-links-list-card__links"
@@ -2583,7 +2583,7 @@ function hdsIcons(name) {
           title: value
         }), setTitleError(value ? false : true);
       },
-      placeholder: __('This is the title*', 'hds-wp'),
+      placeholder: __('This is the title', 'hds-wp') + '*',
       allowedFormats: []
     }), /*#__PURE__*/React.createElement("div", innerBlocksProps)));
   }
@@ -2951,7 +2951,7 @@ function hdsIcons(name) {
     Notice = _wp$components13.Notice;
   var store = wp.notices.store;
   registerBlockType('hds-wp/map', {
-    title: __('Helsinki - Map', 'hds-wp'),
+    title: __('Helsinki - Map embed', 'hds-wp'),
     edit: edit,
     example: {
       attributes: {
@@ -3000,7 +3000,7 @@ function hdsIcons(name) {
     useEffect(function () {
       var title = attributes.title;
       if (!title) {
-        createErrorNotice(__('Helsinki - Map', 'hds-wp') + ': ' + __('Please enter a title', 'hds-wp'), {
+        createErrorNotice(__('Helsinki - Map embed', 'hds-wp') + ': ' + __('Please enter a title', 'hds-wp'), {
           type: 'default',
           id: 'titleError-' + clientId,
           isDismissible: false,
@@ -3023,7 +3023,7 @@ function hdsIcons(name) {
     useEffect(function () {
       var description = attributes.description;
       if (!description) {
-        createErrorNotice(__('Helsinki - Map', 'hds-wp') + ': ' + __('Please enter a description', 'hds-wp'), {
+        createErrorNotice(__('Helsinki - Map embed', 'hds-wp') + ': ' + __('Please enter a description', 'hds-wp'), {
           type: 'default',
           id: 'descriptionError-' + clientId,
           isDismissible: false,
@@ -3046,7 +3046,7 @@ function hdsIcons(name) {
     useEffect(function () {
       var url = attributes.url;
       if (!url) {
-        createErrorNotice(__('Helsinki - Map', 'hds-wp') + ': ' + __('Please enter a valid map embed URL', 'hds-wp'), {
+        createErrorNotice(__('Helsinki - Map embed', 'hds-wp') + ': ' + __('Please enter a valid map embed URL', 'hds-wp'), {
           type: 'default',
           id: 'urlError-' + clientId,
           isDismissible: false,
@@ -3069,7 +3069,7 @@ function hdsIcons(name) {
     useEffect(function () {
       var assistiveTitle = attributes.assistive_title;
       if (!assistiveTitle) {
-        createErrorNotice(__('Helsinki - Map', 'hds-wp') + ': ' + __('Please enter assistive technology title', 'hds-wp'), {
+        createErrorNotice(__('Helsinki - Map embed', 'hds-wp') + ': ' + __('Please enter assistive technology title', 'hds-wp'), {
           type: 'default',
           isDismissible: false,
           id: 'assistiveTitleError-' + clientId,
@@ -3099,7 +3099,7 @@ function hdsIcons(name) {
           title: value
         }), setTitleError(value ? false : true);
       },
-      placeholder: __('Map title*', 'hds-wp'),
+      placeholder: __('Map title', 'hds-wp') + '*',
       allowedFormats: []
     }), /*#__PURE__*/React.createElement(RichText, {
       tagName: "p",
@@ -3109,7 +3109,7 @@ function hdsIcons(name) {
           description: value
         }), setDescriptionError(value ? false : true);
       },
-      placeholder: __('Map description*', 'hds-wp'),
+      placeholder: __('Map description', 'hds-wp') + '*',
       allowedFormats: ['core/bold', 'core/italic', 'core/link', 'core/paragraph']
     }), attributes.url && /*#__PURE__*/React.createElement("div", {
       class: "hds-map__container"
@@ -3623,7 +3623,7 @@ function hdsIcons(name) {
     PanelBody = _wp$components18.PanelBody;
   var store = wp.notices.store;
   registerBlockType('hds-wp/video', {
-    title: __('Helsinki - Video', 'hds-wp'),
+    title: __('Helsinki - Video embed', 'hds-wp'),
     edit: edit,
     example: {
       attributes: {
@@ -3725,7 +3725,7 @@ function hdsIcons(name) {
     }), inspectorErrorNotice(urlError, __('Please enter a valid video URL', 'hds-wp')), videoUrlHelp()]));
   }
   function createRequiredError(handler, title, name, clientId) {
-    handler([__('Helsinki - Video', 'hds-wp'), title].join(': '), {
+    handler([__('Helsinki - Video embed', 'hds-wp'), title].join(': '), {
       type: 'default',
       id: [name, clientId].join('-'),
       isDismissible: false,
