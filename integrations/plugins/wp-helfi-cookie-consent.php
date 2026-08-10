@@ -26,7 +26,7 @@ function provide_iframe_placeholder_cookie_host( string $host ): string {
 }
 
 \add_filter(
-	'wordpress_helfi_cookie_consent_placeholder_notice_external_url',
+	'wordpress_helfi_cookie_consent_iframe_placeholder_notice_external_button_url',
 	__NAMESPACE__ . '\\provide_placeholder_notice_external_url'
 );
 function provide_placeholder_notice_external_url( string $url ): string {
