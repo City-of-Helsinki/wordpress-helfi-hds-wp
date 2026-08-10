@@ -238,7 +238,7 @@ function provide_current_language( string $language ): string {
 }
 
 add_action( 'init', __NAMESPACE__ . '\\textdomain' );
-function textdomain() {
+function textdomain(): void {
 	load_plugin_textdomain(
 		'hds-wp',
 		false,
@@ -247,7 +247,7 @@ function textdomain() {
 }
 
 add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\\admin_script_translations', 9999 );
-function admin_script_translations() {
+function admin_script_translations(): void {
     wp_set_script_translations(
         'helsinki-wp-admin',
         'hds-wp',
@@ -256,7 +256,7 @@ function admin_script_translations() {
 }
 
 add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\public_script_translations', 9999 );
-function public_script_translations() {
+function public_script_translations(): void {
     wp_set_script_translations(
         'helsinki-wp',
         'hds-wp',
