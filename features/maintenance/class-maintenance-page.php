@@ -19,6 +19,11 @@ final class Maintenance_Page
 		private array $data
 	) {}
 
+	public function response_status(): int
+	{
+		return $this->get_value( __FUNCTION__, 503 );
+	}
+
 	public function charset(): string
 	{
 		return $this->get_value( __FUNCTION__, '' );
@@ -116,7 +121,7 @@ final class Maintenance_Page
 		return $this;
 	}
 
-	private function get_value( string $type, string $default = '' ): string
+	private function get_value( string $type, mixed $default = '' ): mixed
 	{
 		return $this->data[$type] ?? $default;
 	}
