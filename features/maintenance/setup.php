@@ -40,18 +40,19 @@ function setup_maintenance_template( string $template ): void {
 	if ( maintenance_template_path() === $template ) {
 		\add_action( 'helsinki_maintenance_assets', __NAMESPACE__ . '\\enqueue_styles' );
 
-		\add_action( 'helsinki_maintenance_assets', 'wp_common_block_scripts_and_styles' );
-		\add_action( 'helsinki_maintenance_assets', 'wp_enqueue_classic_theme_styles' );
-		\add_action( 'helsinki_maintenance_assets', 'wp_enqueue_global_styles' );
-
 		\add_action( 'helsinki_maintenance', __NAMESPACE__ . '\\send_maintenance_headers' );
 
-		\add_action( 'helsinki_maintenance_head', 'wp_enqueue_img_auto_sizes_contain_css_fix', 0 ); // Must run before wp_print_auto_sizes_contain_css_fix().
-		\add_action( 'helsinki_maintenance_head', 'wp_print_auto_sizes_contain_css_fix', 1 ); // Retained for backwards-compatibility. Unhooked by wp_enqueue_img_auto_sizes_contain_css_fix().
-		\add_action( 'helsinki_maintenance_head', 'wp_maybe_inline_styles', 1 ); // Run for styles enqueued in <head>.
-		\add_action( 'helsinki_maintenance_bottom', 'wp_maybe_inline_styles', 1 ); // Run for late-loaded styles in the footer.
-
 		\add_action( 'helsinki_maintenance_head', __NAMESPACE__ . '\\enqueue_assets', 1 );
+		\add_action( 'helsinki_maintenance_header', __NAMESPACE__ . '\\render_site_title' );
+
+		\add_action( 'helsinki_maintenance_main', __NAMESPACE__ . '\\render_site_content', 10 );
+
+		\add_action( 'helsinki_maintenance_footer_top', __NAMESPACE__ . '\\render_koros_decoration' );
+		\add_action( 'helsinki_maintenance_footer', __NAMESPACE__ . '\\render_site_logo' );
+
+		/**
+		  * Mimic wp_head, wp_footer and wp_enqueue_scripts
+		  */
 		\add_action( 'helsinki_maintenance_head', 'wp_resource_hints', 2 );
 		\add_action( 'helsinki_maintenance_head', 'wp_preload_resources', 1 );
 		\add_action( 'helsinki_maintenance_head', 'wp_robots', 1 );
@@ -61,12 +62,14 @@ function setup_maintenance_template( string $template ): void {
 		\add_action( 'helsinki_maintenance_head', 'wp_custom_css_cb', 101 );
 		\add_action( 'helsinki_maintenance_head', 'wp_site_icon', 99 );
 
-		\add_action( 'helsinki_maintenance_header', __NAMESPACE__ . '\\render_site_title' );
+		\add_action( 'helsinki_maintenance_assets', 'wp_common_block_scripts_and_styles' );
+		\add_action( 'helsinki_maintenance_assets', 'wp_enqueue_classic_theme_styles' );
+		\add_action( 'helsinki_maintenance_assets', 'wp_enqueue_global_styles' );
 
-		\add_action( 'helsinki_maintenance_main', __NAMESPACE__ . '\\render_site_content', 10 );
-
-		\add_action( 'helsinki_maintenance_footer_top', __NAMESPACE__ . '\\render_koros_decoration' );
-		\add_action( 'helsinki_maintenance_footer', __NAMESPACE__ . '\\render_site_logo' );
+		\add_action( 'helsinki_maintenance_head', 'wp_enqueue_img_auto_sizes_contain_css_fix', 0 );
+		\add_action( 'helsinki_maintenance_head', 'wp_print_auto_sizes_contain_css_fix', 1 );
+		\add_action( 'helsinki_maintenance_head', 'wp_maybe_inline_styles', 1 );
+		\add_action( 'helsinki_maintenance_bottom', 'wp_maybe_inline_styles', 1 );
 
 		\add_action( 'helsinki_maintenance_bottom', 'wp_print_speculation_rules' );
 		\add_action( 'helsinki_maintenance_bottom', 'wp_print_footer_scripts', 20 );
