@@ -11,52 +11,141 @@ if ( ! defined( 'ABSPATH' ) ) {
 use ArtCloud\Helsinki\Plugin\HDS\Compatibility;
 
 \add_action( 'helsinki_wp_setup', function( Compatibility $compatibility ) {
-
 	\add_action(
 		'template_include',
 		__NAMESPACE__ . '\\provide_maintenance_template',
 		999999
 	);
-
 } );
 
-function provide_maintenance_template( string $template ): string {
-	if ( is_maintenance_active() ) {
-		\add_action(
-			'wp_before_include_template',
-			__NAMESPACE__ . '\\setup_maintenance_template'
-		);
-
-		return maintenance_template_path();
+function provide_maintenance_template( mixed $template ): mixed {
+	if ( ! is_maintenance_active() ) {
+		return $template;
 	}
 
-	return $template;
+	if ( should_return_false() ) {
+		return false;
+	}
+
+	\add_action(
+		'wp_before_include_template',
+		__NAMESPACE__ . '\\setup_maintenance_template'
+	);
+
+	return maintenance_template_path();
 }
 
 function setup_maintenance_template( string $template ): void {
 	if ( maintenance_template_path() === $template ) {
-		\add_action( 'helsinki_maintenance_head', 'wp_enqueue_scripts', 1 );
+		\add_action( 'helsinki_maintenance_assets', __NAMESPACE__ . '\\enqueue_scripts' );
+		\add_action( 'helsinki_maintenance_assets', __NAMESPACE__ . '\\enqueue_styles' );
+
+		\add_action( 'helsinki_maintenance', __NAMESPACE__ . '\\send_maintenance_headers' );
+
+		\add_action( 'helsinki_maintenance_head', __NAMESPACE__ . '\\enqueue_assets', 1 );
 		\add_action( 'helsinki_maintenance_head', 'wp_resource_hints', 2 );
 		\add_action( 'helsinki_maintenance_head', 'wp_preload_resources', 1 );
 		\add_action( 'helsinki_maintenance_head', 'wp_robots', 1 );
 		\add_action( 'helsinki_maintenance_head', 'locale_stylesheet' );
-		\add_action( 'helsinki_maintenance_head', 'wp_print_styles', 7 );
-		\add_action( 'helsinki_maintenance_head', 'wp_print_head_scripts', 8 );
+		\add_action( 'helsinki_maintenance_head', 'wp_print_styles', 8 );
+		\add_action( 'helsinki_maintenance_head', 'wp_print_head_scripts', 9 );
+		\add_action( 'helsinki_maintenance_head', 'wp_custom_css_cb', 101 );
 		\add_action( 'helsinki_maintenance_head', 'wp_site_icon', 99 );
 
 		\add_action( 'helsinki_maintenance_header', __NAMESPACE__ . '\\render_site_title' );
+
 		\add_action( 'helsinki_maintenance_main', __NAMESPACE__ . '\\render_site_content', 10 );
+
+		\add_action( 'helsinki_maintenance_footer_top', __NAMESPACE__ . '\\render_koros_decoration' );
+		\add_action( 'helsinki_maintenance_footer', __NAMESPACE__ . '\\render_site_logo' );
+
+		\add_action( 'helsinki_maintenance_bottom', 'wp_print_footer_scripts', 20 );
+	}
+}
+
+function send_maintenance_headers( Maintenance_Page $page ): void {
+	if ( ! headers_sent() ) {
+		header( sprintf(
+			'Content-Type: text/html; charset=%s',
+			\esc_attr( $page->charset() )
+		) );
+
+		\status_header( $page->response_status() );
+
+		\nocache_headers();
+
+		header( 'Retry-After: 3600' );
+	}
+}
+
+function enqueue_assets(): void {
+	\do_action( 'helsinki_maintenance_assets' );
+}
+
+function enqueue_scripts(): void {
+	\wp_enqueue_script(
+		'helsinki-maintenance',
+		\plugin_dir_url( __FILE__ ) . 'assets/scripts.js',
+		array(),
+		false,
+		array(
+			'in_footer' => true,
+		)
+	);
+}
+
+function enqueue_styles(): void {
+	\wp_enqueue_style(
+		'helsinki-maintenance',
+		\plugin_dir_url( __FILE__ ) . 'assets/styles.css',
+		array(),
+		false,
+		null
+	);
+}
+
+function render_site_logo( Maintenance_Page $page ): void {
+	$language = function_exists( 'pll_current_language' )
+		? \pll_current_language( 'slug' )
+		: 'default';
+
+	$logo = \apply_filters(
+		'hds_wp_svg_logo_html',
+		'',
+		( $language === 'sv' ? 'sv' : 'default')
+	);
+
+	if ( $logo ) {
+		echo \wp_kses( $logo, array(
+			'div' => array(
+				'id' => true,
+				'class' => true,
+			),
+			'span' => array(
+				'id' => true,
+				'class' => true,
+			),
+			'svg' => array(
+				'class' => true,
+				'viewBox' => true,
+				'aria-hidden' => true,
+			),
+			'path' => array(
+				'd' => true,
+			),
+		) );
 	}
 }
 
 function render_site_title( Maintenance_Page $page ): void {
-	printf(
-		'<div class="site-title">%s</div>',
-		sprintf(
-			'<span>%s</span>',
+	if ( $page->site_title() ) {
+		printf(
+			'<div class="site-title">
+				<span>%s</span>
+			</div>',
 			\esc_attr( $page->site_title() )
-		)
-	);
+		);
+	}
 }
 
 function render_site_content( Maintenance_Page $page ): void {
@@ -64,7 +153,7 @@ function render_site_content( Maintenance_Page $page ): void {
 
 	if ( $page->page_title() ) {
 		$first_column[] = sprintf(
-			'<h1>%s</h1>',
+			'<h1 class="wp-block-heading">%s</h1>',
 			\esc_html( $page->page_title() )
 		);
 	}
@@ -75,7 +164,11 @@ function render_site_content( Maintenance_Page $page ): void {
 
 	if ( $page->page_button_text() && $page->page_button_url() ) {
 		$first_column[] = sprintf(
-			'<a class="button hds-button" href="%s">%s</a>',
+			'<div class="wp-block-buttons is-layout-flex wp-block-buttons-is-layout-flex">
+				<div class="wp-block-button">
+					<a class="wp-block-button__link wp-element-button" href="%s">%s</a>
+				</div>
+			</div>',
 			\esc_url( $page->page_button_url() ),
 			\esc_html( $page->page_button_text() )
 		);
@@ -83,16 +176,24 @@ function render_site_content( Maintenance_Page $page ): void {
 
 	$second_column = array();
 
-	if ( $page->page_image_url() && $page->page_image_caption() ) {
-		$second_column[] = sprintf(
-			'<figure>
-				<img class="decoration" alt="" src="%1$s" width="%3$d" height="%4$d">
-				<figcaption class="wp-caption-text">%2$s</figcaption>
-			</figure>',
+	if ( $page->page_image_url() ) {
+		$image = sprintf(
+			'<img class="decoration" alt="" src="%1$s" width="%2$d" height="%3$d" fetchpriority="high" decoding="async">',
 			\esc_url( $page->page_image_url() ),
-			\esc_html( $page->page_image_caption() ),
 			(int) $page->page_image_width(),
 			(int) $page->page_image_height()
+		);
+
+		if ( $page->page_image_caption() ) {
+			$image .= sprintf(
+				'<figcaption class="wp-element-caption">%1$s</figcaption>',
+				\esc_html( $page->page_image_caption() )
+			);
+		}
+
+		$second_column[] = sprintf(
+			'<figure class="wp-block-image">%s</figure>',
+			$image
 		);
 	}
 
@@ -106,11 +207,23 @@ function render_site_content( Maintenance_Page $page ): void {
 	);
 }
 
+function render_koros_decoration( Maintenance_Page $page ): void {
+	echo '<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="100%" height="42">
+		<defs>
+			<pattern id="koros" x="0" y="0" width="53" height="42.5" patternUnits="userSpaceOnUse">
+				<path transform="scale(2.65)" d="M0,800h20V0c-4.9,0-5,2.6-9.9,2.6S5,0,0,0V800z"></path>
+			</pattern>
+		</defs>
+		<rect fill="url(#koros)" width="100%" height="42"></rect>
+	</svg>';
+}
+
 function create_maintenance_page(): Maintenance_Page {
 	$site = site_data();
 	$logo = site_logo_data();
 
 	$page = new Maintenance_Page( array(
+		'response_status' => 503,
 		'charset' => $site['charset'],
 		'site_title' => $site['title'],
 		'site_description' => $site['description'],
@@ -202,7 +315,16 @@ function site_logo_data(): array {
 }
 
 function is_maintenance_active(): bool {
-	return true;
+	$option = true;
+
+	return ! \is_user_logged_in()
+		&& $option;
+}
+
+function should_return_false(): bool {
+	return ( defined('DOING_CRON') && DOING_CRON )
+		|| ( defined('DOING_AJAX') && DOING_AJAX )
+		|| ( defined('WP_CLI') && WP_CLI );
 }
 
 function maintenance_template_path(): string {
