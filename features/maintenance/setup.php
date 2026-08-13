@@ -9,6 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use ArtCloud\Helsinki\Plugin\HDS\Compatibility;
+use function ArtCloud\Helsinki\Plugin\HDS\plugin_url;
 
 \add_action( 'helsinki_wp_setup', function( Compatibility $compatibility ) {
 	\add_action(
@@ -37,10 +38,18 @@ function provide_maintenance_template( mixed $template ): mixed {
 
 function setup_maintenance_template( string $template ): void {
 	if ( maintenance_template_path() === $template ) {
-		\add_action( 'helsinki_maintenance_assets', __NAMESPACE__ . '\\enqueue_scripts' );
 		\add_action( 'helsinki_maintenance_assets', __NAMESPACE__ . '\\enqueue_styles' );
 
+		\add_action( 'helsinki_maintenance_assets', 'wp_common_block_scripts_and_styles' );
+		\add_action( 'helsinki_maintenance_assets', 'wp_enqueue_classic_theme_styles' );
+		\add_action( 'helsinki_maintenance_assets', 'wp_enqueue_global_styles' );
+
 		\add_action( 'helsinki_maintenance', __NAMESPACE__ . '\\send_maintenance_headers' );
+
+		\add_action( 'helsinki_maintenance_head', 'wp_enqueue_img_auto_sizes_contain_css_fix', 0 ); // Must run before wp_print_auto_sizes_contain_css_fix().
+		\add_action( 'helsinki_maintenance_head', 'wp_print_auto_sizes_contain_css_fix', 1 ); // Retained for backwards-compatibility. Unhooked by wp_enqueue_img_auto_sizes_contain_css_fix().
+		\add_action( 'helsinki_maintenance_head', 'wp_maybe_inline_styles', 1 ); // Run for styles enqueued in <head>.
+		\add_action( 'helsinki_maintenance_bottom', 'wp_maybe_inline_styles', 1 ); // Run for late-loaded styles in the footer.
 
 		\add_action( 'helsinki_maintenance_head', __NAMESPACE__ . '\\enqueue_assets', 1 );
 		\add_action( 'helsinki_maintenance_head', 'wp_resource_hints', 2 );
@@ -59,7 +68,9 @@ function setup_maintenance_template( string $template ): void {
 		\add_action( 'helsinki_maintenance_footer_top', __NAMESPACE__ . '\\render_koros_decoration' );
 		\add_action( 'helsinki_maintenance_footer', __NAMESPACE__ . '\\render_site_logo' );
 
+		\add_action( 'helsinki_maintenance_bottom', 'wp_print_speculation_rules' );
 		\add_action( 'helsinki_maintenance_bottom', 'wp_print_footer_scripts', 20 );
+		\add_action( 'helsinki_maintenance_bottom', 'wp_enqueue_global_styles' );
 	}
 }
 
@@ -80,18 +91,6 @@ function send_maintenance_headers( Maintenance_Page $page ): void {
 
 function enqueue_assets(): void {
 	\do_action( 'helsinki_maintenance_assets' );
-}
-
-function enqueue_scripts(): void {
-	\wp_enqueue_script(
-		'helsinki-maintenance',
-		\plugin_dir_url( __FILE__ ) . 'assets/scripts.js',
-		array(),
-		false,
-		array(
-			'in_footer' => true,
-		)
-	);
 }
 
 function enqueue_styles(): void {
