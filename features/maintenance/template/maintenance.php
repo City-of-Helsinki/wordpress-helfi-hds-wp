@@ -8,7 +8,8 @@ use function ArtCloud\Helsinki\Plugin\HDS\Features\Maintenance\create_maintenanc
 use function ArtCloud\Helsinki\Plugin\HDS\Features\Maintenance\create_maintenance_page_meta;
 
 $maintenance = create_maintenance_page();
-$meta = create_maintenance_page_meta( $maintenance );
+
+do_action( 'helsinki_maintenance', $maintenance );
 
 ?>
 <!DOCTYPE html>
@@ -21,6 +22,7 @@ $meta = create_maintenance_page_meta( $maintenance );
 		<meta http-equiv="X-UA-Compatible" content="" />
 
 		<?php
+			$meta = create_maintenance_page_meta( $maintenance );
 
 			foreach ( $meta->properties() as $property => $content ) {
 				printf(
@@ -56,9 +58,13 @@ $meta = create_maintenance_page_meta( $maintenance );
 
 				<div class="hds-container content__container">
 
+					<?php do_action( 'helsinki_maintenance_main_before', $maintenance ); ?>
+
 					<div class="content__main">
 						<?php do_action( 'helsinki_maintenance_main', $maintenance ); ?>
 					</div>
+
+					<?php do_action( 'helsinki_maintenance_main_after', $maintenance ); ?>
 
 				</div>
 		    </div>
