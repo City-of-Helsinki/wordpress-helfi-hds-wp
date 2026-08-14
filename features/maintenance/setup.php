@@ -8,10 +8,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use ArtCloud\Helsinki\Plugin\HDS\Features\Maintenance\Settings\Maintenance_Mode_Enabled;
 use ArtCloud\Helsinki\Plugin\HDS\Compatibility;
 use function ArtCloud\Helsinki\Plugin\HDS\plugin_url;
 
 \add_action( 'helsinki_wp_setup', function( Compatibility $compatibility ) {
+	$setting = create_maintenance_mode_setting();
+
+	\add_action( 'admin_init', array( $setting, 'register' ) );
+	\add_action( 'admin_head', array( $setting, 'admin_style' ) );
+	\add_action( 'admin_notices', array( $setting, 'admin_notice' ) );
+	\add_action( 'admin_bar_menu', array( $setting, 'admin_bar_item' ), 10000 );
+
+	\add_filter( 'helsinki_maintenance_enabled', array( $setting, 'value' ), 5 );
+
 	\add_action(
 		'template_include',
 		__NAMESPACE__ . '\\provide_maintenance_template',
@@ -220,6 +230,10 @@ function render_koros_decoration( Maintenance_Page $page ): void {
 	</svg>';
 }
 
+function create_maintenance_mode_setting(): Maintenance_Mode_Enabled {
+	return new Maintenance_Mode_Enabled( 'reading', 'reading' );
+}
+
 function create_maintenance_page(): Maintenance_Page {
 	$site = site_data();
 	$logo = site_logo_data();
@@ -317,10 +331,8 @@ function site_logo_data(): array {
 }
 
 function is_maintenance_active(): bool {
-	$option = true;
-
-	return ! \is_user_logged_in()
-		&& $option;
+	return \apply_filters( 'helsinki_maintenance_enabled', false )
+		&& ! \is_user_logged_in();
 }
 
 function should_return_false(): bool {
