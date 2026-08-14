@@ -17,6 +17,7 @@ use function ArtCloud\Helsinki\Plugin\HDS\plugin_url;
 
 	\add_action( 'admin_init', array( $setting, 'register' ) );
 	\add_action( 'admin_head', array( $setting, 'admin_style' ) );
+	\add_action( 'wp_head', array( $setting, 'admin_style' ) );
 	\add_action( 'admin_notices', array( $setting, 'admin_notice' ) );
 	\add_action( 'admin_bar_menu', array( $setting, 'admin_bar_item' ), 10000 );
 
