@@ -315,7 +315,7 @@ function site_data(): array {
 
 	return array(
 		'charset' => \get_bloginfo( 'charset' ) ?: '',
-		'title' => trim( sprintf( '%s - %s', $name, $description ) ),
+		'title' => implode( ' - ', array_filter( array( $name, $description ) ) ),
 		'name' => $name,
 		'description' => $description,
 		'url' => \site_url() ?: '',
