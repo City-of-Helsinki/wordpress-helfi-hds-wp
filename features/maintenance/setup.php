@@ -310,11 +310,14 @@ function create_maintenance_page_meta( Maintenance_Page $page ): Maintenance_Pag
 }
 
 function site_data(): array {
+	$name = \get_bloginfo( 'name' ) ?: '';
+	$description = \get_bloginfo( 'description' ) ?: '';
+
 	return array(
 		'charset' => \get_bloginfo( 'charset' ) ?: '',
-		'title' => \wp_title( display: false ) ?: '',
-		'name' => \get_bloginfo( 'name' ) ?: '',
-		'description' => \get_bloginfo( 'description' ) ?: '',
+		'title' => trim( sprintf( '%s - %s', $name, $description ) ),
+		'name' => $name,
+		'description' => $description,
 		'url' => \site_url() ?: '',
 	);
 }
