@@ -31,7 +31,6 @@ do_action( 'helsinki_maintenance', $maintenance );
 					parse_url( $content, PHP_URL_HOST ) ? esc_url( $content ) : esc_attr( $content )
 				);
 			}
-
 		?>
 
 		<?php do_action( 'helsinki_maintenance_head' ); ?>
@@ -41,46 +40,50 @@ do_action( 'helsinki_maintenance', $maintenance );
 
 		<?php do_action( 'helsinki_maintenance_top', $maintenance ); ?>
 
-		<header id="masthead">
-			<?php do_action( 'helsinki_maintenance_header_top', $maintenance ); ?>
+		<div class="layout-wrap">
 
-			<div class="hds-container">
-			  <?php do_action( 'helsinki_maintenance_header', $maintenance ); ?>
-			</div>
+			<header id="masthead">
+				<?php do_action( 'helsinki_maintenance_header_top', $maintenance ); ?>
 
-			<?php do_action( 'helsinki_maintenance_header_bottom', $maintenance ); ?>
-		</header>
-
-		<main id="main">
-			<?php do_action( 'helsinki_maintenance_main_top', $maintenance ); ?>
-
-		    <div class="content">
-
-				<div class="hds-container content__container">
-
-					<?php do_action( 'helsinki_maintenance_main_before', $maintenance ); ?>
-
-					<div class="content__main">
-						<?php do_action( 'helsinki_maintenance_main', $maintenance ); ?>
-					</div>
-
-					<?php do_action( 'helsinki_maintenance_main_after', $maintenance ); ?>
-
+				<div class="hds-container">
+					<?php do_action( 'helsinki_maintenance_header', $maintenance ); ?>
 				</div>
-		    </div>
 
-			<?php do_action( 'helsinki_maintenance_main_bottom', $maintenance ); ?>
-		</main>
+				<?php do_action( 'helsinki_maintenance_header_bottom', $maintenance ); ?>
+			</header>
 
-		<footer id="footer">
-			<?php do_action( 'helsinki_maintenance_footer_top', $maintenance ); ?>
+			<main id="main">
+				<?php do_action( 'helsinki_maintenance_main_top', $maintenance ); ?>
 
-		    <div class="hds-container">
-				<?php do_action( 'helsinki_maintenance_footer', $maintenance ); ?>
-		    </div>
+			    <div class="content">
 
-			<?php do_action( 'helsinki_maintenance_footer_bottom', $maintenance ); ?>
-		</footer>
+					<div class="hds-container">
+
+						<?php do_action( 'helsinki_maintenance_main_before', $maintenance ); ?>
+
+						<div class="content__main">
+							<?php do_action( 'helsinki_maintenance_main', $maintenance ); ?>
+						</div>
+
+						<?php do_action( 'helsinki_maintenance_main_after', $maintenance ); ?>
+
+					</div>
+			    </div>
+
+				<?php do_action( 'helsinki_maintenance_main_bottom', $maintenance ); ?>
+			</main>
+
+			<footer id="footer">
+				<?php do_action( 'helsinki_maintenance_footer_top', $maintenance ); ?>
+
+			    <div class="hds-container">
+					<?php do_action( 'helsinki_maintenance_footer', $maintenance ); ?>
+			    </div>
+
+				<?php do_action( 'helsinki_maintenance_footer_bottom', $maintenance ); ?>
+			</footer>
+
+		</div>
 
   		<?php do_action( 'helsinki_maintenance_bottom', $maintenance ); ?>
 
