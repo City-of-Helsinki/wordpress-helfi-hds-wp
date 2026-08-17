@@ -28,6 +28,13 @@ use function ArtCloud\Helsinki\Plugin\HDS\plugin_url;
 		__NAMESPACE__ . '\\provide_maintenance_template',
 		999999
 	);
+
+	\add_action(
+		'update_option_' . $setting->name(),
+		function() {
+			\do_action( 'helsinki_site_core_cache_clear' );
+		}
+	);
 } );
 
 function provide_maintenance_template( mixed $template ): mixed {
