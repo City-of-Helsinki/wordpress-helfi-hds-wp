@@ -19,6 +19,11 @@ final class Maintenance_Mode_Enabled
 		private string $section
 	) {}
 
+	public function name(): string
+	{
+		return self::SETTING_ID;
+	}
+
 	public function title(): string
 	{
 		return __( 'Maintenance mode', 'hds-wp' );
@@ -26,7 +31,7 @@ final class Maintenance_Mode_Enabled
 
 	public function value(): bool
 	{
-		return (bool) \get_option( self::SETTING_ID, false );
+		return (bool) \get_option( $this->name(), false );
 	}
 
 	public function settings_page_url(): string
@@ -69,12 +74,12 @@ final class Maintenance_Mode_Enabled
 	{
 		if ( $this->value() ) {
 			$wp_admin_bar->add_node( array(
-				'id' => self::SETTING_ID,
+				'id' => $this->name(),
 				'title' => _x( 'Maintenance mode enabled', 'admin notice', 'hds-wp' ),
 				'href' => sprintf(
 					'%s#%s',
 					$this->settings_page_url(),
-					self::SETTING_ID,
+					$this->name(),
 				),
 				'meta' => array(
 					'class' => 'maintenance-mode-toolbar-item',
@@ -110,7 +115,7 @@ final class Maintenance_Mode_Enabled
 		);
 
 		\add_settings_field(
-			self::SETTING_ID,
+			$this->name(),
 			$this->title(),
 			array( $this, 'setting_callback' ),
 			$this->menu_page,
@@ -119,7 +124,7 @@ final class Maintenance_Mode_Enabled
 
 		\register_setting(
 			$this->menu_page,
-			self::SETTING_ID,
+			$this->name(),
 			array(
 				'type' => 'boolean',
 				'sanitize_callback' => array( $this, 'sanitize_callback' ),
@@ -151,7 +156,7 @@ final class Maintenance_Mode_Enabled
 				<input id="%1$s" name="%1$s" type="checkbox" value="1" %2$s>
 				<label for="%1$s">%4$s</label>
 			</fieldset>',
-			\esc_attr( self::SETTING_ID ),
+			\esc_attr( $this->name() ),
 			\checked( true, $this->value(), false ),
 			\esc_html( $this->title() ),
 			\esc_html( __( 'Enable maintenance mode', 'hds-wp' ) )
