@@ -110,7 +110,7 @@ function enqueue_assets(): void {
 function enqueue_styles(): void {
 	\wp_enqueue_style(
 		'helsinki-maintenance',
-		\plugin_dir_url( __FILE__ ) . 'assets/styles.css',
+		plugin_url() . 'assets/public/css/maintenance.min.css',
 		array(),
 		false,
 		null
@@ -129,24 +129,27 @@ function render_site_logo( Maintenance_Page $page ): void {
 	);
 
 	if ( $logo ) {
-		echo \wp_kses( $logo, array(
-			'div' => array(
-				'id' => true,
-				'class' => true,
-			),
-			'span' => array(
-				'id' => true,
-				'class' => true,
-			),
-			'svg' => array(
-				'class' => true,
-				'viewBox' => true,
-				'aria-hidden' => true,
-			),
-			'path' => array(
-				'd' => true,
-			),
-		) );
+		printf(
+			'<div class="logo">%s</div>',
+			\wp_kses( $logo, array(
+				'div' => array(
+					'id' => true,
+					'class' => true,
+				),
+				'span' => array(
+					'id' => true,
+					'class' => true,
+				),
+				'svg' => array(
+					'class' => true,
+					'viewBox' => true,
+					'aria-hidden' => true,
+				),
+				'path' => array(
+					'd' => true,
+				),
+			) )
+		);
 	}
 }
 
@@ -191,7 +194,7 @@ function render_site_content( Maintenance_Page $page ): void {
 
 	if ( $page->page_image_url() ) {
 		$image = sprintf(
-			'<img class="decoration" alt="" src="%1$s" width="%2$d" height="%3$d" fetchpriority="high" decoding="async">',
+			'<img alt="" src="%1$s" width="%2$d" height="%3$d" fetchpriority="high" decoding="async">',
 			\esc_url( $page->page_image_url() ),
 			(int) $page->page_image_width(),
 			(int) $page->page_image_height()
@@ -205,13 +208,13 @@ function render_site_content( Maintenance_Page $page ): void {
 		}
 
 		$second_column[] = sprintf(
-			'<figure class="wp-block-image">%s</figure>',
+			'<figure class="wp-block-image decoration">%s</figure>',
 			$image
 		);
 	}
 
 	printf(
-		'<div class="grid m-up-2">
+		'<div class="grid">
 			<div class="grid__column">%s</div>
 			<div class="grid__column">%s</div>
 		</div>',
@@ -221,14 +224,16 @@ function render_site_content( Maintenance_Page $page ): void {
 }
 
 function render_koros_decoration( Maintenance_Page $page ): void {
-	echo '<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="100%" height="42">
-		<defs>
-			<pattern id="koros" x="0" y="0" width="53" height="42.5" patternUnits="userSpaceOnUse">
-				<path transform="scale(2.65)" d="M0,800h20V0c-4.9,0-5,2.6-9.9,2.6S5,0,0,0V800z"></path>
-			</pattern>
-		</defs>
-		<rect fill="url(#koros)" width="100%" height="42"></rect>
-	</svg>';
+	echo '<div class="hds-koros">
+		<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="100%" height="42">
+			<defs>
+				<pattern id="koros" x="0" y="0" width="53" height="42.5" patternUnits="userSpaceOnUse">
+					<path transform="scale(2.65)" d="M0,800h20V0c-4.9,0-5,2.6-9.9,2.6S5,0,0,0V800z"></path>
+				</pattern>
+			</defs>
+			<rect fill="url(#koros)" width="100%" height="42"></rect>
+		</svg>
+	</div>';
 }
 
 function create_maintenance_mode_setting(): Maintenance_Mode_Enabled {
@@ -268,7 +273,7 @@ function create_maintenance_page(): Maintenance_Page {
 			'hds-wp'
 		),
 		'page_button_url' => 'https://www.hel.fi',
-		'page_image_url' => \plugin_dir_url( __FILE__ ) . 'assets/maintenance.png',
+		'page_image_url' => plugin_url() . 'assets/img/maintenance.png',
 		'page_image_height' => '1168',
 		'page_image_width' => '823',
 		'page_image_caption' => sprintf(
