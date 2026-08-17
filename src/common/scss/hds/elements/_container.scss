@@ -1,0 +1,18 @@
+@use "../../functions";
+@use "../../mixins";
+
+.hds-container {
+	margin-left: auto;
+	margin-right: auto;
+	width: 100%;
+
+	@include mixins.breakpointMax('m') {
+		padding-left: functions.spacing('s');
+		padding-right: functions.spacing('s');
+		max-width: none;
+	}
+
+	&--wide {
+		max-width: functions.global-max-width();
+	}
+}

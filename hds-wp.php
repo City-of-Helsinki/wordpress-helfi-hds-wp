@@ -62,8 +62,30 @@ function autoloader( $class ) {
 		return;
 	}
 
-	$class = str_replace( __NAMESPACE__, '', $class );
-	$file = str_replace( '\\', DIRECTORY_SEPARATOR, path_to_file( 'class' . $class ) );
+	$parts = array_filter(
+		explode(
+			DIRECTORY_SEPARATOR,
+			str_replace(
+				array( __NAMESPACE__, '\\' ),
+				array( '', DIRECTORY_SEPARATOR ),
+				$class
+			)
+		)
+	);
+
+	if ( $parts[1] === 'Features' ) {
+		$class = str_replace( '_', '-', strtolower( array_pop( $parts ) ) );
+
+		$parts = array_merge(
+			array_map( 'strtolower', $parts ),
+			array( 'class-' . $class )
+		);
+	} else {
+		$parts = array( 'class', ...$parts );
+	}
+
+	$file = path_to_file( implode( DIRECTORY_SEPARATOR, $parts ) );
+
 	if ( file_exists( $file ) ) {
 		require_once $file;
 	}
@@ -85,8 +107,11 @@ function complianz_integration(): void {
 }
 
 add_action( 'plugins_loaded', __NAMESPACE__ . '\\prepare', 11 );
-function prepare() {
-	require_once \plugin_dir_path( __FILE__ ) . 'functions/filters.php';
+function prepare(): void {
+	$path = \plugin_dir_path( __FILE__ );
+
+	require_once $path . 'functions/filters.php';
+	require_once $path . 'features/maintenance/setup.php';
 
 	ModuleFactory::instance(
 		ConfigLoader::instance( config_path() )
@@ -228,6 +253,8 @@ function init() {
 	);
 
 	ModuleFactory::module( 'SvgProvider' )->init();
+
+	\do_action( 'helsinki_wp_setup', $compatibility );
 }
 
 add_filter( 'helsinki_wp_current_language', __NAMESPACE__ . '\\provide_current_language', 5 );

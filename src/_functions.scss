@@ -1,5 +1,6 @@
 @use 'sass:math';
 @use "sass:map";
+@use "settings/breakpoints" as br;
 
 @function root-var( $variable ) {
 	@return var( #{$variable} );
@@ -10,7 +11,7 @@
 }
 
 @function get-breakpoint( $breakpoint ) {
-  @return map.get( $breakpoints, $breakpoint );
+  @return map.get( br.$breakpoints, $breakpoint );
 }
 
 @function get-max-columns( $breakpoint ) {
@@ -23,6 +24,10 @@
 	} @else {
 		@return 12;
 	}
+}
+
+@function global-max-width() {
+  @return root-var(--hds-wp-global-max-width);
 }
 
 @function container-width( $name ) {

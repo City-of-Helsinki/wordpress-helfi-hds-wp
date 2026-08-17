@@ -28,11 +28,16 @@ class Assets extends Module {
 
 		if ( $this->config->value('fonts') ) {
 			add_action( 'enqueue_block_assets', array( $this, 'fonts' ) );
+
+			add_action( 'helsinki_maintenance_assets', array( $this, 'fonts' ) );
 		}
 
 		if ( $this->config->value('styles') ) {
 			add_action( 'enqueue_block_assets', array( $this, 'commonStyles' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'publicStyles' ), 11 );
+
+			add_action( 'helsinki_maintenance_assets', array( $this, 'commonStyles' ) );
+			add_action( 'helsinki_maintenance_assets', array( $this, 'publicStyles' ), 11 );
 		}
 
 		if ( $this->config->value('favicon') ) {

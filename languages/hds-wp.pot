@@ -11,7 +11,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-08-10 08:46+0000\n"
+"POT-Creation-Date: 2026-08-14 08:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Loco https://localise.biz/\n"
 "X-Domain: hds-wp\n"
@@ -55,8 +55,28 @@ msgstr ""
 msgid "Add video url from:"
 msgstr ""
 
-#: class/Assets.php:54
+#: class/Assets.php:59
 msgid "Adds Helsinki styles, scripts and fonts to the site."
+msgstr ""
+
+#: features/maintenance/settings/class-maintenance-mode-enabled.php:43
+msgctxt "admin notice"
+msgid "Maintenance mode enabled"
+msgstr ""
+
+#: features/maintenance/settings/class-maintenance-mode-enabled.php:45
+msgctxt "admin notice"
+msgid "Only logged-in users can access the site content at the moment."
+msgstr ""
+
+#: features/maintenance/settings/class-maintenance-mode-enabled.php:53
+msgctxt "admin notice"
+msgid "the settings page"
+msgstr ""
+
+#: features/maintenance/settings/class-maintenance-mode-enabled.php:52
+msgctxt "admin notice"
+msgid "You can disable maintenance mode from"
 msgstr ""
 
 #: assets/admin/js/scripts.js:4018 src/admin/js/filters/table.js:36
@@ -109,7 +129,7 @@ msgstr ""
 msgid "articles"
 msgstr ""
 
-#: class/Assets.php:53
+#: class/Assets.php:58
 msgid "Assets"
 msgstr ""
 
@@ -246,6 +266,10 @@ msgstr ""
 msgid "Enable custom default template for Helsinki theme."
 msgstr ""
 
+#: features/maintenance/settings/class-maintenance-mode-enabled.php:155
+msgid "Enable maintenance mode"
+msgstr ""
+
 #: assets/admin/js/scripts.js:1483 src/admin/js/blocks/diagram.js:22
 msgid "Example diagram"
 msgstr ""
@@ -276,7 +300,7 @@ msgstr ""
 msgid "Feedback"
 msgstr ""
 
-#: class/Assets.php:174
+#: class/Assets.php:179
 msgid "Follow on Facebook"
 msgstr ""
 
@@ -444,6 +468,10 @@ msgstr ""
 msgid "Icon"
 msgstr ""
 
+#: features/maintenance/setup.php:275
+msgid "Image"
+msgstr ""
+
 #: assets/admin/js/scripts.js:1293 src/admin/js/blocks/content-cards.js:12
 msgid "Image & Title"
 msgstr ""
@@ -489,6 +517,31 @@ msgstr ""
 #: assets/admin/js/scripts.js:2192 assets/admin/js/scripts.js:2631
 #: src/admin/js/blocks/link-list-card-link.js:63 src/admin/js/blocks/link.js:35
 msgid "Link URL"
+msgstr ""
+
+#: features/maintenance/settings/class-maintenance-mode-enabled.php:136
+msgid "Logged-in users can access the website as usual."
+msgstr ""
+
+#: features/maintenance/settings/class-maintenance-mode-enabled.php:24
+msgid "Maintenance mode"
+msgstr ""
+
+#: features/maintenance/setup.php:264
+msgctxt "maintenance page button text"
+msgid "Go to hel.fi"
+msgstr ""
+
+#: features/maintenance/setup.php:259
+msgctxt "maintenance page description"
+msgid ""
+"We are building a new website and it will be available soon. Thank you for "
+"your patience!"
+msgstr ""
+
+#: features/maintenance/setup.php:249 features/maintenance/setup.php:254
+msgctxt "maintenance page title"
+msgid "The website is under construction"
 msgstr ""
 
 #: assets/admin/js/scripts.js:2959 assets/admin/js/scripts.js:3112
@@ -629,6 +682,10 @@ msgstr ""
 msgid "Power BI"
 msgstr ""
 
+#: features/maintenance/settings/class-maintenance-mode-enabled.php:134
+msgid "Prevent visitors temporarily from accessing the website."
+msgstr ""
+
 #: config/blocks/block-styles.php:11
 msgid "Primary"
 msgstr ""
@@ -657,7 +714,7 @@ msgstr ""
 msgid "Published:"
 msgstr ""
 
-#: class/Assets.php:169
+#: class/Assets.php:174
 msgid "Remove"
 msgstr ""
 
@@ -838,6 +895,12 @@ msgstr ""
 
 #: assets/admin/js/scripts.js:3721 src/admin/js/blocks/video.js:120
 msgid "Video URL"
+msgstr ""
+
+#: features/maintenance/settings/class-maintenance-mode-enabled.php:135
+msgid ""
+"When maintenance mode is enabled the site visitors will see a notice that "
+"the website is currently unavailable."
 msgstr ""
 
 #: widgets/button.php:13
