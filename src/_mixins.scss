@@ -1,19 +1,20 @@
 @use "sass:map";
+@use 'functions';
 
 @mixin breakpoint($breakpoint) {
-  @media only screen and (min-width: #{get-breakpoint($breakpoint)} ) {
+  @media only screen and (min-width: #{functions.get-breakpoint($breakpoint)} ) {
     @content;
   }
 }
 
 @mixin breakpointMax($breakpoint) {
-  @media only screen and (max-width: #{get-breakpoint($breakpoint) - 1} ) {
+  @media only screen and (max-width: #{functions.get-breakpoint($breakpoint) - 1} ) {
     @content;
   }
 }
 
 @mixin breakpointRange($min, $max) {
-  @media only screen and (min-width: #{get-breakpoint($min)} ) and (max-width: #{get-breakpoint($max) - 1} ) {
+  @media only screen and (min-width: #{functions.get-breakpoint($min)} ) and (max-width: #{functions.get-breakpoint($max) - 1} ) {
     @content;
   }
 }
