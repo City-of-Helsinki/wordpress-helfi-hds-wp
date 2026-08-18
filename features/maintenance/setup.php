@@ -61,12 +61,19 @@ function setup_maintenance_template( string $template ): void {
 		\add_action( 'helsinki_maintenance', __NAMESPACE__ . '\\send_maintenance_headers' );
 
 		\add_action( 'helsinki_maintenance_head', __NAMESPACE__ . '\\enqueue_assets', 1 );
-		\add_action( 'helsinki_maintenance_header', __NAMESPACE__ . '\\render_site_title' );
+
+		\add_action( 'helsinki_maintenance_header', __NAMESPACE__ . '\\render_inline_wrap_open', 5 );
+		\add_action( 'helsinki_maintenance_header', __NAMESPACE__ . '\\render_site_logo', 10 );
+		\add_action( 'helsinki_maintenance_header', __NAMESPACE__ . '\\render_site_title', 20 );
+		\add_action( 'helsinki_maintenance_header', __NAMESPACE__ . '\\render_inline_wrap_close', 25 );
 
 		\add_action( 'helsinki_maintenance_main', __NAMESPACE__ . '\\render_site_content', 10 );
 
 		\add_action( 'helsinki_maintenance_footer_top', __NAMESPACE__ . '\\render_koros_decoration' );
-		\add_action( 'helsinki_maintenance_footer', __NAMESPACE__ . '\\render_site_logo' );
+		\add_action( 'helsinki_maintenance_footer', __NAMESPACE__ . '\\render_inline_wrap_open', 5 );
+		\add_action( 'helsinki_maintenance_footer', __NAMESPACE__ . '\\render_site_logo', 10 );
+		\add_action( 'helsinki_maintenance_footer', __NAMESPACE__ . '\\render_site_copyright', 20 );
+		\add_action( 'helsinki_maintenance_footer', __NAMESPACE__ . '\\render_inline_wrap_close', 25 );
 
 		/**
 		  * Mimic wp_head, wp_footer and wp_enqueue_scripts
@@ -124,15 +131,19 @@ function enqueue_styles(): void {
 	);
 }
 
-function render_site_logo( Maintenance_Page $page ): void {
-	$language = function_exists( 'pll_current_language' )
-		? \pll_current_language( 'slug' )
-		: 'default';
+function render_inline_wrap_open(): void {
+	echo '<div class="inline-wrap">';
+}
 
+function render_inline_wrap_close(): void {
+	echo '</div>';
+}
+
+function render_site_logo( Maintenance_Page $page ): void {
 	$logo = \apply_filters(
 		'hds_wp_svg_logo_html',
 		'',
-		( $language === 'sv' ? 'sv' : 'default')
+		( $page->site_language() === 'sv' ? 'sv' : 'default')
 	);
 
 	if ( $logo ) {
@@ -149,11 +160,17 @@ function render_site_logo( Maintenance_Page $page ): void {
 				),
 				'svg' => array(
 					'class' => true,
-					'viewBox' => true,
 					'aria-hidden' => true,
+					'aria-labelledby' => true,
+					'role' => true,
+					'xmlns' => true,
+					'width' => true,
+					'height' => true,
+					'viewbox' => true,
 				),
 				'path' => array(
 					'd' => true,
+					'fill' => true,
 				),
 			) )
 		);
@@ -166,7 +183,7 @@ function render_site_title( Maintenance_Page $page ): void {
 			'<div class="site-title">
 				<span>%s</span>
 			</div>',
-			\esc_attr( $page->site_title() )
+			\esc_attr( $page->site_name() )
 		);
 	}
 }
@@ -230,11 +247,20 @@ function render_site_content( Maintenance_Page $page ): void {
 	);
 }
 
+function render_site_copyright( Maintenance_Page $page ): void {
+	if ( $page->credits_text() ) {
+		printf(
+			'<div class="copyright">%s</div>',
+			\esc_html( $page->credits_text() )
+		);
+	}
+}
+
 function render_koros_decoration( Maintenance_Page $page ): void {
 	echo '<div class="hds-koros">
 		<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="100%" height="42">
 			<defs>
-				<pattern id="koros" x="0" y="0" width="53" height="42.5" patternUnits="userSpaceOnUse">
+				<pattern id="koros" x="0" y="0" width="53" height="43" patternUnits="userSpaceOnUse">
 					<path transform="scale(2.65)" d="M0,800h20V0c-4.9,0-5,2.6-9.9,2.6S5,0,0,0V800z"></path>
 				</pattern>
 			</defs>
@@ -254,6 +280,8 @@ function create_maintenance_page(): Maintenance_Page {
 	$page = new Maintenance_Page( array(
 		'response_status' => 503,
 		'charset' => $site['charset'],
+		'site_language' => $site['language'],
+		'site_name' => $site['name'],
 		'site_title' => $site['title'],
 		'site_description' => $site['description'],
 		'site_url' => $site['url'],
@@ -289,7 +317,7 @@ function create_maintenance_page(): Maintenance_Page {
 			'Lille Santanen'
 		),
 		'credits_text' => sprintf(
-			'%s %s %s',
+			'%s %s, %s',
 			'&copy;',
 			$site['name'],
 			date( 'Y' )
@@ -324,13 +352,21 @@ function create_maintenance_page_meta( Maintenance_Page $page ): Maintenance_Pag
 
 function site_data(): array {
 	$name = \get_bloginfo( 'name' ) ?: '';
-	$description = \get_bloginfo( 'description' ) ?: '';
+
+	$language = function_exists( 'pll_current_language' )
+		? \pll_current_language( 'slug' )
+		: substr( \get_locale(), 0, 2 );
 
 	return array(
 		'charset' => \get_bloginfo( 'charset' ) ?: '',
-		'title' => implode( ' - ', array_filter( array( $name, $description ) ) ),
+		'language' => $language,
+		'title' => sprintf(
+			'%s | %s',
+			$name,
+			__( 'City of Helsinki', 'hds-wp' )
+		),
 		'name' => $name,
-		'description' => $description,
+		'description' => \get_bloginfo( 'description' ) ?: '',
 		'url' => \site_url() ?: '',
 	);
 }
