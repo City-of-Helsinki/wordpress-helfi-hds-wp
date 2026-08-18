@@ -79,7 +79,7 @@ function setup_maintenance_template( string $template ): void {
 		\add_action( 'helsinki_maintenance_header', __NAMESPACE__ . '\\render_inline_wrap_open', 5 );
 		\add_action( 'helsinki_maintenance_header', __NAMESPACE__ . '\\render_site_logo', 10 );
 		\add_action( 'helsinki_maintenance_header', __NAMESPACE__ . '\\render_site_title', 20 );
-		\add_action( 'helsinki_maintenance_header', __NAMESPACE__ . '\\render_inline_wrap_close', 25 );
+		\add_action( 'helsinki_maintenance_header', __NAMESPACE__ . '\\render_inline_wrap_close', 50 );
 
 		\add_action( 'helsinki_maintenance_main', __NAMESPACE__ . '\\render_site_content', 10 );
 
@@ -87,7 +87,7 @@ function setup_maintenance_template( string $template ): void {
 		\add_action( 'helsinki_maintenance_footer', __NAMESPACE__ . '\\render_inline_wrap_open', 5 );
 		\add_action( 'helsinki_maintenance_footer', __NAMESPACE__ . '\\render_site_logo', 10 );
 		\add_action( 'helsinki_maintenance_footer', __NAMESPACE__ . '\\render_site_copyright', 20 );
-		\add_action( 'helsinki_maintenance_footer', __NAMESPACE__ . '\\render_inline_wrap_close', 25 );
+		\add_action( 'helsinki_maintenance_footer', __NAMESPACE__ . '\\render_inline_wrap_close', 50 );
 
 		/**
 		  * Mimic wp_head, wp_footer and wp_enqueue_scripts

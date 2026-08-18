@@ -12,7 +12,7 @@
 }
 
 .inline-wrap {
-  align-items: var(--align-items, normal);
+  align-items: var(--align-items, flex-start);
   display: flex;
   flex-direction: var(--flex-direction, column);
   gap: functions.spacing('s');
@@ -105,4 +105,11 @@
       fill: var(--background-color);
     }
   }
+
+  @include mixins.breakpoint('m') {
+    .copyright + * {
+      border-left: 1px solid functions.color('white');
+      padding-left: functions.spacing('s');
+    }
+	}
 }
