@@ -56,11 +56,25 @@ function provide_maintenance_template( mixed $template ): mixed {
 
 function setup_maintenance_template( string $template ): void {
 	if ( maintenance_template_path() === $template ) {
-		\add_action( 'helsinki_maintenance_assets', __NAMESPACE__ . '\\enqueue_styles' );
+		/**
+		  * Integrations
+		  */
+		\add_filter( 'helsinki_wp_public_scripts_enabled', '__return_false' );
+		\add_filter( 'helsinki_wp_common_scripts_enabled', '__return_false' );
+
+		\add_filter( 'helsinki_theme_should_enqueue_assets', '__return_false' );
+		\add_filter( 'helsinki_feedback_enabled', '__return_false' );
+		\add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\dequeue_assets', 1000 );
+
+		/**
+		  * Template setup
+		  */
+		\add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\enqueue_styles' );
 
 		\add_action( 'helsinki_maintenance', __NAMESPACE__ . '\\send_maintenance_headers' );
 
-		\add_action( 'helsinki_maintenance_head', __NAMESPACE__ . '\\enqueue_assets', 1 );
+		\add_action( 'helsinki_maintenance_head', __NAMESPACE__ . '\\enqueue_assets', 0 );
+		\add_action( 'helsinki_maintenance_head', 'wp_enqueue_scripts', 1 );
 
 		\add_action( 'helsinki_maintenance_header', __NAMESPACE__ . '\\render_inline_wrap_open', 5 );
 		\add_action( 'helsinki_maintenance_header', __NAMESPACE__ . '\\render_site_logo', 10 );
@@ -92,7 +106,6 @@ function setup_maintenance_template( string $template ): void {
 		\add_action( 'helsinki_maintenance_assets', 'wp_enqueue_global_styles' );
 
 		\add_action( 'helsinki_maintenance_head', 'wp_enqueue_img_auto_sizes_contain_css_fix', 0 );
-		\add_action( 'helsinki_maintenance_head', 'wp_print_auto_sizes_contain_css_fix', 1 );
 		\add_action( 'helsinki_maintenance_head', 'wp_maybe_inline_styles', 1 );
 		\add_action( 'helsinki_maintenance_bottom', 'wp_maybe_inline_styles', 1 );
 
@@ -119,6 +132,23 @@ function send_maintenance_headers( Maintenance_Page $page ): void {
 
 function enqueue_assets(): void {
 	\do_action( 'helsinki_maintenance_assets' );
+}
+
+function dequeue_assets(): void {
+	\wp_dequeue_style( 'sbi_styles' );
+
+	\wp_dequeue_style( 'contact-form-7' );
+	\wp_dequeue_script( 'contact-form-7' );
+
+	\wp_dequeue_style( 'ctf_styles' );
+
+	\wp_dequeue_style( 'cff' );
+	\wp_dequeue_script( 'cffscripts' );
+
+	\wp_dequeue_style( 'privatewebsite-wp-styles' );
+	\wp_dequeue_script( 'privatewebsite-wp-scripts' );
+
+	\wp_dequeue_script( 'helsinki-theme-askem' );
 }
 
 function enqueue_styles(): void {
