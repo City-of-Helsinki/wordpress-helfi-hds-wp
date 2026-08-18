@@ -29,7 +29,17 @@ final class Maintenance_Page
 		return $this->get_value( __FUNCTION__, '' );
 	}
 
+	public function site_language(): string
+	{
+		return $this->get_value( __FUNCTION__, '' );
+	}
+
 	public function site_title(): string
+	{
+		return $this->get_value( __FUNCTION__, '' );
+	}
+
+	public function site_name(): string
 	{
 		return $this->get_value( __FUNCTION__, '' );
 	}

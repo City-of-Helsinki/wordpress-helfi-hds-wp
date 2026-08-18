@@ -12,6 +12,8 @@ class Assets extends Module {
 		add_action( 'customize_register', array( $this, 'modify_customizer' ) );
 
 		if ( $this->config->value('is_admin') ) {
+			add_filter( 'helsinki_wp_common_scripts_enabled', '__return_true', 5 );
+
 			add_action( 'admin_enqueue_scripts', array( $this, 'adminScripts' ), 1 );
 			add_action( 'admin_enqueue_scripts', array( $this, 'commonScripts' ), 1 );
 			add_action( 'enqueue_block_editor_assets', array( $this, 'adminStyles' ) );
@@ -28,16 +30,11 @@ class Assets extends Module {
 
 		if ( $this->config->value('fonts') ) {
 			add_action( 'enqueue_block_assets', array( $this, 'fonts' ) );
-
-			add_action( 'helsinki_maintenance_assets', array( $this, 'fonts' ) );
 		}
 
 		if ( $this->config->value('styles') ) {
 			add_action( 'enqueue_block_assets', array( $this, 'commonStyles' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'publicStyles' ), 11 );
-
-			add_action( 'helsinki_maintenance_assets', array( $this, 'commonStyles' ) );
-			add_action( 'helsinki_maintenance_assets', array( $this, 'publicStyles' ), 11 );
 		}
 
 		if ( $this->config->value('favicon') ) {
@@ -119,118 +116,131 @@ class Assets extends Module {
 
 	public function adminScripts(): void
 	{
-		wp_enqueue_script(
-			'helsinki-wp-admin',
-			$this->assetUrl('admin', 'scripts', $this->minified, 'js'),
-			apply_filters( 'hds_wp_admin_scripts_dependencies', array() ),
-			$this->assetVersion( $this->assetPath('admin', 'scripts', $this->minified, 'js') ),
-			true
-		);
-		wp_set_script_translations(
-			'helsinki-wp-admin',
-			'hds-wp',
-			untrailingslashit( PLUGIN_PATH ) . DIRECTORY_SEPARATOR . 'languages'
-		);
+		if ( \apply_filters( 'helsinki_wp_admin_scripts_enabled', true ) ) {
+			wp_enqueue_script(
+				'helsinki-wp-admin',
+				$this->assetUrl('admin', 'scripts', $this->minified, 'js'),
+				apply_filters( 'hds_wp_admin_scripts_dependencies', array() ),
+				$this->assetVersion( $this->assetPath('admin', 'scripts', $this->minified, 'js') ),
+				true
+			);
+			wp_set_script_translations(
+				'helsinki-wp-admin',
+				'hds-wp',
+				untrailingslashit( PLUGIN_PATH ) . DIRECTORY_SEPARATOR . 'languages'
+			);
 
-		$pluginUrl = plugin_dir_url(__FILE__);
-		$pluginUrl = str_replace('/class', '/src/admin/js/blocks', $pluginUrl);
+			$pluginUrl = plugin_dir_url(__FILE__);
+			$pluginUrl = str_replace('/class', '/src/admin/js/blocks', $pluginUrl);
 
-		wp_localize_script('helsinki-wp-admin', 'hds_wp', array(
-			'hasInvertedColor' => function_exists('helsinki_scheme_has_invert_color') ? helsinki_scheme_has_invert_color() : false,
-			'blocksUrl' => $pluginUrl,
-		));
-
+			wp_localize_script('helsinki-wp-admin', 'hds_wp', array(
+				'hasInvertedColor' => function_exists('helsinki_scheme_has_invert_color') ? helsinki_scheme_has_invert_color() : false,
+				'blocksUrl' => $pluginUrl,
+			));
+		}
 	}
 
 	public function adminStyles(): void
 	{
-		wp_enqueue_style(
-			'helsinki-wp-admin',
-			$this->assetUrl('admin', 'styles', $this->minified, 'css'),
-			apply_filters( 'hds_wp_admin_styles_dependencies', array( 'helsinki-wp' ) ),
-			$this->assetVersion( $this->assetPath('admin', 'styles', $this->minified, 'css') ),
-			'all'
-		);
+		if ( \apply_filters( 'helsinki_wp_admin_styles_enabled', true ) ) {
+			wp_enqueue_style(
+				'helsinki-wp-admin',
+				$this->assetUrl('admin', 'styles', $this->minified, 'css'),
+				apply_filters( 'hds_wp_admin_styles_dependencies', array( 'helsinki-wp' ) ),
+				$this->assetVersion( $this->assetPath('admin', 'styles', $this->minified, 'css') ),
+				'all'
+			);
 
-		$inline_styles = apply_filters( 'helsinki_wp_admin_inline_styles', '' );
-		if ( $inline_styles ) {
-			wp_add_inline_style( 'helsinki-wp-admin', $inline_styles );
+			$inline_styles = apply_filters( 'helsinki_wp_admin_inline_styles', '' );
+			if ( $inline_styles ) {
+				wp_add_inline_style( 'helsinki-wp-admin', $inline_styles );
+			}
 		}
 	}
 
 	public function publicScripts(): void
 	{
-		wp_enqueue_script(
-			'helsinki-wp-public',
-			$this->assetUrl('public', 'scripts', $this->minified, 'js'),
-			apply_filters( 'hds_wp_scripts_dependencies', array('jquery', 'wp-i18n') ),
-			$this->assetVersion( $this->assetPath('public', 'scripts', $this->minified, 'js') ),
-			true
-		);
+		if ( \apply_filters( 'helsinki_wp_public_scripts_enabled', true ) ) {
+			wp_enqueue_script(
+				'helsinki-wp-public',
+				$this->assetUrl('public', 'scripts', $this->minified, 'js'),
+				apply_filters( 'hds_wp_scripts_dependencies', array('jquery', 'wp-i18n') ),
+				$this->assetVersion( $this->assetPath('public', 'scripts', $this->minified, 'js') ),
+				true
+			);
 
-		wp_localize_script('helsinki-wp-public', 'hds_wp', array(
-			'cross' => Svg::icon('arrows-operators', 'cross'),
-			'paperclip' => Svg::icon('forms-data', 'paperclip'),
-			'remove' => __('Remove', 'hds-wp'),
-			'alert-circle' => Svg::icon('notifications-expressions', 'alert-circle'),
-			'info-circle' => Svg::icon('notifications-expressions', 'info-circle'),
-			'check-circle' => Svg::icon('notifications-expressions', 'check-circle'),
-			'error' => Svg::icon('notifications-expressions', 'error'),
-			'follow_on_facebook' => __('Follow on Facebook', 'hds-wp'),
-			'external_link_icon' => function_exists('helsinki_get_svg_icon') ? helsinki_get_svg_icon('link-external', 'inline-icon', __('(Link leads to external service)', 'helsinki-universal')) : Svg::icon('blocks', 'link-external'),
-		) );
+			wp_localize_script('helsinki-wp-public', 'hds_wp', array(
+				'cross' => Svg::icon('arrows-operators', 'cross'),
+				'paperclip' => Svg::icon('forms-data', 'paperclip'),
+				'remove' => __('Remove', 'hds-wp'),
+				'alert-circle' => Svg::icon('notifications-expressions', 'alert-circle'),
+				'info-circle' => Svg::icon('notifications-expressions', 'info-circle'),
+				'check-circle' => Svg::icon('notifications-expressions', 'check-circle'),
+				'error' => Svg::icon('notifications-expressions', 'error'),
+				'follow_on_facebook' => __('Follow on Facebook', 'hds-wp'),
+				'external_link_icon' => function_exists('helsinki_get_svg_icon') ? helsinki_get_svg_icon('link-external', 'inline-icon', __('(Link leads to external service)', 'helsinki-universal')) : Svg::icon('blocks', 'link-external'),
+			) );
+		}
 	}
 
 	public function publicStyles(): void
 	{
-		wp_enqueue_style(
-			'helsinki-wp-public',
-			$this->assetUrl('public', 'styles', $this->minified, 'css'),
-			apply_filters( 'hds_wp_styles_dependencies', array( 'helsinki-wp' ) ),
-			$this->assetVersion( $this->assetPath('public', 'styles', $this->minified, 'css') ),
-			'all'
-		);
+		if ( \apply_filters( 'helsinki_wp_public_styles_enabled', true ) ) {
+			wp_enqueue_style(
+				'helsinki-wp-public',
+				$this->assetUrl('public', 'styles', $this->minified, 'css'),
+				apply_filters( 'hds_wp_styles_dependencies', array( 'helsinki-wp' ) ),
+				$this->assetVersion( $this->assetPath('public', 'styles', $this->minified, 'css') ),
+				'all'
+			);
+		}
 	}
 
 	public function commonStyles(): void
 	{
-		\wp_enqueue_style(
-			'helsinki-wp',
-			$this->assetUrl( 'common', 'hds', $this->minified, 'css' ),
-			apply_filters( 'hds_wp_styles_dependencies', array() ),
-			$this->assetVersion( $this->assetPath( 'common', 'hds', $this->minified, 'css' ) ),
-			'all'
-		);
+		if ( \apply_filters( 'helsinki_wp_common_styles_enabled', true ) ) {
+			\wp_enqueue_style(
+				'helsinki-wp',
+				$this->assetUrl( 'common', 'hds', $this->minified, 'css' ),
+				apply_filters( 'hds_wp_styles_dependencies', array() ),
+				$this->assetVersion( $this->assetPath( 'common', 'hds', $this->minified, 'css' ) ),
+				'all'
+			);
 
-		\wp_enqueue_style(
-			'helsinki-wp-blocks',
-			$this->assetUrl( 'common', 'blocks', $this->minified, 'css' ),
-			apply_filters( 'hds_wp_styles_dependencies', array( 'helsinki-wp' ) ),
-			$this->assetVersion( $this->assetPath( 'common', 'blocks', $this->minified, 'css' ) ),
-			'all'
-		);
+			\wp_enqueue_style(
+				'helsinki-wp-blocks',
+				$this->assetUrl( 'common', 'blocks', $this->minified, 'css' ),
+				apply_filters( 'hds_wp_styles_dependencies', array( 'helsinki-wp' ) ),
+				$this->assetVersion( $this->assetPath( 'common', 'blocks', $this->minified, 'css' ) ),
+				'all'
+			);
+		}
 	}
 
 	public function commonScripts(): void
 	{
-		wp_enqueue_script(
-			'helsinki-wp',
-			$this->assetUrl('common', 'scripts', $this->minified, 'js'),
-			apply_filters( 'hds_wp_common_scripts_dependencies', array('jquery') ),
-			$this->assetVersion( $this->assetPath('common', 'scripts', $this->minified, 'js') ),
-			true
-		);
+		if ( \apply_filters( 'helsinki_wp_common_scripts_enabled', true ) ) {
+			wp_enqueue_script(
+				'helsinki-wp',
+				$this->assetUrl('common', 'scripts', $this->minified, 'js'),
+				apply_filters( 'hds_wp_common_scripts_dependencies', array('jquery') ),
+				$this->assetVersion( $this->assetPath('common', 'scripts', $this->minified, 'js') ),
+				true
+			);
+		}
 	}
 
 	public function fonts(): void
 	{
-		\wp_enqueue_style(
-			'helsinki-wp-fonts',
-			'https://hds.hel.fi/fonts/fonts.css',
-			array(),
-			'5.0.0',
-			'all'
-		);
+		if ( \apply_filters( 'helsinki_wp_fonts_enabled', true ) ) {
+			\wp_enqueue_style(
+				'helsinki-wp-fonts',
+				'https://hds.hel.fi/fonts/fonts.css',
+				array(),
+				'5.0.0',
+				'all'
+			);
+		}
 	}
 
 	public function favicon(): string
