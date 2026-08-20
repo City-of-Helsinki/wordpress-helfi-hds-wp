@@ -4060,6 +4060,23 @@ function hdsIcons(name) {
   }, 'tableEditorWrapperExtraClass');
   wp.hooks.addFilter('editor.BlockListBlock', 'table/custom-editor-wrapper-class', tableEditorWrapperExtraClass);
 })(window.wp);
+(function (_wp) {
+  if ((_wp = wp) !== null && _wp !== void 0 && _wp.hooks) {
+    wp.hooks.addFilter('blocks.registerBlockType', 'hds-wp/block-typography-settings', function (settings, name) {
+      var _settings$supports;
+      if (settings !== null && settings !== void 0 && (_settings$supports = settings.supports) !== null && _settings$supports !== void 0 && _settings$supports.typography) {
+        return Object.assign({}, settings, {
+          supports: Object.assign(settings.supports, {
+            typography: Object.assign(settings.supports.typography, {
+              __experimentalFontFamily: false
+            })
+          })
+        });
+      }
+      return settings;
+    }, 0);
+  }
+})();
 wp.domReady(function () {
   /* Disable default formats */
   wp.richText.unregisterFormatType('core/text-color');
