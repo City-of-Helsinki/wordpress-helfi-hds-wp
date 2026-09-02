@@ -19,6 +19,15 @@ class BlockEditor extends Module
 
 	public function init()
 	{
+		\add_action(
+			'admin_init',
+			array( $this, 'disable_font_library_page' )
+		);
+		\add_action(
+			'admin_init',
+			array( $this, 'redirect_font_library_page' )
+		);
+
 		\add_filter( 'wp_theme_json_data_theme', array( $this, 'theme_json' ) );
 
 		\add_filter( 'block_editor_settings_all', array( $this, 'disable_code_editor' ) );
@@ -55,6 +64,21 @@ class BlockEditor extends Module
 		}
 
 		return $args;
+	}
+
+	public function disable_font_library_page(): void
+	{
+		\remove_submenu_page( 'themes.php', 'font-library.php' );
+	}
+
+	public function redirect_font_library_page(): void
+	{
+		global $pagenow;
+
+		if ( 'font-library.php' === $pagenow ) {
+			\wp_redirect( \admin_url( '/' ), 301 );
+			exit;
+		}
 	}
 
 	public function theme_json( WP_Theme_JSON_Data $theme_json ): WP_Theme_JSON_Data

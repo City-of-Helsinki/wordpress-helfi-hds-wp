@@ -17,6 +17,8 @@ class Blocks extends Module
 		\add_filter( 'init', array( $this, 'custom_block_styles' ) );
 
 		\add_filter( 'allowed_block_types_all', array( $this, 'setupAllowedBlocks' ), 10, 2 );
+
+		\add_filter( 'block_type_metadata', array( $this, 'default_block_supports' ) );
 	}
 
 	public function register(): void
@@ -235,5 +237,27 @@ class Blocks extends Module
 	protected function disallowedBlocksConfig(): array
 	{
 		return apply_filters( 'helsinki_wp_disallowed_blocks', array() );
+	}
+
+	public function default_block_supports( array $metadata ): array
+	{
+		if ( ! isset( $metadata['supports'] ) ) {
+			$metadata['supports'] = array();
+		}
+
+		$metadata['supports']['customCSS'] = false;
+		$metadata['supports']['customClassName'] = false;
+
+		if ( $this->uses_fit_text( $metadata ) ) {
+			$metadata['supports']['typography']['fitText'] = false;
+		}
+
+		return $metadata;
+	}
+
+	private function uses_fit_text( array $metadata ): bool
+	{
+		return 'core/paragraph' === $metadata['name']
+			|| 'core/heading'=== $metadata['name'];
 	}
 }

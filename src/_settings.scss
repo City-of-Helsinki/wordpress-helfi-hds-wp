@@ -21,13 +21,8 @@ $error: var(--color-error) !default;
 $alert: var(--color-alert) !default;
 
 /* ========== BREAKPOINTS ========== */
-$breakpoints: (
-	xs: 320px,
-	s: 576px,
-	m: 768px,
-	l: 992px,
-	xl: 1248px,
-);
+
+@import "settings/breakpoints";
 
 /* ========== BORDERS ========== */
 $default-border-radius: 24px !default;

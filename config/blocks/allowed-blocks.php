@@ -12,7 +12,7 @@ return array(
 		'core/buttons' => true,
 		'core/file' => true,
 		'core/gallery' => true,
-		'core/heading' => array( 'heading' ),
+		'core/heading' => array( 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' ),
 		'core/image' => true,
 		'core/list' => true,
 		'core/list-item' => true,

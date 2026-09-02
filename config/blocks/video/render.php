@@ -4,6 +4,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
 
+use ArtCloud\Helsinki\Plugin\HDS\Builders\EmbeddedFigureBuilder;
+
 function hds_wp_render_video( $attributes ) {
 	$content = '';
 
@@ -33,41 +35,21 @@ function hds_wp_render_video( $attributes ) {
 		: $attributes['iframeUrl'];
 
 	if ( $url ) {
-		$id = esc_attr( 'hds-video-' . $attributes['blockId'] );
+		$figure = (new EmbeddedFigureBuilder())
+			->id( 'hds-video-' . $attributes['blockId'] )
+			->type( 'video' )
+			->source( $url )
+			->caption( $attributes['videoDescription'] )
+			->skip_link_before( __( 'Move below the video', 'hds-wp' ) )
+			->skip_link_after( __( 'Move above the video', 'hds-wp' ) )
+			->aspect_ratio_16_9()
+			->with_container();
 
-		$caption = '';
-		if ( $attributes['videoDescription'] ) {
-			$caption = sprintf(
-				'<figcaption>%s</figcaption>',
-				esc_html( $attributes['videoDescription'] )
-			);
+		foreach ( hds_wp_video_iframe_attributes( $attributes ) as $key => $value ) {
+			$figure->attribute( $key, $value );
 		}
 
-		$content .= sprintf(
-			'<div class="hds-video__container">
-				<figure class="wp-block-embed wp-has-aspect-ratio wp-embed-aspect-16-9">
-					%1$s
-					<div class="wp-block-embed__wrapper">
-						<iframe src="%2$s" title="Video: %3$s" width="1000" height="563" scrolling="no" allowfullscreen="true" sandbox="allow-scripts allow-presentation allow-same-origin"></iframe>
-					</div>
-					%4$s
-					%5$s
-				</figure>
-			</div>',
-			sprintf(
-				'<a href="#%1$s-after" id="%1$s-before" class="focusable skip-link skip-link--video--before">%2$s</a>',
-				$id,
-				esc_html__( 'Move below the video', 'hds-wp' ),
-			),
-			esc_url( $url ),
-			esc_attr( $attributes['assistive_title'] ),
-			sprintf(
-				'<a href="#%1$s-before" id="%1$s-after" class="focusable skip-link skip-link--video--after">%2$s</a>',
-				$id,
-				esc_html__( 'Move above the video', 'hds-wp' ),
-			),
-			$caption
-		);
+		$content .= $figure->render();
 	}
 
 	if ( $content ) {
@@ -86,4 +68,19 @@ function hds_wp_render_video( $attributes ) {
 	}
 
 	return '';
+}
+
+function hds_wp_video_iframe_attributes( array $attributes ): array {
+	return array(
+		'title' => sprintf(
+			'Video: %s',
+			__( 'Diagram', 'hds-wp' ),
+			$attributes['assistive_title']
+		),
+		'width' => '1000',
+		'height' => '563',
+		'scrolling' => 'no',
+		'allowfullscreen' => 'true',
+		'sandbox' => 'allow-scripts allow-presentation allow-same-origin',
+	);
 }

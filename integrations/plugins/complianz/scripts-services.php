@@ -25,3 +25,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	return $services;
 } );
+
+\add_filter( 'cmplz_whitelisted_script_tags', function( $whitelisted_script_tags ) {
+	$whitelisted_script_tags[] = 'https://palvelukartta.hel.fi/';
+
+	return $whitelisted_script_tags;
+} );
