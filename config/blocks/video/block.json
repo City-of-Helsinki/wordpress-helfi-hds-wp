@@ -1,6 +1,6 @@
 {
   "apiVersion": 3,
-  "title": "Helsinki - Video",
+  "title": "Helsinki - Video embed",
   "description": "Embed a video from the Helsinki-kanava or YouTube.",
   "name": "hds-wp/video",
   "icon": "video-alt3",

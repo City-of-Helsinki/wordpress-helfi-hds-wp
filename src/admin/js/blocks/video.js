@@ -13,7 +13,7 @@
   const {store} = wp.notices;
 
   registerBlockType('hds-wp/video', {
-    title: __('Helsinki - Video', 'hds-wp'),
+    title: __('Helsinki - Video embed', 'hds-wp'),
     edit: edit,
     example: {
       attributes: {
@@ -132,7 +132,7 @@
   }
 
   function createRequiredError(handler, title, name, clientId) {
-    handler([__('Helsinki - Video', 'hds-wp'), title].join(': '), {
+    handler([__('Helsinki - Video embed', 'hds-wp'), title].join(': '), {
       type: 'default',
       id: [name, clientId].join('-'),
       isDismissible: false,

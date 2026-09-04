@@ -4,7 +4,7 @@ namespace ArtCloud\Helsinki\Plugin\HDS;
 /**
   * Plugin Name: WordPress Helsinki
   * Description: Provides common Helsinki styles, assets and blocks, and integrations to Helsinki APIs and various plugins.
-  * Version: 3.3.0
+  * Version: 3.4.0
   * License: GPLv3
   * Requires at least: 6.9
   * Requires PHP:      8.2
@@ -62,8 +62,30 @@ function autoloader( $class ) {
 		return;
 	}
 
-	$class = str_replace( __NAMESPACE__, '', $class );
-	$file = str_replace( '\\', DIRECTORY_SEPARATOR, path_to_file( 'class' . $class ) );
+	$parts = array_filter(
+		explode(
+			DIRECTORY_SEPARATOR,
+			str_replace(
+				array( __NAMESPACE__, '\\' ),
+				array( '', DIRECTORY_SEPARATOR ),
+				$class
+			)
+		)
+	);
+
+	if ( $parts[1] === 'Features' ) {
+		$class = str_replace( '_', '-', strtolower( array_pop( $parts ) ) );
+
+		$parts = array_merge(
+			array_map( 'strtolower', $parts ),
+			array( 'class-' . $class )
+		);
+	} else {
+		$parts = array( 'class', ...$parts );
+	}
+
+	$file = path_to_file( implode( DIRECTORY_SEPARATOR, $parts ) );
+
 	if ( file_exists( $file ) ) {
 		require_once $file;
 	}
@@ -85,8 +107,11 @@ function complianz_integration(): void {
 }
 
 add_action( 'plugins_loaded', __NAMESPACE__ . '\\prepare', 11 );
-function prepare() {
-	require_once \plugin_dir_path( __FILE__ ) . 'functions/filters.php';
+function prepare(): void {
+	$path = \plugin_dir_path( __FILE__ );
+
+	require_once $path . 'functions/filters.php';
+	require_once $path . 'features/maintenance/setup.php';
 
 	ModuleFactory::instance(
 		ConfigLoader::instance( config_path() )
@@ -228,6 +253,8 @@ function init() {
 	);
 
 	ModuleFactory::module( 'SvgProvider' )->init();
+
+	\do_action( 'helsinki_wp_setup', $compatibility );
 }
 
 add_filter( 'helsinki_wp_current_language', __NAMESPACE__ . '\\provide_current_language', 5 );
@@ -238,7 +265,7 @@ function provide_current_language( string $language ): string {
 }
 
 add_action( 'init', __NAMESPACE__ . '\\textdomain' );
-function textdomain() {
+function textdomain(): void {
 	load_plugin_textdomain(
 		'hds-wp',
 		false,
@@ -247,7 +274,7 @@ function textdomain() {
 }
 
 add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\\admin_script_translations', 9999 );
-function admin_script_translations() {
+function admin_script_translations(): void {
     wp_set_script_translations(
         'helsinki-wp-admin',
         'hds-wp',
@@ -256,7 +283,7 @@ function admin_script_translations() {
 }
 
 add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\public_script_translations', 9999 );
-function public_script_translations() {
+function public_script_translations(): void {
     wp_set_script_translations(
         'helsinki-wp',
         'hds-wp',

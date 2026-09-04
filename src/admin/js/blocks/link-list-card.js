@@ -197,7 +197,7 @@
                 setTitleError(value ? false : true),
                 setTitleLengthError(value.length < 65 ? false : true)
               )}
-              placeholder={__('This is the title*', 'hds-wp')}
+              placeholder={__('This is the title', 'hds-wp') + '*'}
               allowedFormats={[]}
             />
             <div className="hds-links-list-card__links">

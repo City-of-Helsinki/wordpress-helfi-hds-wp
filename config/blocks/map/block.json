@@ -1,6 +1,6 @@
 {
     "apiVersion": 3,
-    "title": "Helsinki - Map",
+    "title": "Helsinki - Map embed",
     "description": "Embed the map from Palvelukartasta or Karttapalvelusta.",
     "name": "hds-wp/map",
     "icon": "location-alt",

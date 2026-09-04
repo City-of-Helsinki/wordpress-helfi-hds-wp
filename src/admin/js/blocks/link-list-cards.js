@@ -146,7 +146,7 @@
                 setAttributes({title: value}),
                 setTitleError(value ? false : true)
               )}
-              placeholder={__('This is the title*', 'hds-wp')}
+              placeholder={__('This is the title', 'hds-wp') + '*'}
               allowedFormats={[]}
             />
             <div {...innerBlocksProps} />

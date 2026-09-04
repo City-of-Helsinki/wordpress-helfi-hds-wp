@@ -4,6 +4,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
 
+use ArtCloud\Helsinki\Plugin\HDS\Builders\EmbeddedFigureBuilder;
+
 function hds_wp_render_map( array $attributes ): string {
 	$content = '';
 
@@ -22,42 +24,22 @@ function hds_wp_render_map( array $attributes ): string {
 	}
 
 	if ( $attributes['url'] ) {
-		$content .= '<div class="hds-map__container">';
+		$figure = (new EmbeddedFigureBuilder())
+			->id( 'hds-diagram-' . $attributes['blockId'] )
+			->type( 'map' )
+			->source( $attributes['url'] )
+			->skip_link_before( __( 'Move below the map', 'hds-wp' ) )
+			->skip_link_after( __( 'Move above the map', 'hds-wp' ) )
+			->attribute( 'title', $attributes['assistive_title'] )
+			// ->aspect_ratio_16_9()
+			->with_container();
 
-		$id = 'hds-map-' . $attributes['blockId'];
-
-		$content .= hds_wp_block_skip_link(
-			$id,
-			'map',
-			'before',
-			'after',
-			__( 'Move below the map', 'hds-wp' )
-		);
-
-		$content .= sprintf(
-			'<iframe src="%s" title="%s"></iframe>',
-			esc_url( $attributes['url'] ),
-			esc_attr( $attributes['assistive_title'] )
-		);
-
-		$content .= hds_wp_block_skip_link(
-			$id,
-			'map',
-			'after',
-			'before',
-			__( 'Move above the map', 'hds-wp' )
-		);
-
-		$linkUrl = hds_wp_format_map_external_url( $attributes['url'] );
-		if ( $linkUrl ) {
-			$content .= sprintf(
-				'<a href="%s" target="_blank" class="block-embed-external-link" rel="noopener">%s</a>',
-				esc_url( $linkUrl ),
-				esc_html__( 'Open map in new window', 'hds-wp' )
-			);
+		$ext_url = hds_wp_format_map_external_url( $attributes['url'] );
+		if ( $ext_url ) {
+			$figure->external_link( $ext_url, __( 'Open map in new window', 'hds-wp' ) );
 		}
 
-		$content .= '</div>';
+		$content .= $figure->render();
 	}
 
 	return $content ? sprintf(
