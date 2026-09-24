@@ -8,21 +8,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-use function ArtCloud\Helsinki\Plugin\HDS\plugin_version;
 use WP_Error;
+use WP_REST_Request;
 use WP_REST_Response;
+use WP_REST_Server;
 use WP_Http;
+use Exception;
 
 final class Taxonomy_Order_Settings
 {
 	const string MENU_PAGE_SLUG = 'helsinki-custom-taxonomy-order';
-	const string TAX_ORDER_SETTING = 'helsinki-custom-taxonomy-order';
 	const string REST_ROUTE = 'helsinki-custom-taxonomy-order';
 
 	private array $rest_routes;
 
 	public function __construct(
-		private CPT_Data $cptui,
+		private CPT_Taxonomy_Order $cpt_tax_order,
+		private bool $is_debug,
+		private string $plugin_version,
 		private string $required_permission,
 		string $base_rest_route
 	) {
@@ -48,13 +51,13 @@ final class Taxonomy_Order_Settings
 
 			\wp_enqueue_script(
 				self::MENU_PAGE_SLUG,
-				\plugin_dir_url( __FILE__ ) . 'assets/js/settings.js',
+				\plugin_dir_url( __FILE__ ) . 'assets/settings.js',
 				array(
 					'wp-element',
 					'wp-components',
 					'wp-api-fetch',
 				),
-				plugin_version(),
+				$this->plugin_version,
 				array(
 					'strategy' => 'defer',
 					'in_footer' => true,
@@ -82,19 +85,16 @@ final class Taxonomy_Order_Settings
 	{
 		$data = array(
 			'menuPageSlug' => self::MENU_PAGE_SLUG,
-			'settingName' => self::TAX_ORDER_SETTING,
-			'appRoot' => self::TAX_ORDER_SETTING,
+			'settingName' => $this->cpt_tax_order->setting_name(),
+			'appRoot' => $this->cpt_tax_order->setting_name(),
 			'rest' => array(
 				'routes' => array(),
 				'nonce' => \wp_create_nonce( 'wp_rest' ),
 			),
 		);
 
-		foreach ( $this->rest_routes as $route ) {
-			$key = $route['args']['methods'];
-			$path = $route['namespace'] . $route['name'];
-
-			$data['rest']['routes'][$key] = $path;
+		foreach ( $this->rest_routes as $key => $route ) {
+			$data['rest']['routes'][$key] = $route['namespace'] . $route['name'];
 		}
 
 		return $data;
@@ -105,11 +105,13 @@ final class Taxonomy_Order_Settings
 		return array(
 			'ui' => array(
 				'loading' => __( 'Loading...', 'hds-wp' ),
+				'save' => __( 'Save', 'hds-wp' ),
 			),
 			'postTypes' => array(
 				'none' => __( 'No registered custom post types.', 'hds-wp' ),
 			),
 			'taxonomies' => array(
+				'title' => __( 'Taxonomy', 'hds-wp' ),
 				'none' => __( 'No registered custom taxonomies.', 'hds-wp' ),
 			),
 		);
@@ -124,7 +126,7 @@ final class Taxonomy_Order_Settings
 				<div id="%2$s"></div>
 			</div>',
 			\esc_html( __( 'Taxonomy order', 'hds-wp' ) ),
-			self::TAX_ORDER_SETTING
+			$this->cpt_tax_order->setting_name()
 		);
 	}
 
@@ -132,24 +134,13 @@ final class Taxonomy_Order_Settings
 	{
 		\register_setting(
 			self::MENU_PAGE_SLUG,
-			self::TAX_ORDER_SETTING,
+			$this->cpt_tax_order->setting_name(),
 			array(
 				'type' => 'array',
 				'label' => __( 'Taxonomy order', 'hds-wp' ),
-				'sanitize_callback' => array( $this, 'sanitize_taxonomy_order' ),
-				'show_in_rest' => true,
-				'default' => array(),
+				'default' => $this->cpt_tax_order->default_value(),
 			)
 		);
-	}
-
-	public function sanitize_taxonomy_order( mixed $value ): mixed
-	{
-		if ( is_array( $value ) ) {
-			return array_map( 'sanitize_text_field', $value );
-		}
-
-		return array();
 	}
 
 	private function setup_rest_routes( string $base_rest_route ): void
@@ -161,20 +152,20 @@ final class Taxonomy_Order_Settings
 		);
 
 		$this->rest_routes = array(
-			array(
+			'getSettings' => array(
 				'namespace' => $base_rest_route,
 				'name' => '/settings',
 				'args' => array(
-					'methods'  => 'GET',
+					'methods'  => WP_REST_Server::READABLE,
 					'callback' => array( $this, 'rest_get_settings' ),
 					'permission_callback' => array( $this, 'rest_check_permission' )
 				),
 			),
-			array(
+			'updateSettings' => array(
 				'namespace' => $base_rest_route,
 				'name' => '/settings',
 				'args' => array(
-					'methods'  => 'POST',
+					'methods'  => WP_REST_Server::CREATABLE,
 					'callback' => array( $this, 'rest_post_settings' ),
 					'permission_callback' => array( $this, 'rest_check_permission' )
 				),
@@ -193,18 +184,37 @@ final class Taxonomy_Order_Settings
 		}
 	}
 
-	public function rest_get_settings(): WP_REST_Response|WP_Error
+	public function rest_get_settings( WP_REST_Request $request ): WP_REST_Response|WP_Error
 	{
 		return \rest_ensure_response( array(
-			'postTypes' => $this->cptui->post_types(),
-			'taxonomies' => $this->cptui->taxonomies(),
-			'settings' => array(),
+			'postTypes' => $this->cpt_tax_order->supported_post_types(),
+			'taxonomies' => $this->cpt_tax_order->supported_taxonomies(),
+			'taxonomyOrder' => $this->cpt_tax_order->for_all_post_types(),
 		) );
 	}
 
-	public function rest_post_settings(): WP_REST_Response|WP_Error
+	public function rest_post_settings( WP_REST_Request $request ): WP_REST_Response|WP_Error
 	{
-		return \rest_ensure_response( array() );
+		try {
+			$this->cpt_tax_order->save( $request->get_params() );
+
+			return rest_ensure_response( array(
+				'message' => __( 'Taxonomy orders saved.', 'hds-wp' ),
+			) );
+
+		} catch ( Exception $exception ) {
+			if ( $this->is_debug ) {
+				error_log( $exception->getMessage() );
+			}
+
+			return \rest_ensure_response(
+				new WP_Error(
+					'update_failed',
+					$exception->getMessage(),
+					array( 'status' => $exception->getCode() ?: WP_Http::BAD_REQUEST )
+				)
+			);
+		}
 	}
 
 	public function rest_check_permission(): bool|WP_Error
