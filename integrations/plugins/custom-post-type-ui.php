@@ -8,15 +8,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use function ArtCloud\Helsinki\Plugin\HDS\is_debug;
+use function ArtCloud\Helsinki\Plugin\HDS\plugin_version;
+
 \add_action( 'plugins_loaded', function() {
 
 	if ( did_action( 'cptui_loaded' ) ) {
 
-		$settings = new Taxonomy_Order_Settings( ...array(
-			'cptui' => new CPT_Data(),
-			'required_permission' => 'manage_options',
-			'base_rest_route' => 'helsinki',
-		) );
+		$settings = create_taxonomy_order_settings(
+			create_cpt_taxonomy_order(
+				create_cpt_data()
+			)
+		);
 
 		\add_action(
 			'cptui_extra_menu_items',
@@ -41,3 +44,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 	}
 
 }, 100 );
+
+function create_cpt_data(): CPT_Data {
+	return new CPT_Data();
+}
+
+function create_cpt_taxonomy_order( CPT_Data $cpt_data ): CPT_Taxonomy_Order {
+	return new CPT_Taxonomy_Order( $cpt_data );
+}
+
+function create_taxonomy_order_settings( CPT_Taxonomy_Order $cpt_tax_order ): Taxonomy_Order_Settings {
+	return new Taxonomy_Order_Settings( ...array(
+		'cpt_tax_order' => $cpt_tax_order,
+		'is_debug' => is_debug(),
+		'plugin_version' => plugin_version(),
+		'required_permission' => 'manage_options',
+		'base_rest_route' => 'helsinki',
+	) );
+}
