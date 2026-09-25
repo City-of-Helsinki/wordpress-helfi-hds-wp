@@ -14,7 +14,6 @@ use function ArtCloud\Helsinki\Plugin\HDS\plugin_version;
 \add_action( 'plugins_loaded', function() {
 
 	if ( did_action( 'cptui_loaded' ) ) {
-
 		$settings = create_taxonomy_order_settings(
 			create_cpt_taxonomy_order(
 				create_cpt_data()
@@ -43,14 +42,12 @@ use function ArtCloud\Helsinki\Plugin\HDS\plugin_version;
 		);
 
 		\add_filter( 'template_include', function( string $template ) {
-
 			$locator = create_cpt_template_locator(
 				create_cpt_data(),
 				$template
 			);
 
 			return $locator->locate_template();
-
 		}, 99 );
 	}
 
