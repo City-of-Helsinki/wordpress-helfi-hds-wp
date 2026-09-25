@@ -28,9 +28,7 @@ final class CPT_Template_Locator
 	public function locate_template(): string
 	{
 		if ( $this->is_for_cpt() ) {
-
 			\do_action( 'helsinki_wp_custom_post_type_template', $this );
-
 		}
 
 		return $this->template;
