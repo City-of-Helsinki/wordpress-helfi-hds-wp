@@ -14,11 +14,13 @@ use function ArtCloud\Helsinki\Plugin\HDS\plugin_version;
 \add_action( 'plugins_loaded', function() {
 
 	if ( did_action( 'cptui_loaded' ) ) {
-		$settings = create_taxonomy_order_settings(
-			create_cpt_taxonomy_order(
-				create_cpt_data()
-			)
-		);
+		$data = create_cpt_data();
+		$tax_order = create_cpt_taxonomy_order( $data );
+
+		/*
+		 * Settings
+		 */
+		$settings = create_taxonomy_order_settings( $tax_order );
 
 		\add_action(
 			'cptui_extra_menu_items',
@@ -41,9 +43,10 @@ use function ArtCloud\Helsinki\Plugin\HDS\plugin_version;
 			array( $settings, 'register_settings_routes' )
 		);
 
-		$template_locator = create_cpt_template_locator(
-			create_cpt_data()
-		);
+		/*
+		 * Template
+		 */
+		$template_locator = create_cpt_template_locator( $data );
 
 		\add_action(
 			'template_redirect',
@@ -56,28 +59,23 @@ use function ArtCloud\Helsinki\Plugin\HDS\plugin_version;
 			array( $template_locator, 'include_template' ),
 			10
 		);
+
+		/*
+		 * Helsinkiteema
+		 */
+		\add_action( 'helsinki_setup_cpt_template', function() {
+
+		} );
 	}
 
 }, 100 );
 
 function create_cpt_data(): CPT_Data {
-	static $object;
-
-	if ( ! isset( $object ) ) {
-		$object = new CPT_Data();
-	}
-
-	return $object;
+	return new CPT_Data();
 }
 
 function create_cpt_taxonomy_order( CPT_Data $cpt_data ): CPT_Taxonomy_Order {
-	static $object;
-
-	if ( ! isset( $object ) ) {
-		$object = new CPT_Taxonomy_Order( $cpt_data );
-	}
-
-	return $object;
+	return new CPT_Taxonomy_Order( $cpt_data );
 }
 
 function create_taxonomy_order_settings( CPT_Taxonomy_Order $cpt_tax_order ): Taxonomy_Order_Settings {
