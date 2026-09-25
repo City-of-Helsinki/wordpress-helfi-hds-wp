@@ -12,7 +12,7 @@ use Exception;
 
 final class CPT_Taxonomy_Order
 {
-	const string SETTING_NAME = 'helsinki-custom-taxonomy-order';
+	private array $cached_all;
 
 	public function __construct(
 		private CPT_Data $cpt_data
@@ -20,7 +20,7 @@ final class CPT_Taxonomy_Order
 
 	public function setting_name(): string
 	{
-		return self::SETTING_NAME;
+		return 'helsinki-custom-taxonomy-order';
 	}
 
 	public function default_value(): array
@@ -40,13 +40,17 @@ final class CPT_Taxonomy_Order
 
 	public function for_all_post_types(): array
 	{
-		$saved = \get_option( self::SETTING_NAME );
+		if ( isset( $this->cached_all ) ) {
+			return $this->cached_all;
+		}
 
-		$result = array();
+		$saved = \get_option( $this->setting_name() );
+
+		$this->cached_all = array();
 		foreach ( $this->post_type_taxonomies() as $post_type => $taxonomies ) {
 			$order = $saved[$post_type] ?? array();
 
-			$result[$post_type] = array_values(
+			$this->cached_all[$post_type] = array_values(
 				array_unique(
 					array_merge(
 						array_intersect( $order, $taxonomies ),
@@ -56,12 +60,12 @@ final class CPT_Taxonomy_Order
 			);
 		}
 
-		return $result;
+		return $this->cached_all;
 	}
 
 	public function for_post_type( string $post_type ): array
 	{
-		$taxonomies = $this->all_post_types()[$post_type] ?? null;
+		$taxonomies = $this->for_all_post_types()[$post_type] ?? null;
 
 		return is_array( $taxonomies ) ? $taxonomies : $this->default_value();
 	}
@@ -102,6 +106,8 @@ final class CPT_Taxonomy_Order
 		if ( \get_option( $this->setting_name() ) === $saved ) {
 			return true;
 		}
+
+		unset( $this->cached_all );
 
 		return \update_option( $this->setting_name(), $saved, true );
 	}
