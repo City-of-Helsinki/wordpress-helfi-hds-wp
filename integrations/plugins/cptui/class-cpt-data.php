@@ -10,10 +10,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 final class CPT_Data
 {
+	public function post_type_slugs(): array
+	{
+		return \cptui_get_post_type_slugs() ?: array();
+	}
+
 	public function post_types(): array
 	{
 		return array_reduce(
-			\cptui_get_post_type_slugs(),
+			$this->post_type_slugs(),
 			function( $out, $slug ) {
 				$object = $this->get_post_type( $slug );
 
@@ -42,10 +47,15 @@ final class CPT_Data
 		return null;
 	}
 
+	public function taxonomy_slugs(): array
+	{
+		return \cptui_get_taxonomy_slugs() ?: array();
+	}
+
 	public function taxonomies(): array
 	{
 		return array_reduce(
-			\cptui_get_taxonomy_slugs(),
+			$this->taxonomy_slugs(),
 			function( $out, $slug ) {
 				$object = $this->get_taxonomy( $slug );
 
