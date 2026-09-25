@@ -57,11 +57,23 @@ use function ArtCloud\Helsinki\Plugin\HDS\plugin_version;
 }, 100 );
 
 function create_cpt_data(): CPT_Data {
-	return new CPT_Data();
+	static $object;
+
+	if ( ! isset( $object ) ) {
+		$object = new CPT_Data();
+	}
+
+	return $object;
 }
 
 function create_cpt_taxonomy_order( CPT_Data $cpt_data ): CPT_Taxonomy_Order {
-	return new CPT_Taxonomy_Order( $cpt_data );
+	static $object;
+
+	if ( ! isset( $object ) ) {
+		$object = new CPT_Taxonomy_Order( $cpt_data );
+	}
+
+	return $object;
 }
 
 function create_taxonomy_order_settings( CPT_Taxonomy_Order $cpt_tax_order ): Taxonomy_Order_Settings {
@@ -76,4 +88,8 @@ function create_taxonomy_order_settings( CPT_Taxonomy_Order $cpt_tax_order ): Ta
 
 function create_cpt_template_locator( CPT_Data $cpt_data, string $default_template ): CPT_Template_Locator {
 	return new CPT_Template_Locator( $cpt_data, $default_template );
+}
+
+function create_cpt_terms( CPT_Taxonomy_Order $cpt_tax_order ): CPT_Terms {
+	return new CPT_Terms( $cpt_tax_order );
 }
