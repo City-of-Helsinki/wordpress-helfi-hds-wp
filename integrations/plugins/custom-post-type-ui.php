@@ -41,14 +41,21 @@ use function ArtCloud\Helsinki\Plugin\HDS\plugin_version;
 			array( $settings, 'register_settings_routes' )
 		);
 
-		\add_filter( 'template_include', function( string $template ) {
-			$locator = create_cpt_template_locator(
-				create_cpt_data(),
-				$template
-			);
+		$template_locator = create_cpt_template_locator(
+			create_cpt_data()
+		);
 
-			return $locator->locate_template();
-		}, 99 );
+		\add_action(
+			'template_redirect',
+			array( $template_locator, 'locate_template' ),
+			-1
+		);
+
+		\add_action(
+			'template_include',
+			array( $template_locator, 'include_template' ),
+			10
+		);
 	}
 
 }, 100 );
@@ -83,8 +90,8 @@ function create_taxonomy_order_settings( CPT_Taxonomy_Order $cpt_tax_order ): Ta
 	) );
 }
 
-function create_cpt_template_locator( CPT_Data $cpt_data, string $default_template ): CPT_Template_Locator {
-	return new CPT_Template_Locator( $cpt_data, $default_template );
+function create_cpt_template_locator( CPT_Data $cpt_data ): CPT_Template_Locator {
+	return new CPT_Template_Locator( $cpt_data );
 }
 
 function create_cpt_terms( CPT_Taxonomy_Order $cpt_tax_order ): CPT_Terms {
