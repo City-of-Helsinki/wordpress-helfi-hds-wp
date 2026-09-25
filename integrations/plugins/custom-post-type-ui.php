@@ -63,9 +63,21 @@ use function ArtCloud\Helsinki\Plugin\HDS\plugin_version;
 		/*
 		 * Helsinkiteema
 		 */
-		\add_action( 'helsinki_setup_cpt_template', function() {
+		\add_action(
+			'helsinki_setup_cpt_template',
+			function() use ( $tax_order ) {
+				$template = create_cpt_template(
+					create_cpt_terms( $tax_order )
+				);
 
-		} );
+				\add_action(
+					'helsinki_content_article',
+					array( $template, 'post_terms' ),
+					35
+				);
+
+			}
+		);
 	}
 
 }, 100 );
@@ -94,4 +106,8 @@ function create_cpt_template_locator( CPT_Data $cpt_data ): CPT_Template_Locator
 
 function create_cpt_terms( CPT_Taxonomy_Order $cpt_tax_order ): CPT_Terms {
 	return new CPT_Terms( $cpt_tax_order );
+}
+
+function create_cpt_template( CPT_Terms $cpt_terms ): CPT_Template {
+	return new CPT_Template( $cpt_terms );
 }
