@@ -1,0 +1,33 @@
+{
+  "apiVersion": 3,
+  "title": "Helsinki - Custom Post Type Filter Listing",
+  "description": "Display a filterable list of custom post type posts.",
+  "name": "hds-wp/content-filter-list",
+  "icon": "list-view",
+  "textdomain": "hds-wp",
+  "category": "hds-wp",
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "description": {
+      "type": "string",
+      "default": ""
+    },
+    "postType": {
+      "type": "string",
+      "default": ""
+    },
+    "filterTaxonomies": {
+      "type": "array",
+      "default": []
+    },
+    "entryElements": {
+      "type": "array",
+      "default": []
+    }
+  },
+  "render_callback": "hds_wp_render_content_filter_list",
+  "style": [ "helsinki-wp-blocks" ]
+}
