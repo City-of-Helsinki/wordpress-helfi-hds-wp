@@ -169,9 +169,9 @@
     const {entryElements} = attributes || {};
 
     const options = [
-      {label: __('Image', 'hds-wp' ), value: 'entryImage'},
+      {label: __('Image', 'hds-wp' ), value: 'image'},
       {label: __('Excerpt', 'hds-wp' ), value: 'excerpt'},
-      {label: __('Link to content type\'s page', 'hds-wp' ), value: 'entryLink'},
+      {label: __('Link to content type\'s page', 'hds-wp' ), value: 'link'},
       {label: __('All taxonomies', 'hds-wp' ), value: 'allTaxonomies'},
     ];
 
@@ -243,7 +243,7 @@
 
     useEffect(() => {
       // TODO: from constant
-      apiFetch({path: '/helsinki/helsinki-custom-taxonomy-order/v1/settings'})
+      apiFetch({path: '/helsinki/custom-taxonomy-order/v1/settings'})
         .then(settings => {
           setSettings(settings);
 

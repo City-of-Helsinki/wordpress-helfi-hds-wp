@@ -1655,13 +1655,13 @@ function hdsIcons(name) {
       entryElements = _ref24.entryElements;
     var options = [{
       label: __('Image', 'hds-wp'),
-      value: 'entryImage'
+      value: 'image'
     }, {
       label: __('Excerpt', 'hds-wp'),
       value: 'excerpt'
     }, {
       label: __('Link to content type\'s page', 'hds-wp'),
-      value: 'entryLink'
+      value: 'link'
     }, {
       label: __('All taxonomies', 'hds-wp'),
       value: 'allTaxonomies'
@@ -1753,7 +1753,7 @@ function hdsIcons(name) {
     useEffect(function () {
       // TODO: from constant
       apiFetch({
-        path: '/helsinki/helsinki-custom-taxonomy-order/v1/settings'
+        path: '/helsinki/custom-taxonomy-order/v1/settings'
       }).then(function (settings) {
         setSettings(settings);
         if (Array.isArray(settings === null || settings === void 0 ? void 0 : settings.taxonomies)) {
