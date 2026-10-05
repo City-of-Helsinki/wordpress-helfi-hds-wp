@@ -18,7 +18,7 @@ use Exception;
 final class Taxonomy_Order_Settings
 {
 	const string MENU_PAGE_SLUG = 'helsinki-custom-taxonomy-order';
-	const string REST_ROUTE = 'helsinki-custom-taxonomy-order';
+	const string REST_ROUTE = 'custom-taxonomy-order';
 
 	private array $rest_routes;
 
@@ -228,5 +228,25 @@ final class Taxonomy_Order_Settings
 		}
 
 		return true;
+	}
+
+	public function content_filter_list_taxonomy_order( array $taxonomies, string $post_type ): array
+	{
+		$tax_order = array(
+			'category',
+			'post_tag',
+			...$this->cpt_tax_order->for_post_type( $post_type )
+		);
+
+		$taxonomies = array_flip( $taxonomies );
+		$ordered = array();
+
+		foreach ( $tax_order as $i => $taxonomy ) {
+			if ( isset( $taxonomies[$taxonomy] ) ) {
+				$ordered[$i] = $taxonomy;
+			}
+		}
+
+		return $ordered;
 	}
 }
