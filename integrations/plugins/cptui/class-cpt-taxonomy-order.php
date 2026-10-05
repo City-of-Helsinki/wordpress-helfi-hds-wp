@@ -65,6 +65,10 @@ final class CPT_Taxonomy_Order
 
 	public function for_post_type( string $post_type ): array
 	{
+		if ( ! $post_type ) {
+			return $this->default_value();
+		}
+
 		$taxonomies = $this->for_all_post_types()[$post_type] ?? null;
 
 		return is_array( $taxonomies ) ? $taxonomies : $this->default_value();
