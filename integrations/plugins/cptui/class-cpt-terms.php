@@ -35,6 +35,26 @@ final class CPT_Terms
 		return $out;
 	}
 
+	public function post_categories( int|WP_Post $post ): ?Taxonomy_Terms
+	{
+		$post = \get_post( $post );
+		if ( ! $post instanceof WP_Post ) {
+			return null;
+		}
+
+		return $this->create_post_tax_terms( $post, 'category' );
+	}
+
+	public function post_tags( int|WP_Post $post ): ?Taxonomy_Terms
+	{
+		$post = \get_post( $post );
+		if ( ! $post instanceof WP_Post ) {
+			return null;
+		}
+
+		return $this->create_post_tax_terms( $post, 'post_tag' );
+	}
+
 	public function of_post_type( string $post_type ): array
 	{
 		$out = array();
