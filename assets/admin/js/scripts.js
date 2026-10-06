@@ -1492,7 +1492,7 @@ function hdsIcons(name) {
       key: 'controls'
     }, createElement(ToolbarGroup, {}, createElement(ToolbarButton, {
       icon: 'edit',
-      label: __('Edit content lsit filtering settings', 'hds-wp'),
+      label: __('Edit content list filtering settings', 'hds-wp'),
       isPressed: isEditing,
       onClick: function onClick() {
         return setIsEditing(!isEditing);
