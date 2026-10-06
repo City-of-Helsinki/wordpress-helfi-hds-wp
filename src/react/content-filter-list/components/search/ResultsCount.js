@@ -1,8 +1,13 @@
 import { createElement } from 'react';
 
 export default function ResultsCount({
-  texts,
+  searching,
+  i18n,
   count
 }) {
-  return createElement('h3', {}, (count > 1) ? `${count} ${texts.many}` : `${count} ${texts.one}`);
+  let content = searching
+    ? `${i18n.search.searching}...`
+    : (count > 1) ? `${count} ${i18n.results.many}` : `${count} ${i18n.results.one}`;
+
+  return createElement('h3', {className: 'wp-block-heading results-count'}, content);
 }
