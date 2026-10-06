@@ -1,0 +1,31 @@
+.classifications {
+  &.has-background-color {
+    padding: var(--spacing-m, 1.5rem);
+  }
+}
+
+.classifications .list {
+  background: none;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-s, 1rem);
+  margin: 0;
+  padding: 0;
+}
+
+.classifications .item {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-4-xs, 0.125rem);
+}
+
+.classifications .item .label,
+.classifications .item .text {
+  color: currentColor;
+  float: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  width: auto;
+}
