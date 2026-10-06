@@ -3,6 +3,7 @@ import ResultsCount from './ResultsCount';
 import List from '../entry/List';
 
 export default function Results({
+  searching,
   posts,
   i18n,
   elements,
@@ -10,9 +11,16 @@ export default function Results({
 }) {
   return createElement('div', {className: 'results', 'aria-live-region': 'polite'},
     createElement(ResultsCount, {
-      texts: i18n.results,
+      searching,
+      i18n,
       count: posts.length,
     }),
-    createElement(List, {elements, posts, taxonomies}),
+    createElement(List, {
+      elements,
+      posts,
+      taxonomies,
+      isPlaceholder: searching,
+      placeholderCount: 5,
+    }),
   );
 }
