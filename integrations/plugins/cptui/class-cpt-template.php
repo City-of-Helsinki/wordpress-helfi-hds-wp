@@ -40,8 +40,8 @@ final class CPT_Template
 
 		if ( $items ) {
 			printf(
-				'<div class="classifications has-secondary-background-color has-secondary-content-color">
-					<dl clss="list">%1$s</dl>
+				'<div class="classifications has-background-color has-secondary-background-color has-secondary-content-color">
+					<dl class="list">%1$s</dl>
 				</div>',
 				implode( '', $items )
 			);
