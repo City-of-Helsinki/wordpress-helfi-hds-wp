@@ -15,7 +15,7 @@ export default function Form({
     handleSubmit();
   };
 
-  return createElement('form', {onSubmit},
+  return createElement('form', {className: 'filters', onSubmit},
     createElement(Filters, {
       locale: i18n.locale,
       placeholder: i18n.filter.all,
