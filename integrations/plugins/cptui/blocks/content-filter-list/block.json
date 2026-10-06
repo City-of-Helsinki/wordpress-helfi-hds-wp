@@ -29,6 +29,6 @@
     }
   },
   "render_callback": "hds_wp_render_content_filter_list",
-  "style": [ "helsinki-wp-blocks" ],
+  "style": [ "helsinki-wp-blocks", "file:./style.css" ],
   "viewScript": [ "helsinki-wp-hds-content-list-filter" ]
 }

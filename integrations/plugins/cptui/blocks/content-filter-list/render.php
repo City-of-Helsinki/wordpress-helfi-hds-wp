@@ -43,30 +43,6 @@ function hds_wp_content_filter_list_config( array $attributes ): array {
 		),
 		'elements' => $attributes['entryElements'],
 		'taxonomies' => array(),
-		'i18n' => array(
-			'locale' => substr(\get_locale(), 0, 2),
-			'filter' => array(
-				'all' => _x( 'All', 'filter.all', 'hds-wp' ),
-			),
-			'search' => array(
-				'submit' => _x( 'Search', 'search.submit', 'hds-wp' ),
-			),
-			'results' => array(
-				'one' => _x( 'search result', 'results.one', 'hds-wp' ),
-				'many' => _x( 'search results', 'results.many', 'hds-wp' ),
-			),
-			'pagination' => array(
-				'label' => _x( 'Page navigation', 'pagination.label', 'hds-wp' ),
-				'first' => _x( 'First page', 'pagination.first', 'hds-wp' ),
-				'last' => _x( 'Last page', 'pagination.last', 'hds-wp' ),
-				'previousPage' => _x( 'Previous page', 'pagination.previous.page', 'hds-wp' ),
-				'previous' => _x( 'Previous', 'pagination.previous', 'hds-wp' ),
-				'next' => _x( 'Next', 'pagination.next', 'hds-wp' ),
-				'nextPage' => _x( 'Next page', 'pagination.next.page', 'hds-wp' ),
-				'current' => _x( 'Currently on page', 'pagination.current', 'hds-wp' ),
-				'page' => _x( 'Page', 'pagination.page', 'hds-wp' ),
-			),
-		),
 	);
 
 	$ordered_tax = apply_filters(
