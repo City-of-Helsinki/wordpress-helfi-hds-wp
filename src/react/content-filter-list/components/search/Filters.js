@@ -21,12 +21,7 @@ export default function Filters({
         searching,
         filterThreshold: 15,
         selected: filters[taxonomy] || [],
-        onClose: (selectedOptions) => {
-          setFilter({
-            ...filters,
-            [taxonomy]: selectedOptions.map(({value}) => value),
-          });
-        },
+        handleChange: (values) => setFilter({ ...filters, [taxonomy]: values, }),
       })
     );
   }

@@ -3,7 +3,7 @@ import Placeholder from './Placeholder';
 
 function Element({children}) {
   return children
-    && createElement('div', {className: 'entry__taxonomies'}, children);
+    && createElement('div', {className: 'entry__taxonomies classifications'}, children);
 }
 
 function TaxonomiesList({terms, showTaxonomy, taxonomyLabel}) {

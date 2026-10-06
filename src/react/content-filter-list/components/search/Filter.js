@@ -10,7 +10,7 @@ export default function Filter({
   filterThreshold,
   selected,
   searching,
-  onClose
+  handleChange
 }) {
   const options = terms.map(term => ({
     label: term.label,
@@ -37,7 +37,13 @@ export default function Filter({
       disabled: searching,
       filter: optionsFilter,
       options,
-      onClose
+      onClose: (selectedOptions) => {
+        let values = selectedOptions.map(({value}) => value);
+
+        if (JSON.stringify(values) !== JSON.stringify(selected)) {
+          handleChange(values);
+        }
+      }
     })
   );
 }
