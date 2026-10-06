@@ -6,6 +6,7 @@ export default function Form({
   handleSubmit,
   filters,
   setFilter,
+  setPaged,
   i18n,
   taxonomies,
   searching
@@ -22,6 +23,7 @@ export default function Form({
       taxonomies,
       filters,
       setFilter,
+      setPaged,
       searching
     }),
     createElement(SubmitButton, {

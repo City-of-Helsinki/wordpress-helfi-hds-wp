@@ -50,6 +50,7 @@ export default function ContentSearchFilter({
       handleSubmit,
       filters,
       setFilter,
+      setPaged,
       i18n,
       taxonomies,
       searching

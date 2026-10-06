@@ -7,6 +7,7 @@ export default function Filters({
   taxonomies,
   filters,
   setFilter,
+  setPaged,
   searching
 }) {
   const formFilters = [];
@@ -21,7 +22,10 @@ export default function Filters({
         searching,
         filterThreshold: 15,
         selected: filters[taxonomy] || [],
-        handleChange: (values) => setFilter({ ...filters, [taxonomy]: values, }),
+        handleChange: (values) => {
+          setFilter({ ...filters, [taxonomy]: values});
+          setPaged(1);
+        },
       })
     );
   }
