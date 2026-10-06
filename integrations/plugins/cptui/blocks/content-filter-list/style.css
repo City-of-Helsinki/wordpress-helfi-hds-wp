@@ -23,3 +23,27 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+.wp-block-hds-wp-content-filter-list .entry.is-placeholder  {
+  --placeholder-background-color: var(--color-black-5, '#f2f2f2');
+}
+
+.wp-block-hds-wp-content-filter-list .entry.is-placeholder .image-wrap .placeholder {
+  background-color: var(--placeholder-background-color);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.wp-block-hds-wp-content-filter-list .entry.is-placeholder .entry__title .placeholder,
+.wp-block-hds-wp-content-filter-list .entry.is-placeholder .entry__excerpt .placeholder {
+  background-color: var(--placeholder-background-color);
+  height: var(--fontsize-heading-m, 1.5rem);
+}
+
+.wp-block-hds-wp-content-filter-list .entry.is-placeholder .entry__taxonomies .placeholder {
+  background-color: var(--placeholder-background-color);
+  height: calc(4 * var(--fontsize-heading-m, 1.5rem));
+}

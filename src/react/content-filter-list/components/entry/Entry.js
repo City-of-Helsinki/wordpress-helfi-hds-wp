@@ -23,6 +23,10 @@ export default function Entry({
     classNames.push('has-thumbnail');
   }
 
+  if (isPlaceholder) {
+    classNames.push('is-placeholder');
+  }
+
   return createElement('div', {className: classNames.join(' ')},
     hasThumbnail() && createElement(Image, {thumbnail, isPlaceholder}),
     createElement('div', {className: 'entry__content'},
