@@ -1,13 +1,24 @@
 import { createElement } from 'react';
 
+function Element({content}) {
+  return createElement('h3', {className: 'wp-block-heading results-count'}, content);
+}
+
 export default function ResultsCount({
   searching,
   i18n,
   count
 }) {
-  let content = searching
-    ? `${i18n.search.searching}...`
-    : (count > 1) ? `${count} ${i18n.results.many}` : `${count} ${i18n.results.one}`;
+  if (searching) {
+    return createElement(Element, {content: `${i18n.search.searching}...`});
+  }
 
-  return createElement('h3', {className: 'wp-block-heading results-count'}, content);
+  count = parseInt(count, 10);
+  if (Number.isNaN(count)) {
+    return null;
+  }
+
+  return createElement(Element, {
+    content: (count > 1) ? `${count} ${i18n.results.many}` : `${count} ${i18n.results.one}`
+  });
 }

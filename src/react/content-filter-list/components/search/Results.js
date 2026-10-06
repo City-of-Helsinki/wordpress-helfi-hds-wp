@@ -7,13 +7,14 @@ export default function Results({
   posts,
   i18n,
   elements,
-  taxonomies
+  taxonomies,
+  totalResults
 }) {
   return createElement('div', {className: 'results', 'aria-live-region': 'polite'},
     createElement(ResultsCount, {
       searching,
       i18n,
-      count: posts.length,
+      count: totalResults,
     }),
     createElement(List, {
       elements,

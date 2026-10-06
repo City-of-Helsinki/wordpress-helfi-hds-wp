@@ -59,7 +59,8 @@ export default function ContentSearchFilter({
       posts,
       i18n,
       elements,
-      taxonomies
+      taxonomies,
+      totalResults: pagination?.found_posts
     }),
     createElement(Pagination, {
       i18n,
