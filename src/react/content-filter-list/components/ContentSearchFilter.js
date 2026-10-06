@@ -2,6 +2,7 @@ import { createElement } from 'react';
 import { useEffect, useState } from 'react';
 import { useQueryPosts } from '../hooks/useQueryPosts';
 import useRestApi from '../hooks/useRestApi';
+import debounce from '../helpers/debounce';
 import Form from './search/Form';
 import Results from './search/Results';
 import Pagination from './entry/Pagination';
@@ -28,7 +29,7 @@ export default function ContentSearchFilter({
     setSearching
   } = useQueryPosts();
 
-  const handleSubmit = () => {
+  const handleSubmit = debounce(() => {
     setSearching(true);
 
     get({...query, ...filters, paged})
@@ -39,9 +40,10 @@ export default function ContentSearchFilter({
       })
       .catch(error => console.error(error))
       .finally(() => setSearching(false));
-  };
+  }, 200);
 
   useEffect(() => handleSubmit(), [paged]);
+  useEffect(() => handleSubmit(), [filters]);
 
   return createElement('div', {},
     createElement(Form, {
@@ -53,6 +55,7 @@ export default function ContentSearchFilter({
       searching
     }),
     createElement(Results, {
+      searching,
       posts,
       i18n,
       elements,
