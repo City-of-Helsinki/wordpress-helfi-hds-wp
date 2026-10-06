@@ -31,5 +31,5 @@ export default function Filters({
     );
   }
 
-  return createElement('div', {className: 'filters'}, formFilters);
+  return createElement('div', {className: 'filters__grid'}, formFilters);
 }
