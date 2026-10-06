@@ -3,7 +3,17 @@ import Entry from './Entry';
 import useEntryElements from '../../hooks/useEntryElements';
 import useEntryTaxonomies from '../../hooks/useEntryTaxonomies';
 
-export default function List({elements, posts, taxonomies}) {
+function Element({children}) {
+  return createElement('div', {className: 'entries entries--list'}, children);
+}
+
+export default function List({
+  elements,
+  posts,
+  taxonomies,
+  isPlaceholder,
+  placeholderCount
+}) {
   const {
     showThumbnail,
     showExcerpt,
@@ -13,14 +23,18 @@ export default function List({elements, posts, taxonomies}) {
 
   const {showTaxonomy} = useEntryTaxonomies(taxonomies, showAllTaxonomies());
 
-  return createElement('div', {className: 'entries entries--list'},
-    posts.map(post => createElement(Entry, {
+  let toEntries = isPlaceholder
+    ? [...Array(placeholderCount).keys()]
+    : posts;
+
+  return createElement(Element, {},
+    toEntries.map(post => createElement(Entry, {
       post,
       showThumbnail,
       showExcerpt,
       showLink,
-      showAllTaxonomies,
-      showTaxonomy
+      showTaxonomy,
+      isPlaceholder
     }))
   );
 }
