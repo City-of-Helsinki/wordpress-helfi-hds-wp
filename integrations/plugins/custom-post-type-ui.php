@@ -86,6 +86,32 @@ use function ArtCloud\Helsinki\Plugin\HDS\plugin_url;
 		);
 
 		/*
+		 * Blcoks
+		 */
+		\add_action( 'init', function() {
+			$block_dir = \plugin_dir_path( __FILE__ ) . 'cptui/blocks/content-filter-list';
+
+			require_once $block_dir . '/render.php';
+
+			\register_block_type(
+				$block_dir . '/block.json',
+				array(
+					'version' => is_debug() ? (string) time() : plugin_version(),
+					'render_callback' => 'hds_wp_render_content_filter_list',
+				)
+			);
+		} );
+
+		\add_filter(
+			'helsinki_wp_allowed_blocks',
+			function( array $allowed ): array {
+				$allowed['post_types']['page']['hds-wp/content-filter-list'] = true;
+
+				return $allowed;
+			}
+		);
+
+		/*
 		 * REST
 		 */
 		$controller = create_filter_search_controller( $data, $cpt_terms );
