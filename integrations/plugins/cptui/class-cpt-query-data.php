@@ -58,7 +58,7 @@ final class Cpt_Query_Data
 			throw new Exception( _x( 'Invalid post type.', 'cptui.query.data', 'hds-wp' ) );
 		}
 
-		$this->data['post_type'] = 'post';
+		$this->data['post_type'] = $post_type;
 	}
 
 	private function category( WP_REST_Request $request ): void
@@ -111,7 +111,7 @@ final class Cpt_Query_Data
 	{
 		$posts_per_page = \absint( $request->get_param( 'posts_per_page' ) );
 
-		$this->data['posts_per_page'] = 3;
+		$this->data['posts_per_page'] = $posts_per_page;
 	}
 
 	private function paged( WP_REST_Request $request ): void
