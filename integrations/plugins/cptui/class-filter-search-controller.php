@@ -72,6 +72,36 @@ final class Filter_Search_Controller
 			),
 			'before'
 		);
+
+		\wp_localize_script(
+			'helsinki-wp-hds-content-list-filter',
+			'HELSINKI_CONTENT_LIST_FILTER_I18N',
+			array(
+				'locale' => substr(\get_locale(), 0, 2),
+				'filter' => array(
+					'all' => _x( 'All', 'filter.all', 'hds-wp' ),
+				),
+				'search' => array(
+					'submit' => _x( 'Search', 'search.submit', 'hds-wp' ),
+					'searching' => _x( 'Retrieving results', 'search.searching', 'hds-wp' ),
+				),
+				'results' => array(
+					'one' => _x( 'search result', 'results.one', 'hds-wp' ),
+					'many' => _x( 'search results', 'results.many', 'hds-wp' ),
+				),
+				'pagination' => array(
+					'label' => _x( 'Page navigation', 'pagination.label', 'hds-wp' ),
+					'first' => _x( 'First page', 'pagination.first', 'hds-wp' ),
+					'last' => _x( 'Last page', 'pagination.last', 'hds-wp' ),
+					'previousPage' => _x( 'Previous page', 'pagination.previous.page', 'hds-wp' ),
+					'previous' => _x( 'Previous', 'pagination.previous', 'hds-wp' ),
+					'next' => _x( 'Next', 'pagination.next', 'hds-wp' ),
+					'nextPage' => _x( 'Next page', 'pagination.next.page', 'hds-wp' ),
+					'current' => _x( 'Currently on page', 'pagination.current', 'hds-wp' ),
+					'page' => _x( 'Page', 'pagination.page', 'hds-wp' ),
+				),
+			)
+		);
 	}
 
 	public function get_posts( WP_REST_Request $request ): WP_REST_Response|WP_Error
