@@ -21,9 +21,10 @@ function hds_wp_render_content_filter_list( array $attributes ): string {
 	$config = hds_wp_content_filter_list_config( $attributes );
 
 	return sprintf(
-		'<div %1$s data-content-filter-list="%3$s">
+		'<div %1$s>
 			<div class="hds-container">
 				%2$s
+				<div data-content-filter-list="%3$s"></div>
 			</div>
 		</div>',
 		hds_wp_block_html_attributes(
