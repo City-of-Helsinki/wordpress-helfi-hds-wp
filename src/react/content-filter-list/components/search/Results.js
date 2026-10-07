@@ -10,7 +10,7 @@ export default function Results({
   taxonomies,
   totalResults
 }) {
-  return createElement('div', {className: 'results', 'aria-live-region': 'polite'},
+  return createElement('div', {className: 'results', 'aria-live': 'polite'},
     createElement(ResultsCount, {
       searching,
       i18n,
