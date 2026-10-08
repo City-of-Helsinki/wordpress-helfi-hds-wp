@@ -40,7 +40,6 @@ function hds_wp_content_filter_list_config( array $attributes ): array {
 	$config = array(
 		'query' => array(
 			'post_type' => $attributes['postType'],
-			'posts_per_page' => 15,
 		),
 		'elements' => $attributes['entryElements'],
 		'taxonomies' => array(),
