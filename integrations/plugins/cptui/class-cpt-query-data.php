@@ -29,6 +29,8 @@ final class Cpt_Query_Data
 		$this->category( $request );
 		$this->post_tag( $request );
 		$this->taxonomies( $request );
+		$this->order( $request );
+		$this->orderby( $request );
 		$this->posts_per_page( $request );
 		$this->paged( $request );
 
@@ -107,11 +109,19 @@ final class Cpt_Query_Data
 		}
 	}
 
+	private function order( WP_REST_Request $request ): void
+	{
+		$this->data['order'] = 'ASC';
+	}
+
+	private function orderby( WP_REST_Request $request ): void
+	{
+		$this->data['orderby'] = 'title';
+	}
+
 	private function posts_per_page( WP_REST_Request $request ): void
 	{
-		$posts_per_page = \absint( $request->get_param( 'posts_per_page' ) );
-
-		$this->data['posts_per_page'] = $posts_per_page;
+		$this->data['posts_per_page'] = 15;
 	}
 
 	private function paged( WP_REST_Request $request ): void
