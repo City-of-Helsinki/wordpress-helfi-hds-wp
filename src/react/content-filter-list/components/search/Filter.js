@@ -16,6 +16,7 @@ export default function Filter({
     label: term.label,
     value: term.id,
     selected: selected.includes(term.id),
+    taxonomy,
   }));
 
   const matchSearch = (source, compare) => {
@@ -26,24 +27,20 @@ export default function Filter({
     ? (option, filterValue) => matchSearch(option.label, filterValue)
     : null;
 
-  return createElement('div', {className: 'filter-wrap'},
-    createElement(Select, {
-      texts: {
-        label,
-        placeholder,
-        language: locale,
-      },
-      multiSelect: true,
-      disabled: searching,
-      filter: optionsFilter,
-      options,
-      onClose: (selectedOptions) => {
-        let values = selectedOptions.map(({value}) => value);
-
-        if (JSON.stringify(values) !== JSON.stringify(selected)) {
-          handleChange(values);
-        }
-      }
-    })
-  );
+  return (options.length > 0)
+    && createElement('div', {className: 'filter-wrap'},
+      createElement(Select, {
+        texts: {
+          label,
+          placeholder,
+          language: locale,
+        },
+        multiSelect: true,
+        noTags: true,
+        disabled: searching,
+        filter: optionsFilter,
+        options,
+        onClose: handleChange,
+      })
+    );
 }
