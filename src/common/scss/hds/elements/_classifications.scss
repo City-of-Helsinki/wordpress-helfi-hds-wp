@@ -17,15 +17,9 @@
 .classifications .item {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--spacing-4-xs, 0.125rem);
+  gap: var(--spacing-3-xs, 0.25rem);
 }
 
-.classifications .item .label,
-.classifications .item .text {
-  color: currentColor;
-  float: none;
-  margin: 0;
-  padding: 0;
-  text-align: left;
-  width: auto;
+.classifications .item .label {
+  font-weight: 600;
 }
