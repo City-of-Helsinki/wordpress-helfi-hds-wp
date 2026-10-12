@@ -6,9 +6,8 @@ export default function Filters({
   placeholder,
   taxonomies,
   filters,
-  setFilter,
-  setPaged,
-  searching
+  searching,
+  handleChange
 }) {
   const formFilters = [];
 
@@ -20,12 +19,9 @@ export default function Filters({
         locale,
         placeholder,
         searching,
-        filterThreshold: 15,
         selected: filters[taxonomy] || [],
-        handleChange: (values) => {
-          setFilter({ ...filters, [taxonomy]: values});
-          setPaged(1);
-        },
+        handleChange: (selectedOptions) => handleChange(taxonomy, selectedOptions),
+        filterThreshold: 15,
       })
     );
   }
