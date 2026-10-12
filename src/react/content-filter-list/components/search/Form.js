@@ -1,30 +1,29 @@
-import { createElement, useEffect } from 'react';
+import { createElement, useEffect, useState } from 'react';
 import Filters from './Filters';
 import SubmitButton from './SubmitButton';
 
 export default function Form({
   handleSubmit,
+  handleChange,
   filters,
-  setFilter,
-  setPaged,
   i18n,
   taxonomies,
   searching
 }) {
-  const onSubmit = (event) => {
-    event.preventDefault();
-    handleSubmit();
-  };
-
-  return createElement('form', {className: 'filters', onSubmit},
+  return createElement('form', {
+      className: 'filters',
+      onSubmit: (event) => {
+        event.preventDefault();
+        handleSubmit();
+      },
+    },
     createElement(Filters, {
       locale: i18n.locale,
       placeholder: i18n.filter.all,
       taxonomies,
       filters,
-      setFilter,
-      setPaged,
-      searching
+      searching,
+      handleChange
     }),
     createElement(SubmitButton, {
       label: i18n.search.submit,
