@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', event => {
       try {
         config = {
           ...JSON.parse(root.dataset.contentFilterList),
+          rootId: root.closest('.wp-block-hds-wp-content-filter-list').id,
           i18n: {...HELSINKI_CONTENT_LIST_FILTER_I18N},
           rest: {...HELSINKI_CONTENT_LIST_FILTER},
         };
