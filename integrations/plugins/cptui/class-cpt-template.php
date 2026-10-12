@@ -27,10 +27,10 @@ final class CPT_Template
 
 			if ( $terms ) {
 				$items[] = sprintf(
-					'<div class="item item--%1$s">
-						<dt class="label">%2$s</dt>
-						<dd class="text">%3$s</dd>
-					</div>',
+					'<li class="item item--%1$s">
+						<span class="label">%2$s:</span>
+						<span class="text">%3$s</span>
+					</li>',
 					\esc_attr( $taxonomy->slug() ),
 					\esc_html( $taxonomy->title() ),
 					\esc_html( implode( ', ', $terms ) )
@@ -41,7 +41,7 @@ final class CPT_Template
 		if ( $items ) {
 			printf(
 				'<div class="classifications has-background-color has-secondary-background-color has-secondary-content-color">
-					<dl class="list">%1$s</dl>
+					<ul class="list">%1$s</ul>
 				</div>',
 				implode( '', $items )
 			);
