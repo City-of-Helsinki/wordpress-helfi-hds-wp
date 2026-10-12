@@ -13,17 +13,17 @@ function TaxonomiesList({terms, showTaxonomy, taxonomyLabel}) {
     if (showTaxonomy(slug)) {
       termItems.push(
         createElement(
-          'div',
+          'li',
           {className: `item item--${slug}`},
-          createElement('dt', {className: 'label'}, title),
-          createElement('dd', {className: 'text'}, terms.join(', '))
+          createElement('span', {className: 'label'}, `${title}:`),
+          createElement('span', {className: 'text'}, terms.join(', '))
         )
       );
     }
   });
 
   return (termItems.length > 0)
-    && createElement('dl', {className: 'list'}, termItems);
+    && createElement('ul', {className: 'list'}, termItems);
 }
 
 export default function Taxonomies({
