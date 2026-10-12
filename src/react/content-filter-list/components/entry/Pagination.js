@@ -5,15 +5,18 @@ export default function Pagination({
   i18n,
   pagination,
   paged,
-  setPaged,
+  onChange,
+  pageHref
 }) {
   const {max_num_pages} = pagination || {};
 
-  return (max_num_pages > 1) && createElement(HDSPagination, {
-    language: i18n.locale,
-    onChange: (event, index) => setPaged(index + 1),
-    pageIndex: (paged - 1),
-    pageCount: max_num_pages || 1,
-    pageHref: () => '#',
-  });
+  return (max_num_pages > 1) && createElement('div', {className: 'pagination'},
+    createElement(HDSPagination, {
+      language: i18n.locale,
+      pageIndex: (paged - 1),
+      pageCount: max_num_pages || 1,
+      onChange,
+      pageHref,
+    })
+  );
 }
