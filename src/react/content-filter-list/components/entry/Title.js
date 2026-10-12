@@ -1,24 +1,33 @@
 import { createElement } from 'react';
 import Placeholder from './Placeholder';
 
-function Element({tag, content}) {
-  return createElement(tag, {className: 'entry__title'}, content);
+function Element({tag, content, tabindex, titleRef}) {
+  return createElement(tag, {
+    className: 'entry__title',
+    ref: titleRef,
+    tabindex
+  }, content);
 }
 
 function LinkOrText({
   title,
   url,
-  showLink,
+  hasLink,
+  titleRef
 }) {
-  return (showLink && url) ? createElement('a', {href: url}, title) : title;
+  return hasLink ? createElement('a', {href: url, ref: titleRef}, title) : title;
 }
 
 export default function Title({
+  index,
   title,
   url,
   showLink,
-  isPlaceholder
+  isPlaceholder,
+  titleRef
 }) {
+  const hasLink = (showLink && url);
+
   return isPlaceholder
     ? createElement(Element, {
       tag: 'div',
@@ -26,6 +35,13 @@ export default function Title({
     })
     : createElement(Element, {
       tag: 'h4',
-      content: createElement(LinkOrText, {title, url, showLink}),
+      content: createElement(LinkOrText, {
+        title,
+        url,
+        hasLink,
+        titleRef: hasLink ? titleRef : null,
+      }),
+      tabindex: ! hasLink ? '-1' : null,
+      titleRef: ! hasLink ? titleRef : null,
     });
 };
