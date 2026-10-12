@@ -80,6 +80,8 @@ final class Filter_Search_Controller
 				'locale' => substr(\get_locale(), 0, 2),
 				'filter' => array(
 					'all' => _x( 'All', 'filter.all', 'hds-wp' ),
+					'delete' => _x( 'Delete filter', 'filter.delete', 'hds-wp' ),
+					'clear' => _x( 'Clear selected', 'filter.clear', 'hds-wp' ),
 				),
 				'search' => array(
 					'submit' => _x( 'Search', 'search.submit', 'hds-wp' ),
