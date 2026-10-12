@@ -5,22 +5,32 @@ import Taxonomies from './Taxonomies';
 import Excerpt from './Excerpt';
 
 export default function Entry({
+  index,
   post,
   showThumbnail,
   showExcerpt,
   showLink,
   showTaxonomy,
   taxonomyLabel,
-  isPlaceholder
+  isPlaceholder,
+  titleRef
 }) {
   const {id, title, slug, excerpt, url, thumbnail, terms} = post || {};
 
   const hasThumbnail = () => (showThumbnail() && (thumbnail || isPlaceholder));
   const hasExcerpt = () => (showExcerpt() || isPlaceholder);
 
-  const classNames = ['entry', 'entry--list', 'flex-container'];
+  const classNames = ['entry', 'flex-container'];
   if (hasThumbnail()) {
     classNames.push('has-thumbnail');
+  }
+
+  if (hasExcerpt()) {
+    classNames.push('has-excerpt');
+  }
+
+  if (showLink() && url) {
+    classNames.push('has-link');
   }
 
   if (isPlaceholder) {
@@ -31,10 +41,12 @@ export default function Entry({
     hasThumbnail() && createElement(Image, {thumbnail, isPlaceholder}),
     createElement('div', {className: 'entry__content'},
       createElement(Title, {
+        index,
         title,
         url,
         showLink: showLink(),
         isPlaceholder,
+        titleRef
       }),
       hasExcerpt() && createElement(Excerpt, {excerpt, isPlaceholder}),
       createElement(Taxonomies, {
