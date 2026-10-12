@@ -20,7 +20,7 @@ export default function Entry({
   const hasThumbnail = () => (showThumbnail() && (thumbnail || isPlaceholder));
   const hasExcerpt = () => (showExcerpt() || isPlaceholder);
 
-  const classNames = ['entry', 'flex-container'];
+  const classNames = ['entry', 'entry--list', 'flex-container'];
   if (hasThumbnail()) {
     classNames.push('has-thumbnail');
   }
