@@ -18,6 +18,10 @@ function hds_wp_render_content_filter_list( array $attributes ): string {
 		$content .= hds_wp_block_text_kses( wpautop( $attributes['description'] ) );
 	}
 
+	if ( empty( $attributes['anchor'] ) ) {
+		$attributes['anchor'] = 'content-filter-list-' . md5( serialize( $attributes ) );
+	}
+
 	$config = hds_wp_content_filter_list_config( $attributes );
 
 	return sprintf(
