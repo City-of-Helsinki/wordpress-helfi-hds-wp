@@ -4,10 +4,11 @@ import useEntryElements from '../../hooks/useEntryElements';
 import useEntryTaxonomies from '../../hooks/useEntryTaxonomies';
 
 function Element({children}) {
-  return createElement('div', {className: 'entries entries--list'}, children);
+  return createElement('div', {className: 'entries entries--list entries--card'}, children);
 }
 
 export default function List({
+  firstTitleRef,
   elements,
   posts,
   taxonomies,
@@ -28,13 +29,15 @@ export default function List({
     : posts;
 
   return createElement(Element, {},
-    toEntries.map(post => createElement(Entry, {
+    toEntries.map((post, index) => createElement(Entry, {
+      index,
       post,
       showThumbnail,
       showExcerpt,
       showLink,
       showTaxonomy,
-      isPlaceholder
+      isPlaceholder,
+      titleRef: (0 === index) ? firstTitleRef : null,
     }))
   );
 }
