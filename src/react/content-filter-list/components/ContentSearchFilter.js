@@ -2,6 +2,7 @@ import { createElement, useEffect, useState, useRef } from 'react';
 import { useQueryPosts } from '../hooks/useQueryPosts';
 import { useSelectedTags } from '../hooks/useSelectedTags';
 import useRestApi from '../hooks/useRestApi';
+import useCachedQuery from '../hooks/useCachedQuery';
 import debounce from '../helpers/debounce';
 import Form from './search/Form';
 import Results from './search/Results';
@@ -23,6 +24,8 @@ export default function ContentSearchFilter({
   const [isSearch, setIsSearch] = useState(false);
 
   const { get } = useRestApi(rest);
+  const { query: cachedQuery } = useCachedQuery(get);
+  const latestRequest = useRef(0);
 
   const {
     filters,
@@ -44,18 +47,26 @@ export default function ContentSearchFilter({
     clearTags,
   } = useSelectedTags();
 
-  const handleSubmit = debounce(() => {
+  // Latest submit closure, so the stable debounced handler sees current state.
+  const submit = useRef(null);
+  submit.current = () => {
+    const request = ++latestRequest.current;
+    const isLatest = () => request === latestRequest.current;
+
     setSearching(true);
 
-    get({...query, ...filters, paged})
-      .then(response => response.json())
+    cachedQuery({...query, ...filters, paged})
       .then(({posts, pagination}) => {
-        setPosts(posts);
-        setPagination(pagination);
+        if (isLatest()) {
+          setPosts(posts);
+          setPagination(pagination);
+        }
       })
       .catch(error => console.error(error))
-      .finally(() => setSearching(false));
-  }, 200);
+      .finally(() => isLatest() && setSearching(false));
+  };
+
+  const [handleSubmit] = useState(() => debounce(() => submit.current(), 200));
 
   const handleChange = (taxonomy, selectedOptions) => {
     let selected = filters[taxonomy] || [];
@@ -94,7 +105,7 @@ export default function ContentSearchFilter({
       firstTitleRef.current.focus();
       setIsSearch(false);
     }
-  }, [searching]);
+  }, [searching, posts]);
 
   return createElement('div', {className: 'content-filter-list'},
     createElement(Form, {
