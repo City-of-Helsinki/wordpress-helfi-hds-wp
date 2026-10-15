@@ -7,8 +7,8 @@
 .classifications .list {
   background: none;
   border: none;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: var(--spacing-s, 1rem);
   margin: 0;
   padding: 0;
@@ -22,4 +22,17 @@
 
 .classifications .item .label {
   font-weight: 600;
+}
+
+.single .classifications {
+  @include breakpoint('l') {
+    .list {
+      grid-template-columns: repeat(2, minmax(0,1fr));
+    }
+  }
+
+  .item {
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
 }

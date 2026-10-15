@@ -7,7 +7,7 @@ export default function SubmitButton({
 }) {
   return createElement('div', {className: 'wp-block-button'},
     createElement('button', {
-      className: 'wp-element-button',
+      className: 'wp-element-button filters__submit',
       type: 'submit',
       disabled: searching,
       style: { cursor: searching ? 'wait' : '' }
