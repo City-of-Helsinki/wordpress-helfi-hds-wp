@@ -21,7 +21,8 @@ export default function ContentSearchFilter({
   const resultsRef = useRef(null);
 
   const firstTitleRef = useRef(null);
-  const [isSearch, setIsSearch] = useState(false);
+  const resultsTitleRef = useRef(null);
+  const focusAfterSearch = useRef(null);
 
   const { get } = useRestApi(rest);
   const { query: cachedQuery } = useCachedQuery(get);
@@ -73,7 +74,7 @@ export default function ContentSearchFilter({
     let values = selectedOptions.map(({value}) => value);
 
     if (JSON.stringify(values) !== JSON.stringify(selected)) {
-      setIsSearch(true);
+      focusAfterSearch.current = resultsTitleRef;
       setTags(taxonomy, selectedOptions);
       setFilter({ ...filters, [taxonomy]: values});
       setPaged(1);
@@ -81,7 +82,7 @@ export default function ContentSearchFilter({
   };
 
   const handlePageChange = (event, index) => {
-    setIsSearch(true);
+    focusAfterSearch.current = firstTitleRef;
     setPaged(index + 1);
     resultsRef.current?.scrollIntoView();
   };
@@ -93,7 +94,7 @@ export default function ContentSearchFilter({
   };
 
   const handleClearTags = () => {
-    setIsSearch(true);
+    focusAfterSearch.current = resultsTitleRef;
     clearTags();
     setFilter({});
     setPaged(1);
@@ -101,9 +102,9 @@ export default function ContentSearchFilter({
 
   useEffect(() => handleSubmit(), [paged, filters]);
   useEffect(() => {
-    if (!searching && isSearch && firstTitleRef.current) {
-      firstTitleRef.current.focus();
-      setIsSearch(false);
+    if (!searching && focusAfterSearch.current) {
+      focusAfterSearch.current.current?.focus();
+      focusAfterSearch.current = null;
     }
   }, [searching, posts]);
 
@@ -128,6 +129,7 @@ export default function ContentSearchFilter({
       resultsId,
       searching,
       firstTitleRef,
+      resultsTitleRef,
       posts,
       i18n,
       elements,
