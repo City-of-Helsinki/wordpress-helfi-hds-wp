@@ -127,7 +127,7 @@ final class Filter_Search_Controller
 			'id' => $post->ID,
 			'title' => decode_entities( \get_the_title( $post ) ),
 			'slug' => $post->post_name,
-			'excerpt' => decode_entities( \get_the_excerpt( $post ) ),
+			'excerpt' => decode_entities( \wp_strip_all_tags( \get_the_excerpt( $post ) ) ),
 			'url' => \get_permalink( $post ) ?: '',
 			'thumbnail' => \get_the_post_thumbnail_url( $post, 'large' ) ?: '',
 			'terms' => array(),
