@@ -1,11 +1,11 @@
 import { createElement } from 'react';
 import Placeholder from './Placeholder';
 
-function Element({tag, content, tabindex, titleRef}) {
+function Element({tag, content, tabIndex, titleRef}) {
   return createElement(tag, {
     className: 'entry__title',
     ref: titleRef,
-    tabindex
+    tabIndex
   }, content);
 }
 
@@ -41,7 +41,7 @@ export default function Title({
         hasLink,
         titleRef: hasLink ? titleRef : null,
       }),
-      tabindex: ! hasLink ? '-1' : null,
+      tabIndex: ! hasLink ? '-1' : null,
       titleRef: ! hasLink ? titleRef : null,
     });
 };
