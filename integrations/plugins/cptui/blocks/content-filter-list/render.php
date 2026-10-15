@@ -4,6 +4,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
 
+use function ArtCloud\Helsinki\Plugin\HDS\Integrations\Plugins\CPTUI\decode_entities;
+
 function hds_wp_render_content_filter_list( array $attributes ): string {
 	$content = '';
 
@@ -60,7 +62,7 @@ function hds_wp_content_filter_list_config( array $attributes ): array {
 
 		if ( $taxonomy instanceof WP_Taxonomy ) {
 			$tax_config = array(
-				'label' => $taxonomy->label,
+				'label' => decode_entities( $taxonomy->label ),
 				'terms' => array(),
 			);
 
@@ -74,7 +76,7 @@ function hds_wp_content_filter_list_config( array $attributes ): array {
 					$tax_config['terms'][] = array(
 						'id' => $term->term_id,
 						'slug' => $term->slug,
-						'label' => $term->name,
+						'label' => decode_entities( $term->name ),
 					);
 				}
 			}

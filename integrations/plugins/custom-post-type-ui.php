@@ -179,3 +179,7 @@ function create_filter_search_controller( CPT_Data $cpt_data, CPT_Terms $cpt_ter
 		'base_rest_route' => 'helsinki',
 	) );
 }
+
+function decode_entities( string $text ): string {
+	return html_entity_decode( $text, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+}

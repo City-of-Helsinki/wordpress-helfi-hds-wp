@@ -125,9 +125,9 @@ final class Filter_Search_Controller
 	{
 		$prepared = array(
 			'id' => $post->ID,
-			'title' => \get_the_title( $post ),
+			'title' => decode_entities( \get_the_title( $post ) ),
 			'slug' => $post->post_name,
-			'excerpt' => \get_the_excerpt( $post ),
+			'excerpt' => decode_entities( \get_the_excerpt( $post ) ),
 			'url' => \get_permalink( $post ) ?: '',
 			'thumbnail' => \get_the_post_thumbnail_url( $post, 'large' ) ?: '',
 			'terms' => array(),
@@ -154,9 +154,9 @@ final class Filter_Search_Controller
 	{
 		return array(
 			'slug' => $tax_terms->slug(),
-			'title' => $tax_terms->title(),
+			'title' => decode_entities( $tax_terms->title() ),
 			'terms' => array_map(
-				fn( WP_Term $term ) => $term->name,
+				fn( WP_Term $term ) => decode_entities( $term->name ),
 				$tax_terms->terms()
 			),
 		);
