@@ -86,7 +86,7 @@ use function ArtCloud\Helsinki\Plugin\HDS\plugin_url;
 		);
 
 		/*
-		 * Blcoks
+		 * Blocks
 		 */
 		\add_action( 'init', function() {
 			$block_dir = \plugin_dir_path( __FILE__ ) . 'cptui/blocks/content-filter-list';
@@ -104,8 +104,19 @@ use function ArtCloud\Helsinki\Plugin\HDS\plugin_url;
 
 		\add_filter(
 			'helsinki_wp_allowed_blocks',
-			function( array $allowed ): array {
+			function( array $allowed ) use ( $data ): array {
 				$allowed['post_types']['page']['hds-wp/content-filter-list'] = true;
+
+				foreach ( $data->post_type_slugs() as $post_type ) {
+					if ( isset( $allowed['post_types'][$post_type] ) ) {
+						$allowed['post_types'][$post_type] = array_merge(
+							$allowed['post_types'][$post_type],
+							$allowed['post_types']['page']
+						);
+					} else {
+						$allowed['post_types'][$post_type] = $allowed['post_types']['page'];
+					}
+				}
 
 				return $allowed;
 			}
