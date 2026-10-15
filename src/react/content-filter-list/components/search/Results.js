@@ -7,6 +7,7 @@ export default function Results({
   resultsId,
   searching,
   firstTitleRef,
+  resultsTitleRef,
   posts,
   i18n,
   elements,
@@ -20,6 +21,7 @@ export default function Results({
       ref: resultsRef,
     },
     createElement(ResultsCount, {
+      resultsTitleRef,
       searching,
       i18n,
       count: totalResults,
