@@ -130,6 +130,7 @@
   &.disabled {
     --button-background-color: transparent;
     --button-color: #{$medium-gray};
+    --button-icon-color: #{$medium-gray};
 
     &:hover,
     &:focus {
