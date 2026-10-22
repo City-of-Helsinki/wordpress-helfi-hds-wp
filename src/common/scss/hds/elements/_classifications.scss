@@ -8,6 +8,7 @@
   background: none;
   border: none;
   display: grid;
+  font-size: var(--fontsize-body-m, 1rem);
   grid-template-columns: 1fr;
   gap: var(--spacing-s, 1rem);
   margin: 0;
