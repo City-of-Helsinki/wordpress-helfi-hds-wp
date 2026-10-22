@@ -6,12 +6,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 return array(
     'dependencies' => array(
+		'wp-api-fetch',
 		'wp-blocks',
-		'wp-i18n',
-		'wp-element',
+		'wp-block-editor',
 		'wp-components',
-		'wp-editor',
 		'wp-data',
-		'wp-server-side-render',
+		'wp-element',
+		'wp-i18n',
     ),
 );

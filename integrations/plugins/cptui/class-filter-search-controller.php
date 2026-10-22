@@ -21,6 +21,7 @@ use WP_Term;
 final class Filter_Search_Controller
 {
 	private string $base_rest_route;
+	private string $settings_rest_route;
 
 	public function __construct(
 		private CPT_Data $cpt_data,
@@ -31,6 +32,11 @@ final class Filter_Search_Controller
 	) {
 		$this->base_rest_route = sprintf(
 			'%s/filter-search/v1',
+			$base_rest_route
+		);
+
+		$this->settings_rest_route = sprintf(
+			'%s/custom-taxonomy-order/v1/settings',
 			$base_rest_route
 		);
 	}
@@ -65,10 +71,7 @@ final class Filter_Search_Controller
 			'helsinki-wp-hds-content-list-filter',
 			sprintf(
 				'const HELSINKI_CONTENT_LIST_FILTER = %s;',
-				json_encode( array(
-					'route' => \get_rest_url( null, $this->base_rest_route . '/posts' ),
-					'nonce' => \wp_create_nonce( 'wp_rest' ),
-				) )
+				json_encode( $this->inline_script_data( \is_admin() ) )
 			),
 			'before'
 		);
@@ -93,6 +96,20 @@ final class Filter_Search_Controller
 				),
 			)
 		);
+	}
+
+	private function inline_script_data( bool $is_admin ): array
+	{
+		$data = array(
+			'route' => \get_rest_url( null, $this->base_rest_route . '/posts' ),
+			'nonce' => \wp_create_nonce( 'wp_rest' ),
+		);
+
+		if ( $is_admin ) {
+			$data['settings'] = $this->settings_rest_route;
+		}
+
+		return $data;
 	}
 
 	public function get_posts( WP_REST_Request $request ): WP_REST_Response|WP_Error

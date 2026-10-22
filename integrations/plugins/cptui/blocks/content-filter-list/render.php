@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use function ArtCloud\Helsinki\Plugin\HDS\Integrations\Plugins\CPTUI\decode_entities;
 
-function hds_wp_render_content_filter_list( array $attributes ): string {
+function hds_wp_render_content_filter_list( array $attributes, string $inner, WP_Block $block ): string {
 	$content = '';
 
 	if ( $attributes['title'] ) {

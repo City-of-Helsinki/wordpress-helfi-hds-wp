@@ -133,7 +133,7 @@ use function ArtCloud\Helsinki\Plugin\HDS\plugin_url;
 		);
 
 		\add_action(
-			'wp_enqueue_scripts',
+			'enqueue_block_assets',
 			array( $controller, 'register_assets' ),
 		);
 	}

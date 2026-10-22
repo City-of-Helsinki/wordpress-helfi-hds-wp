@@ -6,10 +6,10 @@
     Fragment,
     createElement,
     useState,
-    useEffect
+    useEffect,
+    useRef
   } = wp.element;
 	const { useBlockProps, BlockControls, RichText } = wp.blockEditor;
-	const { InspectorControls } = wp.editor;
 	const {
     Button,
     TextControl,
@@ -23,7 +23,10 @@
     FlexItem,
     Panel,
     PanelBody,
-    PanelRow
+    PanelRow,
+    Spinner,
+    Notice,
+    Disabled
   } = wp.components;
 	const { withSelect, select, dispatch } = wp.data;
   const apiFetch = wp.apiFetch;
@@ -229,8 +232,83 @@
     );
   }
 
-  function contentView(props) {
-    return createElement('div', {}, __( 'Helsinki - Custom Post Type Filter Listing', 'hds-wp' ));
+  function Preview({html}) {
+    const ref = useRef(null);
+
+    useEffect(() => {
+      // The app's bundle is loaded in the editor canvas, which may be an iframe.
+      const view = ref.current.ownerDocument.defaultView;
+      const root = ref.current.querySelector('[data-content-filter-list]');
+      const unmount = root && view.helsinkiContentFilterList?.mount(root);
+
+      // Defer, as a root can't be unmounted while the editor is rendering.
+      return () => unmount && setTimeout(unmount);
+    }, [html]);
+
+    return createElement('div', {
+      ref,
+      className: 'content-filter-list__preview',
+      dangerouslySetInnerHTML: {__html: html},
+    });
+  }
+
+  function contentView(list) {
+    if ( list.loading && ! list.html ) {
+      return createElement( Spinner );
+    }
+
+    if ( list.html ) {
+      return createElement( Disabled, {},
+        createElement( Preview, { key: list.html, html: list.html } )
+      );
+    }
+
+    return createElement( Notice, {
+        status: 'info',
+        isDismissible: false,
+        className: 'content-filter-list__notice'
+      },
+      __( 'Select a post type to preview the list.', 'hds-wp' )
+    );
+  }
+
+  function useContentFilterList( attributes ) {
+    const [ state, setState ] = useState( { loading: true, html: '' } );
+
+    useEffect( () => {
+      let active = true;
+
+      if ( ! attributes.postType ) {
+        setState( { loading: false, html: '' } );
+        return;
+      }
+
+      setState( ( current ) => ( { ...current, loading: true } ) );
+
+      const timer = setTimeout( () => {
+        apiFetch( {
+          path: '/wp/v2/block-renderer/hds-wp/content-filter-list?context=edit',
+          method: 'POST',
+          data: { attributes },
+        } )
+        .then( ( { rendered } ) => {
+          const doc = new window.DOMParser().parseFromString( rendered || '', 'text/html' );
+          const container = doc.querySelector( '.hds-container' );
+
+          if ( active ) {
+            setState( { loading: false, html: container ? container.outerHTML : '' } );
+          }
+        } )
+        .catch( () => active && setState( { loading: false, html: '' } ) );
+      }, 300 );
+
+      return () => {
+        active = false;
+        clearTimeout( timer );
+      };
+    }, [ attributes ] );
+
+    return state;
   }
 
   function edit(props) {
@@ -242,8 +320,7 @@
     const [taxLabels, setTaxLabels] = useState({});
 
     useEffect(() => {
-      // TODO: from constant
-      apiFetch({path: '/helsinki/custom-taxonomy-order/v1/settings'})
+      apiFetch({path: HELSINKI_CONTENT_LIST_FILTER.settings})
         .then(settings => {
           setSettings(settings);
 
@@ -267,10 +344,12 @@
       }
     }, [postType]);
 
+    const list = useContentFilterList( props.attributes );
+
     return createElement(Fragment, {},
       toolbar({isEditing, setIsEditing}),
       createElement('div', useBlockProps(),
-        isEditing ? editingView({props, settings, currentPostType, taxLabels}) : contentView(props)
+        isEditing ? editingView({props, settings, currentPostType, taxLabels}) : contentView(list)
       )
     );
   }
