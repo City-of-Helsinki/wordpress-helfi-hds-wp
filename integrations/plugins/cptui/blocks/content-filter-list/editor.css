@@ -13,3 +13,9 @@
   border-bottom: 0;
   padding-bottom: var(--entry-padding);
 }
+
+.components-panel p.help {
+  font-size: 12px;
+  font-style: normal;
+  color: rgb(117, 117, 117);
+}
