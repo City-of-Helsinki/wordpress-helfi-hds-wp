@@ -120,7 +120,7 @@
     --button-icon-color: var(--button-color);
 
     &:hover {
-      --button-background-color: var(--color-black-5);
+      --button-background-color: #{$light-gray};
       --button-color: #{$black};
     }
   }
