@@ -71,6 +71,8 @@ function cookie_files_classes(): array {
 		'powerbi/class-power-bi-iframe-ai-session.php' => Cookies\PowerBI\Power_Bi_Iframe_Ai_Session::class,
 		'powerbi/class-power-bi-iframe-ai-user.php' => Cookies\PowerBI\Power_Bi_Iframe_Ai_User::class,
 		'powerbi/class-power-bi-iframe-arr-affinity-same-site.php' => Cookies\PowerBI\Power_Bi_Iframe_Arr_Affinity_Same_Site::class,
+		'powerbi/class-power-bi-iframe-aslbsa.php' => Cookies\PowerBI\Power_Bi_Iframe_Aslbsa::class,
+		'powerbi/class-power-bi-iframe-aslbsacors.php' => Cookies\PowerBI\Power_Bi_Iframe_Aslbsacors::class,
 		'powerbi/class-power-bi-iframe-geocoder-cache-objects.php' => Cookies\PowerBI\Power_Bi_Iframe_Geocoder_Cache_Objects::class,
 		'powerbi/class-power-bi-iframe-manifests-artifacts.php' => Cookies\PowerBI\Power_Bi_Iframe_Manifests_Artifacts::class,
 		'powerbi/class-power-bi-iframe-manifests-extensions.php' => Cookies\PowerBI\Power_Bi_Iframe_Manifests_Extensions::class,
