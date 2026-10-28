@@ -4,7 +4,7 @@ namespace ArtCloud\Helsinki\Plugin\HDS;
 /**
   * Plugin Name: WordPress Helsinki
   * Description: Provides common Helsinki styles, assets and blocks, and integrations to Helsinki APIs and various plugins.
-  * Version: 3.4.2
+  * Version: 3.5.0
   * License: GPLv3
   * Requires at least: 6.9
   * Requires PHP:      8.2
@@ -31,6 +31,14 @@ function define_constants( string $file ): void {
     define( __NAMESPACE__ . '\\PLUGIN_PATH', plugin_dir_path( $file ) );
     define( __NAMESPACE__ . '\\PLUGIN_URL', plugin_dir_url( $file ) );
     define( __NAMESPACE__ . '\\PLUGIN_BASENAME', plugin_basename( $file ) );
+}
+
+function is_debug(): bool {
+	return defined( 'WP_DEBUG' ) && WP_DEBUG;
+}
+
+function plugin_version(): string {
+    return is_debug() ? (string) time() : PLUGIN_VERSION;
 }
 
 function plugin_path() {
@@ -73,7 +81,10 @@ function autoloader( $class ) {
 		)
 	);
 
-	if ( $parts[1] === 'Features' ) {
+	$is_integration = ($parts[1] === 'Integrations')
+		&& (count($parts) > 1);
+
+	if ( $parts[1] === 'Features' || $is_integration ) {
 		$class = str_replace( '_', '-', strtolower( array_pop( $parts ) ) );
 
 		$parts = array_merge(
@@ -178,8 +189,8 @@ function init() {
 			'is_admin' => is_admin(),
 			'path' => plugin_path() . 'assets',
 			'url' => plugin_url() . 'assets',
-			'version' => PLUGIN_VERSION,
-			'debug' => defined('WP_DEBUG') && WP_DEBUG,
+			'version' => plugin_version(),
+			'debug' => is_debug(),
 			'enabled' => $compatibility->assets(),
 			'scripts' => $compatibility->scripts(),
 			'fonts' => $compatibility->fonts(),
@@ -196,8 +207,8 @@ function init() {
 		'HDSReact',
 		array(
 			'url' => plugin_url() . 'assets',
-			'version' => PLUGIN_VERSION,
-			'debug' => defined('WP_DEBUG') && WP_DEBUG,
+			'version' => plugin_version(),
+			'debug' => is_debug(),
 		)
 	);
 	$hds_react->init();
@@ -210,8 +221,8 @@ function init() {
 			'Blocks',
 			array(
 				'path' => plugin_path() . 'config/blocks',
-				'version' => PLUGIN_VERSION,
-				'debug' => defined('WP_DEBUG') && WP_DEBUG,
+				'version' => plugin_version(),
+				'debug' => is_debug(),
 			),
 			array(
 				'blocks',

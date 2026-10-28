@@ -1,0 +1,21 @@
+.content-filter-list .pagination ul {
+  list-style: none;
+  margin: 8px 0 0;
+}
+
+.content-filter-list .entries--list .entry {
+  border-top: none;
+  margin-bottom: 0;
+  padding-top: var(--entry-padding);
+}
+
+.content-filter-list .entries--list .entry:last-child {
+  border-bottom: 0;
+  padding-bottom: var(--entry-padding);
+}
+
+.components-panel p.help {
+  font-size: 12px;
+  font-style: normal;
+  color: rgb(117, 117, 117);
+}

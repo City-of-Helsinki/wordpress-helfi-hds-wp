@@ -6,7 +6,7 @@ msgstr ""
 "Language: fi\n"
 "Language-Team: Suomi\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"PO-Revision-Date: 2026-08-14 08:11+0000\n"
+"PO-Revision-Date: 2026-10-22 13:17+0000\n"
 "X-Generator: Loco https://localise.biz/\n"
 "Last-Translator: \n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 msgid "3rd party"
 msgstr "3. taho"
 
-#: class/Integrations.php:140
+#: class/Integrations.php:144
 msgid "A multipurpose WordPress theme of City of Helsinki."
 msgstr "Monikäyttöinen WordPress-teema Helsingin kaupunkia varten."
 
@@ -51,27 +51,28 @@ msgstr "Syötä kartan osoite osoitteesta:"
 msgid "Add video url from:"
 msgstr "Syötä videon URL-osoite osoitteesta: "
 
-#: class/Assets.php:59
+#: class/Assets.php:56
 msgid "Adds Helsinki styles, scripts and fonts to the site."
 msgstr "Lisää Helsinki-tyylit, komentosarjat ja fontit sivustolle."
 
-#: features/maintenance/settings/class-maintenance-mode-enabled.php:43
+#: features/maintenance/settings/class-maintenance-mode-enabled.php:48
+#: features/maintenance/settings/class-maintenance-mode-enabled.php:78
 msgctxt "admin notice"
 msgid "Maintenance mode enabled"
 msgstr "Huoltotila käytössä"
 
-#: features/maintenance/settings/class-maintenance-mode-enabled.php:45
+#: features/maintenance/settings/class-maintenance-mode-enabled.php:50
 msgctxt "admin notice"
 msgid "Only logged-in users can access the site content at the moment."
 msgstr ""
 "Vain kirjautuneet käyttäjät voivat nähdä sivuston sisällön tällä hetkellä."
 
-#: features/maintenance/settings/class-maintenance-mode-enabled.php:53
+#: features/maintenance/settings/class-maintenance-mode-enabled.php:58
 msgctxt "admin notice"
 msgid "the settings page"
 msgstr "asetussivulta"
 
-#: features/maintenance/settings/class-maintenance-mode-enabled.php:52
+#: features/maintenance/settings/class-maintenance-mode-enabled.php:57
 msgctxt "admin notice"
 msgid "You can disable maintenance mode from"
 msgstr "Voit poistaa huoltotilan käytöstä"
@@ -108,6 +109,10 @@ msgstr "Keskitetty vasemmalle, toissijainen väri"
 msgid "All categories"
 msgstr "Kaikki"
 
+#: integrations/plugins/cptui/blocks/content-filter-list/block.js:178
+msgid "All taxonomies"
+msgstr "Kaikki taksonomiat"
+
 #: class/Blocks.php:135
 #| msgid "Disallowed blocks"
 msgid "Allowed blocks"
@@ -127,7 +132,7 @@ msgstr "Artikkelien lukumäärä"
 msgid "articles"
 msgstr "artikkelia"
 
-#: class/Assets.php:58
+#: class/Assets.php:55
 msgid "Assets"
 msgstr "Resurssit"
 
@@ -177,8 +182,8 @@ msgstr ""
 "Katso WCAG 3.2.5 saavutettavuusvaatimukset (linkki avautuu uuteen "
 "välilehteen)."
 
-#: integrations/plugins/yoast-seo.php:107 assets/admin/js/scripts.js:4094
-#: src/admin/js/integrations/yoast.js:38
+#: features/maintenance/setup.php:396 integrations/plugins/yoast-seo.php:107
+#: assets/admin/js/scripts.js:4111 src/admin/js/integrations/yoast.js:38
 msgid "City of Helsinki"
 msgstr "Helsingin kaupunki"
 
@@ -225,7 +230,26 @@ msgstr "Sisältö"
 msgid "Count"
 msgstr "Määrä"
 
-#: class/Integrations.php:130
+#: integrations/plugins/cptui/class-cpt-query-data.php:60
+msgctxt "cptui.query.data"
+msgid "Invalid post type."
+msgstr "Sisältötyyppi ei kelpaa."
+
+#: integrations/plugins/cptui/class-cpt-query-data.php:56
+msgctxt "cptui.query.data"
+msgid "Post type required."
+msgstr "Sisältötyyppi vaaditaan."
+
+#: class/Integrations.php:125
+msgid "Custom Post Type UI"
+msgstr "Custom Post Type UI"
+
+#: class/Integrations.php:126
+msgid "Custom templates and settings for user created post types."
+msgstr ""
+"Mukautetut sivupohjat ja asetukset käyttäjän luomia sisältötyyppejä varten."
+
+#: class/Integrations.php:134
 #| msgid ""
 #| "Default configuration meta titles and descriptions, andd custom meta "
 #| "variables."
@@ -238,6 +262,7 @@ msgstr ""
 #: assets/admin/js/scripts.js:983 assets/admin/js/scripts.js:1601
 #: assets/admin/js/scripts.js:3764 src/admin/js/blocks/accordion.js:76
 #: src/admin/js/blocks/diagram.js:140 src/admin/js/blocks/video.js:165
+#: integrations/plugins/cptui/blocks/content-filter-list/block.js:70
 msgid "Description"
 msgstr "Kuvausteksti"
 
@@ -266,14 +291,22 @@ msgstr "Kaavion otsikko"
 msgid "Diagram URL"
 msgstr "Kaavion URL"
 
-#: class/Integrations.php:126
+#: integrations/plugins/cptui/blocks/content-filter-list/block.js:39
+msgid "Edit content list filtering settings"
+msgstr "Muokkaa sisältölistauksen suodatusasetuksia"
+
+#: class/Integrations.php:130
 msgid "Enable custom default template for Helsinki theme."
 msgstr "Käytä räätälöityä oletusteemaa Helsinkiteeman kanssa."
 
-#: features/maintenance/settings/class-maintenance-mode-enabled.php:155
+#: features/maintenance/settings/class-maintenance-mode-enabled.php:162
 #| msgid "Enable mainentance mode"
 msgid "Enable maintenance mode"
 msgstr "Ota huoltotila käyttöön"
+
+#: integrations/plugins/cptui/blocks/content-filter-list/block.js:182
+msgid "Entry elements"
+msgstr "Julkaisun elementit"
 
 #: assets/admin/js/scripts.js:1483 src/admin/js/blocks/diagram.js:22
 msgid "Example diagram"
@@ -282,6 +315,7 @@ msgstr "Esimerkkikaavio"
 #: assets/admin/js/scripts.js:141 assets/admin/js/scripts.js:161
 #: assets/admin/js/scripts.js:2624 src/admin/js/admin.js:155
 #: src/admin/js/admin.js:178 src/admin/js/blocks/link.js:27
+#: integrations/plugins/cptui/blocks/content-filter-list/block.js:176
 msgid "Excerpt"
 msgstr "Oteteksti"
 
@@ -307,7 +341,26 @@ msgstr ""
 msgid "Feedback"
 msgstr "Palaute"
 
-#: class/Assets.php:179
+#: integrations/plugins/cptui/blocks/content-filter-list/block.js:146
+msgid "Filter taxonomies"
+msgstr "Suodatuksen taksonomiat"
+
+#: integrations/plugins/cptui/class-filter-search-controller.php:85
+msgctxt "filter.all"
+msgid "All"
+msgstr "Kaikki"
+
+#: integrations/plugins/cptui/class-filter-search-controller.php:87
+msgctxt "filter.clear"
+msgid "Clear selected"
+msgstr "Tyhjennä valinnat"
+
+#: integrations/plugins/cptui/class-filter-search-controller.php:86
+msgctxt "filter.delete"
+msgid "Delete filter"
+msgstr "Poista suodatin"
+
+#: class/Assets.php:180
 msgid "Follow on Facebook"
 msgstr "Seuraa Facebookissa"
 
@@ -364,6 +417,11 @@ msgstr "Helsinki - Sisältökortti"
 #: assets/admin/js/scripts.js:1445 src/admin/js/blocks/content-cards.js:235
 msgid "Helsinki - Content Cards"
 msgstr "Helsinki - Sisältökortit"
+
+#: integrations/plugins/cptui/blocks/content-filter-list/block.js:218
+#: integrations/plugins/cptui/blocks/content-filter-list/block.js:358
+msgid "Helsinki - Custom Post Type Filter Listing"
+msgstr "Helsinki - Räätälöidyn sisältötyypin suodatus ja listaus"
 
 #: assets/admin/js/scripts.js:1477 assets/admin/js/scripts.js:1565
 #: src/admin/js/blocks/diagram.js:16 src/admin/js/blocks/diagram.js:110
@@ -454,7 +512,7 @@ msgstr "Helsingin WordPress-portaali"
 msgid "Helsinki WP"
 msgstr "Helsinki WP"
 
-#: class/Integrations.php:139
+#: class/Integrations.php:143
 msgid "Helsinkiteema #1"
 msgstr "Helsinkiteema #1"
 
@@ -477,7 +535,8 @@ msgstr ""
 msgid "Icon"
 msgstr "Ikoni"
 
-#: features/maintenance/setup.php:275
+#: features/maintenance/setup.php:346
+#: integrations/plugins/cptui/blocks/content-filter-list/block.js:175
 msgid "Image"
 msgstr "Kuva"
 
@@ -492,6 +551,10 @@ msgstr "Kuva, otsikko ja kuvaus"
 #: class/Integrations.php:68
 msgid "Integrations"
 msgstr "Integraatiot"
+
+#: integrations/plugins/cptui/blocks/content-filter-list/block.js:57
+msgid "Introduction"
+msgstr "Johdanto"
 
 #: assets/admin/js/scripts.js:181 src/admin/js/admin.js:202
 msgid "Is external URL"
@@ -516,6 +579,10 @@ msgstr "Linkki"
 msgid "Link text"
 msgstr "Linkin teksti"
 
+#: integrations/plugins/cptui/blocks/content-filter-list/block.js:177
+msgid "Link to content type's page"
+msgstr "Linkki sisältötyypin sivulle"
+
 #: assets/admin/js/scripts.js:2171 assets/admin/js/scripts.js:2638
 #: assets/admin/js/scripts.js:2846
 #: src/admin/js/blocks/link-list-card-link.js:43 src/admin/js/blocks/link.js:43
@@ -528,20 +595,24 @@ msgstr "Linkin tyyppi"
 msgid "Link URL"
 msgstr "Linkin URL-osoite"
 
-#: features/maintenance/settings/class-maintenance-mode-enabled.php:136
+#: integrations/plugins/cptui/class-taxonomy-order-settings.php:107
+msgid "Loading..."
+msgstr "Ladataan..."
+
+#: features/maintenance/settings/class-maintenance-mode-enabled.php:141
 msgid "Logged-in users can access the website as usual."
 msgstr "Kirjautuneet käyttäjät voivat käyttää verkkosivustoa normaalisti."
 
-#: features/maintenance/settings/class-maintenance-mode-enabled.php:24
+#: features/maintenance/settings/class-maintenance-mode-enabled.php:29
 msgid "Maintenance mode"
 msgstr "Huoltotila"
 
-#: features/maintenance/setup.php:264
+#: features/maintenance/setup.php:335
 msgctxt "maintenance page button text"
 msgid "Go to hel.fi"
 msgstr "Siirry hel.fi"
 
-#: features/maintenance/setup.php:259
+#: features/maintenance/setup.php:330
 msgctxt "maintenance page description"
 msgid ""
 "We are building a new website and it will be available soon. Thank you for "
@@ -550,7 +621,7 @@ msgstr ""
 "Rakennamme uutta sivustoa ja se on pian saatavilla. Kiitos "
 "kärsivällisyydestäsi!"
 
-#: features/maintenance/setup.php:249 features/maintenance/setup.php:254
+#: features/maintenance/setup.php:320 features/maintenance/setup.php:325
 msgctxt "maintenance page title"
 msgid "The website is under construction"
 msgstr "Sivusto on rakenteilla"
@@ -601,6 +672,14 @@ msgstr "Siirry kartan alapuolelle"
 #: config/blocks/video/render.php:43
 msgid "Move below the video"
 msgstr "Siirry videon alapuolelle"
+
+#: integrations/plugins/cptui/class-taxonomy-order-settings.php:111
+msgid "No registered custom post types."
+msgstr "Ei rekisteröityjä sisältötyyppejä."
+
+#: integrations/plugins/cptui/class-taxonomy-order-settings.php:115
+msgid "No registered custom taxonomies."
+msgstr "Ei rekisteröityjä taksonomioita."
 
 #: assets/admin/js/scripts.js:3280 src/admin/js/blocks/phasing.js:46
 msgid "Numbered"
@@ -683,6 +762,7 @@ msgstr "Julkaisu"
 
 #: class/Blocks.php:149 assets/admin/js/scripts.js:380
 #: src/admin/js/admin.js:484
+#: integrations/plugins/cptui/blocks/content-filter-list/block.js:93
 msgid "Post type"
 msgstr "Julkaisun tyyppi"
 
@@ -694,7 +774,7 @@ msgstr "Sisältötyypit"
 msgid "Power BI"
 msgstr "Power BI"
 
-#: features/maintenance/settings/class-maintenance-mode-enabled.php:134
+#: features/maintenance/settings/class-maintenance-mode-enabled.php:139
 msgid "Prevent visitors temporarily from accessing the website."
 msgstr "Estä kävijöitä väliaikaisesti käyttämästä verkkosivustoa."
 
@@ -717,7 +797,7 @@ msgstr ""
 "Mahdollistaa yleiset Helsinki-tyylit, resurssit ja lohkot, sekä integraation "
 "Helsingin rajapintoihin ja eri lisäosiin."
 
-#: class/Integrations.php:134
+#: class/Integrations.php:138
 msgid "Provides cookie information to the cookie consent banner."
 msgstr "Tarjoaa evästetietoja suostumusbannerille."
 
@@ -731,7 +811,7 @@ msgstr "Tarjoaa evästetietoja evästeskannaukseen."
 msgid "Published:"
 msgstr "Julkaistu:"
 
-#: class/Assets.php:174
+#: class/Assets.php:175
 msgid "Remove"
 msgstr "Poista"
 
@@ -743,11 +823,25 @@ msgstr "Poista kuva"
 msgid "Replaces date field with HDS DateInput."
 msgstr "Korvaa päivämääräkentän HDS DateInput:lla."
 
+#: integrations/plugins/cptui/class-filter-search-controller.php:95
+msgctxt "results.many"
+msgid "search results"
+msgstr "hakutulosta"
+
+#: integrations/plugins/cptui/class-filter-search-controller.php:94
+msgctxt "results.one"
+msgid "search result"
+msgstr "hakutulos"
+
 #: config/blocks/rss-feed/render.php:74
 #, php-format
 msgctxt "RSS feed source(s)"
 msgid "Contents are automatically fetched from %s."
 msgstr "Sisällöt haetaan automaattisesti osoitteesta %s."
+
+#: integrations/plugins/cptui/class-taxonomy-order-settings.php:108
+msgid "Save"
+msgstr "Tallenna"
 
 #: views/settings/form.php:6
 msgid "Save settings"
@@ -756,6 +850,16 @@ msgstr "Tallenna asetukset"
 #: assets/admin/js/scripts.js:667 src/admin/js/admin.js:731
 msgid "Search posts"
 msgstr "Hae julkaisuja"
+
+#: integrations/plugins/cptui/class-filter-search-controller.php:91
+msgctxt "search.searching"
+msgid "Retrieving results"
+msgstr "Tuloksia haetaan"
+
+#: integrations/plugins/cptui/class-filter-search-controller.php:90
+msgctxt "search.submit"
+msgid "Search"
+msgstr "Etsi"
 
 #: assets/admin/js/scripts.js:593 src/admin/js/admin.js:667
 msgid "Searching..."
@@ -789,11 +893,35 @@ msgstr "Katso kaikki artikkelit"
 msgid "Select"
 msgstr "Valitse"
 
+#: integrations/plugins/cptui/blocks/content-filter-list/block.js:271
+msgid "Select a post type to preview the list."
+msgstr "Valitse sisältötyyppi esikatsellaksesi listausta."
+
 #: assets/admin/js/scripts.js:1742 assets/admin/js/scripts.js:1946
 #: assets/admin/js/scripts.js:2742 src/admin/js/blocks/image-banner.js:30
 #: src/admin/js/blocks/image-text.js:41 src/admin/js/blocks/link.js:158
 msgid "Select image"
 msgstr "Valitse kuva"
+
+#: integrations/plugins/cptui/blocks/content-filter-list/block.js:97
+msgid "Select post type"
+msgstr "Valitse sisältötyyppi"
+
+#: integrations/plugins/cptui/blocks/content-filter-list/block.js:98
+msgid ""
+"Select the content type to display. You can select only one content type "
+"from the list."
+msgstr ""
+"Valitse näytettävä sisältötyyppi. Voit valita listaukseen vain yhden "
+"sisältötyypin."
+
+#: integrations/plugins/cptui/blocks/content-filter-list/block.js:140
+msgid "Select the filters to display in the search."
+msgstr "Valitse suodatushaussa näytettävät suodattimet."
+
+#: integrations/plugins/cptui/blocks/content-filter-list/block.js:202
+msgid "Select the optional information to display on the content card."
+msgstr "Valitse sisältökortissa näytettävät valinnaiset tiedot."
 
 #: class/Settings.php:134 assets/admin/js/scripts.js:792
 #: assets/admin/js/scripts.js:976 assets/admin/js/scripts.js:1241
@@ -824,6 +952,25 @@ msgstr "Tyyli"
 msgid "Supplementary"
 msgstr "Täydentävä"
 
+#: integrations/plugins/cptui/class-taxonomy-order-settings.php:114
+msgid "Taxonomy"
+msgstr "Taksonomia"
+
+#: integrations/plugins/cptui/class-taxonomy-order-settings.php:39
+#: integrations/plugins/cptui/class-taxonomy-order-settings.php:40
+#: integrations/plugins/cptui/class-taxonomy-order-settings.php:128
+#: integrations/plugins/cptui/class-taxonomy-order-settings.php:140
+msgid "Taxonomy order"
+msgstr "Taksonomioiden järjestys"
+
+#: integrations/plugins/cptui/class-taxonomy-order-settings.php:202
+msgid "Taxonomy orders saved."
+msgstr "Taksonomioiden järjestys tallennettu."
+
+#: integrations/plugins/cptui/blocks/content-filter-list/block.js:141
+msgid "The filters are based on the content type's taxonomies. "
+msgstr "Suodattimet perustuvat sisältötyypin taksonomioihin."
+
 #: assets/admin/js/scripts.js:191 src/admin/js/admin.js:213
 msgid ""
 "The link's description must clearly state it opens in a new tab, and it must "
@@ -831,6 +978,10 @@ msgid ""
 msgstr ""
 "Linkin kuvauksessa tulee kertoa selkeästi sen aukeavan uuteen välilehteen ja "
 "linkin tulee täyttää saavutettavuusvaatimukset. "
+
+#: integrations/plugins/cptui/blocks/content-filter-list/block.js:142
+msgid "The selected filters are displayed on the content cards in the list."
+msgstr "Valitut suodattimet näytetään listauksen sisältökorteissa."
 
 #: assets/admin/js/scripts.js:1484 src/admin/js/blocks/diagram.js:23
 msgid "This is a diagram."
@@ -879,6 +1030,7 @@ msgstr "Tämä on otsikko"
 #: src/admin/js/admin.js:147 src/admin/js/blocks/accordion.js:68
 #: src/admin/js/blocks/diagram.js:130 src/admin/js/blocks/rss-feed.js:26
 #: src/admin/js/blocks/video.js:155 src/admin/js/filters/table.js:38
+#: integrations/plugins/cptui/blocks/content-filter-list/block.js:63
 msgid "Title"
 msgstr "Otsikko"
 
@@ -918,7 +1070,7 @@ msgstr "Videon otsikko"
 msgid "Video URL"
 msgstr "Videon url-osoite"
 
-#: features/maintenance/settings/class-maintenance-mode-enabled.php:135
+#: features/maintenance/settings/class-maintenance-mode-enabled.php:140
 msgid ""
 "When maintenance mode is enabled the site visitors will see a notice that "
 "the website is currently unavailable."
@@ -950,7 +1102,7 @@ msgstr "Ilman kuvaa"
 msgid "WordPress Helsinki"
 msgstr "WordPress Helsinki"
 
-#: class/Integrations.php:133
+#: class/Integrations.php:137
 msgid "WordPress Helsinki Cookie Consent"
 msgstr "WordPress Helsinki Evästehallinta"
 
@@ -958,13 +1110,17 @@ msgstr "WordPress Helsinki Evästehallinta"
 msgid "WordPress User Guides"
 msgstr "WordPress-käyttöohjeet"
 
-#: class/Integrations.php:125
+#: class/Integrations.php:129
 msgid "WP RSS Aggregator"
 msgstr "WP RSS Aggregator"
 
-#: class/Integrations.php:129
+#: class/Integrations.php:133
 msgid "Yoast SEO"
 msgstr "Yoast SEO"
+
+#: integrations/plugins/cptui/class-taxonomy-order-settings.php:225
+msgid "You are not allowed to access this resource."
+msgstr "Sinulla ei ole oikeutta tähän resurssiin."
 
 #: config/blocks/filters.php:65
 msgid "Your browser does not support the <code>audio</code> element."

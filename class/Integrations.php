@@ -121,6 +121,10 @@ class Integrations extends Module {
 					'title' => __( 'Complianz GDPR', 'hds-wp' ),
 					'description' => __( 'Provides cookie information to the cookie scanner.', 'hds-wp' ),
 				),
+				'custom-post-type-ui' => array(
+					'title' => __( 'Custom Post Type UI', 'hds-wp' ),
+					'description' => __( 'Custom templates and settings for user created post types.', 'hds-wp' ),
+				),
 				'wp-rss-aggregator' => array(
 					'title' => __( 'WP RSS Aggregator', 'hds-wp' ),
 					'description' => __( 'Enable custom default template for Helsinki theme.', 'hds-wp' ),

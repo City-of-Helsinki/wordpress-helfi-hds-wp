@@ -47,7 +47,7 @@ class HDSReact extends Module
 
 	protected function script_url(): string
 	{
-		return $this->config->value('url') . '/react/components.js';
+		return $this->config->value('url') . '/react/components/index.js';
 	}
 
 	protected function script_dependencies(): array

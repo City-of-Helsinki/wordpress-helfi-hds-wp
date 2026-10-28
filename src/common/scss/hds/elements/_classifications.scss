@@ -1,0 +1,39 @@
+.classifications {
+  &.has-background-color {
+    padding: var(--spacing-m, 1.5rem);
+  }
+}
+
+.classifications .list {
+  background: none;
+  border: none;
+  display: grid;
+  font-size: var(--fontsize-body-m, 1rem);
+  grid-template-columns: 1fr;
+  gap: var(--spacing-s, 1rem);
+  margin: 0;
+  padding: 0;
+}
+
+.classifications .item {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-3-xs, 0.25rem);
+}
+
+.classifications .item .label {
+  font-weight: 600;
+}
+
+.single .classifications {
+  @include breakpoint('l') {
+    .list {
+      grid-template-columns: repeat(2, minmax(0,1fr));
+    }
+  }
+
+  .item {
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+}
