@@ -13,5 +13,6 @@ return array(
 		'wp-data',
 		'wp-element',
 		'wp-i18n',
+		'wp-notices',
     ),
 );

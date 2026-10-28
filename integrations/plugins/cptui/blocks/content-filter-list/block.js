@@ -28,8 +28,9 @@
     Notice,
     Disabled
   } = wp.components;
-	const { withSelect, select, dispatch } = wp.data;
+	const { withSelect, useDispatch, select, dispatch } = wp.data;
   const apiFetch = wp.apiFetch;
+  const {store} = wp.notices;
 
   function toolbar({isEditing, setIsEditing}) {
     return createElement(BlockControls, {key: 'controls'},
@@ -50,7 +51,7 @@
     );
   }
 
-  function introductionSection({attributes, setAttributes}) {
+  function introductionSection({attributes, setAttributes, setTitleError}) {
     const {title, description} = attributes || {};
 
     return {
@@ -62,7 +63,10 @@
           value: title,
           placeholder: __('Title', 'hds-wp'),
           allowedFormats: [],
-          onChange: value => setAttributes({title: value}),
+          onChange: (value) => {
+            setAttributes({title: value});
+            setTitleError(value ? false : true);
+          },
         }),
         createElement(RichText, {
           tagName: 'p',
@@ -204,7 +208,13 @@
     };
   }
 
-  function editingView({props, settings, currentPostType, taxLabels}) {
+  function editingView({
+    props,
+    settings,
+    currentPostType,
+    taxLabels,
+    setTitleError
+  }) {
     const {attributes, setAttributes} = props;
     const sections = [
       introductionSection,
@@ -222,7 +232,8 @@
           setAttributes,
           settings,
           currentPostType,
-          taxLabels
+          taxLabels,
+          setTitleError
         });
 
         return createElement(PanelBody, {title, initialOpen},
@@ -311,13 +322,52 @@
     return state;
   }
 
+  function focusOnBlock(clientId) {
+    if (clientId) {
+      dispatch('core/block-editor').selectBlock(clientId);
+      document
+        .getElementById(`block-${clientId}`)
+        .scrollIntoView({behavior: 'smooth'});
+    }
+  }
+
   function edit(props) {
-    const {postType} = props?.attributes;
+    const {postType, title, description} = props?.attributes || {};
+    const {clientId} = props || {};
 
     const [isEditing, setIsEditing] = useState(false);
     const [settings, setSettings] = useState({});
     const [currentPostType, setCurrentPostType] = useState({});
     const [taxLabels, setTaxLabels] = useState({});
+    const [titleRequired, setTitleError] = useState(title ? false : true);
+
+    const {createErrorNotice, removeNotice} = useDispatch(store);
+
+    useEffect(() => {
+      const errorId = `missing-title-${clientId}`;
+
+      if (title) {
+        dispatch('core/notices').removeNotice(errorId);
+      } else {
+        let titleParts = [
+          __( 'Helsinki - Custom Post Type Filter Listing', 'hds-wp' ),
+          __('Please enter a title', 'hds-wp'),
+        ];
+
+        createErrorNotice(titleParts.join(': '), {
+          type: 'default',
+          id: errorId,
+          isDismissible: false,
+          actions: [{
+            label: __('Select', 'hds-wp'),
+            onClick: () => {
+              setIsEditing(true);
+              focusOnBlock(clientId);
+            },
+          }],
+        });
+      }
+    }, [titleRequired]);
 
     useEffect(() => {
       apiFetch({path: HELSINKI_CONTENT_LIST_FILTER.settings})
@@ -349,7 +399,9 @@
     return createElement(Fragment, {},
       toolbar({isEditing, setIsEditing}),
       createElement('div', useBlockProps(),
-        isEditing ? editingView({props, settings, currentPostType, taxLabels}) : contentView(list)
+        isEditing
+        ? editingView({props, settings, currentPostType, taxLabels, setTitleError})
+        : contentView(list)
       )
     );
   }
