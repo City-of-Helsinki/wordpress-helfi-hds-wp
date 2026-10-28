@@ -10,7 +10,11 @@ export default function Form({
   taxonomies,
   searching
 }) {
-  return createElement('form', {
+  const shouldDisplay = (Array.isArray(taxonomies) && taxonomies.length)
+    || (Object.keys(taxonomies)?.length);
+
+  return shouldDisplay
+    ? createElement('form', {
       className: 'filters',
       onSubmit: (event) => {
         event.preventDefault();
@@ -29,5 +33,6 @@ export default function Form({
       label: i18n.search.submit,
       searching
     })
-  );
+  )
+  : null;
 }
