@@ -120,7 +120,7 @@ class Assets extends Module {
 			wp_enqueue_script(
 				'helsinki-wp-admin',
 				$this->assetUrl('admin', 'scripts', $this->minified, 'js'),
-				apply_filters( 'hds_wp_admin_scripts_dependencies', array() ),
+				$this->dependencies( 'hds_wp_admin_scripts_dependencies', array() ),
 				$this->assetVersion( $this->assetPath('admin', 'scripts', $this->minified, 'js') ),
 				true
 			);
@@ -146,7 +146,7 @@ class Assets extends Module {
 			wp_enqueue_style(
 				'helsinki-wp-admin',
 				$this->assetUrl('admin', 'styles', $this->minified, 'css'),
-				apply_filters( 'hds_wp_admin_styles_dependencies', array( 'helsinki-wp' ) ),
+				$this->dependencies( 'hds_wp_admin_styles_dependencies', array( 'helsinki-wp' ) ),
 				$this->assetVersion( $this->assetPath('admin', 'styles', $this->minified, 'css') ),
 				'all'
 			);
@@ -164,7 +164,7 @@ class Assets extends Module {
 			wp_enqueue_script(
 				'helsinki-wp-public',
 				$this->assetUrl('public', 'scripts', $this->minified, 'js'),
-				apply_filters( 'hds_wp_scripts_dependencies', array('jquery', 'wp-i18n') ),
+				$this->dependencies( 'hds_wp_scripts_dependencies', array('jquery', 'wp-i18n') ),
 				$this->assetVersion( $this->assetPath('public', 'scripts', $this->minified, 'js') ),
 				true
 			);
@@ -189,7 +189,7 @@ class Assets extends Module {
 			wp_enqueue_style(
 				'helsinki-wp-public',
 				$this->assetUrl('public', 'styles', $this->minified, 'css'),
-				apply_filters( 'hds_wp_styles_dependencies', array( 'helsinki-wp' ) ),
+				$this->dependencies( 'hds_wp_styles_dependencies', array( 'helsinki-wp' ) ),
 				$this->assetVersion( $this->assetPath('public', 'styles', $this->minified, 'css') ),
 				'all'
 			);
@@ -202,7 +202,7 @@ class Assets extends Module {
 			\wp_enqueue_style(
 				'helsinki-wp',
 				$this->assetUrl( 'common', 'hds', $this->minified, 'css' ),
-				apply_filters( 'hds_wp_styles_dependencies', array() ),
+				$this->dependencies( 'hds_wp_styles_dependencies', array() ),
 				$this->assetVersion( $this->assetPath( 'common', 'hds', $this->minified, 'css' ) ),
 				'all'
 			);
@@ -210,21 +210,10 @@ class Assets extends Module {
 			\wp_enqueue_style(
 				'helsinki-wp-blocks',
 				$this->assetUrl( 'common', 'blocks', $this->minified, 'css' ),
-				apply_filters( 'hds_wp_styles_dependencies', array( 'helsinki-wp' ) ),
+				$this->dependencies( 'hds_wp_styles_dependencies', array( 'helsinki-wp' ) ),
 				$this->assetVersion( $this->assetPath( 'common', 'blocks', $this->minified, 'css' ) ),
 				'all'
 			);
-
-			// Front-end pages load only the icons they use, see Icons
-			if ( $this->config->value( 'is_admin' ) || \apply_filters( 'hds_wp_load_all_icons', false ) ) {
-				\wp_enqueue_style(
-					'helsinki-wp-icons',
-					$this->assetUrl( 'common', 'hds-icons', $this->minified, 'css' ),
-					array( 'helsinki-wp' ),
-					$this->assetVersion( $this->assetPath( 'common', 'hds-icons', $this->minified, 'css' ) ),
-					'all'
-				);
-			}
 		}
 	}
 
@@ -234,7 +223,7 @@ class Assets extends Module {
 			wp_enqueue_script(
 				'helsinki-wp',
 				$this->assetUrl('common', 'scripts', $this->minified, 'js'),
-				apply_filters( 'hds_wp_common_scripts_dependencies', array('jquery') ),
+				$this->dependencies( 'hds_wp_common_scripts_dependencies', array('jquery') ),
 				$this->assetVersion( $this->assetPath('common', 'scripts', $this->minified, 'js') ),
 				true
 			);
@@ -266,5 +255,12 @@ class Assets extends Module {
 	public function favicon_main($url, $size, $blog_id): string
 	{
 		return $this->assetUrl('img', 'favicon/favicon.svg', '', '');
+	}
+
+	private function dependencies( string $filter, array $default ): array
+	{
+		$dependencies = apply_filters( $filter, $default );
+
+		return array_values( array_unique( $dependencies ) );
 	}
 }
