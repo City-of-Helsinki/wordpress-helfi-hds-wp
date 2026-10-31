@@ -13,7 +13,8 @@
   * Icons
   */
 @import '../node_modules/hds-core/lib/icons/icon';
-@import '../node_modules/hds-core/lib/icons/icons';
+// Individual icons are loaded per page, see class/Icons.php and common/scss/hds-icons.scss
+// @import '../node_modules/hds-core/lib/icons/icons';
 
 .icon {
   @extend .hds-icon;
