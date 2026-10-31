@@ -201,6 +201,20 @@ function init() {
 	$assets->init();
 
 	/**
+	  * Icons
+	  */
+	$icons = ModuleFactory::module(
+		'Icons',
+		array(
+			'is_admin' => is_admin(),
+			'path' => config_path() . 'icons' . DIRECTORY_SEPARATOR . 'hds-icons.php',
+			'version' => plugin_version(),
+			'enabled' => $compatibility->assets() && $compatibility->styles(),
+		)
+	);
+	$icons->init();
+
+	/**
 	  * HDS React
 	  */
 	$hds_react = ModuleFactory::module(
