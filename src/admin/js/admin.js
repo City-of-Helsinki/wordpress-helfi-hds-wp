@@ -307,22 +307,188 @@ function hdsCheckboxControl(config, props) {
 }
 
 function hdsIconControl(props) {
-	var iconsJson = hdsIcons(),
-			options = [];
+	return wp.element.createElement(hdsIconPicker, {
+		label: wp.i18n.__( 'Icon', 'hds-wp' ),
+		value: props.attributes.contentIcon,
+		onChange: function(value) {
+			props.setAttributes({contentIcon: value});
+		},
+	});
+}
 
-	for (var iconName in iconsJson) {
-		options.push({
-			label: iconName,
-			value: iconName,
+var hdsSelectableIconsRequest = null;
+
+function hdsFetchSelectableIcons() {
+	if ( ! hdsSelectableIconsRequest ) {
+		hdsSelectableIconsRequest = wp.apiFetch({
+			path: '/helsinki/icons/v1/icons',
+		}).then(function(icons) {
+			return Array.isArray(icons) ? icons : [];
+		}).catch(function(error) {
+			// Allow retrying on next open
+			hdsSelectableIconsRequest = null;
+			throw error;
 		});
 	}
 
-	return hdsSelectControl({
-		label: wp.i18n.__( 'Icon', 'hds-wp' ),
-		value: props.attributes.contentIcon,
-		attribute: 'contentIcon',
-		options: options
-	}, props);
+	return hdsSelectableIconsRequest;
+}
+
+function hdsIconPreview(name) {
+	return wp.element.createElement('svg', {
+		className: 'hds-icon-picker__preview icon mask-icon hds-icon--' + name,
+		viewBox: '0 0 24 24',
+		'aria-hidden': 'true',
+		focusable: 'false',
+	});
+}
+
+function hdsIconPicker(config) {
+	var createElement = wp.element.createElement,
+		useState = wp.element.useState,
+		useEffect = wp.element.useEffect,
+		components = wp.components,
+		__ = wp.i18n.__;
+
+	var openState = useState(false),
+		isOpen = openState[0],
+		setOpen = openState[1];
+
+	var searchState = useState(''),
+		search = searchState[0],
+		setSearch = searchState[1];
+
+	var iconsState = useState(null),
+		icons = iconsState[0],
+		setIcons = iconsState[1];
+
+	var errorState = useState(false),
+		hasError = errorState[0],
+		setError = errorState[1];
+
+	var value = config.value && config.value !== '(empty)' ? config.value : '';
+
+	useEffect(() => {
+		if ( ! isOpen || icons ) {
+			return;
+		}
+
+		var isActive = true;
+		setError(false);
+
+		hdsFetchSelectableIcons()
+      .then((result) => {
+  			if ( isActive ) {
+  				setIcons(result);
+  			}
+  		}).catch(() => {
+  			if ( isActive ) {
+  				setError(true);
+  			}
+  		});
+
+		return function() {
+			isActive = false;
+		};
+	}, [isOpen, icons]);
+
+	function close() {
+		setOpen(false);
+		setSearch('');
+	}
+
+	function select(name) {
+		config.onChange(name);
+		close();
+	}
+
+	function iconOptions() {
+		if ( hasError ) {
+			return createElement('p', {}, __( 'Icons could not be loaded.', 'hds-wp' ));
+		}
+
+		if ( ! icons ) {
+			return createElement(components.Spinner, {});
+		}
+
+		var query = search.trim().toLowerCase(),
+			visible = icons.filter((name) => (! query || name.indexOf(query) !== -1));
+
+		if ( ! visible.length ) {
+			return createElement('p', {}, __( 'No icons found.', 'hds-wp' ));
+		}
+
+		return createElement(
+			'div',
+			{className: 'hds-icon-picker__grid'},
+			visible.map((name) => {
+				return createElement(
+					components.Button,
+					{
+						key: name,
+						className: 'hds-icon-picker__option' + (name === value ? ' is-selected' : ''),
+						'aria-pressed': name === value,
+						onClick: () => select(name),
+					},
+					hdsIconPreview(name),
+					createElement('span', {className: 'hds-icon-picker__name'}, name)
+				);
+			})
+		);
+	}
+
+	return createElement(
+		components.PanelRow,
+		{className: 'contentIcon hds-icon-picker-control'},
+		createElement(
+			components.BaseControl,
+			{
+				label: config.label,
+				id: 'hds-icon-picker-control',
+				__nextHasNoMarginBottom: true,
+			},
+			createElement(
+				components.Button,
+				{
+					variant: 'secondary',
+					className: 'hds-icon-picker-control__button',
+					onClick: () => setOpen(true),
+				},
+				value ? hdsIconPreview(value) : null,
+				createElement('span', {}, value ? value : __( 'Select icon', 'hds-wp' ))
+			)
+		),
+		isOpen ? createElement(
+			components.Modal,
+			{
+				title: __( 'Select icon', 'hds-wp' ),
+				className: 'hds-icon-picker',
+				size: 'medium',
+				onRequestClose: close,
+			},
+			createElement(components.SearchControl, {
+				label: __( 'Search icons', 'hds-wp' ),
+				value: search,
+				onChange: setSearch,
+				__nextHasNoMarginBottom: true,
+			}),
+			iconOptions(),
+			createElement(
+				'div',
+				{className: 'hds-icon-picker__footer'},
+				createElement(
+					components.Button,
+					{
+						variant: 'secondary',
+						isDestructive: true,
+						disabled: ! value,
+						onClick: () => select(''),
+					},
+					__( 'Remove icon', 'hds-wp' )
+				)
+			)
+		) : null
+	);
 }
 
 function hdsSelectControl(config, props) {
@@ -344,22 +510,6 @@ function hdsSelectControl(config, props) {
 			}
 		)
 	);
-}
-
-//deprecated icon functions are used to identify block migrations
-function hdsDeprecatedContentIcon(props) {
-	return props.attributes.contentIcon ? wp.element.createElement(
-		'svg',
-		{
-			className: 'icon icon--' + props.attributes.contentIcon,
-			viewBox: '0 0 24 24',
-			'aria-hidden': 'true',
-			tabindex: '-1',
-		},
-		wp.element.createElement('path', {
-			d: hdsIcons(props.attributes.contentIcon),
-		})
-	) : '';
 }
 
 function hdsContentIcon(props) {
@@ -387,6 +537,7 @@ function hdsAngleIcon() {
 	);
 }
 
+//deprecated icon functions are used to identify block migrations
 function hdsDeprecatedAngleIcon() {
 	return wp.element.createElement(
 		'svg',
