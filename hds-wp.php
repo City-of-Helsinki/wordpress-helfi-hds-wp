@@ -123,6 +123,7 @@ function prepare(): void {
 
 	require_once $path . 'functions/filters.php';
 	require_once $path . 'features/maintenance/setup.php';
+	require_once $path . 'features/icons/setup.php';
 
 	ModuleFactory::instance(
 		ConfigLoader::instance( config_path() )
@@ -201,20 +202,6 @@ function init() {
 	$assets->init();
 
 	/**
-	  * Icons
-	  */
-	$icons = ModuleFactory::module(
-		'Icons',
-		array(
-			'is_admin' => is_admin(),
-			'path' => config_path() . 'icons' . DIRECTORY_SEPARATOR . 'hds-icons.php',
-			'version' => plugin_version(),
-			'enabled' => $compatibility->assets() && $compatibility->styles(),
-		)
-	);
-	$icons->init();
-
-	/**
 	  * HDS React
 	  */
 	$hds_react = ModuleFactory::module(
@@ -261,18 +248,9 @@ function init() {
 			'Svg',
 			array(),
 			array(
-				'actions-settings',
-				'arrows-operators',
-				'blocks',
-				'forms-data',
 				'koros',
 				'logos',
-				'media-devices',
-				'navigation',
-				'notifications-expressions',
-				'other',
 				'placeholder',
-				'social-media'
 			)
 		)
 	);
