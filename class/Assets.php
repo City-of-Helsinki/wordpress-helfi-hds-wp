@@ -214,6 +214,17 @@ class Assets extends Module {
 				$this->assetVersion( $this->assetPath( 'common', 'blocks', $this->minified, 'css' ) ),
 				'all'
 			);
+
+			// Front-end pages load only the icons they use, see Icons
+			if ( $this->config->value( 'is_admin' ) || \apply_filters( 'hds_wp_load_all_icons', false ) ) {
+				\wp_enqueue_style(
+					'helsinki-wp-icons',
+					$this->assetUrl( 'common', 'hds-icons', $this->minified, 'css' ),
+					array( 'helsinki-wp' ),
+					$this->assetVersion( $this->assetPath( 'common', 'hds-icons', $this->minified, 'css' ) ),
+					'all'
+				);
+			}
 		}
 	}
 
