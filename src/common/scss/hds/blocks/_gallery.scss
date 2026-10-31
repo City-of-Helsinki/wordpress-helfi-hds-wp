@@ -1,3 +1,12 @@
+.wp-block-image {
+  @extend %helsinki-block-spacing;
+
+  a,
+  img {
+    display: block;
+  }
+}
+
 .blocks-gallery-grid,
 .wp-block-gallery,
 .gallery {
@@ -7,13 +16,8 @@
     .blocks-gallery-item,
     .wp-block-image,
     .gallery-item {
-      a {
-        display: block;
-        height: auto;
-      }
-
+      a,
       img {
-        display: block;
         height: auto;
       }
     }
@@ -32,6 +36,7 @@
     figure.wp-block-image {
       --margin-top: 0;
       --margin-bottom: 0;
+      flex-grow: 0;
 
       &:has(figcaption) {
         figcaption {
@@ -51,9 +56,7 @@
 }
 
 .blocks-gallery-image,
-.blocks-gallery-item,
-.gallery-item,
-.wp-block-gallery .wp-block-image {
+.blocks-gallery-item {
 	display: block !important;
 }
 
@@ -92,14 +95,6 @@
     }
 }
 
-.wp-block-image {
-  @extend %helsinki-block-spacing;
-
-	&:not(.alignfull) {
-		display: table !important;
-	}
-}
-
 .wp-caption {
   max-width: 100%;
 
@@ -109,10 +104,11 @@
   }
 }
 
+// Shortcode gallery
 .gallery-item {
+  display: block;
   margin-right: var(--gallery-block--gutter-size,16px);
   margin-bottom: var(--gallery-block--gutter-size,16px);
-  flex-grow: 1;
 
   &:last-of-type {
     margin-right: 0;
