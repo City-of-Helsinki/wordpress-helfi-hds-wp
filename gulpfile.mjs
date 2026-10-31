@@ -61,7 +61,7 @@ const SOURCE = {
 const ICONS = {
   source: 'node_modules/hds-core/lib/icons',
   exclude: ['icon', 'icons'],
-  dest: 'config/icons/hds-icons.php',
+  dest: 'features/icons/data/hds-icons.php',
 };
 
 function phpString(value) {
