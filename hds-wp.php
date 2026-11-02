@@ -123,6 +123,7 @@ function prepare(): void {
 
 	require_once $path . 'functions/filters.php';
 	require_once $path . 'features/maintenance/setup.php';
+	require_once $path . 'features/icons/setup.php';
 
 	ModuleFactory::instance(
 		ConfigLoader::instance( config_path() )
@@ -247,18 +248,9 @@ function init() {
 			'Svg',
 			array(),
 			array(
-				'actions-settings',
-				'arrows-operators',
-				'blocks',
-				'forms-data',
 				'koros',
 				'logos',
-				'media-devices',
-				'navigation',
-				'notifications-expressions',
-				'other',
 				'placeholder',
-				'social-media'
 			)
 		)
 	);

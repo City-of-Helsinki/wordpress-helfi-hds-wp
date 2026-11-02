@@ -56,6 +56,9 @@ final class Filter_Search_Controller
 
 	public function register_assets(): void
 	{
+		// Used in markup rendered by the React components
+		\do_action( 'hds_wp_use_icon', 'cross' );
+
 		\wp_register_script(
 			'helsinki-wp-hds-content-list-filter',
 			$this->plugin_url . 'assets/react/content-filter-list/index.js',
