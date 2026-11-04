@@ -7,7 +7,7 @@ namespace ArtCloud\Helsinki\Plugin\HDS;
   * Version: 3.5.1
   * License: GPLv3
   * Requires at least: 6.9
-  * Requires PHP:      8.2
+  * Requires PHP: 8.3
   * Author: ArtCloud
   * Author URI: https://www.artcloud.fi
   * Text Domain: hds-wp
