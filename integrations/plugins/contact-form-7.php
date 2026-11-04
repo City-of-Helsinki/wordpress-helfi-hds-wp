@@ -15,32 +15,26 @@ function helsinki_wp_replace_cf7_date_with_hds_date() {
 		array( 'name-attr' => true )
 	);
 
+	remove_action( 'wpcf7_swv_create_schema', 'wpcf7_swv_add_date_rules', 10 );
+	add_action( 'wpcf7_swv_create_schema', 'helsinki_wp_add_cf7_date_schema_rules', 10, 2 );
+
 	add_filter( 'wpcf7_validate_date', 'helsinki_wp_validate_cf7_field_date', 20, 2 );
 	add_filter( 'wpcf7_validate_date*', 'helsinki_wp_validate_cf7_field_date', 20, 2 );
-	add_filter( 'wpcf7_swv_available_rules', 'helsinki_wp_disable_cf7_default_date_rule' );
-	add_filter( 'wpcf7_is_date', 'helsinki_wp_cf7_date_format_validation', 10, 2 );
 }
 
-function helsinki_wp_cf7_date_format_validation( $result, $text ) {
-	$result = preg_match(
-  	  '/^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{4})$/',
-  	  $text,
-  	  $matches
-    );
+function helsinki_wp_add_cf7_date_schema_rules( $schema, $contact_form ): void {
+	$tags = $contact_form->scan_form_tags( array( 'basetype' => array( 'date' ) ) );
 
-    if ( $result ) {
-  	  $result = checkdate( $matches[2], $matches[1], $matches[3] );
-    }
-
-    return $result;
-}
-
-function helsinki_wp_disable_cf7_default_date_rule( array $rules ): array {
-	if ( isset( $rules['date'] ) ) {
-		unset( $rules['date'] );
+	foreach ( $tags as $tag ) {
+		if ( $tag->is_required() ) {
+			$schema->add_rule(
+				wpcf7_swv_create_rule( 'required', array(
+					'field' => $tag->name,
+					'error' => wpcf7_get_message( 'invalid_required' ),
+				) )
+			);
+		}
 	}
-
-	return $rules;
 }
 
 function helsinki_wp_validate_cf7_field_date( $result, $tag ) {
@@ -54,34 +48,37 @@ function helsinki_wp_validate_cf7_field_date( $result, $tag ) {
 }
 
 function helsinki_wp_validate_cf7_date( $tag ): void {
-	$date = helsinki_wp_cf7_string_to_datetime( $_POST[$tag->name] ?? '' );
+	$value = $_POST[ $tag->name ] ?? '';
 
-	if ( $tag->is_required() && empty( $date ) ) {
-		throw new \Exception( wpcf7_get_message( 'invalid_required' ) );
+	if ( '' === $value ) {
+		// The required rule in the schema handles empty required fields.
+		return;
 	}
 
-	$min_date = helsinki_wp_cf7_string_to_datetime( $tag->get_date_option( 'min' ) );
-	if ( $min_date && $date < $min_date ) {
-		throw new \Exception( wpcf7_get_message( 'date_too_early' ) );
-	}
+	$date = is_string( $value ) ? helsinki_wp_cf7_date_to_ymd( wp_unslash( $value ) ) : null;
 
-	$max_date = helsinki_wp_cf7_string_to_datetime( $tag->get_date_option( 'max' ) );
-	if ( $max_date && $date > $max_date ) {
-		throw new \Exception( wpcf7_get_message( 'date_too_late' ) );
-	}
-}
-
-function helsinki_wp_cf7_string_to_datetime( string $date ): ?DateTime {
-	if ( ! $date ) {
-		return null;
-	}
-
-	$date = date_create( $date ) ?: null;
 	if ( ! $date ) {
 		throw new \Exception( _x( 'Please enter a date in D.M.YYYY format.', 'CF7 date validation error', 'hds-wp' ) );
 	}
 
-	return $date;
+	$min = $tag->get_date_option( 'min' );
+	if ( $min && $date < $min ) {
+		throw new \Exception( wpcf7_get_message( 'date_too_early' ) );
+	}
+
+	$max = $tag->get_date_option( 'max' );
+	if ( $max && $date > $max ) {
+		throw new \Exception( wpcf7_get_message( 'date_too_late' ) );
+	}
+}
+
+function helsinki_wp_cf7_date_to_ymd( string $value ): ?string {
+	$is_date = preg_match( '/^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{4})$/', $value, $parts )
+		&& checkdate( (int) $parts[2], (int) $parts[1], (int) $parts[3] );
+
+	return $is_date
+		? sprintf( '%04d-%02d-%02d', $parts[3], $parts[2], $parts[1] )
+		: null;
 }
 
 function hds_react_date_form_tag_handler( $tag ) {
