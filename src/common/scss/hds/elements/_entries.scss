@@ -1,0 +1,20 @@
+.entries {}
+
+.entries--list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--entries-gap, var(--spacing-s, 1rem));
+}
+
+.entries--card {}
+
+.entries--card .entry {
+  background-color: var(--entry-background-color, #fff);
+  padding: var(--entry-padding, var(--spacing-s, 1rem));
+}
+
+@media screen and (min-width:48rem) {
+  .entries--card .entry {
+    --entry-padding: var(--spacing-m, 1.5rem);
+  }
+}

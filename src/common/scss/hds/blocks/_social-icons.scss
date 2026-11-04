@@ -37,7 +37,7 @@
       padding: spacing('3-xs');
 
       &:hover {
-        --social-link-background-color: var(--color-black-5);
+        --social-link-background-color: #{$light-gray};
       }
     }
   }

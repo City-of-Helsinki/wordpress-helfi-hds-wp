@@ -73,6 +73,8 @@ class Svg extends Singleton {
 	}
 
 	public static function icon( string $type, string $name ) {
+		\do_action( 'hds_wp_use_icon', $name );
+
 		return sprintf(
 			'<svg class="icon mask-icon icon--%s icon--%s hds-icon--%s" viewBox="%s" aria-hidden="true"></svg>',
 			esc_attr( $type ),

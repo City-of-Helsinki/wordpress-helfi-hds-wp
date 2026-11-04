@@ -120,7 +120,7 @@
     --button-icon-color: var(--button-color);
 
     &:hover {
-      --button-background-color: var(--color-black-5);
+      --button-background-color: #{$light-gray};
       --button-color: #{$black};
     }
   }
@@ -130,6 +130,7 @@
   &.disabled {
     --button-background-color: transparent;
     --button-color: #{$medium-gray};
+    --button-icon-color: #{$medium-gray};
 
     &:hover,
     &:focus {
