@@ -1,52 +1,67 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+  exit;
+}
+
+use function ArtCloud\Helsinki\Plugin\HDS\plugin_version;
+
 /**
   * Update options
   */
 add_action( 'init', 'helsinki_wpseo_maybe_update_options' );
-function helsinki_wpseo_maybe_update_options() {
-	if ( ! class_exists('WPSEO_Options') ) {
-		return;
+function helsinki_wpseo_maybe_update_options(): void {
+	$should_update = function( string $latest_version ) {
+		$needs_update = $latest_version
+			? version_compare( $latest_version, '3.5.3', '<' )
+			: true;
+
+		return class_exists( 'WPSEO_Options' )
+			&& $needs_update;
+	};
+
+	if ( $should_update( helsinki_wpseo_options_updated() ) ) {
+		helsinki_wpseo_update_title_options();
+		helsinki_wpseo_set_options_updated();
 	}
-	if ( helsinki_wpseo_options_updated() ) {
-		return;
-	}
-	helsinki_wpseo_update_title_options();
-	helsinki_wpseo_set_options_updated();
 }
 
-function helsinki_wpseo_options_updated() {
-	return get_option( 'helsinki_wpseo_options_updated', false );
+function helsinki_wpseo_options_updated(): string {
+	return (string) get_option( 'helsinki_wpseo_options_updated', '' );
 }
 
-function helsinki_wpseo_set_options_updated() {
-	return update_option(
-		'helsinki_wpseo_options_updated',
-		\ArtCloud\Helsinki\Plugin\HDS\PLUGIN_VERSION,
-		true
-	);
+function helsinki_wpseo_set_options_updated(): bool {
+	return update_option( 'helsinki_wpseo_options_updated', plugin_version(), true );
 }
 
 function helsinki_wpseo_update_title_options() {
-	$options = WPSEO_Options::get_option('wpseo_titles');
+	$options = WPSEO_Options::get_option( 'wpseo_titles' );
 	if ( ! $options ) {
 		return;
 	}
 
-	foreach ( $options as $key => $value) {
-		if ( ! is_string( $value ) || ! helsinki_wpseo_is_title_meta( $key ) ) {
-			continue;
-		}
+	$invalid_bc_title = function( $key, $value ) {
+		return is_string( $key )
+			&& str_starts_with( $key, 'bctitle-' )
+			&& ('%%sep%% %%helsinki%%' === $value);
+	};
 
-		if ( false !== strpos( $value, '%%helsinki%%' ) ) {
-			continue;
-		}
+	$should_update = function( $key, $value ) {
+		return is_string( $value )
+			&& helsinki_wpseo_is_title_meta( $key )
+			&& (false === strpos($value, '%%helsinki%%'));
+	};
 
-		WPSEO_Options::save_option(
-			'wpseo_titles',
-			$key,
-			helsinki_wpseo_append_helsinki_variable( $value )
-		);
+	foreach ( $options as $key => $value ) {
+		if ( $should_update( $key, $value ) ) {
+			WPSEO_Options::save_option(
+				'wpseo_titles',
+				$key,
+				helsinki_wpseo_append_helsinki_variable( $value )
+			);
+		} else if ( $invalid_bc_title( $key, $value ) ) {
+			WPSEO_Options::save_option( 'wpseo_titles', $key, '' );
+		}
 	}
 }
 
@@ -62,25 +77,30 @@ function helsinki_wpseo_default_titles( $defaults, $option ) {
 	$defaults['separator'] = helsinki_wpseo_title_separator();
 	$defaults['company_name'] = helsinki_wpseo_city_name();
 
+	$is_title = function( $key, $value ) {
+		return is_string( $value )
+			&& helsinki_wpseo_is_title_meta( $key );
+	};
+
 	foreach ( $defaults as $key => $value ) {
-		if ( ! is_string( $value ) || ! helsinki_wpseo_is_title_meta( $key ) ) {
-			continue;
+		if ( $is_title( $key, $value ) ) {
+			$defaults[$key] = helsinki_wpseo_append_helsinki_variable( $value );
 		}
-		$defaults[$key] = helsinki_wpseo_append_helsinki_variable( $value );
 	}
 
 	return $defaults;
 }
 
-function helsinki_wpseo_is_title_meta( string $key ) {
-	return false !== strpos( $key, 'title-' );
+function helsinki_wpseo_is_title_meta( string $key ): bool {
+	return str_starts_with( $key, 'title-' )
+		|| str_starts_with( $key, 'social-title-' );
 }
 
 function helsinki_wpseo_append_helsinki_variable( string $default ) {
 	return $default . ' %%sep%% %%helsinki%%';
 }
 
-function helsinki_wpseo_title_separator() {
+function helsinki_wpseo_title_separator(): string {
 	return 'sc-pipe';
 }
 
@@ -89,7 +109,7 @@ function helsinki_wpseo_title_separator() {
   */
 
 // config
-function helsinki_wpseo_custom_variables() {
+function helsinki_wpseo_custom_variables(): array {
 	return apply_filters(
 		'helsinki_wpseo_custom_variables',
 		array(
@@ -103,13 +123,13 @@ function helsinki_wpseo_custom_variables() {
 }
 
 // callbacks
-function helsinki_wpseo_city_name() {
+function helsinki_wpseo_city_name(): string {
 	return __( 'City of Helsinki', 'hds-wp' );
 }
 
 // register
 add_action( 'wpseo_register_extra_replacements', 'helsinki_wpseo_register_custom_variables' );
-function helsinki_wpseo_register_custom_variables() {
+function helsinki_wpseo_register_custom_variables(): void {
 	foreach ( helsinki_wpseo_custom_variables() as $variable => $config ) {
 		wpseo_register_var_replacement(
 			'%%' . $variable . '%%',
